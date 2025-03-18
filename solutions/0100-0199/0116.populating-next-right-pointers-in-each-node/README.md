@@ -1,23 +1,26 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0116.Populating%20Next%20Right%20Pointers%20in%20Each%20Node/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Linked List
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 链表
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [116. Populating Next Right Pointers in Each Node](https://leetcode.com/problems/populating-next-right-pointers-in-each-node)
+# [116. 填充每个节点的下一个右侧节点指针](https://leetcode.cn/problems/populating-next-right-pointers-in-each-node)
 
-## Description
+[English Version](/solution/0100-0199/0116.Populating%20Next%20Right%20Pointers%20in%20Each%20Node/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>perfect binary tree</strong> where all leaves are on the same level, and every parent has two children. The binary tree has the following definition:</p>
+<p>给定一个&nbsp;<strong>完美二叉树&nbsp;</strong>，其所有叶子节点都在同一层，每个父节点都有两个子节点。二叉树定义如下：</p>
 
 <pre>
 struct Node {
@@ -25,56 +28,62 @@ struct Node {
   Node *left;
   Node *right;
   Node *next;
-}
-</pre>
+}</pre>
 
-<p>Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to <code>NULL</code>.</p>
+<p>填充它的每个 next 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 next 指针设置为 <code>NULL</code>。</p>
 
-<p>Initially, all next pointers are set to <code>NULL</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0116.Populating%20Next%20Right%20Pointers%20in%20Each%20Node/images/116_sample.png" style="width: 500px; height: 171px;" />
-<pre>
-<strong>Input:</strong> root = [1,2,3,4,5,6,7]
-<strong>Output:</strong> [1,#,2,3,#,4,5,6,7,#]
-<strong>Explanation: </strong>Given the above perfect binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B. The serialized output is in level order as connected by the next pointers, with &#39;#&#39; signifying the end of each level.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> root = []
-<strong>Output:</strong> []
-</pre>
+<p>初始状态下，所有&nbsp;next 指针都被设置为 <code>NULL</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0116.Populating%20Next%20Right%20Pointers%20in%20Each%20Node/images/116_sample.png" style="height: 171px; width: 500px;" /></p>
+
+<pre>
+<b>输入：</b>root = [1,2,3,4,5,6,7]
+<b>输出：</b>[1,#,2,3,#,4,5,6,7,#]
+<b>解释：</b>给定二叉树如图 A 所示，你的函数应该填充它的每个 next 指针，以指向其下一个右侧节点，如图 B 所示。序列化的输出按层序遍历排列，同一层节点由 next 指针连接，'#' 标志着每一层的结束。
+</pre>
+
+<p><meta charset="UTF-8" /></p>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<b>输入：</b>root = []
+<b>输出：</b>[]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[0, 2<sup>12</sup> - 1]</code>.</li>
-	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
+	<li>树中节点的数量在<meta charset="UTF-8" />&nbsp;<code>[0, 2<sup>12</sup>&nbsp;- 1]</code>&nbsp;范围内</li>
+	<li><code>-1000 &lt;= node.val &lt;= 1000</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Follow-up:</strong></p>
+
+<p><strong>进阶：</strong></p>
 
 <ul>
-	<li>You may only use constant extra space.</li>
-	<li>The recursive approach is fine. You may assume implicit stack space does not count as extra space for this problem.</li>
+	<li>你只能使用常量级额外空间。</li>
+	<li>使用递归解题也符合要求，本题中递归程序占用的栈空间不算做额外的空间复杂度。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-Use a queue for level order traversal, and each time you traverse a level, connect the nodes of the current level in order.
+使用队列进行层序遍历，每次遍历一层时，将当前层的节点按顺序连接起来。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -274,17 +283,17 @@ func connect(root *Node) *Node {
  */
 
 function connect(root: Node | null): Node | null {
-  if (root == null || root.left == null) {
+    if (root == null || root.left == null) {
+        return root;
+    }
+    const { left, right, next } = root;
+    left.next = right;
+    if (next != null) {
+        right.next = next.left;
+    }
+    connect(left);
+    connect(right);
     return root;
-  }
-  const { left, right, next } = root;
-  left.next = right;
-  if (next != null) {
-    right.next = next.left;
-  }
-  connect(left);
-  connect(right);
-  return root;
 }
 ```
 
@@ -294,13 +303,13 @@ function connect(root: Node | null): Node | null {
 
 <!-- solution:start -->
 
-### Solution 2: DFS
+### 方法二：DFS
 
-Use recursion for preorder traversal, and each time you traverse to a node, connect its left and right child nodes in order.
+使用递归进行前序遍历，每次遍历到一个节点时，将其左右子节点按顺序连接起来。
 
-Specifically, we design a function $dfs(left, right)$, which points the $next$ pointer of the $left$ node to the $right$ node. In the function, we first check whether $left$ and $right$ are null. If both are not null, point $left.next$ to $right$, and then recursively call $dfs(left.left, left.right)$, $dfs(left.right, right.left)$, $dfs(right.left, right.right)$.
+具体地，我们设计一个函数 $dfs(left, right)$，表示将 $left$ 节点的 $next$ 指针指向 $right$ 节点。在函数中，我们首先判断 $left$ 和 $right$ 是否为空，若都不为空，则将 $left.next$ 指向 $right$，然后递归地调用 $dfs(left.left, left.right)$, $dfs(left.right, right.left)$, $dfs(right.left, right.right)$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -471,22 +480,22 @@ func connect(root *Node) *Node {
  */
 
 function connect(root: Node | null): Node | null {
-  if (root == null) {
-    return root;
-  }
-  const queue = [root];
-  while (queue.length !== 0) {
-    const n = queue.length;
-    let pre = null;
-    for (let i = 0; i < n; i++) {
-      const node = queue.shift();
-      node.next = pre;
-      pre = node;
-      const { left, right } = node;
-      left && queue.push(right, left);
+    if (root == null) {
+        return root;
     }
-  }
-  return root;
+    const queue = [root];
+    while (queue.length !== 0) {
+        const n = queue.length;
+        let pre = null;
+        for (let i = 0; i < n; i++) {
+            const node = queue.shift();
+            node.next = pre;
+            pre = node;
+            const { left, right } = node;
+            left && queue.push(right, left);
+        }
+    }
+    return root;
 }
 ```
 

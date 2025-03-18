@@ -1,68 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2274.Maximum%20Consecutive%20Floors%20Without%20Special%20Floors/README.md
 rating: 1332
-source: Weekly Contest 293 Q2
+source: 第 293 场周赛 Q2
 tags:
-  - Array
-  - Sorting
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2274. Maximum Consecutive Floors Without Special Floors](https://leetcode.com/problems/maximum-consecutive-floors-without-special-floors)
+# [2274. 不含特殊楼层的最大连续楼层数](https://leetcode.cn/problems/maximum-consecutive-floors-without-special-floors)
 
-## Description
+[English Version](/solution/2200-2299/2274.Maximum%20Consecutive%20Floors%20Without%20Special%20Floors/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Alice manages a company and has rented some floors of a building as office space. Alice has decided some of these floors should be <strong>special floors</strong>, used for relaxation only.</p>
+<p>Alice 管理着一家公司，并租用大楼的部分楼层作为办公空间。Alice 决定将一些楼层作为 <strong>特殊楼层</strong> ，仅用于放松。</p>
 
-<p>You are given two integers <code>bottom</code> and <code>top</code>, which denote that Alice has rented all the floors from <code>bottom</code> to <code>top</code> (<strong>inclusive</strong>). You are also given the integer array <code>special</code>, where <code>special[i]</code> denotes a special floor that Alice has designated for relaxation.</p>
+<p>给你两个整数 <code>bottom</code> 和 <code>top</code> ，表示 Alice 租用了从 <code>bottom</code> 到 <code>top</code>（含 <code>bottom</code> 和 <code>top</code> 在内）的所有楼层。另给你一个整数数组 <code>special</code> ，其中 <code>special[i]</code> 表示&nbsp; Alice 指定用于放松的特殊楼层。</p>
 
-<p>Return <em>the <strong>maximum</strong> number of consecutive floors without a special floor</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> bottom = 2, top = 9, special = [4,6]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The following are the ranges (inclusive) of consecutive floors without a special floor:
-- (2, 3) with a total amount of 2 floors.
-- (5, 5) with a total amount of 1 floor.
-- (7, 9) with a total amount of 3 floors.
-Therefore, we return the maximum number which is 3 floors.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> bottom = 6, top = 8, special = [7,6,8]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Every floor rented is a special floor, so we return 0.
-</pre>
+<p>返回不含特殊楼层的 <strong>最大</strong> 连续楼层数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>bottom = 2, top = 9, special = [4,6]
+<strong>输出：</strong>3
+<strong>解释：</strong>下面列出的是不含特殊楼层的连续楼层范围：
+- (2, 3) ，楼层数为 2 。
+- (5, 5) ，楼层数为 1 。
+- (7, 9) ，楼层数为 3 。
+因此，返回最大连续楼层数 3 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>bottom = 6, top = 8, special = [7,6,8]
+<strong>输出：</strong>0
+<strong>解释：</strong>每层楼都被规划为特殊楼层，所以返回 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示</strong></p>
 
 <ul>
 	<li><code>1 &lt;= special.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= bottom &lt;= special[i] &lt;= top &lt;= 10<sup>9</sup></code></li>
-	<li>All the values of <code>special</code> are <strong>unique</strong>.</li>
+	<li><code>special</code> 中的所有值 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-We can sort the special floors in ascending order, then calculate the number of floors between each pair of adjacent special floors. Finally, we calculate the number of floors between the first special floor and $\textit{bottom}$, as well as the number of floors between the last special floor and $\textit{top}$. The maximum of these floor counts is the answer.
+我们可以将特殊楼层按照升序排序，然后计算相邻两个特殊楼层之间的楼层数，最后再计算第一个特殊楼层和 $\textit{bottom}$ 之间的楼层数，以及最后一个特殊楼层和 $\textit{top}$ 之间的楼层数，取这些楼层数的最大值即可。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{special}$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 $\textit{special}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -126,18 +131,14 @@ func maxConsecutive(bottom int, top int, special []int) int {
 #### TypeScript
 
 ```ts
-function maxConsecutive(
-  bottom: number,
-  top: number,
-  special: number[]
-): number {
-  special.sort((a, b) => a - b);
-  const n = special.length;
-  let ans = Math.max(special[0] - bottom, top - special[n - 1]);
-  for (let i = 1; i < n; ++i) {
-    ans = Math.max(ans, special[i] - special[i - 1] - 1);
-  }
-  return ans;
+function maxConsecutive(bottom: number, top: number, special: number[]): number {
+    special.sort((a, b) => a - b);
+    const n = special.length;
+    let ans = Math.max(special[0] - bottom, top - special[n - 1]);
+    for (let i = 1; i < n; ++i) {
+        ans = Math.max(ans, special[i] - special[i - 1] - 1);
+    }
+    return ans;
 }
 ```
 

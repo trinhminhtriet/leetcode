@@ -1,59 +1,80 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0119.Pascal%27s%20Triangle%20II/README.md
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [119. Pascal's Triangle II](https://leetcode.com/problems/pascals-triangle-ii)
+# [119. 杨辉三角 II](https://leetcode.cn/problems/pascals-triangle-ii)
 
-## Description
+[English Version](/solution/0100-0199/0119.Pascal%27s%20Triangle%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer <code>rowIndex</code>, return the <code>rowIndex<sup>th</sup></code> (<strong>0-indexed</strong>) row of the <strong>Pascal&#39;s triangle</strong>.</p>
+<p>给定一个非负索引 <code>rowIndex</code>，返回「杨辉三角」的第 <code>rowIndex</code><em> </em>行。</p>
 
-<p>In <strong>Pascal&#39;s triangle</strong>, each number is the sum of the two numbers directly above it as shown:</p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0119.Pascal%27s%20Triangle%20II/images/PascalTriangleAnimated2.gif" style="height:240px; width:260px" />
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> rowIndex = 3
-<strong>Output:</strong> [1,3,3,1]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> rowIndex = 0
-<strong>Output:</strong> [1]
-</pre><p><strong class="example">Example 3:</strong></p>
-<pre><strong>Input:</strong> rowIndex = 1
-<strong>Output:</strong> [1,1]
+<p><small>在「杨辉三角」中，每个数是它左上方和右上方的数的和。</small></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0119.Pascal%27s%20Triangle%20II/images/1626927345-DZmfxB-PascalTriangleAnimated2.gif" /></p>
+
+<p> </p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> rowIndex = 3
+<strong>输出:</strong> [1,3,3,1]
 </pre>
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> rowIndex = 0
+<strong>输出:</strong> [1]
+</pre>
+
+<p><strong>示例 3:</strong></p>
+
+<pre>
+<strong>输入:</strong> rowIndex = 1
+<strong>输出:</strong> [1,1]
+</pre>
+
+<p> </p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
-	<li><code>0 &lt;= rowIndex &lt;= 33</code></li>
+	<li><code>0 <= rowIndex <= 33</code></li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong>Follow up:</strong> Could you optimize your algorithm to use only <code>O(rowIndex)</code> extra space?</p>
+<p> </p>
+
+<p><strong>进阶：</strong></p>
+
+<p>你可以优化你的算法到 <code><em>O</em>(<i>rowIndex</i>)</code> 空间复杂度吗？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Recursion
+### 方法一：递推
 
-We create an array $f$ of length $rowIndex + 1$, initially all elements are $1$.
+我们创建一个长度为 $rowIndex + 1$ 的数组 $f$，初始时所有元素均为 $1$。
 
-Next, starting from the second row, we calculate the value of the $j$th element in the current row from back to front, $f[j] = f[j] + f[j - 1]$, where $j \in [1, i - 1]$.
+接下来，我们从第 $2$ 行开始，从后往前计算当前行的第 $j$ 个元素的值 $f[j] = f[j] + f[j - 1]$，其中 $j \in [1, i - 1]$。
 
-Finally, return $f$.
+最后返回 $f$ 即可。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the given number of rows.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是给定的行数。
 
 <!-- tabs:start -->
 
@@ -126,13 +147,13 @@ func getRow(rowIndex int) []int {
 
 ```ts
 function getRow(rowIndex: number): number[] {
-  const f: number[] = Array(rowIndex + 1).fill(1);
-  for (let i = 2; i < rowIndex + 1; ++i) {
-    for (let j = i - 1; j; --j) {
-      f[j] += f[j - 1];
+    const f: number[] = Array(rowIndex + 1).fill(1);
+    for (let i = 2; i < rowIndex + 1; ++i) {
+        for (let j = i - 1; j; --j) {
+            f[j] += f[j - 1];
+        }
     }
-  }
-  return f;
+    return f;
 }
 ```
 
@@ -151,6 +172,24 @@ impl Solution {
         f
     }
 }
+```
+
+#### JavaScript
+
+```js
+/**
+ * @param {number} rowIndex
+ * @return {number[]}
+ */
+var getRow = function (rowIndex) {
+    const f = Array(rowIndex + 1).fill(1);
+    for (let i = 2; i < rowIndex + 1; ++i) {
+        for (let j = i - 1; j; --j) {
+            f[j] += f[j - 1];
+        }
+    }
+    return f;
+};
 ```
 
 <!-- tabs:end -->

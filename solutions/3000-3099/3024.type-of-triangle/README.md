@@ -1,56 +1,58 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3024.Type%20of%20Triangle/README.md
 rating: 1134
-source: Biweekly Contest 123 Q1
+source: 第 123 场双周赛 Q1
 tags:
-  - Array
-  - Math
-  - Sorting
+    - 数组
+    - 数学
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3024. Type of Triangle](https://leetcode.com/problems/type-of-triangle)
+# [3024. 三角形类型](https://leetcode.cn/problems/type-of-triangle)
 
-## Description
+[English Version](/solution/3000-3099/3024.Type%20of%20Triangle/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of size <code>3</code> which can form the sides of a triangle.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始长度为 <code>3</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;，需要用它们来构造三角形。</p>
 
 <ul>
-	<li>A triangle is called <strong>equilateral</strong> if it has all sides of equal length.</li>
-	<li>A triangle is called <strong>isosceles</strong> if it has exactly two sides of equal length.</li>
-	<li>A triangle is called <strong>scalene</strong> if all its sides are of different lengths.</li>
+	<li>如果一个三角形的所有边长度相等，那么这个三角形称为&nbsp;<strong>equilateral</strong>&nbsp;。</li>
+	<li>如果一个三角形恰好有两条边长度相等，那么这个三角形称为&nbsp;<strong>isosceles</strong>&nbsp;。</li>
+	<li>如果一个三角形三条边的长度互不相同，那么这个三角形称为&nbsp;<strong>scalene</strong>&nbsp;。</li>
 </ul>
 
-<p>Return <em>a string representing</em> <em>the type of triangle that can be formed </em><em>or </em><code>&quot;none&quot;</code><em> if it <strong>cannot</strong> form a triangle.</em></p>
+<p>如果这个数组无法构成一个三角形，请你返回字符串&nbsp;<code>"none"</code>&nbsp;，否则返回一个字符串表示这个三角形的类型。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,3,3]
-<strong>Output:</strong> &quot;equilateral&quot;
-<strong>Explanation:</strong> Since all the sides are of equal length, therefore, it will form an equilateral triangle.
+<b>输入：</b>nums = [3,3,3]
+<b>输出：</b>"equilateral"
+<b>解释：</b>由于三条边长度相等，所以可以构成一个等边三角形，返回 "equilateral" 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,4,5]
-<strong>Output:</strong> &quot;scalene&quot;
-<strong>Explanation:</strong> 
-nums[0] + nums[1] = 3 + 4 = 7, which is greater than nums[2] = 5.
-nums[0] + nums[2] = 3 + 5 = 8, which is greater than nums[1] = 4.
-nums[1] + nums[2] = 4 + 5 = 9, which is greater than nums[0] = 3. 
-Since the sum of the two sides is greater than the third side for all three cases, therefore, it can form a triangle.
-As all the sides are of different lengths, it will form a scalene triangle.
+<b>输入：</b>nums = [3,4,5]
+<b>输出：</b>"scalene"
+<b>解释：</b>
+nums[0] + nums[1] = 3 + 4 = 7 ，大于 nums[2] = 5 <span style="text-wrap: wrap;">。</span>
+nums[0] + nums[2] = 3 + 5 = 8 ，大于 nums[1] = 4 。
+nums[1] + nums[2] = 4 + 5 = 9 ，大于 nums[0] = 3 。
+由于任意两边之和都大于第三边，所以可以构成一个三角形，因为三条边的长度互不相等，所以返回 "scalene"。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>nums.length == 3</code></li>
@@ -59,20 +61,20 @@ As all the sides are of different lengths, it will form a scalene triangle.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting + Case Discussion
+### 方法一：排序 + 分类讨论
 
-First, we sort the array, and then we can classify and discuss according to the definition of a triangle.
+我们先对数组进行排序，然后根据三角形的定义进行分类讨论即可。
 
-- If the sum of the smallest two numbers is less than or equal to the largest number, then it cannot form a triangle, return "none".
-- If the smallest number is equal to the largest number, then it is an equilateral triangle, return "equilateral".
-- If the smallest number is equal to the middle number or the middle number is equal to the largest number, then it is an isosceles triangle, return "isosceles".
-- Otherwise, return "scalene".
+-   如果最小的两个数之和小于等于最大的数，那么无法构成三角形，返回 "none"。
+-   如果最小的数等于最大的数，那么是等边三角形，返回 "equilateral"。
+-   如果最小的数等于中间的数或者中间的数等于最大的数，那么是等腰三角形，返回 "isosceles"。
+-   否则，返回 "scalene"。
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -154,17 +156,17 @@ func triangleType(nums []int) string {
 
 ```ts
 function triangleType(nums: number[]): string {
-  nums.sort((a, b) => a - b);
-  if (nums[0] + nums[1] <= nums[2]) {
-    return "none";
-  }
-  if (nums[0] === nums[2]) {
-    return "equilateral";
-  }
-  if (nums[0] === nums[1] || nums[1] === nums[2]) {
-    return "isosceles";
-  }
-  return "scalene";
+    nums.sort((a, b) => a - b);
+    if (nums[0] + nums[1] <= nums[2]) {
+        return 'none';
+    }
+    if (nums[0] === nums[2]) {
+        return 'equilateral';
+    }
+    if (nums[0] === nums[1] || nums[1] === nums[2]) {
+        return 'isosceles';
+    }
+    return 'scalene';
 }
 ```
 

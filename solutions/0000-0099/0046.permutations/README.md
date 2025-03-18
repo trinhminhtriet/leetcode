@@ -1,56 +1,72 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0046.Permutations/README.md
 tags:
-  - Array
-  - Backtracking
+    - 数组
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [46. Permutations](https://leetcode.com/problems/permutations)
+# [46. 全排列](https://leetcode.cn/problems/permutations)
 
-## Description
+[English Version](/solution/0000-0099/0046.Permutations/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array <code>nums</code> of distinct integers, return all the possible <span data-keyword="permutation-array">permutations</span>. You can return the answer in <strong>any order</strong>.</p>
+<p>给定一个不含重复数字的数组 <code>nums</code> ，返回其 <em>所有可能的全排列</em> 。你可以 <strong>按任意顺序</strong> 返回答案。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> nums = [1,2,3]
-<strong>Output:</strong> [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> nums = [0,1]
-<strong>Output:</strong> [[0,1],[1,0]]
-</pre><p><strong class="example">Example 3:</strong></p>
-<pre><strong>Input:</strong> nums = [1]
-<strong>Output:</strong> [[1]]
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,3]
+<strong>输出：</strong>[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [0,1]
+<strong>输出：</strong>[[0,1],[1,0]]
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1]
+<strong>输出：</strong>[[1]]
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 6</code></li>
 	<li><code>-10 &lt;= nums[i] &lt;= 10</code></li>
-	<li>All the integers of <code>nums</code> are <strong>unique</strong>.</li>
+	<li><code>nums</code> 中的所有整数 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS (Backtracking)
+### 方法一：DFS（回溯）
 
-We design a function $dfs(i)$ to represent that the first $i$ positions have been filled, and now we need to fill the $i+1$ position. We enumerate all possible numbers, if this number has not been filled, we fill in this number, and then continue to fill the next position, until all positions are filled.
+我们设计一个函数 $dfs(i)$ 表示已经填完了前 $i$ 个位置，现在需要填第 $i+1$ 个位置。枚举所有可能的数，如果这个数没有被填过，就填入这个数，然后继续填下一个位置，直到填完所有的位置。
 
-The time complexity is $O(n \times n!)$, where $n$ is the length of the array. There are $n!$ permutations in total, and each permutation takes $O(n)$ time to construct.
+时间复杂度 $O(n \times n!)$，其中 $n$ 是数组的长度。一共有 $n!$ 个排列，每个排列需要 $O(n)$ 的时间来构造。
 
-Similar problems:
+相似题目：
 
-- [47. Permutations II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0047.Permutations%20II/README_EN.md)
+-   [47. 全排列 II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0047.Permutations%20II/README.md)
 
 <!-- tabs:start -->
 
@@ -59,22 +75,14 @@ Similar problems:
 ```python
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        return list(permutations(nums))
-```
-
-#### Python3
-
-```python
-class Solution:
-    def permute(self, nums: List[int]) -> List[List[int]]:
-        def dfs(i):
-            if i == n:
+        def dfs(i: int):
+            if i >= n:
                 ans.append(t[:])
                 return
-            for j in range(n):
+            for j, x in enumerate(nums):
                 if not vis[j]:
                     vis[j] = True
-                    t[i] = nums[j]
+                    t[i] = x
                     dfs(i + 1)
                     vis[j] = False
 
@@ -130,7 +138,7 @@ public:
         vector<vector<int>> ans;
         vector<int> t(n);
         vector<bool> vis(n);
-        function<void(int)> dfs = [&](int i) {
+        auto dfs = [&](this auto&& dfs, int i) -> void {
             if (i == n) {
                 ans.emplace_back(t);
                 return;
@@ -163,10 +171,10 @@ func permute(nums []int) (ans [][]int) {
 			ans = append(ans, slices.Clone(t))
 			return
 		}
-		for j, v := range nums {
+		for j, x := range nums {
 			if !vis[j] {
 				vis[j] = true
-				t[i] = v
+				t[i] = x
 				dfs(i + 1)
 				vis[j] = false
 			}
@@ -181,20 +189,26 @@ func permute(nums []int) (ans [][]int) {
 
 ```ts
 function permute(nums: number[]): number[][] {
-  const n = nums.length;
-  const res: number[][] = [];
-  const dfs = (i: number) => {
-    if (i === n) {
-      res.push([...nums]);
-    }
-    for (let j = i; j < n; j++) {
-      [nums[i], nums[j]] = [nums[j], nums[i]];
-      dfs(i + 1);
-      [nums[i], nums[j]] = [nums[j], nums[i]];
-    }
-  };
-  dfs(0);
-  return res;
+    const n = nums.length;
+    const ans: number[][] = [];
+    const vis: boolean[] = Array(n).fill(false);
+    const t: number[] = Array(n).fill(0);
+    const dfs = (i: number) => {
+        if (i >= n) {
+            ans.push(t.slice());
+            return;
+        }
+        for (let j = 0; j < n; ++j) {
+            if (!vis[j]) {
+                vis[j] = true;
+                t[i] = nums[j];
+                dfs(i + 1);
+                vis[j] = false;
+            }
+        }
+    };
+    dfs(0);
+    return ans;
 }
 ```
 
@@ -202,23 +216,34 @@ function permute(nums: number[]): number[][] {
 
 ```rust
 impl Solution {
-    fn dfs(i: usize, nums: &mut Vec<i32>, res: &mut Vec<Vec<i32>>) {
+    pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>> {
         let n = nums.len();
-        if i == n {
-            res.push(nums.clone());
-            return;
+        let mut ans = Vec::new();
+        let mut t = vec![0; n];
+        let mut vis = vec![false; n];
+        fn dfs(
+            nums: &Vec<i32>,
+            n: usize,
+            t: &mut Vec<i32>,
+            vis: &mut Vec<bool>,
+            ans: &mut Vec<Vec<i32>>,
+            i: usize
+        ) {
+            if i == n {
+                ans.push(t.clone());
+                return;
+            }
+            for j in 0..n {
+                if !vis[j] {
+                    vis[j] = true;
+                    t[i] = nums[j];
+                    dfs(nums, n, t, vis, ans, i + 1);
+                    vis[j] = false;
+                }
+            }
         }
-        for j in i..n {
-            nums.swap(i, j);
-            Self::dfs(i + 1, nums, res);
-            nums.swap(i, j);
-        }
-    }
-
-    pub fn permute(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
-        let mut res = vec![];
-        Self::dfs(0, &mut nums, &mut res);
-        res
+        dfs(&nums, n, &mut t, &mut vis, &mut ans, 0);
+        ans
     }
 }
 ```
@@ -231,27 +256,26 @@ impl Solution {
  * @return {number[][]}
  */
 var permute = function (nums) {
-  const n = nums.length;
-  const ans = [];
-  const t = [];
-  const vis = new Array(n).fill(false);
-  function dfs(i) {
-    if (i >= n) {
-      ans.push([...t]);
-      return;
-    }
-    for (let j = 0; j < n; ++j) {
-      if (!vis[j]) {
-        vis[j] = true;
-        t.push(nums[j]);
-        dfs(i + 1);
-        vis[j] = false;
-        t.pop();
-      }
-    }
-  }
-  dfs(0);
-  return ans;
+    const n = nums.length;
+    const ans = [];
+    const vis = Array(n).fill(false);
+    const t = Array(n).fill(0);
+    const dfs = i => {
+        if (i >= n) {
+            ans.push(t.slice());
+            return;
+        }
+        for (let j = 0; j < n; ++j) {
+            if (!vis[j]) {
+                vis[j] = true;
+                t[i] = nums[j];
+                dfs(i + 1);
+                vis[j] = false;
+            }
+        }
+    };
+    dfs(0);
+    return ans;
 };
 ```
 

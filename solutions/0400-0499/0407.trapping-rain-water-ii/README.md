@@ -1,43 +1,50 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0407.Trapping%20Rain%20Water%20II/README.md
 tags:
-  - Breadth-First Search
-  - Array
-  - Matrix
-  - Heap (Priority Queue)
+    - 广度优先搜索
+    - 数组
+    - 矩阵
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [407. Trapping Rain Water II](https://leetcode.com/problems/trapping-rain-water-ii)
+# [407. 接雨水 II](https://leetcode.cn/problems/trapping-rain-water-ii)
 
-## Description
+[English Version](/solution/0400-0499/0407.Trapping%20Rain%20Water%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an <code>m x n</code> integer matrix <code>heightMap</code> representing the height of each unit cell in a 2D elevation map, return <em>the volume of water it can trap after raining</em>.</p>
+<p>给你一个&nbsp;<code>m x n</code>&nbsp;的矩阵，其中的值均为非负整数，代表二维高度图每个单元的高度，请计算图中形状最多能接多少体积的雨水。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0407.Trapping%20Rain%20Water%20II/images/trap1-3d.jpg" style="width: 361px; height: 321px;" />
+
+<p><strong>示例 1:</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0407.Trapping%20Rain%20Water%20II/images/trap1-3d.jpg" /></p>
+
 <pre>
-<strong>Input:</strong> heightMap = [[1,4,3,1,3,2],[3,2,1,3,2,4],[2,3,3,2,3,1]]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> After the rain, water is trapped between the blocks.
-We have two small ponds 1 and 3 units trapped.
-The total volume of water trapped is 4.
+<strong>输入:</strong> heightMap = [[1,4,3,1,3,2],[3,2,1,3,2,4],[2,3,3,2,3,1]]
+<strong>输出:</strong> 4
+<strong>解释:</strong> 下雨后，雨水将会被上图蓝色的方块中。总的接雨水量为1+2+1=4。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0407.Trapping%20Rain%20Water%20II/images/trap2-3d.jpg" style="width: 401px; height: 321px;" />
+<p><strong>示例&nbsp;2:</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0407.Trapping%20Rain%20Water%20II/images/trap2-3d.jpg" /></p>
+
 <pre>
-<strong>Input:</strong> heightMap = [[3,3,3,3,3],[3,2,2,2,3],[3,2,1,2,3],[3,2,2,2,3],[3,3,3,3,3]]
-<strong>Output:</strong> 10
+<strong>输入:</strong> heightMap = [[3,3,3,3,3],[3,2,2,2,3],[3,2,1,2,3],[3,2,2,2,3],[3,3,3,3,3]]
+<strong>输出:</strong> 10
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>m == heightMap.length</code></li>
@@ -46,13 +53,19 @@ The total volume of water trapped is 4.
 	<li><code>0 &lt;= heightMap[i][j] &lt;= 2 * 10<sup>4</sup></code></li>
 </ul>
 
+<p>&nbsp;</p>
+
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：优先队列（小根堆）
+
+接雨水问题的变种，由于矩阵的边界上的高度是确定的，因此可以将矩阵的边界上的高度加入优先队列，然后从优先队列中取出最小的高度，然后将其四周的高度与其比较，如果四周的高度小于当前高度，则可以接雨水，接雨水的体积为当前高度减去四周的高度，然后将较大的高度加入优先队列，重复上述过程，直到优先队列为空。
+
+时间复杂度 $O(m \times n \times \log (m \times n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
 
 <!-- tabs:start -->
 

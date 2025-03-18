@@ -1,86 +1,91 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2981.Find%20Longest%20Special%20Substring%20That%20Occurs%20Thrice%20I/README.md
 rating: 1505
-source: Weekly Contest 378 Q2
+source: 第 378 场周赛 Q2
 tags:
-  - Hash Table
-  - String
-  - Binary Search
-  - Counting
-  - Sliding Window
+    - 哈希表
+    - 字符串
+    - 二分查找
+    - 计数
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2981. Find Longest Special Substring That Occurs Thrice I](https://leetcode.com/problems/find-longest-special-substring-that-occurs-thrice-i)
+# [2981. 找出出现至少三次的最长特殊子字符串 I](https://leetcode.cn/problems/find-longest-special-substring-that-occurs-thrice-i)
 
-## Description
+[English Version](/solution/2900-2999/2981.Find%20Longest%20Special%20Substring%20That%20Occurs%20Thrice%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> that consists of lowercase English letters.</p>
+<p>给你一个仅由小写英文字母组成的字符串 <code>s</code> 。</p>
 
-<p>A string is called <strong>special</strong> if it is made up of only a single character. For example, the string <code>&quot;abc&quot;</code> is not special, whereas the strings <code>&quot;ddd&quot;</code>, <code>&quot;zz&quot;</code>, and <code>&quot;f&quot;</code> are special.</p>
+<p>如果一个字符串仅由单一字符组成，那么它被称为 <strong>特殊 </strong>字符串。例如，字符串 <code>"abc"</code> 不是特殊字符串，而字符串 <code>"ddd"</code>、<code>"zz"</code> 和 <code>"f"</code> 是特殊字符串。</p>
 
-<p>Return <em>the length of the <strong>longest special substring</strong> of </em><code>s</code> <em>which occurs <strong>at least thrice</strong></em>, <em>or </em><code>-1</code><em> if no special substring occurs at least thrice</em>.</p>
+<p>返回在 <code>s</code> 中出现 <strong>至少三次 </strong>的<strong> 最长特殊子字符串 </strong>的长度，如果不存在出现至少三次的特殊子字符串，则返回 <code>-1</code> 。</p>
 
-<p>A <strong>substring</strong> is a contiguous <strong>non-empty</strong> sequence of characters within a string.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;aaaa&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The longest special substring which occurs thrice is &quot;aa&quot;: substrings &quot;<u><strong>aa</strong></u>aa&quot;, &quot;a<u><strong>aa</strong></u>a&quot;, and &quot;aa<u><strong>aa</strong></u>&quot;.
-It can be shown that the maximum length achievable is 2.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;abcdef&quot;
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> There exists no special substring which occurs at least thrice. Hence return -1.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;abcaba&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The longest special substring which occurs thrice is &quot;a&quot;: substrings &quot;<u><strong>a</strong></u>bcaba&quot;, &quot;abc<u><strong>a</strong></u>ba&quot;, and &quot;abcab<u><strong>a</strong></u>&quot;.
-It can be shown that the maximum length achievable is 1.
-</pre>
+<p><strong>子字符串 </strong>是字符串中的一个连续<strong> 非空 </strong>字符序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aaaa"
+<strong>输出：</strong>2
+<strong>解释：</strong>出现三次的最长特殊子字符串是 "aa" ：子字符串 "<em><strong>aa</strong></em>aa"、"a<em><strong>aa</strong></em>a" 和 "aa<em><strong>aa</strong></em>"。
+可以证明最大长度是 2 。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "abcdef"
+<strong>输出：</strong>-1
+<strong>解释：</strong>不存在出现至少三次的特殊子字符串。因此返回 -1 。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "abcaba"
+<strong>输出：</strong>1
+<strong>解释：</strong>出现三次的最长特殊子字符串是 "a" ：子字符串 "<em><strong>a</strong></em>bcaba"、"abc<em><strong>a</strong></em>ba" 和 "abcab<em><strong>a</strong></em>"。
+可以证明最大长度是 1 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= s.length &lt;= 50</code></li>
-	<li><code>s</code> consists of only lowercase English letters.</li>
+	<li><code>s</code> 仅由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search + Sliding Window Counting
+### 方法一：二分查找 + 滑动窗口计数
 
-We notice that if there exists a special substring of length $x$ that appears at least three times, then a special substring of length $x-1$ must also exist. This exhibits a monotonicity, so we can use binary search to find the longest special substring.
+我们注意到，如果一个长度为 $x$ 且出现至少三次的特殊子字符串存在，那么长度为 $x-1$ 的特殊子字符串也一定存在，这存在着单调性，因此我们可以使用二分查找的方法来找到最长的特殊子字符串。
 
-We define the left boundary of the binary search as $l = 0$ and the right boundary as $r = n$, where $n$ is the length of the string. In each binary search, we take $mid = \lfloor \frac{l + r + 1}{2} \rfloor$. If a special substring of length $mid$ exists, we update the left boundary to $mid$. Otherwise, we update the right boundary to $mid - 1$. During the binary search, we use a sliding window to count the number of special substrings.
+我们定义二分查找的左边界 $l = 0$，右边界 $r = n$，其中 $n$ 是字符串的长度。每次二分查找的过程中，我们取 $mid = \lfloor \frac{l + r + 1}{2} \rfloor$，如果长度为 $mid$ 的特殊子字符串存在，那么我们就将左边界更新为 $mid$，否则我们就将右边界更新为 $mid - 1$。在二分查找的过程中，我们使用滑动窗口来计算特殊子字符串的个数。
 
-Specifically, we design a function $check(x)$ to indicate whether a special substring of length $x$ that appears at least three times exists.
+具体地，我们设计一个函数 $check(x)$，表示长度为 $x$ 且出现至少三次的特殊子字符串是否存在。
 
-In the function $check(x)$, we define a hash table or an array of length $26$ named $cnt$, where $cnt[i]$ represents the count of special substrings of length $x$ composed of the $i$-th lowercase letter. We traverse the string $s$. If the current character is $s[i]$, we move the pointer $j$ to the right until $s[j] \neq s[i]$. At this point, $s[i \cdots j-1]$ is a special substring of length $x$. We increase $cnt[s[i]]$ by $\max(0, j - i - x + 1)$, and then update the pointer $i$ to $j$.
+在函数 $check(x)$ 中，我们定义一个哈希表或长度为 $26$ 的数组 $cnt$，其中 $cnt[i]$ 表示长度为 $x$，且由第 $i$ 个小写字母组成的特殊子字符串的个数。我们遍历字符串 $s$，如果当前遍历到的字符为 $s[i]$，那么我们将指针 $j$ 向右移动，直到 $s[j] \neq s[i]$，此时 $s[i \cdots j-1]$ 就是一个长度为 $x$ 的特殊子字符串，我们将 $cnt[s[i]]$ 增加 $\max(0, j - i - x + 1)$，然后将指针 $i$ 更新为 $j$。
 
-After the traversal, we go through the array $cnt$. If there exists $cnt[i] \geq 3$, it means a special substring of length $x$ that appears at least three times exists, so we return $true$. Otherwise, we return $false$.
+在遍历结束之后，我们遍历数组 $cnt$，如果存在 $cnt[i] \geq 3$，那么就说明长度为 $x$ 且出现至少三次的特殊子字符串存在，我们返回 $true$，否则返回 $false$。
 
-The time complexity is $O((n + |\Sigma|) \times \log n)$, and the space complexity is $O(|\Sigma|)$, where $n$ is the length of the string $s$, and $|\Sigma|$ represents the size of the character set. In this problem, the character set is lowercase English letters, so $|\Sigma| = 26$.
+时间复杂度 $O((n + |\Sigma|) \times \log n)$，空间复杂度 $O(|\Sigma|)$，其中 $n$ 是字符串 $s$ 的长度，而 $|\Sigma|$ 表示字符集的大小，本题中字符集为小写英文字母，因此 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -230,33 +235,115 @@ func maximumLength(s string) int {
 
 ```ts
 function maximumLength(s: string): number {
-  const n = s.length;
-  let [l, r] = [0, n];
-  const check = (x: number): boolean => {
-    const cnt: number[] = Array(26).fill(0);
-    for (let i = 0; i < n; ) {
-      let j = i + 1;
-      while (j < n && s[j] === s[i]) {
-        j++;
-      }
-      const k = s[i].charCodeAt(0) - "a".charCodeAt(0);
-      cnt[k] += Math.max(0, j - i - x + 1);
-      if (cnt[k] >= 3) {
-        return true;
-      }
-      i = j;
+    const n = s.length;
+    let [l, r] = [0, n];
+    const check = (x: number): boolean => {
+        const cnt: number[] = Array(26).fill(0);
+        for (let i = 0; i < n; ) {
+            let j = i + 1;
+            while (j < n && s[j] === s[i]) {
+                j++;
+            }
+            const k = s[i].charCodeAt(0) - 'a'.charCodeAt(0);
+            cnt[k] += Math.max(0, j - i - x + 1);
+            if (cnt[k] >= 3) {
+                return true;
+            }
+            i = j;
+        }
+        return false;
+    };
+    while (l < r) {
+        const mid = (l + r + 1) >> 1;
+        if (check(mid)) {
+            l = mid;
+        } else {
+            r = mid - 1;
+        }
     }
-    return false;
-  };
-  while (l < r) {
-    const mid = (l + r + 1) >> 1;
-    if (check(mid)) {
-      l = mid;
-    } else {
-      r = mid - 1;
+    return l === 0 ? -1 : l;
+}
+```
+
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- solution:start -->
+
+### 方法二：计数
+
+时间复杂度 $O(n)$。
+
+<!-- tabs:start -->
+
+#### TypeScript
+
+```ts
+function maximumLength(s: string): number {
+    const cnt = new Map<string, number>();
+    const n = s.length;
+    let [c, ch] = [0, ''];
+
+    for (let i = 0; i < n + 1; i++) {
+        if (ch === s[i]) {
+            c++;
+        } else {
+            let j = 1;
+            while (c) {
+                const char = ch.repeat(j++);
+                cnt.set(char, (cnt.get(char) ?? 0) + c);
+                c--;
+            }
+
+            ch = s[i];
+            c = 1;
+        }
     }
-  }
-  return l === 0 ? -1 : l;
+
+    let res = -1;
+    for (const [x, c] of cnt) {
+        if (c >= 3) {
+            res = Math.max(res, x.length);
+        }
+    }
+
+    return res;
+}
+```
+
+### JavaScript
+
+```js
+function maximumLength(s) {
+    const cnt = new Map();
+    const n = s.length;
+    let [c, ch] = [0, ''];
+
+    for (let i = 0; i < n + 1; i++) {
+        if (ch === s[i]) {
+            c++;
+        } else {
+            let j = 1;
+            while (c) {
+                const char = ch.repeat(j++);
+                cnt.set(char, (cnt.get(char) ?? 0) + c);
+                c--;
+            }
+
+            ch = s[i];
+            c = 1;
+        }
+    }
+
+    let res = -1;
+    for (const [x, c] of cnt) {
+        if (c >= 3) {
+            res = Math.max(res, x.length);
+        }
+    }
+
+    return res;
 }
 ```
 

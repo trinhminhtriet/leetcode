@@ -1,58 +1,63 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2703.Return%20Length%20of%20Arguments%20Passed/README.md
 tags:
-  - JavaScript
+    - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2703. Return Length of Arguments Passed](https://leetcode.com/problems/return-length-of-arguments-passed)
+# [2703. 返回传递的参数的长度](https://leetcode.cn/problems/return-length-of-arguments-passed)
 
-## Description
+[English Version](/solution/2700-2799/2703.Return%20Length%20of%20Arguments%20Passed/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-Write a function&nbsp;<code>argumentsLength</code> that returns the count of arguments passed to it.
+请你编写一个函数 <code>argumentsLength</code>，返回传递给该函数的参数数量。
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> args = [5]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong>
+<b>输入：</b>args = [5]
+<b>输出：</b>1
+<strong>解释：</strong>
 argumentsLength(5); // 1
 
-One value was passed to the function so it should return 1.
+只传递了一个值给函数，因此它应返回 1。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> args = [{}, null, &quot;3&quot;]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 
-argumentsLength({}, null, &quot;3&quot;); // 3
+<b>输入：</b>args = [{}, null, "3"]
+<b>输出：</b>3
+<b>解释：</b>
+argumentsLength({}, null, "3"); // 3
 
-Three values were passed to the function so it should return 3.
+传递了三个值给函数，因此它应返回 3。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>args</code>&nbsp;is a valid JSON array</li>
+	<li><code>args</code>&nbsp;是一个有效的 JSON 数组</li>
 	<li><code>0 &lt;= args.length &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -60,7 +65,7 @@ Three values were passed to the function so it should return 3.
 
 ```ts
 function argumentsLength(...args: any[]): number {
-  return args.length;
+    return args.length;
 }
 
 /**

@@ -1,81 +1,84 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0828.Count%20Unique%20Characters%20of%20All%20Substrings%20of%20a%20Given%20String/README.md
 tags:
-  - Hash Table
-  - String
-  - Dynamic Programming
+    - 哈希表
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [828. Count Unique Characters of All Substrings of a Given String](https://leetcode.com/problems/count-unique-characters-of-all-substrings-of-a-given-string)
+# [828. 统计子串中的唯一字符](https://leetcode.cn/problems/count-unique-characters-of-all-substrings-of-a-given-string)
 
-## Description
+[English Version](/solution/0800-0899/0828.Count%20Unique%20Characters%20of%20All%20Substrings%20of%20a%20Given%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Let&#39;s define a function <code>countUniqueChars(s)</code> that returns the number of unique characters in&nbsp;<code>s</code>.</p>
+<p>我们定义了一个函数 <code>countUniqueChars(s)</code> 来统计字符串 <code>s</code> 中的唯一字符，并返回唯一字符的个数。</p>
 
-<ul>
-	<li>For example, calling <code>countUniqueChars(s)</code> if <code>s = &quot;LEETCODE&quot;</code> then <code>&quot;L&quot;</code>, <code>&quot;T&quot;</code>, <code>&quot;C&quot;</code>, <code>&quot;O&quot;</code>, <code>&quot;D&quot;</code> are the unique characters since they appear only once in <code>s</code>, therefore <code>countUniqueChars(s) = 5</code>.</li>
-</ul>
+<p>例如：<code>s = "LEETCODE"</code> ，则其中 <code>"L"</code>, <code>"T"</code>,<code>"C"</code>,<code>"O"</code>,<code>"D"</code> 都是唯一字符，因为它们只出现一次，所以 <code>countUniqueChars(s) = 5</code> 。</p>
 
-<p>Given a string <code>s</code>, return the sum of <code>countUniqueChars(t)</code> where <code>t</code> is a substring of <code>s</code>. The test cases are generated such that the answer fits in a 32-bit integer.</p>
+<p>本题将会给你一个字符串 <code>s</code> ，我们需要返回 <code>countUniqueChars(t)</code> 的总和，其中 <code>t</code> 是 <code>s</code> 的子字符串。输入用例保证返回值为&nbsp;32 位整数。</p>
 
-<p>Notice that some substrings can be repeated so in this case you have to count the repeated ones too.</p>
+<p>注意，某些子字符串可能是重复的，但你统计时也必须算上这些重复的子字符串（也就是说，你必须统计 <code>s</code> 的所有子字符串中的唯一字符）。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;ABC&quot;
-<strong>Output:</strong> 10
-<strong>Explanation: </strong>All possible substrings are: &quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;AB&quot;,&quot;BC&quot; and &quot;ABC&quot;.
-Every substring is composed with only unique letters.
-Sum of lengths of all substring is 1 + 1 + 1 + 2 + 2 + 3 = 10
+<strong>输入: </strong>s = "ABC"
+<strong>输出: </strong>10
+<strong>解释:</strong> 所有可能的子串为："A","B","C","AB","BC" 和 "ABC"。
+     其中，每一个子串都由独特字符构成。
+     所以其长度总和为：1 + 1 + 1 + 2 + 2 + 3 = 10
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;ABA&quot;
-<strong>Output:</strong> 8
-<strong>Explanation: </strong>The same as example 1, except <code>countUniqueChars</code>(&quot;ABA&quot;) = 1.
+<strong>输入: </strong>s = "ABA"
+<strong>输出: </strong>8
+<strong>解释: </strong>除了 countUniqueChars("ABA") = 1 之外，其余与示例 1 相同。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;LEETCODE&quot;
-<strong>Output:</strong> 92
+<strong>输入：</strong>s = "LEETCODE"
+<strong>输出：</strong>92
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of uppercase English letters only.</li>
+	<li><code>s</code> 只包含大写英文字符</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Calculate the Contribution of Each Character
+### 方法一：计算每个字符的贡献
 
-For each character $c_i$ in the string $s$, when it appears only once in a substring, it contributes to the count of unique characters in that substring.
+对于字符串 $s$ 的每个字符 $c_i$，当它在某个子字符串中仅出现一次时，它会对这个子字符串统计唯一字符时有贡献。
 
-Therefore, we only need to calculate for each character $c_i$, how many substrings contain this character only once.
+因此，我们只需要对每个字符 $c_i$，计算有多少子字符串仅包含该字符一次即可。
 
-We use a hash table or an array $d$ of length $26$, to store the positions of each character in $s$ in order of index.
+我们用一个哈希表或者长度为 $26$ 的数组 $d$，按照下标顺序存储每个字符在 $s$ 中所有出现的位置。
 
-For each character $c_i$, we iterate through each position $p$ in $d[c_i]$, find the adjacent positions $l$ on the left and $r$ on the right, then the number of substrings that meet the requirements by expanding from position $p$ to both sides is $(p - l) \times (r - p)$. We perform this operation for each character, add up the contributions of all characters, and get the answer.
+对于每个字符 $c_i$，我们遍历 $d[c_i]$ 中的每个位置 $p$，找出左侧相邻的位置 $l$ 和右侧相邻的位置 $r$，那么从位置 $p$ 向左右两边扩散，满足要求的子字符串的数量就是 $(p - l) \times (r - p)$。我们对每个字符都进行这样的操作，累加所有字符的贡献，即可得到答案。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -167,19 +170,19 @@ func uniqueLetterString(s string) (ans int) {
 
 ```ts
 function uniqueLetterString(s: string): number {
-  const d: number[][] = Array.from({ length: 26 }, () => [-1]);
-  for (let i = 0; i < s.length; ++i) {
-    d[s.charCodeAt(i) - "A".charCodeAt(0)].push(i);
-  }
-  let ans = 0;
-  for (const v of d) {
-    v.push(s.length);
-
-    for (let i = 1; i < v.length - 1; ++i) {
-      ans += (v[i] - v[i - 1]) * (v[i + 1] - v[i]);
+    const d: number[][] = Array.from({ length: 26 }, () => [-1]);
+    for (let i = 0; i < s.length; ++i) {
+        d[s.charCodeAt(i) - 'A'.charCodeAt(0)].push(i);
     }
-  }
-  return ans;
+    let ans = 0;
+    for (const v of d) {
+        v.push(s.length);
+
+        for (let i = 1; i < v.length - 1; ++i) {
+            ans += (v[i] - v[i - 1]) * (v[i + 1] - v[i]);
+        }
+    }
+    return ans;
 }
 ```
 

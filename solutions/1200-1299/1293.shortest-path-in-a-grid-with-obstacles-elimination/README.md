@@ -1,64 +1,73 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1293.Shortest%20Path%20in%20a%20Grid%20with%20Obstacles%20Elimination/README.md
 rating: 1967
-source: Weekly Contest 167 Q4
+source: 第 167 场周赛 Q4
 tags:
-  - Breadth-First Search
-  - Array
-  - Matrix
+    - 广度优先搜索
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [1293. Shortest Path in a Grid with Obstacles Elimination](https://leetcode.com/problems/shortest-path-in-a-grid-with-obstacles-elimination)
+# [1293. 网格中的最短路径](https://leetcode.cn/problems/shortest-path-in-a-grid-with-obstacles-elimination)
 
-## Description
+[English Version](/solution/1200-1299/1293.Shortest%20Path%20in%20a%20Grid%20with%20Obstacles%20Elimination/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> integer matrix <code>grid</code> where each cell is either <code>0</code> (empty) or <code>1</code> (obstacle). You can move up, down, left, or right from and to an empty cell in <strong>one step</strong>.</p>
+<p>给你一个&nbsp;<code>m * n</code>&nbsp;的网格，其中每个单元格不是&nbsp;<code>0</code>（空）就是&nbsp;<code>1</code>（障碍物）。每一步，您都可以在空白单元格中上、下、左、右移动。</p>
 
-<p>Return <em>the minimum number of <strong>steps</strong> to walk from the upper left corner </em><code>(0, 0)</code><em> to the lower right corner </em><code>(m - 1, n - 1)</code><em> given that you can eliminate <strong>at most</strong> </em><code>k</code><em> obstacles</em>. If it is not possible to find such walk return <code>-1</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1293.Shortest%20Path%20in%20a%20Grid%20with%20Obstacles%20Elimination/images/short1-grid.jpg" style="width: 244px; height: 405px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,0,0],[1,1,0],[0,0,0],[0,1,1],[0,0,0]], k = 1
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> 
-The shortest path without eliminating any obstacle is 10.
-The shortest path with one obstacle elimination at position (3,2) is 6. Such path is (0,0) -&gt; (0,1) -&gt; (0,2) -&gt; (1,2) -&gt; (2,2) -&gt; <strong>(3,2)</strong> -&gt; (4,2).
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1293.Shortest%20Path%20in%20a%20Grid%20with%20Obstacles%20Elimination/images/short2-grid.jpg" style="width: 244px; height: 245px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,1,1],[1,1,1],[1,0,0]], k = 1
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> We need to eliminate at least two obstacles to find such a walk.
-</pre>
+<p>如果您 <strong>最多</strong> 可以消除 <code>k</code> 个障碍物，请找出从左上角 <code>(0, 0)</code> 到右下角 <code>(m-1, n-1)</code> 的最短路径，并返回通过该路径所需的步数。如果找不到这样的路径，则返回 <code>-1</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1293.Shortest%20Path%20in%20a%20Grid%20with%20Obstacles%20Elimination/images/1700710956-kcxqcC-img_v3_025f_d55a658c-8f40-464b-800f-22ccd27cc9fg.jpg" style="width: 243px; height: 404px;" /></p>
+
+<pre>
+<strong>输入：</strong> grid = [[0,0,0],[1,1,0],[0,0,0],[0,1,1],[0,0,0]], k = 1
+<strong>输出：</strong>6
+<strong>解释：
+</strong>不消除任何障碍的最短路径是 10。
+消除位置 (3,2) 处的障碍后，最短路径是 6 。该路径是 <code>(0,0) -&gt; (0,1) -&gt; (0,2) -&gt; (1,2) -&gt; (2,2) -&gt; <strong>(3,2)</strong> -&gt; (4,2)</code>.
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1293.Shortest%20Path%20in%20a%20Grid%20with%20Obstacles%20Elimination/images/1700710701-uPqkZe-img_v3_025f_0edd50fb-8a70-4a42-add0-f602caaad35g.jpg" style="width: 243px; height: 244px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = [[0,1,1],[1,1,1],[1,0,0]], k = 1
+<strong>输出：</strong>-1
+<strong>解释：</strong>我们至少需要消除两个障碍才能找到这样的路径。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>m == grid.length</code></li>
-	<li><code>n == grid[i].length</code></li>
+	<li><code>grid.length&nbsp;== m</code></li>
+	<li><code>grid[0].length&nbsp;== n</code></li>
 	<li><code>1 &lt;= m, n &lt;= 40</code></li>
-	<li><code>1 &lt;= k &lt;= m * n</code></li>
-	<li><code>grid[i][j]</code> is either <code>0</code> <strong>or</strong> <code>1</code>.</li>
-	<li><code>grid[0][0] == grid[m - 1][n - 1] == 0</code></li>
+	<li><code>1 &lt;= k &lt;= m*n</code></li>
+	<li><code>grid[i][j]</code>&nbsp;是&nbsp;<code>0</code>&nbsp;或<strong>&nbsp;</strong><code>1</code></li>
+	<li><code>grid[0][0] == grid[m-1][n-1] == 0</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -225,43 +234,43 @@ func shortestPath(grid [][]int, k int) int {
 
 ```ts
 function shortestPath(grid: number[][], k: number): number {
-  const m = grid.length;
-  const n = grid[0].length;
-  if (k >= m + n - 3) {
-    return m + n - 2;
-  }
-
-  let q: Point[] = [[0, 0, k]];
-  const vis = Array.from({ length: m }, () =>
-    Array.from({ length: n }, () => Array.from({ length: k + 1 }, () => false))
-  );
-  vis[0][0][k] = true;
-  const dirs = [0, 1, 0, -1, 0];
-  let ans = 0;
-
-  while (q.length) {
-    const nextQ: Point[] = [];
-    ++ans;
-
-    for (const [i, j, k] of q) {
-      for (let d = 0; d < 4; ++d) {
-        const [x, y] = [i + dirs[d], j + dirs[d + 1]];
-        if (x === m - 1 && y === n - 1) {
-          return ans;
-        }
-        const v = grid[x]?.[y];
-        if (v === 0 && !vis[x][y][k]) {
-          nextQ.push([x, y, k]);
-          vis[x][y][k] = true;
-        } else if (v === 1 && k > 0 && !vis[x][y][k - 1]) {
-          nextQ.push([x, y, k - 1]);
-          vis[x][y][k - 1] = true;
-        }
-      }
+    const m = grid.length;
+    const n = grid[0].length;
+    if (k >= m + n - 3) {
+        return m + n - 2;
     }
-    q = nextQ;
-  }
-  return -1;
+
+    let q: Point[] = [[0, 0, k]];
+    const vis = Array.from({ length: m }, () =>
+        Array.from({ length: n }, () => Array.from({ length: k + 1 }, () => false)),
+    );
+    vis[0][0][k] = true;
+    const dirs = [0, 1, 0, -1, 0];
+    let ans = 0;
+
+    while (q.length) {
+        const nextQ: Point[] = [];
+        ++ans;
+
+        for (const [i, j, k] of q) {
+            for (let d = 0; d < 4; ++d) {
+                const [x, y] = [i + dirs[d], j + dirs[d + 1]];
+                if (x === m - 1 && y === n - 1) {
+                    return ans;
+                }
+                const v = grid[x]?.[y];
+                if (v === 0 && !vis[x][y][k]) {
+                    nextQ.push([x, y, k]);
+                    vis[x][y][k] = true;
+                } else if (v === 1 && k > 0 && !vis[x][y][k - 1]) {
+                    nextQ.push([x, y, k - 1]);
+                    vis[x][y][k - 1] = true;
+                }
+            }
+        }
+        q = nextQ;
+    }
+    return -1;
 }
 
 type Point = [number, number, number];

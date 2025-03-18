@@ -1,96 +1,104 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2258.Escape%20the%20Spreading%20Fire/README.md
 rating: 2346
-source: Biweekly Contest 77 Q4
+source: 第 77 场双周赛 Q4
 tags:
-  - Breadth-First Search
-  - Array
-  - Binary Search
-  - Matrix
+    - 广度优先搜索
+    - 数组
+    - 二分查找
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [2258. Escape the Spreading Fire](https://leetcode.com/problems/escape-the-spreading-fire)
+# [2258. 逃离火灾](https://leetcode.cn/problems/escape-the-spreading-fire)
 
-## Description
+[English Version](/solution/2200-2299/2258.Escape%20the%20Spreading%20Fire/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> 2D integer array <code>grid</code> of size <code>m x n</code> which represents a field. Each cell has one of three values:</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始大小为 <code>m x n</code>&nbsp;的二维整数数组&nbsp;<code>grid</code>&nbsp;，它表示一个网格图。每个格子为下面 3 个值之一：</p>
 
 <ul>
-	<li><code>0</code> represents grass,</li>
-	<li><code>1</code> represents fire,</li>
-	<li><code>2</code> represents a wall that you and fire cannot pass through.</li>
+	<li><code>0</code> 表示草地。</li>
+	<li><code>1</code> 表示着火的格子。</li>
+	<li><code>2</code>&nbsp;表示一座墙，你跟火都不能通过这个格子。</li>
 </ul>
 
-<p>You are situated in the top-left cell, <code>(0, 0)</code>, and you want to travel to the safehouse at the bottom-right cell, <code>(m - 1, n - 1)</code>. Every minute, you may move to an <strong>adjacent</strong> grass cell. <strong>After</strong> your move, every fire cell will spread to all <strong>adjacent</strong> cells that are not walls.</p>
+<p>一开始你在最左上角的格子&nbsp;<code>(0, 0)</code>&nbsp;，你想要到达最右下角的安全屋格子&nbsp;<code>(m - 1, n - 1)</code>&nbsp;。每一分钟，你可以移动到&nbsp;<strong>相邻</strong>&nbsp;的草地格子。每次你移动 <strong>之后</strong>&nbsp;，着火的格子会扩散到所有不是墙的 <strong>相邻</strong>&nbsp;格子。</p>
 
-<p>Return <em>the <strong>maximum</strong> number of minutes that you can stay in your initial position before moving while still safely reaching the safehouse</em>. If this is impossible, return <code>-1</code>. If you can <strong>always</strong> reach the safehouse regardless of the minutes stayed, return <code>10<sup>9</sup></code>.</p>
+<p>请你返回你在初始位置可以停留的 <strong>最多 </strong>分钟数，且停留完这段时间后你还能安全到达安全屋。如果无法实现，请你返回 <code>-1</code>&nbsp;。如果不管你在初始位置停留多久，你 <strong>总是</strong>&nbsp;能到达安全屋，请你返回&nbsp;<code>10<sup>9</sup></code>&nbsp;。</p>
 
-<p>Note that even if the fire spreads to the safehouse immediately after you have reached it, it will be counted as safely reaching the safehouse.</p>
+<p>注意，如果你到达安全屋后，火马上到了安全屋，这视为你能够安全到达安全屋。</p>
 
-<p>A cell is <strong>adjacent</strong> to another cell if the former is directly north, east, south, or west of the latter (i.e., their sides are touching).</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2258.Escape%20the%20Spreading%20Fire/images/ex1new.jpg" style="width: 650px; height: 404px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,2,0,0,0,0,0],[0,0,0,2,2,1,0],[0,2,0,0,1,2,0],[0,0,2,2,2,0,2],[0,0,0,0,0,0,0]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The figure above shows the scenario where you stay in the initial position for 3 minutes.
-You will still be able to safely reach the safehouse.
-Staying for more than 3 minutes will not allow you to safely reach the safehouse.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2258.Escape%20the%20Spreading%20Fire/images/ex2new2.jpg" style="width: 515px; height: 150px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,0,0,0],[0,1,2,0],[0,2,0,0]]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> The figure above shows the scenario where you immediately move towards the safehouse.
-Fire will spread to any cell you move towards and it is impossible to safely reach the safehouse.
-Thus, -1 is returned.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2258.Escape%20the%20Spreading%20Fire/images/ex3new.jpg" style="width: 174px; height: 150px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,0,0],[2,2,0],[1,2,0]]
-<strong>Output:</strong> 1000000000
-<strong>Explanation:</strong> The figure above shows the initial grid.
-Notice that the fire is contained by walls and you will always be able to safely reach the safehouse.
-Thus, 10<sup>9</sup> is returned.
-</pre>
+<p>如果两个格子有共同边，那么它们为 <strong>相邻</strong>&nbsp;格子。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2258.Escape%20the%20Spreading%20Fire/images/ex1new.jpg" style="width: 650px; height: 404px;"></p>
+
+<pre><b>输入：</b>grid = [[0,2,0,0,0,0,0],[0,0,0,2,2,1,0],[0,2,0,0,1,2,0],[0,0,2,2,2,0,2],[0,0,0,0,0,0,0]]
+<b>输出：</b>3
+<b>解释：</b>上图展示了你在初始位置停留 3 分钟后的情形。
+你仍然可以安全到达安全屋。
+停留超过 3 分钟会让你无法安全到达安全屋。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2258.Escape%20the%20Spreading%20Fire/images/ex2new2.jpg" style="width: 515px; height: 150px;"></p>
+
+<pre><b>输入：</b>grid = [[0,0,0,0],[0,1,2,0],[0,2,0,0]]
+<b>输出：</b>-1
+<b>解释：</b>上图展示了你马上开始朝安全屋移动的情形。
+火会蔓延到你可以移动的所有格子，所以无法安全到达安全屋。
+所以返回 -1 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2258.Escape%20the%20Spreading%20Fire/images/ex3new.jpg" style="width: 174px; height: 150px;"></p>
+
+<pre><b>输入：</b>grid = [[0,0,0],[2,2,0],[1,2,0]]
+<b>输出：</b>1000000000
+<b>解释：</b>上图展示了初始网格图。
+注意，由于火被墙围了起来，所以无论如何你都能安全到达安全屋。
+所以返回 10<sup>9</sup> 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>2 &lt;= m, n &lt;= 300</code></li>
 	<li><code>4 &lt;= m * n &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>grid[i][j]</code> is either <code>0</code>, <code>1</code>, or <code>2</code>.</li>
+	<li><code>grid[i][j]</code>&nbsp;是&nbsp;<code>0</code>&nbsp;，<code>1</code>&nbsp;或者&nbsp;<code>2</code>&nbsp;。</li>
 	<li><code>grid[0][0] == grid[m - 1][n - 1] == 0</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search + BFS
+### 方法一：二分查找 + BFS
 
-We notice that if a stay time $t$ satisfies the condition, then all stay times less than $t$ also satisfy the condition. Therefore, we can consider using binary search to find the maximum stay time that satisfies the condition.
+我们注意到，如果一个停留时间 $t$ 满足条件，那么所有小于 $t$ 的时间也都满足条件。因此我们可以考虑使用二分查找的方法找到最大的满足条件的时间。
 
-We define the left boundary of binary search as $l=-1$ and the right boundary as $r=m \times n$. In each iteration of binary search, we take the midpoint $mid$ of $l$ and $r$ as the current stay time and check if it satisfies the condition. If it does, we update $l$ to $mid$, otherwise we update $r$ to $mid-1$. Finally, if $l=m \times n$, it means there is no stay time that satisfies the condition, so we return $10^9$, otherwise we return $l$.
+我们定义二分查找的左边界 $l=-1$，右边界 $r = m \times n$。每一次二分查找，我们都将 $l$ 和 $r$ 的中点 $mid$ 作为当前的停留时间，判断是否满足条件。如果满足条件，那么我们将 $l$ 更新为 $mid$，否则我们将 $r$ 更新为 $mid-1$。最后，如果 $l = m \times n$，那么说明不存在满足条件的停留时间，我们返回 $10^9$，否则我们返回 $l$。
 
-The key problem is how to determine whether a stay time $t$ satisfies the condition. We can use breadth-first search to simulate the spread of fire within $t$ time. If the fire spreads to the starting position after staying for $t$ time, it means the condition is not satisfied and we return early. Otherwise, we use breadth-first search again, searching in four directions from the current position each time, and after each round, we need to spread the fire in four directions. If we find a path from the starting position to the ending position during this process, it means the condition is satisfied.
+问题的关键转化为如何判断一个停留时间 $t$ 是否满足条件。我们可以使用广度优先搜索的方法，在 $t$ 时间内，模拟火的蔓延过程。如果停留 $t$ 时间后，火蔓延到了起点位置，那么说明不满足条件，提前返回。否则，我们这时候再使用广度优先搜索，每一次从当前位置向四个方向进行搜索，每一轮结束后，我们还需要将火向四个方向蔓延一次。如果在这个过程中，我们找到了一条从起点到终点的路径，那么说明满足条件。
 
-The time complexity is $O(m \times n \times \log (m \times n))$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns in the grid, respectively.
+时间复杂度 $O(m \times n \times \log (m \times n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为网格的行数和列数。
 
 <!-- tabs:start -->
 
@@ -423,96 +431,85 @@ func maximumMinutes(grid [][]int) int {
 
 ```ts
 function maximumMinutes(grid: number[][]): number {
-  const m = grid.length;
-  const n = grid[0].length;
-  const fire = Array.from({ length: m }, () =>
-    Array.from({ length: n }, () => false)
-  );
-  const vis = Array.from({ length: m }, () =>
-    Array.from({ length: n }, () => false)
-  );
-  const dirs: number[] = [-1, 0, 1, 0, -1];
-  let [l, r] = [-1, m * n];
-  const spread = (q: number[][]): number[][] => {
-    const nq: number[][] = [];
-    while (q.length) {
-      const [i, j] = q.shift()!;
-      for (let k = 0; k < 4; ++k) {
-        const [x, y] = [i + dirs[k], j + dirs[k + 1]];
-        if (
-          x >= 0 &&
-          x < m &&
-          y >= 0 &&
-          y < n &&
-          !fire[x][y] &&
-          grid[x][y] === 0
-        ) {
-          fire[x][y] = true;
-          nq.push([x, y]);
-        }
-      }
-    }
-    return nq;
-  };
-  const check = (t: number): boolean => {
-    for (let i = 0; i < m; ++i) {
-      fire[i].fill(false);
-      vis[i].fill(false);
-    }
-    let q1: number[][] = [];
-    for (let i = 0; i < m; ++i) {
-      for (let j = 0; j < n; ++j) {
-        if (grid[i][j] === 1) {
-          q1.push([i, j]);
-          fire[i][j] = true;
-        }
-      }
-    }
-    for (; t && q1.length; --t) {
-      q1 = spread(q1);
-    }
-    if (fire[0][0]) {
-      return false;
-    }
-    const q2: number[][] = [[0, 0]];
-    vis[0][0] = true;
-    for (; q2.length; q1 = spread(q1)) {
-      for (let d = q2.length; d; --d) {
-        const [i, j] = q2.shift()!;
-        if (fire[i][j]) {
-          continue;
-        }
-        for (let k = 0; k < 4; ++k) {
-          const [x, y] = [i + dirs[k], j + dirs[k + 1]];
-          if (
-            x >= 0 &&
-            x < m &&
-            y >= 0 &&
-            y < n &&
-            !vis[x][y] &&
-            !fire[x][y] &&
-            grid[x][y] === 0
-          ) {
-            if (x === m - 1 && y === n - 1) {
-              return true;
+    const m = grid.length;
+    const n = grid[0].length;
+    const fire = Array.from({ length: m }, () => Array.from({ length: n }, () => false));
+    const vis = Array.from({ length: m }, () => Array.from({ length: n }, () => false));
+    const dirs: number[] = [-1, 0, 1, 0, -1];
+    let [l, r] = [-1, m * n];
+    const spread = (q: number[][]): number[][] => {
+        const nq: number[][] = [];
+        while (q.length) {
+            const [i, j] = q.shift()!;
+            for (let k = 0; k < 4; ++k) {
+                const [x, y] = [i + dirs[k], j + dirs[k + 1]];
+                if (x >= 0 && x < m && y >= 0 && y < n && !fire[x][y] && grid[x][y] === 0) {
+                    fire[x][y] = true;
+                    nq.push([x, y]);
+                }
             }
-            vis[x][y] = true;
-            q2.push([x, y]);
-          }
         }
-      }
+        return nq;
+    };
+    const check = (t: number): boolean => {
+        for (let i = 0; i < m; ++i) {
+            fire[i].fill(false);
+            vis[i].fill(false);
+        }
+        let q1: number[][] = [];
+        for (let i = 0; i < m; ++i) {
+            for (let j = 0; j < n; ++j) {
+                if (grid[i][j] === 1) {
+                    q1.push([i, j]);
+                    fire[i][j] = true;
+                }
+            }
+        }
+        for (; t && q1.length; --t) {
+            q1 = spread(q1);
+        }
+        if (fire[0][0]) {
+            return false;
+        }
+        const q2: number[][] = [[0, 0]];
+        vis[0][0] = true;
+        for (; q2.length; q1 = spread(q1)) {
+            for (let d = q2.length; d; --d) {
+                const [i, j] = q2.shift()!;
+                if (fire[i][j]) {
+                    continue;
+                }
+                for (let k = 0; k < 4; ++k) {
+                    const [x, y] = [i + dirs[k], j + dirs[k + 1]];
+                    if (
+                        x >= 0 &&
+                        x < m &&
+                        y >= 0 &&
+                        y < n &&
+                        !vis[x][y] &&
+                        !fire[x][y] &&
+                        grid[x][y] === 0
+                    ) {
+                        if (x === m - 1 && y === n - 1) {
+                            return true;
+                        }
+                        vis[x][y] = true;
+                        q2.push([x, y]);
+                    }
+                }
+            }
+        }
+        return false;
+    };
+    while (l < r) {
+        const mid = (l + r + 1) >> 1;
+        if (check(mid)) {
+            l = mid;
+        } else {
+            r = mid - 1;
+        }
     }
-    return false;
-  };
-  while (l < r) {
-    const mid = (l + r + 1) >> 1;
-    if (check(mid)) {
-      l = mid;
-    } else {
-      r = mid - 1;
-    }
-  }
-  return l === m * n ? 1e9 : l;
+    return l === m * n ? 1e9 : l;
 }
 ```
 

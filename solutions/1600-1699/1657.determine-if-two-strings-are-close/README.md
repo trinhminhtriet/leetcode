@@ -1,102 +1,104 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1657.Determine%20if%20Two%20Strings%20Are%20Close/README.md
 rating: 1530
-source: Weekly Contest 215 Q2
+source: 第 215 场周赛 Q2
 tags:
-  - Hash Table
-  - String
-  - Counting
-  - Sorting
+    - 哈希表
+    - 字符串
+    - 计数
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1657. Determine if Two Strings Are Close](https://leetcode.com/problems/determine-if-two-strings-are-close)
+# [1657. 确定两个字符串是否接近](https://leetcode.cn/problems/determine-if-two-strings-are-close)
 
-## Description
+[English Version](/solution/1600-1699/1657.Determine%20if%20Two%20Strings%20Are%20Close/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Two strings are considered <strong>close</strong> if you can attain one from the other using the following operations:</p>
+<p>如果可以使用以下操作从一个字符串得到另一个字符串，则认为两个字符串 <strong>接近</strong> ：</p>
 
 <ul>
-	<li>Operation 1: Swap any two <strong>existing</strong> characters.
+	<li>操作 1：交换任意两个 <strong>现有</strong> 字符。
 
     <ul>
-    	<li>For example, <code>a<u>b</u>cd<u>e</u> -&gt; a<u>e</u>cd<u>b</u></code></li>
+    	<li>例如，<code>a<u>b</u>cd<u>e</u> -&gt; a<u>e</u>cd<u>b</u></code></li>
     </ul>
     </li>
-    <li>Operation 2: Transform <strong>every</strong> occurrence of one <strong>existing</strong> character into another <strong>existing</strong> character, and do the same with the other character.
+    <li>操作 2：将一个 <strong>现有</strong> 字符的每次出现转换为另一个 <strong>现有</strong> 字符，并对另一个字符执行相同的操作。
     <ul>
-    	<li>For example, <code><u>aa</u>c<u>abb</u> -&gt; <u>bb</u>c<u>baa</u></code> (all <code>a</code>&#39;s turn into <code>b</code>&#39;s, and all <code>b</code>&#39;s turn into <code>a</code>&#39;s)</li>
+    	<li>例如，<code><u>aa</u>c<u>abb</u> -&gt; <u>bb</u>c<u>baa</u></code>（所有 <code>a</code> 转化为 <code>b</code> ，而所有的 <code>b</code> 转换为 <code>a</code> ）</li>
     </ul>
     </li>
 
 </ul>
 
-<p>You can use the operations on either string as many times as necessary.</p>
+<p>你可以根据需要对任意一个字符串多次使用这两种操作。</p>
 
-<p>Given two strings, <code>word1</code> and <code>word2</code>, return <code>true</code><em> if </em><code>word1</code><em> and </em><code>word2</code><em> are <strong>close</strong>, and </em><code>false</code><em> otherwise.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> word1 = &quot;abc&quot;, word2 = &quot;bca&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> You can attain word2 from word1 in 2 operations.
-Apply Operation 1: &quot;a<u>bc</u>&quot; -&gt; &quot;a<u>cb</u>&quot;
-Apply Operation 1: &quot;<u>a</u>c<u>b</u>&quot; -&gt; &quot;<u>b</u>c<u>a</u>&quot;
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> word1 = &quot;a&quot;, word2 = &quot;aa&quot;
-<strong>Output:</strong> false
-<strong>Explanation: </strong>It is impossible to attain word2 from word1, or vice versa, in any number of operations.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> word1 = &quot;cabbba&quot;, word2 = &quot;abbccc&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> You can attain word2 from word1 in 3 operations.
-Apply Operation 1: &quot;ca<u>b</u>bb<u>a</u>&quot; -&gt; &quot;ca<u>a</u>bb<u>b</u>&quot;
-Apply Operation 2: &quot;<u>c</u>aa<u>bbb</u>&quot; -&gt; &quot;<u>b</u>aa<u>ccc</u>&quot;
-Apply Operation 2: &quot;<u>baa</u>ccc&quot; -&gt; &quot;<u>abb</u>ccc&quot;
-</pre>
+<p>给你两个字符串，<code>word1</code> 和 <code>word2</code> 。如果<em> </em><code>word1</code><em> </em>和<em> </em><code>word2</code><em> </em><strong>接近 </strong>，就返回 <code>true</code> ；否则，返回<em> </em><code>false</code><em> </em>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>word1 = "abc", word2 = "bca"
+<strong>输出：</strong>true
+<strong>解释：</strong>2 次操作从 word1 获得 word2 。
+执行操作 1："a<u>bc</u>" -&gt; "a<u>cb</u>"
+执行操作 1："<u>a</u>c<u>b</u>" -&gt; "<u>b</u>c<u>a</u>"
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>word1 = "a", word2 = "aa"
+<strong>输出：</strong>false
+<strong>解释：</strong>不管执行多少次操作，都无法从 word1 得到 word2 ，反之亦然。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>word1 = "cabbba", word2 = "abbccc"
+<strong>输出：</strong>true
+<strong>解释：</strong>3 次操作从 word1 获得 word2 。
+执行操作 1："ca<u>b</u>bb<u>a</u>" -&gt; "ca<u>a</u>bb<u>b</u>"
+执行操作 2：<code>"</code><u>c</u>aa<u>bbb</u>" -&gt; "<u>b</u>aa<u>ccc</u>"
+执行操作 2："<u>baa</u>ccc" -&gt; "<u>abb</u>ccc"
+</pre>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word1.length, word2.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>word1</code> and <code>word2</code> contain only lowercase English letters.</li>
+	<li><code>word1</code> 和 <code>word2</code> 仅包含小写英文字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting + Sorting
+### 方法一：计数 + 排序
 
-According to the problem description, two strings are close if they meet the following two conditions simultaneously:
+根据题目描述，两个字符串接近，需要同时满足以下两个条件：
 
-1. The strings `word1` and `word2` must contain the same types of letters.
-2. The arrays obtained by sorting the counts of all characters in `word1` and `word2` must be the same.
+1. 字符串 `word1` 和 `word2` 包含的字母种类必须相同；
+1. 将字符串 `word1` 和 `word2` 的所有字符出现次数排序，得到的两个数组必须相同。
 
-Therefore, we can first use an array or hash table to count the occurrences of each letter in `word1` and `word2` respectively, and then compare whether they are the same. If they are not the same, return `false` early.
+因此，我们可以先用数组或哈希表分别统计 `word1` 和 `word2` 中每种字母出现的次数，然后比较两者是否相同，不相同则提前返回 `false`。
 
-Otherwise, we sort the corresponding counts, and then compare whether the counts at the corresponding positions are the same. If they are not the same, return `false`.
+否则，我们将对应的次数排序，然后依次比较对应位置的两个次数是否相同，不同则返回 `false`。
 
-At the end of the traversal, return `true`.
+遍历结束，返回 `true`。
 
-The time complexity is $O(m + n + C \times \log C)$, and the space complexity is $O(C)$. Here, $m$ and $n$ are the lengths of the strings `word1` and `word2` respectively, and $C$ is the number of letter types. In this problem, $C=26$.
+时间复杂度 $O(m + n + C \times \log C)$，空间复杂度 $O(C)$。其中 $m$ 和 $n$ 分别为字符串 `word1` 和 `word2` 的长度，而 $C$ 是字母种类。本题中 $C=26$。
 
 <!-- tabs:start -->
 
@@ -187,22 +189,22 @@ func closeStrings(word1 string, word2 string) bool {
 
 ```ts
 function closeStrings(word1: string, word2: string): boolean {
-  const cnt1 = Array(26).fill(0);
-  const cnt2 = Array(26).fill(0);
-  for (const c of word1) {
-    ++cnt1[c.charCodeAt(0) - "a".charCodeAt(0)];
-  }
-  for (const c of word2) {
-    ++cnt2[c.charCodeAt(0) - "a".charCodeAt(0)];
-  }
-  for (let i = 0; i < 26; ++i) {
-    if ((cnt1[i] === 0) !== (cnt2[i] === 0)) {
-      return false;
+    const cnt1 = Array(26).fill(0);
+    const cnt2 = Array(26).fill(0);
+    for (const c of word1) {
+        ++cnt1[c.charCodeAt(0) - 'a'.charCodeAt(0)];
     }
-  }
-  cnt1.sort((a, b) => a - b);
-  cnt2.sort((a, b) => a - b);
-  return cnt1.join(".") === cnt2.join(".");
+    for (const c of word2) {
+        ++cnt2[c.charCodeAt(0) - 'a'.charCodeAt(0)];
+    }
+    for (let i = 0; i < 26; ++i) {
+        if ((cnt1[i] === 0) !== (cnt2[i] === 0)) {
+            return false;
+        }
+    }
+    cnt1.sort((a, b) => a - b);
+    cnt2.sort((a, b) => a - b);
+    return cnt1.join('.') === cnt2.join('.');
 }
 ```
 

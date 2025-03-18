@@ -1,61 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2605.Form%20Smallest%20Number%20From%20Two%20Digit%20Arrays/README.md
 rating: 1241
-source: Biweekly Contest 101 Q1
+source: 第 101 场双周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - Enumeration
+    - 数组
+    - 哈希表
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2605. Form Smallest Number From Two Digit Arrays](https://leetcode.com/problems/form-smallest-number-from-two-digit-arrays)
+# [2605. 从两个数字数组里生成最小数字](https://leetcode.cn/problems/form-smallest-number-from-two-digit-arrays)
 
-## Description
+[English Version](/solution/2600-2699/2605.Form%20Smallest%20Number%20From%20Two%20Digit%20Arrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-Given two arrays of <strong>unique</strong> digits <code>nums1</code> and <code>nums2</code>, return <em>the <strong>smallest</strong> number that contains <strong>at least</strong> one digit from each array</em>.
+给你两个只包含 1 到 9 之间数字的数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;，每个数组中的元素 <strong>互不相同</strong>&nbsp;，请你返回 <strong>最小</strong> 的数字，两个数组都 <strong>至少</strong> 包含这个数字的某个数位。
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums1 = [4,1,3], nums2 = [5,7]
-<strong>Output:</strong> 15
-<strong>Explanation:</strong> The number 15 contains the digit 1 from nums1 and the digit 5 from nums2. It can be proven that 15 is the smallest number we can have.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums1 = [4,1,3], nums2 = [5,7]
+<b>输出：</b>15
+<b>解释：</b>数字 15 的数位 1 在 nums1 中出现，数位 5 在 nums2 中出现。15 是我们能得到的最小数字。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums1 = [3,5,2,6], nums2 = [3,1,7]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The number 3 contains the digit 3 which exists in both arrays.
+<pre><b>输入：</b>nums1 = [3,5,2,6], nums2 = [3,1,7]
+<b>输出：</b>3
+<b>解释：</b>数字 3 的数位 3 在两个数组中都出现了。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 9</code></li>
 	<li><code>1 &lt;= nums1[i], nums2[i] &lt;= 9</code></li>
-	<li>All digits in each array are <strong>unique</strong>.</li>
+	<li>每个数组中，元素 <strong>互不相同</strong>&nbsp;。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We observe that if there are the same numbers in the arrays $nums1$ and $nums2$, then the minimum of the same numbers is the smallest number. Otherwise, we take the number $a$ in the array $nums1$ and the number $b$ in the array $nums2$, and concatenate the two numbers $a$ and $b$ into two numbers, and take the smaller number.
+我们观察发现，如果数组 $nums1$ 和 $nums2$ 中有相同的数字，那么相同数字中的最小值一定是最小的数字。否则我们取 $nums1$ 中的数字 $a$ 和 $nums2$ 中的数字 $b$，将 $a$ 和 $b$ 拼接成两个数字，取其中较小的数字即可。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(1)$, where $m$ and $n$ are the lengths of the arrays $nums1$ and $nums2$.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(1)$。其中 $m$ 和 $n$ 分别是数组 $nums1$ 和 $nums2$ 的长度。
 
 <!-- tabs:start -->
 
@@ -137,17 +140,17 @@ func minNumber(nums1 []int, nums2 []int) int {
 
 ```ts
 function minNumber(nums1: number[], nums2: number[]): number {
-  let ans = 100;
-  for (const a of nums1) {
-    for (const b of nums2) {
-      if (a === b) {
-        ans = Math.min(ans, a);
-      } else {
-        ans = Math.min(ans, a * 10 + b, b * 10 + a);
-      }
+    let ans = 100;
+    for (const a of nums1) {
+        for (const b of nums2) {
+            if (a === b) {
+                ans = Math.min(ans, a);
+            } else {
+                ans = Math.min(ans, a * 10 + b, b * 10 + a);
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -179,11 +182,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Hash Table or Array + Enumeration
+### 方法二：哈希表或数组 + 枚举
 
-We can use a hash table or array to record the numbers in the arrays $nums1$ and $nums2$, and then enumerate $1 \sim 9$. If $i$ appears in both arrays, then $i$ is the smallest number. Otherwise, we take the number $a$ in the array $nums1$ and the number $b$ in the array $nums2$, and concatenate the two numbers $a$ and $b$ into two numbers, and take the smaller number.
+我们可以用哈希表或数组记录数组 $nums1$ 和 $nums2$ 中的数字，然后枚举 $1 \sim 9$，如果 $i$ 在两个数组中都出现了，那么 $i$ 就是最小的数字。否则我们取 $nums1$ 中的数字 $a$ 和 $nums2$ 中的数字 $b$，将 $a$ 和 $b$ 拼接成两个数字，取其中较小的数字即可。
 
-The time complexity is $(m + n)$, and the space complexity is $O(C)$. Where $m$ and $n$ are the lengths of the arrays $nums1$ and $nums2$ respectively; and $C$ is the range of the numbers in the arrays $nums1$ and $nums2$, and the range in this problem is $C = 10$.
+时间复杂度 $(m + n)$，空间复杂度 $O(C)$。其中 $m$ 和 $n$ 分别是数组 $nums1$ 和 $nums2$ 的长度；而 $C$ 是数组 $nums1$ 和 $nums2$ 中数字的范围，本题中 $C = 10$。
 
 <!-- tabs:start -->
 
@@ -292,28 +295,28 @@ func minNumber(nums1 []int, nums2 []int) int {
 
 ```ts
 function minNumber(nums1: number[], nums2: number[]): number {
-  const s1: boolean[] = new Array(10).fill(false);
-  const s2: boolean[] = new Array(10).fill(false);
-  for (const x of nums1) {
-    s1[x] = true;
-  }
-  for (const x of nums2) {
-    s2[x] = true;
-  }
-  let a = 0;
-  let b = 0;
-  for (let i = 1; i < 10; ++i) {
-    if (s1[i] && s2[i]) {
-      return i;
+    const s1: boolean[] = new Array(10).fill(false);
+    const s2: boolean[] = new Array(10).fill(false);
+    for (const x of nums1) {
+        s1[x] = true;
     }
-    if (a === 0 && s1[i]) {
-      a = i;
+    for (const x of nums2) {
+        s2[x] = true;
     }
-    if (b === 0 && s2[i]) {
-      b = i;
+    let a = 0;
+    let b = 0;
+    for (let i = 1; i < 10; ++i) {
+        if (s1[i] && s2[i]) {
+            return i;
+        }
+        if (a === 0 && s1[i]) {
+            a = i;
+        }
+        if (b === 0 && s2[i]) {
+            b = i;
+        }
     }
-  }
-  return Math.min(a * 10 + b, b * 10 + a);
+    return Math.min(a * 10 + b, b * 10 + a);
 }
 ```
 
@@ -362,15 +365,15 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 3: Bit Operation
+### 方法三：位运算
 
-Since the range of the numbers is $1 \sim 9$, we can use a binary number with a length of $10$ to represent the numbers in the arrays $nums1$ and $nums2$. We use $mask1$ to represent the numbers in the array $nums1$, and use $mask2$ to represent the numbers in the array $nums2$.
+由于数字的范围是 $1 \sim 9$，我们可以用一个长度为 $10$ 的二进制数来表示数组 $nums1$ 和 $nums2$ 中的数字。我们用 $mask1$ 表示数组 $nums1$ 中的数字，用 $mask2$ 表示数组 $nums2$ 中的数字。
 
-If the number $mask$ obtained by performing a bitwise AND operation on $mask1$ and $mask2$ is not equal to $0$, then we extract the position of the last $1$ in the number $mask$, which is the smallest number.
+如果 $mask1$ 和 $mask2$ 进行按位与得到的数字 $mask$ 不等于 $0$，那么我们提取 $mask$ 中最后一位 $1$ 所在的位置，即为最小的数字。
 
-Otherwise, we extract the position of the last $1$ in $mask1$ and $mask2$ respectively, and denote them as $a$ and $b$, respectively. Then the smallest number is $min(a \times 10 + b, b \times 10 + a)$.
+否则，我们分别提取 $mask1$ 和 $mask2$ 中最后一位 $1$ 所在的位置，分别记为 $a$ 和 $b$，那么最小的数字就是 $min(a \times 10 + b, b \times 10 + a)$。
 
-The time complexity is $O(m + n)$, and the space complexity is $O(1)$. Where $m$ and $n$ are the lengths of the arrays $nums1$ and $nums2$ respectively.
+时间复杂度 $O(m + n)$，空间复杂度 $O(1)$。其中 $m$ 和 $n$ 分别是数组 $nums1$ 和 $nums2$ 的长度。
 
 <!-- tabs:start -->
 
@@ -462,50 +465,50 @@ func minNumber(nums1 []int, nums2 []int) int {
 
 ```ts
 function minNumber(nums1: number[], nums2: number[]): number {
-  let mask1: number = 0;
-  let mask2: number = 0;
-  for (const x of nums1) {
-    mask1 |= 1 << x;
-  }
-  for (const x of nums2) {
-    mask2 |= 1 << x;
-  }
-  const mask = mask1 & mask2;
-  if (mask !== 0) {
-    return numberOfTrailingZeros(mask);
-  }
-  const a = numberOfTrailingZeros(mask1);
-  const b = numberOfTrailingZeros(mask2);
-  return Math.min(a * 10 + b, b * 10 + a);
+    let mask1: number = 0;
+    let mask2: number = 0;
+    for (const x of nums1) {
+        mask1 |= 1 << x;
+    }
+    for (const x of nums2) {
+        mask2 |= 1 << x;
+    }
+    const mask = mask1 & mask2;
+    if (mask !== 0) {
+        return numberOfTrailingZeros(mask);
+    }
+    const a = numberOfTrailingZeros(mask1);
+    const b = numberOfTrailingZeros(mask2);
+    return Math.min(a * 10 + b, b * 10 + a);
 }
 
 function numberOfTrailingZeros(i: number): number {
-  let y = 0;
-  if (i === 0) {
-    return 32;
-  }
-  let n = 31;
-  y = i << 16;
-  if (y != 0) {
-    n = n - 16;
-    i = y;
-  }
-  y = i << 8;
-  if (y != 0) {
-    n = n - 8;
-    i = y;
-  }
-  y = i << 4;
-  if (y != 0) {
-    n = n - 4;
-    i = y;
-  }
-  y = i << 2;
-  if (y != 0) {
-    n = n - 2;
-    i = y;
-  }
-  return n - ((i << 1) >>> 31);
+    let y = 0;
+    if (i === 0) {
+        return 32;
+    }
+    let n = 31;
+    y = i << 16;
+    if (y != 0) {
+        n = n - 16;
+        i = y;
+    }
+    y = i << 8;
+    if (y != 0) {
+        n = n - 8;
+        i = y;
+    }
+    y = i << 4;
+    if (y != 0) {
+        n = n - 4;
+        i = y;
+    }
+    y = i << 2;
+    if (y != 0) {
+        n = n - 2;
+        i = y;
+    }
+    return n - ((i << 1) >>> 31);
 }
 ```
 

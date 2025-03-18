@@ -1,73 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3295.Report%20Spam%20Message/README.md
 rating: 1198
-source: Weekly Contest 416 Q1
+source: 第 416 场周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - String
+    - 数组
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [3295. Report Spam Message](https://leetcode.com/problems/report-spam-message)
+# [3295. 举报垃圾信息](https://leetcode.cn/problems/report-spam-message)
 
-## Description
+[English Version](/solution/3200-3299/3295.Report%20Spam%20Message/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of strings <code>message</code> and an array of strings <code>bannedWords</code>.</p>
+<p>给你一个字符串数组 <code>message</code> 和一个字符串数组 <code>bannedWords</code>。</p>
 
-<p>An array of words is considered <strong>spam</strong> if there are <strong>at least</strong> two words in it that <b>exactly</b> match any word in <code>bannedWords</code>.</p>
+<p>如果数组中 <strong>至少</strong> 存在两个单词与 <code>bannedWords</code> 中的任一单词 <strong>完全相同</strong>，则该数组被视为 <strong>垃圾信息</strong>。</p>
 
-<p>Return <code>true</code> if the array <code>message</code> is spam, and <code>false</code> otherwise.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">message = [&quot;hello&quot;,&quot;world&quot;,&quot;leetcode&quot;], bannedWords = [&quot;world&quot;,&quot;hello&quot;]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The words <code>&quot;hello&quot;</code> and <code>&quot;world&quot;</code> from the <code>message</code> array both appear in the <code>bannedWords</code> array.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">message = [&quot;hello&quot;,&quot;programming&quot;,&quot;fun&quot;], bannedWords = [&quot;world&quot;,&quot;programming&quot;,&quot;leetcode&quot;]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>Only one word from the <code>message</code> array (<code>&quot;programming&quot;</code>) appears in the <code>bannedWords</code> array.</p>
-</div>
+<p>如果数组 <code>message</code> 是垃圾信息，则返回 <code>true</code>；否则返回 <code>false</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">message = ["hello","world","leetcode"], bannedWords = ["world","hello"]</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">true</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>数组 <code>message</code> 中的 <code>"hello"</code> 和 <code>"world"</code> 都出现在数组 <code>bannedWords</code> 中。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">message = ["hello","programming","fun"], bannedWords = ["world","programming","leetcode"]</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">false</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>数组 <code>message</code> 中只有一个单词（<code>"programming"</code>）出现在数组 <code>bannedWords</code> 中。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= message.length, bannedWords.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= message[i].length, bannedWords[i].length &lt;= 15</code></li>
-	<li><code>message[i]</code> and <code>bannedWords[i]</code> consist only of lowercase English letters.</li>
+	<li><code>message[i]</code> 和 <code>bannedWords[i]</code> 都只由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We use a hash table $s$ to store all the words in $\textit{bannedWords}$. Then, we traverse each word in $\textit{message}$. If the word appears in the hash table $s$, we increment the counter $cnt$ by one. If $cnt$ is greater than or equal to $2$, we return $\text{true}$; otherwise, we return $\text{false}$.
+我们用一个哈希表 $s$ 存储 $\textit{bannedWords}$ 中的所有单词，然后遍历 $\textit{message}$ 中的每个单词，如果单词在哈希表 $s$ 中出现，我们就将计数器 $cnt$ 加一，如果 $cnt$ 大于等于 $2$，我们就返回 $\text{true}$，否则返回 $\text{false}$。
 
-The time complexity is $O((n + m) \times |w|)$, and the space complexity is $O(m \times |w|)$. Here, $n$ is the length of the array $\textit{message}$, and $m$ and $|w|$ are the length of the array $\textit{bannedWords}$ and the maximum length of the words in the array, respectively.
+时间复杂度 $O((n + m) \times |w|)$，空间复杂度 $O(m \times |w|)$。其中 $n$ 是数组 $\textit{message}$ 的长度，而 $m$ 和 $|w|$ 分别是数组 $\textit{bannedWords}$ 的长度和数组中单词的最大长度。
 
 <!-- tabs:start -->
 
@@ -143,14 +148,14 @@ func reportSpam(message []string, bannedWords []string) bool {
 
 ```ts
 function reportSpam(message: string[], bannedWords: string[]): boolean {
-  const s = new Set<string>(bannedWords);
-  let cnt = 0;
-  for (const w of message) {
-    if (s.has(w) && ++cnt >= 2) {
-      return true;
+    const s = new Set<string>(bannedWords);
+    let cnt = 0;
+    for (const w of message) {
+        if (s.has(w) && ++cnt >= 2) {
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 ```
 

@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1327.List%20the%20Products%20Ordered%20in%20a%20Period/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1327. List the Products Ordered in a Period](https://leetcode.com/problems/list-the-products-ordered-in-a-period)
+# [1327. 列出指定时间段内所有的下单产品](https://leetcode.cn/problems/list-the-products-ordered-in-a-period)
 
-## Description
+[English Version](/solution/1300-1399/1327.List%20the%20Products%20Ordered%20in%20a%20Period/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Products</code></p>
+<p>表: <code>Products</code></p>
 
 <pre>
 +------------------+---------+
@@ -23,13 +26,13 @@ tags:
 | product_name     | varchar |
 | product_category | varchar |
 +------------------+---------+
-product_id is the primary key (column with unique values) for this table.
-This table contains data about the company&#39;s products.
+product_id 是该表主键(具有唯一值的列)。
+该表包含该公司产品的数据。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Table: <code>Orders</code></p>
+<p>表: <code>Orders</code></p>
 
 <pre>
 +---------------+---------+
@@ -39,25 +42,26 @@ This table contains data about the company&#39;s products.
 | order_date    | date    |
 | unit          | int     |
 +---------------+---------+
-This table may have duplicate rows.
-product_id is a foreign key (reference column) to the Products table.
-unit is the number of products ordered in order_date.
+该表可能包含重复行。
+product_id 是表单 Products 的外键（reference 列）。
+unit 是在日期 order_date 内下单产品的数目。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to get the names of products that have at least <code>100</code> units ordered in <strong>February 2020</strong> and their amount.</p>
+<p>写一个解决方案，要求获取在 2020 年 2 月份下单的数量不少于 100 的产品的名字和数目。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
+<p>返回结果表单的 <strong>顺序无要求 </strong>。</p>
 
-<p>The&nbsp;result format is in the following example.</p>
+<p>查询结果的格式如下。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Products table:
+<strong>输入：</strong>
+Products 表:
 +-------------+-----------------------+------------------+
 | product_id  | product_name          | product_category |
 +-------------+-----------------------+------------------+
@@ -67,7 +71,7 @@ Products table:
 | 4           | Lenovo                | Laptop           |
 | 5           | Leetcode Kit          | T-shirt          |
 +-------------+-----------------------+------------------+
-Orders table:
+Orders 表:
 +--------------+--------------+----------+
 | product_id   | order_date   | unit     |
 +--------------+--------------+----------+
@@ -84,28 +88,27 @@ Orders table:
 | 5            | 2020-02-27   | 50       |
 | 5            | 2020-03-01   | 50       |
 +--------------+--------------+----------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +--------------------+---------+
 | product_name       | unit    |
 +--------------------+---------+
 | Leetcode Solutions | 130     |
 | Leetcode Kit       | 100     |
 +--------------------+---------+
-<strong>Explanation:</strong> 
-Products with product_id = 1 is ordered in February a total of (60 + 70) = 130.
-Products with product_id = 2 is ordered in February a total of 80.
-Products with product_id = 3 is ordered in February a total of (2 + 3) = 5.
-Products with product_id = 4 was not ordered in February 2020.
-Products with product_id = 5 is ordered in February a total of (50 + 50) = 100.
-</pre>
+<strong>解释：</strong>
+2020 年 2 月份下单 product_id = 1 的产品的数目总和为 (60 + 70) = 130 。
+2020 年 2 月份下单 product_id = 2 的产品的数目总和为 80 。
+2020 年 2 月份下单 product_id = 3 的产品的数目总和为 (2 + 3) = 5 。
+2020 年 2 月份 product_id = 4 的产品并没有下单。
+2020 年 2 月份下单 product_id = 5 的产品的数目总和为 (50 + 50) = 100 。</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

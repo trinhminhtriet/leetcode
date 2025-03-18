@@ -1,80 +1,82 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1185.Day%20of%20the%20Week/README.md
 rating: 1382
-source: Weekly Contest 153 Q2
+source: 第 153 场周赛 Q2
 tags:
-  - Math
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [1185. Day of the Week](https://leetcode.com/problems/day-of-the-week)
+# [1185. 一周中的第几天](https://leetcode.cn/problems/day-of-the-week)
 
-## Description
+[English Version](/solution/1100-1199/1185.Day%20of%20the%20Week/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a date, return the corresponding day of the week for that date.</p>
+<p>给你一个日期，请你设计一个算法来判断它是对应一周中的哪一天。</p>
 
-<p>The input is given as three integers representing the <code>day</code>, <code>month</code> and <code>year</code> respectively.</p>
+<p>输入为三个整数：<code>day</code>、<code>month</code> 和&nbsp;<code>year</code>，分别表示日、月、年。</p>
 
-<p>Return the answer as one of the following values&nbsp;<code>{&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;}</code>.</p>
+<p>您返回的结果必须是这几个值中的一个&nbsp;<code>{&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;}</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> day = 31, month = 8, year = 2019
-<strong>Output:</strong> &quot;Saturday&quot;
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>day = 31, month = 8, year = 2019
+<strong>输出：</strong>&quot;Saturday&quot;
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> day = 18, month = 7, year = 1999
-<strong>Output:</strong> &quot;Sunday&quot;
+<pre><strong>输入：</strong>day = 18, month = 7, year = 1999
+<strong>输出：</strong>&quot;Sunday&quot;
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> day = 15, month = 8, year = 1993
-<strong>Output:</strong> &quot;Sunday&quot;
+<pre><strong>输入：</strong>day = 15, month = 8, year = 1993
+<strong>输出：</strong>&quot;Sunday&quot;
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The given dates are valid dates between the years <code>1971</code> and <code>2100</code>.</li>
+	<li>给出的日期一定是在&nbsp;<code>1971</code> 到&nbsp;<code>2100</code>&nbsp;年之间的有效日期。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Zeller's Congruence
+### 方法一：蔡勒公式
 
-We can use Zeller's Congruence to calculate the day of the week. Zeller's Congruence is as follows:
+我们可以使用蔡勒公式来计算星期几，蔡勒公式如下：
 
 $$
 w = (\left \lfloor \frac{c}{4} \right \rfloor - 2c + y + \left \lfloor \frac{y}{4} \right \rfloor + \left \lfloor \frac{13(m+1)}{5} \right \rfloor + d - 1) \bmod 7
 $$
 
-Where:
+其中：
 
-- `w`: Day of the week (starting from Sunday)
-- `c`: First two digits of the year
-- `y`: Last two digits of the year
-- `m`: Month (the range of m is from 3 to 14, that is, in Zeller's Congruence, January and February of a certain year are considered as the 13th and 14th month of the previous year. For example, January 1, 2003 is considered as the 1st day of the 13th month of 2002)
-- `d`: Day
-- `⌊⌋`: Floor function (round down)
-- `mod`: Modulo operation
+-   `w`: 星期（从 Sunday 开始）
+-   `c`: 年份前两位
+-   `y`: 年份后两位
+-   `m`: 月（m 的取值范围是 3 至 14，即在蔡勒公式中，某年的 1、2 月要看作上一年的 13、14 月来计算，比如 2003 年 1 月 1 日要看作 2002 年的 13 月 1 日来计算）
+-   `d`: 日
+-   `⌊⌋`: 向下取整
+-   `mod`: 取余
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -142,31 +144,23 @@ func dayOfTheWeek(d int, m int, y int) string {
 
 ```ts
 function dayOfTheWeek(d: number, m: number, y: number): string {
-  if (m < 3) {
-    m += 12;
-    y -= 1;
-  }
-  const c: number = (y / 100) | 0;
-  y %= 100;
-  const w =
-    (((c / 4) | 0) -
-      2 * c +
-      y +
-      ((y / 4) | 0) +
-      (((13 * (m + 1)) / 5) | 0) +
-      d -
-      1) %
-    7;
-  const weeks: string[] = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  return weeks[(w + 7) % 7];
+    if (m < 3) {
+        m += 12;
+        y -= 1;
+    }
+    const c: number = (y / 100) | 0;
+    y %= 100;
+    const w = (((c / 4) | 0) - 2 * c + y + ((y / 4) | 0) + (((13 * (m + 1)) / 5) | 0) + d - 1) % 7;
+    const weeks: string[] = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+    ];
+    return weeks[(w + 7) % 7];
 }
 ```
 
@@ -176,7 +170,7 @@ function dayOfTheWeek(d: number, m: number, y: number): string {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

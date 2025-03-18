@@ -1,56 +1,60 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2357.Make%20Array%20Zero%20by%20Subtracting%20Equal%20Amounts/README.md
 rating: 1225
-source: Weekly Contest 304 Q1
+source: 第 304 场周赛 Q1
 tags:
-  - Greedy
-  - Array
-  - Hash Table
-  - Sorting
-  - Simulation
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 哈希表
+    - 排序
+    - 模拟
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2357. Make Array Zero by Subtracting Equal Amounts](https://leetcode.com/problems/make-array-zero-by-subtracting-equal-amounts)
+# [2357. 使数组中所有元素都等于零](https://leetcode.cn/problems/make-array-zero-by-subtracting-equal-amounts)
 
-## Description
+[English Version](/solution/2300-2399/2357.Make%20Array%20Zero%20by%20Subtracting%20Equal%20Amounts/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a non-negative integer array <code>nums</code>. In one operation, you must:</p>
+<p>给你一个非负整数数组 <code>nums</code> 。在一步操作中，你必须：</p>
 
 <ul>
-	<li>Choose a positive integer <code>x</code> such that <code>x</code> is less than or equal to the <strong>smallest non-zero</strong> element in <code>nums</code>.</li>
-	<li>Subtract <code>x</code> from every <strong>positive</strong> element in <code>nums</code>.</li>
+	<li>选出一个正整数 <code>x</code> ，<code>x</code> 需要小于或等于 <code>nums</code> 中 <strong>最小</strong> 的 <strong>非零</strong> 元素。</li>
+	<li><code>nums</code> 中的每个正整数都减去 <code>x</code>。</li>
 </ul>
 
-<p>Return <em>the <strong>minimum</strong> number of operations to make every element in </em><code>nums</code><em> equal to </em><code>0</code>.</p>
+<p>返回使 <code>nums</code> 中所有元素都等于<em> </em><code>0</code> 需要的 <strong>最少</strong> 操作数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,5,0,3,5]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-In the first operation, choose x = 1. Now, nums = [0,4,0,2,4].
-In the second operation, choose x = 2. Now, nums = [0,2,0,0,2].
-In the third operation, choose x = 2. Now, nums = [0,0,0,0,0].
-</pre>
+<strong>输入：</strong>nums = [1,5,0,3,5]
+<strong>输出：</strong>3
+<strong>解释：</strong>
+第一步操作：选出 x = 1 ，之后 nums = [0,4,0,2,4] 。
+第二步操作：选出 x = 2 ，之后 nums = [0,2,0,0,2] 。
+第三步操作：选出 x = 2 ，之后 nums = [0,0,0,0,0] 。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [0]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Each element in nums is already 0 so no operations are needed.
+<strong>输入：</strong>nums = [0]
+<strong>输出：</strong>0
+<strong>解释：</strong>nums 中的每个元素都已经是 0 ，所以不需要执行任何操作。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -59,11 +63,15 @@ In the third operation, choose x = 2. Now, nums = [0,0,0,0,0].
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表或数组
+
+我们观察到，每一次操作，都可以把数组 `nums` 中相同且非零的元素减少到 $0$，因此，我们只需要统计数组 `nums` 中有多少个不同的非零元素，即为最少操作数。统计不同的非零元素，可以使用哈希表或数组来实现。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
 
 <!-- tabs:start -->
 
@@ -133,9 +141,9 @@ func minimumOperations(nums []int) (ans int) {
 
 ```ts
 function minimumOperations(nums: number[]): number {
-  const set = new Set(nums);
-  set.delete(0);
-  return set.size;
+    const set = new Set(nums);
+    set.delete(0);
+    return set.size;
 }
 ```
 

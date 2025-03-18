@@ -1,69 +1,74 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1961.Check%20If%20String%20Is%20a%20Prefix%20of%20Array/README.md
 rating: 1234
-source: Weekly Contest 253 Q1
+source: 第 253 场周赛 Q1
 tags:
-  - Array
-  - Two Pointers
-  - String
+    - 数组
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1961. Check If String Is a Prefix of Array](https://leetcode.com/problems/check-if-string-is-a-prefix-of-array)
+# [1961. 检查字符串是否为数组前缀](https://leetcode.cn/problems/check-if-string-is-a-prefix-of-array)
 
-## Description
+[English Version](/solution/1900-1999/1961.Check%20If%20String%20Is%20a%20Prefix%20of%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code> and an array of strings <code>words</code>, determine whether <code>s</code> is a <strong>prefix string</strong> of <code>words</code>.</p>
+<p>给你一个字符串 <code>s</code> 和一个字符串数组 <code>words</code> ，请你判断 <code>s</code> 是否为 <code>words</code> 的 <strong>前缀字符串</strong> 。</p>
 
-<p>A string <code>s</code> is a <strong>prefix string</strong> of <code>words</code> if <code>s</code> can be made by concatenating the first <code>k</code> strings in <code>words</code> for some <strong>positive</strong> <code>k</code> no larger than <code>words.length</code>.</p>
+<p>字符串 <code>s</code> 要成为 <code>words</code> 的 <strong>前缀字符串</strong> ，需要满足：<code>s</code> 可以由 <code>words</code> 中的前 <code>k</code>（<code>k</code> 为 <strong>正数</strong> ）个字符串按顺序相连得到，且 <code>k</code> 不超过 <code>words.length</code> 。</p>
 
-<p>Return <code>true</code><em> if </em><code>s</code><em> is a <strong>prefix string</strong> of </em><code>words</code><em>, or </em><code>false</code><em> otherwise</em>.</p>
+<p>如果 <code>s</code> 是 <code>words</code> 的 <strong>前缀字符串</strong> ，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;iloveleetcode&quot;, words = [&quot;i&quot;,&quot;love&quot;,&quot;leetcode&quot;,&quot;apples&quot;]
-<strong>Output:</strong> true
-<strong>Explanation:</strong>
-s can be made by concatenating &quot;i&quot;, &quot;love&quot;, and &quot;leetcode&quot; together.
+<strong>输入：</strong>s = "iloveleetcode", words = ["i","love","leetcode","apples"]
+<strong>输出：</strong>true
+<strong>解释：</strong>
+s 可以由 "i"、"love" 和 "leetcode" 相连得到。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;iloveleetcode&quot;, words = [&quot;apples&quot;,&quot;i&quot;,&quot;love&quot;,&quot;leetcode&quot;]
-<strong>Output:</strong> false
-<strong>Explanation:</strong>
-It is impossible to make s using a prefix of arr.</pre>
+<strong>输入：</strong>s = "iloveleetcode", words = ["apples","i","love","leetcode"]
+<strong>输出：</strong>false
+<strong>解释：</strong>
+数组的前缀相连无法得到 s 。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 20</code></li>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>words[i]</code> and <code>s</code> consist of only lowercase English letters.</li>
+	<li><code>words[i]</code> 和 <code>s</code> 仅由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal
+### 方法一：遍历
 
-We traverse the array $words$, using a variable $t$ to record the currently concatenated string. If the length of $t$ is greater than the length of $s$, it means that $s$ is not a prefix string of $words$, so we return $false$; if the length of $t$ is equal to the length of $s$, we return whether $t$ is equal to $s$.
+我们遍历数组 $words$，用一个变量 $t$ 记录当前已经拼接的字符串，如果 $t$ 的长度大于 $s$ 的长度，说明 $s$ 不是 $words$ 的前缀字符串，返回 $false$；如果 $t$ 的长度等于 $s$ 的长度，返回 $t$ 是否等于 $s$。
 
-At the end of the traversal, if the length of $t$ is less than the length of $s$, it means that $s$ is not a prefix string of $words$, so we return $false$.
+遍历结束后，如果 $t$ 的长度小于 $s$ 的长度，说明 $s$ 不是 $words$ 的前缀字符串，返回 $false$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -143,20 +148,20 @@ func isPrefixString(s string, words []string) bool {
 
 ```ts
 function isPrefixString(s: string, words: string[]): boolean {
-  const t: string[] = [];
-  const n = s.length;
-  let m = 0;
-  for (const w of words) {
-    m += w.length;
-    if (m > n) {
-      return false;
+    const t: string[] = [];
+    const n = s.length;
+    let m = 0;
+    for (const w of words) {
+        m += w.length;
+        if (m > n) {
+            return false;
+        }
+        t.push(w);
+        if (m === n) {
+            return s === t.join('');
+        }
     }
-    t.push(w);
-    if (m === n) {
-      return s === t.join("");
-    }
-  }
-  return false;
+    return false;
 }
 ```
 

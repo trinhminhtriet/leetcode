@@ -1,81 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1191.K-Concatenation%20Maximum%20Sum/README.md
 rating: 1747
-source: Weekly Contest 154 Q3
+source: 第 154 场周赛 Q3
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1191. K-Concatenation Maximum Sum](https://leetcode.com/problems/k-concatenation-maximum-sum)
+# [1191. K 次串联后最大子数组之和](https://leetcode.cn/problems/k-concatenation-maximum-sum)
 
-## Description
+[English Version](/solution/1100-1199/1191.K-Concatenation%20Maximum%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>arr</code> and an integer <code>k</code>, modify the array by repeating it <code>k</code> times.</p>
+<p>给定一个整数数组&nbsp;<code>arr</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;，通过重复&nbsp;<code>k</code>&nbsp;次来修改数组。</p>
 
-<p>For example, if <code>arr = [1, 2]</code> and <code>k = 3 </code>then the modified array will be <code>[1, 2, 1, 2, 1, 2]</code>.</p>
+<p>例如，如果&nbsp;<code>arr = [1, 2]</code>&nbsp;，<meta charset="UTF-8" />&nbsp;<code>k = 3</code>&nbsp;，那么修改后的数组将是 <code>[1, 2, 1, 2, 1, 2]</code> 。</p>
 
-<p>Return the maximum sub-array sum in the modified array. Note that the length of the sub-array can be <code>0</code> and its sum in that case is <code>0</code>.</p>
+<p>返回修改后的数组中的最大的子数组之和。注意，子数组长度可以是 <code>0</code>，在这种情况下它的总和也是 <code>0</code>。</p>
 
-<p>As the answer can be very large, return the answer <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1,2], k = 3
-<strong>Output:</strong> 9
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1,-2,1], k = 5
-<strong>Output:</strong> 2
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [-1,-2], k = 7
-<strong>Output:</strong> 0
-</pre>
+<p>由于&nbsp;<strong>结果可能会很大</strong>，需要返回的<meta charset="UTF-8" />&nbsp;<code>10<sup>9</sup>&nbsp;+ 7</code>&nbsp;的&nbsp;<strong>模</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [1,2], k = 3
+<strong>输出：</strong>9
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [1,-2,1], k = 5
+<strong>输出：</strong>2
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [-1,-2], k = 7
+<strong>输出：</strong>0
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
+<meta charset="UTF-8" />
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt;= arr[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>4</sup>&nbsp;&lt;= arr[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Case Discussion
+### 方法一：前缀和 + 分类讨论
 
-We denote the sum of all elements in the array $arr$ as $s$, the maximum prefix sum as $mxPre$, the minimum prefix sum as $miPre$, and the maximum subarray sum as $mxSub$.
+我们记数组 $arr$ 所有元素之和为 $s$，最大前缀和为 $mxPre$，最小前缀和为 $miPre$，最大子数组和为 $mxSub$。
 
-We traverse the array $arr$. For each element $x$, we update $s = s + x$, $mxPre = \max(mxPre, s)$, $miPre = \min(miPre, s)$, $mxSub = \max(mxSub, s - miPre)$.
+遍历数组 $arr$，对于每个元素 $x$，我们更新 $s = s + x$, $mxPre = \max(mxPre, s)$, $miPre = \min(miPre, s)$, $mxSub = \max(mxSub, s - miPre)$。
 
-Next, we consider the value of $k$:
+接下来，我们考虑 $k$ 的取值情况：
 
-- When $k = 1$, the answer is $mxSub$.
-- When $k \ge 2$, if the maximum subarray spans two $arr$, then the answer is $mxPre + mxSuf$, where $mxSuf = s - miPre$.
-- When $k \ge 2$ and $s > 0$, if the maximum subarray spans three $arr$, then the answer is $(k - 2) \times s + mxPre + mxSuf$.
+-   当 $k = 1$ 时，答案为 $mxSub$。
+-   当 $k \ge 2$ 时，如果最大子数组横跨两个 $arr$，那么答案为 $mxPre + mxSuf$，其中 $mxSuf = s - miPre$。
+-   当 $k \ge 2$ 且 $s > 0$ 时，如果最大子数组横跨三个 $arr$，那么答案为 $(k - 2) \times s + mxPre + mxSuf$。
 
-Finally, we return the result of the answer modulo $10^9 + 7$.
+最后，我们返回答案对 $10^9 + 7$ 取模的结果。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array $arr$.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $arr$ 的长度。
 
 <!-- tabs:start -->
 

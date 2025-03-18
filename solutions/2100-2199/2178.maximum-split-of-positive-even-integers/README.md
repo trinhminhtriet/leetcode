@@ -1,62 +1,67 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2178.Maximum%20Split%20of%20Positive%20Even%20Integers/README.md
 rating: 1538
-source: Biweekly Contest 72 Q3
+source: 第 72 场双周赛 Q3
 tags:
-  - Greedy
-  - Math
-  - Backtracking
+    - 贪心
+    - 数学
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [2178. Maximum Split of Positive Even Integers](https://leetcode.com/problems/maximum-split-of-positive-even-integers)
+# [2178. 拆分成最多数目的正偶数之和](https://leetcode.cn/problems/maximum-split-of-positive-even-integers)
 
-## Description
+[English Version](/solution/2100-2199/2178.Maximum%20Split%20of%20Positive%20Even%20Integers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer <code>finalSum</code>. Split it into a sum of a <strong>maximum</strong> number of <strong>unique</strong> positive even integers.</p>
+<p>给你一个整数&nbsp;<code>finalSum</code>&nbsp;。请你将它拆分成若干个&nbsp;<strong>互不相同</strong> 的正偶数之和，且拆分出来的正偶数数目&nbsp;<strong>最多</strong>&nbsp;。</p>
 
 <ul>
-	<li>For example, given <code>finalSum = 12</code>, the following splits are <strong>valid</strong> (unique positive even integers summing up to <code>finalSum</code>): <code>(12)</code>, <code>(2 + 10)</code>, <code>(2 + 4 + 6)</code>, and <code>(4 + 8)</code>. Among them, <code>(2 + 4 + 6)</code> contains the maximum number of integers. Note that <code>finalSum</code> cannot be split into <code>(2 + 2 + 4 + 4)</code> as all the numbers should be unique.</li>
+	<li>比方说，给你&nbsp;<code>finalSum = 12</code>&nbsp;，那么这些拆分是&nbsp;<strong>符合要求</strong> 的（互不相同的正偶数且和为&nbsp;<code>finalSum</code>）：<code>(2 + 10)</code>&nbsp;，<code>(2 + 4 + 6)</code>&nbsp;和&nbsp;<code>(4 + 8)</code>&nbsp;。它们中，<code>(2 + 4 + 6)</code>&nbsp;包含最多数目的整数。注意&nbsp;<code>finalSum</code>&nbsp;不能拆分成&nbsp;<code>(2 + 2 + 4 + 4)</code>&nbsp;，因为拆分出来的整数必须互不相同。</li>
 </ul>
 
-<p>Return <em>a list of integers that represent a valid split containing a <strong>maximum</strong> number of integers</em>. If no valid split exists for <code>finalSum</code>, return <em>an <strong>empty</strong> list</em>. You may return the integers in <strong>any</strong> order.</p>
+<p>请你返回一个整数数组，表示将整数拆分成 <strong>最多</strong> 数目的正偶数数组。如果没有办法将&nbsp;<code>finalSum</code>&nbsp;进行拆分，请你返回一个&nbsp;<strong>空</strong>&nbsp;数组。你可以按 <b>任意</b>&nbsp;顺序返回这些整数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> finalSum = 12
-<strong>Output:</strong> [2,4,6]
-<strong>Explanation:</strong> The following are valid splits: <code>(12)</code>, <code>(2 + 10)</code>, <code>(2 + 4 + 6)</code>, and <code>(4 + 8)</code>.
-(2 + 4 + 6) has the maximum number of integers, which is 3. Thus, we return [2,4,6].
-Note that [2,6,4], [6,2,4], etc. are also accepted.
+<b>输入：</b>finalSum = 12
+<b>输出：</b>[2,4,6]
+<b>解释：</b>以下是一些符合要求的拆分：<code>(2 + 10)<span style="">，</span></code><code>(2 + 4 + 6) </code>和 <code>(4 + 8) 。</code>
+(2 + 4 + 6) 为最多数目的整数，数目为 3 ，所以我们返回 [2,4,6] 。
+[2,6,4] ，[6,2,4] 等等也都是可行的解。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> finalSum = 7
-<strong>Output:</strong> []
-<strong>Explanation:</strong> There are no valid splits for the given finalSum.
-Thus, we return an empty array.
+<b>输入：</b>finalSum = 7
+<b>输出：</b>[]
+<b>解释：</b>没有办法将 finalSum 进行拆分。
+所以返回空数组。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> finalSum = 28
-<strong>Output:</strong> [6,8,2,12]
-<strong>Explanation:</strong> The following are valid splits: <code>(2 + 26)</code>, <code>(6 + 8 + 2 + 12)</code>, and <code>(4 + 24)</code>. 
-<code>(6 + 8 + 2 + 12)</code> has the maximum number of integers, which is 4. Thus, we return [6,8,2,12].
-Note that [10,2,4,12], [6,2,4,16], etc. are also accepted.
+<b>输入：</b>finalSum = 28
+<b>输出：</b>[6,8,2,12]
+<b>解释：</b>以下是一些符合要求的拆分：<code>(2 + 26)<span style="">，</span></code><code>(6 + 8 + 2 + 12)</code> 和 <code>(4 + 24) 。</code>
+<code>(6 + 8 + 2 + 12)</code> 有最多数目的整数，数目为 4 ，所以我们返回 [6,8,2,12] 。
+[10,2,4,12] ，[6,2,4,16] 等等也都是可行的解。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= finalSum &lt;= 10<sup>10</sup></code></li>
@@ -64,11 +69,17 @@ Note that [10,2,4,12], [6,2,4,16], etc. are also accepted.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心
+
+如果 $\textit{finalSum}$ 是奇数，那么无法拆分成若干个互不相同的正偶数之和，直接返回空数组。
+
+否则，我们可以贪心地按照 $2, 4, 6, \cdots$ 的顺序拆分 $\textit{finalSum}$，直到 $\textit{finalSum}$ 无法再拆分出一个不同的正偶数为止，此时我们将剩余的 $\textit{finalSum}$ 加到最后一个正偶数上即可。
+
+时间复杂度 $O(\sqrt{\textit{finalSum}})$，忽略答案数组的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -77,13 +88,13 @@ Note that [10,2,4,12], [6,2,4,16], etc. are also accepted.
 ```python
 class Solution:
     def maximumEvenSplit(self, finalSum: int) -> List[int]:
-        if finalSum % 2:
+        if finalSum & 1:
             return []
-        i = 2
         ans = []
+        i = 2
         while i <= finalSum:
-            ans.append(i)
             finalSum -= i
+            ans.append(i)
             i += 2
         ans[-1] += finalSum
         return ans
@@ -115,7 +126,9 @@ class Solution {
 public:
     vector<long long> maximumEvenSplit(long long finalSum) {
         vector<long long> ans;
-        if (finalSum % 2) return ans;
+        if (finalSum % 2) {
+            return ans;
+        }
         for (long long i = 2; i <= finalSum; i += 2) {
             ans.push_back(i);
             finalSum -= i;
@@ -146,16 +159,39 @@ func maximumEvenSplit(finalSum int64) (ans []int64) {
 
 ```ts
 function maximumEvenSplit(finalSum: number): number[] {
-  const ans: number[] = [];
-  if (finalSum % 2 === 1) {
+    const ans: number[] = [];
+    if (finalSum % 2 === 1) {
+        return ans;
+    }
+    for (let i = 2; i <= finalSum; i += 2) {
+        ans.push(i);
+        finalSum -= i;
+    }
+    ans[ans.length - 1] += finalSum;
     return ans;
-  }
-  for (let i = 2; i <= finalSum; i += 2) {
-    ans.push(i);
-    finalSum -= i;
-  }
-  ans[ans.length - 1] += finalSum;
-  return ans;
+}
+```
+
+#### Rust
+
+```rust
+impl Solution {
+    pub fn maximum_even_split(mut final_sum: i64) -> Vec<i64> {
+        let mut ans = Vec::new();
+        if final_sum % 2 != 0 {
+            return ans;
+        }
+        let mut i = 2;
+        while i <= final_sum {
+            ans.push(i);
+            final_sum -= i;
+            i += 2;
+        }
+        if let Some(last) = ans.last_mut() {
+            *last += final_sum;
+        }
+        ans
+    }
 }
 ```
 

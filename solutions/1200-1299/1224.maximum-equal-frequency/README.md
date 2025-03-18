@@ -1,43 +1,52 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1224.Maximum%20Equal%20Frequency/README.md
 rating: 2050
-source: Weekly Contest 158 Q4
+source: 第 158 场周赛 Q4
 tags:
-  - Array
-  - Hash Table
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [1224. Maximum Equal Frequency](https://leetcode.com/problems/maximum-equal-frequency)
+# [1224. 最大相等频率](https://leetcode.cn/problems/maximum-equal-frequency)
 
-## Description
+[English Version](/solution/1200-1299/1224.Maximum%20Equal%20Frequency/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array <code>nums</code> of positive integers, return the longest possible length of an array prefix of <code>nums</code>, such that it is possible to remove <strong>exactly one</strong> element from this prefix so that every number that has appeared in it will have the same number of occurrences.</p>
+<p>给你一个正整数数组&nbsp;<code>nums</code>，请你帮忙从该数组中找出能满足下面要求的 <strong>最长</strong> 前缀，并返回该前缀的长度：</p>
 
-<p>If after removing one element there are no remaining elements, it&#39;s still considered that every appeared number has the same number of ocurrences (0).</p>
+<ul>
+	<li>从前缀中 <strong>恰好删除一个</strong> 元素后，剩下每个数字的出现次数都相同。</li>
+</ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2,2,1,1,5,3,3,5]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> For the subarray [2,2,1,1,5,3,3] of length 7, if we remove nums[4] = 5, we will get [2,2,1,1,3,3], so that each number will appear exactly twice.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,1,1,2,2,2,3,3,3,4,4,4,5]
-<strong>Output:</strong> 13
-</pre>
+<p>如果删除这个元素后没有剩余元素存在，仍可认为每个数字都具有相同的出现次数（也就是 0 次）。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [2,2,1,1,5,3,3,5]
+<strong>输出：</strong>7
+<strong>解释：</strong>对于长度为 7 的子数组 [2,2,1,1,5,3,3]，如果我们从中删去 nums[4] = 5，就可以得到 [2,2,1,1,3,3]，里面每个数字都出现了两次。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,1,1,2,2,2,3,3,3,4,4,4,5]
+<strong>输出：</strong>13
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -46,21 +55,21 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Array or Hash Table
+### 方法一：数组或哈希表
 
-We use $cnt$ to record the number of times each element $v$ appears in $nums$, and $ccnt$ to record the number of times each count appears. The maximum number of times an element appears is represented by $mx$.
+我们用 $cnt$ 记录 $nums$ 中每个元素 $v$ 出现的次数，而 $ccnt$ 记录每个次数出现的次数，元素出现的最大次数用 $mx$ 表示。
 
-While traversing $nums$:
+遍历 $nums$：
 
-- If the maximum count $mx=1$, it means that each number in the current prefix appears $1$ time. If we delete any one of them, the remaining numbers will all have the same count.
-- If all numbers appear $mx$ and $mx-1$ times, and only one number appears $mx$ times, then we can delete one occurrence of the number that appears $mx$ times. The remaining numbers will all have a count of $mx-1$, which meets the condition.
-- If, except for one number, all other numbers appear $mx$ times, then we can delete the number that appears once. The remaining numbers will all have a count of $mx$, which meets the condition.
+-   若最大次数 $mx=1$，说明当前前缀中每个数字均出现 $1$ 次，删除任意一个后，都满足剩余数字次数相同；
+-   若所有数字出现的次数均为 $mx$ 和 $mx-1$，并且只有一个数字的出现次数为 $mx$，那么我们删除出现 $mx$ 次数的一个数字，剩余数字次数均为 $mx-1$，满足条件；
+-   若除了一个数字，其它所有数字出现次数均为 $mx$ 次，那么我们删除出现一次的数字，剩余数字次数均为 $mx$，满足条件。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the $nums$ array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 表示 $nums$ 数组的长度。
 
 <!-- tabs:start -->
 
@@ -178,39 +187,39 @@ func maxEqualFreq(nums []int) int {
 
 ```ts
 function maxEqualFreq(nums: number[]): number {
-  const n = nums.length;
-  const map = new Map();
-  for (const num of nums) {
-    map.set(num, (map.get(num) ?? 0) + 1);
-  }
-
-  for (let i = n - 1; i > 0; i--) {
-    for (const k of map.keys()) {
-      map.set(k, map.get(k) - 1);
-      let num = 0;
-      for (const v of map.values()) {
-        if (v !== 0) {
-          num = v;
-          break;
-        }
-      }
-      let isOk = true;
-      let sum = 1;
-      for (const v of map.values()) {
-        if (v !== 0 && v !== num) {
-          isOk = false;
-          break;
-        }
-        sum += v;
-      }
-      if (isOk) {
-        return sum;
-      }
-      map.set(k, map.get(k) + 1);
+    const n = nums.length;
+    const map = new Map();
+    for (const num of nums) {
+        map.set(num, (map.get(num) ?? 0) + 1);
     }
-    map.set(nums[i], map.get(nums[i]) - 1);
-  }
-  return 1;
+
+    for (let i = n - 1; i > 0; i--) {
+        for (const k of map.keys()) {
+            map.set(k, map.get(k) - 1);
+            let num = 0;
+            for (const v of map.values()) {
+                if (v !== 0) {
+                    num = v;
+                    break;
+                }
+            }
+            let isOk = true;
+            let sum = 1;
+            for (const v of map.values()) {
+                if (v !== 0 && v !== num) {
+                    isOk = false;
+                    break;
+                }
+                sum += v;
+            }
+            if (isOk) {
+                return sum;
+            }
+            map.set(k, map.get(k) + 1);
+        }
+        map.set(nums[i], map.get(nums[i]) - 1);
+    }
+    return 1;
 }
 ```
 

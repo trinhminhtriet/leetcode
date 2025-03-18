@@ -1,85 +1,98 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1849.Splitting%20a%20String%20Into%20Descending%20Consecutive%20Values/README.md
 rating: 1746
-source: Weekly Contest 239 Q2
+source: 第 239 场周赛 Q2
 tags:
-  - String
-  - Backtracking
+    - 字符串
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [1849. Splitting a String Into Descending Consecutive Values](https://leetcode.com/problems/splitting-a-string-into-descending-consecutive-values)
+# [1849. 将字符串拆分为递减的连续值](https://leetcode.cn/problems/splitting-a-string-into-descending-consecutive-values)
 
-## Description
+[English Version](/solution/1800-1899/1849.Splitting%20a%20String%20Into%20Descending%20Consecutive%20Values/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> that consists of only digits.</p>
+<p>给你一个仅由数字组成的字符串 <code>s</code> 。</p>
 
-<p>Check if we can split <code>s</code> into <strong>two or more non-empty substrings</strong> such that the <strong>numerical values</strong> of the substrings are in <strong>descending order</strong> and the <strong>difference</strong> between numerical values of every two <strong>adjacent</strong> <strong>substrings</strong> is equal to <code>1</code>.</p>
+<p>请你判断能否将 <code>s</code> 拆分成两个或者多个 <strong>非空子字符串</strong> ，使子字符串的 <strong>数值</strong> 按 <strong>降序</strong> 排列，且每两个 <strong>相邻子字符串</strong> 的数值之 <strong>差 </strong>等于 <code>1</code> 。</p>
 
 <ul>
-	<li>For example, the string <code>s = &quot;0090089&quot;</code> can be split into <code>[&quot;0090&quot;, &quot;089&quot;]</code> with numerical values <code>[90,89]</code>. The values are in descending order and adjacent values differ by <code>1</code>, so this way is valid.</li>
-	<li>Another example, the string <code>s = &quot;001&quot;</code> can be split into <code>[&quot;0&quot;, &quot;01&quot;]</code>, <code>[&quot;00&quot;, &quot;1&quot;]</code>, or <code>[&quot;0&quot;, &quot;0&quot;, &quot;1&quot;]</code>. However all the ways are invalid because they have numerical values <code>[0,1]</code>, <code>[0,1]</code>, and <code>[0,0,1]</code> respectively, all of which are not in descending order.</li>
+	<li>例如，字符串 <code>s = "0090089"</code> 可以拆分成 <code>["0090", "089"]</code> ，数值为 <code>[90,89]</code> 。这些数值满足按降序排列，且相邻值相差 <code>1</code> ，这种拆分方法可行。</li>
+	<li>另一个例子中，字符串 <code>s = "001"</code> 可以拆分成 <code>["0", "01"]</code>、<code>["00", "1"]</code> 或 <code>["0", "0", "1"]</code> 。然而，所有这些拆分方法都不可行，因为对应数值分别是 <code>[0,1]</code>、<code>[0,1]</code> 和 <code>[0,0,1]</code> ，都不满足按降序排列的要求。</li>
 </ul>
 
-<p>Return <code>true</code> <em>if it is possible to split</em> <code>s</code>​​​​​​ <em>as described above</em><em>, or </em><code>false</code><em> otherwise.</em></p>
+<p>如果可以按要求拆分 <code>s</code> ，返回 <code>true</code> ；否则，返回 <code>false</code><em> </em>。</p>
 
-<p>A <strong>substring</strong> is a contiguous sequence of characters in a string.</p>
+<p><strong>子字符串</strong> 是字符串中的一个连续字符序列。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s = &quot;1234&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> There is no valid way to split s.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;050043&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> s can be split into [&quot;05&quot;, &quot;004&quot;, &quot;3&quot;] with numerical values [5,4,3].
-The values are in descending order with adjacent values differing by 1.
+<strong>输入：</strong>s = "1234"
+<strong>输出：</strong>false
+<strong>解释：</strong>不存在拆分 s 的可行方法。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;9080701&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> There is no valid way to split s.
+<strong>输入：</strong>s = "050043"
+<strong>输出：</strong>true
+<strong>解释：</strong>s 可以拆分为 ["05", "004", "3"] ，对应数值为 [5,4,3] 。
+满足按降序排列，且相邻值相差 <code>1</code> 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "9080701"
+<strong>输出：</strong>false
+<strong>解释：</strong>不存在拆分 s 的可行方法。
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "10009998"
+<strong>输出：</strong>true
+<strong>解释：</strong>s 可以拆分为 ["100", "099", "98"] ，对应数值为 [100,99,98] 。
+满足按降序排列，且相邻值相差 <code>1</code> 。</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 20</code></li>
-	<li><code>s</code> only consists of digits.</li>
+	<li><code>1 <= s.length <= 20</code></li>
+	<li><code>s</code> 仅由数字组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-We can start from the first character of the string and try to split it into one or more substrings, then recursively process the remaining part.
+我们可以从字符串的第一个字符开始，尝试将其拆分成一个或多个子字符串，然后递归处理剩余的部分。
 
-Specifically, we design a function $\textit{dfs}(i, x)$, where $i$ represents the current position being processed, and $x$ represents the last split value. Initially, $x = -1$, indicating that we have not split out any value yet.
+具体地，我们设计一个函数 $\textit{dfs}(i, x)$，其中 $i$ 表示当前处理到的位置，而 $x$ 表示上一个拆分出的数值。初始时 $x = -1$，表示我们还没有拆分出任何数值。
 
-In $\textit{dfs}(i, x)$, we first calculate the current split value $y$. If $x = -1$, or $x - y = 1$, then we can try to use $y$ as the next value and continue to recursively process the remaining part. If the result of the recursion is $\textit{true}$, we have found a valid split method and return $\textit{true}$.
+在 $\textit{dfs}(i, x)$ 中，我们首先计算当前拆分出的数值 $y$，如果 $x = -1$，或者 $x - y = 1$，那么我们可以尝试将 $y$ 作为下一个数值，继续递归处理剩余的部分。如果递归的结果为 $\textit{true}$，我们就找到了一种拆分方法，返回 $\textit{true}$。
 
-After traversing all possible split methods, if no valid split method is found, we return $\textit{false}$.
+遍历完所有的拆分方法后，如果没有找到合适的拆分方法，我们返回 $\textit{false}$。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$, where $n$ is the length of the string.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$，其中 $n$ 是字符串的长度。
 
 <!-- tabs:start -->
 
@@ -136,7 +149,7 @@ class Solution {
 class Solution {
 public:
     bool splitString(string s) {
-        auto dfs = [&](auto&& dfs, int i, long long x) -> bool {
+        auto dfs = [&](this auto&& dfs, int i, long long x) -> bool {
             if (i >= s.size()) {
                 return true;
             }
@@ -147,13 +160,13 @@ public:
                 if (y > 1e10) {
                     break;
                 }
-                if ((x < 0 || x - y == 1) && dfs(dfs, j + 1, y)) {
+                if ((x < 0 || x - y == 1) && dfs(j + 1, y)) {
                     return true;
                 }
             }
             return false;
         };
-        return dfs(dfs, 0, -1);
+        return dfs(0, -1);
     }
 };
 ```
@@ -188,21 +201,21 @@ func splitString(s string) bool {
 
 ```ts
 function splitString(s: string): boolean {
-  const dfs = (i: number, x: number): boolean => {
-    if (i >= s.length) {
-      return true;
-    }
-    let y = 0;
-    const r = x < 0 ? s.length - 1 : s.length;
-    for (let j = i; j < r; ++j) {
-      y = y * 10 + +s[j];
-      if ((x < 0 || x - y === 1) && dfs(j + 1, y)) {
-        return true;
-      }
-    }
-    return false;
-  };
-  return dfs(0, -1);
+    const dfs = (i: number, x: number): boolean => {
+        if (i >= s.length) {
+            return true;
+        }
+        let y = 0;
+        const r = x < 0 ? s.length - 1 : s.length;
+        for (let j = i; j < r; ++j) {
+            y = y * 10 + +s[j];
+            if ((x < 0 || x - y === 1) && dfs(j + 1, y)) {
+                return true;
+            }
+        }
+        return false;
+    };
+    return dfs(0, -1);
 }
 ```
 

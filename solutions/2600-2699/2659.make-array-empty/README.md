@@ -1,41 +1,45 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2659.Make%20Array%20Empty/README.md
 rating: 2281
-source: Biweekly Contest 103 Q4
+source: 第 103 场双周赛 Q4
 tags:
-  - Greedy
-  - Binary Indexed Tree
-  - Segment Tree
-  - Array
-  - Binary Search
-  - Ordered Set
-  - Sorting
+    - 贪心
+    - 树状数组
+    - 线段树
+    - 数组
+    - 二分查找
+    - 有序集合
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2659. Make Array Empty](https://leetcode.com/problems/make-array-empty)
+# [2659. 将数组清空](https://leetcode.cn/problems/make-array-empty)
 
-## Description
+[English Version](/solution/2600-2699/2659.Make%20Array%20Empty/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> containing <strong>distinct</strong> numbers, and you can perform the following operations <strong>until the array is empty</strong>:</p>
+<p>给你一个包含若干 <strong>互不相同</strong>&nbsp;整数的数组&nbsp;<code>nums</code>&nbsp;，你需要执行以下操作 <strong>直到</strong><strong>数组为空</strong>&nbsp;：</p>
 
 <ul>
-	<li>If the first element has the <strong>smallest</strong> value, remove it</li>
-	<li>Otherwise, put the first element at the <strong>end</strong> of the array.</li>
+	<li>如果数组中第一个元素是当前数组中的 <strong>最小值</strong>&nbsp;，则删除它。</li>
+	<li>否则，将第一个元素移动到数组的 <strong>末尾</strong>&nbsp;。</li>
 </ul>
 
-<p>Return <em>an integer denoting the number of operations it takes to make </em><code>nums</code><em> empty.</em></p>
+<p>请你返回需要多少个操作使<em>&nbsp;</em><code>nums</code><em>&nbsp;</em>为空。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,4,-1]
-<strong>Output:</strong> 5
+<b>输入：</b>nums = [3,4,-1]
+<b>输出：</b>5
 </pre>
 
 <table style="border: 2px solid black; border-collapse: collapse;">
@@ -69,11 +73,13 @@ tags:
 	</tbody>
 </table>
 
-<p><strong class="example">Example 2:</strong></p>
+<p>&nbsp;</p>
+
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,4,3]
-<strong>Output:</strong> 5
+<b>输入：</b>nums = [1,2,4,3]
+<b>输出：</b>5
 </pre>
 
 <table style="border: 2px solid black; border-collapse: collapse;">
@@ -107,11 +113,13 @@ tags:
 	</tbody>
 </table>
 
-<p><strong class="example">Example 3:</strong></p>
+<p>&nbsp;</p>
+
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,3]
-<strong>Output:</strong> 3
+<b>输入：</b>nums = [1,2,3]
+<b>输出：</b>3
 </pre>
 
 <table style="border: 2px solid black; border-collapse: collapse;">
@@ -138,38 +146,36 @@ tags:
 </table>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>-10<sup>9&nbsp;</sup>&lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
-	<li>All values in <code>nums</code> are <strong>distinct</strong>.</li>
+	<li><code>nums</code>&nbsp;中的元素 <strong>互不相同</strong>&nbsp;。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Sorting + Fenwick Tree
+### 方法一：哈希表 + 排序 + 树状数组
 
-First, we use a hash table $pos$ to record the position of each element in array $nums$. Then, we sort array $nums$. The initial answer is the position of the minimum element in array $nums$ plus 1, which is $ans = pos[nums[0]] + 1$.
+我们先用哈希表 $pos$ 记录数组 $nums$ 中每个元素的位置，接下来对数组 $nums$ 进行排序，那么数组最小值的下标为 $pos[nums[0]]$，移动到数组的第一个位置并且删除，需要 $pos[nums[0]] + 1$ 次操作，因此初始答案为 $ans = pos[nums[0]] + 1$。
 
-Next, we traverse the sorted array $nums$, the indexes of the two adjacent elements $a$ and $b$ are $i = pos[a]$, $j = pos[b]$. The number of operations needed to move the second element $b$ to the first position of the array and delete it is equal to the interval between the two indexes, minus the number of indexes deleted between the two indexes, and add the number of operations to the answer. We can use a Fenwick tree or an ordered list to maintain the deleted indexes between two indexes, so that we can find the number of deleted indexes between two indexes in $O(\log n)$ time. Note that if $i \gt j$, then we need to increase $n - k$ operations, where $k$ is the current position.
+接下来，我们遍历排序后的数组 $nums$，相邻两个元素 $a$ 和 $b$ 的下标分别为 $i=pos[a]$, $j=pos[b]$。那么将第二个元素 $b$ 移动到数组第一个位置并且删除所需要的操作数，等于两个下标的间隔，减去两个下标之间此前删除的下标个数，累加操作数到答案中。我们可以用树状数组或者有序列表维护已删除的下标，这样就可以在 $O(\log n)$ 的时间内求出两个下标之间已删除的下标个数。注意，如果 $i \gt j$，那么需要额外增加 $n - k$ 次操作，其中 $k$ 是当前遍历到的位置。
 
-After the traversal is over, return the number of operations $ans$.
+遍历结束后，返回操作数 $ans$ 即可。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of array $nums$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
 #### Python3
 
 ```python
-from sortedcontainers import SortedList
-
-
 class Solution:
     def countOperationsToEmptyArray(self, nums: List[int]) -> int:
         pos = {x: i for i, x in enumerate(nums)}
@@ -342,51 +348,51 @@ func countOperationsToEmptyArray(nums []int) int64 {
 
 ```ts
 class BinaryIndexedTree {
-  private n: number;
-  private c: number[];
+    private n: number;
+    private c: number[];
 
-  constructor(n: number) {
-    this.n = n;
-    this.c = Array(n + 1).fill(0);
-  }
-
-  public update(x: number, v: number): void {
-    while (x <= this.n) {
-      this.c[x] += v;
-      x += x & -x;
+    constructor(n: number) {
+        this.n = n;
+        this.c = Array(n + 1).fill(0);
     }
-  }
 
-  public query(x: number): number {
-    let s = 0;
-    while (x > 0) {
-      s += this.c[x];
-      x -= x & -x;
+    public update(x: number, v: number): void {
+        while (x <= this.n) {
+            this.c[x] += v;
+            x += x & -x;
+        }
     }
-    return s;
-  }
+
+    public query(x: number): number {
+        let s = 0;
+        while (x > 0) {
+            s += this.c[x];
+            x -= x & -x;
+        }
+        return s;
+    }
 }
 
 function countOperationsToEmptyArray(nums: number[]): number {
-  const pos: Map<number, number> = new Map();
-  const n = nums.length;
-  for (let i = 0; i < n; ++i) {
-    pos.set(nums[i], i);
-  }
-  nums.sort((a, b) => a - b);
-  const tree = new BinaryIndexedTree(n);
-  let ans = pos.get(nums[0])! + 1;
-  for (let k = 0; k < n - 1; ++k) {
-    const i = pos.get(nums[k])!;
-    const j = pos.get(nums[k + 1])!;
-    let d = j - i - (tree.query(j + 1) - tree.query(i + 1));
-    if (i > j) {
-      d += n - k;
+    const pos: Map<number, number> = new Map();
+    const n = nums.length;
+    for (let i = 0; i < n; ++i) {
+        pos.set(nums[i], i);
     }
-    ans += d;
-    tree.update(i + 1, 1);
-  }
-  return ans;
+    nums.sort((a, b) => a - b);
+    const tree = new BinaryIndexedTree(n);
+    let ans = pos.get(nums[0])! + 1;
+    for (let k = 0; k < n - 1; ++k) {
+        const i = pos.get(nums[k])!;
+        const j = pos.get(nums[k + 1])!;
+        let d = j - i - (tree.query(j + 1) - tree.query(i + 1));
+        if (i > j) {
+            d += n - k;
+        }
+        ans += d;
+        tree.update(i + 1, 1);
+    }
+    return ans;
 }
 ```
 
@@ -396,7 +402,7 @@ function countOperationsToEmptyArray(nums: number[]): number {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

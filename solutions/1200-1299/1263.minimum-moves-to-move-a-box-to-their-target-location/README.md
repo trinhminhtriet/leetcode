@@ -1,121 +1,128 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1263.Minimum%20Moves%20to%20Move%20a%20Box%20to%20Their%20Target%20Location/README.md
 rating: 2297
-source: Weekly Contest 163 Q4
+source: 第 163 场周赛 Q4
 tags:
-  - Breadth-First Search
-  - Array
-  - Matrix
-  - Heap (Priority Queue)
+    - 广度优先搜索
+    - 数组
+    - 矩阵
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1263. Minimum Moves to Move a Box to Their Target Location](https://leetcode.com/problems/minimum-moves-to-move-a-box-to-their-target-location)
+# [1263. 推箱子](https://leetcode.cn/problems/minimum-moves-to-move-a-box-to-their-target-location)
 
-## Description
+[English Version](/solution/1200-1299/1263.Minimum%20Moves%20to%20Move%20a%20Box%20to%20Their%20Target%20Location/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A storekeeper is a game in which the player pushes boxes around in a warehouse trying to get them to target locations.</p>
+<p>「推箱子」是一款风靡全球的益智小游戏，玩家需要将箱子推到仓库中的目标位置。</p>
 
-<p>The game is represented by an <code>m x n</code> grid of characters <code>grid</code> where each element is a wall, floor, or box.</p>
+<p>游戏地图用大小为&nbsp;<code>m x n</code>&nbsp;的网格 <code>grid</code> 表示，其中每个元素可以是墙、地板或者是箱子。</p>
 
-<p>Your task is to move the box <code>&#39;B&#39;</code> to the target position <code>&#39;T&#39;</code> under the following rules:</p>
+<p>现在你将作为玩家参与游戏，按规则将箱子&nbsp;<code>'B'</code>&nbsp;移动到目标位置&nbsp;<code>'T'</code> ：</p>
 
 <ul>
-	<li>The character <code>&#39;S&#39;</code> represents the player. The player can move up, down, left, right in <code>grid</code> if it is a floor (empty cell).</li>
-	<li>The character <code>&#39;.&#39;</code> represents the floor which means a free cell to walk.</li>
-	<li>The character<font face="monospace">&nbsp;</font><code>&#39;#&#39;</code><font face="monospace">&nbsp;</font>represents the wall which means an obstacle (impossible to walk there).</li>
-	<li>There is only one box <code>&#39;B&#39;</code> and one target cell <code>&#39;T&#39;</code> in the <code>grid</code>.</li>
-	<li>The box can be moved to an adjacent free cell by standing next to the box and then moving in the direction of the box. This is a <strong>push</strong>.</li>
-	<li>The player cannot walk through the box.</li>
+	<li>玩家用字符&nbsp;<code>'S'</code>&nbsp;表示，只要他在地板上，就可以在网格中向上、下、左、右四个方向移动。</li>
+	<li>地板用字符&nbsp;<code>'.'</code>&nbsp;表示，意味着可以自由行走。</li>
+	<li>墙用字符&nbsp;<code>'#'</code>&nbsp;表示，意味着障碍物，不能通行。&nbsp;</li>
+	<li>箱子仅有一个，用字符&nbsp;<code>'B'</code>&nbsp;表示。相应地，网格上有一个目标位置&nbsp;<code>'T'</code>。</li>
+	<li>玩家需要站在箱子旁边，然后沿着箱子的方向进行移动，此时箱子会被移动到相邻的地板单元格。记作一次「推动」。</li>
+	<li>玩家无法越过箱子。</li>
 </ul>
 
-<p>Return <em>the minimum number of <strong>pushes</strong> to move the box to the target</em>. If there is no way to reach the target, return <code>-1</code>.</p>
+<p>返回将箱子推到目标位置的最小 <strong>推动</strong> 次数，如果无法做到，请返回&nbsp;<code>-1</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1263.Minimum%20Moves%20to%20Move%20a%20Box%20to%20Their%20Target%20Location/images/sample_1_1620.png" style="width: 500px; height: 335px;" />
-<pre>
-<strong>Input:</strong> grid = [[&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;T&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;.&quot;,&quot;.&quot;,&quot;B&quot;,&quot;.&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;.&quot;,&quot;#&quot;,&quot;#&quot;,&quot;.&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;S&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We return only the number of times the box is pushed.</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1263.Minimum%20Moves%20to%20Move%20a%20Box%20to%20Their%20Target%20Location/images/sample_1_1620.png" style="height: 335px; width: 500px;" /></strong></p>
 
 <pre>
-<strong>Input:</strong> grid = [[&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;T&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;.&quot;,&quot;.&quot;,&quot;B&quot;,&quot;.&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;.&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;S&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;]]
-<strong>Output:</strong> -1
+<strong>输入：</strong>grid = [["#","#","#","#","#","#"],
+             ["#","T","#","#","#","#"],
+&nbsp;            ["#",".",".","B",".","#"],
+&nbsp;            ["#",".","#","#",".","#"],
+&nbsp;            ["#",".",".",".","S","#"],
+&nbsp;            ["#","#","#","#","#","#"]]
+<strong>输出：</strong>3
+<strong>解释：</strong>我们只需要返回推箱子的次数。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>grid = [["#","#","#","#","#","#"],
+             ["#","T","#","#","#","#"],
+&nbsp;            ["#",".",".","B",".","#"],
+&nbsp;            ["#","#","#","#",".","#"],
+&nbsp;            ["#",".",".",".","S","#"],
+&nbsp;            ["#","#","#","#","#","#"]]
+<strong>输出：</strong>-1
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> grid = [[&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;T&quot;,&quot;.&quot;,&quot;.&quot;,&quot;#&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;.&quot;,&quot;#&quot;,&quot;B&quot;,&quot;.&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;S&quot;,&quot;#&quot;],
-               [&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;]]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> push the box down, left, left, up and up.
+<strong>输入：</strong>grid = [["#","#","#","#","#","#"],
+&nbsp;            ["#","T",".",".","#","#"],
+&nbsp;            ["#",".","#","B",".","#"],
+&nbsp;            ["#",".",".",".",".","#"],
+&nbsp;            ["#",".",".",".","S","#"],
+&nbsp;            ["#","#","#","#","#","#"]]
+<strong>输出：</strong>5
+<strong>解释：</strong>向下、向左、向左、向上再向上。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 20</code></li>
-	<li><code>grid</code> contains only characters <code>&#39;.&#39;</code>, <code>&#39;#&#39;</code>, <code>&#39;S&#39;</code>, <code>&#39;T&#39;</code>, or <code>&#39;B&#39;</code>.</li>
-	<li>There is only one character <code>&#39;S&#39;</code>, <code>&#39;B&#39;</code>, and <code>&#39;T&#39;</code> in the <code>grid</code>.</li>
+	<li><code>grid</code> 仅包含字符&nbsp;<code>'.'</code>, <code>'#'</code>,&nbsp; <code>'S'</code> , <code>'T'</code>, 以及&nbsp;<code>'B'</code>。</li>
+	<li><code>grid</code>&nbsp;中&nbsp;<code>'S'</code>, <code>'B'</code>&nbsp;和&nbsp;<code>'T'</code>&nbsp;各只能出现一个。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Double-ended Queue + BFS
+### 方法一：双端队列 + BFS
 
-We consider the player's position and the box's position as a state, i.e., $(s_i, s_j, b_i, b_j)$, where $(s_i, s_j)$ is the player's position, and $(b_i, b_j)$ is the box's position. In the code implementation, we define a function $f(i, j)$, which maps the two-dimensional coordinates $(i, j)$ to a one-dimensional state number, i.e., $f(i, j) = i \times n + j$, where $n$ is the number of columns in the grid. So the player and the box's state is $(f(s_i, s_j), f(b_i, b_j))$.
+我们把玩家的位置和箱子的位置看成一个状态，即 $(s_i, s_j, b_i, b_j)$，其中 $(s_i, s_j)$ 是玩家的位置，而 $(b_i, b_j)$ 是箱子的位置。在代码实现上，我们定义一个函数 $f(i, j)$，它将二维坐标 $(i, j)$ 映射到一个一维的状态编号，即 $f(i, j) = i \times n + j$，其中 $n$ 是网格的列数。那么玩家和箱子的状态就是 $(f(s_i, s_j), f(b_i, b_j))$。
 
-First, we traverse the grid to find the initial positions of the player and the box, denoted as $(s_i, s_j)$ and $(b_i, b_j)$.
+我们首先遍历网格，找到玩家和箱子的初始位置，记为 $(s_i, s_j)$ 和 $(b_i, b_j)$。
 
-Then, we define a double-ended queue $q$, where each element is a triplet $(f(s_i, s_j), f(b_i, b_j), d)$, indicating that the player is at $(s_i, s_j)$, the box is at $(b_i, b_j)$, and $d$ pushes have been made. Initially, we add $(f(s_i, s_j), f(b_i, b_j), 0)$ to the queue $q$.
+然后，我们定义一个双端队列 $q$，其中每个元素都是一个三元组 $(f(s_i, s_j), f(b_i, b_j), d)$，表示玩家位于 $(s_i, s_j)$，箱子位于 $(b_i, b_j)$，并且已经进行了 $d$ 次推动。初始时，我们将 $(f(s_i, s_j), f(b_i, b_j), 0)$ 加入队列 $q$。
 
-Additionally, we use a two-dimensional array $vis$ to record whether each state has been visited. Initially, $vis[f(s_i, s_j), f(b_i, b_j)]$ is marked as visited.
+另外，我们用一个二维数组 $vis$ 记录每个状态是否已经访问过，初始时 $vis[f(s_i, s_j), f(b_i, b_j)]$ 标记为已访问。
 
-Next, we start the breadth-first search.
+接下来，我们开始进行广度优先搜索。
 
-In each step of the search, we take out the queue head element $(f(s_i, s_j), f(b_i, b_j), d)$, and check whether $grid[b_i][b_j] = 'T'$ is satisfied. If it is, it means the box has been pushed to the target position, and now $d$ can be returned as the answer.
+在每一步搜索中，我们取出队头元素 $(f(s_i, s_j), f(b_i, b_j), d)$，并检查是否满足 $grid[b_i][b_j] = 'T'$，如果是，说明箱子已经被推到目标位置，此时将 $d$ 作为答案返回即可。
 
-Otherwise, we enumerate the player's next move direction. The player's new position is denoted as $(s_x, s_y)$. If $(s_x, s_y)$ is a valid position, we judge whether $(s_x, s_y)$ is the same as the box's position $(b_i, b_j)$:
+否则，我们枚举玩家的下一步移动方向，玩家新的位置记为 $(s_x, s_y)$，如果 $(s_x, s_y)$ 是一个合法的位置，我们判断此时 $(s_x, s_y)$ 是否与箱子的位置 $(b_i, b_j)$ 相同：
 
-- If they are the same, it means the player has reached the box's position and pushed the box forward by one step. The box's new position is $(b_x, b_y)$. If $(b_x, b_y)$ is a valid position, and the state $(f(s_x, s_y), f(b_x, b_y))$ has not been visited, then we add $(f(s_x, s_y), f(b_x, b_y), d + 1)$ to the end of the queue $q$, and mark $vis[f(s_x, s_y), f(b_x, b_y)]$ as visited.
-- If they are different, it means the player has not pushed the box. Then we only need to judge whether the state $(f(s_x, s_y), f(b_i, b_j))$ has been visited. If it has not been visited, then we add $(f(s_x, s_y), f(b_i, b_j), d)$ to the head of the queue $q$, and mark $vis[f(s_x, s_y), f(b_i, b_j)]$ as visited.
+-   如果相同，说明当前玩家到达了箱子的位置，并且推动箱子往前走了一步。箱子新的位置为 $(b_x, b_y)$，如果 $(b_x, b_y)$ 是一个合法的位置，且状态 $(f(s_x, s_y), f(b_x, b_y))$ 没有被访问过，那么我们就将 $(f(s_x, s_y), f(b_x, b_y), d + 1)$ 加入队列 $q$ 的末尾，并将 $vis[f(s_x, s_y), f(b_x, b_y)]$ 标记为已访问。
+-   如果不同，说明当前玩家没有推动箱子，那么我们只需要判断状态 $(f(s_x, s_y), f(b_i, b_j))$ 是否被访问过，如果没有被访问过，那么我们就将 $(f(s_x, s_y), f(b_i, b_j), d)$ 加入队列 $q$ 的头部，并将 $vis[f(s_x, s_y), f(b_i, b_j)]$ 标记为已访问。
 
-We continue the breadth-first search until the queue is empty.
+继续进行广度优先搜索，直到队列为空为止。
 
-> Note, if the box is pushed, the push count $d$ needs to be incremented by $1$, and the new state is added to the end of the queue $q$. If the box is not pushed, the push count $d$ remains unchanged, and the new state is added to the head of the queue $q$.
+> 注意，如果推动箱子，那么推动次数 $d$ 需要加 $1$，并且新的状态加入到队列 $q$ 的末尾；如果没推动箱子，那么推动次数 $d$ 不变，新的状态加入到队列 $q$ 的头部。
 
-Finally, if no valid push scheme is found, then return $-1$.
+最后，如果没有找到合法的推动方案，那么返回 $-1$。
 
-The time complexity is $O(m^2 \times n^2)$, and the space complexity is $O(m^2 \times n^2)$. Where $m$ and $n$ are the number of rows and columns in the grid, respectively.
+时间复杂度 $O(m^2 \times n^2)$，空间复杂度 $O(m^2 \times n^2)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
 
 <!-- tabs:start -->
 
@@ -355,224 +362,222 @@ func minPushBox(grid [][]byte) int {
 
 ```ts
 function minPushBox(grid: string[][]): number {
-  const [m, n] = [grid.length, grid[0].length];
-  let [si, sj, bi, bj] = [0, 0, 0, 0];
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (grid[i][j] === "S") {
-        [si, sj] = [i, j];
-      } else if (grid[i][j] === "B") {
-        [bi, bj] = [i, j];
-      }
-    }
-  }
-  const f = (i: number, j: number): number => i * n + j;
-  const check = (i: number, j: number): boolean =>
-    i >= 0 && i < m && j >= 0 && j < n && grid[i][j] !== "#";
-
-  const q: Deque<[number, number, number]> = new Deque();
-  const vis: boolean[][] = new Array(m * n)
-    .fill(0)
-    .map(() => new Array(m * n).fill(false));
-  q.push([f(si, sj), f(bi, bj), 0]);
-  vis[f(si, sj)][f(bi, bj)] = true;
-  const dirs: number[] = [-1, 0, 1, 0, -1];
-  while (q.size() > 0) {
-    const [s, b, d] = q.shift()!;
-    const [si, sj] = [Math.floor(s / n), s % n];
-    const [bi, bj] = [Math.floor(b / n), b % n];
-    if (grid[bi][bj] === "T") {
-      return d;
-    }
-    for (let k = 0; k < 4; ++k) {
-      const [sx, sy] = [si + dirs[k], sj + dirs[k + 1]];
-      if (!check(sx, sy)) {
-        continue;
-      }
-      if (sx === bi && sy === bj) {
-        const [bx, by] = [bi + dirs[k], bj + dirs[k + 1]];
-        if (!check(bx, by) || vis[f(sx, sy)][f(bx, by)]) {
-          continue;
+    const [m, n] = [grid.length, grid[0].length];
+    let [si, sj, bi, bj] = [0, 0, 0, 0];
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (grid[i][j] === 'S') {
+                [si, sj] = [i, j];
+            } else if (grid[i][j] === 'B') {
+                [bi, bj] = [i, j];
+            }
         }
-        vis[f(sx, sy)][f(bx, by)] = true;
-        q.push([f(sx, sy), f(bx, by), d + 1]);
-      } else if (!vis[f(sx, sy)][f(bi, bj)]) {
-        vis[f(sx, sy)][f(bi, bj)] = true;
-        q.unshift([f(sx, sy), f(bi, bj), d]);
-      }
     }
-  }
-  return -1;
+    const f = (i: number, j: number): number => i * n + j;
+    const check = (i: number, j: number): boolean =>
+        i >= 0 && i < m && j >= 0 && j < n && grid[i][j] !== '#';
+
+    const q: Deque<[number, number, number]> = new Deque();
+    const vis: boolean[][] = new Array(m * n).fill(0).map(() => new Array(m * n).fill(false));
+    q.push([f(si, sj), f(bi, bj), 0]);
+    vis[f(si, sj)][f(bi, bj)] = true;
+    const dirs: number[] = [-1, 0, 1, 0, -1];
+    while (q.size() > 0) {
+        const [s, b, d] = q.shift()!;
+        const [si, sj] = [Math.floor(s / n), s % n];
+        const [bi, bj] = [Math.floor(b / n), b % n];
+        if (grid[bi][bj] === 'T') {
+            return d;
+        }
+        for (let k = 0; k < 4; ++k) {
+            const [sx, sy] = [si + dirs[k], sj + dirs[k + 1]];
+            if (!check(sx, sy)) {
+                continue;
+            }
+            if (sx === bi && sy === bj) {
+                const [bx, by] = [bi + dirs[k], bj + dirs[k + 1]];
+                if (!check(bx, by) || vis[f(sx, sy)][f(bx, by)]) {
+                    continue;
+                }
+                vis[f(sx, sy)][f(bx, by)] = true;
+                q.push([f(sx, sy), f(bx, by), d + 1]);
+            } else if (!vis[f(sx, sy)][f(bi, bj)]) {
+                vis[f(sx, sy)][f(bi, bj)] = true;
+                q.unshift([f(sx, sy), f(bi, bj), d]);
+            }
+        }
+    }
+    return -1;
 }
 
 /* 以下是双向列队模板类 */
 class CircularDeque<T> {
-  prev: CircularDeque<T> | null;
-  next: CircularDeque<T> | null;
-  begin: number;
-  end: number;
-  empty: boolean;
-  data: T[];
-  constructor(N: number) {
-    this.prev = this.next = null;
-    this.begin = this.end = 0;
-    this.empty = true;
-    this.data = Array(N);
-  }
+    prev: CircularDeque<T> | null;
+    next: CircularDeque<T> | null;
+    begin: number;
+    end: number;
+    empty: boolean;
+    data: T[];
+    constructor(N: number) {
+        this.prev = this.next = null;
+        this.begin = this.end = 0;
+        this.empty = true;
+        this.data = Array(N);
+    }
 
-  isFull(): boolean {
-    return this.end === this.begin && !this.empty;
-  }
+    isFull(): boolean {
+        return this.end === this.begin && !this.empty;
+    }
 
-  isEmpty(): boolean {
-    return this.empty;
-  }
+    isEmpty(): boolean {
+        return this.empty;
+    }
 
-  push(val: T): boolean {
-    if (this.isFull()) return false;
-    this.empty = false;
-    this.data[this.end] = val;
-    this.end = (this.end + 1) % this.data.length;
-    return true;
-  }
+    push(val: T): boolean {
+        if (this.isFull()) return false;
+        this.empty = false;
+        this.data[this.end] = val;
+        this.end = (this.end + 1) % this.data.length;
+        return true;
+    }
 
-  front(): T | undefined {
-    return this.isEmpty() ? undefined : this.data[this.begin];
-  }
+    front(): T | undefined {
+        return this.isEmpty() ? undefined : this.data[this.begin];
+    }
 
-  back(): T | undefined {
-    return this.isEmpty() ? undefined : this.data[this.end - 1];
-  }
+    back(): T | undefined {
+        return this.isEmpty() ? undefined : this.data[this.end - 1];
+    }
 
-  pop(): T | undefined {
-    if (this.isEmpty()) return undefined;
-    const value = this.data[this.end - 1];
-    this.end = (this.end - 1) % this.data.length;
-    if (this.end < 0) this.end += this.data.length;
-    if (this.end === this.begin) this.empty = true;
-    return value;
-  }
+    pop(): T | undefined {
+        if (this.isEmpty()) return undefined;
+        const value = this.data[this.end - 1];
+        this.end = (this.end - 1) % this.data.length;
+        if (this.end < 0) this.end += this.data.length;
+        if (this.end === this.begin) this.empty = true;
+        return value;
+    }
 
-  unshift(val: T): boolean {
-    if (this.isFull()) return false;
-    this.empty = false;
-    this.begin = (this.begin - 1) % this.data.length;
-    if (this.begin < 0) this.begin += this.data.length;
-    this.data[this.begin] = val;
-    return true;
-  }
+    unshift(val: T): boolean {
+        if (this.isFull()) return false;
+        this.empty = false;
+        this.begin = (this.begin - 1) % this.data.length;
+        if (this.begin < 0) this.begin += this.data.length;
+        this.data[this.begin] = val;
+        return true;
+    }
 
-  shift(): T | undefined {
-    if (this.isEmpty()) return undefined;
-    const value = this.data[this.begin];
-    this.begin = (this.begin + 1) % this.data.length;
-    if (this.end === this.begin) this.empty = true;
-    return value;
-  }
+    shift(): T | undefined {
+        if (this.isEmpty()) return undefined;
+        const value = this.data[this.begin];
+        this.begin = (this.begin + 1) % this.data.length;
+        if (this.end === this.begin) this.empty = true;
+        return value;
+    }
 
-  *values(): Generator<T, void, undefined> {
-    if (this.isEmpty()) return undefined;
-    let i = this.begin;
-    do {
-      yield this.data[i];
-      i = (i + 1) % this.data.length;
-    } while (i !== this.end);
-  }
+    *values(): Generator<T, void, undefined> {
+        if (this.isEmpty()) return undefined;
+        let i = this.begin;
+        do {
+            yield this.data[i];
+            i = (i + 1) % this.data.length;
+        } while (i !== this.end);
+    }
 }
 
 class Deque<T> {
-  head: CircularDeque<T>;
-  tail: CircularDeque<T>;
-  _size: number;
-  constructor(collection: T[] = []) {
-    this.head = new CircularDeque<T>(128);
-    this.tail = new CircularDeque<T>(128);
-    this.tail.empty = this.head.empty = false;
-    this.tail.prev = this.head;
-    this.head.next = this.tail;
-    this._size = 0;
-    for (const item of collection) this.push(item);
-  }
-
-  size(): number {
-    return this._size;
-  }
-
-  push(val: T): void {
-    let last = this.tail.prev!;
-    if (last.isFull()) {
-      const inserted = new CircularDeque<T>(128);
-
-      this.tail.prev = inserted;
-      inserted.next = this.tail;
-
-      last.next = inserted;
-      inserted.prev = last;
-
-      last = inserted;
+    head: CircularDeque<T>;
+    tail: CircularDeque<T>;
+    _size: number;
+    constructor(collection: T[] = []) {
+        this.head = new CircularDeque<T>(128);
+        this.tail = new CircularDeque<T>(128);
+        this.tail.empty = this.head.empty = false;
+        this.tail.prev = this.head;
+        this.head.next = this.tail;
+        this._size = 0;
+        for (const item of collection) this.push(item);
     }
-    last.push(val);
-    this._size++;
-  }
 
-  back(): T | undefined {
-    if (this._size === 0) return;
-    return this.tail.prev!.back();
-  }
-
-  pop(): T | undefined {
-    if (this.head.next === this.tail) return undefined;
-    const last = this.tail.prev!;
-    const value = last.pop();
-    if (last.isEmpty()) {
-      this.tail.prev = last.prev;
-      last.prev!.next = this.tail;
+    size(): number {
+        return this._size;
     }
-    this._size--;
-    return value;
-  }
 
-  unshift(val: T): void {
-    let first = this.head.next!;
-    if (first.isFull()) {
-      const inserted = new CircularDeque<T>(128);
+    push(val: T): void {
+        let last = this.tail.prev!;
+        if (last.isFull()) {
+            const inserted = new CircularDeque<T>(128);
 
-      this.head.next = inserted;
-      inserted.prev = this.head;
+            this.tail.prev = inserted;
+            inserted.next = this.tail;
 
-      inserted.next = first;
-      first.prev = inserted;
+            last.next = inserted;
+            inserted.prev = last;
 
-      first = inserted;
+            last = inserted;
+        }
+        last.push(val);
+        this._size++;
     }
-    first.unshift(val);
-    this._size++;
-  }
 
-  shift(): T | undefined {
-    if (this.head.next === this.tail) return undefined;
-    const first = this.head.next!;
-    const value = first.shift();
-    if (first.isEmpty()) {
-      this.head.next = first.next;
-      first.next!.prev = this.head;
+    back(): T | undefined {
+        if (this._size === 0) return;
+        return this.tail.prev!.back();
     }
-    this._size--;
-    return value;
-  }
 
-  front(): T | undefined {
-    if (this._size === 0) return undefined;
-    return this.head.next!.front();
-  }
-
-  *values(): Generator<T, void, undefined> {
-    let node = this.head.next!;
-    while (node !== this.tail) {
-      for (const value of node.values()) yield value;
-      node = node.next!;
+    pop(): T | undefined {
+        if (this.head.next === this.tail) return undefined;
+        const last = this.tail.prev!;
+        const value = last.pop();
+        if (last.isEmpty()) {
+            this.tail.prev = last.prev;
+            last.prev!.next = this.tail;
+        }
+        this._size--;
+        return value;
     }
-  }
+
+    unshift(val: T): void {
+        let first = this.head.next!;
+        if (first.isFull()) {
+            const inserted = new CircularDeque<T>(128);
+
+            this.head.next = inserted;
+            inserted.prev = this.head;
+
+            inserted.next = first;
+            first.prev = inserted;
+
+            first = inserted;
+        }
+        first.unshift(val);
+        this._size++;
+    }
+
+    shift(): T | undefined {
+        if (this.head.next === this.tail) return undefined;
+        const first = this.head.next!;
+        const value = first.shift();
+        if (first.isEmpty()) {
+            this.head.next = first.next;
+            first.next!.prev = this.head;
+        }
+        this._size--;
+        return value;
+    }
+
+    front(): T | undefined {
+        if (this._size === 0) return undefined;
+        return this.head.next!.front();
+    }
+
+    *values(): Generator<T, void, undefined> {
+        let node = this.head.next!;
+        while (node !== this.tail) {
+            for (const value of node.values()) yield value;
+            node = node.next!;
+        }
+    }
 }
 ```
 

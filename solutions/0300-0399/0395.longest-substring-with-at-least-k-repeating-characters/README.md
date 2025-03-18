@@ -1,58 +1,66 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0395.Longest%20Substring%20with%20At%20Least%20K%20Repeating%20Characters/README.md
 tags:
-  - Hash Table
-  - String
-  - Divide and Conquer
-  - Sliding Window
+    - 哈希表
+    - 字符串
+    - 分治
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [395. Longest Substring with At Least K Repeating Characters](https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters)
+# [395. 至少有 K 个重复字符的最长子串](https://leetcode.cn/problems/longest-substring-with-at-least-k-repeating-characters)
 
-## Description
+[English Version](/solution/0300-0399/0395.Longest%20Substring%20with%20At%20Least%20K%20Repeating%20Characters/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code> and an integer <code>k</code>, return <em>the length of the longest substring of</em> <code>s</code> <em>such that the frequency of each character in this substring is greater than or equal to</em> <code>k</code>.</p>
+<p>给你一个字符串 <code>s</code> 和一个整数 <code>k</code> ，请你找出 <code>s</code> 中的最长子串，&nbsp;要求该子串中的每一字符出现次数都不少于 <code>k</code> 。返回这一子串的长度。</p>
 
-<p data-pm-slice="1 1 []">if no such substring exists, return 0.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;aaabb&quot;, k = 3
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The longest substring is &quot;aaa&quot;, as &#39;a&#39; is repeated 3 times.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;ababbc&quot;, k = 2
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The longest substring is &quot;ababb&quot;, as &#39;a&#39; is repeated 2 times and &#39;b&#39; is repeated 3 times.
-</pre>
+<p data-pm-slice="1 1 []">如果不存在这样的子字符串，则返回 0。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aaabb", k = 3
+<strong>输出：</strong>3
+<strong>解释：</strong>最长子串为 "aaa" ，其中 'a' 重复了 3 次。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "ababbc", k = 2
+<strong>输出：</strong>5
+<strong>解释：</strong>最长子串为 "ababb" ，其中 'a' 重复了 2 次， 'b' 重复了 3 次。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>s</code> consists of only lowercase English letters.</li>
+	<li><code>s</code> 仅由小写英文字母组成</li>
 	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：分治
+
+对于字符串 $s$，如果存在某个字符 $c$，其出现次数小于 $k$，则任何包含 $c$ 的子串都不可能满足题目要求。因此我们可以将 $s$ 按照每个不满足条件的字符 $c$ 进行分割，分割得到的每个子串都是原字符串的一个「子问题」，我们可以递归地求解每个子问题，最终的答案即为所有子问题的最大值。
+
+时间复杂度 $O(n \times C)$，空间复杂度 $O(C^2)$。其中 $n$ 为字符串 $s$ 的长度，而 $C$ 为字符集的大小。本题中 $C \leq 26$。
 
 <!-- tabs:start -->
 

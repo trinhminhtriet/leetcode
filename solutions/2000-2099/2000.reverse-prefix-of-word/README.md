@@ -1,78 +1,80 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2000.Reverse%20Prefix%20of%20Word/README.md
 rating: 1199
-source: Weekly Contest 258 Q1
+source: 第 258 场周赛 Q1
 tags:
-  - Stack
-  - Two Pointers
-  - String
+    - 栈
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2000. Reverse Prefix of Word](https://leetcode.com/problems/reverse-prefix-of-word)
+# [2000. 反转单词前缀](https://leetcode.cn/problems/reverse-prefix-of-word)
 
-## Description
+[English Version](/solution/2000-2099/2000.Reverse%20Prefix%20of%20Word/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <strong>0-indexed</strong> string <code>word</code> and a character <code>ch</code>, <strong>reverse</strong> the segment of <code>word</code> that starts at index <code>0</code> and ends at the index of the <strong>first occurrence</strong> of <code>ch</code> (<strong>inclusive</strong>). If the character <code>ch</code> does not exist in <code>word</code>, do nothing.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>word</code> 和一个字符 <code>ch</code> 。找出 <code>ch</code> 第一次出现的下标 <code>i</code> ，<strong>反转 </strong><code>word</code> 中从下标 <code>0</code> 开始、直到下标 <code>i</code> 结束（含下标 <code>i</code> ）的那段字符。如果 <code>word</code> 中不存在字符 <code>ch</code> ，则无需进行任何操作。</p>
 
 <ul>
-	<li>For example, if <code>word = &quot;abcdefd&quot;</code> and <code>ch = &quot;d&quot;</code>, then you should <strong>reverse</strong> the segment that starts at <code>0</code> and ends at <code>3</code> (<strong>inclusive</strong>). The resulting string will be <code>&quot;<u>dcba</u>efd&quot;</code>.</li>
+	<li>例如，如果 <code>word = "abcdefd"</code> 且 <code>ch = "d"</code> ，那么你应该 <strong>反转</strong> 从下标 0 开始、直到下标 <code>3</code> 结束（含下标 <code>3</code> ）。结果字符串将会是 <code>"<em><strong>dcba</strong></em>efd"</code> 。</li>
 </ul>
 
-<p>Return <em>the resulting string</em>.</p>
+<p>返回 <strong>结果字符串</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> word = &quot;<u>abcd</u>efd&quot;, ch = &quot;d&quot;
-<strong>Output:</strong> &quot;<u>dcba</u>efd&quot;
-<strong>Explanation:</strong>&nbsp;The first occurrence of &quot;d&quot; is at index 3. 
-Reverse the part of word from 0 to 3 (inclusive), the resulting string is &quot;dcbaefd&quot;.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>word = "<em><strong>abcd</strong></em>efd", ch = "d"
+<strong>输出：</strong>"<em><strong>dcba</strong></em>efd"
+<strong>解释：</strong>"d" 第一次出现在下标 3 。 
+反转从下标 0 到下标 3（含下标 3）的这段字符，结果字符串是 "dcbaefd" 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> word = &quot;<u>xyxz</u>xe&quot;, ch = &quot;z&quot;
-<strong>Output:</strong> &quot;<u>zxyx</u>xe&quot;
-<strong>Explanation:</strong>&nbsp;The first and only occurrence of &quot;z&quot; is at index 3.
-Reverse the part of word from 0 to 3 (inclusive), the resulting string is &quot;zxyxxe&quot;.
+<pre><strong>输入：</strong>word = "<em><strong>xyxz</strong></em>xe", ch = "z"
+<strong>输出：</strong>"<em><strong>zxyx</strong></em>xe"
+<strong>解释：</strong>"z" 第一次也是唯一一次出现是在下标 3 。
+反转从下标 0 到下标 3（含下标 3）的这段字符，结果字符串是 "zxyxxe" 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> word = &quot;abcd&quot;, ch = &quot;z&quot;
-<strong>Output:</strong> &quot;abcd&quot;
-<strong>Explanation:</strong>&nbsp;&quot;z&quot; does not exist in word.
-You should not do any reverse operation, the resulting string is &quot;abcd&quot;.
+<pre><strong>输入：</strong>word = "abcd", ch = "z"
+<strong>输出：</strong>"abcd"
+<strong>解释：</strong>"z" 不存在于 word 中。
+无需执行反转操作，结果字符串是 "abcd" 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length &lt;= 250</code></li>
-	<li><code>word</code> consists of lowercase English letters.</li>
-	<li><code>ch</code> is a lowercase English letter.</li>
+	<li><code>word</code> 由小写英文字母组成</li>
+	<li><code>ch</code> 是一个小写英文字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-First, we find the index $i$ where the character $ch$ first appears. Then, we reverse the characters from index $0$ to index $i$ (including index $i$). Finally, we concatenate the reversed string with the string starting from index $i + 1$.
+我们先找到字符 $ch$ 第一次出现的下标 $i$，然后反转从下标 $0$ 开始、直到下标 $i$ 结束（含下标 $i$）的那段字符，最后将反转后的字符串与下标 $i + 1$ 开始的字符串拼接即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $word$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $word$ 的长度。
 
 <!-- tabs:start -->
 
@@ -141,11 +143,11 @@ func reversePrefix(word string, ch byte) string {
 
 ```ts
 function reversePrefix(word: string, ch: string): string {
-  const i = word.indexOf(ch) + 1;
-  if (!i) {
-    return word;
-  }
-  return [...word.slice(0, i)].reverse().join("") + word.slice(i);
+    const i = word.indexOf(ch) + 1;
+    if (!i) {
+        return word;
+    }
+    return [...word.slice(0, i)].reverse().join('') + word.slice(i);
 }
 ```
 

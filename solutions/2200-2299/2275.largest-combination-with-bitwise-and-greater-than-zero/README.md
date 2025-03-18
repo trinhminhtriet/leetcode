@@ -1,58 +1,63 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2275.Largest%20Combination%20With%20Bitwise%20AND%20Greater%20Than%20Zero/README.md
 rating: 1642
-source: Weekly Contest 293 Q3
+source: 第 293 场周赛 Q3
 tags:
-  - Bit Manipulation
-  - Array
-  - Hash Table
-  - Counting
+    - 位运算
+    - 数组
+    - 哈希表
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2275. Largest Combination With Bitwise AND Greater Than Zero](https://leetcode.com/problems/largest-combination-with-bitwise-and-greater-than-zero)
+# [2275. 按位与结果大于零的最长组合](https://leetcode.cn/problems/largest-combination-with-bitwise-and-greater-than-zero)
 
-## Description
+[English Version](/solution/2200-2299/2275.Largest%20Combination%20With%20Bitwise%20AND%20Greater%20Than%20Zero/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <strong>bitwise AND</strong> of an array <code>nums</code> is the bitwise AND of all integers in <code>nums</code>.</p>
+<p>对数组&nbsp;<code>nums</code> 执行 <strong>按位与</strong> 相当于对数组&nbsp;<code>nums</code> 中的所有整数执行 <strong>按位与</strong> 。</p>
 
 <ul>
-	<li>For example, for <code>nums = [1, 5, 3]</code>, the bitwise AND is equal to <code>1 &amp; 5 &amp; 3 = 1</code>.</li>
-	<li>Also, for <code>nums = [7]</code>, the bitwise AND is <code>7</code>.</li>
+	<li>例如，对 <code>nums = [1, 5, 3]</code> 来说，按位与等于 <code>1 &amp; 5 &amp; 3 = 1</code> 。</li>
+	<li>同样，对 <code>nums = [7]</code> 而言，按位与等于 <code>7</code> 。</li>
 </ul>
 
-<p>You are given an array of positive integers <code>candidates</code>. Evaluate the <strong>bitwise AND</strong> of every <strong>combination</strong> of numbers of <code>candidates</code>. Each number in <code>candidates</code> may only be used <strong>once</strong> in each combination.</p>
+<p>给你一个正整数数组 <code>candidates</code> 。计算 <code>candidates</code> 中的数字每种组合下 <strong>按位与</strong> 的结果。</p>
 
-<p>Return <em>the size of the <strong>largest</strong> combination of </em><code>candidates</code><em> with a bitwise AND <strong>greater</strong> than </em><code>0</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> candidates = [16,17,71,62,12,24,14]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The combination [16,17,62,24] has a bitwise AND of 16 &amp; 17 &amp; 62 &amp; 24 = 16 &gt; 0.
-The size of the combination is 4.
-It can be shown that no combination with a size greater than 4 has a bitwise AND greater than 0.
-Note that more than one combination may have the largest size.
-For example, the combination [62,12,24,14] has a bitwise AND of 62 &amp; 12 &amp; 24 &amp; 14 = 8 &gt; 0.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> candidates = [8,8]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The largest combination [8,8] has a bitwise AND of 8 &amp; 8 = 8 &gt; 0.
-The size of the combination is 2, so we return 2.
-</pre>
+<p>返回按位与结果大于 <code>0</code> 的 <strong>最长</strong> 组合的长度<em>。</em></p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>candidates = [16,17,71,62,12,24,14]
+<strong>输出：</strong>4
+<strong>解释：</strong>组合 [16,17,62,24] 的按位与结果是 16 &amp; 17 &amp; 62 &amp; 24 = 16 &gt; 0 。
+组合长度是 4 。
+可以证明不存在按位与结果大于 0 且长度大于 4 的组合。
+注意，符合长度最大的组合可能不止一种。
+例如，组合 [62,12,24,14] 的按位与结果是 62 &amp; 12 &amp; 24 &amp; 14 = 8 &gt; 0 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>candidates = [8,8]
+<strong>输出：</strong>2
+<strong>解释：</strong>最长组合是 [8,8] ，按位与结果 8 &amp; 8 = 8 &gt; 0 。
+组合长度是 2 ，所以返回 2 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= candidates.length &lt;= 10<sup>5</sup></code></li>
@@ -61,15 +66,15 @@ The size of the combination is 2, so we return 2.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Bit Manipulation
+### 方法一：位运算
 
-The problem requires finding the maximum length of a combination of numbers where the bitwise AND result is greater than $0$. This implies that there must be a certain binary bit where all numbers have a $1$ at that position. Therefore, we can enumerate each binary bit and count the number of $1$s at that bit position for all numbers. Finally, we take the maximum count.
+题目需要找到按位与结果大于 $0$ 的数字组合的最大长度，那么说明一定存在某个二进制位，所有数字在这个二进制位上都是 $1$。因此，我们可以枚举每个二进制位，统计所有数字在这个二进制位上的 $1$ 的个数，最后取最大值即可。
 
-The time complexity is $O(n \times \log M)$, where $n$ and $M$ are the length of the array $\textit{candidates}$ and the maximum value in the array, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(n \times \log M)$，其中 $n$ 和 $M$ 分别是数组 $\textit{candidates}$ 的长度和数组中的最大值。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -146,17 +151,17 @@ func largestCombination(candidates []int) (ans int) {
 
 ```ts
 function largestCombination(candidates: number[]): number {
-  const mx = Math.max(...candidates);
-  const m = mx.toString(2).length;
-  let ans = 0;
-  for (let i = 0; i < m; ++i) {
-    let cnt = 0;
-    for (const x of candidates) {
-      cnt += (x >> i) & 1;
+    const mx = Math.max(...candidates);
+    const m = mx.toString(2).length;
+    let ans = 0;
+    for (let i = 0; i < m; ++i) {
+        let cnt = 0;
+        for (const x of candidates) {
+            cnt += (x >> i) & 1;
+        }
+        ans = Math.max(ans, cnt);
     }
-    ans = Math.max(ans, cnt);
-  }
-  return ans;
+    return ans;
 }
 ```
 

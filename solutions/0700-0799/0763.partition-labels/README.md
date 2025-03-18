@@ -1,61 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0763.Partition%20Labels/README.md
 tags:
-  - Greedy
-  - Hash Table
-  - Two Pointers
-  - String
+    - 贪心
+    - 哈希表
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [763. Partition Labels](https://leetcode.com/problems/partition-labels)
+# [763. 划分字母区间](https://leetcode.cn/problems/partition-labels)
 
-## Description
+[English Version](/solution/0700-0799/0763.Partition%20Labels/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code>. We want to partition the string into as many parts as possible so that each letter appears in at most one part.</p>
+<p>给你一个字符串 <code>s</code> 。我们要把这个字符串划分为尽可能多的片段，同一字母最多出现在一个片段中。例如，字符串&nbsp;<code>"ababcc"</code> 能够被分为 <code>["abab", "cc"]</code>，但类似&nbsp;<code>["aba", "bcc"]</code> 或&nbsp;<code>["ab", "ab", "cc"]</code> 的划分是非法的。</p>
 
-<p>Note that the partition is done so that after concatenating all the parts in order, the resultant string should be <code>s</code>.</p>
+<p>注意，划分结果需要满足：将所有划分结果按顺序连接，得到的字符串仍然是 <code>s</code> 。</p>
 
-<p>Return <em>a list of integers representing the size of these parts</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;ababcbacadefegdehijhklij&quot;
-<strong>Output:</strong> [9,7,8]
-<strong>Explanation:</strong>
-The partition is &quot;ababcbaca&quot;, &quot;defegde&quot;, &quot;hijhklij&quot;.
-This is a partition so that each letter appears in at most one part.
-A partition like &quot;ababcbacadefegde&quot;, &quot;hijhklij&quot; is incorrect, because it splits s into less parts.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;eccbbbbdec&quot;
-<strong>Output:</strong> [10]
-</pre>
+<p>返回一个表示每个字符串片段的长度的列表。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<strong class="example">示例 1：</strong>
+
+<pre>
+<strong>输入：</strong>s = "ababcbacadefegdehijhklij"
+<strong>输出：</strong>[9,7,8]
+<strong>解释：</strong>
+划分结果为 "ababcbaca"、"defegde"、"hijhklij" 。
+每个字母最多出现在一个片段中。
+像 "ababcbacadefegde", "hijhklij" 这样的划分是错误的，因为划分的片段数较少。 </pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "eccbbbbdec"
+<strong>输出：</strong>[10]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 500</code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code> 仅由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心
+
+我们先用数组或哈希表 $\textit{last}$ 记录字符串 $s$ 中每个字母最后一次出现的位置。
+
+接下来我们使用贪心的方法，将字符串划分为尽可能多的片段。
+
+从左到右遍历字符串 $s$，遍历的同时维护当前片段的开始下标 $j$ 和结束下标 $i$，初始均为 $0$。
+
+对于每个访问到的字母 $c$，获取到最后一次出现的位置 $\textit{last}[c]$。由于当前片段的结束下标一定不会小于 $\textit{last}[c]$，因此令 $\textit{mx} = \max(\textit{mx}, \textit{last}[c])$。
+
+当访问到下标 $\textit{mx}$ 时，意味着当前片段访问结束，当前片段的下标范围是 $[j,.. i]$，长度为 $i - j + 1$，我们将其添加到结果数组中。然后令 $j = i + 1$, 继续寻找下一个片段。
+
+重复上述过程，直至字符串遍历结束，即可得到所有片段的长度。
+
+时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 为字符串 $s$ 的长度，而 $|\Sigma|$ 为字符集的大小。本题中 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -148,21 +165,21 @@ func partitionLabels(s string) (ans []int) {
 
 ```ts
 function partitionLabels(s: string): number[] {
-  const last: number[] = Array(26).fill(0);
-  const idx = (c: string) => c.charCodeAt(0) - "a".charCodeAt(0);
-  const n = s.length;
-  for (let i = 0; i < n; ++i) {
-    last[idx(s[i])] = i;
-  }
-  const ans: number[] = [];
-  for (let i = 0, j = 0, mx = 0; i < n; ++i) {
-    mx = Math.max(mx, last[idx(s[i])]);
-    if (mx === i) {
-      ans.push(i - j + 1);
-      j = i + 1;
+    const last: number[] = Array(26).fill(0);
+    const idx = (c: string) => c.charCodeAt(0) - 'a'.charCodeAt(0);
+    const n = s.length;
+    for (let i = 0; i < n; ++i) {
+        last[idx(s[i])] = i;
     }
-  }
-  return ans;
+    const ans: number[] = [];
+    for (let i = 0, j = 0, mx = 0; i < n; ++i) {
+        mx = Math.max(mx, last[idx(s[i])]);
+        if (mx === i) {
+            ans.push(i - j + 1);
+            j = i + 1;
+        }
+    }
+    return ans;
 }
 ```
 
@@ -200,21 +217,21 @@ impl Solution {
  * @return {number[]}
  */
 var partitionLabels = function (s) {
-  const last = new Array(26).fill(0);
-  const idx = (c) => c.charCodeAt() - "a".charCodeAt();
-  const n = s.length;
-  for (let i = 0; i < n; ++i) {
-    last[idx(s[i])] = i;
-  }
-  const ans = [];
-  for (let i = 0, j = 0, mx = 0; i < n; ++i) {
-    mx = Math.max(mx, last[idx(s[i])]);
-    if (mx === i) {
-      ans.push(i - j + 1);
-      j = i + 1;
+    const last = new Array(26).fill(0);
+    const idx = c => c.charCodeAt() - 'a'.charCodeAt();
+    const n = s.length;
+    for (let i = 0; i < n; ++i) {
+        last[idx(s[i])] = i;
     }
-  }
-  return ans;
+    const ans = [];
+    for (let i = 0, j = 0, mx = 0; i < n; ++i) {
+        mx = Math.max(mx, last[idx(s[i])]);
+        if (mx === i) {
+            ans.push(i - j + 1);
+            j = i + 1;
+        }
+    }
+    return ans;
 };
 ```
 

@@ -1,68 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1922.Count%20Good%20Numbers/README.md
 rating: 1674
-source: Weekly Contest 248 Q3
+source: 第 248 场周赛 Q3
 tags:
-  - Recursion
-  - Math
+    - 递归
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [1922. Count Good Numbers](https://leetcode.com/problems/count-good-numbers)
+# [1922. 统计好数字的数目](https://leetcode.cn/problems/count-good-numbers)
 
-## Description
+[English Version](/solution/1900-1999/1922.Count%20Good%20Numbers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A digit string is <strong>good</strong> if the digits <strong>(0-indexed)</strong> at <strong>even</strong> indices are <strong>even</strong> and the digits at <strong>odd</strong> indices are <strong>prime</strong> (<code>2</code>, <code>3</code>, <code>5</code>, or <code>7</code>).</p>
+<p>我们称一个数字字符串是 <strong>好数字</strong> 当它满足（下标从 <strong>0</strong> 开始）<strong>偶数</strong> 下标处的数字为 <strong>偶数</strong> 且 <strong>奇数</strong> 下标处的数字为 <strong>质数</strong> （<code>2</code>，<code>3</code>，<code>5</code> 或 <code>7</code>）。</p>
 
 <ul>
-	<li>For example, <code>&quot;2582&quot;</code> is good because the digits (<code>2</code> and <code>8</code>) at even positions are even and the digits (<code>5</code> and <code>2</code>) at odd positions are prime. However, <code>&quot;3245&quot;</code> is <strong>not</strong> good because <code>3</code> is at an even index but is not even.</li>
+	<li>比方说，<code>"2582"</code> 是好数字，因为偶数下标处的数字（<code>2</code> 和 <code>8</code>）是偶数且奇数下标处的数字（<code>5</code> 和 <code>2</code>）为质数。但 <code>"3245"</code> <strong>不是</strong> 好数字，因为 <code>3</code> 在偶数下标处但不是偶数。</li>
 </ul>
 
-<p>Given an integer <code>n</code>, return <em>the <strong>total</strong> number of good digit strings of length </em><code>n</code>. Since the answer may be large, <strong>return it modulo </strong><code>10<sup>9</sup> + 7</code>.</p>
+<p>给你一个整数 <code>n</code> ，请你返回长度为 <code>n</code> 且为好数字的数字字符串 <strong>总数</strong> 。由于答案可能会很大，请你将它对<strong> </strong><code>10<sup>9</sup> + 7</code> <strong>取余后返回</strong> 。</p>
 
-<p>A <strong>digit string</strong> is a string consisting of digits <code>0</code> through <code>9</code> that may contain leading zeros.</p>
+<p>一个 <strong>数字字符串</strong> 是每一位都由 <code>0</code> 到 <code>9</code> 组成的字符串，且可能包含前导 0 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> n = 1
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The good numbers of length 1 are &quot;0&quot;, &quot;2&quot;, &quot;4&quot;, &quot;6&quot;, &quot;8&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 4
-<strong>Output:</strong> 400
+<b>输入：</b>n = 1
+<b>输出：</b>5
+<b>解释：</b>长度为 1 的好数字包括 "0"，"2"，"4"，"6"，"8" 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 50
-<strong>Output:</strong> 564908303
+<b>输入：</b>n = 4
+<b>输出：</b>400
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>n = 50
+<b>输出：</b>564908303
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n &lt;= 10<sup>15</sup></code></li>
+	<li><code>1 <= n <= 10<sup>15</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -72,17 +77,7 @@ tags:
 class Solution:
     def countGoodNumbers(self, n: int) -> int:
         mod = 10**9 + 7
-
-        def myPow(x, n):
-            res = 1
-            while n:
-                if (n & 1) == 1:
-                    res = res * x % mod
-                x = x * x % mod
-                n >>= 1
-            return res
-
-        return myPow(5, (n + 1) >> 1) * myPow(4, n >> 1) % mod
+        return pow(5, (n + 1) >> 1, mod) * pow(4, n >> 1, mod) % mod
 ```
 
 #### Java

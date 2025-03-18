@@ -1,106 +1,110 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0913.Cat%20and%20Mouse/README.md
 tags:
-  - Graph
-  - Topological Sort
-  - Memoization
-  - Math
-  - Dynamic Programming
-  - Game Theory
+    - 图
+    - 拓扑排序
+    - 记忆化搜索
+    - 数学
+    - 动态规划
+    - 博弈
 ---
 
 <!-- problem:start -->
 
-# [913. Cat and Mouse](https://leetcode.com/problems/cat-and-mouse)
+# [913. 猫和老鼠](https://leetcode.cn/problems/cat-and-mouse)
 
-## Description
+[English Version](/solution/0900-0999/0913.Cat%20and%20Mouse/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A game on an <strong>undirected</strong> graph is played by two players, Mouse and Cat, who alternate turns.</p>
+<p>两位玩家分别扮演猫和老鼠，在一张 <strong>无向</strong> 图上进行游戏，两人轮流行动。</p>
 
-<p>The graph is given as follows: <code>graph[a]</code> is a list of all nodes <code>b</code> such that <code>ab</code> is an edge of the graph.</p>
+<p>图的形式是：<code>graph[a]</code> 是一个列表，由满足&nbsp;<code>ab</code> 是图中的一条边的所有节点 <code>b</code> 组成。</p>
 
-<p>The mouse starts at node <code>1</code> and goes first, the cat starts at node <code>2</code> and goes second, and there is a hole at node <code>0</code>.</p>
+<p>老鼠从节点 <code>1</code> 开始，第一个出发；猫从节点 <code>2</code> 开始，第二个出发。在节点 <code>0</code> 处有一个洞。</p>
 
-<p>During each player&#39;s turn, they <strong>must</strong> travel along one&nbsp;edge of the graph that meets where they are.&nbsp; For example, if the Mouse is at node 1, it <strong>must</strong> travel to any node in <code>graph[1]</code>.</p>
+<p>在每个玩家的行动中，他们 <strong>必须</strong> 沿着图中与所在当前位置连通的一条边移动。例如，如果老鼠在节点 <code>1</code> ，那么它必须移动到 <code>graph[1]</code> 中的任一节点。</p>
 
-<p>Additionally, it is not allowed for the Cat to travel to the Hole (node <code>0</code>).</p>
+<p>此外，猫无法移动到洞中（节点 <code>0</code>）。</p>
 
-<p>Then, the game can end in three&nbsp;ways:</p>
-
-<ul>
-	<li>If ever the Cat occupies the same node as the Mouse, the Cat wins.</li>
-	<li>If ever the Mouse reaches the Hole, the Mouse wins.</li>
-	<li>If ever a position is repeated (i.e., the players are in the same position as a previous turn, and&nbsp;it is the same player&#39;s turn to move), the game is a draw.</li>
-</ul>
-
-<p>Given a <code>graph</code>, and assuming both players play optimally, return</p>
+<p>然后，游戏在出现以下三种情形之一时结束：</p>
 
 <ul>
-	<li><code>1</code>&nbsp;if the mouse wins the game,</li>
-	<li><code>2</code>&nbsp;if the cat wins the game, or</li>
-	<li><code>0</code>&nbsp;if the game is a draw.</li>
+	<li>如果猫和老鼠出现在同一个节点，猫获胜。</li>
+	<li>如果老鼠到达洞中，老鼠获胜。</li>
+	<li>如果某一位置重复出现（即，玩家的位置和移动顺序都与上一次行动相同），游戏平局。</li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>给你一张图 <code>graph</code> ，并假设两位玩家都都以最佳状态参与游戏：</p>
+
+<ul>
+	<li>如果老鼠获胜，则返回&nbsp;<code>1</code>；</li>
+	<li>如果猫获胜，则返回 <code>2</code>；</li>
+	<li>如果平局，则返回 <code>0</code> 。</li>
+</ul>
+&nbsp;
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0913.Cat%20and%20Mouse/images/cat1.jpg" style="width: 300px; height: 300px;" />
 <pre>
-<strong>Input:</strong> graph = [[2,5],[3],[0,4,5],[1,4,5],[2,3],[0,2,3]]
-<strong>Output:</strong> 0
+<strong>输入：</strong>graph = [[2,5],[3],[0,4,5],[1,4,5],[2,3],[0,2,3]]
+<strong>输出：</strong>0
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0913.Cat%20and%20Mouse/images/cat2.jpg" style="width: 200px; height: 200px;" />
 <pre>
-<strong>Input:</strong> graph = [[1,3],[0],[3],[0,2]]
-<strong>Output:</strong> 1
+<strong>输入：</strong>graph = [[1,3],[0],[3],[0,2]]
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= graph.length &lt;= 50</code></li>
 	<li><code>1&nbsp;&lt;= graph[i].length &lt; graph.length</code></li>
 	<li><code>0 &lt;= graph[i][j] &lt; graph.length</code></li>
 	<li><code>graph[i][j] != i</code></li>
-	<li><code>graph[i]</code> is unique.</li>
-	<li>The mouse and the cat can always move.&nbsp;</li>
+	<li><code>graph[i]</code> 互不相同</li>
+	<li>猫和老鼠在游戏中总是可以移动</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Topological Sorting
+### 方法一：拓扑排序
 
-In the game of cat and mouse, the state is determined by three factors: the position of the mouse, the position of the cat, and the mover. According to the game rules, the boundary states that can directly determine the outcome are:
+根据题目描述，游戏中的状态由老鼠的位置、猫的位置和移动方决定。当状态为以下情况，可以直接确定胜负：
 
-- When the positions of the cat and the mouse are the same, the cat wins. This is a must-win state for the cat and a must-lose state for the mouse.
-- When the mouse is in the hole, the mouse wins. This is a must-win state for the mouse and a must-lose state for the cat.
+-   当猫和老鼠的位置相同时，猫获胜，这是猫的必胜状态，老鼠的必败状态。
+-   当老鼠位于洞时，老鼠获胜，这是老鼠的必胜状态，猫的必败状态。
 
-To get the game result of the initial state, we need to traverse all states starting from the boundary state. Each state includes the position of the mouse, the position of the cat, and the mover. Based on the current state, we can get all possible states of the previous round. The mover of the previous round is opposite to the mover of the current state, and the position of the mover of the previous round is different from the position of the current state.
+为了得到初始状态的游戏结果，需要从边界状态开始遍历所有的状态。每个状态包含老鼠的位置、猫的位置和移动方，根据当前状态可以得到上一轮的所有可能状态，上一轮状态的移动方和当前状态的移动方相反，上一轮状态的移动方在上一轮状态的位置和当前状态的位置不同。
 
-We use the tuple $(m, c, t)$ to represent the state of this round, and $(pm, pc, pt)$ to represent the possible state of the previous round. Then, all possible states of the previous round are:
+我们用元组 $(m, c, t)$ 表示本轮的状态，用 $(pm, pc, pt)$ 表示上一轮可能的状态，那么上一轮的所有可能状态有：
 
-- If the mover of this round is the mouse, then the mover of the previous round is the cat, the position of the mouse in the previous round is the position of the mouse in this round, and the position of the cat in the previous round is all adjacent points of the position of the cat in this round.
-- If the mover of this round is the cat, then the mover of the previous round is the mouse, the position of the cat in the previous round is the position of the cat in this round, and the position of the mouse in the previous round is all adjacent points of the position of the mouse in this round.
+-   如果本轮的移动方是老鼠，那么上一轮的移动方是猫，上一轮的老鼠位置是本轮老鼠位置，上一轮的猫位置是本轮猫位置的所有邻接点。
+-   如果本轮的移动方是猫，那么上一轮的移动方是老鼠，上一轮的猫位置是本轮猫位置，上一轮的老鼠位置是本轮老鼠位置的所有邻接点。
 
-Initially, except for the boundary states, the results of all other states are unknown. We start from the boundary state, for each state, get all possible states of the previous round and update the result. The update logic is as follows:
+初始时，除了边界状态以外，其他所有状态的结果都是未知的。我们从边界状态开始，对于每个状态，得到上一轮的所有可能状态并更新结果，更新的逻辑如下：
 
-1. If the mover of the previous round is the same as the winner of this round, then the mover of the previous round can reach the current state and win, directly update the state of the previous round to the winner of this round.
-1. If the mover of the previous round is different from the winner of this round, and all states that the mover of the previous round can reach are the must-lose states for the mover of the previous round, then we update the state of the previous round to the winner of this round.
+1. 如果上一轮的移动方与本轮的获胜方相同，那么上一轮的移动方可以到达当前状态并获胜，直接更新上一轮的状态为本轮的获胜方。
+1. 如果上一轮的移动方与本轮的获胜方不同，且上一轮的移动方可以到达的所有状态都是上一轮的移动方的必败状态，那么我们将上一轮的状态更新为本轮的获胜方。
 
-For the second update logic, we need to record the degree of each state. Initially, the degree of each state represents the number of nodes that the mover of the state can move to, that is, the number of adjacent nodes of the node where the mover is located. If the mover is the cat and the node where it is located is adjacent to the hole, the degree of the state needs to be reduced by $1$.
+对于第 $2$ 个更新逻辑，我们需要记录每个状态的度。初始时，每个状态的度表示该状态的移动方可以移动到的结点数，即移动方所在节点的相邻结点数，如果移动方是猫且所在结点与洞相邻则需要将该状态的度减 $1$。
 
-When the results of all states are updated, the result of the initial state is the final result.
+当所有状态的结果都更新完毕时，初始状态的结果即为最终结果。
 
-The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$. Where $n$ is the number of nodes in the graph.
+时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 是图中的结点数。
 
 <!-- tabs:start -->
 
@@ -128,7 +132,7 @@ class Solution:
             return pre
 
         n = len(graph)
-        res = [[[0, 0] for _ in range(n)] for _ in range(n)]
+        ans = [[[0, 0] for _ in range(n)] for _ in range(n)]
         degree = [[[0, 0] for _ in range(n)] for _ in range(n)]
         for i in range(n):
             for j in range(1, n):
@@ -138,31 +142,31 @@ class Solution:
                 degree[i][j][CAT_TURN] -= 1
         q = deque()
         for j in range(1, n):
-            res[0][j][MOUSE_TURN] = res[0][j][CAT_TURN] = MOUSE_WIN
+            ans[0][j][MOUSE_TURN] = ans[0][j][CAT_TURN] = MOUSE_WIN
             q.append((0, j, MOUSE_TURN))
             q.append((0, j, CAT_TURN))
         for i in range(1, n):
-            res[i][i][MOUSE_TURN] = res[i][i][CAT_TURN] = CAT_WIN
+            ans[i][i][MOUSE_TURN] = ans[i][i][CAT_TURN] = CAT_WIN
             q.append((i, i, MOUSE_TURN))
             q.append((i, i, CAT_TURN))
         while q:
             state = q.popleft()
-            t = res[state[0]][state[1]][state[2]]
+            t = ans[state[0]][state[1]][state[2]]
             for prev_state in get_prev_states(state):
                 pm, pc, pt = prev_state
-                if res[pm][pc][pt] == TIE:
+                if ans[pm][pc][pt] == TIE:
                     win = (t == MOUSE_WIN and pt == MOUSE_TURN) or (
                         t == CAT_WIN and pt == CAT_TURN
                     )
                     if win:
-                        res[pm][pc][pt] = t
+                        ans[pm][pc][pt] = t
                         q.append(prev_state)
                     else:
                         degree[pm][pc][pt] -= 1
                         if degree[pm][pc][pt] == 0:
-                            res[pm][pc][pt] = t
+                            ans[pm][pc][pt] = t
                             q.append(prev_state)
-        return res[MOUSE_START][CAT_START][MOUSE_TURN]
+        return ans[MOUSE_START][CAT_START][MOUSE_TURN]
 ```
 
 #### Java
@@ -171,7 +175,7 @@ class Solution:
 class Solution {
     private int n;
     private int[][] g;
-    private int[][][] res;
+    private int[][][] ans;
     private int[][][] degree;
 
     private static final int HOLE = 0, MOUSE_START = 1, CAT_START = 2;
@@ -181,7 +185,7 @@ class Solution {
     public int catMouseGame(int[][] graph) {
         n = graph.length;
         g = graph;
-        res = new int[n][n][2];
+        ans = new int[n][n][2];
         degree = new int[n][n][2];
         for (int i = 0; i < n; ++i) {
             for (int j = 1; j < n; ++j) {
@@ -196,39 +200,39 @@ class Solution {
         }
         Deque<int[]> q = new ArrayDeque<>();
         for (int j = 1; j < n; ++j) {
-            res[0][j][MOUSE_TURN] = MOUSE_WIN;
-            res[0][j][CAT_TURN] = MOUSE_WIN;
+            ans[0][j][MOUSE_TURN] = MOUSE_WIN;
+            ans[0][j][CAT_TURN] = MOUSE_WIN;
             q.offer(new int[] {0, j, MOUSE_TURN});
             q.offer(new int[] {0, j, CAT_TURN});
         }
         for (int i = 1; i < n; ++i) {
-            res[i][i][MOUSE_TURN] = CAT_WIN;
-            res[i][i][CAT_TURN] = CAT_WIN;
+            ans[i][i][MOUSE_TURN] = CAT_WIN;
+            ans[i][i][CAT_TURN] = CAT_WIN;
             q.offer(new int[] {i, i, MOUSE_TURN});
             q.offer(new int[] {i, i, CAT_TURN});
         }
         while (!q.isEmpty()) {
             int[] state = q.poll();
-            int t = res[state[0]][state[1]][state[2]];
+            int t = ans[state[0]][state[1]][state[2]];
             List<int[]> prevStates = getPrevStates(state);
             for (var prevState : prevStates) {
                 int pm = prevState[0], pc = prevState[1], pt = prevState[2];
-                if (res[pm][pc][pt] == TIE) {
+                if (ans[pm][pc][pt] == TIE) {
                     boolean win
                         = (t == MOUSE_WIN && pt == MOUSE_TURN) || (t == CAT_WIN && pt == CAT_TURN);
                     if (win) {
-                        res[pm][pc][pt] = t;
+                        ans[pm][pc][pt] = t;
                         q.offer(prevState);
                     } else {
                         if (--degree[pm][pc][pt] == 0) {
-                            res[pm][pc][pt] = t;
+                            ans[pm][pc][pt] = t;
                             q.offer(prevState);
                         }
                     }
                 }
             }
         }
-        return res[MOUSE_START][CAT_START][MOUSE_TURN];
+        return ans[MOUSE_START][CAT_START][MOUSE_TURN];
     }
 
     private List<int[]> getPrevStates(int[] state) {
@@ -267,9 +271,9 @@ class Solution {
 public:
     int catMouseGame(vector<vector<int>>& graph) {
         int n = graph.size();
-        int res[n][n][2];
+        int ans[n][n][2];
         int degree[n][n][2];
-        memset(res, 0, sizeof res);
+        memset(ans, 0, sizeof ans);
         memset(degree, 0, sizeof degree);
         for (int i = 0; i < n; ++i) {
             for (int j = 1; j < n; ++j) {
@@ -298,35 +302,35 @@ public:
         };
         queue<tuple<int, int, int>> q;
         for (int j = 1; j < n; ++j) {
-            res[0][j][MOUSE_TURN] = res[0][j][CAT_TURN] = MOUSE_WIN;
+            ans[0][j][MOUSE_TURN] = ans[0][j][CAT_TURN] = MOUSE_WIN;
             q.emplace(0, j, MOUSE_TURN);
             q.emplace(0, j, CAT_TURN);
         }
         for (int i = 1; i < n; ++i) {
-            res[i][i][MOUSE_TURN] = res[i][i][CAT_TURN] = CAT_WIN;
+            ans[i][i][MOUSE_TURN] = ans[i][i][CAT_TURN] = CAT_WIN;
             q.emplace(i, i, MOUSE_TURN);
             q.emplace(i, i, CAT_TURN);
         }
         while (!q.empty()) {
             auto [m, c, t] = q.front();
             q.pop();
-            int x = res[m][c][t];
+            int x = ans[m][c][t];
             for (auto [pm, pc, pt] : getPrevStates(m, c, t)) {
-                if (res[pm][pc][pt] == TIE) {
+                if (ans[pm][pc][pt] == TIE) {
                     bool win = (x == MOUSE_WIN && pt == MOUSE_TURN) || (x == CAT_WIN && pt == CAT_TURN);
                     if (win) {
-                        res[pm][pc][pt] = x;
+                        ans[pm][pc][pt] = x;
                         q.emplace(pm, pc, pt);
                     } else {
                         if (--degree[pm][pc][pt] == 0) {
-                            res[pm][pc][pt] = x;
+                            ans[pm][pc][pt] = x;
                             q.emplace(pm, pc, pt);
                         }
                     }
                 }
             }
         }
-        return res[MOUSE_START][CAT_START][MOUSE_TURN];
+        return ans[MOUSE_START][CAT_START][MOUSE_TURN];
     }
 };
 ```
@@ -346,7 +350,7 @@ const (
 )
 
 func catMouseGame(graph [][]int) int {
-	res := [50][50][2]int{}
+	ans := [50][50][2]int{}
 	degree := [50][50][2]int{}
 	n := len(graph)
 	for i := 0; i < n; i++ {
@@ -361,12 +365,12 @@ func catMouseGame(graph [][]int) int {
 	type tuple struct{ m, c, t int }
 	q := []tuple{}
 	for j := 1; j < n; j++ {
-		res[0][j][mouseTurn], res[0][j][catTurn] = mouseWin, mouseWin
+		ans[0][j][mouseTurn], ans[0][j][catTurn] = mouseWin, mouseWin
 		q = append(q, tuple{0, j, mouseTurn})
 		q = append(q, tuple{0, j, catTurn})
 	}
 	for i := 1; i < n; i++ {
-		res[i][i][mouseTurn], res[i][i][catTurn] = catWin, catWin
+		ans[i][i][mouseTurn], ans[i][i][catTurn] = catWin, catWin
 		q = append(q, tuple{i, i, mouseTurn})
 		q = append(q, tuple{i, i, catTurn})
 	}
@@ -390,25 +394,205 @@ func catMouseGame(graph [][]int) int {
 		state := q[0]
 		m, c, t := state.m, state.c, state.t
 		q = q[1:]
-		x := res[m][c][t]
+		x := ans[m][c][t]
 		for _, prevState := range getPrevStates(m, c, t) {
 			pm, pc, pt := prevState.m, prevState.c, prevState.t
-			if res[pm][pc][pt] == tie {
+			if ans[pm][pc][pt] == tie {
 				win := (x == mouseWin && pt == mouseTurn) || (x == catWin && pt == catTurn)
 				if win {
-					res[pm][pc][pt] = x
+					ans[pm][pc][pt] = x
 					q = append(q, tuple{pm, pc, pt})
 				} else {
 					degree[pm][pc][pt]--
 					if degree[pm][pc][pt] == 0 {
-						res[pm][pc][pt] = x
+						ans[pm][pc][pt] = x
 						q = append(q, tuple{pm, pc, pt})
 					}
 				}
 			}
 		}
 	}
-	return res[mouseStart][catStart][mouseTurn]
+	return ans[mouseStart][catStart][mouseTurn]
+}
+```
+
+#### TypeScript
+
+```ts
+function catMouseGame(graph: number[][]): number {
+    const [HOLE, MOUSE_START, CAT_START] = [0, 1, 2];
+    const [MOUSE_TURN, CAT_TURN] = [0, 1];
+    const [MOUSE_WIN, CAT_WIN, TIE] = [1, 2, 0];
+
+    function get_prev_states(state: [number, number, number]): [number, number, number][] {
+        const [m, c, t] = state;
+        const pt = t ^ 1;
+        const pre = [] as [number, number, number][];
+
+        if (pt === CAT_TURN) {
+            for (const pc of graph[c]) {
+                if (pc !== HOLE) {
+                    pre.push([m, pc, pt]);
+                }
+            }
+        } else {
+            for (const pm of graph[m]) {
+                pre.push([pm, c, pt]);
+            }
+        }
+        return pre;
+    }
+
+    const n = graph.length;
+    const ans: number[][][] = Array.from({ length: n }, () =>
+        Array.from({ length: n }, () => [TIE, TIE]),
+    );
+    const degree: number[][][] = Array.from({ length: n }, () =>
+        Array.from({ length: n }, () => [0, 0]),
+    );
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 1; j < n; j++) {
+            degree[i][j][MOUSE_TURN] = graph[i].length;
+            degree[i][j][CAT_TURN] = graph[j].length;
+        }
+        for (const j of graph[HOLE]) {
+            degree[i][j][CAT_TURN] -= 1;
+        }
+    }
+
+    const q: [number, number, number][] = [];
+
+    for (let j = 1; j < n; j++) {
+        ans[0][j][MOUSE_TURN] = ans[0][j][CAT_TURN] = MOUSE_WIN;
+        q.push([0, j, MOUSE_TURN], [0, j, CAT_TURN]);
+    }
+    for (let i = 1; i < n; i++) {
+        ans[i][i][MOUSE_TURN] = ans[i][i][CAT_TURN] = CAT_WIN;
+        q.push([i, i, MOUSE_TURN], [i, i, CAT_TURN]);
+    }
+
+    while (q.length > 0) {
+        const state = q.shift()!;
+        const [m, c, t] = state;
+        const result = ans[m][c][t];
+
+        for (const prev_state of get_prev_states(state)) {
+            const [pm, pc, pt] = prev_state;
+            if (ans[pm][pc][pt] === TIE) {
+                const win =
+                    (result === MOUSE_WIN && pt === MOUSE_TURN) ||
+                    (result === CAT_WIN && pt === CAT_TURN);
+                if (win) {
+                    ans[pm][pc][pt] = result;
+                    q.push(prev_state);
+                } else {
+                    degree[pm][pc][pt] -= 1;
+                    if (degree[pm][pc][pt] === 0) {
+                        ans[pm][pc][pt] = result;
+                        q.push(prev_state);
+                    }
+                }
+            }
+        }
+    }
+
+    return ans[MOUSE_START][CAT_START][MOUSE_TURN];
+}
+```
+
+#### C#
+
+```cs
+public class Solution {
+    private int n;
+    private int[][] g;
+    private int[,,] ans;
+    private int[,,] degree;
+
+    private const int HOLE = 0, MOUSE_START = 1, CAT_START = 2;
+    private const int MOUSE_TURN = 0, CAT_TURN = 1;
+    private const int MOUSE_WIN = 1, CAT_WIN = 2, TIE = 0;
+
+    public int CatMouseGame(int[][] graph) {
+        n = graph.Length;
+        g = graph;
+        ans = new int[n, n, 2];
+        degree = new int[n, n, 2];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j < n; j++) {
+                degree[i, j, MOUSE_TURN] = g[i].Length;
+                degree[i, j, CAT_TURN] = g[j].Length;
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            foreach (int j in g[HOLE]) {
+                degree[i, j, CAT_TURN]--;
+            }
+        }
+
+        Queue<int[]> q = new Queue<int[]>();
+
+        for (int j = 1; j < n; j++) {
+            ans[0, j, MOUSE_TURN] = MOUSE_WIN;
+            ans[0, j, CAT_TURN] = MOUSE_WIN;
+            q.Enqueue(new int[] { 0, j, MOUSE_TURN });
+            q.Enqueue(new int[] { 0, j, CAT_TURN });
+        }
+
+        for (int i = 1; i < n; i++) {
+            ans[i, i, MOUSE_TURN] = CAT_WIN;
+            ans[i, i, CAT_TURN] = CAT_WIN;
+            q.Enqueue(new int[] { i, i, MOUSE_TURN });
+            q.Enqueue(new int[] { i, i, CAT_TURN });
+        }
+
+        while (q.Count > 0) {
+            int[] state = q.Dequeue();
+            int t = ans[state[0], state[1], state[2]];
+            List<int[]> prevStates = GetPrevStates(state);
+
+            foreach (var prevState in prevStates) {
+                int pm = prevState[0], pc = prevState[1], pt = prevState[2];
+                if (ans[pm, pc, pt] == TIE) {
+                    bool win = (t == MOUSE_WIN && pt == MOUSE_TURN) || (t == CAT_WIN && pt == CAT_TURN);
+                    if (win) {
+                        ans[pm, pc, pt] = t;
+                        q.Enqueue(prevState);
+                    } else {
+                        if (--degree[pm, pc, pt] == 0) {
+                            ans[pm, pc, pt] = t;
+                            q.Enqueue(prevState);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ans[MOUSE_START, CAT_START, MOUSE_TURN];
+    }
+
+    private List<int[]> GetPrevStates(int[] state) {
+        List<int[]> pre = new List<int[]>();
+        int m = state[0], c = state[1], t = state[2];
+        int pt = t ^ 1;
+
+        if (pt == CAT_TURN) {
+            foreach (int pc in g[c]) {
+                if (pc != HOLE) {
+                    pre.Add(new int[] { m, pc, pt });
+                }
+            }
+        } else {
+            foreach (int pm in g[m]) {
+                pre.Add(new int[] { pm, c, pt });
+            }
+        }
+
+        return pre;
+    }
 }
 ```
 

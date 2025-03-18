@@ -1,66 +1,74 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1758.Minimum%20Changes%20To%20Make%20Alternating%20Binary%20String/README.md
 rating: 1353
-source: Weekly Contest 228 Q1
+source: 第 228 场周赛 Q1
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1758. Minimum Changes To Make Alternating Binary String](https://leetcode.com/problems/minimum-changes-to-make-alternating-binary-string)
+# [1758. 生成交替二进制字符串的最少操作数](https://leetcode.cn/problems/minimum-changes-to-make-alternating-binary-string)
 
-## Description
+[English Version](/solution/1700-1799/1758.Minimum%20Changes%20To%20Make%20Alternating%20Binary%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> consisting only of the characters <code>&#39;0&#39;</code> and <code>&#39;1&#39;</code>. In one operation, you can change any <code>&#39;0&#39;</code> to <code>&#39;1&#39;</code> or vice versa.</p>
+<p>给你一个仅由字符 <code>'0'</code> 和 <code>'1'</code> 组成的字符串 <code>s</code> 。一步操作中，你可以将任一 <code>'0'</code> 变成 <code>'1'</code> ，或者将 <code>'1'</code> 变成 <code>'0'</code> 。</p>
 
-<p>The string is called alternating if no two adjacent characters are equal. For example, the string <code>&quot;010&quot;</code> is alternating, while the string <code>&quot;0100&quot;</code> is not.</p>
+<p><strong>交替字符串</strong> 定义为：如果字符串中不存在相邻两个字符相等的情况，那么该字符串就是交替字符串。例如，字符串 <code>"010"</code> 是交替字符串，而字符串 <code>"0100"</code> 不是。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of operations needed to make</em> <code>s</code> <em>alternating</em>.</p>
+<p>返回使 <code>s</code> 变成 <strong>交替字符串</strong> 所需的 <strong>最少</strong> 操作数。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s = &quot;0100&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> If you change the last character to &#39;1&#39;, s will be &quot;0101&quot;, which is alternating.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>s = "0100"
+<strong>输出：</strong>1
+<strong>解释：</strong>如果将最后一个字符变为 '1' ，s 就变成 "0101" ，即符合交替字符串定义。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;10&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> s is already alternating.
+<pre><strong>输入：</strong>s = "10"
+<strong>输出：</strong>0
+<strong>解释：</strong>s 已经是交替字符串。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;1111&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> You need two operations to reach &quot;0101&quot; or &quot;1010&quot;.
+<pre><strong>输入：</strong>s = "1111"
+<strong>输出：</strong>2
+<strong>解释：</strong>需要 2 步操作得到 "0101" 或 "1010" 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>s[i]</code> 是 <code>'0'</code> 或 <code>'1'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：一次遍历
+
+根据题意，如果得到交替字符串 `01010101...` 所需要的操作数为 $cnt$，那么得到交替字符串 `10101010...` 所需要的操作数为 $n - cnt$。
+
+因此，我们只需要遍历一次字符串 $s$，统计出 $cnt$ 的值，那么答案即为 $\min(cnt, n - cnt)$。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -118,12 +126,12 @@ func minOperations(s string) int {
 
 ```ts
 function minOperations(s: string): number {
-  const n = s.length;
-  let count = 0;
-  for (let i = 0; i < n; i++) {
-    count += s[i] !== "01"[i & 1] ? 1 : 0;
-  }
-  return Math.min(count, n - count);
+    const n = s.length;
+    let count = 0;
+    for (let i = 0; i < n; i++) {
+        count += s[i] !== '01'[i & 1] ? 1 : 0;
+    }
+    return Math.min(count, n - count);
 }
 ```
 

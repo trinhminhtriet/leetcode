@@ -1,86 +1,82 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0414.Third%20Maximum%20Number/README.md
 tags:
-  - Array
-  - Sorting
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [414. Third Maximum Number](https://leetcode.com/problems/third-maximum-number)
+# [414. 第三大的数](https://leetcode.cn/problems/third-maximum-number)
 
-## Description
+[English Version](/solution/0400-0499/0414.Third%20Maximum%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code>, return <em>the <strong>third distinct maximum</strong> number in this array. If the third maximum does not exist, return the <strong>maximum</strong> number</em>.</p>
+<p>给你一个非空数组，返回此数组中 <strong>第三大的数</strong> 。如果不存在，则返回数组中最大的数。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [3,2,1]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong>
-The first distinct maximum is 3.
-The second distinct maximum is 2.
-The third distinct maximum is 1.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong>
-The first distinct maximum is 2.
-The second distinct maximum is 1.
-The third distinct maximum does not exist, so the maximum (2) is returned instead.
-</pre>
+<strong>输入：</strong>[3, 2, 1]
+<strong>输出：</strong>1
+<strong>解释：</strong>第三大的数是 1 。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,2,3,1]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong>
-The first distinct maximum is 3.
-The second distinct maximum is 2 (both 2&#39;s are counted together since they have the same value).
-The third distinct maximum is 1.
+<strong>输入：</strong>[1, 2]
+<strong>输出：</strong>2
+<strong>解释：</strong>第三大的数不存在, 所以返回最大的数 2 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>[2, 2, 3, 1]
+<strong>输出：</strong>1
+<strong>解释：</strong>注意，要求返回第三大的数，是指在所有不同数字中排第三大的数。
+此例中存在两个值为 2 的数，它们都排第二。在所有不同数字中排第三大的数为 1 。</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
+	<li><code>1 <= nums.length <= 10<sup>4</sup></code></li>
+	<li><code>-2<sup>31</sup> <= nums[i] <= 2<sup>31</sup> - 1</code></li>
 </ul>
 
-<p>&nbsp;</p>
-<strong>Follow up:</strong> Can you find an <code>O(n)</code> solution?
+<p> </p>
+
+<p><strong>进阶：</strong>你能设计一个时间复杂度 <code>O(n)</code> 的解决方案吗？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Single Pass
+### 方法一：一次遍历
 
-We can use three variables $m_1$, $m_2$, and $m_3$ to represent the first, second, and third largest numbers in the array respectively. Initially, we set these three variables to negative infinity.
+我们可以使用三个变量 $m_1$, $m_2$, $m_3$ 分别表示数组中的第一大、第二大和第三大的数。初始时，我们将这三个变量都赋值为负无穷大。
 
-Then, we iterate through each number in the array. For each number:
+然后，我们遍历数组中的每个数，对于每个数，我们将其与 $m_1$, $m_2$, $m_3$ 进行比较，根据比较的结果更新这三个变量。具体地，我们遍历数组中的每个数，对于每个数：
 
-- If it equals any of $m_1$, $m_2$, or $m_3$, we skip this number.
-- If it is greater than $m_1$, we update the values of $m_1$, $m_2$, and $m_3$ to $m_2$, $m_3$, and this number respectively.
-- If it is greater than $m_2$, we update the values of $m_2$ and $m_3$ to $m_3$ and this number respectively.
-- If it is greater than $m_3$, we update the value of $m_3$ to this number.
+-   如果这个数等于 $m_1$, $m_2$, $m_3$ 中的任何一个，我们跳过这个数；
+-   如果这个数大于 $m_1$，我们将 $m_1$, $m_2$, $m_3$ 的值更新为 $m_2$, $m_3$, 这个数；
+-   如果这个数大于 $m_2$，我们将 $m_2$, $m_3$ 的值更新为 $m_3$, 这个数；
+-   如果这个数大于 $m_3$，我们将 $m_3$ 的值更新为这个数。
 
-Finally, if the value of $m_3$ has not been updated, it means that there is no third largest number in the array, so we return $m_1$. Otherwise, we return $m_3$.
+最后，如果 $m_3$ 的值没有被更新，说明数组中不存在第三大的数，那么我们返回 $m_1$，否则我们返回 $m_3$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array `nums`. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 `nums` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

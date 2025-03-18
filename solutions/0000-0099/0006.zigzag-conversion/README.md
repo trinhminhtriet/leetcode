@@ -1,83 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0006.Zigzag%20Conversion/README.md
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [6. Zigzag Conversion](https://leetcode.com/problems/zigzag-conversion)
+# [6. Z 字形变换](https://leetcode.cn/problems/zigzag-conversion)
 
-## Description
+[English Version](/solution/0000-0099/0006.Zigzag%20Conversion/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The string <code>&quot;PAYPALISHIRING&quot;</code> is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)</p>
+<p>将一个给定字符串 <code>s</code> 根据给定的行数 <code>numRows</code> ，以从上往下、从左到右进行 Z 字形排列。</p>
+
+<p>比如输入字符串为 <code>"PAYPALISHIRING"</code> 行数为 <code>3</code> 时，排列如下：</p>
 
 <pre>
 P   A   H   N
 A P L S I I G
-Y   I   R
-</pre>
+Y   I   R</pre>
 
-<p>And then read line by line: <code>&quot;PAHNAPLSIIGYIR&quot;</code></p>
+<p>之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如：<code>"PAHNAPLSIIGYIR"</code>。</p>
 
-<p>Write the code that will take a string and make this conversion given a number of rows:</p>
-
-<pre>
-string convert(string s, int numRows);
-</pre>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>请你实现这个将字符串进行指定行数变换的函数：</p>
 
 <pre>
-<strong>Input:</strong> s = &quot;PAYPALISHIRING&quot;, numRows = 3
-<strong>Output:</strong> &quot;PAHNAPLSIIGYIR&quot;
-</pre>
+string convert(string s, int numRows);</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;PAYPALISHIRING&quot;, numRows = 4
-<strong>Output:</strong> &quot;PINALSIGYAHRPI&quot;
-<strong>Explanation:</strong>
+<strong>输入：</strong>s = "PAYPALISHIRING", numRows = 3
+<strong>输出：</strong>"PAHNAPLSIIGYIR"
+</pre>
+
+<strong>示例 2：</strong>
+
+<pre>
+<strong>输入：</strong>s = "PAYPALISHIRING", numRows = 4
+<strong>输出：</strong>"PINALSIGYAHRPI"
+<strong>解释：</strong>
 P     I    N
 A   L S  I G
 Y A   H R
 P     I
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;A&quot;, numRows = 1
-<strong>Output:</strong> &quot;A&quot;
+<strong>输入：</strong>s = "A", numRows = 1
+<strong>输出：</strong>"A"
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code> consists of English letters (lower-case and upper-case), <code>&#39;,&#39;</code> and <code>&#39;.&#39;</code>.</li>
-	<li><code>1 &lt;= numRows &lt;= 1000</code></li>
+	<li><code>1 <= s.length <= 1000</code></li>
+	<li><code>s</code> 由英文字母（小写和大写）、<code>','</code> 和 <code>'.'</code> 组成</li>
+	<li><code>1 <= numRows <= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We use a two-dimensional array $g$ to simulate the process of the $Z$-shape arrangement, where $g[i][j]$ represents the character at the $i$-th row and the $j$-th column. Initially, $i=0$, and we define a direction variable $k$, initially $k=-1$, indicating moving upwards.
+我们用一个二维数组 $g$ 来模拟 $Z$ 字形排列的过程，其中 $g[i][j]$ 表示第 $i$ 行第 $j$ 列的字符。初始时 $i=0$，另外我们定义一个方向变量 $k$，初始时 $k=-1$，表示向上走。
 
-We traverse the string $s$ from left to right. Each time we traverse to a character $c$, we append it to $g[i]$. If $i=0$ or $i=numRows-1$ at this time, it means that the current character is at the turning point of the $Z$-shape arrangement, and we reverse the value of $k$, i.e., $k=-k$. Next, we update the value of $i$ to $i+k$, i.e., move up or down one row. Continue to traverse the next character until we have traversed the string $s$, and we return the string concatenated by all rows in $g$.
+我们从左到右遍历字符串 $s$，每次遍历到一个字符 $c$，将其追加到 $g[i]$ 中，如果此时 $i=0$ 或者 $i=numRows-1$，说明当前字符位于 $Z$ 字形排列的拐点，我们将 $k$ 的值反转，即 $k=-k$。接下来，我们将 $i$ 的值更新为 $i+k$，即向上或向下移动一行。继续遍历下一个字符，直到遍历完字符串 $s$，我们返回 $g$ 中所有行拼接后的字符串即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -172,20 +177,20 @@ func convert(s string, numRows int) string {
 
 ```ts
 function convert(s: string, numRows: number): string {
-  if (numRows === 1) {
-    return s;
-  }
-  const g: string[][] = new Array(numRows).fill(0).map(() => []);
-  let i = 0;
-  let k = -1;
-  for (const c of s) {
-    g[i].push(c);
-    if (i === numRows - 1 || i === 0) {
-      k = -k;
+    if (numRows === 1) {
+        return s;
     }
-    i += k;
-  }
-  return g.flat().join("");
+    const g: string[][] = new Array(numRows).fill(0).map(() => []);
+    let i = 0;
+    let k = -1;
+    for (const c of s) {
+        g[i].push(c);
+        if (i === numRows - 1 || i === 0) {
+            k = -k;
+        }
+        i += k;
+    }
+    return g.flat().join('');
 }
 ```
 
@@ -230,20 +235,20 @@ impl Solution {
  * @return {string}
  */
 var convert = function (s, numRows) {
-  if (numRows === 1) {
-    return s;
-  }
-  const g = new Array(numRows).fill(_).map(() => []);
-  let i = 0;
-  let k = -1;
-  for (const c of s) {
-    g[i].push(c);
-    if (i === 0 || i === numRows - 1) {
-      k = -k;
+    if (numRows === 1) {
+        return s;
     }
-    i += k;
-  }
-  return g.flat().join("");
+    const g = new Array(numRows).fill(_).map(() => []);
+    let i = 0;
+    let k = -1;
+    for (const c of s) {
+        g[i].push(c);
+        if (i === 0 || i === numRows - 1) {
+            k = -k;
+        }
+        i += k;
+    }
+    return g.flat().join('');
 };
 ```
 
@@ -283,7 +288,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -388,24 +393,24 @@ func convert(s string, numRows int) string {
 
 ```ts
 function convert(s: string, numRows: number): string {
-  if (numRows === 1) {
-    return s;
-  }
-  const ss = new Array(numRows).fill("");
-  let i = 0;
-  let toDown = true;
-  for (const c of s) {
-    ss[i] += c;
-    if (toDown) {
-      i++;
-    } else {
-      i--;
+    if (numRows === 1) {
+        return s;
     }
-    if (i === 0 || i === numRows - 1) {
-      toDown = !toDown;
+    const ss = new Array(numRows).fill('');
+    let i = 0;
+    let toDown = true;
+    for (const c of s) {
+        ss[i] += c;
+        if (toDown) {
+            i++;
+        } else {
+            i--;
+        }
+        if (i === 0 || i === numRows - 1) {
+            toDown = !toDown;
+        }
     }
-  }
-  return ss.reduce((r, s) => r + s);
+    return ss.reduce((r, s) => r + s);
 }
 ```
 
@@ -432,25 +437,25 @@ impl Solution {
  * @return {string}
  */
 var convert = function (s, numRows) {
-  if (numRows == 1) return s;
-  const arr = new Array(numRows);
-  for (let i = 0; i < numRows; i++) arr[i] = [];
-  let mi = 0,
-    isDown = true;
-  for (const c of s) {
-    arr[mi].push(c);
+    if (numRows == 1) return s;
+    const arr = new Array(numRows);
+    for (let i = 0; i < numRows; i++) arr[i] = [];
+    let mi = 0,
+        isDown = true;
+    for (const c of s) {
+        arr[mi].push(c);
 
-    if (mi >= numRows - 1) isDown = false;
-    else if (mi <= 0) isDown = true;
+        if (mi >= numRows - 1) isDown = false;
+        else if (mi <= 0) isDown = true;
 
-    if (isDown) mi++;
-    else mi--;
-  }
-  let ans = [];
-  for (const item of arr) {
-    ans = ans.concat(item);
-  }
-  return ans.join("");
+        if (isDown) mi++;
+        else mi--;
+    }
+    let ans = [];
+    for (const item of arr) {
+        ans = ans.concat(item);
+    }
+    return ans.join('');
 };
 ```
 

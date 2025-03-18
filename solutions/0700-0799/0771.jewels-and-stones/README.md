@@ -1,47 +1,63 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0771.Jewels%20and%20Stones/README.md
 tags:
-  - Hash Table
-  - String
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [771. Jewels and Stones](https://leetcode.com/problems/jewels-and-stones)
+# [771. 宝石与石头](https://leetcode.cn/problems/jewels-and-stones)
 
-## Description
+[English Version](/solution/0700-0799/0771.Jewels%20and%20Stones/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You&#39;re given strings <code>jewels</code> representing the types of stones that are jewels, and <code>stones</code> representing the stones you have. Each character in <code>stones</code> is a type of stone you have. You want to know how many of the stones you have are also jewels.</p>
+<p>&nbsp;给你一个字符串 <code>jewels</code>&nbsp;代表石头中宝石的类型，另有一个字符串 <code>stones</code> 代表你拥有的石头。&nbsp;<code>stones</code>&nbsp;中每个字符代表了一种你拥有的石头的类型，你想知道你拥有的石头中有多少是宝石。</p>
 
-<p>Letters are case sensitive, so <code>&quot;a&quot;</code> is considered a different type of stone from <code>&quot;A&quot;</code>.</p>
+<p>字母区分大小写，因此 <code>"a"</code> 和 <code>"A"</code> 是不同类型的石头。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> jewels = "aA", stones = "aAAbbbb"
-<strong>Output:</strong> 3
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> jewels = "z", stones = "ZZ"
-<strong>Output:</strong> 0
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>jewels = "aA", stones = "aAAbbbb"
+<strong>输出：</strong>3
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>jewels = "z", stones = "ZZ"
+<strong>输出：</strong>0<strong>
+</strong></pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;=&nbsp;jewels.length, stones.length &lt;= 50</code></li>
-	<li><code>jewels</code> and <code>stones</code> consist of only English letters.</li>
-	<li>All the characters of&nbsp;<code>jewels</code> are <strong>unique</strong>.</li>
+	<li><code>jewels</code> 和 <code>stones</code> 仅由英文字母组成</li>
+	<li><code>jewels</code> 中的所有字符都是 <strong>唯一的</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表或数组
+
+我们可以先用一个哈希表或数组 $s$ 记录所有宝石的类型。然后遍历所有石头，如果当前石头是宝石，就将答案加一。
+
+时间复杂度 $O(m+n)$，空间复杂度 $O(|\Sigma|)$，其中 $m$ 和 $n$ 分别是字符串 $jewels$ 和 $stones$ 的长度，而 $\Sigma$ 是字符集，本题中字符集为所有大小写英文字母的集合。
 
 <!-- tabs:start -->
 
@@ -79,9 +95,13 @@ class Solution {
 public:
     int numJewelsInStones(string jewels, string stones) {
         int s[128] = {0};
-        for (char c : jewels) s[c] = 1;
+        for (char c : jewels) {
+            s[c] = 1;
+        }
         int ans = 0;
-        for (char c : stones) ans += s[c];
+        for (char c : stones) {
+            ans += s[c];
+        }
         return ans;
     }
 };
@@ -106,12 +126,12 @@ func numJewelsInStones(jewels string, stones string) (ans int) {
 
 ```ts
 function numJewelsInStones(jewels: string, stones: string): number {
-  const s = new Set([...jewels]);
-  let ans = 0;
-  for (const c of stones) {
-    s.has(c) && ans++;
-  }
-  return ans;
+    const s = new Set([...jewels]);
+    let ans = 0;
+    for (const c of stones) {
+        s.has(c) && ans++;
+    }
+    return ans;
 }
 ```
 
@@ -121,10 +141,10 @@ function numJewelsInStones(jewels: string, stones: string): number {
 use std::collections::HashSet;
 impl Solution {
     pub fn num_jewels_in_stones(jewels: String, stones: String) -> i32 {
-        let mut set = jewels.as_bytes().iter().collect::<HashSet<&u8>>();
+        let mut s = jewels.as_bytes().iter().collect::<HashSet<&u8>>();
         let mut ans = 0;
         for c in stones.as_bytes() {
-            if set.contains(c) {
+            if s.contains(c) {
                 ans += 1;
             }
         }
@@ -142,8 +162,8 @@ impl Solution {
  * @return {number}
  */
 var numJewelsInStones = function (jewels, stones) {
-  const s = new Set(jewels.split(""));
-  return stones.split("").reduce((prev, val) => prev + s.has(val), 0);
+    const s = new Set(jewels.split(''));
+    return stones.split('').reduce((prev, val) => prev + s.has(val), 0);
 };
 ```
 

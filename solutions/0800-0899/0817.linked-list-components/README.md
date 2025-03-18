@@ -1,61 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0817.Linked%20List%20Components/README.md
 tags:
-  - Array
-  - Hash Table
-  - Linked List
+    - 数组
+    - 哈希表
+    - 链表
 ---
 
 <!-- problem:start -->
 
-# [817. Linked List Components](https://leetcode.com/problems/linked-list-components)
+# [817. 链表组件](https://leetcode.cn/problems/linked-list-components)
 
-## Description
+[English Version](/solution/0800-0899/0817.Linked%20List%20Components/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the <code>head</code> of a linked list containing unique integer values and an integer array <code>nums</code> that is a subset of the linked list values.</p>
+<p>给定链表头结点&nbsp;<code>head</code>，该链表上的每个结点都有一个 <strong>唯一的整型值</strong> 。同时给定列表&nbsp;<code>nums</code>，该列表是上述链表中整型值的一个子集。</p>
 
-<p>Return <em>the number of connected components in </em><code>nums</code><em> where two values are connected if they appear <strong>consecutively</strong> in the linked list</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0817.Linked%20List%20Components/images/lc-linkedlistcom1.jpg" style="width: 424px; height: 65px;" />
-<pre>
-<strong>Input:</strong> head = [0,1,2,3], nums = [0,1,3]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> 0 and 1 are connected, so [0, 1] and [3] are the two connected components.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0817.Linked%20List%20Components/images/lc-linkedlistcom2.jpg" style="width: 544px; height: 65px;" />
-<pre>
-<strong>Input:</strong> head = [0,1,2,3,4], nums = [0,3,1,4]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> 0 and 1 are connected, 3 and 4 are connected, so [0, 1] and [3, 4] are the two connected components.
-</pre>
+<p>返回列表&nbsp;<code>nums</code>&nbsp;中组件的个数，这里对组件的定义为：链表中一段最长连续结点的值（该值必须在列表&nbsp;<code>nums</code>&nbsp;中）构成的集合。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例&nbsp;1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0817.Linked%20List%20Components/images/lc-linkedlistcom1.jpg" /></p>
+
+<pre>
+<strong>输入:</strong> head = [0,1,2,3], nums = [0,1,3]
+<strong>输出:</strong> 2
+<strong>解释:</strong> 链表中,0 和 1 是相连接的，且 nums 中不包含 2，所以 [0, 1] 是 nums 的一个组件，同理 [3] 也是一个组件，故返回 2。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><strong>&nbsp;</strong><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0817.Linked%20List%20Components/images/lc-linkedlistcom2.jpg" /></p>
+
+<pre>
+<strong>输入:</strong> head = [0,1,2,3,4], nums = [0,3,1,4]
+<strong>输出:</strong> 2
+<strong>解释:</strong> 链表中，0 和 1 是相连接的，3 和 4 是相连接的，所以 [0, 1] 和 [3, 4] 是两个组件，故返回 2。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the linked list is <code>n</code>.</li>
+	<li>链表中节点数为<code>n</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= Node.val &lt; n</code></li>
-	<li>All the values <code>Node.val</code> are <strong>unique</strong>.</li>
+	<li><code>Node.val</code>&nbsp;中所有值 <strong>不同</strong></li>
 	<li><code>1 &lt;= nums.length &lt;= n</code></li>
 	<li><code>0 &lt;= nums[i] &lt; n</code></li>
-	<li>All the values of <code>nums</code> are <strong>unique</strong>.</li>
+	<li><code>nums</code> 中所有值 <strong>不同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表 + 链表一次遍历
+
+题目中需要判断链表中节点的值是否在数组 `nums` 中，因此我们可以使用哈希表 $s$ 存储数组 `nums` 中的值。
+
+然后遍历链表，找到第一个在哈希表 $s$ 中的节点，然后从该节点开始遍历，直到遇到不在哈希表 $s$ 中的节点，这样就找到了一个组件，然后继续遍历链表，直到遍历完整个链表。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为链表的节点个数。
 
 <!-- tabs:start -->
 
@@ -189,22 +202,22 @@ func numComponents(head *ListNode, nums []int) int {
  */
 
 function numComponents(head: ListNode | null, nums: number[]): number {
-  const set = new Set<number>(nums);
-  let res = 0;
-  let cur = head;
-  let inSet = false;
-  while (cur != null) {
-    if (set.has(cur.val)) {
-      if (!inSet) {
-        inSet = true;
-        res++;
-      }
-    } else {
-      inSet = false;
+    const set = new Set<number>(nums);
+    let res = 0;
+    let cur = head;
+    let inSet = false;
+    while (cur != null) {
+        if (set.has(cur.val)) {
+            if (!inSet) {
+                inSet = true;
+                res++;
+            }
+        } else {
+            inSet = false;
+        }
+        cur = cur.next;
     }
-    cur = cur.next;
-  }
-  return res;
+    return res;
 }
 ```
 
@@ -266,18 +279,18 @@ impl Solution {
  * @return {number}
  */
 var numComponents = function (head, nums) {
-  const s = new Set(nums);
-  let ans = 0;
-  while (head) {
-    while (head && !s.has(head.val)) {
-      head = head.next;
+    const s = new Set(nums);
+    let ans = 0;
+    while (head) {
+        while (head && !s.has(head.val)) {
+            head = head.next;
+        }
+        ans += head != null;
+        while (head && s.has(head.val)) {
+            head = head.next;
+        }
     }
-    ans += head != null;
-    while (head && s.has(head.val)) {
-      head = head.next;
-    }
-  }
-  return ans;
+    return ans;
 };
 ```
 

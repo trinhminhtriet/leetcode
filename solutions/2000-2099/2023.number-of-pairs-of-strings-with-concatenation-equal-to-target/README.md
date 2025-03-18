@@ -1,84 +1,86 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2023.Number%20of%20Pairs%20of%20Strings%20With%20Concatenation%20Equal%20to%20Target/README.md
 rating: 1341
-source: Biweekly Contest 62 Q2
+source: 第 62 场双周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - String
-  - Counting
+    - 数组
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2023. Number of Pairs of Strings With Concatenation Equal to Target](https://leetcode.com/problems/number-of-pairs-of-strings-with-concatenation-equal-to-target)
+# [2023. 连接后等于目标字符串的字符串对](https://leetcode.cn/problems/number-of-pairs-of-strings-with-concatenation-equal-to-target)
 
-## Description
+[English Version](/solution/2000-2099/2023.Number%20of%20Pairs%20of%20Strings%20With%20Concatenation%20Equal%20to%20Target/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of <strong>digit</strong> strings <code>nums</code> and a <strong>digit</strong> string <code>target</code>, return <em>the number of pairs of indices </em><code>(i, j)</code><em> (where </em><code>i != j</code><em>) such that the <strong>concatenation</strong> of </em><code>nums[i] + nums[j]</code><em> equals </em><code>target</code>.</p>
+<p>给你一个 <strong>数字</strong>&nbsp;字符串数组 <code>nums</code>&nbsp;和一个 <strong>数字</strong>&nbsp;字符串 <code>target</code>&nbsp;，请你返回 <code>nums[i] + nums[j]</code>&nbsp;（两个字符串连接）结果等于 <code>target</code>&nbsp;的下标 <code>(i, j)</code>&nbsp;（需满足 <code>i != j</code>）的数目。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [&quot;777&quot;,&quot;7&quot;,&quot;77&quot;,&quot;77&quot;], target = &quot;7777&quot;
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> Valid pairs are:
-- (0, 1): &quot;777&quot; + &quot;7&quot;
-- (1, 0): &quot;7&quot; + &quot;777&quot;
-- (2, 3): &quot;77&quot; + &quot;77&quot;
-- (3, 2): &quot;77&quot; + &quot;77&quot;
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums = ["777","7","77","77"], target = "7777"
+<b>输出：</b>4
+<b>解释：</b>符合要求的下标对包括：
+- (0, 1)："777" + "7"
+- (1, 0)："7" + "777"
+- (2, 3)："77" + "77"
+- (3, 2)："77" + "77"
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [&quot;123&quot;,&quot;4&quot;,&quot;12&quot;,&quot;34&quot;], target = &quot;1234&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Valid pairs are:
-- (0, 1): &quot;123&quot; + &quot;4&quot;
-- (2, 3): &quot;12&quot; + &quot;34&quot;
+<pre><b>输入：</b>nums = ["123","4","12","34"], target = "1234"
+<b>输出：</b>2
+<b>解释：</b>符合要求的下标对包括
+- (0, 1)："123" + "4"
+- (2, 3)："12" + "34"
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [&quot;1&quot;,&quot;1&quot;,&quot;1&quot;], target = &quot;11&quot;
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> Valid pairs are:
-- (0, 1): &quot;1&quot; + &quot;1&quot;
-- (1, 0): &quot;1&quot; + &quot;1&quot;
-- (0, 2): &quot;1&quot; + &quot;1&quot;
-- (2, 0): &quot;1&quot; + &quot;1&quot;
-- (1, 2): &quot;1&quot; + &quot;1&quot;
-- (2, 1): &quot;1&quot; + &quot;1&quot;
+<pre><b>输入：</b>nums = ["1","1","1"], target = "11"
+<b>输出：</b>6
+<b>解释：</b>符合要求的下标对包括
+- (0, 1)："1" + "1"
+- (1, 0)："1" + "1"
+- (0, 2)："1" + "1"
+- (2, 0)："1" + "1"
+- (1, 2)："1" + "1"
+- (2, 1)："1" + "1"
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 100</code></li>
 	<li><code>1 &lt;= nums[i].length &lt;= 100</code></li>
 	<li><code>2 &lt;= target.length &lt;= 100</code></li>
-	<li><code>nums[i]</code> and <code>target</code> consist of digits.</li>
-	<li><code>nums[i]</code> and <code>target</code> do not have leading zeros.</li>
+	<li><code>nums[i]</code>&nbsp;和&nbsp;<code>target</code>&nbsp;只包含数字。</li>
+	<li><code>nums[i]</code>&nbsp;和&nbsp;<code>target</code>&nbsp;不含有任何前导 0 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-Traverse the array `nums`, for each $i$, enumerate all $j$, if $i \neq j$ and $nums[i] + nums[j] = target$, then increment the answer by one.
+遍历数组 `nums`，对于每个 $i$，枚举所有 $j$，如果 $i \neq j$ 且 $nums[i] + nums[j] = target$，则答案加一。
 
-The time complexity is $O(n^2 \times m)$, where $n$ and $m$ are the lengths of the array `nums` and the string `target`, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(n^2 \times m)$，其中 $n$ 和 $m$ 分别为数组 `nums` 和字符串 `target` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -151,11 +153,11 @@ func numOfPairs(nums []string, target string) (ans int) {
 
 <!-- solution:start -->
 
-### Solution 2: Hash Table
+### 方法二：哈希表
 
-We can use a hash table to count the occurrence of each string in the array `nums`, then traverse all prefixes and suffixes of the string `target`. If both the prefix and suffix are in the hash table, then increment the answer by the product of their occurrences.
+我们可以用哈希表统计数组 `nums` 中每个字符串出现的次数，然后遍历字符串 `target` 的所有前缀和后缀，如果前缀和后缀都在哈希表中，则答案加上它们出现的次数的乘积。
 
-The time complexity is $O(n + m^2)$, and the space complexity is $O(n)$. Here, $n$ and $m$ are the lengths of the array `nums` and the string `target`, respectively.
+时间复杂度 $O(n + m^2)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别为数组 `nums` 和字符串 `target` 的长度。
 
 <!-- tabs:start -->
 

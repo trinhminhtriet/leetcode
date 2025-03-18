@@ -1,75 +1,80 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2934.Minimum%20Operations%20to%20Maximize%20Last%20Elements%20in%20Arrays/README.md
 rating: 1802
-source: Weekly Contest 371 Q3
+source: 第 371 场周赛 Q3
 tags:
-  - Array
-  - Enumeration
+    - 数组
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2934. Minimum Operations to Maximize Last Elements in Arrays](https://leetcode.com/problems/minimum-operations-to-maximize-last-elements-in-arrays)
+# [2934. 最大化数组末位元素的最少操作次数](https://leetcode.cn/problems/minimum-operations-to-maximize-last-elements-in-arrays)
 
-## Description
+[English Version](/solution/2900-2999/2934.Minimum%20Operations%20to%20Maximize%20Last%20Elements%20in%20Arrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>0-indexed</strong> integer arrays, <code>nums1</code> and <code>nums2</code>, both having length <code>n</code>.</p>
+<p>给你两个下标从 <strong>0</strong> 开始的整数数组 <code>nums1</code> 和 <code>nums2</code> ，这两个数组的长度都是 <code>n</code> 。</p>
 
-<p>You are allowed to perform a series of <strong>operations</strong> (<strong>possibly none</strong>).</p>
+<p>你可以执行一系列<strong> 操作（可能不执行）</strong>。</p>
 
-<p>In an operation, you select an index <code>i</code> in the range <code>[0, n - 1]</code> and <strong>swap</strong> the values of <code>nums1[i]</code> and <code>nums2[i]</code>.</p>
+<p>在每次操作中，你可以选择一个在范围 <code>[0, n - 1]</code> 内的下标 <code>i</code> ，并交换 <code>nums1[i]</code> 和 <code>nums2[i]</code> 的值。</p>
 
-<p>Your task is to find the <strong>minimum</strong> number of operations required to satisfy the following conditions:</p>
+<p>你的任务是找到满足以下条件所需的 <strong>最小</strong> 操作次数：</p>
 
 <ul>
-	<li><code>nums1[n - 1]</code> is equal to the <strong>maximum value</strong> among all elements of <code>nums1</code>, i.e., <code>nums1[n - 1] = max(nums1[0], nums1[1], ..., nums1[n - 1])</code>.</li>
-	<li><code>nums2[n - 1]</code> is equal to the <strong>maximum</strong> <strong>value</strong> among all elements of <code>nums2</code>, i.e., <code>nums2[n - 1] = max(nums2[0], nums2[1], ..., nums2[n - 1])</code>.</li>
+	<li><code>nums1[n - 1]</code> 等于 <code>nums1</code> 中所有元素的 <strong>最大值</strong> ，即 <code>nums1[n - 1] = max(nums1[0], nums1[1], ..., nums1[n - 1])</code> 。</li>
+	<li><code>nums2[n - 1]</code> 等于 <code>nums2</code> 中所有元素的 <strong>最大值</strong> ，即 <code>nums2[n - 1] = max(nums2[0], nums2[1], ..., nums2[n - 1])</code> 。</li>
 </ul>
 
-<p>Return <em>an integer denoting the <strong>minimum</strong> number of operations needed to meet <strong>both</strong> conditions</em>, <em>or </em><code>-1</code><em> if it is <strong>impossible</strong> to satisfy both conditions.</em></p>
+<p>以整数形式，表示并返回满足上述 <strong>全部</strong> 条件所需的 <strong>最小</strong> 操作次数，如果无法同时满足两个条件，则返回 <code>-1</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums1 = [1,2,7], nums2 = [4,5,3]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> In this example, an operation can be performed using index i = 2.
-When nums1[2] and nums2[2] are swapped, nums1 becomes [1,2,3] and nums2 becomes [4,5,7].
-Both conditions are now satisfied.
-It can be shown that the minimum number of operations needed to be performed is 1.
-So, the answer is 1.
+<strong>输入：</strong>nums1 = [1,2,7]，nums2 = [4,5,3]
+<strong>输出：</strong>1
+<strong>解释：</strong>在这个示例中，可以选择下标 i = 2 执行一次操作。
+交换 nums1[2] 和 nums2[2] 的值，nums1 变为 [1,2,3] ，nums2 变为 [4,5,7] 。
+同时满足两个条件。
+可以证明，需要执行的最小操作次数为 1 。
+因此，答案是 1 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums1 = [2,3,4,5,9], nums2 = [8,8,4,4,4]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> In this example, the following operations can be performed:
-First operation using index i = 4.
-When nums1[4] and nums2[4] are swapped, nums1 becomes [2,3,4,5,4], and nums2 becomes [8,8,4,4,9].
-Another operation using index i = 3.
-When nums1[3] and nums2[3] are swapped, nums1 becomes [2,3,4,4,4], and nums2 becomes [8,8,4,5,9].
-Both conditions are now satisfied.
-It can be shown that the minimum number of operations needed to be performed is 2.
-So, the answer is 2.   
+<strong>输入：</strong>nums1 = [2,3,4,5,9]，nums2 = [8,8,4,4,4]
+<strong>输出：</strong>2
+<strong>解释：</strong>在这个示例中，可以执行以下操作：
+首先，选择下标 i = 4 执行操作。
+交换 nums1[4] 和 nums2[4] 的值，nums1 变为 [2,3,4,5,4] ，nums2 变为 [8,8,4,4,9] 。
+然后，选择下标 i = 3 执行操作。
+交换 nums1[3] 和 nums2[3] 的值，nums1 变为 [2,3,4,4,4] ，nums2 变为 [8,8,4,5,9] 。
+同时满足两个条件。 
+可以证明，需要执行的最小操作次数为 2 。 
+因此，答案是 2 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums1 = [1,5,4], nums2 = [2,5,3]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> In this example, it is not possible to satisfy both conditions. 
-So, the answer is -1.
+<strong>输入：</strong>nums1 = [1,5,4]，nums2 = [2,5,3]
+<strong>输出：</strong>-1
+<strong>解释：</strong>在这个示例中，无法同时满足两个条件。
+因此，答案是 -1 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums1.length == nums2.length &lt;= 1000</code></li>
@@ -79,22 +84,22 @@ So, the answer is -1.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Case Discussion + Greedy
+### 方法一：分情况讨论 + 贪心
 
-We can discuss two cases:
+我们可以分成两种情况讨论：
 
-1. Do not swap the values of $nums1[n - 1]$ and $nums2[n - 1]$
-2. Swap the values of $nums1[n - 1]$ and $nums2[n - 1]$
+1. 不交换 $nums1[n - 1]$ 和 $nums2[n - 1]$ 的值
+1. 交换 $nums1[n - 1]$ 和 $nums2[n - 1]$ 的值
 
-For each case, we denote the last values of the arrays $nums1$ and $nums2$ as $x$ and $y$, respectively. Then we traverse the first $n - 1$ values of the arrays $nums1$ and $nums2$, and use a variable $cnt$ to record the number of swaps. If $nums1[i] \leq x$ and $nums2[i] \leq y$, then no swap is needed. Otherwise, if $nums1[i] \leq y$ and $nums2[i] \leq x$, then a swap is needed. If neither condition is met, return $-1$. Finally, return $cnt$.
+对于每一种情况，我们记数组 $nums1$ 和 $nums2$ 的最后一个值分别为 $x$ 和 $y$。然后遍历数组 $nums1$ 和 $nums2$ 的前 $n - 1$ 个值，用一个变量 $cnt$ 记录交换次数。如果 $nums1[i] \leq x$ 且 $nums2[i] \leq y$，则不需要交换，否则如果 $nums1[i] \leq y$ 且 $nums2[i] \leq x$，则需要交换，否则无法同时满足两个条件，返回 $-1$。最后返回 $cnt$ 即可。
 
-We denote the number of swaps in the two cases as $a$ and $b$, respectively. If $a + b = -2$, then it is impossible to satisfy both conditions, so return $-1$. Otherwise, return $\min(a, b + 1)$.
+我们记两种情况的交换次数分别为 $a$ 和 $b$，如果 $a + b = -2$，则无法同时满足两个条件，返回 $-1$，否则返回 $\min(a, b + 1)$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -203,23 +208,23 @@ func minOperations(nums1 []int, nums2 []int) int {
 
 ```ts
 function minOperations(nums1: number[], nums2: number[]): number {
-  const n = nums1.length;
-  const f = (x: number, y: number): number => {
-    let cnt = 0;
-    for (let i = 0; i < n - 1; ++i) {
-      if (nums1[i] <= x && nums2[i] <= y) {
-        continue;
-      }
-      if (!(nums1[i] <= y && nums2[i] <= x)) {
-        return -1;
-      }
-      ++cnt;
-    }
-    return cnt;
-  };
-  const a = f(nums1.at(-1), nums2.at(-1));
-  const b = f(nums2.at(-1), nums1.at(-1));
-  return a + b === -2 ? -1 : Math.min(a, b + 1);
+    const n = nums1.length;
+    const f = (x: number, y: number): number => {
+        let cnt = 0;
+        for (let i = 0; i < n - 1; ++i) {
+            if (nums1[i] <= x && nums2[i] <= y) {
+                continue;
+            }
+            if (!(nums1[i] <= y && nums2[i] <= x)) {
+                return -1;
+            }
+            ++cnt;
+        }
+        return cnt;
+    };
+    const a = f(nums1.at(-1), nums2.at(-1));
+    const b = f(nums2.at(-1), nums1.at(-1));
+    return a + b === -2 ? -1 : Math.min(a, b + 1);
 }
 ```
 

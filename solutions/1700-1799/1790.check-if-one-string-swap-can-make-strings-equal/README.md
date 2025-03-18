@@ -1,75 +1,83 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1790.Check%20if%20One%20String%20Swap%20Can%20Make%20Strings%20Equal/README.md
 rating: 1300
-source: Weekly Contest 232 Q1
+source: 第 232 场周赛 Q1
 tags:
-  - Hash Table
-  - String
-  - Counting
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1790. Check if One String Swap Can Make Strings Equal](https://leetcode.com/problems/check-if-one-string-swap-can-make-strings-equal)
+# [1790. 仅执行一次字符串交换能否使两个字符串相等](https://leetcode.cn/problems/check-if-one-string-swap-can-make-strings-equal)
 
-## Description
+[English Version](/solution/1700-1799/1790.Check%20if%20One%20String%20Swap%20Can%20Make%20Strings%20Equal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two strings <code>s1</code> and <code>s2</code> of equal length. A <strong>string swap</strong> is an operation where you choose two indices in a string (not necessarily different) and swap the characters at these indices.</p>
+<p>给你长度相等的两个字符串 <code>s1</code> 和 <code>s2</code> 。一次<strong> 字符串交换 </strong>操作的步骤如下：选出某个字符串中的两个下标（不必不同），并交换这两个下标所对应的字符。</p>
 
-<p>Return <code>true</code> <em>if it is possible to make both strings equal by performing <strong>at most one string swap </strong>on <strong>exactly one</strong> of the strings. </em>Otherwise, return <code>false</code>.</p>
+<p>如果对 <strong>其中一个字符串</strong> 执行 <strong>最多一次字符串交换</strong> 就可以使两个字符串相等，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s1 = &quot;bank&quot;, s2 = &quot;kanb&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> For example, swap the first character with the last character of s2 to make &quot;bank&quot;.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>s1 = "bank", s2 = "kanb"
+<strong>输出：</strong>true
+<strong>解释：</strong>例如，交换 s2 中的第一个和最后一个字符可以得到 "bank"
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s1 = &quot;attack&quot;, s2 = &quot;defend&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> It is impossible to make them equal with one string swap.
+<pre><strong>输入：</strong>s1 = "attack", s2 = "defend"
+<strong>输出：</strong>false
+<strong>解释：</strong>一次字符串交换无法使两个字符串相等
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> s1 = &quot;kelb&quot;, s2 = &quot;kelb&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The two strings are already equal, so no string swap operation is required.
+<pre><strong>输入：</strong>s1 = "kelb", s2 = "kelb"
+<strong>输出：</strong>true
+<strong>解释：</strong>两个字符串已经相等，所以不需要进行字符串交换
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>s1 = "abcd", s2 = "dcba"
+<strong>输出：</strong>false
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s1.length, s2.length &lt;= 100</code></li>
 	<li><code>s1.length == s2.length</code></li>
-	<li><code>s1</code> and <code>s2</code> consist of only lowercase English letters.</li>
+	<li><code>s1</code> 和 <code>s2</code> 仅由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We use a variable $cnt$ to record the number of characters at the same position in the two strings that are different. If the two strings meet the requirements of the problem, then $cnt$ must be $0$ or $2$. We also use two character variables $c1$ and $c2$ to record the characters that are different at the same position in the two strings.
+我们用变量 $cnt$ 记录两个字符串中相同位置字符不同的个数，两个字符串若满足题目要求，那么 $cnt$ 一定为 $0$ 或 $2$。另外用两个字符变量 $c1$ 和 $c2$ 记录两个字符串中相同位置字符不同的字符。
 
-While traversing the two strings simultaneously, for two characters $a$ and $b$ at the same position, if $a \ne b$, then $cnt$ is incremented by $1$. If at this time $cnt$ is greater than $2$, or $cnt$ is $2$ and $a \ne c2$ or $b \ne c1$, then we directly return `false`. Note to record $c1$ and $c2$.
+同时遍历两个字符串，对于相同位置的两个字符 $a$ 和 $b$，如果 $a \ne b$，那么 $cnt$ 自增 $1$。如果此时 $cnt$ 大于 $2$，或者 $cnt$ 为 $2$ 且 $a \ne c2$ 或 $b \ne c1$，那么直接返回 `false`。注意记录一下 $c1$ 和 $c2$。
 
-At the end of the traversal, if $cnt \neq 1$, return `true`.
+遍历结束，若 $cnt \neq 1$，返回 `true`。
 
-The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -157,20 +165,20 @@ func areAlmostEqual(s1 string, s2 string) bool {
 
 ```ts
 function areAlmostEqual(s1: string, s2: string): boolean {
-  let c1, c2;
-  let cnt = 0;
-  for (let i = 0; i < s1.length; ++i) {
-    const a = s1.charAt(i);
-    const b = s2.charAt(i);
-    if (a != b) {
-      if (++cnt > 2 || (cnt == 2 && (a != c2 || b != c1))) {
-        return false;
-      }
-      c1 = a;
-      c2 = b;
+    let c1, c2;
+    let cnt = 0;
+    for (let i = 0; i < s1.length; ++i) {
+        const a = s1.charAt(i);
+        const b = s2.charAt(i);
+        if (a != b) {
+            if (++cnt > 2 || (cnt == 2 && (a != c2 || b != c1))) {
+                return false;
+            }
+            c1 = a;
+            c2 = b;
+        }
     }
-  }
-  return cnt != 1;
+    return cnt != 1;
 }
 ```
 

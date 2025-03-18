@@ -1,68 +1,72 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2834.Find%20the%20Minimum%20Possible%20Sum%20of%20a%20Beautiful%20Array/README.md
 rating: 1409
-source: Weekly Contest 360 Q2
+source: 第 360 场周赛 Q2
 tags:
-  - Greedy
-  - Math
+    - 贪心
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2834. Find the Minimum Possible Sum of a Beautiful Array](https://leetcode.com/problems/find-the-minimum-possible-sum-of-a-beautiful-array)
+# [2834. 找出美丽数组的最小和](https://leetcode.cn/problems/find-the-minimum-possible-sum-of-a-beautiful-array)
 
-## Description
+[English Version](/solution/2800-2899/2834.Find%20the%20Minimum%20Possible%20Sum%20of%20a%20Beautiful%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given positive integers <code>n</code> and <code>target</code>.</p>
+<p>给你两个正整数：<code>n</code> 和 <code>target</code> 。</p>
 
-<p>An array <code>nums</code> is <strong>beautiful</strong> if it meets the following conditions:</p>
+<p>如果数组 <code>nums</code> 满足下述条件，则称其为 <strong>美丽数组</strong> 。</p>
 
 <ul>
 	<li><code>nums.length == n</code>.</li>
-	<li><code>nums</code> consists of pairwise <strong>distinct</strong> <strong>positive</strong> integers.</li>
-	<li>There doesn&#39;t exist two <strong>distinct</strong> indices, <code>i</code> and <code>j</code>, in the range <code>[0, n - 1]</code>, such that <code>nums[i] + nums[j] == target</code>.</li>
+	<li><code>nums</code> 由两两互不相同的正整数组成。</li>
+	<li>在范围 <code>[0, n-1]</code> 内，<strong>不存在 </strong>两个 <strong>不同</strong> 下标 <code>i</code> 和 <code>j</code> ，使得 <code>nums[i] + nums[j] == target</code> 。</li>
 </ul>
 
-<p>Return <em>the <strong>minimum</strong> possible sum that a beautiful array could have modulo </em><code>10<sup>9</sup> + 7</code>.</p>
+<p>返回符合条件的美丽数组所可能具备的 <strong>最小</strong> 和，并对结果进行取模 <code>10<sup>9</sup>&nbsp;+ 7</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 2, target = 3
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> We can see that nums = [1,3] is beautiful.
-- The array nums has length n = 2.
-- The array nums consists of pairwise distinct positive integers.
-- There doesn&#39;t exist two distinct indices, i and j, with nums[i] + nums[j] == 3.
-It can be proven that 4 is the minimum possible sum that a beautiful array could have.
-</pre>
+<strong>输入：</strong>n = 2, target = 3
+<strong>输出：</strong>4
+<strong>解释：</strong>nums = [1,3] 是美丽数组。
+- nums 的长度为 n = 2 。
+- nums 由两两互不相同的正整数组成。
+- 不存在两个不同下标 i 和 j ，使得 nums[i] + nums[j] == 3 。
+可以证明 4 是符合条件的美丽数组所可能具备的最小和。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 3, target = 3
-<strong>Output:</strong> 8
-<strong>Explanation:</strong> We can see that nums = [1,3,4] is beautiful.
-- The array nums has length n = 3.
-- The array nums consists of pairwise distinct positive integers.
-- There doesn&#39;t exist two distinct indices, i and j, with nums[i] + nums[j] == 3.
-It can be proven that 8 is the minimum possible sum that a beautiful array could have.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 1, target = 1
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> We can see, that nums = [1] is beautiful.
+<strong>输入：</strong>n = 3, target = 3
+<strong>输出：</strong>8
+<strong>解释：</strong>
+nums = [1,3,4] 是美丽数组。 
+- nums 的长度为 n = 3 。 
+- nums 由两两互不相同的正整数组成。 
+- 不存在两个不同下标 i 和 j ，使得 nums[i] + nums[j] == 3 。
+可以证明 8 是符合条件的美丽数组所可能具备的最小和。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 1, target = 1
+<strong>输出：</strong>1
+<strong>解释：</strong>nums = [1] 是美丽数组。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
@@ -71,23 +75,23 @@ It can be proven that 8 is the minimum possible sum that a beautiful array could
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Mathematics
+### 方法一：贪心 + 数学
 
-We can greedily construct the array `nums` starting from $x = 1$, choosing $x$ each time and excluding $target - x$.
+我们可以贪心地从 $x = 1$ 开始构造数组 $nums$，每次选择 $x$，并且排除 $target - x$。
 
-Let's denote $m = \left\lfloor \frac{target}{2} \right\rfloor$.
+我们不妨记 $m = \left\lfloor \frac{target}{2} \right\rfloor$。
 
-If $x <= m$, then the numbers we can choose are $1, 2, \cdots, n$, so the sum of the array is $\left\lfloor \frac{(1+n)n}{2} \right\rfloor$.
+如果 $x <= m$，那么我们可以选择的数有 $1, 2, \cdots, n$，所以数组的和为 $\left\lfloor \frac{(1+n)n}{2} \right\rfloor$。
 
-If $x > m$, then the numbers we can choose are $1, 2, \cdots, m$, a total of $m$ numbers, and $n - m$ numbers starting from $target$, so the sum of the array is $\left\lfloor \frac{(1+m)m}{2} \right\rfloor + \left\lfloor \frac{(target + target + n - m - 1)(n-m)}{2} \right\rfloor$.
+如果 $x > m$，那么我们可以选择的数有 $1, 2, \cdots, m$，共 $m$ 个数，以及 $n - m$ 个从 $target$ 开始的数，所以数组的和为 $\left\lfloor \frac{(1+m)m}{2} \right\rfloor + \left\lfloor \frac{(target + target + n - m - 1)(n-m)}{2} \right\rfloor$。
 
-Note that we need to take the modulus of $10^9 + 7$ for the result.
+注意，我们需要对结果取模 $10^9 + 7$。
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -157,14 +161,12 @@ func minimumPossibleSum(n int, target int) int {
 
 ```ts
 function minimumPossibleSum(n: number, target: number): number {
-  const mod = 10 ** 9 + 7;
-  const m = target >> 1;
-  if (n <= m) {
-    return (((1 + n) * n) / 2) % mod;
-  }
-  return (
-    (((1 + m) * m) / 2 + ((target + target + n - m - 1) * (n - m)) / 2) % mod
-  );
+    const mod = 10 ** 9 + 7;
+    const m = target >> 1;
+    if (n <= m) {
+        return (((1 + n) * n) / 2) % mod;
+    }
+    return (((1 + m) * m) / 2 + ((target + target + n - m - 1) * (n - m)) / 2) % mod;
 }
 ```
 

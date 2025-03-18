@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3165.Maximum%20Sum%20of%20Subsequence%20With%20Non-adjacent%20Elements/README.md
 rating: 2697
-source: Weekly Contest 399 Q4
+source: 第 399 场周赛 Q4
 tags:
-  - Segment Tree
-  - Array
-  - Divide and Conquer
-  - Dynamic Programming
+    - 线段树
+    - 数组
+    - 分治
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [3165. Maximum Sum of Subsequence With Non-adjacent Elements](https://leetcode.com/problems/maximum-sum-of-subsequence-with-non-adjacent-elements)
+# [3165. 不包含相邻元素的子序列的最大和](https://leetcode.cn/problems/maximum-sum-of-subsequence-with-non-adjacent-elements)
 
-## Description
+[English Version](/solution/3100-3199/3165.Maximum%20Sum%20of%20Subsequence%20With%20Non-adjacent%20Elements/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>nums</code> consisting of integers. You are also given a 2D array <code>queries</code>, where <code>queries[i] = [pos<sub>i</sub>, x<sub>i</sub>]</code>.</p>
+<p>给你一个整数数组 <code>nums</code> 和一个二维数组 <code>queries</code>，其中 <code>queries[i] = [pos<sub>i</sub>, x<sub>i</sub>]</code>。</p>
 
-<p>For query <code>i</code>, we first set <code>nums[pos<sub>i</sub>]</code> equal to <code>x<sub>i</sub></code>, then we calculate the answer to query <code>i</code> which is the <strong>maximum</strong> sum of a <span data-keyword="subsequence-array">subsequence</span> of <code>nums</code> where <strong>no two adjacent elements are selected</strong>.</p>
+<p>对于每个查询 <code>i</code>，首先将 <code>nums[pos<sub>i</sub>]</code> 设置为 <code>x<sub>i</sub></code>，然后计算查询 <code>i</code> 的答案，该答案为 <code>nums</code> 中 <strong>不包含相邻元素 </strong>的 <span data-keyword="subsequence-array">子序列</span> 的 <strong>最大 </strong>和。</p>
 
-<p>Return the <em>sum</em> of the answers to all queries.</p>
+<p>返回所有查询的答案之和。</p>
 
-<p>Since the final answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>由于最终答案可能非常大，返回其对 <code>10<sup>9</sup> + 7</code> <strong>取余</strong> 的结果。</p>
 
-<p>A <strong>subsequence</strong> is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [3,5,9], queries = [[1,-2],[0,-3]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">21</span></p>
-
-<p><strong>Explanation:</strong><br />
-After the 1<sup>st</sup> query, <code>nums = [3,-2,9]</code> and the maximum sum of a subsequence with non-adjacent elements is <code>3 + 9 = 12</code>.<br />
-After the 2<sup>nd</sup> query, <code>nums = [-3,-2,9]</code> and the maximum sum of a subsequence with non-adjacent elements is 9.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [0,-1], queries = [[0,-5]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
-
-<p><strong>Explanation:</strong><br />
-After the 1<sup>st</sup> query, <code>nums = [-5,-1]</code> and the maximum sum of a subsequence with non-adjacent elements is 0 (choosing an empty subsequence).</p>
-</div>
+<p><strong>子序列</strong> 是指从另一个数组中删除一些或不删除元素而不改变剩余元素顺序得到的数组。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">nums = [3,5,9], queries = [[1,-2],[0,-3]]</span></p>
+
+<p><strong>输出：</strong><span class="example-io">21</span></p>
+
+<p><strong>解释：</strong><br />
+执行第 1 个查询后，<code>nums = [3,-2,9]</code>，不包含相邻元素的子序列的最大和为 <code>3 + 9 = 12</code>。<br />
+执行第 2 个查询后，<code>nums = [-3,-2,9]</code>，不包含相邻元素的子序列的最大和为 9 。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">nums = [0,-1], queries = [[0,-5]]</span></p>
+
+<p><strong>输出：</strong><span class="example-io">0</span></p>
+
+<p><strong>解释：</strong><br />
+执行第 1 个查询后，<code>nums = [-5,-1]</code>，不包含相邻元素的子序列的最大和为 0（选择空子序列）。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>4</sup></code></li>
@@ -66,26 +71,26 @@ After the 1<sup>st</sup> query, <code>nums = [-5,-1]</code> and the maximum sum 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Segment Tree
+### 方法一：线段树
 
-According to the problem description, we need to perform multiple point updates and range queries. In this scenario, we consider using a segment tree to solve the problem.
+根据题目描述，我们需要进行多次单点修改和区间查询，这种场景下，我们考虑使用线段树来解决。
 
-First, we define a $\textit{Node}$ class to store the information of the segment tree nodes, including the left and right endpoints $l$ and $r$, as well as four state values $s_{00}$, $s_{01}$, $s_{10}$, and $s_{11}$. Specifically:
+首先，我们定义一个 $\textit{Node}$ 类，用于存储线段树的节点信息，包括左右端点 $l$ 和 $r$，以及四个状态值 $s_{00}$, $s_{01}$, $s_{10}$ 和 $s_{11}$。其中：
 
-- $s_{00}$ represents the maximum sum of the subsequence that does not include the left and right endpoints of the current node;
-- $s_{01}$ represents the maximum sum of the subsequence that does not include the left endpoint of the current node;
-- $s_{10}$ represents the maximum sum of the subsequence that does not include the right endpoint of the current node;
-- $s_{11}$ represents the maximum sum of the subsequence that includes the left and right endpoints of the current node.
+-   $s_{00}$ 表示不包含当前节点左右端点的子序列的最大和；
+-   $s_{01}$ 表示不包含当前节点左端点的子序列的最大和；
+-   $s_{10}$ 表示不包含当前节点右端点的子序列的最大和；
+-   $s_{11}$ 表示包含当前节点左右端点的子序列的最大和。
 
-Next, we define a $\textit{SegmentTree}$ class to construct the segment tree. During the construction of the segment tree, we need to recursively build the left and right subtrees and update the state values of the current node based on the state values of the left and right subtrees.
+接着，我们定义一个 $\textit{SegmentTree}$ 类，用于构建线段树。在构建线段树的过程中，我们需要递归地构建左右子树，并根据左右子树的状态值来更新当前节点的状态值。
 
-In the main function, we first construct the segment tree based on the given array $\textit{nums}$ and process each query. For each query, we first perform a point update, then query the state values of the entire range, and accumulate the result into the answer.
+在主函数中，我们首先根据给定的数组 $\textit{nums}$ 构建线段树，并对每个查询进行处理。对于每个查询，我们首先进行单点修改，然后查询整个区间的状态值，并将结果累加到答案中。
 
-The time complexity is $O((n + q) \times \log n)$, and the space complexity is $O(n)$. Here, $n$ represents the length of the array $\textit{nums}$, and $q$ represents the number of queries.
+时间复杂度 $O((n + q) \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 表示数组 $\textit{nums}$ 的长度，而 $q$ 表示查询的次数。
 
 <!-- tabs:start -->
 
@@ -443,84 +448,87 @@ func maximumSumSubsequence(nums []int, queries [][]int) (ans int) {
 
 ```ts
 class Node {
-  s00 = 0;
-  s01 = 0;
-  s10 = 0;
-  s11 = 0;
+    s00 = 0;
+    s01 = 0;
+    s10 = 0;
+    s11 = 0;
 
-  constructor(public l: number, public r: number) {}
+    constructor(
+        public l: number,
+        public r: number,
+    ) {}
 }
 
 class SegmentTree {
-  tr: Node[];
+    tr: Node[];
 
-  constructor(n: number) {
-    this.tr = Array(n * 4);
-    this.build(1, 1, n);
-  }
+    constructor(n: number) {
+        this.tr = Array(n * 4);
+        this.build(1, 1, n);
+    }
 
-  build(u: number, l: number, r: number) {
-    this.tr[u] = new Node(l, r);
-    if (l === r) {
-      return;
+    build(u: number, l: number, r: number) {
+        this.tr[u] = new Node(l, r);
+        if (l === r) {
+            return;
+        }
+        const mid = (l + r) >> 1;
+        this.build(u << 1, l, mid);
+        this.build((u << 1) | 1, mid + 1, r);
     }
-    const mid = (l + r) >> 1;
-    this.build(u << 1, l, mid);
-    this.build((u << 1) | 1, mid + 1, r);
-  }
 
-  query(u: number, l: number, r: number): number {
-    if (this.tr[u].l >= l && this.tr[u].r <= r) {
-      return this.tr[u].s11;
+    query(u: number, l: number, r: number): number {
+        if (this.tr[u].l >= l && this.tr[u].r <= r) {
+            return this.tr[u].s11;
+        }
+        const mid = (this.tr[u].l + this.tr[u].r) >> 1;
+        let ans = 0;
+        if (r <= mid) {
+            ans = this.query(u << 1, l, r);
+        }
+        if (l > mid) {
+            ans = Math.max(ans, this.query((u << 1) | 1, l, r));
+        }
+        return ans;
     }
-    const mid = (this.tr[u].l + this.tr[u].r) >> 1;
-    let ans = 0;
-    if (r <= mid) {
-      ans = this.query(u << 1, l, r);
-    }
-    if (l > mid) {
-      ans = Math.max(ans, this.query((u << 1) | 1, l, r));
-    }
-    return ans;
-  }
 
-  pushup(u: number) {
-    const left = this.tr[u << 1];
-    const right = this.tr[(u << 1) | 1];
-    this.tr[u].s00 = Math.max(left.s00 + right.s10, left.s01 + right.s00);
-    this.tr[u].s01 = Math.max(left.s00 + right.s11, left.s01 + right.s01);
-    this.tr[u].s10 = Math.max(left.s10 + right.s10, left.s11 + right.s00);
-    this.tr[u].s11 = Math.max(left.s10 + right.s11, left.s11 + right.s01);
-  }
+    pushup(u: number) {
+        const left = this.tr[u << 1];
+        const right = this.tr[(u << 1) | 1];
+        this.tr[u].s00 = Math.max(left.s00 + right.s10, left.s01 + right.s00);
+        this.tr[u].s01 = Math.max(left.s00 + right.s11, left.s01 + right.s01);
+        this.tr[u].s10 = Math.max(left.s10 + right.s10, left.s11 + right.s00);
+        this.tr[u].s11 = Math.max(left.s10 + right.s11, left.s11 + right.s01);
+    }
 
-  modify(u: number, x: number, v: number) {
-    if (this.tr[u].l === this.tr[u].r) {
-      this.tr[u].s11 = Math.max(0, v);
-      return;
+    modify(u: number, x: number, v: number) {
+        if (this.tr[u].l === this.tr[u].r) {
+            this.tr[u].s11 = Math.max(0, v);
+            return;
+        }
+        const mid = (this.tr[u].l + this.tr[u].r) >> 1;
+        if (x <= mid) {
+            this.modify(u << 1, x, v);
+        } else {
+            this.modify((u << 1) | 1, x, v);
+        }
+        this.pushup(u);
     }
-    const mid = (this.tr[u].l + this.tr[u].r) >> 1;
-    if (x <= mid) {
-      this.modify(u << 1, x, v);
-    } else {
-      this.modify((u << 1) | 1, x, v);
-    }
-    this.pushup(u);
-  }
 }
 
 function maximumSumSubsequence(nums: number[], queries: number[][]): number {
-  const n = nums.length;
-  const tree = new SegmentTree(n);
-  for (let i = 0; i < n; i++) {
-    tree.modify(1, i + 1, nums[i]);
-  }
-  let ans = 0;
-  const mod = 1e9 + 7;
-  for (const [i, x] of queries) {
-    tree.modify(1, i + 1, x);
-    ans = (ans + tree.query(1, 1, n)) % mod;
-  }
-  return ans;
+    const n = nums.length;
+    const tree = new SegmentTree(n);
+    for (let i = 0; i < n; i++) {
+        tree.modify(1, i + 1, nums[i]);
+    }
+    let ans = 0;
+    const mod = 1e9 + 7;
+    for (const [i, x] of queries) {
+        tree.modify(1, i + 1, x);
+        ans = (ans + tree.query(1, 1, n)) % mod;
+    }
+    return ans;
 }
 ```
 

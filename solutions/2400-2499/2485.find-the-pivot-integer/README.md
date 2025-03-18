@@ -1,56 +1,60 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2485.Find%20the%20Pivot%20Integer/README.md
 rating: 1207
-source: Weekly Contest 321 Q1
+source: 第 321 场周赛 Q1
 tags:
-  - Math
-  - Prefix Sum
+    - 数学
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2485. Find the Pivot Integer](https://leetcode.com/problems/find-the-pivot-integer)
+# [2485. 找出中枢整数](https://leetcode.cn/problems/find-the-pivot-integer)
 
-## Description
+[English Version](/solution/2400-2499/2485.Find%20the%20Pivot%20Integer/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a positive integer <code>n</code>, find the <strong>pivot integer</strong> <code>x</code> such that:</p>
+<p>给你一个正整数 <code>n</code> ，找出满足下述条件的<strong> 中枢整数</strong> <code>x</code> ：</p>
 
 <ul>
-	<li>The sum of all elements between <code>1</code> and <code>x</code> inclusively equals the sum of all elements between <code>x</code> and <code>n</code> inclusively.</li>
+	<li><code>1</code> 和 <code>x</code> 之间的所有元素之和等于 <code>x</code> 和 <code>n</code> 之间所有元素之和。</li>
 </ul>
 
-<p>Return <em>the pivot integer </em><code>x</code>. If no such integer exists, return <code>-1</code>. It is guaranteed that there will be at most one pivot index for the given input.</p>
+<p>返回中枢整数<em> </em><code>x</code> 。如果不存在中枢整数，则返回 <code>-1</code> 。题目保证对于给定的输入，至多存在一个中枢整数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 8
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> 6 is the pivot integer since: 1 + 2 + 3 + 4 + 5 + 6 = 6 + 7 + 8 = 21.
+<strong>输入：</strong>n = 8
+<strong>输出：</strong>6
+<strong>解释：</strong>6 是中枢整数，因为 1 + 2 + 3 + 4 + 5 + 6 = 6 + 7 + 8 = 21 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 1
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> 1 is the pivot integer since: 1 = 1.
+<strong>输入：</strong>n = 1
+<strong>输出：</strong>1
+<strong>解释：</strong>1 是中枢整数，因为 1 = 1 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 4
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It can be proved that no such integer exist.
-</pre>
+<strong>输入：</strong>n = 4
+<strong>输出：</strong>-1
+<strong>解释：</strong>可以证明不存在满足题目要求的整数。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -58,19 +62,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We can directly enumerate $x$ in the range of $[1,..n]$, and check whether the following equation holds. If it holds, then $x$ is the pivot integer, and we can directly return $x$.
+我们可以直接在 $[1,..n]$ 的范围内枚举 $x$，判断以下等式是否成立。若成立，则 $x$ 为中枢整数，直接返回 $x$ 即可。
 
 $$
 (1 + x) \times x = (x + n) \times (n - x + 1)
 $$
 
-The time complexity is $O(n)$, where $n$ is the given positive integer $n$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为给定的正整数 $n$。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -133,12 +137,12 @@ func pivotInteger(n int) int {
 
 ```ts
 function pivotInteger(n: number): number {
-  for (let x = 1; x <= n; ++x) {
-    if ((1 + x) * x === (x + n) * (n - x + 1)) {
-      return x;
+    for (let x = 1; x <= n; ++x) {
+        if ((1 + x) * x === (x + n) * (n - x + 1)) {
+            return x;
+        }
     }
-  }
-  return -1;
+    return -1;
 }
 ```
 
@@ -187,23 +191,23 @@ class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Mathematics
+### 方法二：数学
 
-We can transform the above equation to get:
+我们可以将上述等式进行变形，得到：
 
 $$
 n \times (n + 1) = 2 \times x^2
 $$
 
-That is:
+即：
 
 $$
 x = \sqrt{\frac{n \times (n + 1)}{2}}
 $$
 
-If $x$ is an integer, then $x$ is the pivot integer, otherwise there is no pivot integer.
+如果 $x$ 为整数，则 $x$ 为中枢整数，否则不存在中枢整数。
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -259,9 +263,9 @@ func pivotInteger(n int) int {
 
 ```ts
 function pivotInteger(n: number): number {
-  const y = Math.floor((n * (n + 1)) / 2);
-  const x = Math.floor(Math.sqrt(y));
-  return x * x === y ? x : -1;
+    const y = Math.floor((n * (n + 1)) / 2);
+    const x = Math.floor(Math.sqrt(y));
+    return x * x === y ? x : -1;
 }
 ```
 

@@ -1,81 +1,96 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1727.Largest%20Submatrix%20With%20Rearrangements/README.md
 rating: 1926
-source: Weekly Contest 224 Q3
+source: 第 224 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Matrix
-  - Sorting
+    - 贪心
+    - 数组
+    - 矩阵
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1727. Largest Submatrix With Rearrangements](https://leetcode.com/problems/largest-submatrix-with-rearrangements)
+# [1727. 重新排列后的最大子矩阵](https://leetcode.cn/problems/largest-submatrix-with-rearrangements)
 
-## Description
+[English Version](/solution/1700-1799/1727.Largest%20Submatrix%20With%20Rearrangements/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a binary matrix <code>matrix</code> of size <code>m x n</code>, and you are allowed to rearrange the <strong>columns</strong> of the <code>matrix</code> in any order.</p>
+<p>给你一个二进制矩阵 <code>matrix</code> ，它的大小为 <code>m x n</code> ，你可以将 <code>matrix</code> 中的 <strong>列</strong> 按任意顺序重新排列。</p>
 
-<p>Return <em>the area of the largest submatrix within </em><code>matrix</code><em> where <strong>every</strong> element of the submatrix is </em><code>1</code><em> after reordering the columns optimally.</em></p>
+<p>请你返回最优方案下将 <code>matrix</code> 重新排列后，全是 <code>1</code> 的子矩阵面积。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1727.Largest%20Submatrix%20With%20Rearrangements/images/screenshot-2020-12-30-at-40536-pm.png" style="width: 500px; height: 240px;" />
-<pre>
-<strong>Input:</strong> matrix = [[0,0,1],[1,1,1],[1,0,1]]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> You can rearrange the columns as shown above.
-The largest submatrix of 1s, in bold, has an area of 4.
-</pre>
+<p> </p>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1727.Largest%20Submatrix%20With%20Rearrangements/images/screenshot-2020-12-30-at-40852-pm.png" style="width: 500px; height: 62px;" />
-<pre>
-<strong>Input:</strong> matrix = [[1,0,1,0,1]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> You can rearrange the columns as shown above.
-The largest submatrix of 1s, in bold, has an area of 3.
-</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1727.Largest%20Submatrix%20With%20Rearrangements/images/screenshot-2020-12-30-at-40536-pm.png" style="width: 300px; height: 144px;" /></strong></p>
 
 <pre>
-<strong>Input:</strong> matrix = [[1,1,0],[1,0,1]]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Notice that you must rearrange entire columns, and there is no way to make a submatrix of 1s larger than an area of 2.
+<b>输入：</b>matrix = [[0,0,1],[1,1,1],[1,0,1]]
+<b>输出：</b>4
+<b>解释：</b>你可以按照上图方式重新排列矩阵的每一列。
+最大的全 1 子矩阵是上图中加粗的部分，面积为 4 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1727.Largest%20Submatrix%20With%20Rearrangements/images/screenshot-2020-12-30-at-40852-pm.png" style="width: 500px; height: 62px;" /></p>
+
+<pre>
+<b>输入：</b>matrix = [[1,0,1,0,1]]
+<b>输出：</b>3
+<b>解释：</b>你可以按照上图方式重新排列矩阵的每一列。
+最大的全 1 子矩阵是上图中加粗的部分，面积为 3 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>matrix = [[1,1,0],[1,0,1]]
+<b>输出：</b>2
+<b>解释：</b>由于你只能整列整列重新排布，所以没有比面积为 2 更大的全 1 子矩形。</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<b>输入：</b>matrix = [[0,0],[0,0]]
+<b>输出：</b>0
+<b>解释：</b>由于矩阵中没有 1 ，没有任何全 1 的子矩阵，所以面积为 0 。</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == matrix.length</code></li>
 	<li><code>n == matrix[i].length</code></li>
-	<li><code>1 &lt;= m * n &lt;= 10<sup>5</sup></code></li>
-	<li><code>matrix[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>1 <= m * n <= 10<sup>5</sup></code></li>
+	<li><code>matrix[i][j]</code> 要么是 <code>0</code> ，要么是 <code>1</code> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Preprocessing + Sorting
+### 方法一：预处理 + 排序
 
-Since the matrix is rearranged by columns according to the problem, we can first preprocess each column of the matrix.
+由于题目中矩阵是按列进行重排，因此，我们可以先对矩阵的每一列进行预处理。
 
-For each element with a value of $1$, we update its value to the maximum consecutive number of $1$s above it, that is, $matrix[i][j] = matrix[i-1][j] + 1$.
+对于每个值为 $1$ 的元素，我们更新其值为该元素向上的最大连续的 $1$ 的个数，即 $matrix[i][j]=matrix[i-1][j]+1$。
 
-Next, we can sort each row of the updated matrix. Then traverse each row, calculate the area of the largest sub-matrix full of $1$s with this row as the bottom edge. The specific calculation logic is as follows:
+接下来，我们可以对更新后的矩阵的每一行进行排序。然后遍历每一行，计算以该行作为底边的最大全 $1$ 子矩阵的面积。具体计算逻辑如下：
 
-For a row of the matrix, we denote the value of the $k$-th largest element as $val_k$, where $k \geq 1$, then there are at least $k$ elements in this row that are not less than $val_k$, forming a sub-matrix full of $1$s with an area of $val_k \times k$. Traverse each element of this row from large to small, take the maximum value of $val_k \times k$, and update the answer.
+对于矩阵的某一行，我们记第 $k$ 大元素的值为 $val_k$，其中 $k \geq 1$，那么该行至少有 $k$ 个元素不小于 $val_k$，组成的全 $1$ 子矩阵面积为 $val_k \times k$。从大到小遍历矩阵该行的每个元素，取 $val_k \times k$ 的最大值，更新答案。
 
-The time complexity is $O(m \times n \times \log n)$. Here, $m$ and $n$ are the number of rows and columns of the matrix, respectively.
+时间复杂度 $O(m \times n \times \log n)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -175,40 +190,40 @@ func largestSubmatrix(matrix [][]int) int {
 
 ```ts
 function largestSubmatrix(matrix: number[][]): number {
-  for (let column = 0; column < matrix[0].length; column++) {
+    for (let column = 0; column < matrix[0].length; column++) {
+        for (let row = 0; row < matrix.length; row++) {
+            let tempRow = row;
+            let count = 0;
+
+            while (tempRow < matrix.length && matrix[tempRow][column] === 1) {
+                count++;
+                tempRow++;
+            }
+
+            while (count !== 0) {
+                matrix[row][column] = count;
+                count--;
+                row++;
+            }
+        }
+    }
+
     for (let row = 0; row < matrix.length; row++) {
-      let tempRow = row;
-      let count = 0;
-
-      while (tempRow < matrix.length && matrix[tempRow][column] === 1) {
-        count++;
-        tempRow++;
-      }
-
-      while (count !== 0) {
-        matrix[row][column] = count;
-        count--;
-        row++;
-      }
+        matrix[row].sort((a, b) => a - b);
     }
-  }
 
-  for (let row = 0; row < matrix.length; row++) {
-    matrix[row].sort((a, b) => a - b);
-  }
+    let maxSubmatrixArea = 0;
 
-  let maxSubmatrixArea = 0;
-
-  for (let row = 0; row < matrix.length; row++) {
-    for (let col = matrix[row].length - 1; col >= 0; col--) {
-      maxSubmatrixArea = Math.max(
-        maxSubmatrixArea,
-        matrix[row][col] * (matrix[row].length - col)
-      );
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = matrix[row].length - 1; col >= 0; col--) {
+            maxSubmatrixArea = Math.max(
+                maxSubmatrixArea,
+                matrix[row][col] * (matrix[row].length - col),
+            );
+        }
     }
-  }
 
-  return maxSubmatrixArea;
+    return maxSubmatrixArea;
 }
 ```
 

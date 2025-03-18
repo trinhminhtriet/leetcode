@@ -1,59 +1,63 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1047.Remove%20All%20Adjacent%20Duplicates%20In%20String/README.md
 rating: 1286
-source: Weekly Contest 137 Q2
+source: 第 137 场周赛 Q2
 tags:
-  - Stack
-  - String
+    - 栈
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1047. Remove All Adjacent Duplicates In String](https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string)
+# [1047. 删除字符串中的所有相邻重复项](https://leetcode.cn/problems/remove-all-adjacent-duplicates-in-string)
 
-## Description
+[English Version](/solution/1000-1099/1047.Remove%20All%20Adjacent%20Duplicates%20In%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> consisting of lowercase English letters. A <strong>duplicate removal</strong> consists of choosing two <strong>adjacent</strong> and <strong>equal</strong> letters and removing them.</p>
+<p>给出由小写字母组成的字符串&nbsp;<code>s</code>，<strong>重复项删除操作</strong>会选择两个相邻且相同的字母，并删除它们。</p>
 
-<p>We repeatedly make <strong>duplicate removals</strong> on <code>s</code> until we no longer can.</p>
+<p>在 <code>s</code> 上反复执行重复项删除操作，直到无法继续删除。</p>
 
-<p>Return <em>the final string after all such duplicate removals have been made</em>. It can be proven that the answer is <strong>unique</strong>.</p>
+<p>在完成所有重复项删除操作后返回最终的字符串。答案保证唯一。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;abbaca&quot;
-<strong>Output:</strong> &quot;ca&quot;
-<strong>Explanation:</strong> 
-For example, in &quot;abbaca&quot; we could remove &quot;bb&quot; since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is &quot;aaca&quot;, of which only &quot;aa&quot; is possible, so the final string is &quot;ca&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;azxxzy&quot;
-<strong>Output:</strong> &quot;ay&quot;
+<strong>输入：</strong>"abbaca"
+<strong>输出：</strong>"ca"
+<strong>解释：</strong>
+例如，在 "abbaca" 中，我们可以删除 "bb" 由于两字母相邻且相同，这是此时唯一可以执行删除操作的重复项。之后我们得到字符串 "aaca"，其中又只有 "aa" 可以执行重复项删除操作，所以最后的字符串为 "ca"。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
 
-<ul>
+<p><strong>提示：</strong></p>
+
+<ol>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
-</ul>
+	<li><code>s</code> 仅由小写英文字母组成。</li>
+</ol>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：栈
+
+遍历字符串 `s` 中的每个字符 `c`，若栈为空或者栈顶值不等于字符 `c`，将 `c` 入栈，否则栈顶元素出栈。
+
+最后返回栈中元素所组成的字符串。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 `s` 的长度。
 
 <!-- tabs:start -->
 
@@ -150,15 +154,15 @@ impl Solution {
  * @return {string}
  */
 var removeDuplicates = function (s) {
-  const stk = [];
-  for (const c of s) {
-    if (stk.length && stk[stk.length - 1] == c) {
-      stk.pop();
-    } else {
-      stk.push(c);
+    const stk = [];
+    for (const c of s) {
+        if (stk.length && stk[stk.length - 1] == c) {
+            stk.pop();
+        } else {
+            stk.push(c);
+        }
     }
-  }
-  return stk.join("");
+    return stk.join('');
 };
 ```
 

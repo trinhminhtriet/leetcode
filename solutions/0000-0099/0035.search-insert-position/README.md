@@ -1,66 +1,71 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0035.Search%20Insert%20Position/README.md
 tags:
-  - Array
-  - Binary Search
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [35. Search Insert Position](https://leetcode.com/problems/search-insert-position)
+# [35. 搜索插入位置](https://leetcode.cn/problems/search-insert-position)
 
-## Description
+[English Version](/solution/0000-0099/0035.Search%20Insert%20Position/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.</p>
+<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
 
-<p>You must&nbsp;write an algorithm with&nbsp;<code>O(log n)</code> runtime complexity.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,3,5,6], target = 5
-<strong>Output:</strong> 2
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,3,5,6], target = 2
-<strong>Output:</strong> 1
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,3,5,6], target = 7
-<strong>Output:</strong> 4
-</pre>
+<p>请必须使用时间复杂度为 <code>O(log n)</code> 的算法。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> nums = [1,3,5,6], target = 5
+<strong>输出:</strong> 2
+</pre>
+
+<p><strong>示例&nbsp;2:</strong></p>
+
+<pre>
+<strong>输入:</strong> nums = [1,3,5,6], target = 2
+<strong>输出:</strong> 1
+</pre>
+
+<p><strong>示例 3:</strong></p>
+
+<pre>
+<strong>输入:</strong> nums = [1,3,5,6], target = 7
+<strong>输出:</strong> 4
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>nums</code> contains <strong>distinct</strong> values sorted in <strong>ascending</strong> order.</li>
+	<li><code>nums</code> 为&nbsp;<strong>无重复元素&nbsp;</strong>的&nbsp;<strong>升序&nbsp;</strong>排列数组</li>
 	<li><code>-10<sup>4</sup> &lt;= target &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-Since the array $nums$ is already sorted, we can use the binary search method to find the insertion position of the target value $target$.
+由于 $nums$ 数组已经有序，因此我们可以使用二分查找的方法找到目标值 $target$ 的插入位置。
 
-The time complexity is $O(\log n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -139,16 +144,16 @@ func searchInsert(nums []int, target int) int {
 
 ```ts
 function searchInsert(nums: number[], target: number): number {
-  let [l, r] = [0, nums.length];
-  while (l < r) {
-    const mid = (l + r) >> 1;
-    if (nums[mid] >= target) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    let [l, r] = [0, nums.length];
+    while (l < r) {
+        const mid = (l + r) >> 1;
+        if (nums[mid] >= target) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return l;
+    return l;
 }
 ```
 
@@ -181,16 +186,16 @@ impl Solution {
  * @return {number}
  */
 var searchInsert = function (nums, target) {
-  let [l, r] = [0, nums.length];
-  while (l < r) {
-    const mid = (l + r) >> 1;
-    if (nums[mid] >= target) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    let [l, r] = [0, nums.length];
+    while (l < r) {
+        const mid = (l + r) >> 1;
+        if (nums[mid] >= target) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return l;
+    return l;
 };
 ```
 
@@ -225,11 +230,11 @@ class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Binary Search (Built-in Function)
+### 方法二：二分查找（内置函数）
 
-We can also directly use the built-in function for binary search.
+我们也可以直接使用内置函数进行二分查找。
 
-The time complexity is $O(\log n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(\log n)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

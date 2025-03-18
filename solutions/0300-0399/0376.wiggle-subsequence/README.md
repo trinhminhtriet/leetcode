@@ -1,82 +1,90 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0376.Wiggle%20Subsequence/README.md
 tags:
-  - Greedy
-  - Array
-  - Dynamic Programming
+    - 贪心
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [376. Wiggle Subsequence](https://leetcode.com/problems/wiggle-subsequence)
+# [376. 摆动序列](https://leetcode.cn/problems/wiggle-subsequence)
 
-## Description
+[English Version](/solution/0300-0399/0376.Wiggle%20Subsequence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <strong>wiggle sequence</strong> is a sequence where the differences between successive numbers strictly alternate between positive and negative. The first difference (if one exists) may be either positive or negative. A sequence with one element and a sequence with two non-equal elements are trivially wiggle sequences.</p>
+<p>如果连续数字之间的差严格地在正数和负数之间交替，则数字序列称为<strong> 摆动序列 。</strong>第一个差（如果存在的话）可能是正数或负数。仅有一个元素或者含两个不等元素的序列也视作摆动序列。</p>
 
 <ul>
-	<li>For example, <code>[1, 7, 4, 9, 2, 5]</code> is a <strong>wiggle sequence</strong> because the differences <code>(6, -3, 5, -7, 3)</code> alternate between positive and negative.</li>
-	<li>In contrast, <code>[1, 4, 7, 2, 5]</code> and <code>[1, 7, 4, 5, 5]</code> are not wiggle sequences. The first is not because its first two differences are positive, and the second is not because its last difference is zero.</li>
+	<li>
+	<p>例如， <code>[1, 7, 4, 9, 2, 5]</code> 是一个 <strong>摆动序列</strong> ，因为差值 <code>(6, -3, 5, -7, 3)</code> 是正负交替出现的。</p>
+	</li>
+	<li>相反，<code>[1, 4, 7, 2, 5]</code> 和 <code>[1, 7, 4, 5, 5]</code> 不是摆动序列，第一个序列是因为它的前两个差值都是正数，第二个序列是因为它的最后一个差值为零。</li>
 </ul>
 
-<p>A <strong>subsequence</strong> is obtained by deleting some elements (possibly zero) from the original sequence, leaving the remaining elements in their original order.</p>
+<p><strong>子序列</strong> 可以通过从原始序列中删除一些（也可以不删除）元素来获得，剩下的元素保持其原始顺序。</p>
 
-<p>Given an integer array <code>nums</code>, return <em>the length of the longest <strong>wiggle subsequence</strong> of </em><code>nums</code>.</p>
+<p>给你一个整数数组 <code>nums</code> ，返回 <code>nums</code> 中作为 <strong>摆动序列 </strong>的 <strong>最长子序列的长度</strong> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [1,7,4,9,2,5]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The entire sequence is a wiggle sequence with differences (6, -3, 5, -7, 3).
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,17,5,10,13,15,10,5,16,8]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> There are several subsequences that achieve this length.
-One is [1, 17, 10, 13, 10, 16, 8] with differences (16, -7, 3, -3, 6, -8).
+<strong>输入：</strong>nums = [1,7,4,9,2,5]
+<strong>输出：</strong>6
+<strong>解释：</strong>整个序列均为摆动序列，各元素之间的差值为 (6, -3, 5, -7, 3) 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,3,4,5,6,7,8,9]
-<strong>Output:</strong> 2
+<strong>输入：</strong>nums = [1,17,5,10,13,15,10,5,16,8]
+<strong>输出：</strong>7
+<strong>解释：</strong>这个序列包含几个长度为 7 摆动序列。
+其中一个是 [1, 17, 10, 13, 10, 16, 8] ，各元素之间的差值为 (16, -7, 3, -3, 6, -8) 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,3,4,5,6,7,8,9]
+<strong>输出：</strong>2
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
-	<li><code>0 &lt;= nums[i] &lt;= 1000</code></li>
+	<li><code>1 <= nums.length <= 1000</code></li>
+	<li><code>0 <= nums[i] <= 1000</code></li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong>Follow up:</strong> Could you solve this in <code>O(n)</code> time?</p>
+<p> </p>
+
+<p><strong>进阶：</strong>你能否用 <code>O(n)</code><em> </em>时间复杂度完成此题?</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i]$ as the length of the wiggle sequence ending at the $i$th element with an upward trend, and $g[i]$ as the length of the wiggle sequence ending at the $i$th element with a downward trend. Initially, $f[0] = g[0] = 1$ because when there is only one element, the length of the wiggle sequence is $1$. Initialize the answer as $1$.
+我们定义 $f[i]$ 表示以第 $i$ 个元素结尾且最后是上升趋势的摆动序列的长度，定义 $g[i]$ 表示以第 $i$ 个元素结尾且最后是下降趋势的摆动序列的长度。初始时 $f[0] = g[0] = 1$，因为只有一个元素时，摆动序列的长度为 $1$。初始化答案为 $1$。
 
-For $f[i]$, where $i \geq 1$, we enumerate $j$ in the range $[0, i)$, if $nums[j] < nums[i]$, it means that $i$ can be appended after $j$ to form an upward wiggle sequence, then $f[i] = \max(f[i], g[j] + 1)$; if $nums[j] > nums[i]$, it means that $i$ can be appended after $j$ to form a downward wiggle sequence, then $g[i] = \max(g[i], f[j] + 1)$. Then we update the answer to $\max(f[i], g[i])$.
+对于 $f[i]$，其中 $i \geq 1$，我们在 $[0, i)$ 的范围内枚举 $j$，如果 $nums[j] < nums[i]$，则说明 $i$ 可以接在 $j$ 的后面形成一个上升的摆动序列，此时 $f[i] = \max(f[i], g[j] + 1)$；如果 $nums[j] > nums[i]$，则说明 $i$ 可以接在 $j$ 的后面形成一个下降的摆动序列，此时 $g[i] = \max(g[i], f[j] + 1)$。然后我们更新答案为 $\max(f[i], g[i])$。
 
-Finally, we return the answer.
+最后，我们返回答案。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -177,21 +185,21 @@ func wiggleMaxLength(nums []int) int {
 
 ```ts
 function wiggleMaxLength(nums: number[]): number {
-  const n = nums.length;
-  const f: number[] = Array(n).fill(1);
-  const g: number[] = Array(n).fill(1);
-  let ans = 1;
-  for (let i = 1; i < n; ++i) {
-    for (let j = 0; j < i; ++j) {
-      if (nums[i] > nums[j]) {
-        f[i] = Math.max(f[i], g[j] + 1);
-      } else if (nums[i] < nums[j]) {
-        g[i] = Math.max(g[i], f[j] + 1);
-      }
+    const n = nums.length;
+    const f: number[] = Array(n).fill(1);
+    const g: number[] = Array(n).fill(1);
+    let ans = 1;
+    for (let i = 1; i < n; ++i) {
+        for (let j = 0; j < i; ++j) {
+            if (nums[i] > nums[j]) {
+                f[i] = Math.max(f[i], g[j] + 1);
+            } else if (nums[i] < nums[j]) {
+                g[i] = Math.max(g[i], f[j] + 1);
+            }
+        }
+        ans = Math.max(ans, f[i], g[i]);
     }
-    ans = Math.max(ans, f[i], g[i]);
-  }
-  return ans;
+    return ans;
 }
 ```
 

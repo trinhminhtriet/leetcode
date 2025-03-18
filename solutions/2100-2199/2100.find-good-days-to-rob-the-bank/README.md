@@ -1,69 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2100.Find%20Good%20Days%20to%20Rob%20the%20Bank/README.md
 rating: 1702
-source: Biweekly Contest 67 Q2
+source: 第 67 场双周赛 Q2
 tags:
-  - Array
-  - Dynamic Programming
-  - Prefix Sum
+    - 数组
+    - 动态规划
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2100. Find Good Days to Rob the Bank](https://leetcode.com/problems/find-good-days-to-rob-the-bank)
+# [2100. 适合野炊的日子](https://leetcode.cn/problems/find-good-days-to-rob-the-bank)
 
-## Description
+[English Version](/solution/2100-2199/2100.Find%20Good%20Days%20to%20Rob%20the%20Bank/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You and a gang of thieves are planning on robbing a bank. You are given a <strong>0-indexed</strong> integer array <code>security</code>, where <code>security[i]</code> is the number of guards on duty on the <code>i<sup>th</sup></code> day. The days are numbered starting from <code>0</code>. You are also given an integer <code>time</code>.</p>
+<p>你和朋友们准备去野炊。给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>security</code>&nbsp;，其中&nbsp;<code>security[i]</code>&nbsp;是第 <code>i</code>&nbsp;天的建议出行指数。日子从 <code>0</code>&nbsp;开始编号。同时给你一个整数&nbsp;<code>time</code>&nbsp;。</p>
 
-<p>The <code>i<sup>th</sup></code> day is a good day to rob the bank if:</p>
+<p>如果第 <code>i</code>&nbsp;天满足以下所有条件，我们称它为一个适合野炊的日子：</p>
 
 <ul>
-	<li>There are at least <code>time</code> days before and after the <code>i<sup>th</sup></code> day,</li>
-	<li>The number of guards at the bank for the <code>time</code> days <strong>before</strong> <code>i</code> are <strong>non-increasing</strong>, and</li>
-	<li>The number of guards at the bank for the <code>time</code> days <strong>after</strong> <code>i</code> are <strong>non-decreasing</strong>.</li>
+	<li>第 <code>i</code>&nbsp;天前和后都分别至少有 <code>time</code>&nbsp;天。</li>
+	<li>第 <code>i</code>&nbsp;天前连续 <code>time</code>&nbsp;天建议出行指数都是非递增的。</li>
+	<li>第 <code>i</code>&nbsp;天后连续 <code>time</code>&nbsp;天建议出行指数都是非递减的。</li>
 </ul>
 
-<p>More formally, this means day <code>i</code> is a good day to rob the bank if and only if <code>security[i - time] &gt;= security[i - time + 1] &gt;= ... &gt;= security[i] &lt;= ... &lt;= security[i + time - 1] &lt;= security[i + time]</code>.</p>
+<p>更正式的，第 <code>i</code> 天是一个适合野炊的日子当且仅当：<code>security[i - time] &gt;= security[i - time + 1] &gt;= ... &gt;= security[i] &lt;= ... &lt;= security[i + time - 1] &lt;= security[i + time]</code>.</p>
 
-<p>Return <em>a list of <strong>all</strong> days <strong>(0-indexed) </strong>that are good days to rob the bank</em>.<em> The order that the days are returned in does<strong> </strong><strong>not</strong> matter.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> security = [5,3,3,3,5,6,2], time = 2
-<strong>Output:</strong> [2,3]
-<strong>Explanation:</strong>
-On day 2, we have security[0] &gt;= security[1] &gt;= security[2] &lt;= security[3] &lt;= security[4].
-On day 3, we have security[1] &gt;= security[2] &gt;= security[3] &lt;= security[4] &lt;= security[5].
-No other days satisfy this condition, so days 2 and 3 are the only good days to rob the bank.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> security = [1,1,1,1,1], time = 0
-<strong>Output:</strong> [0,1,2,3,4]
-<strong>Explanation:</strong>
-Since time equals 0, every day is a good day to rob the bank, so return every day.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> security = [1,2,3,4,5,6], time = 2
-<strong>Output:</strong> []
-<strong>Explanation:</strong>
-No day has 2 days before it that have a non-increasing number of guards.
-Thus, no day is a good day to rob the bank, so return an empty list.
-</pre>
+<p>请你返回一个数组，包含 <strong>所有</strong> 适合野炊的日子（下标从 <strong>0</strong>&nbsp;开始）。返回的日子可以 <strong>任意</strong>&nbsp;顺序排列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>security = [5,3,3,3,5,6,2], time = 2
+<b>输出：</b>[2,3]
+<strong>解释：</strong>
+第 2 天，我们有 security[0] &gt;= security[1] &gt;= security[2] &lt;= security[3] &lt;= security[4] 。
+第 3 天，我们有 security[1] &gt;= security[2] &gt;= security[3] &lt;= security[4] &lt;= security[5] 。
+没有其他日子符合这个条件，所以日子 2 和 3 是适合野炊的日子。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>security = [1,1,1,1,1], time = 0
+<b>输出：</b>[0,1,2,3,4]
+<strong>解释：</strong>
+因为 time 等于 0 ，所以每一天都是适合野炊的日子，所以返回每一天。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>security = [1,2,3,4,5,6], time = 2
+<b>输出：</b>[]
+<strong>解释：</strong>
+没有任何一天的前 2 天建议出行指数是非递增的。
+所以没有适合野炊的日子，返回空数组。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= security.length &lt;= 10<sup>5</sup></code></li>
@@ -72,11 +77,11 @@ Thus, no day is a good day to rob the bank, so return an empty list.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -189,27 +194,27 @@ func goodDaysToRobBank(security []int, time int) []int {
 
 ```ts
 function goodDaysToRobBank(security: number[], time: number): number[] {
-  const n = security.length;
-  if (n <= time * 2) {
-    return [];
-  }
-  const l = new Array(n).fill(0);
-  const r = new Array(n).fill(0);
-  for (let i = 1; i < n; i++) {
-    if (security[i] <= security[i - 1]) {
-      l[i] = l[i - 1] + 1;
+    const n = security.length;
+    if (n <= time * 2) {
+        return [];
     }
-    if (security[n - i - 1] <= security[n - i]) {
-      r[n - i - 1] = r[n - i] + 1;
+    const l = new Array(n).fill(0);
+    const r = new Array(n).fill(0);
+    for (let i = 1; i < n; i++) {
+        if (security[i] <= security[i - 1]) {
+            l[i] = l[i - 1] + 1;
+        }
+        if (security[n - i - 1] <= security[n - i]) {
+            r[n - i - 1] = r[n - i] + 1;
+        }
     }
-  }
-  const res = [];
-  for (let i = time; i < n - time; i++) {
-    if (time <= Math.min(l[i], r[i])) {
-      res.push(i);
+    const res = [];
+    for (let i = time; i < n - time; i++) {
+        if (time <= Math.min(l[i], r[i])) {
+            res.push(i);
+        }
     }
-  }
-  return res;
+    return res;
 }
 ```
 

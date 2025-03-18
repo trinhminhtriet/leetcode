@@ -1,50 +1,64 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0174.Dungeon%20Game/README.md
 tags:
-  - Array
-  - Dynamic Programming
-  - Matrix
+    - 数组
+    - 动态规划
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [174. Dungeon Game](https://leetcode.com/problems/dungeon-game)
+# [174. 地下城游戏](https://leetcode.cn/problems/dungeon-game)
 
-## Description
+[English Version](/solution/0100-0199/0174.Dungeon%20Game/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The demons had captured the princess and imprisoned her in <strong>the bottom-right corner</strong> of a <code>dungeon</code>. The <code>dungeon</code> consists of <code>m x n</code> rooms laid out in a 2D grid. Our valiant knight was initially positioned in <strong>the top-left room</strong> and must fight his way through <code>dungeon</code> to rescue the princess.</p>
+<style type="text/css">table.dungeon, .dungeon th, .dungeon td {
+  border:3px solid black;
+}
 
-<p>The knight has an initial health point represented by a positive integer. If at any point his health point drops to <code>0</code> or below, he dies immediately.</p>
+ .dungeon th, .dungeon td {
+    text-align: center;
+    height: 70px;
+    width: 70px;
+}
+</style>
+<p>恶魔们抓住了公主并将她关在了地下城&nbsp;<code>dungeon</code> 的 <strong>右下角</strong> 。地下城是由 <code>m x n</code> 个房间组成的二维网格。我们英勇的骑士最初被安置在 <strong>左上角</strong> 的房间里，他必须穿过地下城并通过对抗恶魔来拯救公主。</p>
 
-<p>Some of the rooms are guarded by demons (represented by negative integers), so the knight loses health upon entering these rooms; other rooms are either empty (represented as 0) or contain magic orbs that increase the knight&#39;s health (represented by positive integers).</p>
+<p>骑士的初始健康点数为一个正整数。如果他的健康点数在某一时刻降至 0 或以下，他会立即死亡。</p>
 
-<p>To reach the princess as quickly as possible, the knight decides to move only <strong>rightward</strong> or <strong>downward</strong> in each step.</p>
+<p>有些房间由恶魔守卫，因此骑士在进入这些房间时会失去健康点数（若房间里的值为<em>负整数</em>，则表示骑士将损失健康点数）；其他房间要么是空的（房间里的值为 <em>0</em>），要么包含增加骑士健康点数的魔法球（若房间里的值为<em>正整数</em>，则表示骑士将增加健康点数）。</p>
 
-<p>Return <em>the knight&#39;s minimum initial health so that he can rescue the princess</em>.</p>
+<p>为了尽快解救公主，骑士决定每次只 <strong>向右</strong> 或 <strong>向下</strong> 移动一步。</p>
 
-<p><strong>Note</strong> that any room can contain threats or power-ups, even the first room the knight enters and the bottom-right room where the princess is imprisoned.</p>
+<p>返回确保骑士能够拯救到公主所需的最低初始健康点数。</p>
+
+<p><strong>注意：</strong>任何房间都可能对骑士的健康点数造成威胁，也可能增加骑士的健康点数，包括骑士进入的左上角房间以及公主被监禁的右下角房间。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0174.Dungeon%20Game/images/dungeon-grid-1.jpg" style="width: 253px; height: 253px;" />
 <pre>
-<strong>Input:</strong> dungeon = [[-2,-3,3],[-5,-10,1],[10,30,-5]]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> The initial health of the knight must be at least 7 if he follows the optimal path: RIGHT-&gt; RIGHT -&gt; DOWN -&gt; DOWN.
-</pre>
+<strong>输入：</strong>dungeon = [[-2,-3,3],[-5,-10,1],[10,30,-5]]
+<strong>输出：</strong>7
+<strong>解释：</strong>如果骑士遵循最佳路径：右 -&gt; 右 -&gt; 下 -&gt; 下 ，则骑士的初始健康点数至少为 7 。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> dungeon = [[0]]
-<strong>Output:</strong> 1
+<strong>输入：</strong>dungeon = [[0]]
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == dungeon.length</code></li>
@@ -55,21 +69,21 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $dp[i][j]$ as the minimum initial value needed from $(i, j)$ to the end point. The value of $dp[i][j]$ can be obtained from $dp[i+1][j]$ and $dp[i][j+1]$, that is:
+我们定义 $dp[i][j]$ 表示从 $(i, j)$ 到终点所需的最小初始值，那么 $dp[i][j]$ 的值可以由 $dp[i+1][j]$ 和 $dp[i][j+1]$ 得到，即：
 
 $$
 dp[i][j] = \max(\min(dp[i+1][j], dp[i][j+1]) - dungeon[i][j], 1)
 $$
 
-Initially, $dp[m][n-1]$ and $dp[m-1][n]$ are both $1$, and the values at other positions are maximum.
+初始时 $dp[m][n-1]$ 和 $dp[m-1][n]$ 都为 $1$，其他位置的值为最大值。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows and columns of the dungeon, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为地牢的行数和列数。
 
 <!-- tabs:start -->
 

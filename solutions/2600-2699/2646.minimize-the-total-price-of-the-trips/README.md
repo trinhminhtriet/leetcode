@@ -1,70 +1,73 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2646.Minimize%20the%20Total%20Price%20of%20the%20Trips/README.md
 rating: 2238
-source: Weekly Contest 341 Q4
+source: 第 341 场周赛 Q4
 tags:
-  - Tree
-  - Depth-First Search
-  - Graph
-  - Array
-  - Dynamic Programming
+    - 树
+    - 深度优先搜索
+    - 图
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2646. Minimize the Total Price of the Trips](https://leetcode.com/problems/minimize-the-total-price-of-the-trips)
+# [2646. 最小化旅行的价格总和](https://leetcode.cn/problems/minimize-the-total-price-of-the-trips)
 
-## Description
+[English Version](/solution/2600-2699/2646.Minimize%20the%20Total%20Price%20of%20the%20Trips/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There exists an undirected and unrooted tree with <code>n</code> nodes indexed from <code>0</code> to <code>n - 1</code>. You are given the integer <code>n</code> and a 2D integer array <code>edges</code> of length <code>n - 1</code>, where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree.</p>
+<p>现有一棵无向、无根的树，树中有 <code>n</code> 个节点，按从 <code>0</code> 到 <code>n - 1</code> 编号。给你一个整数 <code>n</code> 和一个长度为 <code>n - 1</code> 的二维整数数组 <code>edges</code> ，其中 <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 表示树中节点 <code>a<sub>i</sub></code> 和 <code>b<sub>i</sub></code> 之间存在一条边。</p>
 
-<p>Each node has an associated price. You are given an integer array <code>price</code>, where <code>price[i]</code> is the price of the <code>i<sup>th</sup></code> node.</p>
+<p>每个节点都关联一个价格。给你一个整数数组 <code>price</code> ，其中 <code>price[i]</code> 是第 <code>i</code> 个节点的价格。</p>
 
-<p>The <strong>price sum</strong> of a given path is the sum of the prices of all nodes lying on that path.</p>
+<p>给定路径的 <strong>价格总和</strong> 是该路径上所有节点的价格之和。</p>
 
-<p>Additionally, you are given a 2D integer array <code>trips</code>, where <code>trips[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> indicates that you start the <code>i<sup>th</sup></code> trip from the node <code>start<sub>i</sub></code> and travel to the node <code>end<sub>i</sub></code> by any path you like.</p>
+<p>另给你一个二维整数数组 <code>trips</code> ，其中 <code>trips[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> 表示您从节点 <code>start<sub>i</sub></code> 开始第 <code>i</code> 次旅行，并通过任何你喜欢的路径前往节点 <code>end<sub>i</sub></code> 。</p>
 
-<p>Before performing your first trip, you can choose some <strong>non-adjacent</strong> nodes and halve the prices.</p>
+<p>在执行第一次旅行之前，你可以选择一些 <strong>非相邻节点</strong> 并将价格减半。</p>
 
-<p>Return <em>the minimum total price sum to perform all the given trips</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2646.Minimize%20the%20Total%20Price%20of%20the%20Trips/images/diagram2.png" style="width: 541px; height: 181px;" />
-<pre>
-<strong>Input:</strong> n = 4, edges = [[0,1],[1,2],[1,3]], price = [2,2,10,6], trips = [[0,3],[2,1],[2,3]]
-<strong>Output:</strong> 23
-<strong>Explanation:</strong> The diagram above denotes the tree after rooting it at node 2. The first part shows the initial tree and the second part shows the tree after choosing nodes 0, 2, and 3, and making their price half.
-For the 1<sup>st</sup> trip, we choose path [0,1,3]. The price sum of that path is 1 + 2 + 3 = 6.
-For the 2<sup>nd</sup> trip, we choose path [2,1]. The price sum of that path is 2 + 5 = 7.
-For the 3<sup>rd</sup> trip, we choose path [2,1,3]. The price sum of that path is 5 + 2 + 3 = 10.
-The total price sum of all trips is 6 + 7 + 10 = 23.
-It can be proven, that 23 is the minimum answer that we can achieve.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2646.Minimize%20the%20Total%20Price%20of%20the%20Trips/images/diagram3.png" style="width: 456px; height: 111px;" />
-<pre>
-<strong>Input:</strong> n = 2, edges = [[0,1]], price = [2,2], trips = [[0,0]]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The diagram above denotes the tree after rooting it at node 0. The first part shows the initial tree and the second part shows the tree after choosing node 0, and making its price half.
-For the 1<sup>st</sup> trip, we choose path [0]. The price sum of that path is 1.
-The total price sum of all trips is 1. It can be proven, that 1 is the minimum answer that we can achieve.
-</pre>
+<p>返回执行所有旅行的最小价格总和。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2646.Minimize%20the%20Total%20Price%20of%20the%20Trips/images/diagram2.png" style="width: 541px; height: 181px;">
+<pre><strong>输入：</strong>n = 4, edges = [[0,1],[1,2],[1,3]], price = [2,2,10,6], trips = [[0,3],[2,1],[2,3]]
+<strong>输出：</strong>23
+<strong>解释：
+</strong>上图表示将节点 2 视为根之后的树结构。第一个图表示初始树，第二个图表示选择节点 0 、2 和 3 并使其价格减半后的树。
+第 1 次旅行，选择路径 [0,1,3] 。路径的价格总和为 1 + 2 + 3 = 6 。
+第 2 次旅行，选择路径 [2,1] 。路径的价格总和为 2 + 5 = 7 。
+第 3 次旅行，选择路径 [2,1,3] 。路径的价格总和为 5 + 2 + 3 = 10 。
+所有旅行的价格总和为 6 + 7 + 10 = 23 。可以证明，23 是可以实现的最小答案。</pre>
+
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2646.Minimize%20the%20Total%20Price%20of%20the%20Trips/images/diagram3.png" style="width: 456px; height: 111px;">
+<pre><strong>输入：</strong>n = 2, edges = [[0,1]], price = [2,2], trips = [[0,0]]
+<strong>输出：</strong>1
+<strong>解释：</strong>
+上图表示将节点 0 视为根之后的树结构。第一个图表示初始树，第二个图表示选择节点 0 并使其价格减半后的树。 
+第 1 次旅行，选择路径 [0] 。路径的价格总和为 1 。 
+所有旅行的价格总和为 1 。可以证明，1 是可以实现的最小答案。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 50</code></li>
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n - 1</code></li>
-	<li><code>edges</code> represents a valid tree.</li>
+	<li><code>edges</code> 表示一棵有效的树</li>
 	<li><code>price.length == n</code></li>
-	<li><code>price[i]</code> is an even integer.</li>
+	<li><code>price[i]</code> 是一个偶数</li>
 	<li><code>1 &lt;= price[i] &lt;= 1000</code></li>
 	<li><code>1 &lt;= trips.length &lt;= 100</code></li>
 	<li><code>0 &lt;= start<sub>i</sub>, end<sub>i</sub>&nbsp;&lt;= n - 1</code></li>
@@ -72,20 +75,25 @@ The total price sum of all trips is 1. It can be proven, that 1 is the minimum a
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：树形 DP
 
-We can enumerate each element $div$ in $divisors$, and calculate how many elements in $nums$ can be divided by $div$, denoted as $cnt$.
+我们可以统计每一次旅行经过的节点，记录在数组 $cnt$ 中，其中 $cnt[i]$ 表示所有旅行中经过节点 $i$ 的次数。我们设计一个函数 $dfs(i, fa, k)$，表示从节点 $i$ 开始搜索，最终到达节点 $k$，过程中记录所有经过的节点。其中 $fa$ 表示节点 $i$ 的父节点。
 
-- If $cnt$ is greater than the current maximum divisibility score $mx$, then update $mx = cnt$, and update $ans = div$.
-- If $cnt$ equals $mx$ and $div$ is less than $ans$, then update $ans = div$.
+接下来，我们再设计一个函数 $dfs2(i, fa)$，表示从节点 $i$ 开始搜索，返回将节点 $i$ 的价格不减半或者减半后的最小价格总和。其中 $fa$ 表示节点 $i$ 的父节点。
 
-Finally, return $ans$.
+我们从节点 $0$ 开始，对于每一个节点 $i$，我们可以选择不将其价格减半，也可以选择将其价格减半，分别记为 $a = cnt[i] \times price[i]$, $b = \frac{a}{2}$。
 
-The time complexity is $O(m \times n)$, where $m$ and $n$ are the lengths of $nums$ and $divisors$ respectively. The space complexity is $O(1)$.
+对于节点 $i$ 的所有邻接节点 $j$，我们依然可以选择不将其价格减半，也可以选择将其价格减半，那么 $(x, y) = dfs2(j, i)$。如果节点 $i$ 价格不减半，那么节点 $j$ 价格可以不减半，也可以减半，因此 $a = a + \min(x, y)$；如果节点 $i$ 价格减半，那么节点 $j$ 价格必须不减半，因此 $b = b + x$。
+
+最后，函数 $dfs2(i, fa)$ 的返回值为 $(a, b)$。
+
+在主函数中，我们调用函数 $dfs2(0, -1)$，返回值为 $(a, b)$，那么最终的答案即为 $\min(a, b)$。
+
+时间复杂度 $O(m \times n)$，空间复杂度 $O(n)$。其中 $m$ 和 $n$ 分别为旅行次数以及节点数。
 
 <!-- tabs:start -->
 
@@ -297,53 +305,53 @@ func minimumTotalPrice(n int, edges [][]int, price []int, trips [][]int) int {
 
 ```ts
 function minimumTotalPrice(
-  n: number,
-  edges: number[][],
-  price: number[],
-  trips: number[][]
+    n: number,
+    edges: number[][],
+    price: number[],
+    trips: number[][],
 ): number {
-  const g: number[][] = Array.from({ length: n }, () => []);
-  for (const [a, b] of edges) {
-    g[a].push(b);
-    g[b].push(a);
-  }
-  const cnt: number[] = new Array(n).fill(0);
-  const dfs = (i: number, fa: number, k: number): boolean => {
-    ++cnt[i];
-    if (i === k) {
-      return true;
+    const g: number[][] = Array.from({ length: n }, () => []);
+    for (const [a, b] of edges) {
+        g[a].push(b);
+        g[b].push(a);
     }
-    let ok = false;
-    for (const j of g[i]) {
-      if (j !== fa) {
-        ok = dfs(j, i, k);
-        if (ok) {
-          break;
+    const cnt: number[] = new Array(n).fill(0);
+    const dfs = (i: number, fa: number, k: number): boolean => {
+        ++cnt[i];
+        if (i === k) {
+            return true;
         }
-      }
+        let ok = false;
+        for (const j of g[i]) {
+            if (j !== fa) {
+                ok = dfs(j, i, k);
+                if (ok) {
+                    break;
+                }
+            }
+        }
+        if (!ok) {
+            --cnt[i];
+        }
+        return ok;
+    };
+    for (const [start, end] of trips) {
+        dfs(start, -1, end);
     }
-    if (!ok) {
-      --cnt[i];
-    }
-    return ok;
-  };
-  for (const [start, end] of trips) {
-    dfs(start, -1, end);
-  }
-  const dfs2 = (i: number, fa: number): number[] => {
-    let a: number = price[i] * cnt[i];
-    let b: number = a >> 1;
-    for (const j of g[i]) {
-      if (j !== fa) {
-        const [x, y] = dfs2(j, i);
-        a += Math.min(x, y);
-        b += x;
-      }
-    }
-    return [a, b];
-  };
-  const [a, b] = dfs2(0, -1);
-  return Math.min(a, b);
+    const dfs2 = (i: number, fa: number): number[] => {
+        let a: number = price[i] * cnt[i];
+        let b: number = a >> 1;
+        for (const j of g[i]) {
+            if (j !== fa) {
+                const [x, y] = dfs2(j, i);
+                a += Math.min(x, y);
+                b += x;
+            }
+        }
+        return [a, b];
+    };
+    const [a, b] = dfs2(0, -1);
+    return Math.min(a, b);
 }
 ```
 

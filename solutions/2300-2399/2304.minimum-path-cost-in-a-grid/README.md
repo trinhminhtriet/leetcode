@@ -1,60 +1,67 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2304.Minimum%20Path%20Cost%20in%20a%20Grid/README.md
 rating: 1658
-source: Weekly Contest 297 Q2
+source: 第 297 场周赛 Q2
 tags:
-  - Array
-  - Dynamic Programming
-  - Matrix
+    - 数组
+    - 动态规划
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [2304. Minimum Path Cost in a Grid](https://leetcode.com/problems/minimum-path-cost-in-a-grid)
+# [2304. 网格中的最小路径代价](https://leetcode.cn/problems/minimum-path-cost-in-a-grid)
 
-## Description
+[English Version](/solution/2300-2399/2304.Minimum%20Path%20Cost%20in%20a%20Grid/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> <code>m x n</code> integer matrix <code>grid</code> consisting of <strong>distinct</strong> integers from <code>0</code> to <code>m * n - 1</code>. You can move in this matrix from a cell to any other cell in the <strong>next</strong> row. That is, if you are in cell <code>(x, y)</code> such that <code>x &lt; m - 1</code>, you can move to any of the cells <code>(x + 1, 0)</code>, <code>(x + 1, 1)</code>, ..., <code>(x + 1, n - 1)</code>. <strong>Note</strong> that it is not possible to move from cells in the last row.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数矩阵&nbsp;<code>grid</code> ，矩阵大小为 <code>m x n</code> ，由从 <code>0</code> 到 <code>m * n - 1</code> 的不同整数组成。你可以在此矩阵中，从一个单元格移动到 <strong>下一行</strong> 的任何其他单元格。如果你位于单元格 <code>(x, y)</code> ，且满足 <code>x &lt; m - 1</code> ，你可以移动到 <code>(x + 1, 0)</code>, <code>(x + 1, 1)</code>, ..., <code>(x + 1, n - 1)</code><strong> </strong>中的任何一个单元格。<strong>注意：</strong>&nbsp;在最后一行中的单元格不能触发移动。</p>
 
-<p>Each possible move has a cost given by a <strong>0-indexed</strong> 2D array <code>moveCost</code> of size <code>(m * n) x n</code>, where <code>moveCost[i][j]</code> is the cost of moving from a cell with value <code>i</code> to a cell in column <code>j</code> of the next row. The cost of moving from cells in the last row of <code>grid</code> can be ignored.</p>
+<p>每次可能的移动都需要付出对应的代价，代价用一个下标从 <strong>0</strong> 开始的二维数组 <code>moveCost</code> 表示，该数组大小为 <code>(m * n) x n</code> ，其中 <code>moveCost[i][j]</code> 是从值为 <code>i</code> 的单元格移动到下一行第 <code>j</code> 列单元格的代价。从&nbsp;<code>grid</code> 最后一行的单元格移动的代价可以忽略。</p>
 
-<p>The cost of a path in <code>grid</code> is the <strong>sum</strong> of all values of cells visited plus the <strong>sum</strong> of costs of all the moves made. Return <em>the <strong>minimum</strong> cost of a path that starts from any cell in the <strong>first</strong> row and ends at any cell in the <strong>last</strong> row.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2304.Minimum%20Path%20Cost%20in%20a%20Grid/images/griddrawio-2.png" style="width: 301px; height: 281px;" />
-<pre>
-<strong>Input:</strong> grid = [[5,3],[4,0],[2,1]], moveCost = [[9,8],[1,5],[10,12],[18,6],[2,4],[14,3]]
-<strong>Output:</strong> 17
-<strong>Explanation: </strong>The path with the minimum possible cost is the path 5 -&gt; 0 -&gt; 1.
-- The sum of the values of cells visited is 5 + 0 + 1 = 6.
-- The cost of moving from 5 to 0 is 3.
-- The cost of moving from 0 to 1 is 8.
-So the total cost of the path is 6 + 3 + 8 = 17.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> grid = [[5,1,2],[4,0,3]], moveCost = [[12,10,15],[20,23,8],[21,7,1],[8,1,13],[9,10,25],[5,3,2]]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The path with the minimum possible cost is the path 2 -&gt; 3.
-- The sum of the values of cells visited is 2 + 3 = 5.
-- The cost of moving from 2 to 3 is 1.
-So the total cost of this path is 5 + 1 = 6.
-</pre>
+<p><code>grid</code> 一条路径的代价是：所有路径经过的单元格的 <strong>值之和</strong> 加上 所有移动的 <strong>代价之和 </strong>。从 <strong>第一行</strong> 任意单元格出发，返回到达 <strong>最后一行</strong> 任意单元格的最小路径代价<em>。</em></p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2304.Minimum%20Path%20Cost%20in%20a%20Grid/images/griddrawio-2.png" style="width: 301px; height: 281px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = [[5,3],[4,0],[2,1]], moveCost = [[9,8],[1,5],[10,12],[18,6],[2,4],[14,3]]
+<strong>输出：</strong>17
+<strong>解释：</strong>最小代价的路径是 5 -&gt; 0 -&gt; 1 。
+- 路径途经单元格值之和 5 + 0 + 1 = 6 。
+- 从 5 移动到 0 的代价为 3 。
+- 从 0 移动到 1 的代价为 8 。
+路径总代价为 6 + 3 + 8 = 17 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>grid = [[5,1,2],[4,0,3]], moveCost = [[12,10,15],[20,23,8],[21,7,1],[8,1,13],[9,10,25],[5,3,2]]
+<strong>输出：</strong>6
+<strong>解释：</strong>
+最小代价的路径是 2 -&gt; 3 。 
+- 路径途经单元格值之和 2 + 3 = 5 。 
+- 从 2 移动到 3 的代价为 1 。 
+路径总代价为 5 + 1 = 6 。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>2 &lt;= m, n &lt;= 50</code></li>
-	<li><code>grid</code> consists of distinct integers from <code>0</code> to <code>m * n - 1</code>.</li>
+	<li><code>grid</code> 由从 <code>0</code> 到 <code>m * n - 1</code> 的不同整数组成</li>
 	<li><code>moveCost.length == m * n</code></li>
 	<li><code>moveCost[i].length == n</code></li>
 	<li><code>1 &lt;= moveCost[i][j] &lt;= 100</code></li>
@@ -62,25 +69,25 @@ So the total cost of this path is 5 + 1 = 6.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ to represent the minimum path cost from the first row to the $i$th row and $j$th column. Since we can only move from a column in the previous row to a column in the current row, the value of $f[i][j]$ can be transferred from $f[i - 1][k]$, where the range of $k$ is $[0, n - 1]$. Therefore, the state transition equation is:
+我们定义 $f[i][j]$ 表示从第一行出发，到达第 $i$ 行第 $j$ 列的最小路径代价。由于每次只能从上一行的某一列移动到当前行的某一列，因此 $f[i][j]$ 的值可以从 $f[i - 1][k]$ 转移而来，其中 $k$ 的取值范围为 $[0, n - 1]$。因此状态转移方程为：
 
 $$
 f[i][j] = \min_{0 \leq k < n} \{f[i - 1][k] + \textit{moveCost}[grid[i - 1][k]][j] + grid[i][j]\}
 $$
 
-where $\textit{moveCost}[grid[i - 1][k]][j]$ represents the cost of moving from the $k$th column of the $i - 1$th row to the $j$th column of the $i$th row.
+其中 $\textit{moveCost}[grid[i - 1][k]][j]$ 表示从第 $i - 1$ 行第 $k$ 列移动到第 $i$ 行第 $j$ 列的代价。
 
-The final answer is $\min_{0 \leq j < n} \{f[m - 1][j]\}$.
+最终答案即为 $\min_{0 \leq j < n} \{f[m - 1][j]\}$。
 
-Since each transition only needs the state of the previous row, we can use a rolling array to optimize the space complexity to $O(n)$.
+由于每次转移只需要用到上一行的状态，因此我们可以使用滚动数组的方式，将空间复杂度优化到 $O(n)$。
 
-The time complexity is $O(m \times n^2)$, and the space complexity is $O(n)$. Here, $m$ and $n$ are the number of rows and columns of the grid, respectively.
+时间复杂度 $O(m \times n^2)$，空间复杂度 $O(n)$。其中 $m$ 和 $n$ 分别为网格的行数和列数。
 
 <!-- tabs:start -->
 
@@ -176,19 +183,19 @@ func minPathCost(grid [][]int, moveCost [][]int) int {
 
 ```ts
 function minPathCost(grid: number[][], moveCost: number[][]): number {
-  const m = grid.length;
-  const n = grid[0].length;
-  const f = grid[0];
-  for (let i = 1; i < m; ++i) {
-    const g: number[] = Array(n).fill(Infinity);
-    for (let j = 0; j < n; ++j) {
-      for (let k = 0; k < n; ++k) {
-        g[j] = Math.min(g[j], f[k] + moveCost[grid[i - 1][k]][j] + grid[i][j]);
-      }
+    const m = grid.length;
+    const n = grid[0].length;
+    const f = grid[0];
+    for (let i = 1; i < m; ++i) {
+        const g: number[] = Array(n).fill(Infinity);
+        for (let j = 0; j < n; ++j) {
+            for (let k = 0; k < n; ++k) {
+                g[j] = Math.min(g[j], f[k] + moveCost[grid[i - 1][k]][j] + grid[i][j]);
+            }
+        }
+        f.splice(0, n, ...g);
     }
-    f.splice(0, n, ...g);
-  }
-  return Math.min(...f);
+    return Math.min(...f);
 }
 ```
 

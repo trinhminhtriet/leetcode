@@ -1,85 +1,91 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0901.Online%20Stock%20Span/README.md
 tags:
-  - Stack
-  - Design
-  - Data Stream
-  - Monotonic Stack
+    - 栈
+    - 设计
+    - 数据流
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [901. Online Stock Span](https://leetcode.com/problems/online-stock-span)
+# [901. 股票价格跨度](https://leetcode.cn/problems/online-stock-span)
 
-## Description
+[English Version](/solution/0900-0999/0901.Online%20Stock%20Span/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Design an algorithm that collects daily price quotes for some stock and returns <strong>the span</strong> of that stock&#39;s price for the current day.</p>
+<p>设计一个算法收集某些股票的每日报价，并返回该股票当日价格的 <strong>跨度</strong> 。</p>
 
-<p>The <strong>span</strong> of the stock&#39;s price in one day is the maximum number of consecutive days (starting from that day and going backward) for which the stock price was less than or equal to the price of that day.</p>
+<p>当日股票价格的 <strong>跨度</strong> 被定义为股票价格小于或等于今天价格的最大连续日数（从今天开始往回数，包括今天）。</p>
 
 <ul>
-	<li>For example, if the prices of the stock in the last four days is <code>[7,2,1,2]</code> and the price of the stock today is <code>2</code>, then the span of today is <code>4</code> because starting from today, the price of the stock was less than or equal <code>2</code> for <code>4</code> consecutive days.</li>
-	<li>Also, if the prices of the stock in the last four days is <code>[7,34,1,2]</code> and the price of the stock today is <code>8</code>, then the span of today is <code>3</code> because starting from today, the price of the stock was less than or equal <code>8</code> for <code>3</code> consecutive days.</li>
+	<li>
+	<p>例如，如果未来 7 天股票的价格是 <code>[100,80,60,70,60,75,85]</code>，那么股票跨度将是 <code>[1,1,1,2,1,4,6]</code> 。</p>
+	</li>
 </ul>
 
-<p>Implement the <code>StockSpanner</code> class:</p>
+<p>实现 <code>StockSpanner</code> 类：</p>
 
 <ul>
-	<li><code>StockSpanner()</code> Initializes the object of the class.</li>
-	<li><code>int next(int price)</code> Returns the <strong>span</strong> of the stock&#39;s price given that today&#39;s price is <code>price</code>.</li>
+	<li><code>StockSpanner()</code> 初始化类对象。</li>
+	<li><code>int next(int price)</code> 给出今天的股价 <code>price</code> ，返回该股票当日价格的 <strong>跨度</strong> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;StockSpanner&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;]
+<strong>输入</strong>：
+["StockSpanner", "next", "next", "next", "next", "next", "next", "next"]
 [[], [100], [80], [60], [70], [60], [75], [85]]
-<strong>Output</strong>
+<strong>输出</strong>：
 [null, 1, 1, 1, 2, 1, 4, 6]
 
-<strong>Explanation</strong>
+<strong>解释：</strong>
 StockSpanner stockSpanner = new StockSpanner();
-stockSpanner.next(100); // return 1
-stockSpanner.next(80);  // return 1
-stockSpanner.next(60);  // return 1
-stockSpanner.next(70);  // return 2
-stockSpanner.next(60);  // return 1
-stockSpanner.next(75);  // return 4, because the last 4 prices (including today&#39;s price of 75) were less than or equal to today&#39;s price.
-stockSpanner.next(85);  // return 6
+stockSpanner.next(100); // 返回 1
+stockSpanner.next(80);  // 返回 1
+stockSpanner.next(60);  // 返回 1
+stockSpanner.next(70);  // 返回 2
+stockSpanner.next(60);  // 返回 1
+stockSpanner.next(75);  // 返回 4 ，因为截至今天的最后 4 个股价 (包括今天的股价 75) 都小于或等于今天的股价。
+stockSpanner.next(85);  // 返回 6
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+&nbsp;
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= price &lt;= 10<sup>5</sup></code></li>
-	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>next</code>.</li>
+	<li>最多调用 <code>next</code> 方法 <code>10<sup>4</sup></code> 次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Monotonic Stack
+### 方法一：单调栈
 
-Based on the problem description, we know that for the current day's price $price$, we start from this price and look backwards to find the first price that is larger than this price. The difference in indices $cnt$ between these two prices is the span of the current day's price.
+根据题目描述，我们可以知道，对于当日价格 $price$，从这个价格开始往前找，找到第一个比这个价格大的价格，这两个价格的下标差 $cnt$ 就是当日价格的跨度。
 
-This is actually a classic monotonic stack model, where we find the first element larger than the current element on the left.
+这实际上是经典的单调栈模型，找出左侧第一个比当前元素大的元素。
 
-We maintain a stack where the prices from the bottom to the top of the stack are monotonically decreasing. Each element in the stack is a $(price, cnt)$ data pair, where $price$ represents the price, and $cnt$ represents the span of the current price.
+我们维护一个从栈底到栈顶价格单调递减的栈，栈中每个元素存放的是 $(price, cnt)$ 数据对，其中 $price$ 表示价格，而 $cnt$ 表示当前价格的跨度。
 
-When the price $price$ appears, we compare it with the top element of the stack. If the price of the top element of the stack is less than or equal to $price$, we add the span $cnt$ of the current day's price to the span of the top element of the stack, and then pop the top element of the stack. This continues until the price of the top element of the stack is greater than $price$, or the stack is empty.
+出现价格 $price$ 时，我们将其与栈顶元素进行比较，如果栈顶元素的价格小于等于 $price$，则将当日价格的跨度 $cnt$ 加上栈顶元素的跨度，然后将栈顶元素出栈，直到栈顶元素的价格大于 $price$，或者栈为空为止。
 
-Finally, we push $(price, cnt)$ onto the stack and return $cnt$.
+最后将 $(price, cnt)$ 入栈，返回 $cnt$ 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of times `next(price)` is called.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是调用 `next(price)` 的次数。
 
 <!-- tabs:start -->
 
@@ -192,20 +198,20 @@ type pair struct{ price, cnt int }
 
 ```ts
 class StockSpanner {
-  private stk: number[][];
+    private stk: number[][];
 
-  constructor() {
-    this.stk = [];
-  }
-
-  next(price: number): number {
-    let cnt = 1;
-    while (this.stk.length && this.stk.at(-1)[0] <= price) {
-      cnt += this.stk.pop()[1];
+    constructor() {
+        this.stk = [];
     }
-    this.stk.push([price, cnt]);
-    return cnt;
-  }
+
+    next(price: number): number {
+        let cnt = 1;
+        while (this.stk.length && this.stk.at(-1)[0] <= price) {
+            cnt += this.stk.pop()[1];
+        }
+        this.stk.push([price, cnt]);
+        return cnt;
+    }
 }
 
 /**

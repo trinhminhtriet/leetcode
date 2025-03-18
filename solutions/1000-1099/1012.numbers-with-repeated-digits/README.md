@@ -1,49 +1,54 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1012.Numbers%20With%20Repeated%20Digits/README.md
 rating: 2230
-source: Weekly Contest 128 Q4
+source: 第 128 场周赛 Q4
 tags:
-  - Math
-  - Dynamic Programming
+    - 数学
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1012. Numbers With Repeated Digits](https://leetcode.com/problems/numbers-with-repeated-digits)
+# [1012. 至少有 1 位重复的数字](https://leetcode.cn/problems/numbers-with-repeated-digits)
 
-## Description
+[English Version](/solution/1000-1099/1012.Numbers%20With%20Repeated%20Digits/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer <code>n</code>, return <em>the number of positive integers in the range </em><code>[1, n]</code><em> that have <strong>at least one</strong> repeated digit</em>.</p>
+<p>给定正整数&nbsp;<code>n</code>，返回在<em>&nbsp;</em><code>[1, n]</code><em>&nbsp;</em>范围内具有 <strong>至少 1 位</strong> 重复数字的正整数的个数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 20
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The only positive number (&lt;= 20) with at least 1 repeated digit is 11.
+<strong>输入：</strong>n = 20
+<strong>输出：</strong>1
+<strong>解释：</strong>具有至少 1 位重复数字的正数（&lt;= 20）只有 11 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 100
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> The positive numbers (&lt;= 100) with atleast 1 repeated digit are 11, 22, 33, 44, 55, 66, 77, 88, 99, and 100.
+<strong>输入：</strong>n = 100
+<strong>输出：</strong>10
+<strong>解释：</strong>具有至少 1 位重复数字的正数（&lt;= 100）有 11，22，33，44，55，66，77，88，99 和 100 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 1000
-<strong>Output:</strong> 262
+<strong>输入：</strong>n = 1000
+<strong>输出：</strong>262
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
@@ -51,47 +56,47 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: State Compression + Digit DP
+### 方法一：状态压缩 + 数位 DP
 
-The problem requires counting the number of integers in the range $[1, .., n]$ that have at least one repeated digit. We can approach this by defining a function $f(n)$ that counts the number of integers in the range $[1, .., n]$ with no repeated digits. Then, the answer is $n - f(n)$.
+题目要求统计 $[1,..n]$ 中至少有一位重复的数字的个数，我们可以换一种思路，用一个函数 $f(n)$ 统计 $[1,..n]$ 中没有重复数字的个数，那么答案就是 $n - f(n)$。
 
-Additionally, we can use a binary number to record the digits that have appeared in the number. For example, if the digits $1$, $2$, and $4$ have appeared, the corresponding binary number is $\underline{1}0\underline{1}\underline{1}0$.
+另外，我们可以用一个二进制数来记录数字中出现过的数字，比如数字中出现了 $1$, $2$, $4$，那么对应的二进制数就是 $\underline{1}0\underline{1}\underline{1}0$。
 
-Next, we use memoization to implement digit DP. We start searching from the top, get the number of solutions at the bottom, and return the answers layer by layer until we get the final answer from the starting point.
+接下来，我们用记忆化搜索来实现数位 DP。从起点向下搜索，到最底层得到方案数，一层层向上返回答案并累加，最后从搜索起点得到最终的答案。
 
-The basic steps are as follows:
+基本步骤如下：
 
-We convert the number $n$ into a string $s$. Next, we design a function $\textit{dfs}(i, \textit{mask}, \textit{lead}, \textit{limit})$, where:
+我们将数字 $n$ 转为字符串 $s$，接下来，我们设计一个函数 $\textit{dfs}(i, \textit{mask}, \textit{lead}, \textit{limit})$，其中：
 
-- The integer $i$ represents the current digit index, starting from $0$.
-- The integer $\textit{mask}$ represents the digits that have appeared so far, using a binary number. The $j$-th bit of $\textit{mask}$ being $1$ indicates that digit $j$ has appeared, while $0$ indicates it has not.
-- The boolean $\textit{lead}$ indicates whether the current number contains only leading zeros.
-- The boolean $\textit{limit}$ indicates whether the current position is restricted by the upper bound.
+-   数字 $i$ 表示当前处理的数字下标，从 $0$ 开始。
+-   数字 $\textit{mask}$ 表示当前数字中出现过的数字，用二进制数表示。其中 $\textit{mask}$ 的二进制的第 $j$ 位为 $1$ 表示数字 $j$ 出现过，为 $0$ 表示数字 $j$ 没有出现过。
+-   布尔值 $\textit{lead}$ 表示是否只包含前导零。
+-   布尔值 $\textit{limit}$ 表示当前位置是否受到上界的限制。
 
-The function executes as follows:
+函数的执行过程如下：
 
-If $i$ is greater than or equal to $m$, it means we have processed all digits. If $\textit{lead}$ is true, it means the current number is a leading zero, and we should return $0$. Otherwise, we should return $1$.
+如果 $i$ 大于等于 $m$，说明我们已经处理完了所有的位数，此时如果 $\textit{lead}$ 为真，说明当前的数字是前导零，我们应当返回 $0$；否则，我们应当返回 $1$。
 
-Otherwise, we calculate the upper bound $\textit{up}$. If $\textit{limit}$ is true, then $\textit{up}$ is the digit corresponding to $s[i]$. Otherwise, $\textit{up}$ is $9$.
+否则，我们计算当前位置的上界 $\textit{up}$，如果 $\textit{limit}$ 为真，则 $up$ 为 $s[i]$ 对应的数字，否则 $up$ 为 $9$。
 
-Then, we enumerate the current digit $j$ in the range $[0, \textit{up}]$. If $j$ is $0$ and $\textit{lead}$ is true, we recursively calculate $\textit{dfs}(i + 1, \textit{mask}, \text{true}, \textit{limit} \wedge j = \textit{up})$. Otherwise, if the $j$-th bit of $\textit{mask}$ is $0$, we recursively calculate $\textit{dfs}(i + 1, \textit{mask} \,|\, 2^j, \text{false}, \textit{limit} \wedge j = \textit{up})$. We accumulate all the results as the answer.
+然后，我们在 $[0, \textit{up}]$ 的范围内枚举当前位置的数字 $j$，如果 $j$ 为 $0$ 且 $\textit{lead}$ 为真，我们递归计算 $\textit{dfs}(i + 1, \textit{mask}, \text{true}, \textit{limit} \wedge j = \textit{up})$；否则，如果 $\textit{mask}$ 的第 $j$ 位为 $0$，我们递归计算 $\textit{dfs}(i + 1, \textit{mask} \,|\, 2^j, \text{false}, \textit{limit} \wedge j = \textit{up})$。累加所有的结果即为答案。
 
-The answer is $n - \textit{dfs}(0, 0, \text{true}, \text{true})$.
+答案为 $n - \textit{dfs}(0, 0, \text{true}, \text{true})$。
 
-The time complexity is $O(\log n \times 2^D \times D)$, and the space complexity is $O(\log n \times 2^D)$. Here, $D = 10$.
+时间复杂度 $O(\log n \times 2^D \times D)$，空间复杂度 $O(\log n \times 2^D)$。其中 $D = 10$。
 
-Similar problems:
+相似题目：
 
-- [233. Number of Digit One](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0233.Number%20of%20Digit%20One/README_EN.md)
-- [357. Count Numbers with Unique Digits](https://github.com/doocs/leetcode/blob/main/solution/0300-0399/0357.Count%20Numbers%20with%20Unique%20Digits/README_EN.md)
-- [600. Non-negative Integers without Consecutive Ones](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0600.Non-negative%20Integers%20without%20Consecutive%20Ones/README_EN.md)
-- [788. Rotated Digits](https://github.com/doocs/leetcode/blob/main/solution/0700-0799/0788.Rotated%20Digits/README_EN.md)
-- [902. Numbers At Most N Given Digit Set](https://github.com/doocs/leetcode/blob/main/solution/0900-0999/0902.Numbers%20At%20Most%20N%20Given%20Digit%20Set/README_EN.md)
-- [2376. Count Special Integers](https://github.com/doocs/leetcode/blob/main/solution/2300-2399/2376.Count%20Special%20Integers/README_EN.md)
+-   [233. 数字 1 的个数](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0233.Number%20of%20Digit%20One/README.md)
+-   [357. 统计各位数字都不同的数字个数](https://github.com/doocs/leetcode/blob/main/solution/0300-0399/0357.Count%20Numbers%20with%20Unique%20Digits/README.md)
+-   [600. 不含连续 1 的非负整数](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0600.Non-negative%20Integers%20without%20Consecutive%20Ones/README.md)
+-   [788. 旋转数字](https://github.com/doocs/leetcode/blob/main/solution/0700-0799/0788.Rotated%20Digits/README.md)
+-   [902. 最大为 N 的数字组合](https://github.com/doocs/leetcode/blob/main/solution/0900-0999/0902.Numbers%20At%20Most%20N%20Given%20Digit%20Set/README.md)
+-   [2376. 统计特殊整数](https://github.com/doocs/leetcode/blob/main/solution/2300-2399/2376.Count%20Special%20Integers/README.md)
 
 <!-- tabs:start -->
 
@@ -164,7 +169,7 @@ public:
         int m = s.size();
         int f[m][1 << 10];
         memset(f, -1, sizeof(f));
-        auto dfs = [&](auto&& dfs, int i, int mask, bool lead, bool limit) -> int {
+        auto dfs = [&](this auto&& dfs, int i, int mask, bool lead, bool limit) -> int {
             if (i >= m) {
                 return lead ^ 1;
             }
@@ -175,9 +180,9 @@ public:
             int ans = 0;
             for (int j = 0; j <= up; ++j) {
                 if (lead && j == 0) {
-                    ans += dfs(dfs, i + 1, mask, true, limit && j == up);
+                    ans += dfs(i + 1, mask, true, limit && j == up);
                 } else if (mask >> j & 1 ^ 1) {
-                    ans += dfs(dfs, i + 1, mask | (1 << j), false, limit && j == up);
+                    ans += dfs(i + 1, mask | (1 << j), false, limit && j == up);
                 }
             }
             if (!lead && !limit) {
@@ -185,7 +190,7 @@ public:
             }
             return ans;
         };
-        return n - dfs(dfs, 0, 0, true, true);
+        return n - dfs(0, 0, true, true);
     }
 };
 ```
@@ -240,38 +245,33 @@ func numDupDigitsAtMostN(n int) int {
 
 ```ts
 function numDupDigitsAtMostN(n: number): number {
-  const s = n.toString();
-  const m = s.length;
-  const f = Array.from({ length: m }, () => Array(1 << 10).fill(-1));
+    const s = n.toString();
+    const m = s.length;
+    const f = Array.from({ length: m }, () => Array(1 << 10).fill(-1));
 
-  const dfs = (
-    i: number,
-    mask: number,
-    lead: boolean,
-    limit: boolean
-  ): number => {
-    if (i >= m) {
-      return lead ? 0 : 1;
-    }
-    if (!lead && !limit && f[i][mask] !== -1) {
-      return f[i][mask];
-    }
-    const up = limit ? parseInt(s[i]) : 9;
-    let ans = 0;
-    for (let j = 0; j <= up; j++) {
-      if (lead && j === 0) {
-        ans += dfs(i + 1, mask, true, limit && j === up);
-      } else if (((mask >> j) & 1) === 0) {
-        ans += dfs(i + 1, mask | (1 << j), false, limit && j === up);
-      }
-    }
-    if (!lead && !limit) {
-      f[i][mask] = ans;
-    }
-    return ans;
-  };
+    const dfs = (i: number, mask: number, lead: boolean, limit: boolean): number => {
+        if (i >= m) {
+            return lead ? 0 : 1;
+        }
+        if (!lead && !limit && f[i][mask] !== -1) {
+            return f[i][mask];
+        }
+        const up = limit ? parseInt(s[i]) : 9;
+        let ans = 0;
+        for (let j = 0; j <= up; j++) {
+            if (lead && j === 0) {
+                ans += dfs(i + 1, mask, true, limit && j === up);
+            } else if (((mask >> j) & 1) === 0) {
+                ans += dfs(i + 1, mask | (1 << j), false, limit && j === up);
+            }
+        }
+        if (!lead && !limit) {
+            f[i][mask] = ans;
+        }
+        return ans;
+    };
 
-  return n - dfs(0, 0, true, true);
+    return n - dfs(0, 0, true, true);
 }
 ```
 

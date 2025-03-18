@@ -1,72 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0075.Sort%20Colors/README.md
 tags:
-  - Array
-  - Two Pointers
-  - Sorting
+    - 数组
+    - 双指针
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [75. Sort Colors](https://leetcode.com/problems/sort-colors)
+# [75. 颜色分类](https://leetcode.cn/problems/sort-colors)
 
-## Description
+[English Version](/solution/0000-0099/0075.Sort%20Colors/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array <code>nums</code> with <code>n</code> objects colored red, white, or blue, sort them <strong><a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank">in-place</a> </strong>so that objects of the same color are adjacent, with the colors in the order red, white, and blue.</p>
+<p>给定一个包含红色、白色和蓝色、共&nbsp;<code>n</code><em> </em>个元素的数组<meta charset="UTF-8" />&nbsp;<code>nums</code>&nbsp;，<strong><a href="https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95" target="_blank">原地</a>&nbsp;</strong>对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。</p>
 
-<p>We will use the integers <code>0</code>, <code>1</code>, and <code>2</code> to represent the color red, white, and blue, respectively.</p>
+<p>我们使用整数 <code>0</code>、&nbsp;<code>1</code> 和 <code>2</code> 分别表示红色、白色和蓝色。</p>
 
-<p>You must solve this problem without using the library&#39;s sort function.</p>
+<ul>
+</ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2,0,2,1,1,0]
-<strong>Output:</strong> [0,0,1,1,2,2]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2,0,1]
-<strong>Output:</strong> [0,1,2]
-</pre>
+<p>必须在不使用库内置的 sort 函数的情况下解决这个问题。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [2,0,2,1,1,0]
+<strong>输出：</strong>[0,0,1,1,2,2]
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [2,0,1]
+<strong>输出：</strong>[0,1,2]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
 	<li><code>1 &lt;= n &lt;= 300</code></li>
-	<li><code>nums[i]</code> is either <code>0</code>, <code>1</code>, or <code>2</code>.</li>
+	<li><code>nums[i]</code> 为 <code>0</code>、<code>1</code> 或 <code>2</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Follow up:</strong>&nbsp;Could you come up with a one-pass algorithm using only&nbsp;constant extra space?</p>
+
+<p><strong>进阶：</strong></p>
+
+<ul>
+	<li>你能想出一个仅使用常数空间的一趟扫描算法吗？</li>
+</ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Three Pointers
+### 方法一：三指针
 
-We define three pointers $i$, $j$, and $k$. Pointer $i$ is used to point to the rightmost boundary of the elements with a value of $0$ in the array, and pointer $j$ is used to point to the leftmost boundary of the elements with a value of $2$ in the array. Initially, $i=-1$, $j=n$. Pointer $k$ is used to point to the current element being traversed, initially $k=0$.
+我们定义三个指针 $i$, $j$ 和 $k$，其中指针 $i$ 用于指向数组中元素值为 $0$ 的最右边界，指针 $j$ 用于指向数组中元素值为 $2$ 的最左边界，初始时 $i=-1$, $j=n$。指针 $k$ 用于指向当前遍历的元素，初始时 $k=0$。
 
-When $k < j$, we perform the following operations:
+当 $k \lt j$ 时，我们执行如下操作：
 
-- If $nums[k] = 0$, then swap it with $nums[i+1]$, then increment both $i$ and $k$ by $1$;
-- If $nums[k] = 2$, then swap it with $nums[j-1]$, then decrement $j$ by $1$;
-- If $nums[k] = 1$, then increment $k$ by $1$.
+-   若 $nums[k]=0$，则将其与 $nums[i+1]$ 交换，然后 $i$ 和 $k$ 都加 $1$；
+-   若 $nums[k]=2$，则将其与 $nums[j-1]$ 交换，然后 $j$ 减 $1$；
+-   若 $nums[k]=1$，则 $k$ 加 $1$。
 
-After the traversal, the elements in the array are divided into three parts: $[0,i]$, $[i+1,j-1]$ and $[j,n-1]$.
+遍历结束后，数组中的元素就被分成了 $[0,i]$, $[i+1,j-1]$ 和 $[j,n-1]$ 三个部分。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. Only one traversal of the array is needed. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组的长度。只需要遍历一遍数组即可。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -160,21 +173,21 @@ func sortColors(nums []int) {
  Do not return anything, modify nums in-place instead.
  */
 function sortColors(nums: number[]): void {
-  let i = -1;
-  let j = nums.length;
-  let k = 0;
-  while (k < j) {
-    if (nums[k] === 0) {
-      ++i;
-      [nums[i], nums[k]] = [nums[k], nums[i]];
-      ++k;
-    } else if (nums[k] === 2) {
-      --j;
-      [nums[j], nums[k]] = [nums[k], nums[j]];
-    } else {
-      ++k;
+    let i = -1;
+    let j = nums.length;
+    let k = 0;
+    while (k < j) {
+        if (nums[k] === 0) {
+            ++i;
+            [nums[i], nums[k]] = [nums[k], nums[i]];
+            ++k;
+        } else if (nums[k] === 2) {
+            --j;
+            [nums[j], nums[k]] = [nums[k], nums[j]];
+        } else {
+            ++k;
+        }
     }
-  }
 }
 ```
 

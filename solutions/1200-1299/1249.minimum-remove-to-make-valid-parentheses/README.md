@@ -1,81 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1249.Minimum%20Remove%20to%20Make%20Valid%20Parentheses/README.md
 rating: 1657
-source: Weekly Contest 161 Q3
+source: 第 161 场周赛 Q3
 tags:
-  - Stack
-  - String
+    - 栈
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1249. Minimum Remove to Make Valid Parentheses](https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses)
+# [1249. 移除无效的括号](https://leetcode.cn/problems/minimum-remove-to-make-valid-parentheses)
 
-## Description
+[English Version](/solution/1200-1299/1249.Minimum%20Remove%20to%20Make%20Valid%20Parentheses/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <font face="monospace">s</font> of <code>&#39;(&#39;</code> , <code>&#39;)&#39;</code> and lowercase English characters.</p>
+<p>给你一个由 <code>'('</code>、<code>')'</code> 和小写字母组成的字符串 <code>s</code>。</p>
 
-<p>Your task is to remove the minimum number of parentheses ( <code>&#39;(&#39;</code> or <code>&#39;)&#39;</code>, in any positions ) so that the resulting <em>parentheses string</em> is valid and return <strong>any</strong> valid string.</p>
+<p>你需要从字符串中删除最少数目的 <code>'('</code> 或者 <code>')'</code>&nbsp;（可以删除任意位置的括号)，使得剩下的「括号字符串」有效。</p>
 
-<p>Formally, a <em>parentheses string</em> is valid if and only if:</p>
+<p>请返回任意一个合法字符串。</p>
+
+<p>有效「括号字符串」应当符合以下&nbsp;<strong>任意一条&nbsp;</strong>要求：</p>
 
 <ul>
-	<li>It is the empty string, contains only lowercase characters, or</li>
-	<li>It can be written as <code>AB</code> (<code>A</code> concatenated with <code>B</code>), where <code>A</code> and <code>B</code> are valid strings, or</li>
-	<li>It can be written as <code>(A)</code>, where <code>A</code> is a valid string.</li>
+	<li>空字符串或只包含小写字母的字符串</li>
+	<li>可以被写作&nbsp;<code>AB</code>（<code>A</code>&nbsp;连接&nbsp;<code>B</code>）的字符串，其中&nbsp;<code>A</code>&nbsp;和&nbsp;<code>B</code>&nbsp;都是有效「括号字符串」</li>
+	<li>可以被写作&nbsp;<code>(A)</code>&nbsp;的字符串，其中&nbsp;<code>A</code>&nbsp;是一个有效的「括号字符串」</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;lee(t(c)o)de)&quot;
-<strong>Output:</strong> &quot;lee(t(c)o)de&quot;
-<strong>Explanation:</strong> &quot;lee(t(co)de)&quot; , &quot;lee(t(c)ode)&quot; would also be accepted.
+<strong>输入：</strong>s = "lee(t(c)o)de)"
+<strong>输出：</strong>"lee(t(c)o)de"
+<strong>解释：</strong>"lee(t(co)de)" , "lee(t(c)ode)" 也是一个可行答案。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;a)b(c)d&quot;
-<strong>Output:</strong> &quot;ab(c)d&quot;
+<strong>输入：</strong>s = "a)b(c)d"
+<strong>输出：</strong>"ab(c)d"
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;))((&quot;
-<strong>Output:</strong> &quot;&quot;
-<strong>Explanation:</strong> An empty string is also valid.
+<strong>输入：</strong>s = "))(("
+<strong>输出：</strong>""
+<strong>解释：</strong>空字符串也是有效的
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> is either&nbsp;<code>&#39;(&#39;</code> , <code>&#39;)&#39;</code>, or lowercase English letter.</li>
+	<li><code>s[i]</code>&nbsp;可能是&nbsp;<code>'('</code>、<code>')'</code>&nbsp;或英文小写字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Passes
+### 方法一：两遍扫描
 
-First, we scan from left to right and remove the extra right parentheses. Then, we scan from right to left and remove the extra left parentheses.
+我们先从左向右扫描，将多余的右括号删除，再从右向左扫描，将多余的左括号删除。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
 
-Similar problems:
+相似题目：
 
-- [678. Valid Parenthesis String](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0678.Valid%20Parenthesis%20String/README_EN.md)
-- [2116. Check if a Parentheses String Can Be Valid](https://github.com/doocs/leetcode/blob/main/solution/2100-2199/2116.Check%20if%20a%20Parentheses%20String%20Can%20Be%20Valid/README_EN.md)
+-   [678. 有效的括号字符串](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0678.Valid%20Parenthesis%20String/README.md)
+-   [2116. 判断一个括号字符串是否有效](https://github.com/doocs/leetcode/blob/main/solution/2100-2199/2116.Check%20if%20a%20Parentheses%20String%20Can%20Be%20Valid/README.md)
 
 <!-- tabs:start -->
 
@@ -222,37 +229,37 @@ func minRemoveToMakeValid(s string) string {
 
 ```ts
 function minRemoveToMakeValid(s: string): string {
-  let left = 0;
-  let right = 0;
-  for (const c of s) {
-    if (c === "(") {
-      left++;
-    } else if (c === ")") {
-      if (right < left) {
-        right++;
-      }
+    let left = 0;
+    let right = 0;
+    for (const c of s) {
+        if (c === '(') {
+            left++;
+        } else if (c === ')') {
+            if (right < left) {
+                right++;
+            }
+        }
     }
-  }
 
-  let hasLeft = 0;
-  let res = "";
-  for (const c of s) {
-    if (c === "(") {
-      if (hasLeft < right) {
-        hasLeft++;
-        res += c;
-      }
-    } else if (c === ")") {
-      if (hasLeft != 0 && right !== 0) {
-        right--;
-        hasLeft--;
-        res += c;
-      }
-    } else {
-      res += c;
+    let hasLeft = 0;
+    let res = '';
+    for (const c of s) {
+        if (c === '(') {
+            if (hasLeft < right) {
+                hasLeft++;
+                res += c;
+            }
+        } else if (c === ')') {
+            if (hasLeft != 0 && right !== 0) {
+                right--;
+                hasLeft--;
+                res += c;
+            }
+        } else {
+            res += c;
+        }
     }
-  }
-  return res;
+    return res;
 }
 ```
 

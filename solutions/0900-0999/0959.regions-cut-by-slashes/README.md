@@ -1,68 +1,81 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/README.md
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Array
-  - Hash Table
-  - Matrix
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 数组
+    - 哈希表
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [959. Regions Cut By Slashes](https://leetcode.com/problems/regions-cut-by-slashes)
+# [959. 由斜杠划分区域](https://leetcode.cn/problems/regions-cut-by-slashes)
 
-## Description
+[English Version](/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>An <code>n x n</code> grid is composed of <code>1 x 1</code> squares where each <code>1 x 1</code> square consists of a <code>&#39;/&#39;</code>, <code>&#39;\&#39;</code>, or blank space <code>&#39; &#39;</code>. These characters divide the square into contiguous regions.</p>
+<p>在由 <code>1 x 1</code> 方格组成的 <code>n&nbsp;x n</code>&nbsp;网格&nbsp;<code>grid</code> 中，每个 <code>1 x 1</code>&nbsp;方块由 <code>'/'</code>、<code>'\'</code> 或空格构成。这些字符会将方块划分为一些共边的区域。</p>
 
-<p>Given the grid <code>grid</code> represented as a string array, return <em>the number of regions</em>.</p>
+<p>给定网格&nbsp;<code>grid</code>&nbsp;表示为一个字符串数组，返回 <em>区域的数量</em> 。</p>
 
-<p>Note that backslash characters are escaped, so a <code>&#39;\&#39;</code> is represented as <code>&#39;\\&#39;</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/1.png" style="width: 200px; height: 200px;" />
-<pre>
-<strong>Input:</strong> grid = [&quot; /&quot;,&quot;/ &quot;]
-<strong>Output:</strong> 2
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/2.png" style="width: 200px; height: 198px;" />
-<pre>
-<strong>Input:</strong> grid = [&quot; /&quot;,&quot;  &quot;]
-<strong>Output:</strong> 1
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/4.png" style="width: 200px; height: 200px;" />
-<pre>
-<strong>Input:</strong> grid = [&quot;/\\&quot;,&quot;\\/&quot;]
-<strong>Output:</strong> 5
-<strong>Explanation: </strong>Recall that because \ characters are escaped, &quot;\\/&quot; refers to \/, and &quot;/\\&quot; refers to /\.
-</pre>
+<p>请注意，反斜杠字符是转义的，因此&nbsp;<code>'\'</code> 用 <code>'\\'</code>&nbsp;表示。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<ol>
+</ol>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/1.png" style="height: 200px; width: 200px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = [" /","/ "]
+<strong>输出：</strong>2</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/2.png" style="height: 198px; width: 200px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = [" /","  "]
+<strong>输出：</strong>1
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/4.png" style="height: 200px; width: 200px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = ["/\\","\\/"]
+<strong>输出：</strong>5
+<strong>解释：</strong>回想一下，因为 \ 字符是转义的，所以 "/\\" 表示 /\，而 "\\/" 表示 \/。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == grid.length == grid[i].length</code></li>
 	<li><code>1 &lt;= n &lt;= 30</code></li>
-	<li><code>grid[i][j]</code> is either <code>&#39;/&#39;</code>, <code>&#39;\&#39;</code>, or <code>&#39; &#39;</code>.</li>
+	<li><code>grid[i][j]</code> 是&nbsp;<code>'/'</code>、<code>'\'</code>、或&nbsp;<code>' '</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Union-Find
+### 方法一
 
 <!-- tabs:start -->
 
@@ -270,50 +283,50 @@ func regionsBySlashes(grid []string) int {
 
 ```ts
 function regionsBySlashes(grid: string[]): number {
-  const find = (x: number) => {
-    if (p[x] !== x) {
-      p[x] = find(p[x]);
+    const find = (x: number) => {
+        if (p[x] !== x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    };
+
+    const union = (a: number, b: number) => {
+        const pa = find(a);
+        const pb = find(b);
+        if (pa !== pb) {
+            p[pa] = pb;
+            size--;
+        }
+    };
+
+    const n = grid.length;
+    let size = n * n * 4;
+    const p = Array.from({ length: size }, (_, i) => i);
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            const k = i * n + j;
+            if (i < n - 1) {
+                union(4 * k + 2, (k + n) * 4);
+            }
+            if (j < n - 1) {
+                union(4 * k + 1, (k + 1) * 4 + 3);
+            }
+            if (grid[i][j] === '/') {
+                union(4 * k, 4 * k + 3);
+                union(4 * k + 1, 4 * k + 2);
+            } else if (grid[i][j] === '\\') {
+                union(4 * k, 4 * k + 1);
+                union(4 * k + 2, 4 * k + 3);
+            } else {
+                union(4 * k, 4 * k + 1);
+                union(4 * k + 1, 4 * k + 2);
+                union(4 * k + 2, 4 * k + 3);
+            }
+        }
     }
-    return p[x];
-  };
 
-  const union = (a: number, b: number) => {
-    const pa = find(a);
-    const pb = find(b);
-    if (pa !== pb) {
-      p[pa] = pb;
-      size--;
-    }
-  };
-
-  const n = grid.length;
-  let size = n * n * 4;
-  const p = Array.from({ length: size }, (_, i) => i);
-
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      const k = i * n + j;
-      if (i < n - 1) {
-        union(4 * k + 2, (k + n) * 4);
-      }
-      if (j < n - 1) {
-        union(4 * k + 1, (k + 1) * 4 + 3);
-      }
-      if (grid[i][j] === "/") {
-        union(4 * k, 4 * k + 3);
-        union(4 * k + 1, 4 * k + 2);
-      } else if (grid[i][j] === "\\") {
-        union(4 * k, 4 * k + 1);
-        union(4 * k + 2, 4 * k + 3);
-      } else {
-        union(4 * k, 4 * k + 1);
-        union(4 * k + 1, 4 * k + 2);
-        union(4 * k + 2, 4 * k + 3);
-      }
-    }
-  }
-
-  return size;
+    return size;
 }
 ```
 
@@ -326,50 +339,50 @@ function regionsBySlashes(grid: string[]): number {
  */
 
 function regionsBySlashes(grid) {
-  const find = (x) => {
-    if (p[x] !== x) {
-      p[x] = find(p[x]);
+    const find = x => {
+        if (p[x] !== x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    };
+
+    const union = (a, b) => {
+        const pa = find(a);
+        const pb = find(b);
+        if (pa !== pb) {
+            p[pa] = pb;
+            size--;
+        }
+    };
+
+    const n = grid.length;
+    let size = n * n * 4;
+    const p = Array.from({ length: size }, (_, i) => i);
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            const k = i * n + j;
+            if (i < n - 1) {
+                union(4 * k + 2, (k + n) * 4);
+            }
+            if (j < n - 1) {
+                union(4 * k + 1, (k + 1) * 4 + 3);
+            }
+            if (grid[i][j] === '/') {
+                union(4 * k, 4 * k + 3);
+                union(4 * k + 1, 4 * k + 2);
+            } else if (grid[i][j] === '\\') {
+                union(4 * k, 4 * k + 1);
+                union(4 * k + 2, 4 * k + 3);
+            } else {
+                union(4 * k, 4 * k + 1);
+                union(4 * k + 1, 4 * k + 2);
+                union(4 * k + 2, 4 * k + 3);
+            }
+        }
     }
-    return p[x];
-  };
 
-  const union = (a, b) => {
-    const pa = find(a);
-    const pb = find(b);
-    if (pa !== pb) {
-      p[pa] = pb;
-      size--;
-    }
-  };
-
-  const n = grid.length;
-  let size = n * n * 4;
-  const p = Array.from({ length: size }, (_, i) => i);
-
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      const k = i * n + j;
-      if (i < n - 1) {
-        union(4 * k + 2, (k + n) * 4);
-      }
-      if (j < n - 1) {
-        union(4 * k + 1, (k + 1) * 4 + 3);
-      }
-      if (grid[i][j] === "/") {
-        union(4 * k, 4 * k + 3);
-        union(4 * k + 1, 4 * k + 2);
-      } else if (grid[i][j] === "\\") {
-        union(4 * k, 4 * k + 1);
-        union(4 * k + 2, 4 * k + 3);
-      } else {
-        union(4 * k, 4 * k + 1);
-        union(4 * k + 1, 4 * k + 2);
-        union(4 * k + 2, 4 * k + 3);
-      }
-    }
-  }
-
-  return size;
+    return size;
 }
 ```
 
@@ -379,7 +392,7 @@ function regionsBySlashes(grid) {
 
 <!-- solution:start -->
 
-### Solution 2: DFS
+### 方法二：DFS
 
 <!-- tabs:start -->
 
@@ -387,75 +400,75 @@ function regionsBySlashes(grid) {
 
 ```ts
 function regionsBySlashes(grid: string[]): number {
-  const createGraph = () => {
-    const n = grid.length;
-    const g = Array.from({ length: n * 2 }, () => Array(n * 2).fill(0));
+    const createGraph = () => {
+        const n = grid.length;
+        const g = Array.from({ length: n * 2 }, () => Array(n * 2).fill(0));
+
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                const [y, x] = [i * 2, j * 2];
+
+                switch (grid[i][j]) {
+                    case '/':
+                        g[y][x] = g[y + 1][x + 1] = 0;
+                        g[y][x + 1] = g[y + 1][x] = 1;
+                        break;
+
+                    case '\\':
+                        g[y][x] = g[y + 1][x + 1] = 2;
+                        g[y][x + 1] = g[y + 1][x] = 0;
+                        break;
+
+                    default:
+                        g[y][x] = g[y][x + 1] = g[y + 1][x] = g[y + 1][x + 1] = 0;
+                        break;
+                }
+            }
+        }
+
+        return g;
+    };
+
+    const isValid = (x: number) => 0 <= x && x < n;
+    const dfs = (i: number, j: number) => {
+        if (!isValid(i) || !isValid(j) || g[i][j]) return;
+
+        g[i][j] = -1;
+        const dirs = [-1, 0, 1, 0, -1];
+        const neighbours: number[] = [];
+
+        for (let d = 0; d < 4; d++) {
+            const [y, x] = [i + dirs[d], j + dirs[d + 1]];
+
+            if (isValid(y) && isValid(x)) {
+                dfs(y, x);
+                neighbours.push(g[y][x]);
+            } else {
+                neighbours.push(-1);
+            }
+        }
+
+        const [top, right, bottom, left] = neighbours;
+        if (top === 1 && right === 1) dfs(i - 1, j + 1);
+        if (bottom === 1 && left === 1) dfs(i + 1, j - 1);
+        if (top === 2 && left === 2) dfs(i - 1, j - 1);
+        if (bottom === 2 && right === 2) dfs(i + 1, j + 1);
+    };
+
+    const g = createGraph();
+    const n = g.length;
+    let res = 0;
 
     for (let i = 0; i < n; i++) {
-      for (let j = 0; j < n; j++) {
-        const [y, x] = [i * 2, j * 2];
-
-        switch (grid[i][j]) {
-          case "/":
-            g[y][x] = g[y + 1][x + 1] = 0;
-            g[y][x + 1] = g[y + 1][x] = 1;
-            break;
-
-          case "\\":
-            g[y][x] = g[y + 1][x + 1] = 2;
-            g[y][x + 1] = g[y + 1][x] = 0;
-            break;
-
-          default:
-            g[y][x] = g[y][x + 1] = g[y + 1][x] = g[y + 1][x + 1] = 0;
-            break;
+        for (let j = 0; j < n; j++) {
+            if (g[i][j] === 0) {
+                dfs(i, j);
+                res++;
+            }
         }
-      }
     }
 
-    return g;
-  };
-
-  const isValid = (x: number) => 0 <= x && x < n;
-  const dfs = (i: number, j: number) => {
-    if (!isValid(i) || !isValid(j) || g[i][j]) return;
-
-    g[i][j] = -1;
-    const dirs = [-1, 0, 1, 0, -1];
-    const neighbours: number[] = [];
-
-    for (let d = 0; d < 4; d++) {
-      const [y, x] = [i + dirs[d], j + dirs[d + 1]];
-
-      if (isValid(y) && isValid(x)) {
-        dfs(y, x);
-        neighbours.push(g[y][x]);
-      } else {
-        neighbours.push(-1);
-      }
-    }
-
-    const [top, right, bottom, left] = neighbours;
-    if (top === 1 && right === 1) dfs(i - 1, j + 1);
-    if (bottom === 1 && left === 1) dfs(i + 1, j - 1);
-    if (top === 2 && left === 2) dfs(i - 1, j - 1);
-    if (bottom === 2 && right === 2) dfs(i + 1, j + 1);
-  };
-
-  const g = createGraph();
-  const n = g.length;
-  let res = 0;
-
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      if (g[i][j] === 0) {
-        dfs(i, j);
-        res++;
-      }
-    }
-  }
-
-  return res;
+    return res;
 }
 ```
 
@@ -463,75 +476,75 @@ function regionsBySlashes(grid: string[]): number {
 
 ```js
 function regionsBySlashes(grid) {
-  const createGraph = () => {
-    const n = grid.length;
-    const g = Array.from({ length: n * 2 }, () => Array(n * 2).fill(0));
+    const createGraph = () => {
+        const n = grid.length;
+        const g = Array.from({ length: n * 2 }, () => Array(n * 2).fill(0));
+
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                const [y, x] = [i * 2, j * 2];
+
+                switch (grid[i][j]) {
+                    case '/':
+                        g[y][x] = g[y + 1][x + 1] = 0;
+                        g[y][x + 1] = g[y + 1][x] = 1;
+                        break;
+
+                    case '\\':
+                        g[y][x] = g[y + 1][x + 1] = 2;
+                        g[y][x + 1] = g[y + 1][x] = 0;
+                        break;
+
+                    default:
+                        g[y][x] = g[y][x + 1] = g[y + 1][x] = g[y + 1][x + 1] = 0;
+                        break;
+                }
+            }
+        }
+
+        return g;
+    };
+
+    const isValid = x => 0 <= x && x < n;
+    const dfs = (i, j) => {
+        if (!isValid(i) || !isValid(j) || g[i][j]) return;
+
+        g[i][j] = -1;
+        const dirs = [-1, 0, 1, 0, -1];
+        const neighbours = [];
+
+        for (let d = 0; d < 4; d++) {
+            const [y, x] = [i + dirs[d], j + dirs[d + 1]];
+
+            if (isValid(y) && isValid(x)) {
+                dfs(y, x);
+                neighbours.push(g[y][x]);
+            } else {
+                neighbours.push(-1);
+            }
+        }
+
+        const [top, right, bottom, left] = neighbours;
+        if (top === 1 && right === 1) dfs(i - 1, j + 1);
+        if (bottom === 1 && left === 1) dfs(i + 1, j - 1);
+        if (top === 2 && left === 2) dfs(i - 1, j - 1);
+        if (bottom === 2 && right === 2) dfs(i + 1, j + 1);
+    };
+
+    const g = createGraph();
+    const n = g.length;
+    let res = 0;
 
     for (let i = 0; i < n; i++) {
-      for (let j = 0; j < n; j++) {
-        const [y, x] = [i * 2, j * 2];
-
-        switch (grid[i][j]) {
-          case "/":
-            g[y][x] = g[y + 1][x + 1] = 0;
-            g[y][x + 1] = g[y + 1][x] = 1;
-            break;
-
-          case "\\":
-            g[y][x] = g[y + 1][x + 1] = 2;
-            g[y][x + 1] = g[y + 1][x] = 0;
-            break;
-
-          default:
-            g[y][x] = g[y][x + 1] = g[y + 1][x] = g[y + 1][x + 1] = 0;
-            break;
+        for (let j = 0; j < n; j++) {
+            if (g[i][j] === 0) {
+                dfs(i, j);
+                res++;
+            }
         }
-      }
     }
 
-    return g;
-  };
-
-  const isValid = (x) => 0 <= x && x < n;
-  const dfs = (i, j) => {
-    if (!isValid(i) || !isValid(j) || g[i][j]) return;
-
-    g[i][j] = -1;
-    const dirs = [-1, 0, 1, 0, -1];
-    const neighbours = [];
-
-    for (let d = 0; d < 4; d++) {
-      const [y, x] = [i + dirs[d], j + dirs[d + 1]];
-
-      if (isValid(y) && isValid(x)) {
-        dfs(y, x);
-        neighbours.push(g[y][x]);
-      } else {
-        neighbours.push(-1);
-      }
-    }
-
-    const [top, right, bottom, left] = neighbours;
-    if (top === 1 && right === 1) dfs(i - 1, j + 1);
-    if (bottom === 1 && left === 1) dfs(i + 1, j - 1);
-    if (top === 2 && left === 2) dfs(i - 1, j - 1);
-    if (bottom === 2 && right === 2) dfs(i + 1, j + 1);
-  };
-
-  const g = createGraph();
-  const n = g.length;
-  let res = 0;
-
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      if (g[i][j] === 0) {
-        dfs(i, j);
-        res++;
-      }
-    }
-  }
-
-  return res;
+    return res;
 }
 ```
 

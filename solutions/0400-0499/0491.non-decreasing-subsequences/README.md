@@ -1,40 +1,47 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0491.Non-decreasing%20Subsequences/README.md
 tags:
-  - Bit Manipulation
-  - Array
-  - Hash Table
-  - Backtracking
+    - 位运算
+    - 数组
+    - 哈希表
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [491. Non-decreasing Subsequences](https://leetcode.com/problems/non-decreasing-subsequences)
+# [491. 非递减子序列](https://leetcode.cn/problems/non-decreasing-subsequences)
 
-## Description
+[English Version](/solution/0400-0499/0491.Non-decreasing%20Subsequences/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code>, return <em>all the different possible non-decreasing subsequences of the given array with at least two elements</em>. You may return the answer in <strong>any order</strong>.</p>
+<p>给你一个整数数组 <code>nums</code> ，找出并返回所有该数组中不同的递增子序列，递增子序列中 <strong>至少有两个元素</strong> 。你可以按 <strong>任意顺序</strong> 返回答案。</p>
+
+<p>数组中可能含有重复元素，如出现两个整数相等，也可以视作递增序列的一种特殊情况。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [4,6,7,7]
-<strong>Output:</strong> [[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]
+<strong>输入：</strong>nums = [4,6,7,7]
+<strong>输出：</strong>[[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [4,4,3,2,1]
-<strong>Output:</strong> [[4,4]]
+<strong>输入：</strong>nums = [4,4,3,2,1]
+<strong>输出：</strong>[[4,4]]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 15</code></li>
@@ -43,11 +50,16 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS
+
+DFS 递归枚举每个数字选中或不选中，这里需要满足两个条件：
+
+1. 子序列需要递增（非严格递增），因此序列的后一个数要大于等于前一个数；
+1. 子序列需要去重，这里重复的问题在于前后两个数相等并且不选中的情况，我们只在前后两个数不等的情况下，执行不选中的操作即可达到去重的效果。
 
 <!-- tabs:start -->
 

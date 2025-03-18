@@ -1,89 +1,96 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3163.String%20Compression%20III/README.md
 rating: 1311
-source: Weekly Contest 399 Q2
+source: 第 399 场周赛 Q2
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [3163. String Compression III](https://leetcode.com/problems/string-compression-iii)
+# [3163. 压缩字符串 III](https://leetcode.cn/problems/string-compression-iii)
 
-## Description
+[English Version](/solution/3100-3199/3163.String%20Compression%20III/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>word</code>, compress it using the following algorithm:</p>
+<p>给你一个字符串 <code>word</code>，请你使用以下算法进行压缩：</p>
 
 <ul>
-	<li>Begin with an empty string <code>comp</code>. While <code>word</code> is <strong>not</strong> empty, use the following operation:
+	<li>从空字符串 <code>comp</code> 开始。当 <code>word</code> <strong>不为空</strong> 时，执行以下操作：
 
     <ul>
-    	<li>Remove a maximum length prefix of <code>word</code> made of a <em>single character</em> <code>c</code> repeating <strong>at most</strong> 9 times.</li>
-    	<li>Append the length of the prefix followed by <code>c</code> to <code>comp</code>.</li>
+    	<li>移除 <code>word</code> 的最长单字符前缀，该前缀由单一字符 <code>c</code> 重复多次组成，且该前缀长度 <strong>最多 </strong>为 9 。</li>
+    	<li>将前缀的长度和字符 <code>c</code> 追加到 <code>comp</code> 。</li>
     </ul>
     </li>
 
 </ul>
 
-<p>Return the string <code>comp</code>.</p>
+<p>返回字符串 <code>comp</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p>&nbsp;</p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">word = &quot;abcde&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">word = "abcde"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">&quot;1a1b1c1d1e&quot;</span></p>
+<p><strong>输出：</strong><span class="example-io">"1a1b1c1d1e"</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>Initially, <code>comp = &quot;&quot;</code>. Apply the operation 5 times, choosing <code>&quot;a&quot;</code>, <code>&quot;b&quot;</code>, <code>&quot;c&quot;</code>, <code>&quot;d&quot;</code>, and <code>&quot;e&quot;</code> as the prefix in each operation.</p>
+<p>初始时，<code>comp = ""</code> 。进行 5 次操作，每次操作分别选择 <code>"a"</code>、<code>"b"</code>、<code>"c"</code>、<code>"d"</code> 和 <code>"e"</code> 作为前缀。</p>
 
-<p>For each prefix, append <code>&quot;1&quot;</code> followed by the character to <code>comp</code>.</p>
+<p>对每个前缀，将 <code>"1"</code> 和对应的字符追加到 <code>comp</code>。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">word = &quot;aaaaaaaaaaaaaabb&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">word = "aaaaaaaaaaaaaabb"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">&quot;9a5a2b&quot;</span></p>
+<p><strong>输出：</strong><span class="example-io">"9a5a2b"</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>Initially, <code>comp = &quot;&quot;</code>. Apply the operation 3 times, choosing <code>&quot;aaaaaaaaa&quot;</code>, <code>&quot;aaaaa&quot;</code>, and <code>&quot;bb&quot;</code> as the prefix in each operation.</p>
+<p>初始时，<code>comp = ""</code>。进行 3 次操作，每次操作分别选择 <code>"aaaaaaaaa"</code>、<code>"aaaaa"</code> 和 <code>"bb"</code> 作为前缀。</p>
 
 <ul>
-	<li>For prefix <code>&quot;aaaaaaaaa&quot;</code>, append <code>&quot;9&quot;</code> followed by <code>&quot;a&quot;</code> to <code>comp</code>.</li>
-	<li>For prefix <code>&quot;aaaaa&quot;</code>, append <code>&quot;5&quot;</code> followed by <code>&quot;a&quot;</code> to <code>comp</code>.</li>
-	<li>For prefix <code>&quot;bb&quot;</code>, append <code>&quot;2&quot;</code> followed by <code>&quot;b&quot;</code> to <code>comp</code>.</li>
+	<li>对于前缀 <code>"aaaaaaaaa"</code>，将 <code>"9"</code> 和 <code>"a"</code> 追加到 <code>comp</code>。</li>
+	<li>对于前缀 <code>"aaaaa"</code>，将 <code>"5"</code> 和 <code>"a"</code> 追加到 <code>comp</code>。</li>
+	<li>对于前缀 <code>"bb"</code>，将 <code>"2"</code> 和 <code>"b"</code> 追加到 <code>comp</code>。</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length &lt;= 2 * 10<sup>5</sup></code></li>
-	<li><code>word</code> consists only of lowercase English letters.</li>
+	<li><code>word</code> 仅由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-We can use two pointers to count the consecutive occurrences of each character. Suppose the current character $c$ appears consecutively $k$ times, then we divide $k$ into several $x$, each $x$ is at most $9$, then we concatenate $x$ and $c$, and append each $x$ and $c$ to the result.
+我们可以利用双指针，统计每个字符的连续出现次数。假如当前字符 $c$ 连续出现了 $k$ 次，然后我们将 $k$ 划分成若干个 $x$，每个 $x$ 最大为 $9$，然后将 $x$ 和 $c$ 拼接起来，将每个 $x$ 和 $c$ 拼接起来到结果中。
 
-Finally, return the result.
+最后返回结果即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 `word` 的长度。
 
 <!-- tabs:start -->
 
@@ -183,22 +190,22 @@ func compressedString(word string) string {
 
 ```ts
 function compressedString(word: string): string {
-  const ans: string[] = [];
-  const n = word.length;
-  for (let i = 0; i < n; ) {
-    let j = i + 1;
-    while (j < n && word[j] === word[i]) {
-      ++j;
+    const ans: string[] = [];
+    const n = word.length;
+    for (let i = 0; i < n; ) {
+        let j = i + 1;
+        while (j < n && word[j] === word[i]) {
+            ++j;
+        }
+        let k = j - i;
+        while (k) {
+            const x = Math.min(k, 9);
+            ans.push(x + word[i]);
+            k -= x;
+        }
+        i = j;
     }
-    let k = j - i;
-    while (k) {
-      const x = Math.min(k, 9);
-      ans.push(x + word[i]);
-      k -= x;
-    }
-    i = j;
-  }
-  return ans.join("");
+    return ans.join('');
 }
 ```
 
@@ -210,22 +217,22 @@ function compressedString(word: string): string {
  * @return {string}
  */
 var compressedString = function (word) {
-  const ans = [];
-  const n = word.length;
-  for (let i = 0; i < n; ) {
-    let j = i + 1;
-    while (j < n && word[j] === word[i]) {
-      ++j;
+    const ans = [];
+    const n = word.length;
+    for (let i = 0; i < n; ) {
+        let j = i + 1;
+        while (j < n && word[j] === word[i]) {
+            ++j;
+        }
+        let k = j - i;
+        while (k) {
+            const x = Math.min(k, 9);
+            ans.push(x + word[i]);
+            k -= x;
+        }
+        i = j;
     }
-    let k = j - i;
-    while (k) {
-      const x = Math.min(k, 9);
-      ans.push(x + word[i]);
-      k -= x;
-    }
-    i = j;
-  }
-  return ans.join("");
+    return ans.join('');
 };
 ```
 
@@ -235,7 +242,7 @@ var compressedString = function (word) {
 
 <!-- solution:start -->
 
-### Solution 2: Two Pointers
+### 方法二：双指针
 
 <!-- tabs:start -->
 
@@ -243,16 +250,16 @@ var compressedString = function (word) {
 
 ```ts
 function compressedString(word: string): string {
-  let res = "";
+    let res = '';
 
-  for (let i = 1, j = 0; i <= word.length; i++) {
-    if (word[i] !== word[j] || i - j === 9) {
-      res += i - j + word[j];
-      j = i;
+    for (let i = 1, j = 0; i <= word.length; i++) {
+        if (word[i] !== word[j] || i - j === 9) {
+            res += i - j + word[j];
+            j = i;
+        }
     }
-  }
 
-  return res;
+    return res;
 }
 ```
 
@@ -260,16 +267,16 @@ function compressedString(word: string): string {
 
 ```js
 function compressedString(word) {
-  let res = "";
+    let res = '';
 
-  for (let i = 1, j = 0; i <= word.length; i++) {
-    if (word[i] !== word[j] || i - j === 9) {
-      res += i - j + word[j];
-      j = i;
+    for (let i = 1, j = 0; i <= word.length; i++) {
+        if (word[i] !== word[j] || i - j === 9) {
+            res += i - j + word[j];
+            j = i;
+        }
     }
-  }
 
-  return res;
+    return res;
 }
 ```
 
@@ -279,7 +286,7 @@ function compressedString(word) {
 
 <!-- solution:start -->
 
-### Solution 3: RegExp
+### 方法三：正则匹配
 
 <!-- tabs:start -->
 
@@ -287,15 +294,15 @@ function compressedString(word) {
 
 ```ts
 function compressedString(word: string): string {
-  const regex = /(.)\1{0,8}/g;
-  let m: RegExpMatchArray | null = null;
-  let res = "";
+    const regex = /(.)\1{0,8}/g;
+    let m: RegExpMatchArray | null = null;
+    let res = '';
 
-  while ((m = regex.exec(word))) {
-    res += m[0].length + m[1];
-  }
+    while ((m = regex.exec(word))) {
+        res += m[0].length + m[1];
+    }
 
-  return res;
+    return res;
 }
 ```
 
@@ -303,15 +310,15 @@ function compressedString(word: string): string {
 
 ```js
 function compressedString(word) {
-  const regex = /(.)\1{0,8}/g;
-  let m = null;
-  let res = "";
+    const regex = /(.)\1{0,8}/g;
+    let m = null;
+    let res = '';
 
-  while ((m = regex.exec(word))) {
-    res += m[0].length + m[1];
-  }
+    while ((m = regex.exec(word))) {
+        res += m[0].length + m[1];
+    }
 
-  return res;
+    return res;
 }
 ```
 

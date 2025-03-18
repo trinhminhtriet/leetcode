@@ -1,112 +1,163 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0720.Longest%20Word%20in%20Dictionary/README.md
 tags:
-  - Trie
-  - Array
-  - Hash Table
-  - String
-  - Sorting
+    - 字典树
+    - 数组
+    - 哈希表
+    - 字符串
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [720. Longest Word in Dictionary](https://leetcode.com/problems/longest-word-in-dictionary)
+# [720. 词典中最长的单词](https://leetcode.cn/problems/longest-word-in-dictionary)
 
-## Description
+[English Version](/solution/0700-0799/0720.Longest%20Word%20in%20Dictionary/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of strings <code>words</code> representing an English Dictionary, return <em>the longest word in</em> <code>words</code> <em>that can be built one character at a time by other words in</em> <code>words</code>.</p>
+<p>给出一个字符串数组&nbsp;<code>words</code> 组成的一本英语词典。返回&nbsp;<code>words</code> 中最长的一个单词，该单词是由&nbsp;<code>words</code>&nbsp;词典中其他单词逐步添加一个字母组成。</p>
 
-<p>If there is more than one possible answer, return the longest word with the smallest lexicographical order. If there is no answer, return the empty string.</p>
+<p>若其中有多个可行的答案，则返回答案中字典序最小的单词。若无答案，则返回空字符串。</p>
 
-<p>Note that the word should be built from left to right with each additional character being added to the end of a previous word.&nbsp;</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;w&quot;,&quot;wo&quot;,&quot;wor&quot;,&quot;worl&quot;,&quot;world&quot;]
-<strong>Output:</strong> &quot;world&quot;
-<strong>Explanation:</strong> The word &quot;world&quot; can be built one character at a time by &quot;w&quot;, &quot;wo&quot;, &quot;wor&quot;, and &quot;worl&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;a&quot;,&quot;banana&quot;,&quot;app&quot;,&quot;appl&quot;,&quot;ap&quot;,&quot;apply&quot;,&quot;apple&quot;]
-<strong>Output:</strong> &quot;apple&quot;
-<strong>Explanation:</strong> Both &quot;apply&quot; and &quot;apple&quot; can be built from other words in the dictionary. However, &quot;apple&quot; is lexicographically smaller than &quot;apply&quot;.
-</pre>
+<p>请注意，单词应该从左到右构建，每个额外的字符都添加到前一个单词的结尾。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["w","wo","wor","worl", "world"]
+<strong>输出：</strong>"world"
+<strong>解释：</strong> 单词"world"可由"w", "wo", "wor", 和 "worl"逐步添加一个字母组成。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["a", "banana", "app", "appl", "ap", "apply", "apple"]
+<strong>输出：</strong>"apple"
+<strong>解释：</strong>"apply" 和 "apple" 都能由词典中的单词组成。但是 "apple" 的字典序小于 "apply" 
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 30</code></li>
-	<li><code>words[i]</code> consists of lowercase English letters.</li>
+	<li>所有输入的字符串&nbsp;<code>words[i]</code>&nbsp;都只包含小写字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：字典树
+
+我们可以使用字典树来存储所有的单词，然后遍历所有的单词，判断当前单词是否可以由字典树中的其他单词逐步添加一个字母组成，找出满足条件的最长的，且字典序最小的单词。
+
+时间复杂度 $O(L)$，空间复杂度 $O(L)$，其中 $L$ 是所有单词的长度之和。
 
 <!-- tabs:start -->
 
 #### Python3
 
 ```python
+class Trie:
+    def __init__(self):
+        self.children: List[Optional[Trie]] = [None] * 26
+        self.is_end = False
+
+    def insert(self, w: str):
+        node = self
+        for c in w:
+            idx = ord(c) - ord("a")
+            if node.children[idx] is None:
+                node.children[idx] = Trie()
+            node = node.children[idx]
+        node.is_end = True
+
+    def search(self, w: str) -> bool:
+        node = self
+        for c in w:
+            idx = ord(c) - ord("a")
+            if node.children[idx] is None:
+                return False
+            node = node.children[idx]
+            if not node.is_end:
+                return False
+        return True
+
+
 class Solution:
     def longestWord(self, words: List[str]) -> str:
-        cnt, ans = 0, ''
-        s = set(words)
-        for w in s:
-            n = len(w)
-            if all(w[:i] in s for i in range(1, n)):
-                if cnt < n:
-                    cnt, ans = n, w
-                elif cnt == n and w < ans:
-                    ans = w
+        trie = Trie()
+        for w in words:
+            trie.insert(w)
+        ans = ""
+        for w in words:
+            if trie.search(w) and (
+                len(ans) < len(w) or (len(ans) == len(w) and ans > w)
+            ):
+                ans = w
         return ans
 ```
 
 #### Java
 
 ```java
-class Solution {
-    private Set<String> s;
+class Trie {
+    private Trie[] children = new Trie[26];
+    private boolean isEnd = false;
 
+    public void insert(String w) {
+        Trie node = this;
+        for (char c : w.toCharArray()) {
+            int idx = c - 'a';
+            if (node.children[idx] == null) {
+                node.children[idx] = new Trie();
+            }
+            node = node.children[idx];
+        }
+        node.isEnd = true;
+    }
+
+    public boolean search(String w) {
+        Trie node = this;
+        for (char c : w.toCharArray()) {
+            int idx = c - 'a';
+            if (node.children[idx] == null || !node.children[idx].isEnd) {
+                return false;
+            }
+            node = node.children[idx];
+        }
+        return true;
+    }
+}
+
+class Solution {
     public String longestWord(String[] words) {
-        s = new HashSet<>(Arrays.asList(words));
-        int cnt = 0;
+        Trie trie = new Trie();
+        for (String w : words) {
+            trie.insert(w);
+        }
         String ans = "";
-        for (String w : s) {
-            int n = w.length();
-            if (check(w)) {
-                if (cnt < n) {
-                    cnt = n;
-                    ans = w;
-                } else if (cnt == n && w.compareTo(ans) < 0) {
-                    ans = w;
-                }
+        for (String w : words) {
+            if (trie.search(w)
+                && (ans.length() < w.length()
+                    || (ans.length() == w.length() && w.compareTo(ans) < 0))) {
+                ans = w;
             }
         }
         return ans;
-    }
-
-    private boolean check(String word) {
-        for (int i = 1, n = word.length(); i < n; ++i) {
-            if (!s.contains(word.substring(0, i))) {
-                return false;
-            }
-        }
-        return true;
     }
 }
 ```
@@ -114,30 +165,51 @@ class Solution {
 #### C++
 
 ```cpp
+class Trie {
+public:
+    Trie* children[26] = {nullptr};
+    bool isEnd = false;
+
+    void insert(const string& w) {
+        Trie* node = this;
+        for (char c : w) {
+            int idx = c - 'a';
+            if (node->children[idx] == nullptr) {
+                node->children[idx] = new Trie();
+            }
+            node = node->children[idx];
+        }
+        node->isEnd = true;
+    }
+
+    bool search(const string& w) {
+        Trie* node = this;
+        for (char c : w) {
+            int idx = c - 'a';
+            if (node->children[idx] == nullptr || !node->children[idx]->isEnd) {
+                return false;
+            }
+            node = node->children[idx];
+        }
+        return true;
+    }
+};
+
 class Solution {
 public:
     string longestWord(vector<string>& words) {
-        unordered_set<string> s(words.begin(), words.end());
-        int cnt = 0;
+        Trie trie;
+        for (const string& w : words) {
+            trie.insert(w);
+        }
+
         string ans = "";
-        for (auto w : s) {
-            int n = w.size();
-            if (check(w, s)) {
-                if (cnt < n) {
-                    cnt = n;
-                    ans = w;
-                } else if (cnt == n && w < ans)
-                    ans = w;
+        for (const string& w : words) {
+            if (trie.search(w) && (ans.length() < w.length() || (ans.length() == w.length() && w < ans))) {
+                ans = w;
             }
         }
         return ans;
-    }
-
-    bool check(string& word, unordered_set<string>& s) {
-        for (int i = 1, n = word.size(); i < n; ++i)
-            if (!s.count(word.substr(0, i)))
-                return false;
-        return true;
     }
 };
 ```
@@ -145,29 +217,45 @@ public:
 #### Go
 
 ```go
-func longestWord(words []string) string {
-	s := make(map[string]bool)
-	for _, w := range words {
-		s[w] = true
-	}
-	cnt := 0
-	ans := ""
-	check := func(word string) bool {
-		for i, n := 1, len(word); i < n; i++ {
-			if !s[word[:i]] {
-				return false
-			}
+type Trie struct {
+	children [26]*Trie
+	isEnd    bool
+}
+
+func (t *Trie) insert(w string) {
+	node := t
+	for i := 0; i < len(w); i++ {
+		idx := w[i] - 'a'
+		if node.children[idx] == nil {
+			node.children[idx] = &Trie{}
 		}
-		return true
+		node = node.children[idx]
 	}
-	for w, _ := range s {
-		n := len(w)
-		if check(w) {
-			if cnt < n {
-				cnt, ans = n, w
-			} else if cnt == n && w < ans {
-				ans = w
-			}
+	node.isEnd = true
+}
+
+func (t *Trie) search(w string) bool {
+	node := t
+	for i := 0; i < len(w); i++ {
+		idx := w[i] - 'a'
+		if node.children[idx] == nil || !node.children[idx].isEnd {
+			return false
+		}
+		node = node.children[idx]
+	}
+	return true
+}
+
+func longestWord(words []string) string {
+	trie := &Trie{}
+	for _, w := range words {
+		trie.insert(w)
+	}
+
+	ans := ""
+	for _, w := range words {
+		if trie.search(w) && (len(ans) < len(w) || (len(ans) == len(w) && w < ans)) {
+			ans = w
 		}
 	}
 	return ans
@@ -177,50 +265,160 @@ func longestWord(words []string) string {
 #### TypeScript
 
 ```ts
+class Trie {
+    children: (Trie | null)[] = new Array(26).fill(null);
+    isEnd: boolean = false;
+
+    insert(w: string): void {
+        let node: Trie = this;
+        for (let i = 0; i < w.length; i++) {
+            const idx: number = w.charCodeAt(i) - 'a'.charCodeAt(0);
+            if (node.children[idx] === null) {
+                node.children[idx] = new Trie();
+            }
+            node = node.children[idx]!;
+        }
+        node.isEnd = true;
+    }
+
+    search(w: string): boolean {
+        let node: Trie = this;
+        for (let i = 0; i < w.length; i++) {
+            const idx: number = w.charCodeAt(i) - 'a'.charCodeAt(0);
+            if (node.children[idx] === null || !node.children[idx]!.isEnd) {
+                return false;
+            }
+            node = node.children[idx]!;
+        }
+        return true;
+    }
+}
+
 function longestWord(words: string[]): string {
-  words.sort((a, b) => {
-    const n = a.length;
-    const m = b.length;
-    if (n === m) {
-      return a < b ? -1 : 1;
+    const trie = new Trie();
+    for (const w of words) {
+        trie.insert(w);
     }
-    return m - n;
-  });
-  for (const word of words) {
-    let isPass = true;
-    for (let i = 1; i <= word.length; i++) {
-      if (!words.includes(word.slice(0, i))) {
-        isPass = false;
-        break;
-      }
+
+    let ans = '';
+    for (const w of words) {
+        if (trie.search(w) && (ans.length < w.length || (ans.length === w.length && w < ans))) {
+            ans = w;
+        }
     }
-    if (isPass) {
-      return word;
-    }
-  }
-  return "";
+    return ans;
 }
 ```
 
 #### Rust
 
 ```rust
-impl Solution {
-    pub fn longest_word(mut words: Vec<String>) -> String {
-        words.sort_unstable_by(|a, b| (b.len(), a).cmp(&(a.len(), b)));
-        for word in words.iter() {
-            let mut is_pass = true;
-            for i in 1..=word.len() {
-                if !words.contains(&word[..i].to_string()) {
-                    is_pass = false;
-                    break;
-                }
+struct Trie {
+    children: [Option<Box<Trie>>; 26],
+    is_end: bool,
+}
+
+impl Trie {
+    fn new() -> Self {
+        Trie {
+            children: Default::default(),
+            is_end: false,
+        }
+    }
+
+    fn insert(&mut self, w: &str) {
+        let mut node = self;
+        for c in w.chars() {
+            let idx = (c as usize) - ('a' as usize);
+            if node.children[idx].is_none() {
+                node.children[idx] = Some(Box::new(Trie::new()));
             }
-            if is_pass {
-                return word.clone();
+            node = node.children[idx].as_mut().unwrap();
+        }
+        node.is_end = true;
+    }
+
+    fn search(&self, w: &str) -> bool {
+        let mut node = self;
+        for c in w.chars() {
+            let idx = (c as usize) - ('a' as usize);
+            if node.children[idx].is_none() || !node.children[idx].as_ref().unwrap().is_end {
+                return false;
+            }
+            node = node.children[idx].as_ref().unwrap();
+        }
+        true
+    }
+}
+
+impl Solution {
+    pub fn longest_word(words: Vec<String>) -> String {
+        let mut trie = Trie::new();
+        for w in &words {
+            trie.insert(w);
+        }
+
+        let mut ans = String::new();
+        for w in words {
+            if trie.search(&w) && (ans.len() < w.len() || (ans.len() == w.len() && w < ans)) {
+                ans = w;
             }
         }
-        String::new()
+        ans
+    }
+}
+```
+
+#### JavaScript
+
+```js
+/**
+ * @param {string[]} words
+ * @return {string}
+ */
+var longestWord = function (words) {
+    const trie = new Trie();
+    for (const w of words) {
+        trie.insert(w);
+    }
+
+    let ans = '';
+    for (const w of words) {
+        if (trie.search(w) && (ans.length < w.length || (ans.length === w.length && w < ans))) {
+            ans = w;
+        }
+    }
+    return ans;
+};
+
+class Trie {
+    constructor() {
+        this.children = Array(26).fill(null);
+        this.isEnd = false;
+    }
+
+    insert(w) {
+        let node = this;
+        for (let i = 0; i < w.length; i++) {
+            const idx = w.charCodeAt(i) - 'a'.charCodeAt(0);
+            if (node.children[idx] === null) {
+                node.children[idx] = new Trie();
+            }
+            node = node.children[idx];
+        }
+        node.isEnd = true;
+    }
+
+    search(w) {
+        let node = this;
+        for (let i = 0; i < w.length; i++) {
+            const idx = w.charCodeAt(i) - 'a'.charCodeAt(0);
+            if (node.children[idx] === null || !node.children[idx].isEnd) {
+                return false;
+            }
+            node = node.children[idx];
+        }
+        return true;
     }
 }
 ```

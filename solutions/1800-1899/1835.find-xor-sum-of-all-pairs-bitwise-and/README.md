@@ -1,54 +1,56 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1835.Find%20XOR%20Sum%20of%20All%20Pairs%20Bitwise%20AND/README.md
 rating: 1825
-source: Weekly Contest 237 Q4
+source: 第 237 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Array
-  - Math
+    - 位运算
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [1835. Find XOR Sum of All Pairs Bitwise AND](https://leetcode.com/problems/find-xor-sum-of-all-pairs-bitwise-and)
+# [1835. 所有数对按位与结果的异或和](https://leetcode.cn/problems/find-xor-sum-of-all-pairs-bitwise-and)
 
-## Description
+[English Version](/solution/1800-1899/1835.Find%20XOR%20Sum%20of%20All%20Pairs%20Bitwise%20AND/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <strong>XOR sum</strong> of a list is the bitwise <code>XOR</code> of all its elements. If the list only contains one element, then its <strong>XOR sum</strong> will be equal to this element.</p>
+<p>列表的 <strong>异或和</strong>（<strong>XOR sum</strong>）指对所有元素进行按位 <code>XOR</code> 运算的结果。如果列表中仅有一个元素，那么其 <strong>异或和</strong> 就等于该元素。</p>
 
 <ul>
-	<li>For example, the <strong>XOR sum</strong> of <code>[1,2,3,4]</code> is equal to <code>1 XOR 2 XOR 3 XOR 4 = 4</code>, and the <strong>XOR sum</strong> of <code>[3]</code> is equal to <code>3</code>.</li>
+	<li>例如，<code>[1,2,3,4]</code> 的 <strong>异或和</strong> 等于 <code>1 XOR 2 XOR 3 XOR 4 = 4</code> ，而 <code>[3]</code> 的 <strong>异或和</strong> 等于 <code>3</code> 。</li>
 </ul>
 
-<p>You are given two <strong>0-indexed</strong> arrays <code>arr1</code> and <code>arr2</code> that consist only of non-negative integers.</p>
+<p>给你两个下标 <strong>从 0 开始</strong> 计数的数组 <code>arr1</code> 和 <code>arr2</code> ，两数组均由非负整数组成。</p>
 
-<p>Consider the list containing the result of <code>arr1[i] AND arr2[j]</code> (bitwise <code>AND</code>) for every <code>(i, j)</code> pair where <code>0 &lt;= i &lt; arr1.length</code> and <code>0 &lt;= j &lt; arr2.length</code>.</p>
+<p>根据每个 <code>(i, j)</code> 数对，构造一个由 <code>arr1[i] AND arr2[j]</code>（按位 <code>AND</code> 运算）结果组成的列表。其中 <code>0 &lt;= i &lt; arr1.length</code> 且 <code>0 &lt;= j &lt; arr2.length</code> 。</p>
 
-<p>Return <em>the <strong>XOR sum</strong> of the aforementioned list</em>.</p>
+<p>返回上述列表的 <strong>异或和</strong> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> arr1 = [1,2,3], arr2 = [6,5]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The list = [1 AND 6, 1 AND 5, 2 AND 6, 2 AND 5, 3 AND 6, 3 AND 5] = [0,1,2,0,2,1].
-The XOR sum = 0 XOR 1 XOR 2 XOR 0 XOR 2 XOR 1 = 0.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>arr1 = [1,2,3], arr2 = [6,5]
+<strong>输出：</strong>0
+<strong>解释：</strong>列表 = [1 AND 6, 1 AND 5, 2 AND 6, 2 AND 5, 3 AND 6, 3 AND 5] = [0,1,2,0,2,1] ，
+异或和 = 0 XOR 1 XOR 2 XOR 0 XOR 2 XOR 1 = 0 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>arr1 = [12], arr2 = [4]
+<strong>输出：</strong>4
+<strong>解释：</strong>列表 = [12 AND 4] = [4] ，异或和 = 4 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> arr1 = [12], arr2 = [4]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The list = [12 AND 4] = [4]. The XOR sum = 4.
-</pre>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr1.length, arr2.length &lt;= 10<sup>5</sup></code></li>
@@ -57,13 +59,13 @@ The XOR sum = 0 XOR 1 XOR 2 XOR 0 XOR 2 XOR 1 = 0.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Bitwise Operation
+### 方法一：位运算
 
-Assume that the elements of array $arr1$ are $a_1, a_2, ..., a_n$, and the elements of array $arr2$ are $b_1, b_2, ..., b_m$. Then, the answer to the problem is:
+假设数组 $arr1$ 的元素分别为 $a_1, a_2, \cdots, a_n$，数组 $arr2$ 的元素分别为 $b_1, b_2, \cdots, b_m$，那么题目答案为：
 
 $$
 \begin{aligned}
@@ -74,15 +76,15 @@ $$
 \end{aligned}
 $$
 
-Since in Boolean algebra, the XOR operation is addition without carry, and the AND operation is multiplication, the above formula can be simplified as:
+由于布尔代数中，异或运算就是不进位的加法，与运算就是乘法，所以上式可以简化为：
 
 $$
 \textit{ans} = (a_1 \oplus a_2 \oplus \cdots \oplus a_n) \wedge (b_1 \oplus b_2 \oplus \cdots \oplus b_m)
 $$
 
-That is, the bitwise AND of the XOR sum of array $arr1$ and the XOR sum of array $arr2$.
+即，数组 $arr1$ 的异或和与数组 $arr2$ 的异或和的与运算结果。
 
-The time complexity is $O(n + m)$, where $n$ and $m$ are the lengths of arrays $arr1$ and $arr2$, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(n + m)$，其中 $n$ 和 $m$ 分别为数组 $arr1$ 和 $arr2$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -145,9 +147,9 @@ func getXORSum(arr1 []int, arr2 []int) int {
 
 ```ts
 function getXORSum(arr1: number[], arr2: number[]): number {
-  const a = arr1.reduce((acc, x) => acc ^ x);
-  const b = arr2.reduce((acc, x) => acc ^ x);
-  return a & b;
+    const a = arr1.reduce((acc, x) => acc ^ x);
+    const b = arr2.reduce((acc, x) => acc ^ x);
+    return a & b;
 }
 ```
 

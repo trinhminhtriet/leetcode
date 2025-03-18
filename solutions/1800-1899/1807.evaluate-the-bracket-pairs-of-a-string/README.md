@@ -1,99 +1,104 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1807.Evaluate%20the%20Bracket%20Pairs%20of%20a%20String/README.md
 rating: 1481
-source: Weekly Contest 234 Q3
+source: 第 234 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - String
+    - 数组
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1807. Evaluate the Bracket Pairs of a String](https://leetcode.com/problems/evaluate-the-bracket-pairs-of-a-string)
+# [1807. 替换字符串中的括号内容](https://leetcode.cn/problems/evaluate-the-bracket-pairs-of-a-string)
 
-## Description
+[English Version](/solution/1800-1899/1807.Evaluate%20the%20Bracket%20Pairs%20of%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> that contains some bracket pairs, with each pair containing a <strong>non-empty</strong> key.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，它包含一些括号对，每个括号中包含一个 <strong>非空</strong>&nbsp;的键。</p>
 
 <ul>
-	<li>For example, in the string <code>&quot;(name)is(age)yearsold&quot;</code>, there are <strong>two</strong> bracket pairs that contain the keys <code>&quot;name&quot;</code> and <code>&quot;age&quot;</code>.</li>
+	<li>比方说，字符串&nbsp;<code>"(name)is(age)yearsold"</code>&nbsp;中，有&nbsp;<strong>两个</strong>&nbsp;括号对，分别包含键&nbsp;<code>"name"</code> 和&nbsp;<code>"age"</code>&nbsp;。</li>
 </ul>
 
-<p>You know the values of a wide range of keys. This is represented by a 2D string array <code>knowledge</code> where each <code>knowledge[i] = [key<sub>i</sub>, value<sub>i</sub>]</code> indicates that key <code>key<sub>i</sub></code> has a value of <code>value<sub>i</sub></code>.</p>
+<p>你知道许多键对应的值，这些关系由二维字符串数组&nbsp;<code>knowledge</code>&nbsp;表示，其中&nbsp;<code>knowledge[i] = [key<sub>i</sub>, value<sub>i</sub>]</code>&nbsp;，表示键&nbsp;<code>key<sub>i</sub></code>&nbsp;对应的值为&nbsp;<code>value<sub>i</sub></code><sub>&nbsp;</sub>。</p>
 
-<p>You are tasked to evaluate <strong>all</strong> of the bracket pairs. When you evaluate a bracket pair that contains some key <code>key<sub>i</sub></code>, you will:</p>
+<p>你需要替换 <strong>所有</strong>&nbsp;的括号对。当你替换一个括号对，且它包含的键为&nbsp;<code>key<sub>i</sub></code>&nbsp;时，你需要：</p>
 
 <ul>
-	<li>Replace <code>key<sub>i</sub></code> and the bracket pair with the key&#39;s corresponding <code>value<sub>i</sub></code>.</li>
-	<li>If you do not know the value of the key, you will replace <code>key<sub>i</sub></code> and the bracket pair with a question mark <code>&quot;?&quot;</code> (without the quotation marks).</li>
+	<li>将&nbsp;<code>key<sub>i</sub></code>&nbsp;和括号用对应的值&nbsp;<code>value<sub>i</sub></code>&nbsp;替换。</li>
+	<li>如果从 <code>knowledge</code>&nbsp;中无法得知某个键对应的值，你需要将&nbsp;<code>key<sub>i</sub></code>&nbsp;和括号用问号&nbsp;<code>"?"</code>&nbsp;替换（不需要引号）。</li>
 </ul>
 
-<p>Each key will appear at most once in your <code>knowledge</code>. There will not be any nested brackets in <code>s</code>.</p>
+<p><code>knowledge</code>&nbsp;中每个键最多只会出现一次。<code>s</code>&nbsp;中不会有嵌套的括号。</p>
 
-<p>Return <em>the resulting string after evaluating <strong>all</strong> of the bracket pairs.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;(name)is(age)yearsold&quot;, knowledge = [[&quot;name&quot;,&quot;bob&quot;],[&quot;age&quot;,&quot;two&quot;]]
-<strong>Output:</strong> &quot;bobistwoyearsold&quot;
-<strong>Explanation:</strong>
-The key &quot;name&quot; has a value of &quot;bob&quot;, so replace &quot;(name)&quot; with &quot;bob&quot;.
-The key &quot;age&quot; has a value of &quot;two&quot;, so replace &quot;(age)&quot; with &quot;two&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;hi(name)&quot;, knowledge = [[&quot;a&quot;,&quot;b&quot;]]
-<strong>Output:</strong> &quot;hi?&quot;
-<strong>Explanation:</strong> As you do not know the value of the key &quot;name&quot;, replace &quot;(name)&quot; with &quot;?&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;(a)(a)(a)aaa&quot;, knowledge = [[&quot;a&quot;,&quot;yes&quot;]]
-<strong>Output:</strong> &quot;yesyesyesaaa&quot;
-<strong>Explanation:</strong> The same key can appear multiple times.
-The key &quot;a&quot; has a value of &quot;yes&quot;, so replace all occurrences of &quot;(a)&quot; with &quot;yes&quot;.
-Notice that the &quot;a&quot;s not in a bracket pair are not evaluated.
-</pre>
+<p>请你返回替换 <strong>所有</strong>&nbsp;括号对后的结果字符串。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>s = "(name)is(age)yearsold", knowledge = [["name","bob"],["age","two"]]
+<b>输出：</b>"bobistwoyearsold"
+<strong>解释：</strong>
+键 "name" 对应的值为 "bob" ，所以将 "(name)" 替换为 "bob" 。
+键 "age" 对应的值为 "two" ，所以将 "(age)" 替换为 "two" 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>s = "hi(name)", knowledge = [["a","b"]]
+<b>输出：</b>"hi?"
+<b>解释：</b>由于不知道键 "name" 对应的值，所以用 "?" 替换 "(name)" 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>s = "(a)(a)(a)aaa", knowledge = [["a","yes"]]
+<b>输出：</b>"yesyesyesaaa"
+<b>解释：</b>相同的键在 s 中可能会出现多次。
+键 "a" 对应的值为 "yes" ，所以将所有的 "(a)" 替换为 "yes" 。
+注意，不在括号里的 "a" 不需要被替换。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= knowledge.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>knowledge[i].length == 2</code></li>
 	<li><code>1 &lt;= key<sub>i</sub>.length, value<sub>i</sub>.length &lt;= 10</code></li>
-	<li><code>s</code> consists of lowercase English letters and round brackets <code>&#39;(&#39;</code> and <code>&#39;)&#39;</code>.</li>
-	<li>Every open bracket <code>&#39;(&#39;</code> in <code>s</code> will have a corresponding close bracket <code>&#39;)&#39;</code>.</li>
-	<li>The key in each bracket pair of <code>s</code> will be non-empty.</li>
-	<li>There will not be any nested bracket pairs in <code>s</code>.</li>
-	<li><code>key<sub>i</sub></code> and <code>value<sub>i</sub></code> consist of lowercase English letters.</li>
-	<li>Each <code>key<sub>i</sub></code> in <code>knowledge</code> is unique.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母和圆括号&nbsp;<code>'('</code>&nbsp;和&nbsp;<code>')'</code>&nbsp;。</li>
+	<li><code>s</code>&nbsp;中每一个左圆括号&nbsp;<code>'('</code>&nbsp;都有对应的右圆括号&nbsp;<code>')'</code>&nbsp;。</li>
+	<li><code>s</code>&nbsp;中每对括号内的键都不会为空。</li>
+	<li><code>s</code>&nbsp;中不会有嵌套括号对。</li>
+	<li><code>key<sub>i</sub></code>&nbsp;和&nbsp;<code>value<sub>i</sub></code>&nbsp;只包含小写英文字母。</li>
+	<li><code>knowledge</code>&nbsp;中的&nbsp;<code>key<sub>i</sub></code>&nbsp;不会重复。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Simulation
+### 方法一：哈希表 + 模拟
 
-First, we use a hash table $d$ to record the key-value pairs in `knowledge`.
+我们先用哈希表 $d$ 记录 `knowledge` 中的键值对。
 
-Then we traverse the string $s$. If the current character is an open parenthesis `'('`, we start traversing from the current position until we encounter a close parenthesis `')'`. At this point, the string within the parentheses is the key. We look for the corresponding value of this key in the hash table $d$. If found, we replace the value within the parentheses with it, otherwise, we replace it with `'?'`.
+然后遍历字符串 $s$，如果当前字符是左括号 `'('`，则从当前位置开始向后遍历，直到遇到右括号 `')'`，此时括号内的字符串即为键，我们在哈希表 $d$ 中查找该键对应的值，如果找到了，则将该值替换到括号内，否则替换为 `'?'`。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(L)$. Here, $n$ and $m$ are the lengths of the string $s$ and the list `knowledge` respectively, and $L$ is the sum of the lengths of all strings in `knowledge`.
+时间复杂度 $O(n + m)$，空间复杂度 $O(L)$。其中 $n$ 和 $m$ 分别为字符串 $s$ 和列表 `knowledge` 的长度，而 $L$ 为 `knowledge` 中所有字符串的长度之和。
 
 <!-- tabs:start -->
 
@@ -199,24 +204,24 @@ func evaluate(s string, knowledge [][]string) string {
 
 ```ts
 function evaluate(s: string, knowledge: string[][]): string {
-  const n = s.length;
-  const map = new Map();
-  for (const [k, v] of knowledge) {
-    map.set(k, v);
-  }
-  const ans = [];
-  let i = 0;
-  while (i < n) {
-    if (s[i] === "(") {
-      const j = s.indexOf(")", i + 1);
-      ans.push(map.get(s.slice(i + 1, j)) ?? "?");
-      i = j;
-    } else {
-      ans.push(s[i]);
+    const n = s.length;
+    const map = new Map();
+    for (const [k, v] of knowledge) {
+        map.set(k, v);
     }
-    i++;
-  }
-  return ans.join("");
+    const ans = [];
+    let i = 0;
+    while (i < n) {
+        if (s[i] === '(') {
+            const j = s.indexOf(')', i + 1);
+            ans.push(map.get(s.slice(i + 1, j)) ?? '?');
+            i = j;
+        } else {
+            ans.push(s[i]);
+        }
+        i++;
+    }
+    return ans.join('');
 }
 ```
 

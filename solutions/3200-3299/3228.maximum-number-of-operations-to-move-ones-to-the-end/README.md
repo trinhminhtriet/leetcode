@@ -1,84 +1,89 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3228.Maximum%20Number%20of%20Operations%20to%20Move%20Ones%20to%20the%20End/README.md
 rating: 1593
-source: Weekly Contest 407 Q3
+source: 第 407 场周赛 Q3
 tags:
-  - Greedy
-  - String
-  - Counting
+    - 贪心
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [3228. Maximum Number of Operations to Move Ones to the End](https://leetcode.com/problems/maximum-number-of-operations-to-move-ones-to-the-end)
+# [3228. 将 1 移动到末尾的最大操作次数](https://leetcode.cn/problems/maximum-number-of-operations-to-move-ones-to-the-end)
 
-## Description
+[English Version](/solution/3200-3299/3228.Maximum%20Number%20of%20Operations%20to%20Move%20Ones%20to%20the%20End/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <span data-keyword="binary-string">binary string</span> <code>s</code>.</p>
+<p>给你一个 <span data-keyword="binary-string">二进制字符串</span> <code>s</code>。</p>
 
-<p>You can perform the following operation on the string <strong>any</strong> number of times:</p>
+<p>你可以对这个字符串执行 <strong>任意次</strong> 下述操作：</p>
 
 <ul>
-	<li>Choose <strong>any</strong> index <code>i</code> from the string where <code>i + 1 &lt; s.length</code> such that <code>s[i] == &#39;1&#39;</code> and <code>s[i + 1] == &#39;0&#39;</code>.</li>
-	<li>Move the character <code>s[i]</code> to the <strong>right</strong> until it reaches the end of the string or another <code>&#39;1&#39;</code>. For example, for <code>s = &quot;010010&quot;</code>, if we choose <code>i = 1</code>, the resulting string will be <code>s = &quot;0<strong><u>001</u></strong>10&quot;</code>.</li>
+	<li>选择字符串中的任一下标 <code>i</code>（ <code>i + 1 &lt; s.length</code> ），该下标满足 <code>s[i] == '1'</code> 且 <code>s[i + 1] == '0'</code>。</li>
+	<li>将字符 <code>s[i]</code> 向 <strong>右移 </strong>直到它到达字符串的末端或另一个 <code>'1'</code>。例如，对于 <code>s = "010010"</code>，如果我们选择 <code>i = 1</code>，结果字符串将会是 <code>s = "0<strong><u>001</u></strong>10"</code>。</li>
 </ul>
 
-<p>Return the <strong>maximum</strong> number of operations that you can perform.</p>
+<p>返回你能执行的<strong> 最大 </strong>操作次数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;1001101&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">s = "1001101"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">4</span></p>
+<p><strong>输出：</strong> <span class="example-io">4</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>We can perform the following operations:</p>
+<p>可以执行以下操作：</p>
 
 <ul>
-	<li>Choose index <code>i = 0</code>. The resulting string is <code>s = &quot;<u><strong>001</strong></u>1101&quot;</code>.</li>
-	<li>Choose index <code>i = 4</code>. The resulting string is <code>s = &quot;0011<u><strong>01</strong></u>1&quot;</code>.</li>
-	<li>Choose index <code>i = 3</code>. The resulting string is <code>s = &quot;001<strong><u>01</u></strong>11&quot;</code>.</li>
-	<li>Choose index <code>i = 2</code>. The resulting string is <code>s = &quot;00<strong><u>01</u></strong>111&quot;</code>.</li>
+	<li>选择下标 <code>i = 0</code>。结果字符串为 <code>s = "<u><strong>001</strong></u>1101"</code>。</li>
+	<li>选择下标 <code>i = 4</code>。结果字符串为 <code>s = "0011<u><strong>01</strong></u>1"</code>。</li>
+	<li>选择下标 <code>i = 3</code>。结果字符串为 <code>s = "001<strong><u>01</u></strong>11"</code>。</li>
+	<li>选择下标 <code>i = 2</code>。结果字符串为 <code>s = "00<strong><u>01</u></strong>111"</code>。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;00111&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">s = "00111"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong> <span class="example-io">0</span></p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>s[i]</code> 为 <code>'0'</code> 或 <code>'1'</code>。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy
+### 方法一：贪心
 
-We use a variable $\textit{ans}$ to record the answer and another variable $\textit{cnt}$ to count the current number of $1$s.
+我们用一个变量 $\textit{ans}$ 记录答案，用一个变量 $\textit{cnt}$ 记录当前的 $1$ 的个数。
 
-Then, we iterate through the string $s$. If the current character is $1$, then we increment $\textit{cnt}$. Otherwise, if there is a previous character and the previous character is $1$, then the previous $\textit{cnt}$ number of $1$s can be moved backward, and we add $\textit{cnt}$ to the answer.
+然后我们遍历字符串 $s$，如果当前字符是 $1$，则 $\textit{cnt}$ 加一，否则如果存在前一个字符，且前一个字符是 $1$，那么前面的 $\textit{cnt}$ 个 $1$ 可以往后移动，答案加上 $\textit{cnt}$。
 
-Finally, we return the answer.
+最后返回答案即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -155,16 +160,16 @@ func maxOperations(s string) (ans int) {
 
 ```ts
 function maxOperations(s: string): number {
-  let [ans, cnt] = [0, 0];
-  const n = s.length;
-  for (let i = 0; i < n; ++i) {
-    if (s[i] === "1") {
-      ++cnt;
-    } else if (i && s[i - 1] === "1") {
-      ans += cnt;
+    let [ans, cnt] = [0, 0];
+    const n = s.length;
+    for (let i = 0; i < n; ++i) {
+        if (s[i] === '1') {
+            ++cnt;
+        } else if (i && s[i - 1] === '1') {
+            ans += cnt;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

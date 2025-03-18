@@ -1,76 +1,82 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1375.Number%20of%20Times%20Binary%20String%20Is%20Prefix-Aligned/README.md
 rating: 1438
-source: Weekly Contest 179 Q2
+source: 第 179 场周赛 Q2
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [1375. Number of Times Binary String Is Prefix-Aligned](https://leetcode.com/problems/number-of-times-binary-string-is-prefix-aligned)
+# [1375. 二进制字符串前缀一致的次数](https://leetcode.cn/problems/number-of-times-binary-string-is-prefix-aligned)
 
-## Description
+[English Version](/solution/1300-1399/1375.Number%20of%20Times%20Binary%20String%20Is%20Prefix-Aligned/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have a <strong>1-indexed</strong> binary string of length <code>n</code> where all the bits are <code>0</code> initially. We will flip all the bits of this binary string (i.e., change them from <code>0</code> to <code>1</code>) one by one. You are given a <strong>1-indexed</strong> integer array <code>flips</code> where <code>flips[i]</code> indicates that the bit at index <code>i</code> will be flipped in the <code>i<sup>th</sup></code> step.</p>
+<p>给你一个长度为 <code>n</code> 、下标从 <strong>1</strong> 开始的二进制字符串，所有位最开始都是 <code>0</code> 。我们会按步翻转该二进制字符串的所有位（即，将 <code>0</code> 变为 <code>1</code>）。</p>
 
-<p>A binary string is <strong>prefix-aligned</strong> if, after the <code>i<sup>th</sup></code> step, all the bits in the <strong>inclusive</strong> range <code>[1, i]</code> are ones and all the other bits are zeros.</p>
+<p>给你一个下标从 <strong>1</strong> 开始的整数数组 <code>flips</code> ，其中 <code>flips[i]</code> 表示对应下标 <code>i</code> 的位将会在第 <code>i</code> 步翻转。</p>
 
-<p>Return <em>the number of times the binary string is <strong>prefix-aligned</strong> during the flipping process</em>.</p>
+<p>二进制字符串 <strong>前缀一致</strong> 需满足：在第 <code>i</code> 步之后，在 <strong>闭</strong> 区间&nbsp;<code>[1, i]</code> 内的所有位都是 1 ，而其他位都是 0 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> flips = [3,2,4,1,5]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The binary string is initially &quot;00000&quot;.
-After applying step 1: The string becomes &quot;00100&quot;, which is not prefix-aligned.
-After applying step 2: The string becomes &quot;01100&quot;, which is not prefix-aligned.
-After applying step 3: The string becomes &quot;01110&quot;, which is not prefix-aligned.
-After applying step 4: The string becomes &quot;11110&quot;, which is prefix-aligned.
-After applying step 5: The string becomes &quot;11111&quot;, which is prefix-aligned.
-We can see that the string was prefix-aligned 2 times, so we return 2.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> flips = [4,1,2,3]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The binary string is initially &quot;0000&quot;.
-After applying step 1: The string becomes &quot;0001&quot;, which is not prefix-aligned.
-After applying step 2: The string becomes &quot;1001&quot;, which is not prefix-aligned.
-After applying step 3: The string becomes &quot;1101&quot;, which is not prefix-aligned.
-After applying step 4: The string becomes &quot;1111&quot;, which is prefix-aligned.
-We can see that the string was prefix-aligned 1 time, so we return 1.
-</pre>
+<p>返回二进制字符串在翻转过程中 <strong>前缀一致</strong> 的次数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>flips = [3,2,4,1,5]
+<strong>输出：</strong>2
+<strong>解释：</strong>二进制字符串最开始是 "00000" 。
+执行第 1 步：字符串变为 "00100" ，不属于前缀一致的情况。
+执行第 2 步：字符串变为 "01100" ，不属于前缀一致的情况。
+执行第 3 步：字符串变为 "01110" ，不属于前缀一致的情况。
+执行第 4 步：字符串变为 "11110" ，属于前缀一致的情况。
+执行第 5 步：字符串变为 "11111" ，属于前缀一致的情况。
+在翻转过程中，前缀一致的次数为 2 ，所以返回 2 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>flips = [4,1,2,3]
+<strong>输出：</strong>1
+<strong>解释：</strong>二进制字符串最开始是 "0000" 。
+执行第 1 步：字符串变为 "0001" ，不属于前缀一致的情况。
+执行第 2 步：字符串变为 "1001" ，不属于前缀一致的情况。
+执行第 3 步：字符串变为 "1101" ，不属于前缀一致的情况。
+执行第 4 步：字符串变为 "1111" ，属于前缀一致的情况。
+在翻转过程中，前缀一致的次数为 1 ，所以返回 1 。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == flips.length</code></li>
 	<li><code>1 &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>flips</code> is a permutation of the integers in the range <code>[1, n]</code>.</li>
+	<li><code>flips</code> 是范围 <code>[1, n]</code> 中所有整数构成的一个排列</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Direct Traversal
+### 方法一：直接遍历
 
-We can traverse the array $flips$, keeping track of the maximum value $mx$ of the elements we have traversed so far. If $mx$ equals the current index $i$ we are traversing, it means that the first $i$ elements have all been flipped, i.e., the prefix is consistent, and we increment the answer.
+我们可以遍历数组 $flips$，记录当前遍历过的元素的最大值 $mx$，若 $mx$ 等于当前遍历到的下标 $i$，则说明前 $i$ 个元素都被翻转过了，即前缀一致，答案累加。
 
-After the traversal is finished, we return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $flips$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $flips$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -138,15 +144,15 @@ func numTimesAllBlue(flips []int) (ans int) {
 
 ```ts
 function numTimesAllBlue(flips: number[]): number {
-  let ans = 0;
-  let mx = 0;
-  for (let i = 1; i <= flips.length; ++i) {
-    mx = Math.max(mx, flips[i - 1]);
-    if (mx === i) {
-      ++ans;
+    let ans = 0;
+    let mx = 0;
+    for (let i = 1; i <= flips.length; ++i) {
+        mx = Math.max(mx, flips[i - 1]);
+        if (mx === i) {
+            ++ans;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

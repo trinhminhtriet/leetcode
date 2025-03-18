@@ -1,74 +1,79 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1455.Check%20If%20a%20Word%20Occurs%20As%20a%20Prefix%20of%20Any%20Word%20in%20a%20Sentence/README.md
 rating: 1125
-source: Weekly Contest 190 Q1
+source: 第 190 场周赛 Q1
 tags:
-  - Two Pointers
-  - String
-  - String Matching
+    - 双指针
+    - 字符串
+    - 字符串匹配
 ---
 
 <!-- problem:start -->
 
-# [1455. Check If a Word Occurs As a Prefix of Any Word in a Sentence](https://leetcode.com/problems/check-if-a-word-occurs-as-a-prefix-of-any-word-in-a-sentence)
+# [1455. 检查单词是否为句中其他单词的前缀](https://leetcode.cn/problems/check-if-a-word-occurs-as-a-prefix-of-any-word-in-a-sentence)
 
-## Description
+[English Version](/solution/1400-1499/1455.Check%20If%20a%20Word%20Occurs%20As%20a%20Prefix%20of%20Any%20Word%20in%20a%20Sentence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <code>sentence</code> that consists of some words separated by a <strong>single space</strong>, and a <code>searchWord</code>, check if <code>searchWord</code> is a prefix of any word in <code>sentence</code>.</p>
+<p>给你一个字符串 <code>sentence</code> 作为句子并指定检索词为 <code>searchWord</code> ，其中句子由若干用 <strong>单个空格</strong> 分隔的单词组成。请你检查检索词 <code>searchWord</code> 是否为句子 <code>sentence</code> 中任意单词的前缀。</p>
 
-<p>Return <em>the index of the word in </em><code>sentence</code><em> (<strong>1-indexed</strong>) where </em><code>searchWord</code><em> is a prefix of this word</em>. If <code>searchWord</code> is a prefix of more than one word, return the index of the first word <strong>(minimum index)</strong>. If there is no such word return <code>-1</code>.</p>
+<p>如果&nbsp;<code>searchWord</code> 是某一个单词的前缀，则返回句子&nbsp;<code>sentence</code> 中该单词所对应的下标（<strong>下标从 1 开始</strong>）。如果 <code>searchWord</code> 是多个单词的前缀，则返回匹配的第一个单词的下标（<strong>最小下标</strong>）。如果 <code>searchWord</code> 不是任何单词的前缀，则返回 <code>-1</code><strong> </strong>。</p>
 
-<p>A <strong>prefix</strong> of a string <code>s</code> is any leading contiguous substring of <code>s</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> sentence = &quot;i love eating burger&quot;, searchWord = &quot;burg&quot;
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> &quot;burg&quot; is prefix of &quot;burger&quot; which is the 4th word in the sentence.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> sentence = &quot;this problem is an easy problem&quot;, searchWord = &quot;pro&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> &quot;pro&quot; is prefix of &quot;problem&quot; which is the 2nd and the 6th word in the sentence, but we return 2 as it&#39;s the minimal index.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> sentence = &quot;i am tired&quot;, searchWord = &quot;you&quot;
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> &quot;you&quot; is not a prefix of any word in the sentence.
-</pre>
+<p>字符串 <code>s</code> 的 <strong>前缀</strong> 是 <code>s</code> 的任何前导连续子字符串。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>sentence = "i love eating burger", searchWord = "burg"
+<strong>输出：</strong>4
+<strong>解释：</strong>"burg" 是 "burger" 的前缀，而 "burger" 是句子中第 4 个单词。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>sentence = "this problem is an easy problem", searchWord = "pro"
+<strong>输出：</strong>2
+<strong>解释：</strong>"pro" 是 "problem" 的前缀，而 "problem" 是句子中第 2 个也是第 6 个单词，但是应该返回最小下标 2 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>sentence = "i am tired", searchWord = "you"
+<strong>输出：</strong>-1
+<strong>解释：</strong>"you" 不是句子中任何单词的前缀。
+
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= sentence.length &lt;= 100</code></li>
 	<li><code>1 &lt;= searchWord.length &lt;= 10</code></li>
-	<li><code>sentence</code> consists of lowercase English letters and spaces.</li>
-	<li><code>searchWord</code> consists of lowercase English letters.</li>
+	<li><code>sentence</code> 由小写英文字母和空格组成。</li>
+	<li><code>searchWord</code> 由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: String Splitting
+### 方法一：字符串分割
 
-We split $\textit{sentence}$ by spaces into $\textit{words}$, then iterate through $\textit{words}$ to check if $\textit{words}[i]$ is a prefix of $\textit{searchWord}$. If it is, we return $i+1$. If the iteration completes and no words satisfy the condition, we return $-1$.
+我们将 $\textit{sentence}$ 按空格分割为 $\textit{words}$，然后遍历 $\textit{words}$，检查 $\textit{words}[i]$ 是否是 $\textit{searchWord}$ 的前缀，是则返回 $i+1$。若遍历结束，所有单词都不满足，返回 $-1$。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m)$. Here, $m$ and $n$ are the lengths of $\textit{sentence}$ and $\textit{searchWord}$, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m)$。其中 $m$ 和 $n$ 分别是 $\textit{sentence}$ 和 $\textit{searchWord}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -134,14 +139,14 @@ func isPrefixOfWord(sentence string, searchWord string) int {
 
 ```ts
 function isPrefixOfWord(sentence: string, searchWord: string): number {
-  const ss = sentence.split(/\s/);
-  const n = ss.length;
-  for (let i = 0; i < n; i++) {
-    if (ss[i].startsWith(searchWord)) {
-      return i + 1;
+    const ss = sentence.split(/\s/);
+    const n = ss.length;
+    for (let i = 0; i < n; i++) {
+        if (ss[i].startsWith(searchWord)) {
+            return i + 1;
+        }
     }
-  }
-  return -1;
+    return -1;
 }
 ```
 

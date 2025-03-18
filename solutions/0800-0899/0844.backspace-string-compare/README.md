@@ -1,68 +1,85 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0844.Backspace%20String%20Compare/README.md
 tags:
-  - Stack
-  - Two Pointers
-  - String
-  - Simulation
+    - 栈
+    - 双指针
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [844. Backspace String Compare](https://leetcode.com/problems/backspace-string-compare)
+# [844. 比较含退格的字符串](https://leetcode.cn/problems/backspace-string-compare)
 
-## Description
+[English Version](/solution/0800-0899/0844.Backspace%20String%20Compare/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two strings <code>s</code> and <code>t</code>, return <code>true</code> <em>if they are equal when both are typed into empty text editors</em>. <code>&#39;#&#39;</code> means a backspace character.</p>
+<p>给定 <code>s</code> 和 <code>t</code> 两个字符串，当它们分别被输入到空白的文本编辑器后，如果两者相等，返回 <code>true</code> 。<code>#</code> 代表退格字符。</p>
 
-<p>Note that after backspacing an empty text, the text will continue empty.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;ab#c&quot;, t = &quot;ad#c&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Both s and t become &quot;ac&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;ab##&quot;, t = &quot;c#d#&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Both s and t become &quot;&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;a#c&quot;, t = &quot;b&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> s becomes &quot;c&quot; while t becomes &quot;b&quot;.
-</pre>
+<p><strong>注意：</strong>如果对空文本输入退格字符，文本继续为空。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "ab#c", t = "ad#c"
+<strong>输出：</strong>true
+<strong>解释：</strong>s 和 t 都会变成 "ac"。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "ab##", t = "c#d#"
+<strong>输出：</strong>true
+<strong>解释：</strong>s 和 t 都会变成 ""。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "a#c", t = "b"
+<strong>输出：</strong>false
+<strong>解释：</strong>s 会变成 "c"，但 t 仍然是 "b"。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code><span>1 &lt;= s.length, t.length &lt;= 200</span></code></li>
-	<li><span><code>s</code> and <code>t</code> only contain lowercase letters and <code>&#39;#&#39;</code> characters.</span></li>
+	<li><code>1 &lt;= s.length, t.length &lt;= 200</code></li>
+	<li><code>s</code> 和 <code>t</code> 只含有小写字母以及字符 <code>'#'</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Follow up:</strong> Can you solve it in <code>O(n)</code> time and <code>O(1)</code> space?</p>
+
+<p><strong>进阶：</strong></p>
+
+<ul>
+	<li>你可以用 <code>O(n)</code> 的时间复杂度和 <code>O(1)</code> 的空间复杂度解决该问题吗？</li>
+</ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：双指针
+
+我们用双指针 $i$ 和 $j$ 分别指向字符串 $s$ 和 $t$ 的末尾。
+
+每次向前移动一个字符，如果当前字符是退格符，则跳过当前字符，同时退格符的数量加一，如果当前字符不是退格符，则判断退格符的数量，如果退格符的数量大于 $0$，则跳过当前字符，同时退格符的数量减一，如果退格符的数量等于 $0$，那么该字符需要进行比较。
+
+我们每次找到两个字符串中需要比较的字符，然后进行比较，如果两个字符不相等，则返回 $false$，如果遍历完两个字符串，都没有发现不相等的字符，则返回 $true$。
+
+时间复杂度 $O(m + n)$，空间复杂度 $O(1)$。其中 $m$ 和 $n$ 分别是字符串 $s$ 和 $t$ 的长度。
 
 <!-- tabs:start -->
 
@@ -227,38 +244,38 @@ func backspaceCompare(s string, t string) bool {
 
 ```ts
 function backspaceCompare(s: string, t: string): boolean {
-  let i = s.length - 1;
-  let j = t.length - 1;
-  while (i >= 0 || j >= 0) {
-    let skip = 0;
-    while (i >= 0) {
-      if (s[i] === "#") {
-        skip++;
-      } else if (skip !== 0) {
-        skip--;
-      } else {
-        break;
-      }
-      i--;
+    let i = s.length - 1;
+    let j = t.length - 1;
+    while (i >= 0 || j >= 0) {
+        let skip = 0;
+        while (i >= 0) {
+            if (s[i] === '#') {
+                skip++;
+            } else if (skip !== 0) {
+                skip--;
+            } else {
+                break;
+            }
+            i--;
+        }
+        skip = 0;
+        while (j >= 0) {
+            if (t[j] === '#') {
+                skip++;
+            } else if (skip !== 0) {
+                skip--;
+            } else {
+                break;
+            }
+            j--;
+        }
+        if (s[i] !== t[j]) {
+            return false;
+        }
+        i--;
+        j--;
     }
-    skip = 0;
-    while (j >= 0) {
-      if (t[j] === "#") {
-        skip++;
-      } else if (skip !== 0) {
-        skip--;
-      } else {
-        break;
-      }
-      j--;
-    }
-    if (s[i] !== t[j]) {
-      return false;
-    }
-    i--;
-    j--;
-  }
-  return true;
+    return true;
 }
 ```
 

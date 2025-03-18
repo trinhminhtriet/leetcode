@@ -1,66 +1,85 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2272.Substring%20With%20Largest%20Variance/README.md
 rating: 2515
-source: Biweekly Contest 78 Q4
+source: 第 78 场双周赛 Q4
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2272. Substring With Largest Variance](https://leetcode.com/problems/substring-with-largest-variance)
+# [2272. 最大波动的子字符串](https://leetcode.cn/problems/substring-with-largest-variance)
 
-## Description
+[English Version](/solution/2200-2299/2272.Substring%20With%20Largest%20Variance/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <strong>variance</strong> of a string is defined as the largest difference between the number of occurrences of <strong>any</strong> <code>2</code> characters present in the string. Note the two characters may or may not be the same.</p>
+<p>字符串的 <strong>波动</strong>&nbsp;定义为子字符串中出现次数 <strong>最多</strong>&nbsp;的字符次数与出现次数 <strong>最少</strong>&nbsp;的字符次数之差。</p>
 
-<p>Given a string <code>s</code> consisting of lowercase English letters only, return <em>the <strong>largest variance</strong> possible among all <strong>substrings</strong> of</em> <code>s</code>.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，它只包含小写英文字母。请你返回 <code>s</code>&nbsp;里所有 <strong>子字符串的</strong>&nbsp;<strong>最大波动</strong>&nbsp;值。</p>
 
-<p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;aababbb&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-All possible variances along with their respective substrings are listed below:
-- Variance 0 for substrings &quot;a&quot;, &quot;aa&quot;, &quot;ab&quot;, &quot;abab&quot;, &quot;aababb&quot;, &quot;ba&quot;, &quot;b&quot;, &quot;bb&quot;, and &quot;bbb&quot;.
-- Variance 1 for substrings &quot;aab&quot;, &quot;aba&quot;, &quot;abb&quot;, &quot;aabab&quot;, &quot;ababb&quot;, &quot;aababbb&quot;, and &quot;bab&quot;.
-- Variance 2 for substrings &quot;aaba&quot;, &quot;ababbb&quot;, &quot;abbb&quot;, and &quot;babb&quot;.
-- Variance 3 for substring &quot;babbb&quot;.
-Since the largest possible variance is 3, we return it.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;abcde&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong>
-No letter occurs more than once in s, so the variance of every substring is 0.
-</pre>
+<p><strong>子字符串</strong> 是一个字符串的一段连续字符序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>s = "aababbb"
+<b>输出：</b>3
+<strong>解释：</strong>
+所有可能的波动值和它们对应的子字符串如以下所示：
+- 波动值为 0 的子字符串："a" ，"aa" ，"ab" ，"abab" ，"aababb" ，"ba" ，"b" ，"bb" 和 "bbb" 。
+- 波动值为 1 的子字符串："aab" ，"aba" ，"abb" ，"aabab" ，"ababb" ，"aababbb" 和 "bab" 。
+- 波动值为 2 的子字符串："aaba" ，"ababbb" ，"abbb" 和 "babb" 。
+- 波动值为 3 的子字符串 "babbb" 。
+所以，最大可能波动值为 3 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>s = "abcde"
+<b>输出：</b>0
+<strong>解释：</strong>
+s 中没有字母出现超过 1 次，所以 s 中每个子字符串的波动值都是 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code>&nbsp; 只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：枚举 + 动态规划
+
+由于字符集只包含小写字母，我们可以考虑枚举出现次数最多的字符 $a$ 以及出现次数最少的字符 $b$。对于一个子串来说，这两种字符出现的次数之差就是子串的波动值。
+
+具体实现上，我们使用双重循环枚举 $a$ 和 $b$，用 $f[0]$ 记录以当前字符结尾的连续出现字符 $a$ 的个数，用 $f[1]$ 记录以当前字符结尾的，并且包含 $a$ 和 $b$ 的子串的波动值。迭代取 $f[1]$ 的最大值即可。
+
+递推公式如下：
+
+1. 如果当前字符为 $a$，则 $f[0]$ 和 $f[1]$ 都加 $1$；
+1. 如果当前字符为 $b$，则 $f[1]=\max(f[1]-1, f[0]-1)$，而 $f[0]=0$；
+1. 否则，无需考虑。
+
+注意，初始时将 $f[1]$ 赋值为一个负数最大值，可以保证更新答案时是合法的。
+
+时间复杂度 $O(n\times C^2)$，其中 $n$ 表示字符串 $s$ 的长度，而 $C$ 为字符集大小，本题中 $C=26$。
 
 <!-- tabs:start -->
 

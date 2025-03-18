@@ -1,69 +1,78 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2127.Maximum%20Employees%20to%20Be%20Invited%20to%20a%20Meeting/README.md
 rating: 2449
-source: Weekly Contest 274 Q4
+source: 第 274 场周赛 Q4
 tags:
-  - Depth-First Search
-  - Graph
-  - Topological Sort
+    - 深度优先搜索
+    - 图
+    - 拓扑排序
 ---
 
 <!-- problem:start -->
 
-# [2127. Maximum Employees to Be Invited to a Meeting](https://leetcode.com/problems/maximum-employees-to-be-invited-to-a-meeting)
+# [2127. 参加会议的最多员工数](https://leetcode.cn/problems/maximum-employees-to-be-invited-to-a-meeting)
 
-## Description
+[English Version](/solution/2100-2199/2127.Maximum%20Employees%20to%20Be%20Invited%20to%20a%20Meeting/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A company is organizing a meeting and has a list of <code>n</code> employees, waiting to be invited. They have arranged for a large <strong>circular</strong> table, capable of seating <strong>any number</strong> of employees.</p>
+<p>一个公司准备组织一场会议，邀请名单上有&nbsp;<code>n</code>&nbsp;位员工。公司准备了一张 <strong>圆形</strong>&nbsp;的桌子，可以坐下 <strong>任意数目</strong>&nbsp;的员工。</p>
 
-<p>The employees are numbered from <code>0</code> to <code>n - 1</code>. Each employee has a <strong>favorite</strong> person and they will attend the meeting <strong>only if</strong> they can sit next to their favorite person at the table. The favorite person of an employee is <strong>not</strong> themself.</p>
+<p>员工编号为 <code>0</code>&nbsp;到 <code>n - 1</code>&nbsp;。每位员工都有一位 <strong>喜欢</strong>&nbsp;的员工，每位员工&nbsp;<strong>当且仅当</strong>&nbsp;他被安排在喜欢员工的旁边，他才会参加会议。每位员工喜欢的员工 <strong>不会</strong>&nbsp;是他自己。</p>
 
-<p>Given a <strong>0-indexed</strong> integer array <code>favorite</code>, where <code>favorite[i]</code> denotes the favorite person of the <code>i<sup>th</sup></code> employee, return <em>the <strong>maximum number of employees</strong> that can be invited to the meeting</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2127.Maximum%20Employees%20to%20Be%20Invited%20to%20a%20Meeting/images/ex1.png" style="width: 236px; height: 195px;" />
-<pre>
-<strong>Input:</strong> favorite = [2,2,1,2]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-The above figure shows how the company can invite employees 0, 1, and 2, and seat them at the round table.
-All employees cannot be invited because employee 2 cannot sit beside employees 0, 1, and 3, simultaneously.
-Note that the company can also invite employees 1, 2, and 3, and give them their desired seats.
-The maximum number of employees that can be invited to the meeting is 3. 
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> favorite = [1,2,0]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 
-Each employee is the favorite person of at least one other employee, and the only way the company can invite them is if they invite every employee.
-The seating arrangement will be the same as that in the figure given in example 1:
-- Employee 0 will sit between employees 2 and 1.
-- Employee 1 will sit between employees 0 and 2.
-- Employee 2 will sit between employees 1 and 0.
-The maximum number of employees that can be invited to the meeting is 3.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2127.Maximum%20Employees%20to%20Be%20Invited%20to%20a%20Meeting/images/ex2.png" style="width: 219px; height: 220px;" />
-<pre>
-<strong>Input:</strong> favorite = [3,0,1,4,1]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong>
-The above figure shows how the company will invite employees 0, 1, 3, and 4, and seat them at the round table.
-Employee 2 cannot be invited because the two spots next to their favorite employee 1 are taken.
-So the company leaves them out of the meeting.
-The maximum number of employees that can be invited to the meeting is 4.
-</pre>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>favorite</code>&nbsp;，其中&nbsp;<code>favorite[i]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;位员工喜欢的员工。请你返回参加会议的&nbsp;<strong>最多员工数目</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2127.Maximum%20Employees%20to%20Be%20Invited%20to%20a%20Meeting/images/ex1.png" style="width: 236px; height: 195px;" /></p>
+
+<pre>
+<b>输入：</b>favorite = [2,2,1,2]
+<b>输出：</b>3
+<strong>解释：</strong>
+上图展示了公司邀请员工 0，1 和 2 参加会议以及他们在圆桌上的座位。
+没办法邀请所有员工参与会议，因为员工 2 没办法同时坐在 0，1 和 3 员工的旁边。
+注意，公司也可以邀请员工 1，2 和 3 参加会议。
+所以最多参加会议的员工数目为 3 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>favorite = [1,2,0]
+<b>输出：</b>3
+<b>解释：</b>
+每个员工都至少是另一个员工喜欢的员工。所以公司邀请他们所有人参加会议的前提是所有人都参加了会议。
+座位安排同图 1 所示：
+- 员工 0 坐在员工 2 和 1 之间。
+- 员工 1 坐在员工 0 和 2 之间。
+- 员工 2 坐在员工 1 和 0 之间。
+参与会议的最多员工数目为 3 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2127.Maximum%20Employees%20to%20Be%20Invited%20to%20a%20Meeting/images/ex2.png" style="width: 219px; height: 220px;" /></p>
+
+<pre>
+<b>输入：</b>favorite = [3,0,1,4,1]
+<b>输出：</b>4
+<b>解释：</b>
+上图展示了公司可以邀请员工 0，1，3 和 4 参加会议以及他们在圆桌上的座位。
+员工 2 无法参加，因为他喜欢的员工 1 旁边的座位已经被占领了。
+所以公司只能不邀请员工 2 。
+参加会议的最多员工数目为 4 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == favorite.length</code></li>
@@ -74,25 +83,29 @@ The maximum number of employees that can be invited to the meeting is 4.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Maximum Cycle in Graph + Longest Chain
+### 方法一：图的最大环 + 最长链
 
-We observe that the employee's preference relationship in the problem can be regarded as a directed graph, which can be divided into multiple "base cycle inward trees". Each structure contains a cycle, and each node on the cycle is connected to a tree.
+我们观察发现，题目中员工的喜好关系可以看作一个有向图，这个有向图可以分成多个“基环内向树”的结构。在每个结构中，包含一个环，而环上的每个节点都连接着一棵树。
 
-What is a "base cycle inward tree"? First, a base cycle tree is a directed graph with $n$ nodes and $n$ edges, and an inward tree means that in this directed graph, each node has exactly one outgoing edge. In this problem, each employee has exactly one favorite employee, so the constructed directed graph can be composed of multiple "base cycle inward trees".
+什么是“基环内向树”？首先，基环树是一个具有 $n$ 个节点 $n$ 条边的有向图，而内向树是指这个有向图中，每个节点都有且仅有一条出边。本题中，每个员工都有且仅有一个喜欢的员工，因此，构成的有向图可以由多个“基环内向树”构成。
 
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2127.Maximum%20Employees%20to%20Be%20Invited%20to%20a%20Meeting/images/05Dxh9.png"></p>
 
-For this problem, we can find the length of the maximum cycle in the graph. Here we only need to find the length of the largest cycle, because if there are multiple cycles, they are not connected to each other, which does not meet the problem requirements.
+对于本题，我们可以求出图的最大环的长度，这里我们只需要求出最大的一个环的长度，这是因为，如果有多个环，那么不同环之间是不连通的，不符合题意。
 
-In addition, for the size of the cycle equal to $2$, that is, there are two employees who like each other, then we can arrange these two employees together. If these two employees are each liked by other employees, then we only need to arrange the employees who like them next to them. If there are multiple such situations, we can arrange them all.
+另外，对于环的大小等于 $2$ 的长度，即存在两个员工互相喜欢，那么我们可以把这两个员工安排在一起，如果这两个员工各自被别的员工喜欢，那么我们只需要把喜欢他们的员工安排在他们的旁边即可。如果有多个这样的情况，我们可以把他们都安排上。
 
-Therefore, the problem is actually equivalent to finding the length of the maximum cycle in the graph, and all cycles of length $2$ plus their longest chain. The maximum of these two can be found. To find the longest chain to the cycle of length $2$, we can use topological sorting.
+因此，问题实际上等价于求出图的最大环的长度，以及所有长度为 $2$ 的环加上其最长链。求这两者的最大值即可。求最长链到长度为 $2$ 的环，我们可以使用拓扑排序。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array `favorite`.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `favorite` 的长度。
+
+相似题目：
+
+-   [2360. 图中的最长环](https://github.com/doocs/leetcode/blob/main/solution/2300-2399/2360.Longest%20Cycle%20in%20a%20Graph/README.md)
 
 <!-- tabs:start -->
 
@@ -328,59 +341,59 @@ func topologicalSort(fa []int) int {
 
 ```ts
 function maximumInvitations(favorite: number[]): number {
-  return Math.max(maxCycle(favorite), topologicalSort(favorite));
+    return Math.max(maxCycle(favorite), topologicalSort(favorite));
 }
 
 function maxCycle(fa: number[]): number {
-  const n = fa.length;
-  const vis: boolean[] = Array(n).fill(false);
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    if (vis[i]) {
-      continue;
+    const n = fa.length;
+    const vis: boolean[] = Array(n).fill(false);
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        if (vis[i]) {
+            continue;
+        }
+        const cycle: number[] = [];
+        let j = i;
+        for (; !vis[j]; j = fa[j]) {
+            cycle.push(j);
+            vis[j] = true;
+        }
+        for (let k = 0; k < cycle.length; ++k) {
+            if (cycle[k] === j) {
+                ans = Math.max(ans, cycle.length - k);
+            }
+        }
     }
-    const cycle: number[] = [];
-    let j = i;
-    for (; !vis[j]; j = fa[j]) {
-      cycle.push(j);
-      vis[j] = true;
-    }
-    for (let k = 0; k < cycle.length; ++k) {
-      if (cycle[k] === j) {
-        ans = Math.max(ans, cycle.length - k);
-      }
-    }
-  }
-  return ans;
+    return ans;
 }
 
 function topologicalSort(fa: number[]): number {
-  const n = fa.length;
-  const indeg: number[] = Array(n).fill(0);
-  const dist: number[] = Array(n).fill(1);
-  for (const v of fa) {
-    ++indeg[v];
-  }
-  const q: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    if (indeg[i] === 0) {
-      q.push(i);
+    const n = fa.length;
+    const indeg: number[] = Array(n).fill(0);
+    const dist: number[] = Array(n).fill(1);
+    for (const v of fa) {
+        ++indeg[v];
     }
-  }
-  let ans = 0;
-  while (q.length) {
-    const i = q.pop()!;
-    dist[fa[i]] = Math.max(dist[fa[i]], dist[i] + 1);
-    if (--indeg[fa[i]] === 0) {
-      q.push(fa[i]);
+    const q: number[] = [];
+    for (let i = 0; i < n; ++i) {
+        if (indeg[i] === 0) {
+            q.push(i);
+        }
     }
-  }
-  for (let i = 0; i < n; ++i) {
-    if (i === fa[fa[i]]) {
-      ans += dist[i];
+    let ans = 0;
+    while (q.length) {
+        const i = q.pop()!;
+        dist[fa[i]] = Math.max(dist[fa[i]], dist[i] + 1);
+        if (--indeg[fa[i]] === 0) {
+            q.push(fa[i]);
+        }
     }
-  }
-  return ans;
+    for (let i = 0; i < n; ++i) {
+        if (i === fa[fa[i]]) {
+            ans += dist[i];
+        }
+    }
+    return ans;
 }
 ```
 

@@ -1,97 +1,108 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2018.Check%20if%20Word%20Can%20Be%20Placed%20In%20Crossword/README.md
 rating: 1929
-source: Weekly Contest 260 Q3
+source: 第 260 场周赛 Q3
 tags:
-  - Array
-  - Enumeration
-  - Matrix
+    - 数组
+    - 枚举
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [2018. Check if Word Can Be Placed In Crossword](https://leetcode.com/problems/check-if-word-can-be-placed-in-crossword)
+# [2018. 判断单词是否能放入填字游戏内](https://leetcode.cn/problems/check-if-word-can-be-placed-in-crossword)
 
-## Description
+[English Version](/solution/2000-2099/2018.Check%20if%20Word%20Can%20Be%20Placed%20In%20Crossword/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> matrix <code>board</code>, representing the<strong> current </strong>state of a crossword puzzle. The crossword contains lowercase English letters (from solved words), <code>&#39; &#39;</code> to represent any <strong>empty </strong>cells, and <code>&#39;#&#39;</code> to represent any <strong>blocked</strong> cells.</p>
+<p>给你一个&nbsp;<code>m x n</code>&nbsp;的矩阵&nbsp;<code>board</code>&nbsp;，它代表一个填字游戏&nbsp;<strong>当前</strong>&nbsp;的状态。填字游戏格子中包含小写英文字母（已填入的单词），表示&nbsp;<strong>空</strong>&nbsp;格的&nbsp;<code>' '</code>&nbsp;和表示&nbsp;<strong>障碍</strong>&nbsp;格子的&nbsp;<code>'#'</code>&nbsp;。</p>
 
-<p>A word can be placed<strong> horizontally</strong> (left to right <strong>or</strong> right to left) or <strong>vertically</strong> (top to bottom <strong>or</strong> bottom to top) in the board if:</p>
+<p>如果满足以下条件，那么我们可以 <strong>水平</strong>&nbsp;（从左到右 <strong>或者</strong>&nbsp;从右到左）或 <strong>竖直</strong>&nbsp;（从上到下 <strong>或者</strong>&nbsp;从下到上）填入一个单词：</p>
 
 <ul>
-	<li>It does not occupy a cell containing the character <code>&#39;#&#39;</code>.</li>
-	<li>The cell each letter is placed in must either be <code>&#39; &#39;</code> (empty) or <strong>match</strong> the letter already on the <code>board</code>.</li>
-	<li>There must not be any empty cells <code>&#39; &#39;</code> or other lowercase letters <strong>directly left or right</strong><strong> </strong>of the word if the word was placed <strong>horizontally</strong>.</li>
-	<li>There must not be any empty cells <code>&#39; &#39;</code> or other lowercase letters <strong>directly above or below</strong> the word if the word was placed <strong>vertically</strong>.</li>
+	<li>该单词不占据任何&nbsp;<code>'#'</code>&nbsp;对应的格子。</li>
+	<li>每个字母对应的格子要么是&nbsp;<code>' '</code>&nbsp;（空格）要么与 <code>board</code>&nbsp;中已有字母 <strong>匹配</strong>&nbsp;。</li>
+	<li>如果单词是 <strong>水平</strong>&nbsp;放置的，那么该单词左边和右边 <strong>相邻</strong>&nbsp;格子不能为&nbsp;<code>' '</code>&nbsp;或小写英文字母。</li>
+	<li>如果单词是&nbsp;<strong>竖直</strong>&nbsp;放置的，那么该单词上边和下边&nbsp;<strong>相邻</strong><strong>&nbsp;</strong>格子不能为&nbsp;<code>' '</code>&nbsp;或小写英文字母。</li>
 </ul>
 
-<p>Given a string <code>word</code>, return <code>true</code><em> if </em><code>word</code><em> can be placed in </em><code>board</code><em>, or </em><code>false</code><em> <strong>otherwise</strong></em>.</p>
+<p>给你一个字符串&nbsp;<code>word</code>&nbsp;，如果&nbsp;<code>word</code>&nbsp;可以被放入&nbsp;<code>board</code>&nbsp;中，请你返回&nbsp;<code>true</code>&nbsp;，否则请返回&nbsp;<code>false</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2018.Check%20if%20Word%20Can%20Be%20Placed%20In%20Crossword/images/crossword-ex1-1.png" style="width: 478px; height: 180px;" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2018.Check%20if%20Word%20Can%20Be%20Placed%20In%20Crossword/images/crossword-1.png" style="width: 170px; height: 150px;" /></p>
+
 <pre>
-<strong>Input:</strong> board = [[&quot;#&quot;, &quot; &quot;, &quot;#&quot;], [&quot; &quot;, &quot; &quot;, &quot;#&quot;], [&quot;#&quot;, &quot;c&quot;, &quot; &quot;]], word = &quot;abc&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The word &quot;abc&quot; can be placed as shown above (top to bottom).
+<b>输入：</b>board = [["#", " ", "#"], [" ", " ", "#"], ["#", "c", " "]], word = "abc"
+<b>输出：</b>true
+<b>解释：</b>单词 "abc" 可以如上图放置（从上往下）。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2018.Check%20if%20Word%20Can%20Be%20Placed%20In%20Crossword/images/crossword-ex2-1.png" style="width: 180px; height: 180px;" />
-<pre>
-<strong>Input:</strong> board = [[&quot; &quot;, &quot;#&quot;, &quot;a&quot;], [&quot; &quot;, &quot;#&quot;, &quot;c&quot;], [&quot; &quot;, &quot;#&quot;, &quot;a&quot;]], word = &quot;ac&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> It is impossible to place the word because there will always be a space/letter above or below it.</pre>
+<p><strong>示例 2：</strong></p>
 
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2018.Check%20if%20Word%20Can%20Be%20Placed%20In%20Crossword/images/crossword-ex3-1.png" style="width: 478px; height: 180px;" />
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2018.Check%20if%20Word%20Can%20Be%20Placed%20In%20Crossword/images/c2.png" style="width: 170px; height: 151px;" /></p>
+
 <pre>
-<strong>Input:</strong> board = [[&quot;#&quot;, &quot; &quot;, &quot;#&quot;], [&quot; &quot;, &quot; &quot;, &quot;#&quot;], [&quot;#&quot;, &quot; &quot;, &quot;c&quot;]], word = &quot;ca&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The word &quot;ca&quot; can be placed as shown above (right to left). 
+<b>输入：</b>board = [[" ", "#", "a"], [" ", "#", "c"], [" ", "#", "a"]], word = "ac"
+<b>输出：</b>false
+<b>解释：</b>无法放置单词，因为放置该单词后上方或者下方相邻格会有空格。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2018.Check%20if%20Word%20Can%20Be%20Placed%20In%20Crossword/images/crossword-2.png" style="width: 171px; height: 146px;" /></p>
+
+<pre>
+<b>输入：</b>board = [["#", " ", "#"], [" ", " ", "#"], ["#", " ", "c"]], word = "ca"
+<b>输出：</b>true
+<b>解释：</b>单词 "ca" 可以如上图放置（从右到左）。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == board.length</code></li>
 	<li><code>n == board[i].length</code></li>
 	<li><code>1 &lt;= m * n &lt;= 2 * 10<sup>5</sup></code></li>
-	<li><code>board[i][j]</code> will be <code>&#39; &#39;</code>, <code>&#39;#&#39;</code>, or a lowercase English letter.</li>
+	<li><code>board[i][j]</code>&nbsp;可能为&nbsp;<code>' '</code>&nbsp;，<code>'#'</code>&nbsp;或者一个小写英文字母。</li>
 	<li><code>1 &lt;= word.length &lt;= max(m, n)</code></li>
-	<li><code>word</code> will contain only lowercase English letters.</li>
+	<li><code>word</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We can enumerate each position $(i, j)$ in the matrix, and judge whether we can place the word `word` from left to right or from right to left, or from top to bottom or from bottom to top, starting from this position.
+我们可以枚举矩阵的每个位置 $(i, j)$，判断是否能以该位置为起点，从左到右或从右到左放置单词 `word`，或者从上到下或从下到上放置单词 `word`。
 
-The following conditions must be met for this position to be used as a starting point:
+该位置能作为起点需要满足以下条件：
 
-1. If the word `word` is to be placed from left to right, then this position must be the left boundary, or the cell `board[i][j - 1]` to the left of this position is `'#'`.
-2. If the word `word` is to be placed from right to left, then this position must be the right boundary, or the cell `board[i][j + 1]` to the right of this position is `'#'`.
-3. If the word `word` is to be placed from top to bottom, then this position must be the upper boundary, or the cell `board[i - 1][j]` above this position is `'#'`.
-4. If the word `word` is to be placed from bottom to top, then this position must be the lower boundary, or the cell `board[i + 1][j]` below this position is `'#'`.
+1. 如果要从从左到右放置单词 `word`，那么该位置必须是左边界，或者该位置左边的格子 `board[i][j - 1]` 是 `'#'`；
+2. 如果要从从右到左放置单词 `word`，那么该位置必须是右边界，或者该位置右边的格子 `board[i][j + 1]` 是 `'#'`；
+3. 如果要从从上到下放置单词 `word`，那么该位置必须是上边界，或者该位置上边的格子 `board[i - 1][j]` 是 `'#'`；
+4. 如果要从从下到上放置单词 `word`，那么该位置必须是下边界，或者该位置下边的格子 `board[i + 1][j]` 是 `'#'`。
 
-Under the above conditions, we can start from this position and judge whether the word `word` can be placed. We design a function $check(i, j, a, b)$, which represents whether it is legal to place the word `word` from the position $(i, j)$ in the direction $(a, b)$. If it is legal, return `true`, otherwise return `false`.
+在满足上述条件的情况下，我们可以从该位置开始，判断是否能放置单词 `word`。我们设计一个函数 $check(i, j, a, b)$，表示从位置 $(i, j)$ 开始，沿着方向 $(a, b)$ 放置单词 `word` 是否合法。如果合法，返回 `true`，否则返回 `false`。
 
-The implementation of the function $check(i, j, a, b)$ is as follows:
+函数 $check(i, j, a, b)$ 的实现如下：
 
-We first get the other boundary position $(x, y)$ in the current direction, i.e., $(x, y) = (i + a \times k, j + b \times k)$, where $k$ is the length of the word `word`. If $(x, y)$ is in the matrix and the cell at $(x, y)$ is not `'#'`, it means that the other boundary position in the current direction is not `'#'`, so the word `word` cannot be placed, and `false` is returned.
+我们先获取当前方向的另一个边界位置 $(x, y)$，即 $(x, y) = (i + a \times k, j + b \times k)$，其中 $k$ 为单词 `word` 的长度。如果 $(x, y)$ 在矩阵内，并且 $(x, y)$ 的格子不是 `'#'`，则说明当前方向的另一个边界位置不是 `'#'`，因此不能放置单词 `word`，返回 `false`。
 
-Otherwise, we start from the position $(i, j)$ and traverse the word `word` in the direction $(a, b)$. If we encounter a cell `board[i][j]` that is not a space or not the current character of the word `word`, it means that the word `word` cannot be placed, and `false` is returned. If the word `word` is traversed, it means that the word `word` can be placed, and `true` is returned.
+否则，我们从位置 $(i, j)$ 开始，沿着方向 $(a, b)$ 遍历单词 `word`，如果遇到格子 `board[i][j]` 不是空格或者不是单词 `word` 的当前字符，说明不能放置单词 `word`，返回 `false`。如果遍历完单词 `word`，说明能放置单词 `word`，返回 `true`。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(1)$. Here, $m$ and $n$ are the number of rows and columns in the matrix, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(1)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
 
 <!-- tabs:start -->
 

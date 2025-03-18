@@ -1,63 +1,79 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1546.Maximum%20Number%20of%20Non-Overlapping%20Subarrays%20With%20Sum%20Equals%20Target/README.md
 rating: 1855
-source: Weekly Contest 201 Q3
+source: 第 201 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Hash Table
-  - Prefix Sum
+    - 贪心
+    - 数组
+    - 哈希表
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1546. Maximum Number of Non-Overlapping Subarrays With Sum Equals Target](https://leetcode.com/problems/maximum-number-of-non-overlapping-subarrays-with-sum-equals-target)
+# [1546. 和为目标值且不重叠的非空子数组的最大数目](https://leetcode.cn/problems/maximum-number-of-non-overlapping-subarrays-with-sum-equals-target)
 
-## Description
+[English Version](/solution/1500-1599/1546.Maximum%20Number%20of%20Non-Overlapping%20Subarrays%20With%20Sum%20Equals%20Target/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array <code>nums</code> and an integer <code>target</code>, return <em>the maximum number of <strong>non-empty</strong> <strong>non-overlapping</strong> subarrays such that the sum of values in each subarray is equal to</em> <code>target</code>.</p>
+<p>给你一个数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>target</code>&nbsp;。</p>
+
+<p>请你返回&nbsp;<strong>非空不重叠</strong>&nbsp;子数组的最大数目，且每个子数组中数字和都为 <code>target</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,1,1,1,1], target = 2
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> There are 2 non-overlapping subarrays [<strong>1,1</strong>,1,<strong>1,1</strong>] with sum equals to target(2).
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [1,1,1,1,1], target = 2
+<strong>输出：</strong>2
+<strong>解释：</strong>总共有 2 个不重叠子数组（加粗数字表示） [<strong>1,1</strong>,1,<strong>1,1</strong>] ，它们的和为目标值 2 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [-1,3,5,1,4,2,-9], target = 6
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> There are 3 subarrays with sum equal to 6.
-([5,1], [4,2], [3,5,1,4,2,-9]) but only the first 2 are non-overlapping.
+<pre><strong>输入：</strong>nums = [-1,3,5,1,4,2,-9], target = 6
+<strong>输出：</strong>2
+<strong>解释：</strong>总共有 3 个子数组和为 6 。
+([5,1], [4,2], [3,5,1,4,2,-9]) 但只有前 2 个是不重叠的。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>nums = [-2,6,6,3,5,4,1,2,8], target = 10
+<strong>输出：</strong>3
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>nums = [0,0,0], target = 0
+<strong>输出：</strong>3
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>0 &lt;= target &lt;= 10<sup>6</sup></code></li>
+	<li><code>1 &lt;= nums.length &lt;=&nbsp;10^5</code></li>
+	<li><code>-10^4 &lt;= nums[i] &lt;=&nbsp;10^4</code></li>
+	<li><code>0 &lt;= target &lt;= 10^6</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Prefix Sum + Hash Table
+### 方法一：贪心 + 前缀和 + 哈希表
 
-We traverse the array $nums$, using the method of prefix sum + hash table, to find subarrays with a sum of $target$. If found, we increment the answer by one, then we set the prefix sum to $0$ and continue to traverse the array $nums$ until the entire array is traversed.
+我们遍历数组 $nums$，利用前缀和 + 哈希表的方法，寻找和为 $target$ 的子数组，若找到，则答案加一，然后我们将前缀和置为 $0$，继续遍历数组 $nums$，直到遍历完整个数组。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -157,22 +173,22 @@ func maxNonOverlapping(nums []int, target int) (ans int) {
 
 ```ts
 function maxNonOverlapping(nums: number[], target: number): number {
-  const n = nums.length;
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    let s = 0;
-    const vis: Set<number> = new Set();
-    vis.add(0);
-    for (; i < n; ++i) {
-      s += nums[i];
-      if (vis.has(s - target)) {
-        ++ans;
-        break;
-      }
-      vis.add(s);
+    const n = nums.length;
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        let s = 0;
+        const vis: Set<number> = new Set();
+        vis.add(0);
+        for (; i < n; ++i) {
+            s += nums[i];
+            if (vis.has(s - target)) {
+                ++ans;
+                break;
+            }
+            vis.add(s);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

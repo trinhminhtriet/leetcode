@@ -1,55 +1,57 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2521.Distinct%20Prime%20Factors%20of%20Product%20of%20Array/README.md
 rating: 1413
-source: Weekly Contest 326 Q2
+source: 第 326 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Math
-  - Number Theory
+    - 数组
+    - 哈希表
+    - 数学
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [2521. Distinct Prime Factors of Product of Array](https://leetcode.com/problems/distinct-prime-factors-of-product-of-array)
+# [2521. 数组乘积中的不同质因数数目](https://leetcode.cn/problems/distinct-prime-factors-of-product-of-array)
 
-## Description
+[English Version](/solution/2500-2599/2521.Distinct%20Prime%20Factors%20of%20Product%20of%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of positive integers <code>nums</code>, return <em>the number of <strong>distinct prime factors</strong> in the product of the elements of</em> <code>nums</code>.</p>
+<p>给你一个正整数数组 <code>nums</code> ，对 <code>nums</code> 所有元素求积之后，找出并返回乘积中 <strong>不同质因数</strong> 的数目。</p>
 
-<p><strong>Note</strong> that:</p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li>A number greater than <code>1</code> is called <strong>prime</strong> if it is divisible by only <code>1</code> and itself.</li>
-	<li>An integer <code>val1</code> is a factor of another integer <code>val2</code> if <code>val2 / val1</code> is an integer.</li>
+	<li><strong>质数</strong> 是指大于 <code>1</code> 且仅能被 <code>1</code> 及自身整除的数字。</li>
+	<li>如果 <code>val2 / val1</code> 是一个整数，则整数 <code>val1</code> 是另一个整数 <code>val2</code> 的一个因数。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [2,4,3,7,10,6]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong>
-The product of all the elements in nums is: 2 * 4 * 3 * 7 * 10 * 6 = 10080 = 2<sup>5</sup> * 3<sup>2</sup> * 5 * 7.
-There are 4 distinct prime factors so we return 4.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [2,4,3,7,10,6]
+<strong>输出：</strong>4
+<strong>解释：</strong>
+nums 中所有元素的乘积是：2 * 4 * 3 * 7 * 10 * 6 = 10080 = 2<sup>5</sup> * 3<sup>2</sup> * 5 * 7 。
+共有 4 个不同的质因数，所以返回 4 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [2,4,8,16]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong>
-The product of all the elements in nums is: 2 * 4 * 8 * 16 = 1024 = 2<sup>10</sup>.
-There is 1 distinct prime factor so we return 1.
-</pre>
+<pre><strong>输入：</strong>nums = [2,4,8,16]
+<strong>输出：</strong>1
+<strong>解释：</strong>
+nums 中所有元素的乘积是：2 * 4 * 8 * 16 = 1024 = 2<sup>10</sup> 。
+共有 1 个不同的质因数，所以返回 1 。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
@@ -58,15 +60,15 @@ There is 1 distinct prime factor so we return 1.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Prime Factorization
+### 方法一：哈希表 + 质因数分解
 
-For each element in the array, first perform prime factorization on it, and then add the decomposed prime factors to the hash table. Finally, return the size of the hash table.
+对于数组中的每个元素，先对其进行质因数分解，然后将分解出的质因数加入哈希表中。最后返回哈希表的大小即可。
 
-The time complexity is $O(n \times \sqrt{m})$, and the space complexity is $O(\frac{m}{\log m})$. Where $n$ and $m$ are the length of the array and the maximum value in the array, respectively.
+时间复杂度 $O(n \times \sqrt{m})$，空间复杂度 $O(\frac{m}{\log m})$，其中 $n$ 和 $m$ 分别为数组的长度和数组中元素的最大值。
 
 <!-- tabs:start -->
 
@@ -164,23 +166,23 @@ func distinctPrimeFactors(nums []int) int {
 
 ```ts
 function distinctPrimeFactors(nums: number[]): number {
-  const s: Set<number> = new Set();
-  for (let n of nums) {
-    let i = 2;
-    while (i <= n / i) {
-      if (n % i === 0) {
-        s.add(i);
-        while (n % i === 0) {
-          n = Math.floor(n / i);
+    const s: Set<number> = new Set();
+    for (let n of nums) {
+        let i = 2;
+        while (i <= n / i) {
+            if (n % i === 0) {
+                s.add(i);
+                while (n % i === 0) {
+                    n = Math.floor(n / i);
+                }
+            }
+            ++i;
         }
-      }
-      ++i;
+        if (n > 1) {
+            s.add(n);
+        }
     }
-    if (n > 1) {
-      s.add(n);
-    }
-  }
-  return s.size;
+    return s.size;
 }
 ```
 

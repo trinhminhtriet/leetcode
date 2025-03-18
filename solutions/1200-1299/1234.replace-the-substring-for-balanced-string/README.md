@@ -1,79 +1,98 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1234.Replace%20the%20Substring%20for%20Balanced%20String/README.md
 rating: 1877
-source: Weekly Contest 159 Q3
+source: 第 159 场周赛 Q3
 tags:
-  - String
-  - Sliding Window
+    - 字符串
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1234. Replace the Substring for Balanced String](https://leetcode.com/problems/replace-the-substring-for-balanced-string)
+# [1234. 替换子串得到平衡字符串](https://leetcode.cn/problems/replace-the-substring-for-balanced-string)
 
-## Description
+[English Version](/solution/1200-1299/1234.Replace%20the%20Substring%20for%20Balanced%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string s of length <code>n</code> containing only four kinds of characters: <code>&#39;Q&#39;</code>, <code>&#39;W&#39;</code>, <code>&#39;E&#39;</code>, and <code>&#39;R&#39;</code>.</p>
+<p>有一个只含有&nbsp;<code>'Q', 'W', 'E',&nbsp;'R'</code>&nbsp;四种字符，且长度为 <code>n</code>&nbsp;的字符串。</p>
 
-<p>A string is said to be <strong>balanced</strong><em> </em>if each of its characters appears <code>n / 4</code> times where <code>n</code> is the length of the string.</p>
-
-<p>Return <em>the minimum length of the substring that can be replaced with <strong>any</strong> other string of the same length to make </em><code>s</code><em> <strong>balanced</strong></em>. If s is already <strong>balanced</strong>, return <code>0</code>.</p>
+<p>假如在该字符串中，这四个字符都恰好出现&nbsp;<code>n/4</code>&nbsp;次，那么它就是一个「平衡字符串」。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p>给你一个这样的字符串 <code>s</code>，请通过「替换一个子串」的方式，使原字符串 <code>s</code> 变成一个「平衡字符串」。</p>
+
+<p>你可以用和「待替换子串」长度相同的&nbsp;<strong>任何</strong> 其他字符串来完成替换。</p>
+
+<p>请返回待替换子串的最小可能长度。</p>
+
+<p>如果原字符串自身就是一个平衡字符串，则返回 <code>0</code>。</p>
+
+<p>&nbsp;</p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;QWER&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> s is already balanced.
+<strong>输入：</strong>s = "QWER"
+<strong>输出：</strong>0
+<strong>解释：</strong>s 已经是平衡的了。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "QQWE"
+<strong>输出：</strong>1
+<strong>解释：</strong>我们需要把一个 'Q' 替换成 'R'，这样得到的 "RQWE" (或 "QRWE") 是平衡的。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;QQWE&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> We need to replace a &#39;Q&#39; to &#39;R&#39;, so that &quot;RQWE&quot; (or &quot;QRWE&quot;) is balanced.
+<strong>输入：</strong>s = "QQQW"
+<strong>输出：</strong>2
+<strong>解释：</strong>我们可以把前面的 "QQ" 替换成 "ER"。 
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 4：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;QQQW&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We can replace the first &quot;QQ&quot; to &quot;ER&quot;. 
+<strong>输入：</strong>s = "QQQQ"
+<strong>输出：</strong>3
+<strong>解释：</strong>我们可以替换后 3 个 'Q'，使 s = "QWER"。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>n == s.length</code></li>
-	<li><code>4 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>n</code> is a multiple of <code>4</code>.</li>
-	<li><code>s</code> contains only <code>&#39;Q&#39;</code>, <code>&#39;W&#39;</code>, <code>&#39;E&#39;</code>, and <code>&#39;R&#39;</code>.</li>
+	<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
+	<li><code>s.length</code>&nbsp;是&nbsp;<code>4</code>&nbsp;的倍数</li>
+	<li><code>s</code>&nbsp;中只含有&nbsp;<code>'Q'</code>, <code>'W'</code>, <code>'E'</code>,&nbsp;<code>'R'</code>&nbsp;四种字符</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting + Two Pointers
+### 方法一：计数 + 双指针
 
-First, we use a hash table or array `cnt` to count the number of each character in string $s$. If the count of all characters does not exceed $n/4$, then the string $s$ is balanced, and we directly return $0$.
+我们先用一个哈希表或数组 `cnt` 统计字符串 $s$ 中每个字符的数量，如果所有字符的数量都不超过 $n/4$，那么字符串 $s$ 就是平衡字符串，直接返回 $0$。
 
-Otherwise, we use two pointers $j$ and $i$ to maintain the left and right boundaries of the window, initially $j = 0$.
+否则，我们使用双指针 $j$ 和 $i$ 分别维护窗口的左右边界，初始时 $j = 0$。
 
-Next, we traverse the string $s$ from left to right. Each time we encounter a character, we decrease its count by $1$, then we check whether the current window meets the condition, that is, the count of characters outside the window does not exceed $n/4$. If the condition is met, we update the answer, then move the left boundary of the window to the right until the condition is not met.
+接下来，从左到右遍历字符串 $s$，每次遍历到一个字符，就将该字符的数量减 $1$，然后判断当前窗口是否满足条件，即窗口外的字符数量都不超过 $n/4$。如果满足条件，那么就更新答案，然后将窗口的左边界右移，直到不满足条件为止。
 
-Finally, we return the answer.
+最后，返回答案即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(C)$. Where $n$ is the length of the string $s$; and $C$ is the size of the character set, in this problem $C = 4$.
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 是字符串 $s$ 的长度；而 $C$ 是字符集的大小，本题中 $C = 4$。
 
 <!-- tabs:start -->
 

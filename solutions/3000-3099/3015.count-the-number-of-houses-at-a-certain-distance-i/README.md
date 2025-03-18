@@ -1,73 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3015.Count%20the%20Number%20of%20Houses%20at%20a%20Certain%20Distance%20I/README.md
 rating: 1657
-source: Weekly Contest 381 Q2
+source: 第 381 场周赛 Q2
 tags:
-  - Breadth-First Search
-  - Graph
-  - Prefix Sum
+    - 广度优先搜索
+    - 图
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [3015. Count the Number of Houses at a Certain Distance I](https://leetcode.com/problems/count-the-number-of-houses-at-a-certain-distance-i)
+# [3015. 按距离统计房屋对数目 I](https://leetcode.cn/problems/count-the-number-of-houses-at-a-certain-distance-i)
 
-## Description
+[English Version](/solution/3000-3099/3015.Count%20the%20Number%20of%20Houses%20at%20a%20Certain%20Distance%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given three <strong>positive</strong> integers <code>n</code>, <code>x</code>, and <code>y</code>.</p>
+<p>给你三个<strong> 正整数 </strong><code>n</code> 、<code>x</code> 和 <code>y</code> 。</p>
 
-<p>In a city, there exist houses numbered <code>1</code> to <code>n</code> connected by <code>n</code> streets. There is a street connecting the house numbered <code>i</code> with the house numbered <code>i + 1</code> for all <code>1 &lt;= i &lt;= n - 1</code> . An additional street connects the house numbered <code>x</code> with the house numbered <code>y</code>.</p>
+<p>在城市中，存在编号从 <code>1</code> 到 <code>n</code> 的房屋，由 <code>n</code> 条街道相连。对所有 <code>1 &lt;= i &lt; n</code> ，都存在一条街道连接编号为 <code>i</code> 的房屋与编号为 <code>i + 1</code> 的房屋。另存在一条街道连接编号为 <code>x</code> 的房屋与编号为 <code>y</code> 的房屋。</p>
 
-<p>For each <code>k</code>, such that <code>1 &lt;= k &lt;= n</code>, you need to find the number of <strong>pairs of houses</strong> <code>(house<sub>1</sub>, house<sub>2</sub>)</code> such that the <strong>minimum</strong> number of streets that need to be traveled to reach <code>house<sub>2</sub></code> from <code>house<sub>1</sub></code> is <code>k</code>.</p>
+<p>对于每个 <code>k</code>（<code>1 &lt;= k &lt;= n</code>），你需要找出所有满足要求的 <strong>房屋对 </strong><code>[house<sub>1</sub>, house<sub>2</sub>]</code> ，即从 <code>house<sub>1</sub></code> 到 <code>house<sub>2</sub></code> 需要经过的<strong> 最少</strong> 街道数为 <code>k</code> 。</p>
 
-<p>Return <em>a <strong>1-indexed</strong> array </em><code>result</code><em> of length </em><code>n</code><em> where </em><code>result[k]</code><em> represents the <strong>total</strong> number of pairs of houses such that the <strong>minimum</strong> streets required to reach one house from the other is </em><code>k</code>.</p>
+<p>返回一个下标从 <strong>1</strong> 开始且长度为 <code>n</code> 的数组 <code>result</code> ，其中 <code>result[k]</code> 表示所有满足要求的房屋对的数量，即从一个房屋到另一个房屋需要经过的<strong> 最少 </strong>街道数为 <code>k</code> 。</p>
 
-<p><strong>Note</strong> that <code>x</code> and <code>y</code> can be <strong>equal</strong>.</p>
+<p><strong>注意</strong>，<code>x</code> 与 <code>y</code> 可以 <strong>相等 </strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3015.Count%20the%20Number%20of%20Houses%20at%20a%20Certain%20Distance%20I/images/example2.png" style="width: 474px; height: 197px;" />
 <pre>
-<strong>Input:</strong> n = 3, x = 1, y = 3
-<strong>Output:</strong> [6,0,0]
-<strong>Explanation:</strong> Let&#39;s look at each pair of houses:
-- For the pair (1, 2), we can go from house 1 to house 2 directly.
-- For the pair (2, 1), we can go from house 2 to house 1 directly.
-- For the pair (1, 3), we can go from house 1 to house 3 directly.
-- For the pair (3, 1), we can go from house 3 to house 1 directly.
-- For the pair (2, 3), we can go from house 2 to house 3 directly.
-- For the pair (3, 2), we can go from house 3 to house 2 directly.
+<strong>输入：</strong>n = 3, x = 1, y = 3
+<strong>输出：</strong>[6,0,0]
+<strong>解释：</strong>让我们检视每个房屋对
+- 对于房屋对 (1, 2)，可以直接从房屋 1 到房屋 2。
+- 对于房屋对 (2, 1)，可以直接从房屋 2 到房屋 1。
+- 对于房屋对 (1, 3)，可以直接从房屋 1 到房屋 3。
+- 对于房屋对 (3, 1)，可以直接从房屋 3 到房屋 1。
+- 对于房屋对 (2, 3)，可以直接从房屋 2 到房屋 3。
+- 对于房屋对 (3, 2)，可以直接从房屋 3 到房屋 2。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3015.Count%20the%20Number%20of%20Houses%20at%20a%20Certain%20Distance%20I/images/example3.png" style="width: 668px; height: 174px;" />
 <pre>
-<strong>Input:</strong> n = 5, x = 2, y = 4
-<strong>Output:</strong> [10,8,2,0,0]
-<strong>Explanation:</strong> For each distance k the pairs are:
-- For k == 1, the pairs are (1, 2), (2, 1), (2, 3), (3, 2), (2, 4), (4, 2), (3, 4), (4, 3), (4, 5), and (5, 4).
-- For k == 2, the pairs are (1, 3), (3, 1), (1, 4), (4, 1), (2, 5), (5, 2), (3, 5), and (5, 3).
-- For k == 3, the pairs are (1, 5), and (5, 1).
-- For k == 4 and k == 5, there are no pairs.
+<strong>输入：</strong>n = 5, x = 2, y = 4
+<strong>输出：</strong>[10,8,2,0,0]
+<strong>解释：</strong>对于每个距离 k ，满足要求的房屋对如下：
+- 对于 k == 1，满足要求的房屋对有 (1, 2), (2, 1), (2, 3), (3, 2), (2, 4), (4, 2), (3, 4), (4, 3), (4, 5), 以及 (5, 4)。
+- 对于 k == 2，满足要求的房屋对有 (1, 3), (3, 1), (1, 4), (4, 1), (2, 5), (5, 2), (3, 5), 以及 (5, 3)。
+- 对于 k == 3，满足要求的房屋对有 (1, 5)，以及 (5, 1) 。
+- 对于 k == 4 和 k == 5，不存在满足要求的房屋对。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3015.Count%20the%20Number%20of%20Houses%20at%20a%20Certain%20Distance%20I/images/example5.png" style="width: 544px; height: 130px;" />
 <pre>
-<strong>Input:</strong> n = 4, x = 1, y = 1
-<strong>Output:</strong> [6,4,2,0]
-<strong>Explanation:</strong> For each distance k the pairs are:
-- For k == 1, the pairs are (1, 2), (2, 1), (2, 3), (3, 2), (3, 4), and (4, 3).
-- For k == 2, the pairs are (1, 3), (3, 1), (2, 4), and (4, 2).
-- For k == 3, the pairs are (1, 4), and (4, 1).
-- For k == 4, there are no pairs.
+<strong>输入：</strong>n = 4, x = 1, y = 1
+<strong>输出：</strong>[6,4,2,0]
+<strong>解释：</strong>对于每个距离 k ，满足要求的房屋对如下：
+- 对于 k == 1，满足要求的房屋对有 (1, 2), (2, 1), (2, 3), (3, 2), (3, 4), 以及 (4, 3)。
+- 对于 k == 2，满足要求的房屋对有 (1, 3), (3, 1), (2, 4), 以及 (4, 2)。
+- 对于 k == 3，满足要求的房屋对有 (1, 4), 以及 (4, 1)。
+- 对于 k == 4，不存在满足要求的房屋对。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 100</code></li>
@@ -76,15 +81,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We can enumerate each pair of points $(i, j)$. The shortest distance from $i$ to $j$ is $min(|i - j|, |i - x| + 1 + |j - y|, |i - y| + 1 + |j - x|)$. We add $2$ to the count of this distance because both $(i, j)$ and $(j, i)$ are valid pairs of points.
+我们可以枚举每个点对 $(i, j)$，那么从 $i$ 到 $j$ 的最短距离为 $min(|i - j|, |i - x| + 1 + |j - y|, |i - y| + 1 + |j - x|)$，我们将该距离的出现次数加 $2$，因为 $(i, j)$ 和 $(j, i)$ 都是满足要求的点对。
 
-The time complexity is $O(n^2)$, where $n$ is the $n$ given in the problem. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
+时间复杂度 $O(n^2)$，其中 $n$ 是题目给定的 $n$。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -176,18 +181,18 @@ func abs(x int) int {
 
 ```ts
 function countOfPairs(n: number, x: number, y: number): number[] {
-  const ans: number[] = Array(n).fill(0);
-  x--;
-  y--;
-  for (let i = 0; i < n; ++i) {
-    for (let j = i + 1; j < n; ++j) {
-      const a = j - i;
-      const b = Math.abs(x - i) + Math.abs(y - j) + 1;
-      const c = Math.abs(y - i) + Math.abs(x - j) + 1;
-      ans[Math.min(a, b, c) - 1] += 2;
+    const ans: number[] = Array(n).fill(0);
+    x--;
+    y--;
+    for (let i = 0; i < n; ++i) {
+        for (let j = i + 1; j < n; ++j) {
+            const a = j - i;
+            const b = Math.abs(x - i) + Math.abs(y - j) + 1;
+            const c = Math.abs(y - i) + Math.abs(x - j) + 1;
+            ans[Math.min(a, b, c) - 1] += 2;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

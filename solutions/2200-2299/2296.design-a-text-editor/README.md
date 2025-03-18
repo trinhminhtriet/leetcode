@@ -1,107 +1,113 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2296.Design%20a%20Text%20Editor/README.md
 rating: 1911
-source: Weekly Contest 296 Q4
+source: 第 296 场周赛 Q4
 tags:
-  - Stack
-  - Design
-  - Linked List
-  - String
-  - Doubly-Linked List
-  - Simulation
+    - 栈
+    - 设计
+    - 链表
+    - 字符串
+    - 双向链表
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2296. Design a Text Editor](https://leetcode.com/problems/design-a-text-editor)
+# [2296. 设计一个文本编辑器](https://leetcode.cn/problems/design-a-text-editor)
 
-## Description
+[English Version](/solution/2200-2299/2296.Design%20a%20Text%20Editor/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Design a text editor with a cursor that can do the following:</p>
+<p>请你设计一个带光标的文本编辑器，它可以实现以下功能：</p>
 
 <ul>
-	<li><strong>Add</strong> text to where the cursor is.</li>
-	<li><strong>Delete</strong> text from where the cursor is (simulating the backspace key).</li>
-	<li><strong>Move</strong> the cursor either left or right.</li>
+	<li><strong>添加：</strong>在光标所在处添加文本。</li>
+	<li><strong>删除：</strong>在光标所在处删除文本（模拟键盘的删除键）。</li>
+	<li><strong>移动：</strong>将光标往左或者往右移动。</li>
 </ul>
 
-<p>When deleting text, only characters to the left of the cursor will be deleted. The cursor will also remain within the actual text and cannot be moved beyond it. More formally, we have that <code>0 &lt;= cursor.position &lt;= currentText.length</code> always holds.</p>
+<p>当删除文本时，只有光标左边的字符会被删除。光标会留在文本内，也就是说任意时候&nbsp;<code>0 &lt;= cursor.position &lt;= currentText.length</code>&nbsp;都成立。</p>
 
-<p>Implement the <code>TextEditor</code> class:</p>
+<p>请你实现&nbsp;<code>TextEditor</code>&nbsp;类：</p>
 
 <ul>
-	<li><code>TextEditor()</code> Initializes the object with empty text.</li>
-	<li><code>void addText(string text)</code> Appends <code>text</code> to where the cursor is. The cursor ends to the right of <code>text</code>.</li>
-	<li><code>int deleteText(int k)</code> Deletes <code>k</code> characters to the left of the cursor. Returns the number of characters actually deleted.</li>
-	<li><code>string cursorLeft(int k)</code> Moves the cursor to the left <code>k</code> times. Returns the last <code>min(10, len)</code> characters to the left of the cursor, where <code>len</code> is the number of characters to the left of the cursor.</li>
-	<li><code>string cursorRight(int k)</code> Moves the cursor to the right <code>k</code> times. Returns the last <code>min(10, len)</code> characters to the left of the cursor, where <code>len</code> is the number of characters to the left of the cursor.</li>
+	<li><code>TextEditor()</code>&nbsp;用空文本初始化对象。</li>
+	<li><code>void addText(string text)</code>&nbsp;将&nbsp;<code>text</code>&nbsp;添加到光标所在位置。添加完后光标在&nbsp;<code>text</code>&nbsp;的右边。</li>
+	<li><code>int deleteText(int k)</code>&nbsp;删除光标左边&nbsp;<code>k</code>&nbsp;个字符。返回实际删除的字符数目。</li>
+	<li><code>string cursorLeft(int k)</code> 将光标向左移动&nbsp;<code>k</code>&nbsp;次。返回移动后光标左边&nbsp;<code>min(10, len)</code>&nbsp;个字符，其中&nbsp;<code>len</code>&nbsp;是光标左边的字符数目。</li>
+	<li><code>string cursorRight(int k)</code>&nbsp;将光标向右移动&nbsp;<code>k</code>&nbsp;次。返回移动后光标左边&nbsp;<code>min(10, len)</code>&nbsp;个字符，其中&nbsp;<code>len</code>&nbsp;是光标左边的字符数目。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;TextEditor&quot;, &quot;addText&quot;, &quot;deleteText&quot;, &quot;addText&quot;, &quot;cursorRight&quot;, &quot;cursorLeft&quot;, &quot;deleteText&quot;, &quot;cursorLeft&quot;, &quot;cursorRight&quot;]
-[[], [&quot;leetcode&quot;], [4], [&quot;practice&quot;], [3], [8], [10], [2], [6]]
-<strong>Output</strong>
-[null, null, 4, null, &quot;etpractice&quot;, &quot;leet&quot;, 4, &quot;&quot;, &quot;practi&quot;]
+<strong>输入：</strong>
+["TextEditor", "addText", "deleteText", "addText", "cursorRight", "cursorLeft", "deleteText", "cursorLeft", "cursorRight"]
+[[], ["leetcode"], [4], ["practice"], [3], [8], [10], [2], [6]]
+<strong>输出：</strong>
+[null, null, 4, null, "etpractice", "leet", 4, "", "practi"]
 
-<strong>Explanation</strong>
-TextEditor textEditor = new TextEditor(); // The current text is &quot;|&quot;. (The &#39;|&#39; character represents the cursor)
-textEditor.addText(&quot;leetcode&quot;); // The current text is &quot;leetcode|&quot;.
-textEditor.deleteText(4); // return 4
-                          // The current text is &quot;leet|&quot;. 
-                          // 4 characters were deleted.
-textEditor.addText(&quot;practice&quot;); // The current text is &quot;leetpractice|&quot;. 
-textEditor.cursorRight(3); // return &quot;etpractice&quot;
-                           // The current text is &quot;leetpractice|&quot;. 
-                           // The cursor cannot be moved beyond the actual text and thus did not move.
-                           // &quot;etpractice&quot; is the last 10 characters to the left of the cursor.
-textEditor.cursorLeft(8); // return &quot;leet&quot;
-                          // The current text is &quot;leet|practice&quot;.
-                          // &quot;leet&quot; is the last min(10, 4) = 4 characters to the left of the cursor.
-textEditor.deleteText(10); // return 4
-                           // The current text is &quot;|practice&quot;.
-                           // Only 4 characters were deleted.
-textEditor.cursorLeft(2); // return &quot;&quot;
-                          // The current text is &quot;|practice&quot;.
-                          // The cursor cannot be moved beyond the actual text and thus did not move. 
-                          // &quot;&quot; is the last min(10, 0) = 0 characters to the left of the cursor.
-textEditor.cursorRight(6); // return &quot;practi&quot;
-                           // The current text is &quot;practi|ce&quot;.
-                           // &quot;practi&quot; is the last min(10, 6) = 6 characters to the left of the cursor.
+<strong>解释：</strong>
+TextEditor textEditor = new TextEditor(); // 当前 text 为 "|" 。（'|' 字符表示光标）
+textEditor.addText("leetcode"); // 当前文本为 "leetcode|" 。
+textEditor.deleteText(4); // 返回 4
+                          // 当前文本为 "leet|" 。
+                          // 删除了 4 个字符。
+textEditor.addText("practice"); // 当前文本为 "leetpractice|" 。
+textEditor.cursorRight(3); // 返回 "etpractice"
+                           // 当前文本为 "leetpractice|". 
+                           // 光标无法移动到文本以外，所以无法移动。
+                           // "etpractice" 是光标左边的 10 个字符。
+textEditor.cursorLeft(8); // 返回 "leet"
+                          // 当前文本为 "leet|practice" 。
+                          // "leet" 是光标左边的 min(10, 4) = 4 个字符。
+textEditor.deleteText(10); // 返回 4
+                           // 当前文本为 "|practice" 。
+                           // 只有 4 个字符被删除了。
+textEditor.cursorLeft(2); // 返回 ""
+                          // 当前文本为 "|practice" 。
+                          // 光标无法移动到文本以外，所以无法移动。
+                          // "" 是光标左边的 min(10, 0) = 0 个字符。
+textEditor.cursorRight(6); // 返回 "practi"
+                           // 当前文本为 "practi|ce" 。
+                           // "practi" 是光标左边的 min(10, 6) = 6 个字符。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= text.length, k &lt;= 40</code></li>
-	<li><code>text</code> consists of lowercase English letters.</li>
-	<li>At most <code>2 * 10<sup>4</sup></code> calls <strong>in total</strong> will be made to <code>addText</code>, <code>deleteText</code>, <code>cursorLeft</code> and <code>cursorRight</code>.</li>
+	<li><code>text</code>&nbsp;只含有小写英文字母。</li>
+	<li>调用 <code>addText</code>&nbsp;，<code>deleteText</code>&nbsp;，<code>cursorLeft</code> 和&nbsp;<code>cursorRight</code>&nbsp;的 <strong>总</strong> 次数不超过&nbsp;<code>2 * 10<sup>4</sup></code>&nbsp;次。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Follow-up:</strong> Could you find a solution with time complexity of <code>O(k)</code> per call?</p>
+
+<p><strong>进阶：</strong>你能设计并实现一个每次调用时间复杂度为 <code>O(k)</code> 的解决方案吗？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Left and Right Stacks
+### 方法一：左右栈
 
-We can use two stacks, `left` and `right`, where the `left` stack stores the characters to the left of the cursor, and the `right` stack stores the characters to the right of the cursor.
+我们可以使用两个栈 $\textit{left}$ 和 $\textit{right}$，其中栈 $\textit{left}$ 存储光标左边的字符，另一个栈 $\textit{right}$ 存储光标右边的字符。
 
-- When the `addText` method is called, we push the characters from `text` onto the `left` stack one by one. The time complexity is $O(|\textit{text}|)$.
-- When the `deleteText` method is called, we pop characters from the `left` stack up to $k$ times. The time complexity is $O(k)$.
-- When the `cursorLeft` method is called, we pop characters from the `left` stack up to $k$ times, then push the popped characters onto the `right` stack, and finally return up to $10$ characters from the `left` stack. The time complexity is $O(k)$.
-- When the `cursorRight` method is called, we pop characters from the `right` stack up to $k$ times, then push the popped characters onto the `left` stack, and finally return up to $10$ characters from the `left` stack. The time complexity is $O(k)$.
+-   当调用 $\text{addText}$ 方法时，我们将 $\text{text}$ 中的字符依次入栈 $\text{left}$。时间复杂度 $O(|\text{text}|)$。
+-   当调用 $\text{deleteText}$ 方法时，我们将 $\text{left}$ 中的字符出栈最多 $k$ 次。时间复杂度 $O(k)$。
+-   当调用 $\text{cursorLeft}$ 方法时，我们将 $\text{left}$ 中的字符出栈最多 $k$ 次，然后将出栈的字符依次入栈 $\text{right}$，最后返回 $\text{left}$ 栈最多 $10$ 个字符。时间复杂度 $O(k)$。
+-   当调用 $\text{cursorRight}$ 方法时，我们将 $\text{right}$ 中的字符出栈最多 $k$ 次，然后将出栈的字符依次入栈 $\text{left}$，最后返回 $\text{left}$ 栈最多 $10$ 个字符。时间复杂度 $O(k)$。
 
 <!-- tabs:start -->
 
@@ -299,41 +305,41 @@ func (this *TextEditor) CursorRight(k int) string {
 
 ```ts
 class TextEditor {
-  private left: string[];
-  private right: string[];
+    private left: string[];
+    private right: string[];
 
-  constructor() {
-    this.left = [];
-    this.right = [];
-  }
-
-  addText(text: string): void {
-    this.left.push(...text);
-  }
-
-  deleteText(k: number): number {
-    k = Math.min(k, this.left.length);
-    for (let i = 0; i < k; i++) {
-      this.left.pop();
+    constructor() {
+        this.left = [];
+        this.right = [];
     }
-    return k;
-  }
 
-  cursorLeft(k: number): string {
-    k = Math.min(k, this.left.length);
-    for (let i = 0; i < k; i++) {
-      this.right.push(this.left.pop()!);
+    addText(text: string): void {
+        this.left.push(...text);
     }
-    return this.left.slice(-10).join("");
-  }
 
-  cursorRight(k: number): string {
-    k = Math.min(k, this.right.length);
-    for (let i = 0; i < k; i++) {
-      this.left.push(this.right.pop()!);
+    deleteText(k: number): number {
+        k = Math.min(k, this.left.length);
+        for (let i = 0; i < k; i++) {
+            this.left.pop();
+        }
+        return k;
     }
-    return this.left.slice(-10).join("");
-  }
+
+    cursorLeft(k: number): string {
+        k = Math.min(k, this.left.length);
+        for (let i = 0; i < k; i++) {
+            this.right.push(this.left.pop()!);
+        }
+        return this.left.slice(-10).join('');
+    }
+
+    cursorRight(k: number): string {
+        k = Math.min(k, this.right.length);
+        for (let i = 0; i < k; i++) {
+            this.left.push(this.right.pop()!);
+        }
+        return this.left.slice(-10).join('');
+    }
 }
 
 /**
@@ -344,6 +350,59 @@ class TextEditor {
  * var param_3 = obj.cursorLeft(k)
  * var param_4 = obj.cursorRight(k)
  */
+```
+
+#### Rust
+
+```rust
+struct TextEditor {
+    left: String,
+    right: String,
+}
+
+impl TextEditor {
+    fn new() -> Self {
+        TextEditor {
+            left: String::new(),
+            right: String::new(),
+        }
+    }
+
+    fn add_text(&mut self, text: String) {
+        self.left.push_str(&text);
+    }
+
+    fn delete_text(&mut self, k: i32) -> i32 {
+        let k = k.min(self.left.len() as i32) as usize;
+        self.left.truncate(self.left.len() - k);
+        k as i32
+    }
+
+    fn cursor_left(&mut self, k: i32) -> String {
+        let k = k.min(self.left.len() as i32) as usize;
+        for _ in 0..k {
+            if let Some(c) = self.left.pop() {
+                self.right.push(c);
+            }
+        }
+        self.get_last_10_chars()
+    }
+
+    fn cursor_right(&mut self, k: i32) -> String {
+        let k = k.min(self.right.len() as i32) as usize;
+        for _ in 0..k {
+            if let Some(c) = self.right.pop() {
+                self.left.push(c);
+            }
+        }
+        self.get_last_10_chars()
+    }
+
+    fn get_last_10_chars(&self) -> String {
+        let len = self.left.len();
+        self.left[len.saturating_sub(10)..].to_string()
+    }
+}
 ```
 
 <!-- tabs:end -->

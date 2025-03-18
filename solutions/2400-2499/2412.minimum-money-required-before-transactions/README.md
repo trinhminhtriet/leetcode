@@ -1,52 +1,57 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2412.Minimum%20Money%20Required%20Before%20Transactions/README.md
 rating: 2092
-source: Biweekly Contest 87 Q4
+source: 第 87 场双周赛 Q4
 tags:
-  - Greedy
-  - Array
-  - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2412. Minimum Money Required Before Transactions](https://leetcode.com/problems/minimum-money-required-before-transactions)
+# [2412. 完成所有交易的初始最少钱数](https://leetcode.cn/problems/minimum-money-required-before-transactions)
 
-## Description
+[English Version](/solution/2400-2499/2412.Minimum%20Money%20Required%20Before%20Transactions/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> 2D integer array <code><font face="monospace">transactions</font></code>, where <code>transactions[i] = [cost<sub>i</sub>, cashback<sub>i</sub>]</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code><font face="monospace">transactions</font></code>，其中<code>transactions[i] = [cost<sub>i</sub>, cashback<sub>i</sub>]</code>&nbsp;。</p>
 
-<p>The array describes transactions, where each transaction must be completed exactly once in <strong>some order</strong>. At any given moment, you have a certain amount of <code>money</code>. In order to complete transaction <code>i</code>, <code>money &gt;= cost<sub>i</sub></code> must hold true. After performing a transaction, <code>money</code> becomes <code>money - cost<sub>i</sub> + cashback<sub>i</sub></code>.</p>
+<p>数组描述了若干笔交易。其中每笔交易必须以 <strong>某种顺序</strong> 恰好完成一次。在任意一个时刻，你有一定数目的钱&nbsp;<code>money</code>&nbsp;，为了完成交易&nbsp;<code>i</code>&nbsp;，<code>money &gt;= cost<sub>i</sub></code>&nbsp;这个条件必须为真。执行交易后，你的钱数&nbsp;<code>money</code> 变成&nbsp;<code>money - cost<sub>i</sub> + cashback<sub>i</sub></code><sub>&nbsp;</sub>。</p>
 
-<p>Return<em> the minimum amount of </em><code>money</code><em> required before any transaction so that all of the transactions can be completed <strong>regardless of the order</strong> of the transactions.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> transactions = [[2,1],[5,0],[4,2]]
-<strong>Output:</strong> 10
-<strong>Explanation:
-</strong>Starting with money = 10, the transactions can be performed in any order.
-It can be shown that starting with money &lt; 10 will fail to complete all transactions in some order.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> transactions = [[3,0],[0,3]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-- If transactions are in the order [[3,0],[0,3]], the minimum money required to complete the transactions is 3.
-- If transactions are in the order [[0,3],[3,0]], the minimum money required to complete the transactions is 0.
-Thus, starting with money = 3, the transactions can be performed in any order.
-</pre>
+<p>请你返回 <strong>任意一种</strong> 交易顺序下，你都能完成所有交易的最少钱数<em>&nbsp;</em><code>money</code>&nbsp;是多少。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>transactions = [[2,1],[5,0],[4,2]]
+<b>输出：</b>10
+<strong>解释：
+</strong>刚开始 money = 10 ，交易可以以任意顺序进行。
+可以证明如果 money &lt; 10 ，那么某些交易无法进行。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>transactions = [[3,0],[0,3]]
+<b>输出：</b>3
+<strong>解释：</strong>
+- 如果交易执行的顺序是 [[3,0],[0,3]] ，完成所有交易需要的最少钱数是 3 。
+- 如果交易执行的顺序是 [[0,3],[3,0]] ，完成所有交易需要的最少钱数是 0 。
+所以，刚开始钱数为 3 ，任意顺序下交易都可以全部完成。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= transactions.length &lt;= 10<sup>5</sup></code></li>
@@ -56,15 +61,15 @@ Thus, starting with money = 3, the transactions can be performed in any order.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy
+### 方法一：贪心
 
-First, we accumulate all the negative profits, denoted as $s$. Then we enumerate each transaction as the last transaction. If `transactions[i].x > transactions[i].y`, it means the current transaction is losing money, and this transaction has been calculated when we previously accumulated negative profits, so we update the answer with `s + transactions[i].y`; otherwise, we update the answer with `s + transactions[i].x`.
+我们先累计所有负收益，记为 $s$。然后枚举每个交易 $\text{transactions}[i] = [a, b]$ 作为最后一个交易，如果 $a > b$，说明当前的交易是亏钱的，而这个交易在此前我们累计负收益的时候，已经被计算，因此取 $s + b$ 更新答案；否则，取 $s + a$ 更新答案。
 
-The time complexity is $O(n)$, where $n$ is the number of transactions. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为交易数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -144,6 +149,68 @@ func minimumMoney(transactions [][]int) int64 {
 	}
 	return int64(ans)
 }
+```
+
+#### TypeScript
+
+```ts
+function minimumMoney(transactions: number[][]): number {
+    const s = transactions.reduce((acc, [a, b]) => acc + Math.max(0, a - b), 0);
+    let ans = 0;
+    for (const [a, b] of transactions) {
+        if (a > b) {
+            ans = Math.max(ans, s + b);
+        } else {
+            ans = Math.max(ans, s + a);
+        }
+    }
+    return ans;
+}
+```
+
+#### Rust
+
+```rust
+impl Solution {
+    pub fn minimum_money(transactions: Vec<Vec<i32>>) -> i64 {
+        let mut s: i64 = 0;
+        for transaction in &transactions {
+            let (a, b) = (transaction[0], transaction[1]);
+            s += (a - b).max(0) as i64;
+        }
+        let mut ans = 0;
+        for transaction in &transactions {
+            let (a, b) = (transaction[0], transaction[1]);
+            if a > b {
+                ans = ans.max(s + b as i64);
+            } else {
+                ans = ans.max(s + a as i64);
+            }
+        }
+        ans
+    }
+}
+```
+
+#### JavaScript
+
+```js
+/**
+ * @param {number[][]} transactions
+ * @return {number}
+ */
+var minimumMoney = function (transactions) {
+    const s = transactions.reduce((acc, [a, b]) => acc + Math.max(0, a - b), 0);
+    let ans = 0;
+    for (const [a, b] of transactions) {
+        if (a > b) {
+            ans = Math.max(ans, s + b);
+        } else {
+            ans = Math.max(ans, s + a);
+        }
+    }
+    return ans;
+};
 ```
 
 <!-- tabs:end -->

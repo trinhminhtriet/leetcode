@@ -1,55 +1,60 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0315.Count%20of%20Smaller%20Numbers%20After%20Self/README.md
 tags:
-  - Binary Indexed Tree
-  - Segment Tree
-  - Array
-  - Binary Search
-  - Divide and Conquer
-  - Ordered Set
-  - Merge Sort
+    - 树状数组
+    - 线段树
+    - 数组
+    - 二分查找
+    - 分治
+    - 有序集合
+    - 归并排序
 ---
 
 <!-- problem:start -->
 
-# [315. Count of Smaller Numbers After Self](https://leetcode.com/problems/count-of-smaller-numbers-after-self)
+# [315. 计算右侧小于当前元素的个数](https://leetcode.cn/problems/count-of-smaller-numbers-after-self)
 
-## Description
+[English Version](/solution/0300-0399/0315.Count%20of%20Smaller%20Numbers%20After%20Self/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code>, return<em> an integer array </em><code>counts</code><em> where </em><code>counts[i]</code><em> is the number of smaller elements to the right of </em><code>nums[i]</code>.</p>
+<p>给你一个整数数组 <code>nums</code><em> </em>，按要求返回一个新数组&nbsp;<code>counts</code><em> </em>。数组 <code>counts</code> 有该性质： <code>counts[i]</code> 的值是&nbsp; <code>nums[i]</code> 右侧小于&nbsp;<code>nums[i]</code> 的元素的数量。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [5,2,6,1]
-<strong>Output:</strong> [2,1,1,0]
-<strong>Explanation:</strong>
-To the right of 5 there are <b>2</b> smaller elements (2 and 1).
-To the right of 2 there is only <b>1</b> smaller element (1).
-To the right of 6 there is <b>1</b> smaller element (1).
-To the right of 1 there is <b>0</b> smaller element.
+<strong>输入：</strong>nums = [5,2,6,1]
+<strong>输出：</strong><code>[2,1,1,0] 
+<strong>解释：</strong></code>
+5 的右侧有 <strong>2 </strong>个更小的元素 (2 和 1)
+2 的右侧仅有 <strong>1 </strong>个更小的元素 (1)
+6 的右侧有 <strong>1 </strong>个更小的元素 (1)
+1 的右侧有 <strong>0 </strong>个更小的元素
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [-1]
-<strong>Output:</strong> [0]
+<strong>输入：</strong>nums = [-1]
+<strong>输出：</strong>[0]
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [-1,-1]
-<strong>Output:</strong> [0,0]
+<strong>输入：</strong>nums = [-1,-1]
+<strong>输出：</strong>[0,0]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -58,11 +63,24 @@ To the right of 1 there is <b>0</b> smaller element.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：树状数组
+
+树状数组，也称作“二叉索引树”（Binary Indexed Tree）或 Fenwick 树。 它可以高效地实现如下两个操作：
+
+1. **单点更新** `update(x, delta)`： 把序列 x 位置的数加上一个值 delta；
+1. **前缀和查询** `query(x)`：查询序列 `[1,...x]` 区间的区间和，即位置 x 的前缀和。
+
+这两个操作的时间复杂度均为 $O(\log n)$。
+
+树状数组最基本的功能就是求比某点 x 小的点的个数（这里的比较是抽象的概念，可以是数的大小、坐标的大小、质量的大小等等）。
+
+比如给定数组 `a[5] = {2, 5, 3, 4, 1}`，求 `b[i] = 位置 i 左边小于等于 a[i] 的数的个数`。对于此例，`b[5] = {0, 1, 1, 2, 0}`。
+
+解决方案是直接遍历数组，每个位置先求出 `query(a[i])`，然后再修改树状数组 `update(a[i], 1)` 即可。当数的范围比较大时，需要进行离散化，即先进行去重并排序，然后对每个数字进行编号。
 
 <!-- tabs:start -->
 
@@ -280,7 +298,14 @@ func countSmaller(nums []int) []int {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：线段树
+
+线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 `log(width)`。更新某个元素的值，只需要更新 `log(width)` 个区间，并且这些区间都包含在一个包含该元素的大区间内。
+
+-   线段树的每个节点代表一个区间；
+-   线段树具有唯一的根节点，代表的区间是整个统计范围，如 `[1, N]`；
+-   线段树的每个叶子节点代表一个长度为 1 的元区间 `[x, x]`；
+-   对于每个内部节点 `[l, r]`，它的左儿子是 `[l, mid]`，右儿子是 `[mid + 1, r]`, 其中 `mid = ⌊(l + r) / 2⌋` (即向下取整)。
 
 <!-- tabs:start -->
 
@@ -576,6 +601,12 @@ func merge(arr []Pair, low, mid, high int) {
 ```
 
 <!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- solution:start -->
+
+### 方法三：归并排序
 
 <!-- solution:end -->
 

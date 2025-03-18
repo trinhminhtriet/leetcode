@@ -1,55 +1,60 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3211.Generate%20Binary%20Strings%20Without%20Adjacent%20Zeros/README.md
 rating: 1352
-source: Weekly Contest 405 Q2
+source: 第 405 场周赛 Q2
 tags:
-  - Bit Manipulation
-  - String
-  - Backtracking
+    - 位运算
+    - 字符串
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [3211. Generate Binary Strings Without Adjacent Zeros](https://leetcode.com/problems/generate-binary-strings-without-adjacent-zeros)
+# [3211. 生成不含相邻零的二进制字符串](https://leetcode.cn/problems/generate-binary-strings-without-adjacent-zeros)
 
-## Description
+[English Version](/solution/3200-3299/3211.Generate%20Binary%20Strings%20Without%20Adjacent%20Zeros/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a positive integer <code>n</code>.</p>
+<p>给你一个正整数 <code>n</code>。</p>
 
-<p>A binary string <code>x</code> is <strong>valid</strong> if all <span data-keyword="substring-nonempty">substrings</span> of <code>x</code> of length 2 contain <strong>at least</strong> one <code>&quot;1&quot;</code>.</p>
+<p>如果一个二进制字符串 <code>x</code> 的所有长度为 2 的<span data-keyword="substring-nonempty">子字符串</span>中包含 <strong>至少</strong> 一个 <code>"1"</code>，则称 <code>x</code> 是一个<strong> 有效</strong> 字符串。</p>
 
-<p>Return all <strong>valid</strong> strings with length <code>n</code><strong>, </strong>in <em>any</em> order.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 3</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[&quot;010&quot;,&quot;011&quot;,&quot;101&quot;,&quot;110&quot;,&quot;111&quot;]</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The valid strings of length 3 are: <code>&quot;010&quot;</code>, <code>&quot;011&quot;</code>, <code>&quot;101&quot;</code>, <code>&quot;110&quot;</code>, and <code>&quot;111&quot;</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 1</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[&quot;0&quot;,&quot;1&quot;]</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The valid strings of length 1 are: <code>&quot;0&quot;</code> and <code>&quot;1&quot;</code>.</p>
-</div>
+<p>返回所有长度为 <code>n</code> 的<strong> 有效</strong> 字符串，可以以任意顺序排列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">n = 3</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">["010","011","101","110","111"]</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>长度为 3 的有效字符串有：<code>"010"</code>、<code>"011"</code>、<code>"101"</code>、<code>"110"</code> 和 <code>"111"</code>。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">n = 1</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">["0","1"]</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>长度为 1 的有效字符串有：<code>"0"</code> 和 <code>"1"</code>。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 18</code></li>
@@ -57,15 +62,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-We can enumerate each position $i$ of a binary string of length $n$, and for each position $i$, we can enumerate the possible value $j$ it can take. If $j$ is $0$, then we need to check if its previous position is $1$. If it is $1$, we can continue to recurse further; otherwise, it is invalid. If $j$ is $1$, then we directly recurse further.
+我们可以枚举长度为 $n$ 的二进制字符串的每个位置 $i$，然后对于每个位置 $i$，我们可以枚举其可以取的值 $j$，如果 $j$ 为 $0$，那么我们需要判断其前一个位置是否为 $1$，如果为 $1$，则可以继续递归下去，否则不合法，如果 $j$ 为 $1$，则直接递归下去。
 
-The time complexity is $O(n \times 2^n)$, where $n$ is the length of the string. Ignoring the space consumption of the answer array, the space complexity is $O(n)$.
+时间复杂度 $O(n \times 2^n)$，其中 $n$ 为字符串长度。忽略答案数组的空间消耗，空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -128,7 +133,7 @@ public:
     vector<string> validStrings(int n) {
         vector<string> ans;
         string t;
-        auto dfs = [&](auto&& dfs, int i) {
+        auto dfs = [&](this auto&& dfs, int i) {
             if (i >= n) {
                 ans.emplace_back(t);
                 return;
@@ -136,12 +141,12 @@ public:
             for (int j = 0; j < 2; ++j) {
                 if ((j == 0 && (i == 0 || t[i - 1] == '1')) || j == 1) {
                     t.push_back('0' + j);
-                    dfs(dfs, i + 1);
+                    dfs(i + 1);
                     t.pop_back();
                 }
             }
         };
-        dfs(dfs, 0);
+        dfs(0);
         return ans;
     }
 };
@@ -175,23 +180,23 @@ func validStrings(n int) (ans []string) {
 
 ```ts
 function validStrings(n: number): string[] {
-  const ans: string[] = [];
-  const t: string[] = [];
-  const dfs = (i: number) => {
-    if (i >= n) {
-      ans.push(t.join(""));
-      return;
-    }
-    for (let j = 0; j < 2; ++j) {
-      if ((j == 0 && (i == 0 || t[i - 1] == "1")) || j == 1) {
-        t.push(j.toString());
-        dfs(i + 1);
-        t.pop();
-      }
-    }
-  };
-  dfs(0);
-  return ans;
+    const ans: string[] = [];
+    const t: string[] = [];
+    const dfs = (i: number) => {
+        if (i >= n) {
+            ans.push(t.join(''));
+            return;
+        }
+        for (let j = 0; j < 2; ++j) {
+            if ((j == 0 && (i == 0 || t[i - 1] == '1')) || j == 1) {
+                t.push(j.toString());
+                dfs(i + 1);
+                t.pop();
+            }
+        }
+    };
+    dfs(0);
+    return ans;
 }
 ```
 

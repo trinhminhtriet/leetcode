@@ -1,52 +1,56 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1223.Dice%20Roll%20Simulation/README.md
 rating: 2008
-source: Weekly Contest 158 Q3
+source: 第 158 场周赛 Q3
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1223. Dice Roll Simulation](https://leetcode.com/problems/dice-roll-simulation)
+# [1223. 掷骰子模拟](https://leetcode.cn/problems/dice-roll-simulation)
 
-## Description
+[English Version](/solution/1200-1299/1223.Dice%20Roll%20Simulation/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A die simulator generates a random number from <code>1</code> to <code>6</code> for each roll. You introduced a constraint to the generator such that it cannot roll the number <code>i</code> more than <code>rollMax[i]</code> (<strong>1-indexed</strong>) consecutive times.</p>
+<p>有一个骰子模拟器会每次投掷的时候生成一个 1 到 6 的随机数。</p>
 
-<p>Given an array of integers <code>rollMax</code> and an integer <code>n</code>, return <em>the number of distinct sequences that can be obtained with exact </em><code>n</code><em> rolls</em>. Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>不过我们在使用它时有个约束，就是使得投掷骰子时，<strong>连续</strong> 掷出数字&nbsp;<code>i</code>&nbsp;的次数不能超过&nbsp;<code>rollMax[i]</code>（<code>i</code>&nbsp;从 1 开始编号）。</p>
 
-<p>Two sequences are considered different if at least one element differs from each other.</p>
+<p>现在，给你一个整数数组&nbsp;<code>rollMax</code>&nbsp;和一个整数&nbsp;<code>n</code>，请你来计算掷&nbsp;<code>n</code>&nbsp;次骰子可得到的不同点数序列的数量。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 2, rollMax = [1,1,2,2,2,3]
-<strong>Output:</strong> 34
-<strong>Explanation:</strong> There will be 2 rolls of die, if there are no constraints on the die, there are 6 * 6 = 36 possible combinations. In this case, looking at rollMax array, the numbers 1 and 2 appear at most once consecutively, therefore sequences (1,1) and (2,2) cannot occur, so the final answer is 36-2 = 34.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 2, rollMax = [1,1,1,1,1,1]
-<strong>Output:</strong> 30
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 3, rollMax = [1,1,1,2,2,3]
-<strong>Output:</strong> 181
-</pre>
+<p>假如两个序列中至少存在一个元素不同，就认为这两个序列是不同的。由于答案可能很大，所以请返回 <strong>模&nbsp;<code>10^9 + 7</code></strong>&nbsp;之后的结果。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>n = 2, rollMax = [1,1,2,2,2,3]
+<strong>输出：</strong>34
+<strong>解释：</strong>我们掷 2 次骰子，如果没有约束的话，共有 6 * 6 = 36 种可能的组合。但是根据 rollMax 数组，数字 1 和 2 最多连续出现一次，所以不会出现序列 (1,1) 和 (2,2)。因此，最终答案是 36-2 = 34。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>n = 2, rollMax = [1,1,1,1,1,1]
+<strong>输出：</strong>30
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>n = 3, rollMax = [1,1,1,2,2,3]
+<strong>输出：</strong>181
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 5000</code></li>
@@ -56,22 +60,22 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-We can design a function $dfs(i, j, x)$ to represent the number of schemes starting from the $i$-th dice roll, with the current dice roll being $j$, and the number of consecutive times $j$ is rolled being $x$. The range of $j$ is $[1, 6]$, and the range of $x$ is $[1, rollMax[j - 1]]$. The answer is $dfs(0, 0, 0)$.
+我们可以设计一个函数 $dfs(i, j, x)$ 表示从第 $i$ 次掷骰子开始，当前掷出的点数为 $j$，且连续掷出 $j$ 的次数为 $x$ 的方案数。其中 $j$ 的取值范围为 $[1, 6]$，而 $x$ 的取值范围为 $[1, rollMax[j - 1]]$。那么答案就是 $dfs(0, 0, 0)$。
 
-The calculation process of the function $dfs(i, j, x)$ is as follows:
+函数 $dfs(i, j, x)$ 的计算过程如下：
 
-- If $i \ge n$, it means that $n$ dice have been rolled, return $1$.
-- Otherwise, we enumerate the number $k$ rolled next time. If $k \ne j$, we can directly roll $k$, and the number of consecutive times $j$ is rolled will be reset to $1$, so the number of schemes is $dfs(i + 1, k, 1)$. If $k = j$, we need to judge whether $x$ is less than $rollMax[j - 1]$. If it is less, we can continue to roll $j$, and the number of consecutive times $j$ is rolled will increase by $1$, so the number of schemes is $dfs(i + 1, j, x + 1)$. Finally, add all the scheme numbers to get the value of $dfs(i, j, x)$. Note that the answer may be very large, so we need to take the modulus of $10^9 + 7$.
+-   如果 $i \ge n$，说明已经掷完了 $n$ 次骰子，返回 $1$。
+-   否则，我们枚举下一次掷出的点数 $k$，如果 $k \ne j$，那么我们可以直接掷出 $k$，此时连续掷出 $j$ 的次数 $x$ 就会被重置为 $1$，因此方案数为 $dfs(i + 1, k, 1)$。如果 $k = j$，那么我们需要判断 $x$ 是否小于 $rollMax[j - 1]$，如果小于，那么我们可以继续掷出 $j$，此时连续掷出 $j$ 的次数 $x$ 就会加 $1$，因此方案数为 $dfs(i + 1, j, x + 1)$。最后将所有方案数相加，即为 $dfs(i, j, x)$ 的值。注意答案可能很大，因此需要对 $10^9 + 7$ 取模。
 
-During the process, we can use memoization search to avoid repeated calculations.
+过程中，我们可以使用记忆化搜索避免重复计算。
 
-The time complexity is $O(n \times k^2 \times M)$, and the space complexity is $O(n \times k \times M)$. Here, $k$ is the range of dice points, and $M$ is the maximum number of times a certain point can be rolled consecutively.
+时间复杂度 $O(n \times k^2 \times M)$，空间复杂度 $O(n \times k \times M)$。其中 $k$ 为点数的取值范围，而 $M$ 为连续掷出某个点数的最大次数。
 
 <!-- tabs:start -->
 
@@ -196,24 +200,24 @@ func dieSimulator(n int, rollMax []int) int {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We can change the memoization search in Solution 1 to dynamic programming.
+我们可以将方法一中的记忆化搜索改为动态规划。
 
-Define $f[i][j][x]$ as the number of schemes for the first $i$ dice rolls, with the $i$-th dice roll being $j$, and the number of consecutive times $j$ is rolled being $x$. Initially, $f[1][j][1] = 1$, where $1 \leq j \leq 6$. The answer is:
+定义 $f[i][j][x]$ 表示投掷前 $i$ 次骰子，且第 $i$ 次投掷的点数为 $j$，且连续投掷点数 $j$ 的次数为 $x$ 的方案数。初始时 $f[1][j][1] = 1$，其中 $1 \leq j \leq 6$。答案即是：
 
 $$
 \sum_{j=1}^6 \sum_{x=1}^{rollMax[j-1]} f[n][j][x]
 $$
 
-We enumerate the last dice roll as $j$, and the number of consecutive times $j$ is rolled as $x$. The current dice roll can be $1, 2, \cdots, 6$. If the current dice roll is $k$, there are two cases:
+我们枚举上一次投掷的点数为 $j$，且连续投掷点数 $j$ 的次数为 $x$，那么当前投掷的点数可以为 $1, 2, \cdots, 6$，如果当前投掷的点数为 $k$，那么有如下两种情况：
 
-- If $k \neq j$, we can directly roll $k$, and the number of consecutive times $j$ is rolled will be reset to $1$. Therefore, the number of schemes $f[i][k][1]$ will increase by $f[i-1][j][x]$.
-- If $k = j$, we need to judge whether $x+1$ is less than or equal to $rollMax[j-1]$. If it is less than or equal to, we can continue to roll $j$, and the number of consecutive times $j$ is rolled will increase by $1$. Therefore, the number of schemes $f[i][j][x+1]$ will increase by $f[i-1][j][x]$.
+-   如果 $k \neq j$，那么我们可以直接投掷出 $k$，此时连续投掷点数 $j$ 的次数 $x$ 就会被重置为 $1$，因此方案数 $f[i][k][1]$ 就会增加 $f[i-1][j][x]$。
+-   如果 $k = j$，那么我们需要判断 $x+1$ 是否小于等于 $rollMax[j-1]$，如果小于等于，那么我们可以继续投掷出 $j$，此时连续投掷点数 $j$ 的次数 $x$ 就会加 $1$，因此方案数 $f[i][j][x+1]$ 就会增加 $f[i-1][j][x]$。
 
-The final answer is the sum of all $f[n][j][x]$.
+最终的答案即为所有 $f[n][j][x]$ 的和。
 
-The time complexity is $O(n \times k^2 \times M)$, and the space complexity is $O(n \times k \times M)$. Here, $k$ is the range of dice points, and $M$ is the maximum number of times a certain point can be rolled consecutively.
+时间复杂度 $O(n \times k^2 \times M)$，空间复杂度 $O(n \times k \times M)$。其中 $k$ 为点数的取值范围，而 $M$ 为连续掷出某个点数的最大次数。
 
 <!-- tabs:start -->
 

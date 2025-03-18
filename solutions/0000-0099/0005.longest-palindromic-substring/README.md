@@ -1,63 +1,68 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0005.Longest%20Palindromic%20Substring/README.md
 tags:
-  - Two Pointers
-  - String
-  - Dynamic Programming
+    - 双指针
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [5. Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring)
+# [5. 最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring)
 
-## Description
+[English Version](/solution/0000-0099/0005.Longest%20Palindromic%20Substring/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, return <em>the longest</em> <span data-keyword="palindromic-string"><em>palindromic</em></span> <span data-keyword="substring-nonempty"><em>substring</em></span> in <code>s</code>.</p>
+<p>给你一个字符串 <code>s</code>，找到 <code>s</code> 中最长的 <span data-keyword="palindromic-string">回文</span> <span data-keyword="substring-nonempty">子串</span>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;babad&quot;
-<strong>Output:</strong> &quot;bab&quot;
-<strong>Explanation:</strong> &quot;aba&quot; is also a valid answer.
+<strong>输入：</strong>s = "babad"
+<strong>输出：</strong>"bab"
+<strong>解释：</strong>"aba" 同样是符合题意的答案。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;cbbd&quot;
-<strong>Output:</strong> &quot;bb&quot;
+<strong>输入：</strong>s = "cbbd"
+<strong>输出：</strong>"bb"
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code> consist of only digits and English letters.</li>
+	<li><code>s</code> 仅由数字和英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ to represent whether the string $s[i..j]$ is a palindrome, initially $f[i][j] = true$.
+我们定义 $f[i][j]$ 表示字符串 $s[i..j]$ 是否为回文串，初始时 $f[i][j] = true$。
 
-Next, we define variables $k$ and $mx$, where $k$ represents the starting position of the longest palindrome, and $mx$ represents the length of the longest palindrome. Initially, $k = 0$, $mx = 1$.
+接下来，我们定义变量 $k$ 和 $mx$，其中 $k$ 表示最长回文串的起始位置，$mx$ 表示最长回文串的长度。初始时 $k = 0$, $mx = 1$。
 
-Considering $f[i][j]$, if $s[i] = s[j]$, then $f[i][j] = f[i + 1][j - 1]$; otherwise, $f[i][j] = false$. If $f[i][j] = true$ and $mx < j - i + 1$, then we update $k = i$, $mx = j - i + 1$.
+考虑 $f[i][j]$，如果 $s[i] = s[j]$，那么 $f[i][j] = f[i + 1][j - 1]$；否则 $f[i][j] = false$。如果 $f[i][j] = true$ 并且 $mx \lt j - i + 1$，那么我们更新 $k = i$, $mx = j - i + 1$。
 
-Since $f[i][j]$ depends on $f[i + 1][j - 1]$, we need to ensure that $i + 1$ is before $j - 1$, so we need to enumerate $i$ from large to small, and enumerate $j$ from small to large.
+由于 $f[i][j]$ 依赖于 $f[i + 1][j - 1]$，因此我们需要保证 $i + 1$ 在 $j - 1$ 之前，因此我们需要从大到小地枚举 $i$，从小到大地枚举 $j$。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -166,25 +171,25 @@ func longestPalindrome(s string) string {
 
 ```ts
 function longestPalindrome(s: string): string {
-  const n = s.length;
-  const f: boolean[][] = Array(n)
-    .fill(0)
-    .map(() => Array(n).fill(true));
-  let k = 0;
-  let mx = 1;
-  for (let i = n - 2; i >= 0; --i) {
-    for (let j = i + 1; j < n; ++j) {
-      f[i][j] = false;
-      if (s[i] === s[j]) {
-        f[i][j] = f[i + 1][j - 1];
-        if (f[i][j] && mx < j - i + 1) {
-          mx = j - i + 1;
-          k = i;
+    const n = s.length;
+    const f: boolean[][] = Array(n)
+        .fill(0)
+        .map(() => Array(n).fill(true));
+    let k = 0;
+    let mx = 1;
+    for (let i = n - 2; i >= 0; --i) {
+        for (let j = i + 1; j < n; ++j) {
+            f[i][j] = false;
+            if (s[i] === s[j]) {
+                f[i][j] = f[i + 1][j - 1];
+                if (f[i][j] && mx < j - i + 1) {
+                    mx = j - i + 1;
+                    k = i;
+                }
+            }
         }
-      }
     }
-  }
-  return s.slice(k, k + mx);
+    return s.slice(k, k + mx);
 }
 ```
 
@@ -220,25 +225,25 @@ impl Solution {
  * @return {string}
  */
 var longestPalindrome = function (s) {
-  const n = s.length;
-  const f = Array(n)
-    .fill(0)
-    .map(() => Array(n).fill(true));
-  let k = 0;
-  let mx = 1;
-  for (let i = n - 2; i >= 0; --i) {
-    for (let j = i + 1; j < n; ++j) {
-      f[i][j] = false;
-      if (s[i] === s[j]) {
-        f[i][j] = f[i + 1][j - 1];
-        if (f[i][j] && mx < j - i + 1) {
-          mx = j - i + 1;
-          k = i;
+    const n = s.length;
+    const f = Array(n)
+        .fill(0)
+        .map(() => Array(n).fill(true));
+    let k = 0;
+    let mx = 1;
+    for (let i = n - 2; i >= 0; --i) {
+        for (let j = i + 1; j < n; ++j) {
+            f[i][j] = false;
+            if (s[i] === s[j]) {
+                f[i][j] = f[i + 1][j - 1];
+                if (f[i][j] && mx < j - i + 1) {
+                    mx = j - i + 1;
+                    k = i;
+                }
+            }
         }
-      }
     }
-  }
-  return s.slice(k, k + mx);
+    return s.slice(k, k + mx);
 };
 ```
 
@@ -304,11 +309,11 @@ proc longestPalindrome(s: string): string =
 
 <!-- solution:start -->
 
-### Solution 2: Enumerate Palindrome Midpoint
+### 方法二：枚举回文中间点
 
-We can enumerate the midpoint of the palindrome, spread to both sides, and find the longest palindrome.
+我们可以枚举回文中间点，向两边扩散，找到最长的回文串。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(1)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(1)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -447,6 +452,39 @@ impl Solution {
             }
         }
         return ans.to_string();
+    }
+}
+```
+
+#### C#
+
+```cs
+public class Solution {
+    private string s;
+    private int n;
+
+    public String LongestPalindrome(string s) {
+        this.s = s;
+        n = s.Length;
+        int start = 0, mx = 1;
+        for (int i = 0; i < n; ++i) {
+            int a = F(i, i);
+            int b = F(i, i + 1);
+            int t = Math.Max(a, b);
+            if (mx < t) {
+                mx = t;
+                start = i - ((t - 1) >> 1);
+            }
+        }
+        return s.Substring(start, start + mx);
+    }
+
+    private int F(int l, int r) {
+        while (l >= 0 && r < n && s[l] == s[r]) {
+            --l;
+            ++r;
+        }
+        return r - l - 1;
     }
 }
 ```

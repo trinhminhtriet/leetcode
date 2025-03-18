@@ -1,47 +1,50 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0354.Russian%20Doll%20Envelopes/README.md
 tags:
-  - Array
-  - Binary Search
-  - Dynamic Programming
-  - Sorting
+    - 数组
+    - 二分查找
+    - 动态规划
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [354. Russian Doll Envelopes](https://leetcode.com/problems/russian-doll-envelopes)
+# [354. 俄罗斯套娃信封问题](https://leetcode.cn/problems/russian-doll-envelopes)
 
-## Description
+[English Version](/solution/0300-0399/0354.Russian%20Doll%20Envelopes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D array of integers <code>envelopes</code> where <code>envelopes[i] = [w<sub>i</sub>, h<sub>i</sub>]</code> represents the width and the height of an envelope.</p>
+<p>给你一个二维整数数组 <code>envelopes</code> ，其中 <code>envelopes[i] = [w<sub>i</sub>, h<sub>i</sub>]</code> ，表示第 <code>i</code> 个信封的宽度和高度。</p>
 
-<p>One envelope can fit into another if and only if both the width and height of one envelope are greater than the other envelope&#39;s width and height.</p>
+<p>当另一个信封的宽度和高度都比这个信封大的时候，这个信封就可以放进另一个信封里，如同俄罗斯套娃一样。</p>
 
-<p>Return <em>the maximum number of envelopes you can Russian doll (i.e., put one inside the other)</em>.</p>
+<p>请计算 <strong>最多能有多少个</strong> 信封能组成一组“俄罗斯套娃”信封（即可以把一个信封放到另一个信封里面）。</p>
 
-<p><strong>Note:</strong> You cannot rotate an envelope.</p>
+<p><strong>注意</strong>：不允许旋转信封。</p>
+&nbsp;
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> envelopes = [[5,4],[6,4],[6,7],[2,3]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The maximum number of envelopes you can Russian doll is <code>3</code> ([2,3] =&gt; [5,4] =&gt; [6,7]).
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> envelopes = [[1,1],[1,1],[1,1]]
-<strong>Output:</strong> 1
+<strong>输入：</strong>envelopes = [[5,4],[6,4],[6,7],[2,3]]
+<strong>输出：</strong>3
+<strong>解释：</strong>最多信封的个数为 <code>3, 组合为: </code>[2,3] =&gt; [5,4] =&gt; [6,7]。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>envelopes = [[1,1],[1,1],[1,1]]
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= envelopes.length &lt;= 10<sup>5</sup></code></li>
@@ -51,11 +54,13 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心 + 二分查找
+
+时间复杂度 O(nlogn)。
 
 <!-- tabs:start -->
 
@@ -71,8 +76,6 @@ class Solution:
                 d.append(h)
             else:
                 idx = bisect_left(d, h)
-                if idx == len(d):
-                    idx = 0
                 d[idx] = h
         return len(d)
 ```

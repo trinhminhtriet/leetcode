@@ -1,66 +1,82 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1491.Average%20Salary%20Excluding%20the%20Minimum%20and%20Maximum%20Salary/README.md
 rating: 1201
-source: Biweekly Contest 29 Q1
+source: 第 29 场双周赛 Q1
 tags:
-  - Array
-  - Sorting
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1491. Average Salary Excluding the Minimum and Maximum Salary](https://leetcode.com/problems/average-salary-excluding-the-minimum-and-maximum-salary)
+# [1491. 去掉最低工资和最高工资后的工资平均值](https://leetcode.cn/problems/average-salary-excluding-the-minimum-and-maximum-salary)
 
-## Description
+[English Version](/solution/1400-1499/1491.Average%20Salary%20Excluding%20the%20Minimum%20and%20Maximum%20Salary/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of <strong>unique</strong> integers <code>salary</code> where <code>salary[i]</code> is the salary of the <code>i<sup>th</sup></code> employee.</p>
+<p>给你一个整数数组&nbsp;<code>salary</code>&nbsp;，数组里每个数都是 <strong>唯一</strong>&nbsp;的，其中&nbsp;<code>salary[i]</code> 是第&nbsp;<code>i</code>&nbsp;个员工的工资。</p>
 
-<p>Return <em>the average salary of employees excluding the minimum and maximum salary</em>. Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> salary = [4000,3000,1000,2000]
-<strong>Output:</strong> 2500.00000
-<strong>Explanation:</strong> Minimum salary and maximum salary are 1000 and 4000 respectively.
-Average salary excluding minimum and maximum salary is (2000+3000) / 2 = 2500
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> salary = [1000,2000,3000]
-<strong>Output:</strong> 2000.00000
-<strong>Explanation:</strong> Minimum salary and maximum salary are 1000 and 3000 respectively.
-Average salary excluding minimum and maximum salary is (2000) / 1 = 2000
-</pre>
+<p>请你返回去掉最低工资和最高工资以后，剩下员工工资的平均值。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>salary = [4000,3000,1000,2000]
+<strong>输出：</strong>2500.00000
+<strong>解释：</strong>最低工资和最高工资分别是 1000 和 4000 。
+去掉最低工资和最高工资以后的平均工资是 (2000+3000)/2= 2500
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>salary = [1000,2000,3000]
+<strong>输出：</strong>2000.00000
+<strong>解释：</strong>最低工资和最高工资分别是 1000 和 3000 。
+去掉最低工资和最高工资以后的平均工资是 (2000)/1= 2000
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>salary = [6000,5000,4000,3000,2000,1000]
+<strong>输出：</strong>3500.00000
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>salary = [8000,9000,2000,3000,6000,1000]
+<strong>输出：</strong>4750.00000
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= salary.length &lt;= 100</code></li>
-	<li><code>1000 &lt;= salary[i] &lt;= 10<sup>6</sup></code></li>
-	<li>All the integers of <code>salary</code> are <strong>unique</strong>.</li>
+	<li><code>10^3&nbsp;&lt;= salary[i] &lt;= 10^6</code></li>
+	<li><code>salary[i]</code>&nbsp;是唯一的。</li>
+	<li>与真实值误差在&nbsp;<code>10^-5</code> 以内的结果都将视为正确答案。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-Simulate according to the problem's requirements.
+按题意模拟即可。
 
-Traverse the array, find the maximum and minimum values, and accumulate the sum. Then calculate the average value after removing the maximum and minimum values.
+遍历数组，求出最大值和最小值，并且累加和，然后求出去掉最大值和最小值后的平均值。
 
-The time complexity is $O(n)$, where $n$ is the length of the array `salary`. The space complexity is $O(1)$.
+时间复杂度 $O(n)$。其中 $n$ 为数组 `salary` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -130,15 +146,15 @@ func average(salary []int) float64 {
 
 ```ts
 function average(salary: number[]): number {
-  let max = -Infinity;
-  let min = Infinity;
-  let sum = 0;
-  for (const v of salary) {
-    sum += v;
-    max = Math.max(max, v);
-    min = Math.min(min, v);
-  }
-  return (sum - max - min) / (salary.length - 2);
+    let max = -Infinity;
+    let min = Infinity;
+    let sum = 0;
+    for (const v of salary) {
+        sum += v;
+        max = Math.max(max, v);
+        min = Math.min(min, v);
+    }
+    return (sum - max - min) / (salary.length - 2);
 }
 ```
 

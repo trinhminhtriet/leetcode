@@ -1,68 +1,78 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3090.Maximum%20Length%20Substring%20With%20Two%20Occurrences/README.md
 rating: 1329
-source: Weekly Contest 390 Q1
+source: 第 390 场周赛 Q1
 tags:
-  - Hash Table
-  - String
-  - Sliding Window
+    - 哈希表
+    - 字符串
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [3090. Maximum Length Substring With Two Occurrences](https://leetcode.com/problems/maximum-length-substring-with-two-occurrences)
+# [3090. 每个字符最多出现两次的最长子字符串](https://leetcode.cn/problems/maximum-length-substring-with-two-occurrences)
 
-## Description
+[English Version](/solution/3000-3099/3090.Maximum%20Length%20Substring%20With%20Two%20Occurrences/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-Given a string <code>s</code>, return the <strong>maximum</strong> length of a <span data-keyword="substring">substring</span>&nbsp;such that it contains <em>at most two occurrences</em> of each character.
+<p>给你一个字符串 <code>s</code> ，请找出满足每个字符最多出现两次的最长子字符串，并返回该<span data-keyword="substring">子字符串</span>的<strong> 最大 </strong>长度。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;bcbbbcba&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">s = "bcbbbcba"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">4</span></p>
+<p><strong>输出：</strong> <span class="example-io">4</span></p>
 
-<p><strong>Explanation:</strong></p>
-The following substring has a length of 4 and contains at most two occurrences of each character: <code>&quot;bcbb<u>bcba</u>&quot;</code>.</div>
+<p><strong>解释：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<p>以下子字符串长度为 4，并且每个字符最多出现两次：<code>"bcbb<u>bcba</u>"</code>。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;aaaa&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">s = "aaaa"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><strong>输出：</strong> <span class="example-io">2</span></p>
 
-<p><strong>Explanation:</strong></p>
-The following substring has a length of 2 and contains at most two occurrences of each character: <code>&quot;<u>aa</u>aa&quot;</code>.</div>
+<p><strong>解释：</strong></p>
+
+<p>以下子字符串长度为 2，并且每个字符最多出现两次：<code>"<u>aa</u>aa"</code>。</p>
+</div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
 
-<ul>
+<p><strong>提示：</strong></p>
+
+<ul><!-- 字符串 s 的长度在 2 到 100 之间 -->
 	<li><code>2 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> consists only of lowercase English letters.</li>
+	<!-- 字符串 s 仅包含小写英文字母 -->
+	<li><code>s</code> 仅由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-We use two pointers $i$ and $j$ to maintain a sliding window, and an array $cnt$ to record the occurrence times of each character in the window.
+我们用两个指针 $i$ 和 $j$ 来维护一个滑动窗口，用一个数组 $cnt$ 来记录窗口中每个字符的出现次数。
 
-In each iteration, we add the character $c$ at the pointer $j$ into the window, then check if $cnt[c]$ is greater than $2$. If it is, we move the pointer $i$ to the right until $cnt[c]$ is less than or equal to $2$. At this point, we update the answer $ans = \max(ans, j - i + 1)$.
+每一次，我们将指针 $j$ 对应的字符 $c$ 加入窗口，然后判断 $cnt[c]$ 是否大于 $2$，如果大于 $2$，则将指针 $i$ 循环右移，直到 $cnt[c]$ 小于等于 $2$。此时，我们更新答案 $ans = \max(ans, j - i + 1)$。
 
-Finally, we return the answer $ans$.
+最终，我们返回答案 $ans$。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the character set, and in this problem, $\Sigma = 26$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 为字符集，本题中 $\Sigma = 26$。
 
 <!-- tabs:start -->
 
@@ -146,17 +156,17 @@ func maximumLengthSubstring(s string) (ans int) {
 
 ```ts
 function maximumLengthSubstring(s: string): number {
-  let ans = 0;
-  const cnt: number[] = Array(26).fill(0);
-  for (let i = 0, j = 0; j < s.length; ++j) {
-    const idx = s[j].charCodeAt(0) - "a".charCodeAt(0);
-    ++cnt[idx];
-    while (cnt[idx] > 2) {
-      --cnt[s[i++].charCodeAt(0) - "a".charCodeAt(0)];
+    let ans = 0;
+    const cnt: number[] = Array(26).fill(0);
+    for (let i = 0, j = 0; j < s.length; ++j) {
+        const idx = s[j].charCodeAt(0) - 'a'.charCodeAt(0);
+        ++cnt[idx];
+        while (cnt[idx] > 2) {
+            --cnt[s[i++].charCodeAt(0) - 'a'.charCodeAt(0)];
+        }
+        ans = Math.max(ans, j - i + 1);
     }
-    ans = Math.max(ans, j - i + 1);
-  }
-  return ans;
+    return ans;
 }
 ```
 

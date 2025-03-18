@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1795.Rearrange%20Products%20Table/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1795. Rearrange Products Table](https://leetcode.com/problems/rearrange-products-table)
+# [1795. 每个产品在不同商店的价格](https://leetcode.cn/problems/rearrange-products-table)
 
-## Description
+[English Version](/solution/1700-1799/1795.Rearrange%20Products%20Table/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Products</code></p>
+<p>表：<code>Products</code></p>
 
 <pre>
 +-------------+---------+
@@ -24,24 +27,25 @@ tags:
 | store2      | int     |
 | store3      | int     |
 +-------------+---------+
-product_id is the primary key (column with unique values) for this table.
-Each row in this table indicates the product&#39;s price in 3 different stores: store1, store2, and store3.
-If the product is not available in a store, the price will be null in that store&#39;s column.
+在 SQL 中，这张表的主键是 product_id（产品Id）。
+每行存储了这一产品在不同商店 store1, store2, store3 的价格。
+如果这一产品在商店里没有出售，则值将为 null。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to rearrange the <code>Products</code> table so that each row has <code>(product_id, store, price)</code>. If a product is not available in a store, do <strong>not</strong> include a row with that <code>product_id</code> and <code>store</code> combination in the result table.</p>
+<p>请你重构 <code>Products</code> 表，查询每个产品在不同商店的价格，使得输出的格式变为<code>(product_id, store, price)</code> 。如果这一产品在商店里没有出售，则不输出这一行。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
+<p>输出结果表中的 <strong>顺序不作要求</strong> 。</p>
 
-<p>The result format is in the following example.</p>
+<p>查询输出格式请参考下面示例。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
+<strong>输入：</strong>
 Products table:
 +------------+--------+--------+--------+
 | product_id | store1 | store2 | store3 |
@@ -49,7 +53,7 @@ Products table:
 | 0          | 95     | 100    | 105    |
 | 1          | 70     | null   | 80     |
 +------------+--------+--------+--------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +------------+--------+-------+
 | product_id | store  | price |
 +------------+--------+-------+
@@ -59,20 +63,19 @@ Products table:
 | 1          | store1 | 70    |
 | 1          | store3 | 80    |
 +------------+--------+-------+
-<strong>Explanation:</strong> 
-Product 0 is available in all three stores with prices 95, 100, and 105 respectively.
-Product 1 is available in store1 with price 70 and store3 with price 80. The product is not available in store2.
-</pre>
+<strong>解释：</strong>
+产品 0 在 store1、store2、store3 的价格分别为 95、100、105。
+产品 1 在 store1、store3 的价格分别为 70、80。在 store2 无法买到。</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Union
+### 方法一：合并
 
-We can select the products and prices for each store, and then use the `UNION` operator to combine the results.
+我们可以筛选出每个商店的产品和价格，然后使用 `UNION` 合并即可。
 
 <!-- tabs:start -->
 

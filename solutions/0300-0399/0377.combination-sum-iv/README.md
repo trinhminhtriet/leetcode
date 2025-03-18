@@ -1,31 +1,35 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0377.Combination%20Sum%20IV/README.md
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [377. Combination Sum IV](https://leetcode.com/problems/combination-sum-iv)
+# [377. 组合总和 Ⅳ](https://leetcode.cn/problems/combination-sum-iv)
 
-## Description
+[English Version](/solution/0300-0399/0377.Combination%20Sum%20IV/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of <strong>distinct</strong> integers <code>nums</code> and a target integer <code>target</code>, return <em>the number of possible combinations that add up to</em>&nbsp;<code>target</code>.</p>
+<p>给你一个由 <strong>不同</strong> 整数组成的数组 <code>nums</code> ，和一个目标整数 <code>target</code> 。请你从 <code>nums</code> 中找出并返回总和为 <code>target</code> 的元素组合的个数。</p>
 
-<p>The test cases are generated so that the answer can fit in a <strong>32-bit</strong> integer.</p>
+<p>题目数据保证答案符合 32 位整数范围。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,3], target = 4
-<strong>Output:</strong> 7
-<strong>Explanation:</strong>
-The possible combination ways are:
+<strong>输入：</strong>nums = [1,2,3], target = 4
+<strong>输出：</strong>7
+<strong>解释：</strong>
+所有可能的组合为：
 (1, 1, 1, 1)
 (1, 1, 2)
 (1, 2, 1)
@@ -33,44 +37,46 @@ The possible combination ways are:
 (2, 1, 1)
 (2, 2)
 (3, 1)
-Note that different sequences are counted as different combinations.
+请注意，顺序不同的序列被视作不同的组合。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [9], target = 3
-<strong>Output:</strong> 0
+<strong>输入：</strong>nums = [9], target = 3
+<strong>输出：</strong>0
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 200</code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 1000</code></li>
-	<li>All the elements of <code>nums</code> are <strong>unique</strong>.</li>
-	<li><code>1 &lt;= target &lt;= 1000</code></li>
+	<li><code>1 <= nums.length <= 200</code></li>
+	<li><code>1 <= nums[i] <= 1000</code></li>
+	<li><code>nums</code> 中的所有元素 <strong>互不相同</strong></li>
+	<li><code>1 <= target <= 1000</code></li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong>Follow up:</strong> What if negative numbers are allowed in the given array? How does it change the problem? What limitation we need to add to the question to allow negative numbers?</p>
+<p> </p>
+
+<p><strong>进阶：</strong>如果给定的数组中含有负数会发生什么？问题会产生何种变化？如果允许负数出现，需要向题目中添加哪些限制条件？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i]$ as the number of combinations that sum up to $i$. Initially, $f[0] = 1$, and the rest $f[i] = 0$. The final answer is $f[target]$.
+我们定义 $f[i]$ 表示总和为 $i$ 的元素组合的个数，初始时 $f[0] = 1$，其余 $f[i] = 0$。最终答案即为 $f[target]$。
 
-For $f[i]$, we can enumerate each element $x$ in the array. If $i \ge x$, then $f[i] = f[i] + f[i - x]$.
+对于 $f[i]$，我们可以枚举数组中的每个元素 $x$，如果 $i \ge x$，则 $f[i] = f[i] + f[i - x]$。
 
-Finally, return $f[target]$.
+最后返回 $f[target]$ 即可。
 
-The time complexity is $O(n \times target)$, and the space complexity is $O(target)$, where $n$ is the length of the array.
+时间复杂度 $O(n \times target)$，空间复杂度 $O(target)$。其中 $n$ 为数组的长度。
 
 <!-- tabs:start -->
 
@@ -148,16 +154,16 @@ func combinationSum4(nums []int, target int) int {
 
 ```ts
 function combinationSum4(nums: number[], target: number): number {
-  const f: number[] = Array(target + 1).fill(0);
-  f[0] = 1;
-  for (let i = 1; i <= target; ++i) {
-    for (const x of nums) {
-      if (i >= x) {
-        f[i] += f[i - x];
-      }
+    const f: number[] = Array(target + 1).fill(0);
+    f[0] = 1;
+    for (let i = 1; i <= target; ++i) {
+        for (const x of nums) {
+            if (i >= x) {
+                f[i] += f[i - x];
+            }
+        }
     }
-  }
-  return f[target];
+    return f[target];
 }
 ```
 
@@ -170,16 +176,16 @@ function combinationSum4(nums: number[], target: number): number {
  * @return {number}
  */
 var combinationSum4 = function (nums, target) {
-  const f = Array(target + 1).fill(0);
-  f[0] = 1;
-  for (let i = 1; i <= target; ++i) {
-    for (const x of nums) {
-      if (i >= x) {
-        f[i] += f[i - x];
-      }
+    const f = Array(target + 1).fill(0);
+    f[0] = 1;
+    for (let i = 1; i <= target; ++i) {
+        for (const x of nums) {
+            if (i >= x) {
+                f[i] += f[i - x];
+            }
+        }
     }
-  }
-  return f[target];
+    return f[target];
 };
 ```
 

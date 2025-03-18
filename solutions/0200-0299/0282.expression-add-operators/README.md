@@ -1,65 +1,70 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0282.Expression%20Add%20Operators/README.md
 tags:
-  - Math
-  - String
-  - Backtracking
+    - 数学
+    - 字符串
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [282. Expression Add Operators](https://leetcode.com/problems/expression-add-operators)
+# [282. 给表达式添加运算符](https://leetcode.cn/problems/expression-add-operators)
 
-## Description
+[English Version](/solution/0200-0299/0282.Expression%20Add%20Operators/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>num</code> that contains only digits and an integer <code>target</code>, return <em><strong>all possibilities</strong> to insert the binary operators </em><code>&#39;+&#39;</code><em>, </em><code>&#39;-&#39;</code><em>, and/or </em><code>&#39;*&#39;</code><em> between the digits of </em><code>num</code><em> so that the resultant expression evaluates to the </em><code>target</code><em> value</em>.</p>
+<p>给定一个仅包含数字&nbsp;<code>0-9</code>&nbsp;的字符串 <code>num</code> 和一个目标值整数 <code>target</code> ，在 <code>num</code> 的数字之间添加 <strong>二元 </strong>运算符（不是一元）<code>+</code>、<code>-</code>&nbsp;或&nbsp;<code>*</code>&nbsp;，返回 <strong>所有</strong> 能够得到 <code>target </code>的表达式。</p>
 
-<p>Note that operands in the returned expressions <strong>should not</strong> contain leading zeros.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = &quot;123&quot;, target = 6
-<strong>Output:</strong> [&quot;1*2*3&quot;,&quot;1+2+3&quot;]
-<strong>Explanation:</strong> Both &quot;1*2*3&quot; and &quot;1+2+3&quot; evaluate to 6.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = &quot;232&quot;, target = 8
-<strong>Output:</strong> [&quot;2*3+2&quot;,&quot;2+3*2&quot;]
-<strong>Explanation:</strong> Both &quot;2*3+2&quot; and &quot;2+3*2&quot; evaluate to 8.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = &quot;3456237490&quot;, target = 9191
-<strong>Output:</strong> []
-<strong>Explanation:</strong> There are no expressions that can be created from &quot;3456237490&quot; to evaluate to 9191.
-</pre>
+<p>注意，返回表达式中的操作数 <strong>不应该</strong> 包含前导零。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> <code>num = </code>"123", target = 6
+<strong>输出: </strong>["1+2+3", "1*2*3"] 
+<strong>解释: </strong>“1*2*3” 和 “1+2+3” 的值都是6。
+</pre>
+
+<p><strong>示例&nbsp;2:</strong></p>
+
+<pre>
+<strong>输入:</strong> <code>num = </code>"232", target = 8
+<strong>输出: </strong>["2*3+2", "2+3*2"]
+<strong>解释:</strong> “2*3+2” 和 “2+3*2” 的值都是8。
+</pre>
+
+<p><strong>示例 3:</strong></p>
+
+<pre>
+<strong>输入:</strong> <code>num = </code>"3456237490", target = 9191
+<strong>输出: </strong>[]
+<strong>解释: </strong>表达式 “3456237490” 无法得到 9191 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num.length &lt;= 10</code></li>
-	<li><code>num</code> consists of only digits.</li>
+	<li><code>num</code> 仅含数字</li>
 	<li><code>-2<sup>31</sup> &lt;= target &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

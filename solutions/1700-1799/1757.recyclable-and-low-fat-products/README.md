@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1757.Recyclable%20and%20Low%20Fat%20Products/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1757. Recyclable and Low Fat Products](https://leetcode.com/problems/recyclable-and-low-fat-products)
+# [1757. 可回收且低脂的产品](https://leetcode.cn/problems/recyclable-and-low-fat-products)
 
-## Description
+[English Version](/solution/1700-1799/1757.Recyclable%20and%20Low%20Fat%20Products/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Products</code></p>
+<p>表：<code>Products</code></p>
 
 <pre>
 +-------------+---------+
@@ -23,24 +26,25 @@ tags:
 | low_fats    | enum    |
 | recyclable  | enum    |
 +-------------+---------+
-product_id is the primary key (column with unique values) for this table.
-low_fats is an ENUM (category) of type (&#39;Y&#39;, &#39;N&#39;) where &#39;Y&#39; means this product is low fat and &#39;N&#39; means it is not.
-recyclable is an ENUM (category) of types (&#39;Y&#39;, &#39;N&#39;) where &#39;Y&#39; means this product is recyclable and &#39;N&#39; means it is not.</pre>
+<code>product_id</code> 是该表的主键（具有唯一值的列）。
+low_fats 是枚举类型，取值为以下两种 ('Y', 'N')，其中 'Y' 表示该产品是低脂产品，'N' 表示不是低脂产品。
+recyclable 是枚举类型，取值为以下两种 ('Y', 'N')，其中 'Y' 表示该产品可回收，而 'N' 表示不可回收。</pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to find the ids of products that are both low fat and recyclable.</p>
+<p>编写解决方案找出既是低脂又是可回收的产品编号。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
+<p>返回结果 <strong>无顺序要求</strong> 。</p>
 
-<p>The result format is in the following example.</p>
+<p>返回结果格式如下例所示：</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Products table:
+<strong>输入：</strong>
+Products 表：
 +-------------+----------+------------+
 | product_id  | low_fats | recyclable |
 +-------------+----------+------------+
@@ -50,25 +54,26 @@ Products table:
 | 3           | Y        | Y          |
 | 4           | N        | N          |
 +-------------+----------+------------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +-------------+
 | product_id  |
 +-------------+
 | 1           |
 | 3           |
 +-------------+
-<strong>Explanation:</strong> Only products 1 and 3 are both low fat and recyclable.
+<strong>解释：</strong>
+只有产品 id 为 1 和 3 的产品，既是低脂又是可回收的产品。
 </pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Conditional Filtering
+### 方法一：条件筛选
 
-We can directly filter the product IDs where `low_fats` is `Y` and `recyclable` is `Y`.
+我们直接筛选出 `low_fats` 为 `Y` 且 `recyclable` 为 `Y` 的产品编号即可。
 
 <!-- tabs:start -->
 

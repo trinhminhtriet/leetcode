@@ -1,68 +1,79 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2973.Find%20Number%20of%20Coins%20to%20Place%20in%20Tree%20Nodes/README.md
 rating: 2276
-source: Biweekly Contest 120 Q4
+source: 第 120 场双周赛 Q4
 tags:
-  - Tree
-  - Depth-First Search
-  - Dynamic Programming
-  - Sorting
-  - Heap (Priority Queue)
+    - 树
+    - 深度优先搜索
+    - 动态规划
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2973. Find Number of Coins to Place in Tree Nodes](https://leetcode.com/problems/find-number-of-coins-to-place-in-tree-nodes)
+# [2973. 树中每个节点放置的金币数目](https://leetcode.cn/problems/find-number-of-coins-to-place-in-tree-nodes)
 
-## Description
+[English Version](/solution/2900-2999/2973.Find%20Number%20of%20Coins%20to%20Place%20in%20Tree%20Nodes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <strong>undirected</strong> tree with <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>, and rooted at node <code>0</code>. You are given a 2D integer array <code>edges</code> of length <code>n - 1</code>, where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree.</p>
+<p>给你一棵&nbsp;<code>n</code>&nbsp;个节点的&nbsp;<strong>无向</strong>&nbsp;树，节点编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;，树的根节点在节点&nbsp;<code>0</code>&nbsp;处。同时给你一个长度为 <code>n - 1</code>&nbsp;的二维整数数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示树中节点&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条边。</p>
 
-<p>You are also given a <strong>0-indexed</strong> integer array <code>cost</code> of length <code>n</code>, where <code>cost[i]</code> is the <strong>cost</strong> assigned to the <code>i<sup>th</sup></code> node.</p>
+<p>给你一个长度为 <code>n</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>cost</code>&nbsp;，其中&nbsp;<code>cost[i]</code>&nbsp;是第 <code>i</code>&nbsp;个节点的 <b>开销</b>&nbsp;。</p>
 
-<p>You need to place some coins on every node of the tree. The number of coins to be placed at node <code>i</code> can be calculated as:</p>
+<p>你需要在树中每个节点都放置金币，在节点 <code>i</code>&nbsp;处的金币数目计算方法如下：</p>
 
 <ul>
-	<li>If size of the subtree of node <code>i</code> is less than <code>3</code>, place <code>1</code> coin.</li>
-	<li>Otherwise, place an amount of coins equal to the <strong>maximum</strong> product of cost values assigned to <code>3</code> distinct nodes in the subtree of node <code>i</code>. If this product is <strong>negative</strong>, place <code>0</code> coins.</li>
+	<li>如果节点 <code>i</code>&nbsp;对应的子树中的节点数目小于&nbsp;<code>3</code>&nbsp;，那么放&nbsp;<code>1</code>&nbsp;个金币。</li>
+	<li>否则，计算节点 <code>i</code> 对应的子树内 <code>3</code> 个不同节点的开销乘积的 <strong>最大值</strong> ，并在节点 <code>i</code> 处放置对应数目的金币。如果最大乘积是 <b>负数</b>&nbsp;，那么放置 <code>0</code>&nbsp;个金币。</li>
 </ul>
 
-<p>Return <em>an array </em><code>coin</code><em> of size </em><code>n</code><em> such that </em><code>coin[i]</code><em> is the number of coins placed at node </em><code>i</code><em>.</em></p>
+<p>请你返回一个长度为 <code>n</code>&nbsp;的数组<em>&nbsp;</em><code>coin</code>&nbsp;，<code>coin[i]</code>是节点&nbsp;<code>i</code>&nbsp;处的金币数目。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2973.Find%20Number%20of%20Coins%20to%20Place%20in%20Tree%20Nodes/images/screenshot-2023-11-10-012641.png" style="width: 600px; height: 233px;" />
+
+<p><strong class="example">示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2973.Find%20Number%20of%20Coins%20to%20Place%20in%20Tree%20Nodes/images/screenshot-2023-11-10-012641.png" style="width: 600px; height: 233px;" /></p>
+
 <pre>
-<strong>Input:</strong> edges = [[0,1],[0,2],[0,3],[0,4],[0,5]], cost = [1,2,3,4,5,6]
-<strong>Output:</strong> [120,1,1,1,1,1]
-<strong>Explanation:</strong> For node 0 place 6 * 5 * 4 = 120 coins. All other nodes are leaves with subtree of size 1, place 1 coin on each of them.
+<b>输入：</b>edges = [[0,1],[0,2],[0,3],[0,4],[0,5]], cost = [1,2,3,4,5,6]
+<b>输出：</b>[120,1,1,1,1,1]
+<b>解释：</b>在节点 0 处放置 6 * 5 * 4 = 120 个金币。所有其他节点都是叶子节点，子树中只有 1 个节点，所以其他每个节点都放 1 个金币。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2973.Find%20Number%20of%20Coins%20to%20Place%20in%20Tree%20Nodes/images/screenshot-2023-11-10-012614.png" style="width: 800px; height: 374px;" />
+<p><strong class="example">示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2973.Find%20Number%20of%20Coins%20to%20Place%20in%20Tree%20Nodes/images/screenshot-2023-11-10-012614.png" style="width: 800px; height: 374px;" /></p>
+
 <pre>
-<strong>Input:</strong> edges = [[0,1],[0,2],[1,3],[1,4],[1,5],[2,6],[2,7],[2,8]], cost = [1,4,2,3,5,7,8,-4,2]
-<strong>Output:</strong> [280,140,32,1,1,1,1,1,1]
-<strong>Explanation:</strong> The coins placed on each node are:
-- Place 8 * 7 * 5 = 280 coins on node 0.
-- Place 7 * 5 * 4 = 140 coins on node 1.
-- Place 8 * 2 * 2 = 32 coins on node 2.
-- All other nodes are leaves with subtree of size 1, place 1 coin on each of them.
+<b>输入：</b>edges = [[0,1],[0,2],[1,3],[1,4],[1,5],[2,6],[2,7],[2,8]], cost = [1,4,2,3,5,7,8,-4,2]
+<b>输出：</b>[280,140,32,1,1,1,1,1,1]
+<b>解释：</b>每个节点放置的金币数分别为：
+- 节点 0 处放置 8 * 7 * 5 = 280 个金币。
+- 节点 1 处放置 7 * 5 * 4 = 140 个金币。
+- 节点 2 处放置 8 * 2 * 2 = 32 个金币。
+- 其他节点都是叶子节点，子树内节点数目为 1 ，所以其他每个节点都放 1 个金币。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2973.Find%20Number%20of%20Coins%20to%20Place%20in%20Tree%20Nodes/images/screenshot-2023-11-10-012513.png" style="width: 300px; height: 277px;" />
+<p><strong class="example">示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2973.Find%20Number%20of%20Coins%20to%20Place%20in%20Tree%20Nodes/images/screenshot-2023-11-10-012513.png" style="width: 300px; height: 277px;" /></p>
+
 <pre>
-<strong>Input:</strong> edges = [[0,1],[0,2]], cost = [1,2,-2]
-<strong>Output:</strong> [0,1,1]
-<strong>Explanation:</strong> Node 1 and 2 are leaves with subtree of size 1, place 1 coin on each of them. For node 0 the only possible product of cost is 2 * 1 * -2 = -4. Hence place 0 coins on node 0.
+<b>输入：</b>edges = [[0,1],[0,2]], cost = [1,2,-2]
+<b>输出：</b>[0,1,1]
+<b>解释：</b>节点 1 和 2 都是叶子节点，子树内节点数目为 1 ，各放置 1 个金币。节点 0 处唯一的开销乘积是 2 * 1 * -2 = -4 。所以在节点 0 处放置 0 个金币。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 2 * 10<sup>4</sup></code></li>
@@ -71,40 +82,40 @@ tags:
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
 	<li><code>cost.length == n</code></li>
 	<li><code>1 &lt;= |cost[i]| &lt;= 10<sup>4</sup></code></li>
-	<li>The input is generated such that <code>edges</code> represents a valid tree.</li>
+	<li><code>edges</code>&nbsp;一定是一棵合法的树。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS + Sorting
+### 方法一：DFS + 排序
 
-According to the problem description, there are two situations for the number of coins placed at each node $a$:
+根据题目描述，每个节点 $a$ 的放置的金币数有两种情况：
 
-- If the number of nodes in the subtree corresponding to node $a$ is less than $3$, then place $1$ coin;
-- If the number of nodes in the subtree corresponding to node $a$ is greater than or equal to $3$, then we need to take out $3$ different nodes from the subtree, calculate the maximum value of their cost product, and then place the corresponding number of coins at node $a$. If the maximum product is negative, place $0$ coins.
+-   如果节点 $a$ 对应的子树中的节点数目小于 $3$，那么放 $1$ 个金币；
+-   如果节点 $a$ 对应的子树中的节点数目大于等于 $3$，那么我们需要取出子树中的 $3$ 个不同节点，计算它们的开销乘积的最大值，然后在节点 $a$ 处放置对应数目的金币，如果最大乘积是负数，那么放置 $0$ 个金币。
 
-The first situation is relatively simple, we just need to count the number of nodes in the subtree of each node during the traversal.
+第一种情况比较简单，我们只需要在遍历的过程中，统计每个节点的子树中的节点数目即可。
 
-For the second situation, if all costs are positive, we should take the $3$ nodes with the largest costs; if there are negative costs, we should take the $2$ nodes with the smallest costs and the $1$ node with the largest cost. Therefore, we need to maintain the smallest $2$ costs and the largest $3$ costs in each subtree.
+而对于第二种情况，如果开销都是正数，那么应该取开销最大的 $3$ 个节点；如果开销中有负数，那么应该取开销最小的 $2$ 个节点和开销最大的 $1$ 个节点。因此，我们需要维护每个子树最小的 $2$ 个开销和最大的 $3$ 个开销。
 
-We first construct the adjacency list $g$ based on the given two-dimensional array $edges$, where $g[a]$ represents all neighbor nodes of node $a$.
+我们先根据题目给定的二维数组 $edges$ 构建邻接表 $g$，其中 $g[a]$ 表示节点 $a$ 的所有邻居节点。
 
-Next, we design a function $dfs(a, fa)$, which returns an array $res$, which stores the smallest $2$ costs and the largest $3$ costs in the subtree of node $a$ (may not be $5$).
+接下来，我们设计一个函数 $dfs(a, fa)$，该函数返回一个数组 $res$，其中存储了节点 $a$ 的子树中最小的 $2$ 个开销和最大的 $3$ 个开销（可能不足 $5$ 个）。
 
-In the function $dfs(a, fa)$, we add the cost $cost[a]$ of node $a$ to the array $res$, and then traverse all neighbor nodes $b$ of node $a$. If $b$ is not the parent node $fa$ of node $a$, then we add the result of $dfs(b, a)$ to the array $res$.
+在函数 $dfs(a, fa)$ 中，我们将节点 $a$ 的开销 $cost[a]$ 加入数组 $res$ 中，然后遍历节点 $a$ 的所有邻居节点 $b$，如果 $b$ 不是节点 $a$ 的父节点 $fa$，那么我们将 $dfs(b, a)$ 的结果加入数组 $res$ 中。
 
-Then, we sort the array $res$, and then calculate the number of coins placed at node $a$ based on the length $m$ of the array $res$, and update $ans[a]$:
+然后，我们对数组 $res$ 进行排序，然后根据数组 $res$ 的长度 $m$ 计算节点 $a$ 的放置金币数目，更新 $ans[a]$：
 
-- If $m \ge 3$, then the number of coins placed at node $a$ is $\max(0, res[m - 1] \times res[m - 2] \times res[m - 3], res[0] \times res[1] \times res[m - 1])$, otherwise the number of coins placed at node $a$ is $1$;
-- If $m > 5$, then we only need to keep the first $2$ elements and the last $3$ elements of the array $res$.
+-   如果 $m \ge 3$，那么节点 $a$ 的放置金币数目为 $\max(0, res[m - 1] \times res[m - 2] \times res[m - 3], res[0] \times res[1] \times res[m - 1])$，否则节点 $a$ 的放置金币数目为 $1$；
+-   如果 $m > 5$，那么我们只需要保留数组 $res$ 的前 $2$ 个元素和后 $3$ 个元素。
 
-Finally, we call the function $dfs(0, -1)$, and return the answer array $ans$.
+最后，我们调用函数 $dfs(0, -1)$，并且返回答案数组 $ans$ 即可。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是节点的数目。
 
 <!-- tabs:start -->
 
@@ -266,34 +277,34 @@ func placedCoins(edges [][]int, cost []int) []int64 {
 
 ```ts
 function placedCoins(edges: number[][], cost: number[]): number[] {
-  const n = cost.length;
-  const ans: number[] = Array(n).fill(1);
-  const g: number[][] = Array.from({ length: n }, () => []);
-  for (const [a, b] of edges) {
-    g[a].push(b);
-    g[b].push(a);
-  }
-  const dfs = (a: number, fa: number): number[] => {
-    const res: number[] = [cost[a]];
-    for (const b of g[a]) {
-      if (b !== fa) {
-        res.push(...dfs(b, a));
-      }
+    const n = cost.length;
+    const ans: number[] = Array(n).fill(1);
+    const g: number[][] = Array.from({ length: n }, () => []);
+    for (const [a, b] of edges) {
+        g[a].push(b);
+        g[b].push(a);
     }
-    res.sort((a, b) => a - b);
-    const m = res.length;
-    if (m >= 3) {
-      const x = res[m - 1] * res[m - 2] * res[m - 3];
-      const y = res[0] * res[1] * res[m - 1];
-      ans[a] = Math.max(0, x, y);
-    }
-    if (m > 5) {
-      res.splice(2, m - 5);
-    }
-    return res;
-  };
-  dfs(0, -1);
-  return ans;
+    const dfs = (a: number, fa: number): number[] => {
+        const res: number[] = [cost[a]];
+        for (const b of g[a]) {
+            if (b !== fa) {
+                res.push(...dfs(b, a));
+            }
+        }
+        res.sort((a, b) => a - b);
+        const m = res.length;
+        if (m >= 3) {
+            const x = res[m - 1] * res[m - 2] * res[m - 3];
+            const y = res[0] * res[1] * res[m - 1];
+            ans[a] = Math.max(0, x, y);
+        }
+        if (m > 5) {
+            res.splice(2, m - 5);
+        }
+        return res;
+    };
+    dfs(0, -1);
+    return ans;
 }
 ```
 

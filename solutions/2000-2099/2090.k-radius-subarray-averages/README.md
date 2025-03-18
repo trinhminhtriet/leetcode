@@ -1,69 +1,76 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2090.K%20Radius%20Subarray%20Averages/README.md
 rating: 1358
-source: Weekly Contest 269 Q2
+source: 第 269 场周赛 Q2
 tags:
-  - Array
-  - Sliding Window
+    - 数组
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2090. K Radius Subarray Averages](https://leetcode.com/problems/k-radius-subarray-averages)
+# [2090. 半径为 k 的子数组平均值](https://leetcode.cn/problems/k-radius-subarray-averages)
 
-## Description
+[English Version](/solution/2000-2099/2090.K%20Radius%20Subarray%20Averages/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array <code>nums</code> of <code>n</code> integers, and an integer <code>k</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的数组 <code>nums</code> ，数组中有 <code>n</code> 个整数，另给你一个整数 <code>k</code> 。</p>
 
-<p>The <strong>k-radius average</strong> for a subarray of <code>nums</code> <strong>centered</strong> at some index <code>i</code> with the <strong>radius</strong> <code>k</code> is the average of <strong>all</strong> elements in <code>nums</code> between the indices <code>i - k</code> and <code>i + k</code> (<strong>inclusive</strong>). If there are less than <code>k</code> elements before <strong>or</strong> after the index <code>i</code>, then the <strong>k-radius average</strong> is <code>-1</code>.</p>
+<p><strong>半径为 k 的子数组平均值</strong> 是指：<code>nums</code> 中一个以下标 <code>i</code> 为 <strong>中心</strong> 且 <strong>半径</strong> 为 <code>k</code> 的子数组中所有元素的平均值，即下标在&nbsp;<code>i - k</code> 和 <code>i + k</code> 范围（<strong>含</strong> <code>i - k</code> 和 <code>i + k</code>）内所有元素的平均值。如果在下标 <code>i</code> 前或后不足 <code>k</code> 个元素，那么<strong> 半径为 k 的子数组平均值 </strong>是 <code>-1</code> 。</p>
 
-<p>Build and return <em>an array </em><code>avgs</code><em> of length </em><code>n</code><em> where </em><code>avgs[i]</code><em> is the <strong>k-radius average</strong> for the subarray centered at index </em><code>i</code>.</p>
+<p>构建并返回一个长度为 <code>n</code> 的数组<em> </em><code>avgs</code><em> </em>，其中<em> </em><code>avgs[i]</code><em> </em>是以下标 <code>i</code> 为中心的子数组的<strong> 半径为 k 的子数组平均值 </strong>。</p>
 
-<p>The <strong>average</strong> of <code>x</code> elements is the sum of the <code>x</code> elements divided by <code>x</code>, using <strong>integer division</strong>. The integer division truncates toward zero, which means losing its fractional part.</p>
+<p><code>x</code> 个元素的 <strong>平均值</strong> 是 <code>x</code> 个元素相加之和除以 <code>x</code> ，此时使用截断式 <strong>整数除法</strong> ，即需要去掉结果的小数部分。</p>
 
 <ul>
-	<li>For example, the average of four elements <code>2</code>, <code>3</code>, <code>1</code>, and <code>5</code> is <code>(2 + 3 + 1 + 5) / 4 = 11 / 4 = 2.75</code>, which truncates to <code>2</code>.</li>
+	<li>例如，四个元素 <code>2</code>、<code>3</code>、<code>1</code> 和 <code>5</code> 的平均值是 <code>(2 + 3 + 1 + 5) / 4 = 11 / 4 = 2.75</code>，截断后得到 <code>2</code> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2090.K%20Radius%20Subarray%20Averages/images/eg1.png" style="width: 343px; height: 119px;" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2090.K%20Radius%20Subarray%20Averages/images/eg1.png" style="width: 343px; height: 119px;" /></p>
+
 <pre>
-<strong>Input:</strong> nums = [7,4,3,9,1,8,5,2,6], k = 3
-<strong>Output:</strong> [-1,-1,-1,5,4,4,-1,-1,-1]
-<strong>Explanation:</strong>
-- avg[0], avg[1], and avg[2] are -1 because there are less than k elements <strong>before</strong> each index.
-- The sum of the subarray centered at index 3 with radius 3 is: 7 + 4 + 3 + 9 + 1 + 8 + 5 = 37.
-  Using <strong>integer division</strong>, avg[3] = 37 / 7 = 5.
-- For the subarray centered at index 4, avg[4] = (4 + 3 + 9 + 1 + 8 + 5 + 2) / 7 = 4.
-- For the subarray centered at index 5, avg[5] = (3 + 9 + 1 + 8 + 5 + 2 + 6) / 7 = 4.
-- avg[6], avg[7], and avg[8] are -1 because there are less than k elements <strong>after</strong> each index.
+<strong>输入：</strong>nums = [7,4,3,9,1,8,5,2,6], k = 3
+<strong>输出：</strong>[-1,-1,-1,5,4,4,-1,-1,-1]
+<strong>解释：</strong>
+- avg[0]、avg[1] 和 avg[2] 是 -1 ，因为在这几个下标前的元素数量都不足 k 个。
+- 中心为下标 3 且半径为 3 的子数组的元素总和是：7 + 4 + 3 + 9 + 1 + 8 + 5 = 37 。
+  使用截断式 <strong>整数除法</strong>，avg[3] = 37 / 7 = 5 。
+- 中心为下标 4 的子数组，avg[4] = (4 + 3 + 9 + 1 + 8 + 5 + 2) / 7 = 4 。
+- 中心为下标 5 的子数组，avg[5] = (3 + 9 + 1 + 8 + 5 + 2 + 6) / 7 = 4 。
+- avg[6]、avg[7] 和 avg[8] 是 -1 ，因为在这几个下标后的元素数量都不足 k 个。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [100000], k = 0
-<strong>Output:</strong> [100000]
-<strong>Explanation:</strong>
-- The sum of the subarray centered at index 0 with radius 0 is: 100000.
-  avg[0] = 100000 / 1 = 100000.
+<strong>输入：</strong>nums = [100000], k = 0
+<strong>输出：</strong>[100000]
+<strong>解释：</strong>
+- 中心为下标 0 且半径 0 的子数组的元素总和是：100000 。
+  avg[0] = 100000 / 1 = 100000 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [8], k = 100000
-<strong>Output:</strong> [-1]
-<strong>Explanation:</strong> 
-- avg[0] is -1 because there are less than k elements before and after index 0.
+<strong>输入：</strong>nums = [8], k = 100000
+<strong>输出：</strong>[-1]
+<strong>解释：</strong>
+- avg[0] 是 -1 ，因为在下标 0 前后的元素数量均不足 k 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -73,21 +80,21 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sliding Window
+### 方法一：滑动窗口
 
-The length of a subarray with radius $k$ is $k \times 2 + 1$, so we can maintain a window of size $k \times 2 + 1$ and denote the sum of all elements in the window as $s$.
+半径为 $k$ 的子数组的长度为 $k \times 2 + 1$，因此我们可以维护一个大小为 $k \times 2 + 1$ 的窗口，记窗口中的所有元素和为 $s$。
 
-We create an answer array $\textit{ans}$ of length $n$, initially setting each element to $-1$.
+我们创建一个长度为 $n$ 的答案数组 $\textit{ans}$，初始时每个元素都为 $-1$。
 
-Next, we traverse the array $\textit{nums}$, adding the value of $\textit{nums}[i]$ to the window sum $s$. If $i \geq k \times 2$, it means the window size is $k \times 2 + 1$, so we set $\textit{ans}[i-k] = \frac{s}{k \times 2 + 1}$. Then, we remove the value of $\textit{nums}[i - k \times 2]$ from the window sum $s$. Continue traversing the next element.
+接下来，我们遍历数组 $\textit{nums}$，将 $\textit{nums}[i]$ 的值加到窗口的和 $s$ 中，如果此时 $i \geq k \times 2$，说明此时窗口大小为 $k \times 2 + 1$，那么 $\textit{ans}[i-k] = \frac{s}{k \times 2 + 1}$，然后我们将 $\textit{nums}[i - k \times 2]$ 的值从窗口和 $s$ 中移出。继续遍历下个元素。
 
-Finally, return the answer array.
+最后返回答案数组即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -173,17 +180,17 @@ func getAverages(nums []int, k int) []int {
 
 ```ts
 function getAverages(nums: number[], k: number): number[] {
-  const n = nums.length;
-  const ans: number[] = Array(n).fill(-1);
-  let s = 0;
-  for (let i = 0; i < n; ++i) {
-    s += nums[i];
-    if (i >= k * 2) {
-      ans[i - k] = Math.floor(s / (k * 2 + 1));
-      s -= nums[i - k * 2];
+    const n = nums.length;
+    const ans: number[] = Array(n).fill(-1);
+    let s = 0;
+    for (let i = 0; i < n; ++i) {
+        s += nums[i];
+        if (i >= k * 2) {
+            ans[i - k] = Math.floor(s / (k * 2 + 1));
+            s -= nums[i - k * 2];
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

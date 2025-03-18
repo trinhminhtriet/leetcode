@@ -1,77 +1,82 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2586.Count%20the%20Number%20of%20Vowel%20Strings%20in%20Range/README.md
 rating: 1178
-source: Weekly Contest 336 Q1
+source: 第 336 场周赛 Q1
 tags:
-  - Array
-  - String
-  - Counting
+    - 数组
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2586. Count the Number of Vowel Strings in Range](https://leetcode.com/problems/count-the-number-of-vowel-strings-in-range)
+# [2586. 统计范围内的元音字符串数](https://leetcode.cn/problems/count-the-number-of-vowel-strings-in-range)
 
-## Description
+[English Version](/solution/2500-2599/2586.Count%20the%20Number%20of%20Vowel%20Strings%20in%20Range/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array of string <code>words</code> and two integers <code>left</code> and <code>right</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的字符串数组 <code>words</code> 和两个整数：<code>left</code> 和 <code>right</code> 。</p>
 
-<p>A string is called a <strong>vowel string</strong> if it starts with a vowel character and ends with a vowel character where vowel characters are <code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, and <code>&#39;u&#39;</code>.</p>
+<p>如果字符串以元音字母开头并以元音字母结尾，那么该字符串就是一个 <strong>元音字符串</strong> ，其中元音字母是 <code>'a'</code>、<code>'e'</code>、<code>'i'</code>、<code>'o'</code>、<code>'u'</code> 。</p>
 
-<p>Return <em>the number of vowel strings </em><code>words[i]</code><em> where </em><code>i</code><em> belongs to the inclusive range </em><code>[left, right]</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;are&quot;,&quot;amy&quot;,&quot;u&quot;], left = 0, right = 2
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> 
-- &quot;are&quot; is a vowel string because it starts with &#39;a&#39; and ends with &#39;e&#39;.
-- &quot;amy&quot; is not a vowel string because it does not end with a vowel.
-- &quot;u&quot; is a vowel string because it starts with &#39;u&#39; and ends with &#39;u&#39;.
-The number of vowel strings in the mentioned range is 2.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;hey&quot;,&quot;aeo&quot;,&quot;mu&quot;,&quot;ooo&quot;,&quot;artro&quot;], left = 1, right = 4
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 
-- &quot;aeo&quot; is a vowel string because it starts with &#39;a&#39; and ends with &#39;o&#39;.
-- &quot;mu&quot; is not a vowel string because it does not start with a vowel.
-- &quot;ooo&quot; is a vowel string because it starts with &#39;o&#39; and ends with &#39;o&#39;.
-- &quot;artro&quot; is a vowel string because it starts with &#39;a&#39; and ends with &#39;o&#39;.
-The number of vowel strings in the mentioned range is 3.
-</pre>
+<p>返回<em> </em><code>words[i]</code> 是元音字符串的数目，其中<em> </em><code>i</code> 在闭区间 <code>[left, right]</code> 内。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["are","amy","u"], left = 0, right = 2
+<strong>输出：</strong>2
+<strong>解释：</strong>
+- "are" 是一个元音字符串，因为它以 'a' 开头并以 'e' 结尾。
+- "amy" 不是元音字符串，因为它没有以元音字母结尾。
+- "u" 是一个元音字符串，因为它以 'u' 开头并以 'u' 结尾。
+在上述范围中的元音字符串数目为 2 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["hey","aeo","mu","ooo","artro"], left = 1, right = 4
+<strong>输出：</strong>3
+<strong>解释：</strong>
+- "aeo" 是一个元音字符串，因为它以 'a' 开头并以 'o' 结尾。
+- "mu" 不是元音字符串，因为它没有以元音字母开头。
+- "ooo" 是一个元音字符串，因为它以 'o' 开头并以 'o' 结尾。
+- "artro" 是一个元音字符串，因为它以 'a' 开头并以 'o' 结尾。
+在上述范围中的元音字符串数目为 3 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 10</code></li>
-	<li><code>words[i]</code> consists of only lowercase English letters.</li>
+	<li><code>words[i]</code> 仅由小写英文字母组成</li>
 	<li><code>0 &lt;= left &lt;= right &lt; words.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We just need to traverse the string in the interval $[left,.. right]$, and check if it starts and ends with a vowel. If so, the answer plus one.
+我们只需要遍历区间 $[left,.. right]$ 内的字符串，判断其是否以元音字母开头和结尾即可。若是，则答案加一。
 
-After the traversal, return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(m)$, and the space complexity is $O(1)$. Where $m = right - left + 1$.
+时间复杂度 $O(m)$，空间复杂度 $O(1)$。其中 $m = right - left + 1$。
 
 <!-- tabs:start -->
 
@@ -145,15 +150,15 @@ func vowelStrings(words []string, left int, right int) (ans int) {
 
 ```ts
 function vowelStrings(words: string[], left: number, right: number): number {
-  let ans = 0;
-  const check: string[] = ["a", "e", "i", "o", "u"];
-  for (let i = left; i <= right; ++i) {
-    const w = words[i];
-    if (check.includes(w[0]) && check.includes(w.at(-1))) {
-      ++ans;
+    let ans = 0;
+    const check: string[] = ['a', 'e', 'i', 'o', 'u'];
+    for (let i = left; i <= right; ++i) {
+        const w = words[i];
+        if (check.includes(w[0]) && check.includes(w.at(-1))) {
+            ++ans;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

@@ -1,50 +1,53 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2320.Count%20Number%20of%20Ways%20to%20Place%20Houses/README.md
 rating: 1607
-source: Weekly Contest 299 Q2
+source: 第 299 场周赛 Q2
 tags:
-  - Dynamic Programming
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2320. Count Number of Ways to Place Houses](https://leetcode.com/problems/count-number-of-ways-to-place-houses)
+# [2320. 统计放置房子的方式数](https://leetcode.cn/problems/count-number-of-ways-to-place-houses)
 
-## Description
+[English Version](/solution/2300-2399/2320.Count%20Number%20of%20Ways%20to%20Place%20Houses/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a street with <code>n * 2</code> <strong>plots</strong>, where there are <code>n</code> plots on each side of the street. The plots on each side are numbered from <code>1</code> to <code>n</code>. On each plot, a house can be placed.</p>
+<p>一条街道上共有 <code>n * 2</code> 个 <strong>地块</strong> ，街道的两侧各有 <code>n</code> 个地块。每一边的地块都按从 <code>1</code> 到 <code>n</code> 编号。每个地块上都可以放置一所房子。</p>
 
-<p>Return <em>the number of ways houses can be placed such that no two houses are adjacent to each other on the same side of the street</em>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>现要求街道同一侧不能存在两所房子相邻的情况，请你计算并返回放置房屋的方式数目。由于答案可能很大，需要对 <code>10<sup>9</sup> + 7</code> 取余后再返回。</p>
 
-<p>Note that if a house is placed on the <code>i<sup>th</sup></code> plot on one side of the street, a house can also be placed on the <code>i<sup>th</sup></code> plot on the other side of the street.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 1
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> 
-Possible arrangements:
-1. All plots are empty.
-2. A house is placed on one side of the street.
-3. A house is placed on the other side of the street.
-4. Two houses are placed, one on each side of the street.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2320.Count%20Number%20of%20Ways%20to%20Place%20Houses/images/arrangements.png" style="width: 500px; height: 500px;" />
-<pre>
-<strong>Input:</strong> n = 2
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> The 9 possible arrangements are shown in the diagram above.
-</pre>
+<p>注意，如果一所房子放置在这条街某一侧上的第 <code>i</code> 个地块，不影响在另一侧的第 <code>i</code> 个地块放置房子。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>n = 1
+<strong>输出：</strong>4
+<strong>解释：</strong>
+可能的放置方式：
+1. 所有地块都不放置房子。
+2. 一所房子放在街道的某一侧。
+3. 一所房子放在街道的另一侧。
+4. 放置两所房子，街道两侧各放置一所。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2320.Count%20Number%20of%20Ways%20to%20Place%20Houses/images/arrangements.png" style="width: 500px; height: 500px;">
+<pre><strong>输入：</strong>n = 2
+<strong>输出：</strong>9
+<strong>解释：</strong>如上图所示，共有 9 种可能的放置方式。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -52,11 +55,24 @@ Possible arrangements:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：动态规划
+
+由于街道两侧房子的摆放互不影响，因此，我们可以只考虑一侧的摆放情况，最后将一侧的方案数平方取模得到最终结果。
+
+我们定义 $f[i]$ 表示放置前 $i+1$ 个地块，且最后一个地块放置房子的方案数，定义 $g[i]$ 表示放置前 $i+1$ 个地块，且最后一个地块不放置房子的方案数。初始时 $f[0] = g[0] = 1$。
+
+当我们放置第 $i+1$ 个地块时，有两种情况：
+
+-   如果第 $i+1$ 个地块放置房子，那么第 $i$ 个地块必须不放置房子，因此方案数 $f[i]=g[i-1]$；
+-   如果第 $i+1$ 个地块不放置房子，那么第 $i$ 个地块可以放置房子，也可以不放置房子，因此方案数 $g[i]=f[i-1]+g[i-1]$。
+
+最终，我们将 $f[n-1]+g[n-1]$ 的平方取模即为答案。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为街道的长度。
 
 <!-- tabs:start -->
 
@@ -135,16 +151,16 @@ func countHousePlacements(n int) int {
 
 ```ts
 function countHousePlacements(n: number): number {
-  const f = new Array(n);
-  const g = new Array(n);
-  f[0] = g[0] = 1n;
-  const mod = BigInt(10 ** 9 + 7);
-  for (let i = 1; i < n; ++i) {
-    f[i] = g[i - 1];
-    g[i] = (f[i - 1] + g[i - 1]) % mod;
-  }
-  const v = f[n - 1] + g[n - 1];
-  return Number(v ** 2n % mod);
+    const f = new Array(n);
+    const g = new Array(n);
+    f[0] = g[0] = 1n;
+    const mod = BigInt(10 ** 9 + 7);
+    for (let i = 1; i < n; ++i) {
+        f[i] = g[i - 1];
+        g[i] = (f[i - 1] + g[i - 1]) % mod;
+    }
+    const v = f[n - 1] + g[n - 1];
+    return Number(v ** 2n % mod);
 }
 ```
 

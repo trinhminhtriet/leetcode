@@ -1,97 +1,101 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0685.Redundant%20Connection%20II/README.md
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Graph
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [685. Redundant Connection II](https://leetcode.com/problems/redundant-connection-ii)
+# [685. 冗余连接 II](https://leetcode.cn/problems/redundant-connection-ii)
 
-## Description
+[English Version](/solution/0600-0699/0685.Redundant%20Connection%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>In this problem, a rooted tree is a <b>directed</b> graph such that, there is exactly one node (the root) for which all other nodes are descendants of this node, plus every node has exactly one parent, except for the root node which has no parents.</p>
+<p>在本问题中，有根树指满足以下条件的 <strong>有向</strong> 图。该树只有一个根节点，所有其他节点都是该根节点的后继。该树除了根节点之外的每一个节点都有且只有一个父节点，而根节点没有父节点。</p>
 
-<p>The given input is a directed graph that started as a rooted tree with <code>n</code> nodes (with distinct values from <code>1</code> to <code>n</code>), with one additional directed edge added. The added edge has two different vertices chosen from <code>1</code> to <code>n</code>, and was not an edge that already existed.</p>
+<p>输入一个有向图，该图由一个有着 <code>n</code> 个节点（节点值不重复，从 <code>1</code> 到 <code>n</code>）的树及一条附加的有向边构成。附加的边包含在 <code>1</code> 到 <code>n</code> 中的两个不同顶点间，这条附加的边不属于树中已存在的边。</p>
 
-<p>The resulting graph is given as a 2D-array of <code>edges</code>. Each element of <code>edges</code> is a pair <code>[u<sub>i</sub>, v<sub>i</sub>]</code> that represents a <b>directed</b> edge connecting nodes <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code>, where <code>u<sub>i</sub></code> is a parent of child <code>v<sub>i</sub></code>.</p>
+<p>结果图是一个以边组成的二维数组&nbsp;<code>edges</code> 。 每个元素是一对 <code>[u<sub>i</sub>, v<sub>i</sub>]</code>，用以表示 <strong>有向 </strong>图中连接顶点 <code>u<sub>i</sub></code> 和顶点 <code>v<sub>i</sub></code> 的边，其中 <code>u<sub>i</sub></code> 是 <code>v<sub>i</sub></code> 的一个父节点。</p>
 
-<p>Return <em>an edge that can be removed so that the resulting graph is a rooted tree of</em> <code>n</code> <em>nodes</em>. If there are multiple answers, return the answer that occurs last in the given 2D-array.</p>
+<p>返回一条能删除的边，使得剩下的图是有 <code>n</code> 个节点的有根树。若有多个答案，返回最后出现在给定二维数组的答案。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0685.Redundant%20Connection%20II/images/graph1.jpg" style="width: 222px; height: 222px;" />
 <pre>
-<strong>Input:</strong> edges = [[1,2],[1,3],[2,3]]
-<strong>Output:</strong> [2,3]
+<strong>输入：</strong>edges = [[1,2],[1,3],[2,3]]
+<strong>输出：</strong>[2,3]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0685.Redundant%20Connection%20II/images/graph2.jpg" style="width: 222px; height: 382px;" />
 <pre>
-<strong>Input:</strong> edges = [[1,2],[2,3],[3,4],[4,1],[1,5]]
-<strong>Output:</strong> [4,1]
+<strong>输入：</strong>edges = [[1,2],[2,3],[3,4],[4,1],[1,5]]
+<strong>输出：</strong>[4,1]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == edges.length</code></li>
 	<li><code>3 &lt;= n &lt;= 1000</code></li>
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>1 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt;= n</code></li>
-	<li><code>u<sub>i</sub> != v<sub>i</sub></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Union-Find
+### 方法一：并查集
 
-According to the problem description, for a rooted tree, the in-degree of the root node is $0$, and the in-degree of other nodes is $1$. After adding an edge to the tree, there can be the following three scenarios:
+根据题目描述，对于一棵有根树，根节点的入度为 $0$，其余节点的入度为 $1$。在向树中添加一条边之后，可能会出现以下三种情况：
 
-1. The added edge points to a non-root node, and the in-degree of that node becomes $2$. In this case, there is no directed cycle in the graph:
+1. 添加的边指向了非根节点，该节点的入度变为 $2$，此时图中不存在有向环；
 
-   ```plaintext
-      1
-     / \
-    v   v
-    2-->3
-   ```
-
-2. The added edge points to a non-root node, and the in-degree of that node becomes $2$. In this case, there is a directed cycle in the graph:
-
-   ```plaintext
-      1
-      |
-      v
-      2 <--> 3
-   ```
-
-3. The added edge points to the root node, and the in-degree of the root node becomes $1$. In this case, there is a directed cycle in the graph, but there are no nodes with an in-degree of $2$.
-
-   ```plaintext
+    ```plaintext
        1
-       /^
-      v  \
-      2-->3
-   ```
+      / \
+     v   v
+     2-->3
+    ```
 
-Therefore, we first calculate the in-degree of each node. If there exists a node with an in-degree of $2$, we identify the two edges corresponding to that node, denoted as $\textit{dup}[0]$ and $\textit{dup}[1]$. If deleting $\textit{dup}[1]$ results in the remaining edges not forming a tree, then $\textit{dup}[0]$ is the edge that needs to be deleted; otherwise, $\textit{dup}[1]$ is the edge that needs to be deleted.
+1. 添加的边指向了非根节点，该节点的入度变为 $2$，此时图中存在有向环；
 
-If there are no nodes with an in-degree of $2$, we traverse the array $\textit{edges}$. For each edge $(u, v)$, we use the union-find data structure to maintain connectivity between nodes. If $u$ and $v$ are already connected, it indicates that there is a directed cycle in the graph, and the current edge is the one that needs to be deleted.
+    ```plaintext
+       1
+       |
+       v
+       2 <--> 3
+    ```
 
-The time complexity is $O(n \log n)$, and the space complexity is $O(n)$, where $n$ is the number of edges.
+1. 添加的边指向了根节点，根节点的入度变为 $1$，此时图中存在有向环，但不存在入度为 $2$ 的节点。
+
+    ```plaintext
+        1
+        /^
+       v  \
+       2-->3
+    ```
+
+因此，我们首先计算每个节点的入度，如果存在入度为 $2$ 的节点，我们定位到该节点对应的两条边，分别记为 $\textit{dup}[0]$ 和 $\textit{dup}[1]$。如果在删除 $\textit{dup}[1]$ 之后，剩余的边无法形成树，则说明 $\textit{dup}[0]$ 是需要删除的边；否则 $\textit{dup}[1]$ 是需要删除的边。
+
+如果不存在入度为 $2$ 的节点，我们遍历数组 $\textit{edges}$，对于每条边 $(u, v)$，我们使用并查集维护节点之间的连通性。如果 $u$ 和 $v$ 已经连通，说明图中存在有向环，此时当前边即为需要删除的边。
+
+时间复杂度 $O(n \log n)$，空间复杂度 $O(n)$。其中 $n$ 为边的数量。
 
 <!-- tabs:start -->
 
@@ -282,44 +286,44 @@ func findRedundantDirectedConnection(edges [][]int) []int {
 
 ```ts
 function findRedundantDirectedConnection(edges: number[][]): number[] {
-  const n = edges.length;
-  const ind: number[] = Array(n).fill(0);
-  for (const [_, v] of edges) {
-    ++ind[v - 1];
-  }
-  const dup: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    if (ind[edges[i][1] - 1] === 2) {
-      dup.push(i);
+    const n = edges.length;
+    const ind: number[] = Array(n).fill(0);
+    for (const [_, v] of edges) {
+        ++ind[v - 1];
     }
-  }
-  const p: number[] = Array.from({ length: n }, (_, i) => i);
-  const find = (x: number): number => {
-    if (p[x] !== x) {
-      p[x] = find(p[x]);
-    }
-    return p[x];
-  };
-  if (dup.length) {
+    const dup: number[] = [];
     for (let i = 0; i < n; ++i) {
-      if (i === dup[1]) {
-        continue;
-      }
-      const [pu, pv] = [find(edges[i][0] - 1), find(edges[i][1] - 1)];
-      if (pu === pv) {
-        return edges[dup[0]];
-      }
-      p[pu] = pv;
+        if (ind[edges[i][1] - 1] === 2) {
+            dup.push(i);
+        }
     }
-    return edges[dup[1]];
-  }
-  for (let i = 0; ; ++i) {
-    const [pu, pv] = [find(edges[i][0] - 1), find(edges[i][1] - 1)];
-    if (pu === pv) {
-      return edges[i];
+    const p: number[] = Array.from({ length: n }, (_, i) => i);
+    const find = (x: number): number => {
+        if (p[x] !== x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    };
+    if (dup.length) {
+        for (let i = 0; i < n; ++i) {
+            if (i === dup[1]) {
+                continue;
+            }
+            const [pu, pv] = [find(edges[i][0] - 1), find(edges[i][1] - 1)];
+            if (pu === pv) {
+                return edges[dup[0]];
+            }
+            p[pu] = pv;
+        }
+        return edges[dup[1]];
     }
-    p[pu] = pv;
-  }
+    for (let i = 0; ; ++i) {
+        const [pu, pv] = [find(edges[i][0] - 1), find(edges[i][1] - 1)];
+        if (pu === pv) {
+            return edges[i];
+        }
+        p[pu] = pv;
+    }
 }
 ```
 
@@ -331,44 +335,44 @@ function findRedundantDirectedConnection(edges: number[][]): number[] {
  * @return {number[]}
  */
 var findRedundantDirectedConnection = function (edges) {
-  const n = edges.length;
-  const ind = Array(n).fill(0);
-  for (const [_, v] of edges) {
-    ++ind[v - 1];
-  }
-  const dup = [];
-  for (let i = 0; i < n; ++i) {
-    if (ind[edges[i][1] - 1] === 2) {
-      dup.push(i);
+    const n = edges.length;
+    const ind = Array(n).fill(0);
+    for (const [_, v] of edges) {
+        ++ind[v - 1];
     }
-  }
-  const p = Array.from({ length: n }, (_, i) => i);
-  const find = (x) => {
-    if (p[x] !== x) {
-      p[x] = find(p[x]);
-    }
-    return p[x];
-  };
-  if (dup.length) {
+    const dup = [];
     for (let i = 0; i < n; ++i) {
-      if (i === dup[1]) {
-        continue;
-      }
-      const [pu, pv] = [find(edges[i][0] - 1), find(edges[i][1] - 1)];
-      if (pu === pv) {
-        return edges[dup[0]];
-      }
-      p[pu] = pv;
+        if (ind[edges[i][1] - 1] === 2) {
+            dup.push(i);
+        }
     }
-    return edges[dup[1]];
-  }
-  for (let i = 0; ; ++i) {
-    const [pu, pv] = [find(edges[i][0] - 1), find(edges[i][1] - 1)];
-    if (pu === pv) {
-      return edges[i];
+    const p = Array.from({ length: n }, (_, i) => i);
+    const find = x => {
+        if (p[x] !== x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    };
+    if (dup.length) {
+        for (let i = 0; i < n; ++i) {
+            if (i === dup[1]) {
+                continue;
+            }
+            const [pu, pv] = [find(edges[i][0] - 1), find(edges[i][1] - 1)];
+            if (pu === pv) {
+                return edges[dup[0]];
+            }
+            p[pu] = pv;
+        }
+        return edges[dup[1]];
     }
-    p[pu] = pv;
-  }
+    for (let i = 0; ; ++i) {
+        const [pu, pv] = [find(edges[i][0] - 1), find(edges[i][1] - 1)];
+        if (pu === pv) {
+            return edges[i];
+        }
+        p[pu] = pv;
+    }
 };
 ```
 
@@ -378,11 +382,11 @@ var findRedundantDirectedConnection = function (edges) {
 
 <!-- solution:start -->
 
-### Solution 2: Union-Find (Template Approach)
+### 方法二：并查集（模板做法）
 
-Here is a template approach using Union-Find for your reference.
+这里给出一个并查集的模板做法，供大家参考。
 
-The time complexity is $O(n \alpha(n))$, and the space complexity is $O(n)$. Here, $n$ is the number of edges, and $\alpha(n)$ is the inverse Ackermann function, which can be considered a very small constant.
+时间复杂度 $O(n \alpha(n))$，空间复杂度 $O(n)$。其中 $n$ 为边的数量，而 $\alpha(n)$ 是阿克曼函数的反函数，可以认为是一个很小的常数。
 
 <!-- tabs:start -->
 
@@ -655,65 +659,65 @@ func findRedundantDirectedConnection(edges [][]int) []int {
 
 ```ts
 class UnionFind {
-  p: number[];
-  size: number[];
-  constructor(n: number) {
-    this.p = Array.from({ length: n }, (_, i) => i);
-    this.size = Array(n).fill(1);
-  }
+    p: number[];
+    size: number[];
+    constructor(n: number) {
+        this.p = Array.from({ length: n }, (_, i) => i);
+        this.size = Array(n).fill(1);
+    }
 
-  find(x: number): number {
-    if (this.p[x] !== x) {
-      this.p[x] = this.find(this.p[x]);
+    find(x: number): number {
+        if (this.p[x] !== x) {
+            this.p[x] = this.find(this.p[x]);
+        }
+        return this.p[x];
     }
-    return this.p[x];
-  }
 
-  union(a: number, b: number): boolean {
-    const [pa, pb] = [this.find(a), this.find(b)];
-    if (pa === pb) {
-      return false;
+    union(a: number, b: number): boolean {
+        const [pa, pb] = [this.find(a), this.find(b)];
+        if (pa === pb) {
+            return false;
+        }
+        if (this.size[pa] > this.size[pb]) {
+            this.p[pb] = pa;
+            this.size[pa] += this.size[pb];
+        } else {
+            this.p[pa] = pb;
+            this.size[pb] += this.size[pa];
+        }
+        return true;
     }
-    if (this.size[pa] > this.size[pb]) {
-      this.p[pb] = pa;
-      this.size[pa] += this.size[pb];
-    } else {
-      this.p[pa] = pb;
-      this.size[pb] += this.size[pa];
-    }
-    return true;
-  }
 }
 
 function findRedundantDirectedConnection(edges: number[][]): number[] {
-  const n = edges.length;
-  const ind: number[] = Array(n).fill(0);
-  for (const [_, v] of edges) {
-    ++ind[v - 1];
-  }
-  const dup: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    if (ind[edges[i][1] - 1] === 2) {
-      dup.push(i);
+    const n = edges.length;
+    const ind: number[] = Array(n).fill(0);
+    for (const [_, v] of edges) {
+        ++ind[v - 1];
     }
-  }
-  const uf = new UnionFind(n);
-  if (dup.length) {
+    const dup: number[] = [];
     for (let i = 0; i < n; ++i) {
-      if (i === dup[1]) {
-        continue;
-      }
-      if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
-        return edges[dup[0]];
-      }
+        if (ind[edges[i][1] - 1] === 2) {
+            dup.push(i);
+        }
     }
-    return edges[dup[1]];
-  }
-  for (let i = 0; ; ++i) {
-    if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
-      return edges[i];
+    const uf = new UnionFind(n);
+    if (dup.length) {
+        for (let i = 0; i < n; ++i) {
+            if (i === dup[1]) {
+                continue;
+            }
+            if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
+                return edges[dup[0]];
+            }
+        }
+        return edges[dup[1]];
     }
-  }
+    for (let i = 0; ; ++i) {
+        if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
+            return edges[i];
+        }
+    }
 }
 ```
 
@@ -721,33 +725,33 @@ function findRedundantDirectedConnection(edges: number[][]): number[] {
 
 ```js
 class UnionFind {
-  constructor(n) {
-    this.p = Array.from({ length: n }, (_, i) => i);
-    this.size = Array(n).fill(1);
-  }
+    constructor(n) {
+        this.p = Array.from({ length: n }, (_, i) => i);
+        this.size = Array(n).fill(1);
+    }
 
-  find(x) {
-    if (this.p[x] !== x) {
-      this.p[x] = this.find(this.p[x]);
+    find(x) {
+        if (this.p[x] !== x) {
+            this.p[x] = this.find(this.p[x]);
+        }
+        return this.p[x];
     }
-    return this.p[x];
-  }
 
-  union(a, b) {
-    const pa = this.find(a);
-    const pb = this.find(b);
-    if (pa === pb) {
-      return false;
+    union(a, b) {
+        const pa = this.find(a);
+        const pb = this.find(b);
+        if (pa === pb) {
+            return false;
+        }
+        if (this.size[pa] > this.size[pb]) {
+            this.p[pb] = pa;
+            this.size[pa] += this.size[pb];
+        } else {
+            this.p[pa] = pb;
+            this.size[pb] += this.size[pa];
+        }
+        return true;
     }
-    if (this.size[pa] > this.size[pb]) {
-      this.p[pb] = pa;
-      this.size[pa] += this.size[pb];
-    } else {
-      this.p[pa] = pb;
-      this.size[pb] += this.size[pa];
-    }
-    return true;
-  }
 }
 
 /**
@@ -755,34 +759,34 @@ class UnionFind {
  * @return {number[]}
  */
 var findRedundantDirectedConnection = function (edges) {
-  const n = edges.length;
-  const ind = Array(n).fill(0);
-  for (const [_, v] of edges) {
-    ++ind[v - 1];
-  }
-  const dup = [];
-  for (let i = 0; i < n; ++i) {
-    if (ind[edges[i][1] - 1] === 2) {
-      dup.push(i);
+    const n = edges.length;
+    const ind = Array(n).fill(0);
+    for (const [_, v] of edges) {
+        ++ind[v - 1];
     }
-  }
-  const uf = new UnionFind(n);
-  if (dup.length) {
+    const dup = [];
     for (let i = 0; i < n; ++i) {
-      if (i === dup[1]) {
-        continue;
-      }
-      if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
-        return edges[dup[0]];
-      }
+        if (ind[edges[i][1] - 1] === 2) {
+            dup.push(i);
+        }
     }
-    return edges[dup[1]];
-  }
-  for (let i = 0; ; ++i) {
-    if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
-      return edges[i];
+    const uf = new UnionFind(n);
+    if (dup.length) {
+        for (let i = 0; i < n; ++i) {
+            if (i === dup[1]) {
+                continue;
+            }
+            if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
+                return edges[dup[0]];
+            }
+        }
+        return edges[dup[1]];
     }
-  }
+    for (let i = 0; ; ++i) {
+        if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
+            return edges[i];
+        }
+    }
 };
 ```
 

@@ -1,0 +1,165 @@
+---
+comments: true
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1892.Page%20Recommendations%20II/README.md
+tags:
+    - 数据库
+---
+
+<!-- problem:start -->
+
+# [1892. 页面推荐Ⅱ 🔒](https://leetcode.cn/problems/page-recommendations-ii)
+
+[English Version](/solution/1800-1899/1892.Page%20Recommendations%20II/README_EN.md)
+
+## 题目描述
+
+<!-- description:start -->
+
+<p>表：&nbsp;<code>Friendship</code></p>
+
+<pre>
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| user1_id      | int     |
+| user2_id      | int     |
++---------------+---------+
+(user1_id,user2_id) 是 Friendship 表的主键(具有唯一值的列的组合)。
+该表的每一行表示用户user1_id和user2_id是好友。
+</pre>
+
+<p>&nbsp;</p>
+
+<p>表：&nbsp;<code>Likes</code></p>
+
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| user_id     | int     |
+| page_id     | int     |
++-------------+---------+
+(user_id,page_id) 是 Likes 表的主键(具有唯一值的列)。
+该表的每一行表示user_id喜欢page_id。
+</pre>
+
+<p>&nbsp;</p>
+
+<p>您正在为一个社交媒体网站实施一个页面推荐系统。如果页面被<code>user_id</code>的&nbsp;<strong>至少一个朋友喜欢&nbsp;</strong>，而&nbsp;<strong>不被</strong><code>user_id</code><strong>喜欢&nbsp;</strong>，你的系统将&nbsp;<strong>推荐&nbsp;</strong>一个页面到<code>user_id</code>。</p>
+
+<p>编写一个解决方案来查找针对每个用户的所有可能的&nbsp;<strong>页面建议&nbsp;</strong>。每个建议应该在结果表中显示为一行，包含以下列:</p>
+
+<ul>
+	<li><code>user_id</code>: 系统向其提出建议的用户的ID。</li>
+	<li><code>page_id</code>: 推荐为&nbsp;<code>user_id</code>&nbsp;的页面ID。.</li>
+	<li><code>friends_likes</code>:&nbsp;&nbsp;<code>user_id</code>&nbsp;对应&nbsp;<code>page_id</code>&nbsp;的好友数。</li>
+</ul>
+
+<p>以&nbsp;<strong>任意顺序&nbsp;</strong>返回结果表。</p>
+
+<p>返回结果格式示例如下。</p>
+
+<p>&nbsp;</p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入：</strong>
+Friendship 表:
++----------+----------+
+| user1_id | user2_id |
++----------+----------+
+| 1        | 2        |
+| 1        | 3        |
+| 1        | 4        |
+| 2        | 3        |
+| 2        | 4        |
+| 2        | 5        |
+| 6        | 1        |
++----------+----------+
+Likes 表:
++---------+---------+
+| user_id | page_id |
++---------+---------+
+| 1       | 88      |
+| 2       | 23      |
+| 3       | 24      |
+| 4       | 56      |
+| 5       | 11      |
+| 6       | 33      |
+| 2       | 77      |
+| 3       | 77      |
+| 6       | 88      |
++---------+---------+
+<strong>输出：</strong>
++---------+---------+---------------+
+| user_id | page_id | friends_likes |
++---------+---------+---------------+
+| 1       | 77      | 2             |
+| 1       | 23      | 1             |
+| 1       | 24      | 1             |
+| 1       | 56      | 1             |
+| 1       | 33      | 1             |
+| 2       | 24      | 1             |
+| 2       | 56      | 1             |
+| 2       | 11      | 1             |
+| 2       | 88      | 1             |
+| 3       | 88      | 1             |
+| 3       | 23      | 1             |
+| 4       | 88      | 1             |
+| 4       | 77      | 1             |
+| 4       | 23      | 1             |
+| 5       | 77      | 1             |
+| 5       | 23      | 1             |
++---------+---------+---------------+
+<strong>解释：</strong>
+以用户1为例:
+—用户1是用户2、3、4、6的好友。
+-推荐页面有23(用户2喜欢)，24(用户3喜欢)，56(用户3喜欢)，33(用户6喜欢)，77(用户2和用户3喜欢)。
+-请注意，第88页不推荐，因为用户1已经喜欢它。
+
+另一个例子是用户6:
+—用户6是用户1的好友。
+-用户1只喜欢了88页，但用户6已经喜欢了。因此，用户6没有推荐。
+
+您可以使用类似的过程为用户2、3、4和5推荐页面。</pre>
+
+<!-- description:end -->
+
+## 解法
+
+<!-- solution:start -->
+
+### 方法一
+
+<!-- tabs:start -->
+
+#### MySQL
+
+```sql
+# Write your MySQL query statement below
+WITH
+    S AS (
+        SELECT * FROM Friendship
+        UNION
+        SELECT user2_id, user1_id FROM Friendship
+    )
+SELECT user1_id AS user_id, page_id, COUNT(1) AS friends_likes
+FROM
+    S AS s
+    LEFT JOIN Likes AS l ON s.user2_id = l.user_id
+WHERE
+    NOT EXISTS (
+        SELECT 1
+        FROM Likes AS l2
+        WHERE user1_id = l2.user_id AND l.page_id = l2.page_id
+    )
+GROUP BY user1_id, page_id;
+```
+
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- problem:end -->

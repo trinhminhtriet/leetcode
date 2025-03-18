@@ -1,57 +1,66 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1909.Remove%20One%20Element%20to%20Make%20the%20Array%20Strictly%20Increasing/README.md
 rating: 1461
-source: Biweekly Contest 55 Q1
+source: 第 55 场双周赛 Q1
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [1909. Remove One Element to Make the Array Strictly Increasing](https://leetcode.com/problems/remove-one-element-to-make-the-array-strictly-increasing)
+# [1909. 删除一个元素使数组严格递增](https://leetcode.cn/problems/remove-one-element-to-make-the-array-strictly-increasing)
 
-## Description
+[English Version](/solution/1900-1999/1909.Remove%20One%20Element%20to%20Make%20the%20Array%20Strictly%20Increasing/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <strong>0-indexed</strong> integer array <code>nums</code>, return <code>true</code> <em>if it can be made <strong>strictly increasing</strong> after removing <strong>exactly one</strong> element, or </em><code>false</code><em> otherwise. If the array is already strictly increasing, return </em><code>true</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，如果 <strong>恰好</strong> 删除 <strong>一个</strong> 元素后，数组 <strong>严格递增</strong> ，那么请你返回 <code>true</code> ，否则返回 <code>false</code> 。如果数组本身已经是严格递增的，请你也返回 <code>true</code> 。</p>
 
-<p>The array <code>nums</code> is <strong>strictly increasing</strong> if <code>nums[i - 1] &lt; nums[i]</code> for each index <code>(1 &lt;= i &lt; nums.length).</code></p>
+<p>数组 <code>nums</code> 是 <strong>严格递增</strong> 的定义为：对于任意下标的 <code>1 &lt;= i &lt; nums.length</code> 都满足 <code>nums[i - 1] &lt; nums[i]</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2,<u>10</u>,5,7]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> By removing 10 at index 2 from nums, it becomes [1,2,5,7].
-[1,2,5,7] is strictly increasing, so return true.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums = [1,2,<strong>10</strong>,5,7]
+<b>输出：</b>true
+<b>解释：</b>从 nums 中删除下标 2 处的 10 ，得到 [1,2,5,7] 。
+[1,2,5,7] 是严格递增的，所以返回 true 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [2,3,1,2]
-<strong>Output:</strong> false
-<strong>Explanation:</strong>
-[3,1,2] is the result of removing the element at index 0.
-[2,1,2] is the result of removing the element at index 1.
-[2,3,2] is the result of removing the element at index 2.
-[2,3,1] is the result of removing the element at index 3.
-No resulting array is strictly increasing, so return false.</pre>
+<pre><b>输入：</b>nums = [2,3,1,2]
+<b>输出：</b>false
+<b>解释：</b>
+[3,1,2] 是删除下标 0 处元素后得到的结果。
+[2,1,2] 是删除下标 1 处元素后得到的结果。
+[2,3,2] 是删除下标 2 处元素后得到的结果。
+[2,3,1] 是删除下标 3 处元素后得到的结果。
+没有任何结果数组是严格递增的，所以返回 false 。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,1,1]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The result of removing any element is [1,1].
-[1,1] is not strictly increasing, so return false.
+<pre><b>输入：</b>nums = [1,1,1]
+<b>输出：</b>false
+<b>解释：</b>删除任意元素后的结果都是 [1,1] 。
+[1,1] 不是严格递增的，所以返回 false 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 4：</strong></p>
+
+<pre><b>输入：</b>nums = [1,2,3]
+<b>输出：</b>true
+<b>解释：</b>[1,2,3] 已经是严格递增的，所以返回 true 。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 1000</code></li>
@@ -60,11 +69,15 @@ No resulting array is strictly increasing, so return false.</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：遍历
+
+我们可以遍历数组，找到第一个不满足 $\textit{nums}[i] < \textit{nums}[i+1]$ 的位置 $i$，然后检查删除 $i$ 或者 $i+1$ 后的数组是否严格递增，如果是则返回 $\textit{true}$，否则返回 $\textit{false}$。
+
+时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -73,20 +86,20 @@ No resulting array is strictly increasing, so return false.</pre>
 ```python
 class Solution:
     def canBeIncreasing(self, nums: List[int]) -> bool:
-        def check(nums, i):
-            prev = -inf
-            for j, num in enumerate(nums):
-                if i == j:
+        def check(k: int) -> bool:
+            pre = -inf
+            for i, x in enumerate(nums):
+                if i == k:
                     continue
-                if prev >= nums[j]:
+                if pre >= x:
                     return False
-                prev = nums[j]
+                pre = x
             return True
 
-        i, n = 1, len(nums)
-        while i < n and nums[i - 1] < nums[i]:
+        i = 0
+        while i + 1 < len(nums) and nums[i] < nums[i + 1]:
             i += 1
-        return check(nums, i - 1) or check(nums, i)
+        return check(i) or check(i + 1)
 ```
 
 #### Java
@@ -94,22 +107,23 @@ class Solution:
 ```java
 class Solution {
     public boolean canBeIncreasing(int[] nums) {
-        int i = 1, n = nums.length;
-        for (; i < n && nums[i - 1] < nums[i]; ++i)
-            ;
-        return check(nums, i - 1) || check(nums, i);
+        int i = 0;
+        while (i + 1 < nums.length && nums[i] < nums[i + 1]) {
+            ++i;
+        }
+        return check(nums, i) || check(nums, i + 1);
     }
 
-    private boolean check(int[] nums, int i) {
-        int prev = Integer.MIN_VALUE;
-        for (int j = 0; j < nums.length; ++j) {
-            if (i == j) {
+    private boolean check(int[] nums, int k) {
+        int pre = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (i == k) {
                 continue;
             }
-            if (prev >= nums[j]) {
+            if (pre >= nums[i]) {
                 return false;
             }
-            prev = nums[j];
+            pre = nums[i];
         }
         return true;
     }
@@ -122,20 +136,25 @@ class Solution {
 class Solution {
 public:
     bool canBeIncreasing(vector<int>& nums) {
-        int i = 1, n = nums.size();
-        for (; i < n && nums[i - 1] < nums[i]; ++i)
-            ;
-        return check(nums, i - 1) || check(nums, i);
-    }
-
-    bool check(vector<int>& nums, int i) {
-        int prev = 0;
-        for (int j = 0; j < nums.size(); ++j) {
-            if (i == j) continue;
-            if (prev >= nums[j]) return false;
-            prev = nums[j];
+        int n = nums.size();
+        auto check = [&](int k) -> bool {
+            int pre = 0;
+            for (int i = 0; i < n; ++i) {
+                if (i == k) {
+                    continue;
+                }
+                if (pre >= nums[i]) {
+                    return false;
+                }
+                pre = nums[i];
+            }
+            return true;
+        };
+        int i = 0;
+        while (i + 1 < n && nums[i] < nums[i + 1]) {
+            ++i;
         }
-        return true;
+        return check(i) || check(i + 1);
     }
 };
 ```
@@ -144,25 +163,24 @@ public:
 
 ```go
 func canBeIncreasing(nums []int) bool {
-	i, n := 1, len(nums)
-	for ; i < n && nums[i-1] < nums[i]; i++ {
-
-	}
-	return check(nums, i-1) || check(nums, i)
-}
-
-func check(nums []int, i int) bool {
-	prev := 0
-	for j := 0; j < len(nums); j++ {
-		if i == j {
-			continue
+	check := func(k int) bool {
+		pre := 0
+		for i, x := range nums {
+			if i == k {
+				continue
+			}
+			if pre >= x {
+				return false
+			}
+			pre = x
 		}
-		if prev >= nums[j] {
-			return false
-		}
-		prev = nums[j]
+		return true
 	}
-	return true
+	i := 0
+	for i+1 < len(nums) && nums[i] < nums[i+1] {
+		i++
+	}
+	return check(i) || check(i+1)
 }
 ```
 
@@ -170,24 +188,25 @@ func check(nums []int, i int) bool {
 
 ```ts
 function canBeIncreasing(nums: number[]): boolean {
-  const check = (p: number) => {
-    let prev = undefined;
-    for (let j = 0; j < nums.length; j++) {
-      if (p != j) {
-        if (prev !== undefined && prev >= nums[j]) {
-          return false;
+    const n = nums.length;
+    const check = (k: number): boolean => {
+        let pre = 0;
+        for (let i = 0; i < n; ++i) {
+            if (i === k) {
+                continue;
+            }
+            if (pre >= nums[i]) {
+                return false;
+            }
+            pre = nums[i];
         }
-        prev = nums[j];
-      }
+        return true;
+    };
+    let i = 0;
+    while (i + 1 < n && nums[i] < nums[i + 1]) {
+        ++i;
     }
-    return true;
-  };
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i - 1] >= nums[i]) {
-      return check(i - 1) || check(i);
-    }
-  }
-  return true;
+    return check(i) || check(i + 1);
 }
 ```
 
@@ -196,26 +215,53 @@ function canBeIncreasing(nums: number[]): boolean {
 ```rust
 impl Solution {
     pub fn can_be_increasing(nums: Vec<i32>) -> bool {
-        let check = |p: usize| -> bool {
-            let mut prev = None;
-            for j in 0..nums.len() {
-                if p != j {
-                    if let Some(value) = prev {
-                        if value >= nums[j] {
-                            return false;
-                        }
-                    }
-                    prev = Some(nums[j]);
+        let check = |k: usize| -> bool {
+            let mut pre = 0;
+            for (i, &x) in nums.iter().enumerate() {
+                if i == k {
+                    continue;
                 }
+                if pre >= x {
+                    return false;
+                }
+                pre = x;
             }
             true
         };
-        for i in 1..nums.len() {
-            if nums[i - 1] >= nums[i] {
-                return check(i - 1) || check(i);
-            }
+
+        let mut i = 0;
+        while i + 1 < nums.len() && nums[i] < nums[i + 1] {
+            i += 1;
         }
-        true
+        check(i) || check(i + 1)
+    }
+}
+```
+
+#### C#
+
+```cs
+public class Solution {
+    public bool CanBeIncreasing(int[] nums) {
+        int n = nums.Length;
+        bool check(int k) {
+            int pre = 0;
+            for (int i = 0; i < n; ++i) {
+                if (i == k) {
+                    continue;
+                }
+                if (pre >= nums[i]) {
+                    return false;
+                }
+                pre = nums[i];
+            }
+            return true;
+        }
+        int i = 0;
+        while (i + 1 < n && nums[i] < nums[i + 1]) {
+            ++i;
+        }
+        return check(i) || check(i + 1);
     }
 }
 ```

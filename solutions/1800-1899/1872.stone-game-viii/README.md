@@ -1,142 +1,107 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1872.Stone%20Game%20VIII/README.md
 rating: 2439
-source: Weekly Contest 242 Q4
+source: 第 242 场周赛 Q4
 tags:
-  - Array
-  - Math
-  - Dynamic Programming
-  - Game Theory
-  - Prefix Sum
+    - 数组
+    - 数学
+    - 动态规划
+    - 博弈
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1872. Stone Game VIII](https://leetcode.com/problems/stone-game-viii)
+# [1872. 石子游戏 VIII](https://leetcode.cn/problems/stone-game-viii)
 
-## Description
+[English Version](/solution/1800-1899/1872.Stone%20Game%20VIII/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Alice and Bob take turns playing a game, with <strong>Alice starting first</strong>.</p>
+<p>Alice 和 Bob 玩一个游戏，两人轮流操作， <strong>Alice 先手</strong> 。</p>
 
-<p>There are <code>n</code> stones arranged in a row. On each player&#39;s turn, while the number of stones is <strong>more than one</strong>, they will do the following:</p>
+<p>总共有 <code>n</code> 个石子排成一行。轮到某个玩家的回合时，如果石子的数目 <strong>大于 1</strong> ，他将执行以下操作：</p>
 
 <ol>
-
-    <li>Choose an integer <code>x &gt; 1</code>, and <strong>remove</strong> the leftmost <code>x</code> stones from the row.</li>
-
-    <li>Add the <strong>sum</strong> of the <strong>removed</strong> stones&#39; values to the player&#39;s score.</li>
-
-    <li>Place a <strong>new stone</strong>, whose value is equal to that sum, on the left side of the row.</li>
-
+	<li>选择一个整数 <code>x &gt; 1</code> ，并且 <strong>移除</strong> 最左边的 <code>x</code> 个石子。</li>
+	<li>将<strong> 移除</strong> 的石子价值之 <strong>和</strong> 累加到该玩家的分数中。</li>
+	<li>将一个 <strong>新的石子</strong> 放在最左边，且新石子的值为被移除石子值之和。</li>
 </ol>
 
-<p>The game stops when <strong>only</strong> <strong>one</strong> stone is left in the row.</p>
+<p>当只剩下 <strong>一个</strong> 石子时，游戏结束。</p>
 
-<p>The <strong>score difference</strong> between Alice and Bob is <code>(Alice&#39;s score - Bob&#39;s score)</code>. Alice&#39;s goal is to <strong>maximize</strong> the score difference, and Bob&#39;s goal is the <strong>minimize</strong> the score difference.</p>
+<p>Alice 和 Bob 的 <strong>分数之差</strong> 为 <code>(Alice 的分数 - Bob 的分数)</code> 。 Alice 的目标是<strong> 最大化</strong> 分数差，Bob 的目标是 <strong>最小化</strong> 分数差。</p>
 
-<p>Given an integer array <code>stones</code> of length <code>n</code> where <code>stones[i]</code> represents the value of the <code>i<sup>th</sup></code> stone <strong>from the left</strong>, return <em>the <strong>score difference</strong> between Alice and Bob if they both play <strong>optimally</strong>.</em></p>
+<p>给你一个长度为 <code>n</code> 的整数数组 <code>stones</code> ，其中 <code>stones[i]</code> 是 <strong>从左边起</strong> 第 <code>i</code> 个石子的价值。请你返回在双方都采用 <strong>最优</strong> 策略的情况下，Alice 和 Bob 的 <strong>分数之差</strong> 。</p>
 
-<p>&nbsp;</p>
+<p> </p>
 
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1：</strong></p>
 
-<pre>
-
-<strong>Input:</strong> stones = [-1,2,-3,4,-5]
-
-<strong>Output:</strong> 5
-
-<strong>Explanation:</strong>
-
-- Alice removes the first 4 stones, adds (-1) + 2 + (-3) + 4 = 2 to her score, and places a stone of
-
-  value 2 on the left. stones = [2,-5].
-
-- Bob removes the first 2 stones, adds 2 + (-5) = -3 to his score, and places a stone of value -3 on
-
-  the left. stones = [-3].
-
-The difference between their scores is 2 - (-3) = 5.
-
+<pre><b>输入：</b>stones = [-1,2,-3,4,-5]
+<b>输出：</b>5
+<strong>解释：</strong>
+- Alice 移除最左边的 4 个石子，得分增加 (-1) + 2 + (-3) + 4 = 2 ，并且将一个价值为 2 的石子放在最左边。stones = [2,-5] 。
+- Bob 移除最左边的 2 个石子，得分增加 2 + (-5) = -3 ，并且将一个价值为 -3 的石子放在最左边。stones = [-3] 。
+两者分数之差为 2 - (-3) = 5 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-
-<strong>Input:</strong> stones = [7,-6,5,10,5,-2,-6]
-
-<strong>Output:</strong> 13
-
-<strong>Explanation:</strong>
-
-- Alice removes all stones, adds 7 + (-6) + 5 + 10 + 5 + (-2) + (-6) = 13 to her score, and places a
-
-  stone of value 13 on the left. stones = [13].
-
-The difference between their scores is 13 - 0 = 13.
-
+<pre><b>输入：</b>stones = [7,-6,5,10,5,-2,-6]
+<b>输出：</b>13
+<b>解释：</b>
+- Alice 移除所有石子，得分增加 7 + (-6) + 5 + 10 + 5 + (-2) + (-6) = 13 ，并且将一个价值为 13 的石子放在最左边。stones = [13] 。
+两者分数之差为 13 - 0 = 13 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-
-<strong>Input:</strong> stones = [-10,-12]
-
-<strong>Output:</strong> -22
-
-<strong>Explanation:</strong>
-
-- Alice can only make one move, which is to remove both stones. She adds (-10) + (-12) = -22 to her
-
-  score and places a stone of value -22 on the left. stones = [-22].
-
-The difference between their scores is (-22) - 0 = -22.
-
+<pre><b>输入：</b>stones = [-10,-12]
+<b>输出：</b>-22
+<strong>解释：</strong>
+- Alice 只有一种操作，就是移除所有石子。得分增加 (-10) + (-12) = -22 ，并且将一个价值为 -22 的石子放在最左边。stones = [-22] 。
+两者分数之差为 (-22) - 0 = -22 。
 </pre>
 
-<p>&nbsp;</p>
+<p> </p>
 
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>n == stones.length</code></li>
-
-    <li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
-
-    <li><code>-10<sup>4</sup> &lt;= stones[i] &lt;= 10<sup>4</sup></code></li>
-
+	<li><code>n == stones.length</code></li>
+	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= stones[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Memoization Search
+### 方法一：前缀和 + 记忆化搜索
 
-According to the problem description, each time we take the leftmost $x$ stones, add their sum to our score, and then put a stone with this sum value on the leftmost side, it is equivalent to merging these $x$ stones into a stone with this sum value, and the prefix sum remains unchanged.
+根据题目描述，每次取走最左边的 $x$ 个石子，把它们的和加到自己的分数中，然后把一个价值为这个和的石子放在最左边，相当于把这 $x$ 个石子合并成了一个价值为这个和的石子，前缀和不变。
 
-We can use a prefix sum array $s$ of length $n$ to represent the prefix sum of the array $stones$, where $s[i]$ represents the sum of the elements $stones[0..i]$.
+我们可以用一个长度为 $n$ 的前缀和数组 $s$ 来表示数组 $stones$ 的前缀和，其中 $s[i]$ 表示 $stones[0..i]$ 的元素和。
 
-Next, we design a function $dfs(i)$, which means that we currently take stones from $stones[i:]$, and return the maximum score difference that the current player can get.
+接下来，我们设计一个函数 $dfs(i)$，表示当前从 $stones[i:]$ 中取石子，返回当前玩家能得到的最大分数差。
 
-The execution process of the function $dfs(i)$ is as follows:
+函数 $dfs(i)$ 的执行过程如下：
 
-- If $i \geq n - 1$, it means that we can only take all the stones at present, so we return $s[n - 1]$.
-- Otherwise, we can choose to take all the stones from $stones[i + 1:]$, and the score difference obtained is $dfs(i + 1)$; we can also choose to take the stones $stones[:i]$, and the score difference obtained is $s[i] - dfs(i + 1)$. We take the maximum of the two situations, which is the maximum score difference that the current player can get.
+-   如果 $i \geq n - 1$，说明当前只能取走全部石子，因此返回 $s[n - 1]$。
+-   否则，我们可以选择从 $stones[i + 1:]$ 中取走全部石子，得到的分数差为 $dfs(i + 1)$；也可以选择取走 $stones[:i]$ 的石子，得到的分数差为 $s[i] - dfs(i + 1)$。我们取两种情况中的最大值，即为当前玩家能得到的最大分数差。
 
-Finally, we can get the score difference between Alice and Bob as $dfs(1)$, that is, Alice must start the game by taking stones from $stones[1:]$.
+最终，我们可以得到 Alice 和 Bob 的分数之差为 $dfs(1)$，即 $Alice$ 必须从 $stones[1:]$ 中取石子开始游戏。
 
-To avoid repeated calculations, we can use memoization search.
+为了避免重复计算，我们可以使用记忆化搜索。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $stones$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $stones$ 的长度。
 
 <!-- tabs:start -->
 
@@ -241,21 +206,21 @@ func stoneGameVIII(stones []int) int {
 
 ```ts
 function stoneGameVIII(stones: number[]): number {
-  const n = stones.length;
-  const f: number[] = Array(n).fill(-1);
-  for (let i = 1; i < n; ++i) {
-    stones[i] += stones[i - 1];
-  }
-  const dfs = (i: number): number => {
-    if (i >= n - 1) {
-      return stones[i];
+    const n = stones.length;
+    const f: number[] = Array(n).fill(-1);
+    for (let i = 1; i < n; ++i) {
+        stones[i] += stones[i - 1];
     }
-    if (f[i] === -1) {
-      f[i] = Math.max(dfs(i + 1), stones[i] - dfs(i + 1));
-    }
-    return f[i];
-  };
-  return dfs(1);
+    const dfs = (i: number): number => {
+        if (i >= n - 1) {
+            return stones[i];
+        }
+        if (f[i] === -1) {
+            f[i] = Math.max(dfs(i + 1), stones[i] - dfs(i + 1));
+        }
+        return f[i];
+    };
+    return dfs(1);
 }
 ```
 
@@ -265,29 +230,29 @@ function stoneGameVIII(stones: number[]): number {
 
 <!-- solution:start -->
 
-### Solution 2: Prefix Sum + Dynamic Programming
+### 方法二：前缀和 + 动态规划
 
-We can also use dynamic programming to solve this problem.
+我们也可以使用动态规划的方法来解决这个问题。
 
-Similar to Solution 1, we first use a prefix sum array $s$ of length $n$ to represent the prefix sum of the array $stones$, where $s[i]$ represents the sum of the elements $stones[0..i]$.
+与方法一类似，我们先用一个长度为 $n$ 的前缀和数组 $s$ 来表示数组 $stones$ 的前缀和，其中 $s[i]$ 表示 $stones[0..i]$ 的元素和。
 
-We define $f[i]$ to represent the maximum score difference that the current player can get when taking stones from $stones[i:]$.
+我们定义 $f[i]$ 表示当前从 $stones[i:]$ 中取石子，返回当前玩家能得到的最大分数差。
 
-If the player chooses to take the stones $stones[:i]$, then the score obtained is $s[i]$. At this time, the other player will take stones from $stones[i+1:]$, and the maximum score difference that the other player can get is $f[i+1]$. Therefore, the maximum score difference that the current player can get is $s[i] - f[i+1]$.
+若玩家选择取走 $stones[:i]$ 的石子，那么获得的分数为 $s[i]$，此时另一个玩家会在 $stones[i+1:]$ 中取石子，那么另一个玩家能得到的最大分数差为 $f[i+1]$，因此当前玩家能得到的最大分数差为 $s[i] - f[i+1]$。
 
-If the player chooses to take stones from $stones[i+1:]$, then the maximum score difference obtained is $f[i+1]$.
+若玩家选择从 $stones[i+1:]$ 中取石子，那么获得的最大分数差为 $f[i+1]$。
 
-Therefore, we can get the state transition equation:
+因此我们可以得到状态转移方程：
 
 $$
 f[i] = \max\{s[i] - f[i+1], f[i+1]\}
 $$
 
-Finally, we can get the score difference between Alice and Bob as $f[1]$, that is, Alice must start the game by taking stones from $stones[1:]$.
+最终，我们可以得到 Alice 和 Bob 的分数之差为 $f[1]$，即 $Alice$ 必须从 $stones[1:]$ 中取石子开始游戏。
 
-We notice that $f[i]$ is only related to $f[i+1]$, so we only need to use a variable $f$ to represent $f[i]$.
+我们注意到 $f[i]$ 只与 $f[i+1]$ 有关，因此我们只需要使用一个变量 $f$ 来表示 $f[i]$ 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array $stones$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $stones$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -344,15 +309,15 @@ public:
 
 ```ts
 function stoneGameVIII(stones: number[]): number {
-  const n = stones.length;
-  for (let i = 1; i < n; ++i) {
-    stones[i] += stones[i - 1];
-  }
-  let f = stones[n - 1];
-  for (let i = n - 2; i; --i) {
-    f = Math.max(f, stones[i] - f);
-  }
-  return f;
+    const n = stones.length;
+    for (let i = 1; i < n; ++i) {
+        stones[i] += stones[i - 1];
+    }
+    let f = stones[n - 1];
+    for (let i = n - 2; i; --i) {
+        f = Math.max(f, stones[i] - f);
+    }
+    return f;
 }
 ```
 

@@ -1,133 +1,130 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2532.Time%20to%20Cross%20a%20Bridge/README.md
 rating: 2588
-source: Weekly Contest 327 Q4
+source: 第 327 场周赛 Q4
 tags:
-  - Array
-  - Simulation
-  - Heap (Priority Queue)
+    - 数组
+    - 模拟
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2532. Time to Cross a Bridge](https://leetcode.com/problems/time-to-cross-a-bridge)
+# [2532. 过桥的时间](https://leetcode.cn/problems/time-to-cross-a-bridge)
 
-## Description
+[English Version](/solution/2500-2599/2532.Time%20to%20Cross%20a%20Bridge/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>k</code> workers who want to move <code>n</code> boxes from the right (old) warehouse to the left (new) warehouse. You are given the two integers <code>n</code> and <code>k</code>, and a 2D integer array <code>time</code> of size <code>k x 4</code> where <code>time[i] = [right<sub>i</sub>, pick<sub>i</sub>, left<sub>i</sub>, put<sub>i</sub>]</code>.</p>
+<p>共有 <code>k</code> 位工人计划将 <code>n</code> 个箱子从右侧的（旧）仓库移动到左侧的（新）仓库。给你两个整数 <code>n</code> 和 <code>k</code>，以及一个二维整数数组 <code>time</code> ，数组的大小为 <code>k x 4</code> ，其中 <code>time[i] = [right<sub>i</sub>, pick<sub>i</sub>, left<sub>i</sub>, put<sub>i</sub>]</code> 。</p>
 
-<p>The warehouses are separated by a river and connected by a bridge. Initially, all <code>k</code> workers are waiting on the left side of the bridge. To move the boxes, the <code>i<sup>th</sup></code> worker can do the following:</p>
+<p>一条河将两座仓库分隔，只能通过一座桥通行。旧仓库位于河的右岸，新仓库在河的左岸。开始时，所有 <code>k</code> 位工人都在桥的左侧等待。为了移动这些箱子，第 <code>i</code> 位工人（下标从 <strong>0</strong> 开始）可以：</p>
 
 <ul>
-	<li>Cross the bridge to the right side in <code>right<sub>i</sub></code> minutes.</li>
-	<li>Pick a box from the right warehouse in <code>pick<sub>i</sub></code> minutes.</li>
-	<li>Cross the bridge to the left side in <code>left<sub>i</sub></code> minutes.</li>
-	<li>Put the box into the left warehouse in <code>put<sub>i</sub></code> minutes.</li>
+	<li>从左岸（新仓库）跨过桥到右岸（旧仓库），用时 <code>right<sub>i</sub></code> 分钟。</li>
+	<li>从旧仓库选择一个箱子，并返回到桥边，用时 <code>pick<sub>i</sub></code> 分钟。不同工人可以同时搬起所选的箱子。</li>
+	<li>从右岸（旧仓库）跨过桥到左岸（新仓库），用时 <code>left<sub>i</sub></code> 分钟。</li>
+	<li>将箱子放入新仓库，并返回到桥边，用时 <code>put<sub>i</sub></code> 分钟。不同工人可以同时放下所选的箱子。</li>
 </ul>
 
-<p>The <code>i<sup>th</sup></code> worker is <strong>less efficient</strong> than the j<code><sup>th</sup></code> worker if either condition is met:</p>
+<p>如果满足下面任一条件，则认为工人 <code>i</code> 的 <strong>效率低于</strong> 工人 <code>j</code> ：</p>
 
 <ul>
 	<li><code>left<sub>i</sub> + right<sub>i</sub> &gt; left<sub>j</sub> + right<sub>j</sub></code></li>
-	<li><code>left<sub>i</sub> + right<sub>i</sub> == left<sub>j</sub> + right<sub>j</sub></code> and <code>i &gt; j</code></li>
+	<li><code>left<sub>i</sub> + right<sub>i</sub> == left<sub>j</sub> + right<sub>j</sub></code> 且 <code>i &gt; j</code></li>
 </ul>
 
-<p>The following rules regulate the movement of the workers through the bridge:</p>
+<p>工人通过桥时需要遵循以下规则：</p>
 
 <ul>
-	<li>Only one worker can use the bridge at a time.</li>
-	<li>When the bridge is unused prioritize the <strong>least efficient</strong> worker on the right side to cross. If there are no workers on the right side, prioritize the <strong>least efficient</strong> worker on the left side to cross.</li>
-	<li>If enough workers have already been dispatched from the left side to pick up all the remaining boxes, <strong>no more</strong> workers will be sent from the left side.</li>
+	<li>同时只能有一名工人过桥。</li>
+	<li>当桥梁未被使用时，优先让右侧 <strong>效率最低</strong> 的工人（已经拿起盒子的工人）过桥。如果不是，优先让左侧 <strong>效率最低</strong> 的工人通过。</li>
+	<li>如果左侧已经派出足够的工人来拾取所有剩余的箱子，则 <strong>不会</strong> 再从左侧派出工人。</li>
 </ul>
 
-<p>Return the <strong>elapsed minutes</strong> at which the last box reaches the <strong>left side of the bridge</strong>.</p>
+<p><span class="text-only" data-eleid="8" style="white-space: pre;">请你返回最后一个箱子 </span><strong><span class="text-only" data-eleid="9" style="white-space: pre;">到达桥左侧</span></strong><span class="text-only" data-eleid="10" style="white-space: pre;"> 的时间。</span></p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 1, k = 3, time = [[1,1,2,1],[1,1,3,1],[1,1,4,1]]</span></p>
+<p><span class="example-io"><b>输入：</b>n = 1, k = 3, time = [[1,1,2,1],[1,1,3,1],[1,1,4,1]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">6</span></p>
+<p><span class="example-io"><b>输出：</b>6</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><b>解释：</b></p>
 
 <pre>
-From 0 to 1 minutes: worker 2 crosses the bridge to the right.
-From 1 to 2 minutes: worker 2 picks up a box from the right warehouse.
-From 2 to 6 minutes: worker 2 crosses the bridge to the left.
-From 6 to 7 minutes: worker 2 puts a box at the left warehouse.
-The whole process ends after 7 minutes. We return 6 because the problem asks for the instance of time at which the last worker reaches the left side of the bridge.
+从 0 到 1 分钟：工人 2 通过桥到达右侧。
+从 1 到 2 分钟：工人 2 从右侧仓库拿起箱子。
+从 2 到 6 分钟：工人 2 通过桥到达左侧。
+从 6 到 7 分钟：工人 2 向左侧仓库放下箱子。
+整个过程在 7 分钟后结束。我们返回 6 因为该问题要求的是最后一名工人到达桥梁左侧的时间。
 </pre>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例&nbsp;2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 3, k = 2, time = [[1,9,1,8],[10,10,10,10]]</span></p>
+<p><strong>输入：</strong><span class="example-io">n = 3, k = 2, time =</span> [[1,5,1,8],[10,10,10,10]]</p>
 
-<p><strong>Output:</strong> <span class="example-io">50</span></p>
+<p><b>输出：</b>37</p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <pre>
-From 0  to 10: worker 1 crosses the bridge to the right.
-From 10 to 20: worker 1 picks up a box from the right warehouse.
-From 10 to 11: worker 0 crosses the bridge to the right.
-From 11 to 20: worker 0 picks up a box from the right warehouse.
-From 20 to 30: worker 1 crosses the bridge to the left.
-From 30 to 40: worker 1 puts a box at the left warehouse.
-From 30 to 31: worker 0 crosses the bridge to the left.
-From 31 to 39: worker 0 puts a box at the left warehouse.
-From 39 to 40: worker 0 crosses the bridge to the right.
-From 40 to 49: worker 0 picks up a box from the right warehouse.
-From 49 to 50: worker 0 crosses the bridge to the left.
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2532.Time%20to%20Cross%20a%20Bridge/images/378539249-c6ce3c73-40e7-4670-a8b5-7ddb9abede11.png" style="width: 450px; height: 176px;" />
 </pre>
+
+<p>最后一个盒子在37秒时到达左侧。请注意，我们并 <strong>没有</strong> 放下最后一个箱子，因为那样会花费更多时间，而且它们已经和工人们一起在左边。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, k &lt;= 10<sup>4</sup></code></li>
 	<li><code>time.length == k</code></li>
 	<li><code>time[i].length == 4</code></li>
-	<li><code>1 &lt;= leftToRight<sub>i</sub>, pickOld<sub>i</sub>, rightToLeft<sub>i</sub>, putNew<sub>i</sub> &lt;= 1000</code></li>
+	<li><code>1 &lt;= left<sub>i</sub>, pick<sub>i</sub>, right<sub>i</sub>, put<sub>i</sub> &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Priority Queue (Max-Heap and Min-Heap) + Simulation
+### 方法一：优先队列（大小根堆） + 模拟
 
-First, we sort the workers by efficiency in descending order, so the worker with the highest index has the lowest efficiency.
+我们先将工人按照效率从高到底排序，这样，下标越大的工人，效率越低。
 
-Next, we use four priority queues to simulate the state of the workers:
+接下来，我们用四个优先队列模拟工人的状态：
 
-- `wait_in_left`: Max-heap, storing the indices of workers currently waiting on the left bank;
-- `wait_in_right`: Max-heap, storing the indices of workers currently waiting on the right bank;
-- `work_in_left`: Min-heap, storing the time when workers currently working on the left bank finish placing boxes and the indices of the workers;
-- `work_in_right`: Min-heap, storing the time when workers currently working on the right bank finish picking up boxes and the indices of the workers.
+-   `wait_in_left`：大根堆，存储当前在左岸等待的工人的下标；
+-   `wait_in_right`：大根堆，存储当前在右岸等待的工人的下标；
+-   `work_in_left`：小根堆，存储当前在左岸工作的工人放好箱子的时间以及工人的下标；
+-   `work_in_right`：小根堆，存储当前在右岸工作的工人拿好箱子的时间以及工人的下标。
 
-Initially, all workers are on the left bank, so `wait_in_left` stores the indices of all workers. We use the variable `cur` to record the current time.
+初始时，所有工人都在左岸，因此 `wait_in_left` 中存储所有工人的下标。用变量 `cur` 记录当前时间。
 
-Then, we simulate the entire process. First, we check if any worker in `work_in_left` has finished placing boxes at the current time. If so, we move the worker to `wait_in_left` and remove the worker from `work_in_left`. Similarly, we check if any worker in `work_in_right` has finished picking up boxes. If so, we move the worker to `wait_in_right` and remove the worker from `work_in_right`.
+然后，我们模拟整个过程。我们先判断当前时刻，`work_in_left` 是否有工人已经放好箱子，如果有，我们将工人放入 `wait_in_left` 中，然后将工人从 `work_in_left` 中移除。同理，我们再判断 `work_in_right` 是否有工人已经放好箱子，如果有，我们将工人放入 `wait_in_right` 中，然后将工人从 `work_in_right` 中移除。
 
-Next, we check if there are any workers waiting on the left bank at the current time, denoted as `left_to_go`. At the same time, we check if there are any workers waiting on the right bank, denoted as `right_to_go`. If there are no workers waiting to cross the river, we directly update `cur` to the next time when a worker finishes placing boxes and continue the simulation.
+接着，我们判断当前时刻是否有工人在左岸等待，记为 `left_to_go`，同时，我们判断当前时刻是否有工人在右岸等待，记为 `right_to_go`。如果不存在等待过岸的工人，我们直接将 `cur` 更新为下一个工人放好箱子的时间，然后继续模拟过程。
 
-If `right_to_go` is `true`, we take a worker from `wait_in_right`, update `cur` to the current time plus the time it takes for the worker to cross from the right bank to the left bank. If all workers have crossed to the right bank at this point, we directly return `cur` as the answer; otherwise, we move the worker to `work_in_left`.
+如果 `right_to_go` 为 `true`，我们从 `wait_in_right` 中取出一个工人，更新 `cur` 为当前时间加上该工人从右岸过左岸的时间，如果此时所有工人都已经过了右岸，我们直接将 `cur` 作为答案返回；否则，我们将该工人放入 `work_in_left` 中。
 
-If `left_to_go` is `true`, we take a worker from `wait_in_left`, update `cur` to the current time plus the time it takes for the worker to cross from the left bank to the right bank, then move the worker to `work_in_right` and decrement the number of boxes.
+如果 `left_to_go` 为 `true`，我们从 `wait_in_left` 中取出一个工人，更新 `cur` 为当前时间加上该工人从左岸过右岸的时间，然后将该工人放入 `work_in_right` 中，并且将箱子数量减一。
 
-Repeat the above process until the number of boxes is zero. At this point, `cur` is the answer.
+循环上述过程，直到箱子数量为零，此时 `cur` 即为答案。
 
-The time complexity is $O(n \times \log k)$, and the space complexity is $O(k)$. Here, $n$ and $k$ are the number of workers and the number of boxes, respectively.
+时间复杂度 $O(n \times \log k)$，空间复杂度 $O(k)$。其中 $n$ 和 $k$ 分别为工人数量和箱子数量。
 
 <!-- tabs:start -->
 

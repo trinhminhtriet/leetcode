@@ -1,75 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2498.Frog%20Jump%20II/README.md
 rating: 1759
-source: Biweekly Contest 93 Q3
+source: 第 93 场双周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Binary Search
+    - 贪心
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [2498. Frog Jump II](https://leetcode.com/problems/frog-jump-ii)
+# [2498. 青蛙过河 II](https://leetcode.cn/problems/frog-jump-ii)
 
-## Description
+[English Version](/solution/2400-2499/2498.Frog%20Jump%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>stones</code> sorted in <strong>strictly increasing order</strong> representing the positions of stones in a river.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>stones</code>&nbsp;，数组中的元素&nbsp;<strong>严格递增</strong>&nbsp;，表示一条河中石头的位置。</p>
 
-<p>A frog, initially on the first stone, wants to travel to the last stone and then return to the first stone. However, it can jump to any stone <strong>at most once</strong>.</p>
+<p>一只青蛙一开始在第一块石头上，它想到达最后一块石头，然后回到第一块石头。同时每块石头 <strong>至多</strong> 到达 <strong>一次。</strong></p>
 
-<p>The <strong>length</strong> of a jump is the absolute difference between the position of the stone the frog is currently on and the position of the stone to which the frog jumps.</p>
+<p>一次跳跃的 <strong>长度</strong>&nbsp;是青蛙跳跃前和跳跃后所在两块石头之间的距离。</p>
 
 <ul>
-	<li>More formally, if the frog is at <code>stones[i]</code> and is jumping to <code>stones[j]</code>, the length of the jump is <code>|stones[i] - stones[j]|</code>.</li>
+	<li>更正式的，如果青蛙从&nbsp;<code>stones[i]</code>&nbsp;跳到&nbsp;<code>stones[j]</code>&nbsp;，跳跃的长度为&nbsp;<code>|stones[i] - stones[j]|</code>&nbsp;。</li>
 </ul>
 
-<p>The <strong>cost</strong> of a path is the <strong>maximum length of a jump</strong> among all jumps in the path.</p>
+<p>一条路径的 <b>代价</b>&nbsp;是这条路径里的&nbsp;<b>最大跳跃长度</b>&nbsp;。</p>
 
-<p>Return <em>the <strong>minimum</strong> cost of a path for the frog</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2498.Frog%20Jump%20II/images/example-1.png" style="width: 600px; height: 219px;" />
-<pre>
-<strong>Input:</strong> stones = [0,2,5,6,7]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The above figure represents one of the optimal paths the frog can take.
-The cost of this path is 5, which is the maximum length of a jump.
-Since it is not possible to achieve a cost of less than 5, we return it.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2498.Frog%20Jump%20II/images/example-2.png" style="width: 500px; height: 171px;" />
-<pre>
-<strong>Input:</strong> stones = [0,3,9]
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> 
-The frog can jump directly to the last stone and come back to the first stone. 
-In this case, the length of each jump will be 9. The cost for the path will be max(9, 9) = 9.
-It can be shown that this is the minimum achievable cost.
-</pre>
+<p>请你返回这只青蛙的 <strong>最小代价</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2498.Frog%20Jump%20II/images/example-1.png" style="width: 600px; height: 219px;" /></p>
+
+<pre>
+<b>输入：</b>stones = [0,2,5,6,7]
+<b>输出：</b>5
+<b>解释：</b>上图展示了一条最优路径。
+这条路径的代价是 5 ，是这条路径中的最大跳跃长度。
+无法得到一条代价小于 5 的路径，我们返回 5 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2498.Frog%20Jump%20II/images/example-2.png" style="width: 500px; height: 171px;" /></p>
+
+<pre>
+<b>输入：</b>stones = [0,3,9]
+<b>输出：</b>9
+<b>解释：</b>
+青蛙可以直接跳到最后一块石头，然后跳回第一块石头。
+在这条路径中，每次跳跃长度都是 9 。所以路径代价是 max(9, 9) = 9 。
+这是可行路径中的最小代价。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= stones.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= stones[i] &lt;= 10<sup>9</sup></code></li>
 	<li><code>stones[0] == 0</code></li>
-	<li><code>stones</code> is sorted in a strictly increasing order.</li>
+	<li><code>stones</code>&nbsp;中的元素严格递增。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：脑筋急转弯
+
+要使得跳跃过程中的每一步的最大跳跃长度最小，我们应该将跳跃过程切分成尽可能多的连续的步骤。通过观察，间隔跳跃可以获取最优解。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 `stones` 的长度。
 
 <!-- tabs:start -->
 

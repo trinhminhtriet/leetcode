@@ -1,63 +1,53 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0417.Pacific%20Atlantic%20Water%20Flow/README.md
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Array
-  - Matrix
+    - 深度优先搜索
+    - 广度优先搜索
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [417. Pacific Atlantic Water Flow](https://leetcode.com/problems/pacific-atlantic-water-flow)
+# [417. 太平洋大西洋水流问题](https://leetcode.cn/problems/pacific-atlantic-water-flow)
 
-## Description
+[English Version](/solution/0400-0499/0417.Pacific%20Atlantic%20Water%20Flow/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an <code>m x n</code> rectangular island that borders both the <strong>Pacific Ocean</strong> and <strong>Atlantic Ocean</strong>. The <strong>Pacific Ocean</strong> touches the island&#39;s left and top edges, and the <strong>Atlantic Ocean</strong> touches the island&#39;s right and bottom edges.</p>
+<p>有一个 <code>m × n</code> 的矩形岛屿，与 <strong>太平洋</strong> 和 <strong>大西洋</strong> 相邻。&nbsp;<strong>“太平洋”&nbsp;</strong>处于大陆的左边界和上边界，而 <strong>“大西洋”</strong> 处于大陆的右边界和下边界。</p>
 
-<p>The island is partitioned into a grid of square cells. You are given an <code>m x n</code> integer matrix <code>heights</code> where <code>heights[r][c]</code> represents the <strong>height above sea level</strong> of the cell at coordinate <code>(r, c)</code>.</p>
+<p>这个岛被分割成一个由若干方形单元格组成的网格。给定一个 <code>m x n</code> 的整数矩阵&nbsp;<code>heights</code>&nbsp;，&nbsp;<code>heights[r][c]</code>&nbsp;表示坐标 <code>(r, c)</code> 上单元格 <strong>高于海平面的高度</strong> 。</p>
 
-<p>The island receives a lot of rain, and the rain water can flow to neighboring cells directly north, south, east, and west if the neighboring cell&#39;s height is <strong>less than or equal to</strong> the current cell&#39;s height. Water can flow from any cell adjacent to an ocean into the ocean.</p>
+<p>岛上雨水较多，如果相邻单元格的高度 <strong>小于或等于</strong> 当前单元格的高度，雨水可以直接向北、南、东、西流向相邻单元格。水可以从海洋附近的任何单元格流入海洋。</p>
 
-<p>Return <em>a <strong>2D list</strong> of grid coordinates </em><code>result</code><em> where </em><code>result[i] = [r<sub>i</sub>, c<sub>i</sub>]</code><em> denotes that rain water can flow from cell </em><code>(r<sub>i</sub>, c<sub>i</sub>)</code><em> to <strong>both</strong> the Pacific and Atlantic oceans</em>.</p>
+<p>返回网格坐标 <code>result</code>&nbsp;的 <strong>2D 列表</strong> ，其中&nbsp;<code>result[i] = [r<sub>i</sub>, c<sub>i</sub>]</code>&nbsp;表示雨水从单元格 <code>(ri, ci)</code> 流动 <strong>既可流向太平洋也可流向大西洋</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0417.Pacific%20Atlantic%20Water%20Flow/images/waterflow-grid.jpg" style="width: 400px; height: 400px;" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0417.Pacific%20Atlantic%20Water%20Flow/images/waterflow-grid.jpg" /></p>
+
 <pre>
-<strong>Input:</strong> heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
-<strong>Output:</strong> [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]
-<strong>Explanation:</strong> The following cells can flow to the Pacific and Atlantic oceans, as shown below:
-[0,4]: [0,4] -&gt; Pacific Ocean 
-&nbsp;      [0,4] -&gt; Atlantic Ocean
-[1,3]: [1,3] -&gt; [0,3] -&gt; Pacific Ocean 
-&nbsp;      [1,3] -&gt; [1,4] -&gt; Atlantic Ocean
-[1,4]: [1,4] -&gt; [1,3] -&gt; [0,3] -&gt; Pacific Ocean 
-&nbsp;      [1,4] -&gt; Atlantic Ocean
-[2,2]: [2,2] -&gt; [1,2] -&gt; [0,2] -&gt; Pacific Ocean 
-&nbsp;      [2,2] -&gt; [2,3] -&gt; [2,4] -&gt; Atlantic Ocean
-[3,0]: [3,0] -&gt; Pacific Ocean 
-&nbsp;      [3,0] -&gt; [4,0] -&gt; Atlantic Ocean
-[3,1]: [3,1] -&gt; [3,0] -&gt; Pacific Ocean 
-&nbsp;      [3,1] -&gt; [4,1] -&gt; Atlantic Ocean
-[4,0]: [4,0] -&gt; Pacific Ocean 
-       [4,0] -&gt; Atlantic Ocean
-Note that there are other possible paths for these cells to flow to the Pacific and Atlantic oceans.
+<strong>输入:</strong> heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
+<strong>输出:</strong> [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> heights = [[1]]
-<strong>Output:</strong> [[0,0]]
-<strong>Explanation:</strong> The water can flow from the only cell to the Pacific and Atlantic oceans.
+<strong>输入:</strong> heights = [[2,1],[1,2]]
+<strong>输出:</strong> [[0,0],[0,1],[1,0],[1,1]]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == heights.length</code></li>
@@ -68,11 +58,11 @@ Note that there are other possible paths for these cells to flow to the Pacific 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -301,54 +291,54 @@ func pacificAtlantic(heights [][]int) [][]int {
 
 ```ts
 function pacificAtlantic(heights: number[][]): number[][] {
-  const m = heights.length;
-  const n = heights[0].length;
-  const dirs = [
-    [1, 0],
-    [0, 1],
-    [-1, 0],
-    [0, -1],
-  ];
-  const gird = new Array(m).fill(0).map(() => new Array(n).fill(0));
-  const isVis = new Array(m).fill(0).map(() => new Array(n).fill(false));
+    const m = heights.length;
+    const n = heights[0].length;
+    const dirs = [
+        [1, 0],
+        [0, 1],
+        [-1, 0],
+        [0, -1],
+    ];
+    const gird = new Array(m).fill(0).map(() => new Array(n).fill(0));
+    const isVis = new Array(m).fill(0).map(() => new Array(n).fill(false));
 
-  const dfs = (i: number, j: number) => {
-    if (isVis[i][j]) {
-      return;
-    }
-    gird[i][j]++;
-    isVis[i][j] = true;
-    const h = heights[i][j];
-    for (const [x, y] of dirs) {
-      if (h <= (heights[i + x] ?? [])[j + y]) {
-        dfs(i + x, j + y);
-      }
-    }
-  };
+    const dfs = (i: number, j: number) => {
+        if (isVis[i][j]) {
+            return;
+        }
+        gird[i][j]++;
+        isVis[i][j] = true;
+        const h = heights[i][j];
+        for (const [x, y] of dirs) {
+            if (h <= (heights[i + x] ?? [])[j + y]) {
+                dfs(i + x, j + y);
+            }
+        }
+    };
 
-  for (let i = 0; i < n; i++) {
-    dfs(0, i);
-  }
-  for (let i = 0; i < m; i++) {
-    dfs(i, 0);
-  }
-  isVis.forEach((v) => v.fill(false));
-  for (let i = 0; i < n; i++) {
-    dfs(m - 1, i);
-  }
-  for (let i = 0; i < m; i++) {
-    dfs(i, n - 1);
-  }
-
-  const res = [];
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      if (gird[i][j] === 2) {
-        res.push([i, j]);
-      }
+    for (let i = 0; i < n; i++) {
+        dfs(0, i);
     }
-  }
-  return res;
+    for (let i = 0; i < m; i++) {
+        dfs(i, 0);
+    }
+    isVis.forEach(v => v.fill(false));
+    for (let i = 0; i < n; i++) {
+        dfs(m - 1, i);
+    }
+    for (let i = 0; i < m; i++) {
+        dfs(i, n - 1);
+    }
+
+    const res = [];
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (gird[i][j] === 2) {
+                res.push([i, j]);
+            }
+        }
+    }
+    return res;
 }
 ```
 

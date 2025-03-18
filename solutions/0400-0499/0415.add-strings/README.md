@@ -1,70 +1,77 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0415.Add%20Strings/README.md
 tags:
-  - Math
-  - String
-  - Simulation
+    - 数学
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [415. Add Strings](https://leetcode.com/problems/add-strings)
+# [415. 字符串相加](https://leetcode.cn/problems/add-strings)
 
-## Description
+[English Version](/solution/0400-0499/0415.Add%20Strings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two non-negative integers, <code>num1</code> and <code>num2</code> represented as string, return <em>the sum of</em> <code>num1</code> <em>and</em> <code>num2</code> <em>as a string</em>.</p>
+<p>给定两个字符串形式的非负整数&nbsp;<code>num1</code> 和<code>num2</code>&nbsp;，计算它们的和并同样以字符串形式返回。</p>
 
-<p>You must solve the problem without using any built-in library for handling large integers (such as <code>BigInteger</code>). You must also not convert the inputs to integers directly.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> num1 = &quot;11&quot;, num2 = &quot;123&quot;
-<strong>Output:</strong> &quot;134&quot;
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> num1 = &quot;456&quot;, num2 = &quot;77&quot;
-<strong>Output:</strong> &quot;533&quot;
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> num1 = &quot;0&quot;, num2 = &quot;0&quot;
-<strong>Output:</strong> &quot;0&quot;
-</pre>
+<p>你不能使用任何內建的用于处理大整数的库（比如 <code>BigInteger</code>），&nbsp;也不能直接将输入的字符串转换为整数形式。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>num1 = "11", num2 = "123"
+<strong>输出：</strong>"134"
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>num1 = "456", num2 = "77"
+<strong>输出：</strong>"533"
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>num1 = "0", num2 = "0"
+<strong>输出：</strong>"0"
+</pre>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num1.length, num2.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>num1</code> and <code>num2</code> consist of only digits.</li>
-	<li><code>num1</code> and <code>num2</code> don&#39;t have any leading zeros except for the zero itself.</li>
+	<li><code>num1</code> 和<code>num2</code> 都只包含数字&nbsp;<code>0-9</code></li>
+	<li><code>num1</code> 和<code>num2</code> 都不包含任何前导零</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-We use two pointers $i$ and $j$ to point to the end of the two strings respectively, and start adding bit by bit from the end. Each time we take out the corresponding digits $a$ and $b$, calculate their sum $a + b + c$, where $c$ represents the carry from the last addition. Finally, we append the units digit of $a + b + c$ to the end of the answer string, and then take the tens digit of $a + b + c$ as the value of the carry $c$, and loop this process until the pointers of both strings have pointed to the beginning of the string and the value of the carry $c$ is $0$.
+我们用两个指针 $i$ 和 $j$ 分别指向两个字符串的末尾，从末尾开始逐位相加。每次取出对应位的数字 $a$ 和 $b$，计算它们的和 $a + b + c$，其中 $c$ 表示上一次相加的进位，最后将 $a + b + c$ 的个位数添加到追加到答案字符串的末尾，然后将 $a + b + c$ 的十位数作为进位 $c$ 的值，循环此过程直至两个字符串的指针都已经指向了字符串的开头并且进位 $c$ 的值为 $0$。
 
-Finally, reverse the answer string and return it.
+最后将答案字符串反转并返回即可。
 
-The time complexity is $O(\max(m, n))$, where $m$ and $n$ are the lengths of the two strings respectively. Ignoring the space consumption of the answer string, the space complexity is $O(1)$.
+时间复杂度 $O(\max(m, n))$，其中 $m$ 和 $n$ 分别是两个字符串的长度。忽略答案字符串的空间消耗，空间复杂度 $O(1)$。
 
-The following code also implements string subtraction, refer to the `subStrings(num1, num2)` function.
+以下代码还实现了字符串相减，参考 `subStrings(num1, num2)` 函数。
 
 <!-- tabs:start -->
 
@@ -250,42 +257,42 @@ func subStrings(num1 string, num2 string) string {
 
 ```ts
 function addStrings(num1: string, num2: string): string {
-  let i = num1.length - 1;
-  let j = num2.length - 1;
-  const ans: number[] = [];
-  for (let c = 0; i >= 0 || j >= 0 || c; --i, --j) {
-    c += i < 0 ? 0 : +num1[i];
-    c += j < 0 ? 0 : +num2[j];
-    ans.push(c % 10);
-    c = Math.floor(c / 10);
-  }
-  return ans.reverse().join("");
+    let i = num1.length - 1;
+    let j = num2.length - 1;
+    const ans: number[] = [];
+    for (let c = 0; i >= 0 || j >= 0 || c; --i, --j) {
+        c += i < 0 ? 0 : +num1[i];
+        c += j < 0 ? 0 : +num2[j];
+        ans.push(c % 10);
+        c = Math.floor(c / 10);
+    }
+    return ans.reverse().join('');
 }
 
 function subStrings(num1: string, num2: string): string {
-  const m = num1.length;
-  const n = num2.length;
-  const neg = m < n || (m == n && num1 < num2);
-  if (neg) {
-    const t = num1;
-    num1 = num2;
-    num2 = t;
-  }
-  let i = num1.length - 1;
-  let j = num2.length - 1;
-  const ans: number[] = [];
-  for (let c = 0; i >= 0; --i, --j) {
-    c = +num1[i] - c;
-    if (j >= 0) {
-      c -= +num2[j];
+    const m = num1.length;
+    const n = num2.length;
+    const neg = m < n || (m == n && num1 < num2);
+    if (neg) {
+        const t = num1;
+        num1 = num2;
+        num2 = t;
     }
-    ans.push((c + 10) % 10);
-    c = c < 0 ? 1 : 0;
-  }
-  while (ans.length > 1 && ans.at(-1) === 0) {
-    ans.pop();
-  }
-  return (neg ? "-" : "") + ans.reverse().join("");
+    let i = num1.length - 1;
+    let j = num2.length - 1;
+    const ans: number[] = [];
+    for (let c = 0; i >= 0; --i, --j) {
+        c = +num1[i] - c;
+        if (j >= 0) {
+            c -= +num2[j];
+        }
+        ans.push((c + 10) % 10);
+        c = c < 0 ? 1 : 0;
+    }
+    while (ans.length > 1 && ans.at(-1) === 0) {
+        ans.pop();
+    }
+    return (neg ? '-' : '') + ans.reverse().join('');
 }
 ```
 
@@ -326,16 +333,16 @@ impl Solution {
  * @return {string}
  */
 var addStrings = function (num1, num2) {
-  let i = num1.length - 1;
-  let j = num2.length - 1;
-  const ans = [];
-  for (let c = 0; i >= 0 || j >= 0 || c; --i, --j) {
-    c += i < 0 ? 0 : +num1[i];
-    c += j < 0 ? 0 : +num2[j];
-    ans.push(c % 10);
-    c = Math.floor(c / 10);
-  }
-  return ans.reverse().join("");
+    let i = num1.length - 1;
+    let j = num2.length - 1;
+    const ans = [];
+    for (let c = 0; i >= 0 || j >= 0 || c; --i, --j) {
+        c += i < 0 ? 0 : +num1[i];
+        c += j < 0 ? 0 : +num2[j];
+        ans.push(c % 10);
+        c = Math.floor(c / 10);
+    }
+    return ans.reverse().join('');
 };
 
 /**
@@ -344,29 +351,29 @@ var addStrings = function (num1, num2) {
  * @return {string}
  */
 var subStrings = function (num1, num2) {
-  const m = num1.length;
-  const n = num2.length;
-  const neg = m < n || (m == n && num1 < num2);
-  if (neg) {
-    const t = num1;
-    num1 = num2;
-    num2 = t;
-  }
-  let i = num1.length - 1;
-  let j = num2.length - 1;
-  const ans = [];
-  for (let c = 0; i >= 0; --i, --j) {
-    c = +num1[i] - c;
-    if (j >= 0) {
-      c -= +num2[j];
+    const m = num1.length;
+    const n = num2.length;
+    const neg = m < n || (m == n && num1 < num2);
+    if (neg) {
+        const t = num1;
+        num1 = num2;
+        num2 = t;
     }
-    ans.push((c + 10) % 10);
-    c = c < 0 ? 1 : 0;
-  }
-  while (ans.length > 1 && ans.at(-1) === 0) {
-    ans.pop();
-  }
-  return (neg ? "-" : "") + ans.reverse().join("");
+    let i = num1.length - 1;
+    let j = num2.length - 1;
+    const ans = [];
+    for (let c = 0; i >= 0; --i, --j) {
+        c = +num1[i] - c;
+        if (j >= 0) {
+            c -= +num2[j];
+        }
+        ans.push((c + 10) % 10);
+        c = c < 0 ? 1 : 0;
+    }
+    while (ans.length > 1 && ans.at(-1) === 0) {
+        ans.pop();
+    }
+    return (neg ? '-' : '') + ans.reverse().join('');
 };
 ```
 

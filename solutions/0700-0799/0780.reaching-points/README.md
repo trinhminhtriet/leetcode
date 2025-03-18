@@ -1,51 +1,56 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0780.Reaching%20Points/README.md
 tags:
-  - Math
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [780. Reaching Points](https://leetcode.com/problems/reaching-points)
+# [780. 到达终点](https://leetcode.cn/problems/reaching-points)
 
-## Description
+[English Version](/solution/0700-0799/0780.Reaching%20Points/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given four integers <code>sx</code>, <code>sy</code>, <code>tx</code>, and <code>ty</code>, return <code>true</code><em> if it is possible to convert the point </em><code>(sx, sy)</code><em> to the point </em><code>(tx, ty)</code> <em>through some operations</em><em>, or </em><code>false</code><em> otherwise</em>.</p>
+<p>给定四个整数&nbsp;<code>sx</code>&nbsp;,&nbsp;<code>sy</code>&nbsp;，<code>tx</code>&nbsp;和&nbsp;<code>ty</code>，如果通过一系列的<strong>转换</strong>可以从起点&nbsp;<code>(sx, sy)</code>&nbsp;到达终点&nbsp;<code>(tx, ty)</code>，则返回 <code>true</code>，否则返回&nbsp;<code>false</code>。</p>
 
-<p>The allowed operation on some point <code>(x, y)</code> is to convert it to either <code>(x, x + y)</code> or <code>(x + y, y)</code>.</p>
+<p>从点&nbsp;<code>(x, y)</code>&nbsp;可以<strong>转换</strong>到&nbsp;<code>(x, x+y)</code>&nbsp; 或者&nbsp;<code>(x+y, y)</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> sx = 1, sy = 1, tx = 3, ty = 5
-<strong>Output:</strong> true
-<strong>Explanation:</strong>
-One series of moves that transforms the starting point to the target is:
+<strong>输入:</strong> sx = 1, sy = 1, tx = 3, ty = 5
+<strong>输出:</strong> true
+<strong>解释:
+</strong>可以通过以下一系列<strong>转换</strong>从起点转换到终点：
 (1, 1) -&gt; (1, 2)
 (1, 2) -&gt; (3, 2)
 (3, 2) -&gt; (3, 5)
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2:</strong></p>
 
 <pre>
-<strong>Input:</strong> sx = 1, sy = 1, tx = 2, ty = 2
-<strong>Output:</strong> false
+<strong>输入:</strong> sx = 1, sy = 1, tx = 2, ty = 2 
+<strong>输出:</strong> false
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3:</strong></p>
 
 <pre>
-<strong>Input:</strong> sx = 1, sy = 1, tx = 1, ty = 1
-<strong>Output:</strong> true
+<strong>输入:</strong> sx = 1, sy = 1, tx = 1, ty = 1 
+<strong>输出:</strong> true
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= sx, sy, tx, ty &lt;= 10<sup>9</sup></code></li>
@@ -53,11 +58,20 @@ One series of moves that transforms the starting point to the target is:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：逆向计算
+
+从 `(tx, ty)` 开始逆向计算，判断是否可以到达状态 `(sx, sy)`。由于逆向计算是将 tx, ty 中的较大值减少，因此当 `tx > ty` 时可以直接将 tx 的值更新为 `tx % ty`，当 `tx < ty` 时可以将 ty 的值更新为 `ty % tx`。逆向计算需要满足 `tx > sx && ty > sy && tx != ty`。
+
+当条件不成立时，根据此时 tx 和 ty 判断是否可以从起点转换到终点。
+
+-   如果 `tx == sx && ty == sy`，说明此时已经到达起点状态，返回 true；
+-   如果 `tx == sx`，若 `ty > sy && (ty - sy) % tx == 0`，返回 true，否则返回 false；
+-   如果 `ty == sy`，若 `tx > sx && (tx - sx) % ty == 0`，返回 true，否则返回 false；
+-   如果 `tx ≠ sx && ty ≠ sy`，则不可以从起点转换到终点。
 
 <!-- tabs:start -->
 

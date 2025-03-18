@@ -1,42 +1,46 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3178.Find%20the%20Child%20Who%20Has%20the%20Ball%20After%20K%20Seconds/README.md
 rating: 1255
-source: Weekly Contest 401 Q1
+source: 第 401 场周赛 Q1
 tags:
-  - Math
-  - Simulation
+    - 数学
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [3178. Find the Child Who Has the Ball After K Seconds](https://leetcode.com/problems/find-the-child-who-has-the-ball-after-k-seconds)
+# [3178. 找出 K 秒后拿着球的孩子](https://leetcode.cn/problems/find-the-child-who-has-the-ball-after-k-seconds)
 
-## Description
+[English Version](/solution/3100-3199/3178.Find%20the%20Child%20Who%20Has%20the%20Ball%20After%20K%20Seconds/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>positive</strong> integers <code>n</code> and <code>k</code>. There are <code>n</code> children numbered from <code>0</code> to <code>n - 1</code> standing in a queue <em>in order</em> from left to right.</p>
+<p>给你两个 <strong>正整数 </strong><code>n</code> 和 <code>k</code>。有 <code>n</code> 个编号从 <code>0</code> 到 <code>n - 1</code> 的孩子按顺序从左到右站成一队。</p>
 
-<p>Initially, child 0 holds a ball and the direction of passing the ball is towards the right direction. After each second, the child holding the ball passes it to the child next to them. Once the ball reaches <strong>either</strong> end of the line, i.e. child 0 or child <code>n - 1</code>, the direction of passing is <strong>reversed</strong>.</p>
+<p>最初，编号为 0 的孩子拿着一个球，并且向右传球。每过一秒，拿着球的孩子就会将球传给他旁边的孩子。一旦球到达队列的 <strong>任一端 </strong>，即编号为 0 的孩子或编号为 <code>n - 1</code> 的孩子处，传球方向就会<strong> 反转 </strong>。</p>
 
-<p>Return the number of the child who receives the ball after <code>k</code> seconds.</p>
+<p>返回 <code>k</code> 秒后接到球的孩子的编号。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 3, k = 5</span></p>
+<p><strong>输入：</strong><span class="example-io">n = 3, k = 5</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
+<p><strong>输出：</strong><span class="example-io">1</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <table>
 	<tbody>
 		<tr>
-			<th>Time elapsed</th>
-			<th>Children</th>
+			<th>经过的时间</th>
+			<th>孩子队列</th>
 		</tr>
 		<tr>
 			<td><code>0</code></td>
@@ -66,20 +70,20 @@ tags:
 </table>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 5, k = 6</span></p>
+<p><strong>输入：</strong><span class="example-io">n = 5, k = 6</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><strong>输出：</strong><span class="example-io">2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <table>
 	<tbody>
 		<tr>
-			<th>Time elapsed</th>
-			<th>Children</th>
+			<th>经过的时间</th>
+			<th>孩子队列</th>
 		</tr>
 		<tr>
 			<td><code>0</code></td>
@@ -113,20 +117,20 @@ tags:
 </table>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 4, k = 2</span></p>
+<p><strong>输入：</strong><span class="example-io">n = 4, k = 2</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><strong>输出：</strong><span class="example-io">2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <table>
 	<tbody>
 		<tr>
-			<th>Time elapsed</th>
-			<th>Children</th>
+			<th>经过的时间</th>
+			<th>孩子队列</th>
 		</tr>
 		<tr>
 			<td><code>0</code></td>
@@ -145,7 +149,8 @@ tags:
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 50</code></li>
@@ -153,24 +158,25 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Note:</strong> This question is the same as <a href="https://leetcode.com/problems/pass-the-pillow/description/" target="_blank"> 2582: Pass the Pillow.</a></p>
+
+<p><strong>注意：</strong>此问题与 <a href="https://leetcode.cn/problems/pass-the-pillow/">2582. 递枕头</a>&nbsp;一致。</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Mathematics
+### 方法一：数学
 
-We notice that there are $n - 1$ passes in each round. Therefore, we can take $k$ modulo $n - 1$ to get the number of passes $mod$ in the current round. Then we divide $k$ by $n - 1$ to get the current round number $k$.
+我们注意到，每一轮有 $n - 1$ 次传递，因此我们可以将 $k$ 对 $n - 1$ 取模，得到 $k$ 在当前轮的传递次数 $mod$，然后我们将 $k$ 除以 $n - 1$，得到当前的轮数 $k$。
 
-Next, we judge the current round number $k$:
+接下来我们判断当前的轮数 $k$：
 
-- If $k$ is odd, then the current passing direction is from the end of the queue to the head, so it will be passed to the person with the number $n - mod - 1$.
-- If $k$ is even, then the current passing direction is from the head of the queue to the end, so it will be passed to the person with the number $mod$.
+-   如果 $k$ 为奇数，那么当前的传递方向是从队尾到队首，因此会传递到编号为 $n - mod - 1$ 的人手中；
+-   如果 $k$ 为偶数，那么当前的传递方向是从队首到队尾，因此会传递到编号为 $mod$ 的人手中。
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -225,9 +231,9 @@ func numberOfChild(n int, k int) int {
 
 ```ts
 function numberOfChild(n: number, k: number): number {
-  const mod = k % (n - 1);
-  k = (k / (n - 1)) | 0;
-  return k % 2 ? n - mod - 1 : mod;
+    const mod = k % (n - 1);
+    k = (k / (n - 1)) | 0;
+    return k % 2 ? n - mod - 1 : mod;
 }
 ```
 

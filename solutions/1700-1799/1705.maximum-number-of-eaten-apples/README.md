@@ -1,75 +1,79 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1705.Maximum%20Number%20of%20Eaten%20Apples/README.md
 rating: 1929
-source: Weekly Contest 221 Q2
+source: 第 221 场周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1705. Maximum Number of Eaten Apples](https://leetcode.com/problems/maximum-number-of-eaten-apples)
+# [1705. 吃苹果的最大数目](https://leetcode.cn/problems/maximum-number-of-eaten-apples)
 
-## Description
+[English Version](/solution/1700-1799/1705.Maximum%20Number%20of%20Eaten%20Apples/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a special kind of apple tree that grows apples every day for <code>n</code> days. On the <code>i<sup>th</sup></code> day, the tree grows <code>apples[i]</code> apples that will rot after <code>days[i]</code> days, that is on day <code>i + days[i]</code> the apples will be rotten and cannot be eaten. On some days, the apple tree does not grow any apples, which are denoted by <code>apples[i] == 0</code> and <code>days[i] == 0</code>.</p>
+<p>有一棵特殊的苹果树，一连 <code>n</code> 天，每天都可以长出若干个苹果。在第 <code>i</code> 天，树上会长出 <code>apples[i]</code> 个苹果，这些苹果将会在 <code>days[i]</code> 天后（也就是说，第 <code>i + days[i]</code> 天时）腐烂，变得无法食用。也可能有那么几天，树上不会长出新的苹果，此时用 <code>apples[i] == 0</code> 且 <code>days[i] == 0</code> 表示。</p>
 
-<p>You decided to eat <strong>at most</strong> one apple a day (to keep the doctors away). Note that you can keep eating after the first <code>n</code> days.</p>
+<p>你打算每天 <strong>最多</strong> 吃一个苹果来保证营养均衡。注意，你可以在这 <code>n</code> 天之后继续吃苹果。</p>
 
-<p>Given two integer arrays <code>days</code> and <code>apples</code> of length <code>n</code>, return <em>the maximum number of apples you can eat.</em></p>
+<p>给你两个长度为 <code>n</code> 的整数数组 <code>days</code> 和 <code>apples</code> ，返回你可以吃掉的苹果的最大数目<em>。</em></p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> apples = [1,2,3,5,2], days = [3,2,1,4,2]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> You can eat 7 apples:
-- On the first day, you eat an apple that grew on the first day.
-- On the second day, you eat an apple that grew on the second day.
-- On the third day, you eat an apple that grew on the second day. After this day, the apples that grew on the third day rot.
-- On the fourth to the seventh days, you eat apples that grew on the fourth day.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>apples = [1,2,3,5,2], days = [3,2,1,4,2]
+<strong>输出：</strong>7
+<strong>解释：</strong>你可以吃掉 7 个苹果：
+- 第一天，你吃掉第一天长出来的苹果。
+- 第二天，你吃掉一个第二天长出来的苹果。
+- 第三天，你吃掉一个第二天长出来的苹果。过了这一天，第三天长出来的苹果就已经腐烂了。
+- 第四天到第七天，你吃的都是第四天长出来的苹果。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> apples = [3,0,0,0,0,2], days = [3,0,0,0,0,2]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> You can eat 5 apples:
-- On the first to the third day you eat apples that grew on the first day.
-- Do nothing on the fouth and fifth days.
-- On the sixth and seventh days you eat apples that grew on the sixth day.
+<pre><strong>输入：</strong>apples = [3,0,0,0,0,2], days = [3,0,0,0,0,2]
+<strong>输出：</strong>5
+<strong>解释：</strong>你可以吃掉 5 个苹果：
+- 第一天到第三天，你吃的都是第一天长出来的苹果。
+- 第四天和第五天不吃苹果。
+- 第六天和第七天，你吃的都是第六天长出来的苹果。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>n == apples.length == days.length</code></li>
+	<li><code>apples.length == n</code></li>
+	<li><code>days.length == n</code></li>
 	<li><code>1 &lt;= n &lt;= 2 * 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= apples[i], days[i] &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>days[i] = 0</code> if and only if <code>apples[i] = 0</code>.</li>
+	<li>只有在 <code>apples[i] = 0</code> 时，<code>days[i] = 0</code> 才成立</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Priority Queue
+### 方法一：贪心 + 优先队列
 
-We can greedily choose the apple that is most likely to rot among the unrotten apples, so that we can eat as many apples as possible.
+我们可以贪心地在未腐烂的苹果中优先选择最容易腐烂的苹果，这样可以使得吃到的苹果尽可能多。
 
-Therefore, we can use a priority queue (min heap) to store the rotting time of the apples and the corresponding number of apples. Each time we take out the apple with the smallest rotting time from the priority queue, then reduce its quantity by one. If the quantity of the apple is not zero after reduction, we put it back into the priority queue. If the apple has rotted, we pop it out from the priority queue.
+因此，我们可以用优先队列（小根堆）存储苹果的腐烂时间以及对应苹果的数量，每次从优先队列中取出腐烂时间最小的苹果，然后将其数量减一，若减一后苹果的数量不为零，则将其重新放入优先队列中。若苹果已经腐烂，则从优先队列中弹出。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array `apples` or `days`.
+时间复杂度 $O(n \times \log n + M)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{days}$ 的长度，而 $M = \max(\textit{days})$。
 
 <!-- tabs:start -->
 
@@ -128,23 +132,28 @@ class Solution {
 #### C++
 
 ```cpp
-using pii = pair<int, int>;
-
 class Solution {
 public:
     int eatenApples(vector<int>& apples, vector<int>& days) {
+        using pii = pair<int, int>;
         priority_queue<pii, vector<pii>, greater<pii>> q;
         int n = days.size();
         int ans = 0, i = 0;
         while (i < n || !q.empty()) {
-            if (i < n && apples[i]) q.emplace(i + days[i] - 1, apples[i]);
-            while (!q.empty() && q.top().first < i) q.pop();
+            if (i < n && apples[i]) {
+                q.emplace(i + days[i] - 1, apples[i]);
+            }
+            while (!q.empty() && q.top().first < i) {
+                q.pop();
+            }
             if (!q.empty()) {
                 auto [t, v] = q.top();
                 q.pop();
                 --v;
                 ++ans;
-                if (v && t > i) q.emplace(t, v);
+                if (v && t > i) {
+                    q.emplace(t, v);
+                }
             }
             ++i;
         }

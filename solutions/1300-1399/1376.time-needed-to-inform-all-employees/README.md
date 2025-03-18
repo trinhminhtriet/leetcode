@@ -1,80 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1376.Time%20Needed%20to%20Inform%20All%20Employees/README.md
 rating: 1561
-source: Weekly Contest 179 Q3
+source: 第 179 场周赛 Q3
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
 ---
 
 <!-- problem:start -->
 
-# [1376. Time Needed to Inform All Employees](https://leetcode.com/problems/time-needed-to-inform-all-employees)
+# [1376. 通知所有员工所需的时间](https://leetcode.cn/problems/time-needed-to-inform-all-employees)
 
-## Description
+[English Version](/solution/1300-1399/1376.Time%20Needed%20to%20Inform%20All%20Employees/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A company has <code>n</code> employees with a unique ID for each employee from <code>0</code> to <code>n - 1</code>. The head of the company is the one with <code>headID</code>.</p>
+<p>公司里有 <code>n</code> 名员工，每个员工的 ID 都是独一无二的，编号从 <code>0</code> 到 <code>n - 1</code>。公司的总负责人通过 <code>headID</code> 进行标识。</p>
 
-<p>Each employee has one direct manager given in the <code>manager</code> array where <code>manager[i]</code> is the direct manager of the <code>i-th</code> employee, <code>manager[headID] = -1</code>. Also, it is guaranteed that the subordination relationships have a tree structure.</p>
+<p>在 <code>manager</code> 数组中，每个员工都有一个直属负责人，其中 <code>manager[i]</code> 是第 <code>i</code> 名员工的直属负责人。对于总负责人，<code>manager[headID] = -1</code>。题目保证从属关系可以用树结构显示。</p>
 
-<p>The head of the company wants to inform all the company employees of an urgent piece of news. He will inform his direct subordinates, and they will inform their subordinates, and so on until all employees know about the urgent news.</p>
+<p>公司总负责人想要向公司所有员工通告一条紧急消息。他将会首先通知他的直属下属们，然后由这些下属通知他们的下属，直到所有的员工都得知这条紧急消息。</p>
 
-<p>The <code>i-th</code> employee needs <code>informTime[i]</code> minutes to inform all of his direct subordinates (i.e., After informTime[i] minutes, all his direct subordinates can start spreading the news).</p>
+<p>第 <code>i</code> 名员工需要 <code>informTime[i]</code> 分钟来通知它的所有直属下属（也就是说在 <code>informTime[i]</code> 分钟后，他的所有直属下属都可以开始传播这一消息）。</p>
 
-<p>Return <em>the number of minutes</em> needed to inform all the employees about the urgent news.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 1, headID = 0, manager = [-1], informTime = [0]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The head of the company is the only employee in the company.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1376.Time%20Needed%20to%20Inform%20All%20Employees/images/graph.png" style="width: 404px; height: 174px;" />
-<pre>
-<strong>Input:</strong> n = 6, headID = 2, manager = [2,2,-1,2,2,2], informTime = [0,0,1,0,0,0]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The head of the company with id = 2 is the direct manager of all the employees in the company and needs 1 minute to inform them all.
-The tree structure of the employees in the company is shown.
-</pre>
+<p>返回通知所有员工这一紧急消息所需要的 <strong>分钟数</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 1, headID = 0, manager = [-1], informTime = [0]
+<strong>输出：</strong>0
+<strong>解释：</strong>公司总负责人是该公司的唯一一名员工。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1376.Time%20Needed%20to%20Inform%20All%20Employees/images/graph.png" style="height: 174px; width: 404px;" /></p>
+
+<pre>
+<strong>输入：</strong>n = 6, headID = 2, manager = [2,2,-1,2,2,2], informTime = [0,0,1,0,0,0]
+<strong>输出：</strong>1
+<strong>解释：</strong>id = 2 的员工是公司的总负责人，也是其他所有员工的直属负责人，他需要 1 分钟来通知所有员工。
+上图显示了公司员工的树结构。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= n &lt;= 10^5</code></li>
 	<li><code>0 &lt;= headID &lt; n</code></li>
 	<li><code>manager.length == n</code></li>
 	<li><code>0 &lt;= manager[i] &lt; n</code></li>
 	<li><code>manager[headID] == -1</code></li>
-	<li><code>informTime.length == n</code></li>
+	<li><code>informTime.length&nbsp;== n</code></li>
 	<li><code>0 &lt;= informTime[i] &lt;= 1000</code></li>
-	<li><code>informTime[i] == 0</code> if employee <code>i</code> has no subordinates.</li>
-	<li>It is <strong>guaranteed</strong> that all the employees can be informed.</li>
+	<li>如果员工 <code>i</code> 没有下属，<code>informTime[i] == 0</code> 。</li>
+	<li>题目 <strong>保证</strong> 所有员工都可以收到通知。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-We first build an adjacent list $g$ according to the $manager$ array, where $g[i]$ represents all direct subordinates of employee $i$.
+我们先根据 $manager$ 数组构建邻接表 $g$，其中 $g[i]$ 表示员工 $i$ 的所有直接下属。
 
-Next, we design a function $dfs(i)$, which means the time required for employee $i$ to notify all his subordinates (including direct subordinates and indirect subordinates), and then the answer is $dfs(headID)$.
+接下来，我们设计一个函数 $dfs(i)$，表示从员工 $i$ 开始，将消息通知给他的所有下属（包括直接下属、间接下属）所需要的时间，那么答案就是 $dfs(headID)$。
 
-In function $dfs(i)$, we need to traverse all direct subordinates $j$ of $i$. For each subordinate, employee $i$ needs to notify him, which takes $informTime[i]$ time, and his subordinates need to notify their subordinates, which takes $dfs(j)$ time. We take the maximum value of $informTime[i] + dfs(j)$ as the return value of function $dfs(i)$.
+在函数 $dfs(i)$ 中，我们需要遍历 $i$ 的所有直接下属 $j$，对于每个下属，员工 $i$ 需要将消息通知给他，这需要花费 $informTime[i]$ 的时间，而他的所有下属需要将消息通知给他们的下属，这需要花费 $dfs(j)$ 的时间，取 $informTime[i] + dfs(j)$ 的最大值作为函数 $dfs(i)$ 的返回值即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of employees.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为员工数量。
 
 <!-- tabs:start -->
 
@@ -174,26 +181,21 @@ func numOfMinutes(n int, headID int, manager []int, informTime []int) int {
 #### TypeScript
 
 ```ts
-function numOfMinutes(
-  n: number,
-  headID: number,
-  manager: number[],
-  informTime: number[]
-): number {
-  const g: number[][] = new Array(n).fill(0).map(() => []);
-  for (let i = 0; i < n; ++i) {
-    if (manager[i] !== -1) {
-      g[manager[i]].push(i);
+function numOfMinutes(n: number, headID: number, manager: number[], informTime: number[]): number {
+    const g: number[][] = new Array(n).fill(0).map(() => []);
+    for (let i = 0; i < n; ++i) {
+        if (manager[i] !== -1) {
+            g[manager[i]].push(i);
+        }
     }
-  }
-  const dfs = (i: number): number => {
-    let ans = 0;
-    for (const j of g[i]) {
-      ans = Math.max(ans, dfs(j) + informTime[i]);
-    }
-    return ans;
-  };
-  return dfs(headID);
+    const dfs = (i: number): number => {
+        let ans = 0;
+        for (const j of g[i]) {
+            ans = Math.max(ans, dfs(j) + informTime[i]);
+        }
+        return ans;
+    };
+    return dfs(headID);
 }
 ```
 

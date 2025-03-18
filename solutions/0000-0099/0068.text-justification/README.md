@@ -1,97 +1,106 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0068.Text%20Justification/README.md
 tags:
-  - Array
-  - String
-  - Simulation
+    - 数组
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [68. Text Justification](https://leetcode.com/problems/text-justification)
+# [68. 文本左右对齐](https://leetcode.cn/problems/text-justification)
 
-## Description
+[English Version](/solution/0000-0099/0068.Text%20Justification/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of strings <code>words</code> and a width <code>maxWidth</code>, format the text such that each line has exactly <code>maxWidth</code> characters and is fully (left and right) justified.</p>
+<p>给定一个单词数组&nbsp;<code>words</code> 和一个长度&nbsp;<code>maxWidth</code>&nbsp;，重新排版单词，使其成为每行恰好有&nbsp;<code>maxWidth</code>&nbsp;个字符，且左右两端对齐的文本。</p>
 
-<p>You should pack your words in a greedy approach; that is, pack as many words as you can in each line. Pad extra spaces <code>&#39; &#39;</code> when necessary so that each line has exactly <code>maxWidth</code> characters.</p>
+<p>你应该使用 “<strong>贪心算法</strong>” 来放置给定的单词；也就是说，尽可能多地往每行中放置单词。必要时可用空格&nbsp;<code>' '</code>&nbsp;填充，使得每行恰好有 <em>maxWidth</em>&nbsp;个字符。</p>
 
-<p>Extra spaces between words should be distributed as evenly as possible. If the number of spaces on a line does not divide evenly between words, the empty slots on the left will be assigned more spaces than the slots on the right.</p>
+<p>要求尽可能均匀分配单词间的空格数量。如果某一行单词间的空格不能均匀分配，则左侧放置的空格数要多于右侧的空格数。</p>
 
-<p>For the last line of text, it should be left-justified, and no extra space is inserted between words.</p>
+<p>文本的最后一行应为左对齐，且单词之间不插入<strong>额外的</strong>空格。</p>
 
-<p><strong>Note:</strong></p>
+<p><strong>注意:</strong></p>
 
 <ul>
-	<li>A word is defined as a character sequence consisting of non-space characters only.</li>
-	<li>Each word&#39;s length is guaranteed to be greater than <code>0</code> and not exceed <code>maxWidth</code>.</li>
-	<li>The input array <code>words</code> contains at least one word.</li>
+	<li>单词是指由非空格字符组成的字符序列。</li>
+	<li>每个单词的长度大于 0，小于等于&nbsp;<em>maxWidth</em>。</li>
+	<li>输入单词数组 <code>words</code>&nbsp;至少包含一个单词。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> words = [&quot;This&quot;, &quot;is&quot;, &quot;an&quot;, &quot;example&quot;, &quot;of&quot;, &quot;text&quot;, &quot;justification.&quot;], maxWidth = 16
-<strong>Output:</strong>
+<strong>输入: </strong>words = ["This", "is", "an", "example", "of", "text", "justification."], maxWidth = 16
+<strong>输出:</strong>
 [
-&nbsp; &nbsp;&quot;This &nbsp; &nbsp;is &nbsp; &nbsp;an&quot;,
-&nbsp; &nbsp;&quot;example &nbsp;of text&quot;,
-&nbsp; &nbsp;&quot;justification. &nbsp;&quot;
-]</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;What&quot;,&quot;must&quot;,&quot;be&quot;,&quot;acknowledgment&quot;,&quot;shall&quot;,&quot;be&quot;], maxWidth = 16
-<strong>Output:</strong>
-[
-&nbsp; &quot;What &nbsp; must &nbsp; be&quot;,
-&nbsp; &quot;acknowledgment &nbsp;&quot;,
-&nbsp; &quot;shall be &nbsp; &nbsp; &nbsp; &nbsp;&quot;
+&nbsp; &nbsp;"This &nbsp; &nbsp;is &nbsp; &nbsp;an",
+&nbsp; &nbsp;"example &nbsp;of text",
+&nbsp; &nbsp;"justification. &nbsp;"
 ]
-<strong>Explanation:</strong> Note that the last line is &quot;shall be    &quot; instead of &quot;shall     be&quot;, because the last line must be left-justified instead of fully-justified.
-Note that the second line is also left-justified because it contains only one word.</pre>
+</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例&nbsp;2:</strong></p>
 
 <pre>
-<strong>Input:</strong> words = [&quot;Science&quot;,&quot;is&quot;,&quot;what&quot;,&quot;we&quot;,&quot;understand&quot;,&quot;well&quot;,&quot;enough&quot;,&quot;to&quot;,&quot;explain&quot;,&quot;to&quot;,&quot;a&quot;,&quot;computer.&quot;,&quot;Art&quot;,&quot;is&quot;,&quot;everything&quot;,&quot;else&quot;,&quot;we&quot;,&quot;do&quot;], maxWidth = 20
-<strong>Output:</strong>
+<strong>输入:</strong>words = ["What","must","be","acknowledgment","shall","be"], maxWidth = 16
+<strong>输出:</strong>
 [
-&nbsp; &quot;Science &nbsp;is &nbsp;what we&quot;,
-  &quot;understand &nbsp; &nbsp; &nbsp;well&quot;,
-&nbsp; &quot;enough to explain to&quot;,
-&nbsp; &quot;a &nbsp;computer. &nbsp;Art is&quot;,
-&nbsp; &quot;everything &nbsp;else &nbsp;we&quot;,
-&nbsp; &quot;do &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&quot;
-]</pre>
+&nbsp; "What &nbsp; must &nbsp; be",
+&nbsp; "acknowledgment &nbsp;",
+&nbsp; "shall be &nbsp; &nbsp; &nbsp; &nbsp;"
+]
+<strong>解释: </strong>注意最后一行的格式应为 "shall be    " 而不是 "shall     be",
+&nbsp;    因为最后一行应为左对齐，而不是左右两端对齐。       
+     第二行同样为左对齐，这是因为这行只包含一个单词。
+</pre>
+
+<p><strong>示例&nbsp;3:</strong></p>
+
+<pre>
+<strong>输入:</strong>words = ["Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"]，maxWidth = 20
+<strong>输出:</strong>
+[
+&nbsp; "Science &nbsp;is &nbsp;what we",
+  "understand &nbsp; &nbsp; &nbsp;well",
+&nbsp; "enough to explain to",
+&nbsp; "a &nbsp;computer. &nbsp;Art is",
+&nbsp; "everything &nbsp;else &nbsp;we",
+&nbsp; "do &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
+]
+</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 300</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 20</code></li>
-	<li><code>words[i]</code> consists of only English letters and symbols.</li>
+	<li><code>words[i]</code>&nbsp;由小写英文字母和符号组成</li>
 	<li><code>1 &lt;= maxWidth &lt;= 100</code></li>
 	<li><code>words[i].length &lt;= maxWidth</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can simulate the process according to the problem's requirements. Note that if it is the last line, or if there is only one word in the line, then we should align to the left. Otherwise, we should distribute the spaces evenly.
+根据题意模拟即可，注意，如果是最后一行，或者这一行只有一个单词，那么要左对齐，否则要均匀分配空格。
 
-The time complexity is $O(L)$, and the space complexity is $O(L)$. Here, $L$ is the sum of the lengths of all words.
+时间复杂度 $O(L)$，空间复杂度 $O(L)$。其中 $L$ 为所有单词的长度之和。
 
 <!-- tabs:start -->
 
@@ -244,32 +253,32 @@ func fullJustify(words []string, maxWidth int) (ans []string) {
 
 ```ts
 function fullJustify(words: string[], maxWidth: number): string[] {
-  const ans: string[] = [];
-  for (let i = 0, n = words.length; i < n; ) {
-    const t: string[] = [words[i]];
-    let cnt = words[i++].length;
-    while (i < n && cnt + 1 + words[i].length <= maxWidth) {
-      t.push(words[i]);
-      cnt += 1 + words[i++].length;
+    const ans: string[] = [];
+    for (let i = 0, n = words.length; i < n; ) {
+        const t: string[] = [words[i]];
+        let cnt = words[i++].length;
+        while (i < n && cnt + 1 + words[i].length <= maxWidth) {
+            t.push(words[i]);
+            cnt += 1 + words[i++].length;
+        }
+        if (i === n || t.length === 1) {
+            const left: string = t.join(' ');
+            const right: string = ' '.repeat(maxWidth - left.length);
+            ans.push(left + right);
+            continue;
+        }
+        const spaceWidth: number = maxWidth - (cnt - t.length + 1);
+        const w: number = Math.floor(spaceWidth / (t.length - 1));
+        const m: number = spaceWidth % (t.length - 1);
+        const row: string[] = [];
+        for (let j = 0; j < t.length - 1; ++j) {
+            row.push(t[j]);
+            row.push(' '.repeat(w + (j < m ? 1 : 0)));
+        }
+        row.push(t[t.length - 1]);
+        ans.push(row.join(''));
     }
-    if (i === n || t.length === 1) {
-      const left: string = t.join(" ");
-      const right: string = " ".repeat(maxWidth - left.length);
-      ans.push(left + right);
-      continue;
-    }
-    const spaceWidth: number = maxWidth - (cnt - t.length + 1);
-    const w: number = Math.floor(spaceWidth / (t.length - 1));
-    const m: number = spaceWidth % (t.length - 1);
-    const row: string[] = [];
-    for (let j = 0; j < t.length - 1; ++j) {
-      row.push(t[j]);
-      row.push(" ".repeat(w + (j < m ? 1 : 0)));
-    }
-    row.push(t[t.length - 1]);
-    ans.push(row.join(""));
-  }
-  return ans;
+    return ans;
 }
 ```
 

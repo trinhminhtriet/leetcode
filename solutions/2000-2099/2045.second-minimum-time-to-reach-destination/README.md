@@ -1,77 +1,85 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2045.Second%20Minimum%20Time%20to%20Reach%20Destination/README.md
 rating: 2201
-source: Weekly Contest 263 Q4
+source: 第 263 场周赛 Q4
 tags:
-  - Breadth-First Search
-  - Graph
-  - Shortest Path
+    - 广度优先搜索
+    - 图
+    - 最短路
 ---
 
 <!-- problem:start -->
 
-# [2045. Second Minimum Time to Reach Destination](https://leetcode.com/problems/second-minimum-time-to-reach-destination)
+# [2045. 到达目的地的第二短时间](https://leetcode.cn/problems/second-minimum-time-to-reach-destination)
 
-## Description
+[English Version](/solution/2000-2099/2045.Second%20Minimum%20Time%20to%20Reach%20Destination/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A city is represented as a <strong>bi-directional connected</strong> graph with <code>n</code> vertices where each vertex is labeled from <code>1</code> to <code>n</code> (<strong>inclusive</strong>). The edges in the graph are represented as a 2D integer array <code>edges</code>, where each <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> denotes a bi-directional edge between vertex <code>u<sub>i</sub></code> and vertex <code>v<sub>i</sub></code>. Every vertex pair is connected by <strong>at most one</strong> edge, and no vertex has an edge to itself. The time taken to traverse any edge is <code>time</code> minutes.</p>
+<p>城市用一个 <strong>双向连通</strong> 图表示，图中有 <code>n</code> 个节点，从 <code>1</code> 到 <code>n</code> 编号（包含 <code>1</code> 和 <code>n</code>）。图中的边用一个二维整数数组 <code>edges</code> 表示，其中每个 <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code>&nbsp;表示一条节点&nbsp;<code>u<sub>i</sub></code> 和节点&nbsp;<code>v<sub>i</sub></code> 之间的双向连通边。每组节点对由 <strong>最多一条</strong> 边连通，顶点不存在连接到自身的边。穿过任意一条边的时间是 <code>time</code>&nbsp;分钟。</p>
 
-<p>Each vertex has a traffic signal which changes its color from <strong>green</strong> to <strong>red</strong> and vice versa every&nbsp;<code>change</code> minutes. All signals change <strong>at the same time</strong>. You can enter a vertex at <strong>any time</strong>, but can leave a vertex <strong>only when the signal is green</strong>. You <strong>cannot wait </strong>at a vertex if the signal is <strong>green</strong>.</p>
+<p>每个节点都有一个交通信号灯，每 <code>change</code> 分钟改变一次，从绿色变成红色，再由红色变成绿色，循环往复。所有信号灯都&nbsp;<strong>同时</strong> 改变。你可以在 <strong>任何时候</strong> 进入某个节点，但是 <strong>只能</strong> 在节点&nbsp;<strong>信号灯是绿色时</strong> 才能离开。如果信号灯是&nbsp; <strong>绿色</strong> ，你 <strong>不能</strong> 在节点等待，必须离开。</p>
 
-<p>The <strong>second minimum value</strong> is defined as the smallest value<strong> strictly larger </strong>than the minimum value.</p>
+<p><strong>第二小的值</strong> 是&nbsp;<strong>严格大于</strong> 最小值的所有值中最小的值。</p>
 
 <ul>
-	<li>For example the second minimum value of <code>[2, 3, 4]</code> is <code>3</code>, and the second minimum value of <code>[2, 2, 4]</code> is <code>4</code>.</li>
+	<li>例如，<code>[2, 3, 4]</code> 中第二小的值是 <code>3</code> ，而 <code>[2, 2, 4]</code> 中第二小的值是 <code>4</code> 。</li>
 </ul>
 
-<p>Given <code>n</code>, <code>edges</code>, <code>time</code>, and <code>change</code>, return <em>the <strong>second minimum time</strong> it will take to go from vertex </em><code>1</code><em> to vertex </em><code>n</code>.</p>
+<p>给你 <code>n</code>、<code>edges</code>、<code>time</code> 和 <code>change</code> ，返回从节点 <code>1</code> 到节点 <code>n</code> 需要的 <strong>第二短时间</strong> 。</p>
 
-<p><strong>Notes:</strong></p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li>You can go through any vertex <strong>any</strong> number of times, <strong>including</strong> <code>1</code> and <code>n</code>.</li>
-	<li>You can assume that when the journey <strong>starts</strong>, all signals have just turned <strong>green</strong>.</li>
+	<li>你可以 <strong>任意次</strong> 穿过任意顶点，<strong>包括</strong> <code>1</code> 和 <code>n</code> 。</li>
+	<li>你可以假设在 <strong>启程时</strong> ，所有信号灯刚刚变成 <strong>绿色</strong> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2045.Second%20Minimum%20Time%20to%20Reach%20Destination/images/e1.png" style="width: 200px; height: 250px;" /> &emsp; &emsp; &emsp; &emsp;<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2045.Second%20Minimum%20Time%20to%20Reach%20Destination/images/e2.png" style="width: 200px; height: 250px;" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2045.Second%20Minimum%20Time%20to%20Reach%20Destination/images/e1.png" style="width: 200px; height: 250px;" />        <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2045.Second%20Minimum%20Time%20to%20Reach%20Destination/images/e2.png" style="width: 200px; height: 250px;" /></p>
+
 <pre>
-<strong>Input:</strong> n = 5, edges = [[1,2],[1,3],[1,4],[3,4],[4,5]], time = 3, change = 5
-<strong>Output:</strong> 13
-<strong>Explanation:</strong>
-The figure on the left shows the given graph.
-The blue path in the figure on the right is the minimum time path.
-The time taken is:
-- Start at 1, time elapsed=0
-- 1 -&gt; 4: 3 minutes, time elapsed=3
-- 4 -&gt; 5: 3 minutes, time elapsed=6
-Hence the minimum time needed is 6 minutes.
+<strong>输入：</strong>n = 5, edges = [[1,2],[1,3],[1,4],[3,4],[4,5]], time = 3, change = 5
+<strong>输出：</strong>13
+<strong>解释：</strong>
+上面的左图展现了给出的城市交通图。
+右图中的蓝色路径是最短时间路径。
+花费的时间是：
+- 从节点 1 开始，总花费时间=0
+- 1 -&gt; 4：3 分钟，总花费时间=3
+- 4 -&gt; 5：3 分钟，总花费时间=6
+因此需要的最小时间是 6 分钟。
 
-The red path shows the path to get the second minimum time.
-
-- Start at 1, time elapsed=0
-- 1 -&gt; 3: 3 minutes, time elapsed=3
-- 3 -&gt; 4: 3 minutes, time elapsed=6
-- Wait at 4 for 4 minutes, time elapsed=10
-- 4 -&gt; 5: 3 minutes, time elapsed=13
-Hence the second minimum time is 13 minutes.
+右图中的红色路径是第二短时间路径。
+- 从节点 1 开始，总花费时间=0
+- 1 -&gt; 3：3 分钟，总花费时间=3
+- 3 -&gt; 4：3 分钟，总花费时间=6
+- 在节点 4 等待 4 分钟，总花费时间=10
+- 4 -&gt; 5：3 分钟，总花费时间=13
+因此第二短时间是 13 分钟。      
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2045.Second%20Minimum%20Time%20to%20Reach%20Destination/images/eg2.png" style="width: 225px; height: 50px;" />
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2045.Second%20Minimum%20Time%20to%20Reach%20Destination/images/eg2.png" style="width: 225px; height: 50px;" /></p>
+
 <pre>
-<strong>Input:</strong> n = 2, edges = [[1,2]], time = 3, change = 2
-<strong>Output:</strong> 11
-<strong>Explanation:</strong>
-The minimum time path is 1 -&gt; 2 with time = 3 minutes.
-The second minimum time path is 1 -&gt; 2 -&gt; 1 -&gt; 2 with time = 11 minutes.</pre>
+<strong>输入：</strong>n = 2, edges = [[1,2]], time = 3, change = 2
+<strong>输出：</strong>11
+<strong>解释：</strong>
+最短时间路径是 1 -&gt; 2 ，总花费时间 = 3 分钟
+第二短时间路径是 1 -&gt; 2 -&gt; 1 -&gt; 2 ，总花费时间 = 11 分钟</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -79,18 +87,18 @@ The second minimum time path is 1 -&gt; 2 -&gt; 1 -&gt; 2 with time = 11 minutes
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>1 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt;= n</code></li>
 	<li><code>u<sub>i</sub> != v<sub>i</sub></code></li>
-	<li>There are no duplicate edges.</li>
-	<li>Each vertex can be reached directly or indirectly from every other vertex.</li>
+	<li>不含重复边</li>
+	<li>每个节点都可以从其他节点直接或者间接到达</li>
 	<li><code>1 &lt;= time, change &lt;= 10<sup>3</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

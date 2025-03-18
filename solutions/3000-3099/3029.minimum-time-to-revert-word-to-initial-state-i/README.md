@@ -1,90 +1,98 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3029.Minimum%20Time%20to%20Revert%20Word%20to%20Initial%20State%20I/README.md
 rating: 1659
-source: Weekly Contest 383 Q2
+source: 第 383 场周赛 Q2
 tags:
-  - String
-  - String Matching
-  - Hash Function
-  - Rolling Hash
+    - 字符串
+    - 字符串匹配
+    - 哈希函数
+    - 滚动哈希
 ---
 
 <!-- problem:start -->
 
-# [3029. Minimum Time to Revert Word to Initial State I](https://leetcode.com/problems/minimum-time-to-revert-word-to-initial-state-i)
+# [3029. 将单词恢复初始状态所需的最短时间 I](https://leetcode.cn/problems/minimum-time-to-revert-word-to-initial-state-i)
 
-## Description
+[English Version](/solution/3000-3099/3029.Minimum%20Time%20to%20Revert%20Word%20to%20Initial%20State%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> string <code>word</code> and an integer <code>k</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>word</code> 和一个整数 <code>k</code> 。</p>
 
-<p>At every second, you must perform the following operations:</p>
+<p>在每一秒，你必须执行以下操作：</p>
 
 <ul>
-	<li>Remove the first <code>k</code> characters of <code>word</code>.</li>
-	<li>Add any <code>k</code> characters to the end of <code>word</code>.</li>
+	<li>移除 <code>word</code> 的前 <code>k</code> 个字符。</li>
+	<li>在 <code>word</code> 的末尾添加 <code>k</code> 个任意字符。</li>
 </ul>
 
-<p><strong>Note</strong> that you do not necessarily need to add the same characters that you removed. However, you must perform <strong>both</strong> operations at every second.</p>
+<p><strong>注意 </strong>添加的字符不必和移除的字符相同。但是，必须在每一秒钟都执行 <strong>两种 </strong>操作。</p>
 
-<p>Return <em>the <strong>minimum</strong> time greater than zero required for</em> <code>word</code> <em>to revert to its <strong>initial</strong> state</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> word = &quot;abacaba&quot;, k = 3
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> At the 1st second, we remove characters &quot;aba&quot; from the prefix of word, and add characters &quot;bac&quot; to the end of word. Thus, word becomes equal to &quot;cababac&quot;.
-At the 2nd second, we remove characters &quot;cab&quot; from the prefix of word, and add &quot;aba&quot; to the end of word. Thus, word becomes equal to &quot;abacaba&quot; and reverts to its initial state.
-It can be shown that 2 seconds is the minimum time greater than zero required for word to revert to its initial state.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> word = &quot;abacaba&quot;, k = 4
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> At the 1st second, we remove characters &quot;abac&quot; from the prefix of word, and add characters &quot;caba&quot; to the end of word. Thus, word becomes equal to &quot;abacaba&quot; and reverts to its initial state.
-It can be shown that 1 second is the minimum time greater than zero required for word to revert to its initial state.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> word = &quot;abcbabcd&quot;, k = 2
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> At every second, we will remove the first 2 characters of word, and add the same characters to the end of word.
-After 4 seconds, word becomes equal to &quot;abcbabcd&quot; and reverts to its initial state.
-It can be shown that 4 seconds is the minimum time greater than zero required for word to revert to its initial state.
-</pre>
+<p>返回将 <code>word</code> 恢复到其 <strong>初始 </strong>状态所需的 <strong>最短 </strong>时间（该时间必须大于零）。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>word = "abacaba", k = 3
+<strong>输出：</strong>2
+<strong>解释：</strong>
+第 1 秒，移除 word 的前缀 "aba"，并在末尾添加 "bac" 。因此，word 变为 "cababac"。
+第 2 秒，移除 word 的前缀 "cab"，并在末尾添加 "aba" 。因此，word 变为 "abacaba" 并恢复到始状态。
+可以证明，2 秒是 word 恢复到其初始状态所需的最短时间。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>word = "abacaba", k = 4
+<strong>输出：</strong>1
+<strong>解释：
+</strong>第 1 秒，移除 word 的前缀 "abac"，并在末尾添加 "caba" 。因此，word 变为 "abacaba" 并恢复到初始状态。
+可以证明，1 秒是 word 恢复到其初始状态所需的最短时间。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>word = "abcbabcd", k = 2
+<strong>输出：</strong>4
+<strong>解释：</strong>
+每一秒，我们都移除 word 的前 2 个字符，并在 word 末尾添加相同的字符。
+4 秒后，word 变为 "abcbabcd" 并恢复到初始状态。
+可以证明，4 秒是 word 恢复到其初始状态所需的最短时间。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= word.length &lt;= 50 </code></li>
+	<li><code>1 &lt;= word.length &lt;= 50</code></li>
 	<li><code>1 &lt;= k &lt;= word.length</code></li>
-	<li><code>word</code> consists only of lowercase English letters.</li>
+	<li><code>word</code>仅由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-Let's assume that if we can restore `word` to its initial state with only one operation, it means that `word[k:]` is a prefix of `word`, i.e., `word[k:] == word[:n-k]`.
+我们不妨假设，如果只操作一次，就能使得 `word` 恢复到初始状态，那么意味着 `word[k:]` 是 `word` 的前缀，即 `word[k:] == word[:n-k]`。
 
-If there are multiple operations, let's assume $i$ is the number of operations, then it means that `word[k*i:]` is a prefix of `word`, i.e., `word[k*i:] == word[:n-k*i]`.
+如果有多次操作，不妨设 $i$ 为操作次数，那么意味着 `word[k*i:]` 是 `word` 的前缀，即 `word[k*i:] == word[:n-k*i]`。
 
-Therefore, we can enumerate the number of operations and check whether `word[k*i:]` is a prefix of `word`. If it is, then return $i$.
+因此，我们可以枚举操作次数，判断 `word[k*i:]` 是否是 `word` 的前缀，如果是，则返回 $i$。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of `word`.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为 `word` 的长度。
 
 <!-- tabs:start -->
 
@@ -151,13 +159,13 @@ func minimumTimeToInitialState(word string, k int) int {
 
 ```ts
 function minimumTimeToInitialState(word: string, k: number): number {
-  const n = word.length;
-  for (let i = k; i < n; i += k) {
-    if (word.slice(i) === word.slice(0, -i)) {
-      return Math.floor(i / k);
+    const n = word.length;
+    for (let i = k; i < n; i += k) {
+        if (word.slice(i) === word.slice(0, -i)) {
+            return Math.floor(i / k);
+        }
     }
-  }
-  return Math.floor((n + k - 1) / k);
+    return Math.floor((n + k - 1) / k);
 }
 ```
 
@@ -167,11 +175,11 @@ function minimumTimeToInitialState(word: string, k: number): number {
 
 <!-- solution:start -->
 
-### Solution 2: Enumeration + String Hash
+### 方法二：枚举 + 字符串哈希
 
-Based on Solution 1, we can also use string hashing to determine whether two strings are equal.
+我们也可以在方法一的基础上，利用字符串哈希来判断两个字符串是否相等。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of `word`.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为 `word` 的长度。
 
 <!-- tabs:start -->
 

@@ -1,81 +1,89 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1547.Minimum%20Cost%20to%20Cut%20a%20Stick/README.md
 rating: 2116
-source: Weekly Contest 201 Q4
+source: 第 201 场周赛 Q4
 tags:
-  - Array
-  - Dynamic Programming
-  - Sorting
+    - 数组
+    - 动态规划
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1547. Minimum Cost to Cut a Stick](https://leetcode.com/problems/minimum-cost-to-cut-a-stick)
+# [1547. 切棍子的最小成本](https://leetcode.cn/problems/minimum-cost-to-cut-a-stick)
 
-## Description
+[English Version](/solution/1500-1599/1547.Minimum%20Cost%20to%20Cut%20a%20Stick/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a wooden stick of length <code>n</code> units. The stick is labelled from <code>0</code> to <code>n</code>. For example, a stick of length <strong>6</strong> is labelled as follows:</p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1547.Minimum%20Cost%20to%20Cut%20a%20Stick/images/statement.jpg" style="width: 521px; height: 111px;" />
-<p>Given an integer array <code>cuts</code> where <code>cuts[i]</code> denotes a position you should perform a cut at.</p>
+<p>有一根长度为 <code>n</code> 个单位的木棍，棍上从 <code>0</code> 到 <code>n</code> 标记了若干位置。例如，长度为 <strong>6</strong> 的棍子可以标记如下：</p>
 
-<p>You should perform the cuts in order, you can change the order of the cuts as you wish.</p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1547.Minimum%20Cost%20to%20Cut%20a%20Stick/images/statement.jpg" style="height: 111px; width: 521px;" /></p>
 
-<p>The cost of one cut is the length of the stick to be cut, the total cost is the sum of costs of all cuts. When you cut a stick, it will be split into two smaller sticks (i.e. the sum of their lengths is the length of the stick before the cut). Please refer to the first example for a better explanation.</p>
+<p>给你一个整数数组 <code>cuts</code> ，其中 <code>cuts[i]</code> 表示你需要将棍子切开的位置。</p>
 
-<p>Return <em>the minimum total cost</em> of the cuts.</p>
+<p>你可以按顺序完成切割，也可以根据需要更改切割的顺序。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1547.Minimum%20Cost%20to%20Cut%20a%20Stick/images/e1.jpg" style="width: 350px; height: 284px;" />
-<pre>
-<strong>Input:</strong> n = 7, cuts = [1,3,4,5]
-<strong>Output:</strong> 16
-<strong>Explanation:</strong> Using cuts order = [1, 3, 4, 5] as in the input leads to the following scenario:
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1547.Minimum%20Cost%20to%20Cut%20a%20Stick/images/e11.jpg" style="width: 350px; height: 284px;" />
-The first cut is done to a rod of length 7 so the cost is 7. The second cut is done to a rod of length 6 (i.e. the second part of the first cut), the third is done to a rod of length 4 and the last cut is to a rod of length 3. The total cost is 7 + 6 + 4 + 3 = 20.
-Rearranging the cuts to be [3, 5, 1, 4] for example will lead to a scenario with total cost = 16 (as shown in the example photo 7 + 4 + 3 + 2 = 16).</pre>
+<p>每次切割的成本都是当前要切割的棍子的长度，切棍子的总成本是历次切割成本的总和。对棍子进行切割将会把一根木棍分成两根较小的木棍（这两根木棍的长度和就是切割前木棍的长度）。请参阅第一个示例以获得更直观的解释。</p>
 
-<p><strong class="example">Example 2:</strong></p>
+<p>返回切棍子的 <strong>最小总成本</strong> 。</p>
+
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1547.Minimum%20Cost%20to%20Cut%20a%20Stick/images/e1.jpg" style="height: 284px; width: 350px;" /></p>
 
 <pre>
-<strong>Input:</strong> n = 9, cuts = [5,6,1,4,2]
-<strong>Output:</strong> 22
-<strong>Explanation:</strong> If you try the given cuts ordering the cost will be 25.
-There are much ordering with total cost &lt;= 25, for example, the order [4, 6, 5, 2, 1] has total cost = 22 which is the minimum possible.
+<strong>输入：</strong>n = 7, cuts = [1,3,4,5]
+<strong>输出：</strong>16
+<strong>解释：</strong>按 [1, 3, 4, 5] 的顺序切割的情况如下所示：
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1547.Minimum%20Cost%20to%20Cut%20a%20Stick/images/e11.jpg" style="height: 284px; width: 350px;" />
+第一次切割长度为 7 的棍子，成本为 7 。第二次切割长度为 6 的棍子（即第一次切割得到的第二根棍子），第三次切割为长度 4 的棍子，最后切割长度为 3 的棍子。总成本为 7 + 6 + 4 + 3 = 20 。
+而将切割顺序重新排列为 [3, 5, 1, 4] 后，总成本 = 16（如示例图中 7 + 4 + 3 + 2 = 16）。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 9, cuts = [5,6,1,4,2]
+<strong>输出：</strong>22
+<strong>解释：</strong>如果按给定的顺序切割，则总成本为 25 。总成本 <= 25 的切割顺序很多，例如，[4, 6, 5, 2, 1] 的总成本 = 22，是所有可能方案中成本最小的。</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>2 &lt;= n &lt;= 10<sup>6</sup></code></li>
-	<li><code>1 &lt;= cuts.length &lt;= min(n - 1, 100)</code></li>
-	<li><code>1 &lt;= cuts[i] &lt;= n - 1</code></li>
-	<li>All the integers in <code>cuts</code> array are <strong>distinct</strong>.</li>
+	<li><code>2 <= n <= 10^6</code></li>
+	<li><code>1 <= cuts.length <= min(n - 1, 100)</code></li>
+	<li><code>1 <= cuts[i] <= n - 1</code></li>
+	<li><code>cuts</code> 数组中的所有整数都 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming (Interval DP)
+### 方法一：动态规划（区间 DP）
 
-We can add two elements to the array $\textit{cuts}$, namely $0$ and $n$, representing the two ends of the stick. Then we sort the $\textit{cuts}$ array, so we can divide the entire stick into several intervals, each with two cut points. Let the length of the $\textit{cuts}$ array be $m$.
+我们可以往切割点数组 $\textit{cuts}$ 中添加两个元素，分别是 $0$ 和 $n$，表示棍子的两端。然后我们对 $\textit{cuts}$ 数组进行排序，这样我们就可以将整个棍子切割为若干个区间，每个区间都有两个切割点。不妨设此时 $\textit{cuts}$ 数组的长度为 $m$。
 
-Next, we define $\textit{f}[i][j]$ to represent the minimum cost to cut the interval $[\textit{cuts}[i], \textit{cuts}[j]]$.
+接下来，我们定义 $\textit{f}[i][j]$ 表示切割区间 $[\textit{cuts}[i],..\textit{cuts}[j]]$ 的最小成本。
 
-If an interval has only two cut points, meaning we do not need to cut this interval, then $\textit{f}[i][j] = 0$.
+如果一个区间只有两个切割点，也就是说，我们无需切割这个区间，那么 $\textit{f}[i][j] = 0$。
 
-Otherwise, we enumerate the length $l$ of the interval, where $l$ is equal to the number of cut points minus $1$. Then we enumerate the left endpoint $i$ of the interval, and the right endpoint $j$ can be obtained by $i + l$. For each interval, we enumerate its cut point $k$, where $i \lt k \lt j$. We can then divide the interval $[i, j]$ into $[i, k]$ and $[k, j]$. The cost at this point is $\textit{f}[i][k] + \textit{f}[k][j] + \textit{cuts}[j] - \textit{cuts}[i]$. We take the minimum value among all possible $k$, which is the value of $\textit{f}[i][j]$.
+否则，我们枚举区间的长度 $l$，其中 $l$ 等于切割点的数量减去 $1$。然后我们枚举区间的左端点 $i$，右端点 $j$ 可以由 $i + l$ 得到。对于每个区间，我们枚举它的切割点 $k$，其中 $i \lt k \lt j$，那么我们可以将区间 $[i, j]$ 切割为 $[i, k]$ 和 $[k, j]$，此时的成本为 $\textit{f}[i][k] + \textit{f}[k][j] + \textit{cuts}[j] - \textit{cuts}[i]$，我们取所有可能的 $k$ 中的最小值，即为 $\textit{f}[i][j]$ 的值。
 
-Finally, we return $\textit{f}[0][m - 1]$.
+最后，我们返回 $\textit{f}[0][m - 1]$。
 
-The time complexity is $O(m^3)$, and the space complexity is $O(m^2)$. Here, $m$ is the length of the modified $\textit{cuts}$ array.
+时间复杂度 $O(m^3)$，空间复杂度 $O(m^2)$。其中 $m$ 为修改后的 $\textit{cuts}$ 数组的长度。
 
 <!-- tabs:start -->
 
@@ -178,20 +186,20 @@ func minCost(n int, cuts []int) int {
 
 ```ts
 function minCost(n: number, cuts: number[]): number {
-  cuts.push(0, n);
-  cuts.sort((a, b) => a - b);
-  const m = cuts.length;
-  const f: number[][] = Array.from({ length: m }, () => Array(m).fill(0));
-  for (let l = 2; l < m; l++) {
-    for (let i = 0; i < m - l; i++) {
-      const j = i + l;
-      f[i][j] = Infinity;
-      for (let k = i + 1; k < j; k++) {
-        f[i][j] = Math.min(f[i][j], f[i][k] + f[k][j] + cuts[j] - cuts[i]);
-      }
+    cuts.push(0, n);
+    cuts.sort((a, b) => a - b);
+    const m = cuts.length;
+    const f: number[][] = Array.from({ length: m }, () => Array(m).fill(0));
+    for (let l = 2; l < m; l++) {
+        for (let i = 0; i < m - l; i++) {
+            const j = i + l;
+            f[i][j] = Infinity;
+            for (let k = i + 1; k < j; k++) {
+                f[i][j] = Math.min(f[i][j], f[i][k] + f[k][j] + cuts[j] - cuts[i]);
+            }
+        }
     }
-  }
-  return f[0][m - 1];
+    return f[0][m - 1];
 }
 ```
 
@@ -201,11 +209,11 @@ function minCost(n: number, cuts: number[]): number {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming (Another Enumeration Method)
+### 方法二：动态规划（另一种枚举方式）
 
-We can also enumerate $i$ from large to small and $j$ from small to large. This ensures that when calculating $f[i][j]$, the states $f[i][k]$ and $f[k][j]$ have already been computed, where $i \lt k \lt j$.
+我们也可以从大到小枚举 $i$，从小到大枚举 $j$，这样可以保证在计算 $f[i][j]$ 时，状态 $f[i][k]$ 和 $f[k][j]$ 都已经被计算过了，其中 $i \lt k \lt j$。
 
-The time complexity is $O(m^3)$, and the space complexity is $O(m^2)$. Here, $m$ is the length of the modified $\textit{cuts}$ array.
+时间复杂度 $O(m^3)$，空间复杂度 $O(m^2)$。其中 $m$ 为修改后的 $\textit{cuts}$ 数组的长度。
 
 <!-- tabs:start -->
 
@@ -304,20 +312,20 @@ func minCost(n int, cuts []int) int {
 
 ```ts
 function minCost(n: number, cuts: number[]): number {
-  cuts.push(0);
-  cuts.push(n);
-  cuts.sort((a, b) => a - b);
-  const m = cuts.length;
-  const f: number[][] = Array.from({ length: m }, () => Array(m).fill(0));
-  for (let i = m - 2; i >= 0; --i) {
-    for (let j = i + 2; j < m; ++j) {
-      f[i][j] = 1 << 30;
-      for (let k = i + 1; k < j; ++k) {
-        f[i][j] = Math.min(f[i][j], f[i][k] + f[k][j] + cuts[j] - cuts[i]);
-      }
+    cuts.push(0);
+    cuts.push(n);
+    cuts.sort((a, b) => a - b);
+    const m = cuts.length;
+    const f: number[][] = Array.from({ length: m }, () => Array(m).fill(0));
+    for (let i = m - 2; i >= 0; --i) {
+        for (let j = i + 2; j < m; ++j) {
+            f[i][j] = 1 << 30;
+            for (let k = i + 1; k < j; ++k) {
+                f[i][j] = Math.min(f[i][j], f[i][k] + f[k][j] + cuts[j] - cuts[i]);
+            }
+        }
     }
-  }
-  return f[0][m - 1];
+    return f[0][m - 1];
 }
 ```
 

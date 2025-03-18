@@ -1,77 +1,81 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1805.Number%20of%20Different%20Integers%20in%20a%20String/README.md
 rating: 1333
-source: Weekly Contest 234 Q1
+source: 第 234 场周赛 Q1
 tags:
-  - Hash Table
-  - String
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1805. Number of Different Integers in a String](https://leetcode.com/problems/number-of-different-integers-in-a-string)
+# [1805. 字符串中不同整数的数目](https://leetcode.cn/problems/number-of-different-integers-in-a-string)
 
-## Description
+[English Version](/solution/1800-1899/1805.Number%20of%20Different%20Integers%20in%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>word</code> that consists of digits and lowercase English letters.</p>
+<p>给你一个字符串 <code>word</code> ，该字符串由数字和小写英文字母组成。</p>
 
-<p>You will replace every non-digit character with a space. For example, <code>&quot;a123bc34d8ef34&quot;</code> will become <code>&quot; 123&nbsp; 34 8&nbsp; 34&quot;</code>. Notice that you are left with some integers that are separated by at least one space: <code>&quot;123&quot;</code>, <code>&quot;34&quot;</code>, <code>&quot;8&quot;</code>, and <code>&quot;34&quot;</code>.</p>
+<p>请你用空格替换每个不是数字的字符。例如，<code>"a123bc34d8ef34"</code> 将会变成 <code>" 123  34 8  34"</code> 。注意，剩下的这些整数为（相邻彼此至少有一个空格隔开）：<code>"123"</code>、<code>"34"</code>、<code>"8"</code> 和 <code>"34"</code> 。</p>
 
-<p>Return <em>the number of <strong>different</strong> integers after performing the replacement operations on </em><code>word</code>.</p>
+<p>返回对 <code>word</code> 完成替换后形成的 <strong>不同</strong> 整数的数目。</p>
 
-<p>Two integers are considered different if their decimal representations <strong>without any leading zeros</strong> are different.</p>
+<p>只有当两个整数的 <strong>不含前导零</strong> 的十进制表示不同， 才认为这两个整数也不同。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> word = &quot;a<u>123</u>bc<u>34</u>d<u>8</u>ef<u>34</u>&quot;
-<strong>Output:</strong> 3
-<strong>Explanation: </strong>The three different integers are &quot;123&quot;, &quot;34&quot;, and &quot;8&quot;. Notice that &quot;34&quot; is only counted once.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> word = &quot;leet<u>1234</u>code<u>234</u>&quot;
-<strong>Output:</strong> 2
+<strong>输入：</strong>word = "a<strong>123</strong>bc<strong>34</strong>d<strong>8</strong>ef<strong>34</strong>"
+<strong>输出：</strong>3
+<strong>解释：</strong>不同的整数有 "123"、"34" 和 "8" 。注意，"34" 只计数一次。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> word = &quot;a<u>1</u>b<u>01</u>c<u>001</u>&quot;
-<strong>Output:</strong> 1
-<strong>Explanation: </strong>The three integers &quot;1&quot;, &quot;01&quot;, and &quot;001&quot; all represent the same integer because
-the leading zeros are ignored when comparing their decimal values.
+<strong>输入：</strong>word = "leet<strong>1234</strong>code<strong>234</strong>"
+<strong>输出：</strong>2
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>word = "a<strong>1</strong>b<strong>01</strong>c<strong>001</strong>"
+<strong>输出：</strong>1
+<strong>解释：</strong>"1"、"01" 和 "001" 视为同一个整数的十进制表示，因为在比较十进制值时会忽略前导零的存在。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= word.length &lt;= 1000</code></li>
-	<li><code>word</code> consists of digits and lowercase English letters.</li>
+	<li><code>1 <= word.length <= 1000</code></li>
+	<li><code>word</code> 由数字和小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Double Pointers + Simulation
+### 方法一：双指针 + 模拟
 
-Traverse the string `word`, find the start and end positions of each integer, cut out this substring, and store it in the hash set $s$.
+遍历字符串 `word`，找到每个整数的起始位置和结束位置，截取出这一个子串，将其存入哈希表 $s$ 中。
 
-After the traversal, return the size of the hash set $s$.
+遍历结束，返回哈希表 $s$ 的大小即可。
 
-> Note, the integer represented by each substring may be very large, we cannot directly convert it to an integer. Therefore, we can remove the leading zeros of each substring before storing it in the hash set.
+> 注意，每个子串所表示的整数可能很大，我们不能直接将其转为整数。因此，我们可以去掉每个子串的前导零之后，再存入哈希表。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string `word`.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 `word` 的长度。
 
 <!-- tabs:start -->
 
@@ -169,14 +173,14 @@ func numDifferentIntegers(word string) int {
 
 ```ts
 function numDifferentIntegers(word: string): number {
-  return new Set(
-    word
-      .replace(/\D+/g, " ")
-      .trim()
-      .split(" ")
-      .filter((v) => v !== "")
-      .map((v) => v.replace(/^0+/g, ""))
-  ).size;
+    return new Set(
+        word
+            .replace(/\D+/g, ' ')
+            .trim()
+            .split(' ')
+            .filter(v => v !== '')
+            .map(v => v.replace(/^0+/g, '')),
+    ).size;
 }
 ```
 

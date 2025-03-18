@@ -1,65 +1,65 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0761.Special%20Binary%20String/README.md
 tags:
-  - Recursion
-  - String
+    - 递归
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [761. Special Binary String](https://leetcode.com/problems/special-binary-string)
+# [761. 特殊的二进制序列](https://leetcode.cn/problems/special-binary-string)
 
-## Description
+[English Version](/solution/0700-0799/0761.Special%20Binary%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p><strong>Special binary strings</strong> are binary strings with the following two properties:</p>
+<p>特殊的二进制序列是具有以下两个性质的二进制序列：</p>
 
 <ul>
-	<li>The number of <code>0</code>&#39;s is equal to the number of <code>1</code>&#39;s.</li>
-	<li>Every prefix of the binary string has at least as many <code>1</code>&#39;s as <code>0</code>&#39;s.</li>
+	<li>0 的数量与 1 的数量相等。</li>
+	<li>二进制序列的每一个前缀码中 1 的数量要大于等于 0 的数量。</li>
 </ul>
 
-<p>You are given a <strong>special binary</strong> string <code>s</code>.</p>
+<p>给定一个特殊的二进制序列&nbsp;<code>S</code>，以字符串形式表示。定义一个<em>操作 </em>为首先选择&nbsp;<code>S</code>&nbsp;的两个连续且非空的特殊的子串，然后将它们交换。（两个子串为连续的当且仅当第一个子串的最后一个字符恰好为第二个子串的第一个字符的前一个字符。)</p>
 
-<p>A move consists of choosing two consecutive, non-empty, special substrings of <code>s</code>, and swapping them. Two strings are consecutive if the last character of the first string is exactly one index before the first character of the second string.</p>
+<p>在任意次数的操作之后，交换后的字符串按照字典序排列的最大的结果是什么？</p>
 
-<p>Return <em>the lexicographically largest resulting string possible after applying the mentioned operations on the string</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;11011000&quot;
-<strong>Output:</strong> &quot;11100100&quot;
-<strong>Explanation:</strong> The strings &quot;10&quot; [occuring at s[1]] and &quot;1100&quot; [at s[3]] are swapped.
-This is the lexicographically largest string possible after some number of swaps.
+<strong>输入:</strong> S = &quot;11011000&quot;
+<strong>输出:</strong> &quot;11100100&quot;
+<strong>解释:</strong>
+将子串 &quot;10&quot; （在S[1]出现） 和 &quot;1100&quot; （在S[3]出现）进行交换。
+这是在进行若干次操作后按字典序排列最大的结果。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>说明:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;10&quot;
-<strong>Output:</strong> &quot;10&quot;
-</pre>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
-
-<ul>
-	<li><code>1 &lt;= s.length &lt;= 50</code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
-	<li><code>s</code> is a special binary string.</li>
-</ul>
+<ol>
+	<li><code>S</code>&nbsp;的长度不超过&nbsp;<code>50</code>。</li>
+	<li><code>S</code>&nbsp;保证为一个满足上述定义的<em>特殊 </em>的二进制序列。</li>
+</ol>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：递归 + 排序
+
+我们可以把特殊的二进制序列看作“有效的括号”，$1$ 代表左括号，$0$ 代表右括号。例如，"11011000" 可以看作："(()(()))"。
+
+交换两个连续非空的特殊子串，相当于交换两个相邻的有效括号，我们可以使用递归来解决这个问题。
+
+我们将字符串 $s$ 中的每个“有效的括号”都看作一部分，递归处理，最后进行排序，得到最终答案。
+
+时间复杂度 $O(n^2)$。
 
 <!-- tabs:start -->
 

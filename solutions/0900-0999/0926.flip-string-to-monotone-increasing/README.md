@@ -1,73 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0926.Flip%20String%20to%20Monotone%20Increasing/README.md
 tags:
-  - String
-  - Dynamic Programming
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [926. Flip String to Monotone Increasing](https://leetcode.com/problems/flip-string-to-monotone-increasing)
+# [926. 将字符串翻转到单调递增](https://leetcode.cn/problems/flip-string-to-monotone-increasing)
 
-## Description
+[English Version](/solution/0900-0999/0926.Flip%20String%20to%20Monotone%20Increasing/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A binary string is monotone increasing if it consists of some number of <code>0</code>&#39;s (possibly none), followed by some number of <code>1</code>&#39;s (also possibly none).</p>
+<p>如果一个二进制字符串，是以一些 <code>0</code>（可能没有 <code>0</code>）后面跟着一些 <code>1</code>（也可能没有 <code>1</code>）的形式组成的，那么该字符串是 <strong>单调递增 </strong>的。</p>
 
-<p>You are given a binary string <code>s</code>. You can flip <code>s[i]</code> changing it from <code>0</code> to <code>1</code> or from <code>1</code> to <code>0</code>.</p>
+<p>给你一个二进制字符串 <code>s</code>，你可以将任何 <code>0</code> 翻转为 <code>1</code> 或者将 <code>1</code> 翻转为 <code>0</code> 。</p>
 
-<p>Return <em>the minimum number of flips to make </em><code>s</code><em> monotone increasing</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;00110&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> We flip the last digit to get 00111.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;010110&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We flip to get 011111, or alternatively 000111.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;00011000&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We flip to get 00000000.
-</pre>
+<p>返回使 <code>s</code> 单调递增的最小翻转次数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "00110"
+<strong>输出：</strong>1
+<strong>解释：</strong>翻转最后一位得到 00111.
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "010110"
+<strong>输出：</strong>2
+<strong>解释：</strong>翻转得到 011111，或者是 000111。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "00011000"
+<strong>输出：</strong>2
+<strong>解释：</strong>翻转得到 00000000。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>s[i]</code> 为 <code>'0'</code> 或 <code>'1'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Enumeration
+### 方法一：前缀和 + 枚举
 
-First, we count the number of '0's in string $s$, denoted as $tot$. We define a variable $ans$ for the answer, initially set $ans = tot$, which represents the number of flips to change all '0's to '1's.
+我们可以先统计字符串 $s$ 中 $0$ 的个数，记为 $tot$。定义一个答案变量 $ans$，初始时 $ans = tot$，表示将所有 $0$ 变成 $1$ 的翻转次数。
 
-Then, we can enumerate each position $i$, change all '1's to the left of position $i$ (including $i$) to '0', and change all '0's to the right of position $i$ to '1'. We calculate the number of flips in this case, which is $i + 1 - cur + tot - cur$, where $cur$ represents the number of '0's to the left of position $i$ (including $i$). We update the answer $ans = \min(ans, i + 1 - cur + tot - cur)$.
+然后，我们可以枚举每个位置 $i$，将位置 $i$ 及其左边的所有 $1$ 变成 $0$，将位置 $i$ 右边的所有 $0$ 变成 $1$，计算这种情况下的翻转次数，即 $i + 1 - cur + tot - cur$，其中 $cur$ 表示位置 $i$ 及其左边的 $0$ 的个数，更新答案 $ans = \min(ans, i + 1 - cur + tot - cur)$。
 
-Finally, return the answer $ans$.
+最后返回答案 $ans$ 即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -145,16 +150,16 @@ func minFlipsMonoIncr(s string) int {
 
 ```ts
 function minFlipsMonoIncr(s: string): number {
-  let tot = 0;
-  for (const c of s) {
-    tot += c === "0" ? 1 : 0;
-  }
-  let [ans, cur] = [tot, 0];
-  for (let i = 1; i <= s.length; ++i) {
-    cur += s[i - 1] === "0" ? 1 : 0;
-    ans = Math.min(ans, i - cur + tot - cur);
-  }
-  return ans;
+    let tot = 0;
+    for (const c of s) {
+        tot += c === '0' ? 1 : 0;
+    }
+    let [ans, cur] = [tot, 0];
+    for (let i = 1; i <= s.length; ++i) {
+        cur += s[i - 1] === '0' ? 1 : 0;
+        ans = Math.min(ans, i - cur + tot - cur);
+    }
+    return ans;
 }
 ```
 
@@ -166,16 +171,16 @@ function minFlipsMonoIncr(s: string): number {
  * @return {number}
  */
 var minFlipsMonoIncr = function (s) {
-  let tot = 0;
-  for (const c of s) {
-    tot += c === "0" ? 1 : 0;
-  }
-  let [ans, cur] = [tot, 0];
-  for (let i = 1; i <= s.length; ++i) {
-    cur += s[i - 1] === "0" ? 1 : 0;
-    ans = Math.min(ans, i - cur + tot - cur);
-  }
-  return ans;
+    let tot = 0;
+    for (const c of s) {
+        tot += c === '0' ? 1 : 0;
+    }
+    let [ans, cur] = [tot, 0];
+    for (let i = 1; i <= s.length; ++i) {
+        cur += s[i - 1] === '0' ? 1 : 0;
+        ans = Math.min(ans, i - cur + tot - cur);
+    }
+    return ans;
 };
 ```
 

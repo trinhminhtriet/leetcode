@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0601.Human%20Traffic%20of%20Stadium/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [601. Human Traffic of Stadium](https://leetcode.com/problems/human-traffic-of-stadium)
+# [601. 体育馆的人流量](https://leetcode.cn/problems/human-traffic-of-stadium)
 
-## Description
+[English Version](/solution/0600-0699/0601.Human%20Traffic%20of%20Stadium/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Stadium</code></p>
+表：<code>Stadium</code>
 
 <pre>
 +---------------+---------+
@@ -23,25 +26,26 @@ tags:
 | visit_date    | date    |
 | people        | int     |
 +---------------+---------+
-visit_date is the column with unique values for this table.
-Each row of this table contains the visit date and visit id to the stadium with the number of people during the visit.
-As the id increases, the date increases as well.
+visit_date 是该表中具有唯一值的列。
+每日人流量信息被记录在这三列信息中：<strong>序号</strong> (id)、<strong>日期</strong> (visit_date)、&nbsp;<strong>人流量</strong> (people)
+每天只有一行记录，日期随着 id 的增加而增加
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to display the records with three or more rows with <strong>consecutive</strong> <code>id</code>&#39;s, and the number of people is greater than or equal to 100 for each.</p>
+<p>编写解决方案找出每行的人数大于或等于 <code>100</code> 且 <code>id</code> 连续的三行或更多行记录。</p>
 
-<p>Return the result table ordered by <code>visit_date</code> in <strong>ascending order</strong>.</p>
+<p>返回按 <code>visit_date</code> <strong>升序排列</strong> 的结果表。</p>
 
-<p>The result format is in the following example.</p>
+<p>查询结果格式如下所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Stadium table:
+<code><strong>输入：</strong>
+Stadium</code> 表:
 +------+------------+-----------+
 | id   | visit_date | people    |
 +------+------------+-----------+
@@ -54,7 +58,7 @@ Stadium table:
 | 7    | 2017-01-07 | 199       |
 | 8    | 2017-01-09 | 188       |
 +------+------------+-----------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +------+------------+-----------+
 | id   | visit_date | people    |
 +------+------------+-----------+
@@ -63,18 +67,18 @@ Stadium table:
 | 7    | 2017-01-07 | 199       |
 | 8    | 2017-01-09 | 188       |
 +------+------------+-----------+
-<strong>Explanation:</strong> 
-The four rows with ids 5, 6, 7, and 8 have consecutive ids and each of them has &gt;= 100 people attended. Note that row 8 was included even though the visit_date was not the next day after row 7.
-The rows with ids 2 and 3 are not included because we need at least three consecutive ids.
-</pre>
+<strong>解释：
+id</strong> 为 5、6、7、8 的四行 id 连续，并且每行都有 &gt;= 100 的人数记录。
+请注意，即使第 7 行和第 8 行的 visit_date 不是连续的，输出也应当包含第 8 行，因为我们只需要考虑 id 连续的记录。
+不输出 id 为 2 和 3 的行，因为至少需要三条 id 连续的记录。</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

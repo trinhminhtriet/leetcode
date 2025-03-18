@@ -1,84 +1,105 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2058.Find%20the%20Minimum%20and%20Maximum%20Number%20of%20Nodes%20Between%20Critical%20Points/README.md
 rating: 1310
-source: Weekly Contest 265 Q2
+source: 第 265 场周赛 Q2
 tags:
-  - Linked List
+    - 链表
 ---
 
 <!-- problem:start -->
 
-# [2058. Find the Minimum and Maximum Number of Nodes Between Critical Points](https://leetcode.com/problems/find-the-minimum-and-maximum-number-of-nodes-between-critical-points)
+# [2058. 找出临界点之间的最小和最大距离](https://leetcode.cn/problems/find-the-minimum-and-maximum-number-of-nodes-between-critical-points)
 
-## Description
+[English Version](/solution/2000-2099/2058.Find%20the%20Minimum%20and%20Maximum%20Number%20of%20Nodes%20Between%20Critical%20Points/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <strong>critical point</strong> in a linked list is defined as <strong>either</strong> a <strong>local maxima</strong> or a <strong>local minima</strong>.</p>
+<p>链表中的 <strong>临界点</strong> 定义为一个 <strong>局部极大值点</strong> <strong>或</strong> <strong>局部极小值点 。</strong></p>
 
-<p>A node is a <strong>local maxima</strong> if the current node has a value <strong>strictly greater</strong> than the previous node and the next node.</p>
+<p>如果当前节点的值 <strong>严格大于</strong> 前一个节点和后一个节点，那么这个节点就是一个<strong>&nbsp; 局部极大值点</strong> 。</p>
 
-<p>A node is a <strong>local minima</strong> if the current node has a value <strong>strictly smaller</strong> than the previous node and the next node.</p>
+<p>如果当前节点的值 <strong>严格小于</strong> 前一个节点和后一个节点，那么这个节点就是一个<strong>&nbsp; 局部极小值点</strong> 。</p>
 
-<p>Note that a node can only be a local maxima/minima if there exists <strong>both</strong> a previous node and a next node.</p>
+<p>注意：节点只有在同时存在前一个节点和后一个节点的情况下，才能成为一个 <strong>局部极大值点 / 极小值点</strong> 。</p>
 
-<p>Given a linked list <code>head</code>, return <em>an array of length 2 containing </em><code>[minDistance, maxDistance]</code><em> where </em><code>minDistance</code><em> is the <strong>minimum distance</strong> between <strong>any&nbsp;two distinct</strong> critical points and </em><code>maxDistance</code><em> is the <strong>maximum distance</strong> between <strong>any&nbsp;two distinct</strong> critical points. If there are <strong>fewer</strong> than two critical points, return </em><code>[-1, -1]</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2058.Find%20the%20Minimum%20and%20Maximum%20Number%20of%20Nodes%20Between%20Critical%20Points/images/a1.png" style="width: 148px; height: 55px;" />
-<pre>
-<strong>Input:</strong> head = [3,1]
-<strong>Output:</strong> [-1,-1]
-<strong>Explanation:</strong> There are no critical points in [3,1].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2058.Find%20the%20Minimum%20and%20Maximum%20Number%20of%20Nodes%20Between%20Critical%20Points/images/a2.png" style="width: 624px; height: 46px;" />
-<pre>
-<strong>Input:</strong> head = [5,3,1,2,5,1,2]
-<strong>Output:</strong> [1,3]
-<strong>Explanation:</strong> There are three critical points:
-- [5,3,<strong><u>1</u></strong>,2,5,1,2]: The third node is a local minima because 1 is less than 3 and 2.
-- [5,3,1,2,<u><strong>5</strong></u>,1,2]: The fifth node is a local maxima because 5 is greater than 2 and 1.
-- [5,3,1,2,5,<u><strong>1</strong></u>,2]: The sixth node is a local minima because 1 is less than 5 and 2.
-The minimum distance is between the fifth and the sixth node. minDistance = 6 - 5 = 1.
-The maximum distance is between the third and the sixth node. maxDistance = 6 - 3 = 3.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2058.Find%20the%20Minimum%20and%20Maximum%20Number%20of%20Nodes%20Between%20Critical%20Points/images/a5.png" style="width: 624px; height: 39px;" />
-<pre>
-<strong>Input:</strong> head = [1,3,2,2,3,2,2,2,7]
-<strong>Output:</strong> [3,3]
-<strong>Explanation:</strong> There are two critical points:
-- [1,<u><strong>3</strong></u>,2,2,3,2,2,2,7]: The second node is a local maxima because 3 is greater than 1 and 2.
-- [1,3,2,2,<u><strong>3</strong></u>,2,2,2,7]: The fifth node is a local maxima because 3 is greater than 2 and 2.
-Both the minimum and maximum distances are between the second and the fifth node.
-Thus, minDistance and maxDistance is 5 - 2 = 3.
-Note that the last node is not considered a local maxima because it does not have a next node.
-</pre>
+<p>给你一个链表 <code>head</code> ，返回一个长度为 2 的数组<em> </em><code>[minDistance, maxDistance]</code> ，其中<em> </em><code>minDistance</code><em> </em>是任意两个不同临界点之间的最小距离，<code>maxDistance</code> 是任意两个不同临界点之间的最大距离。如果临界点少于两个，则返回 <code>[-1，-1]</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2058.Find%20the%20Minimum%20and%20Maximum%20Number%20of%20Nodes%20Between%20Critical%20Points/images/a1.png" style="width: 148px; height: 55px;" /></p>
+
+<pre>
+<strong>输入：</strong>head = [3,1]
+<strong>输出：</strong>[-1,-1]
+<strong>解释：</strong>链表 [3,1] 中不存在临界点。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2058.Find%20the%20Minimum%20and%20Maximum%20Number%20of%20Nodes%20Between%20Critical%20Points/images/a2.png" style="width: 624px; height: 46px;" /></p>
+
+<pre>
+<strong>输入：</strong>head = [5,3,1,2,5,1,2]
+<strong>输出：</strong>[1,3]
+<strong>解释：</strong>存在三个临界点：
+- [5,3,<em><strong>1</strong></em>,2,5,1,2]：第三个节点是一个局部极小值点，因为 1 比 3 和 2 小。
+- [5,3,1,2,<em><strong>5</strong></em>,1,2]：第五个节点是一个局部极大值点，因为 5 比 2 和 1 大。
+- [5,3,1,2,5,<em><strong>1</strong></em>,2]：第六个节点是一个局部极小值点，因为 1 比 5 和 2 小。
+第五个节点和第六个节点之间距离最小。minDistance = 6 - 5 = 1 。
+第三个节点和第六个节点之间距离最大。maxDistance = 6 - 3 = 3 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2058.Find%20the%20Minimum%20and%20Maximum%20Number%20of%20Nodes%20Between%20Critical%20Points/images/a5.png" style="width: 624px; height: 39px;" /></p>
+
+<pre>
+<strong>输入：</strong>head = [1,3,2,2,3,2,2,2,7]
+<strong>输出：</strong>[3,3]
+<strong>解释：</strong>存在两个临界点：
+- [1,<em><strong>3</strong></em>,2,2,3,2,2,2,7]：第二个节点是一个局部极大值点，因为 3 比 1 和 2 大。
+- [1,3,2,2,<em><strong>3</strong></em>,2,2,2,7]：第五个节点是一个局部极大值点，因为 3 比 2 和 2 大。
+最小和最大距离都存在于第二个节点和第五个节点之间。
+因此，minDistance 和 maxDistance 是 5 - 2 = 3 。
+注意，最后一个节点不算一个局部极大值点，因为它之后就没有节点了。
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2058.Find%20the%20Minimum%20and%20Maximum%20Number%20of%20Nodes%20Between%20Critical%20Points/images/a4.png" style="width: 345px; height: 52px;" /></p>
+
+<pre>
+<strong>输入：</strong>head = [2,3,3,2]
+<strong>输出：</strong>[-1,-1]
+<strong>解释：</strong>链表 [2,3,3,2] 中不存在临界点。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the list is in the range <code>[2, 10<sup>5</sup>]</code>.</li>
+	<li>链表中节点的数量在范围 <code>[2, 10<sup>5</sup>]</code> 内</li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Direct Traversal
+### 方法一：直接遍历
 
-Based on the problem description, we need to find the positions of the first and last critical points in the linked list, $\textit{first}$ and $\textit{last}$, respectively. This allows us to calculate the maximum distance $\textit{maxDistance} = \textit{last} - \textit{first}$. For the minimum distance $\textit{minDistance}$, we need to traverse the linked list, calculate the distance between two adjacent critical points, and take the minimum value.
+根据题目描述，我们需要找出链表的第一个临界点和最后一个临界点位置 $\textit{first}$ 和 $\textit{last}$，这样可以计算出最大距离 $\textit{maxDistance} = \textit{last} - \textit{first}$。对于最小距离 $\textit{minDistance}$，我们需要遍历链表，计算相邻两个临界点之间的距离，取最小值即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the linked list. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是链表的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -228,22 +249,22 @@ func nodesBetweenCriticalPoints(head *ListNode) []int {
  */
 
 function nodesBetweenCriticalPoints(head: ListNode | null): number[] {
-  const ans: number[] = [Infinity, 0];
-  let [first, last] = [-1, -1];
-  for (let i = 0; head.next.next; head = head.next, ++i) {
-    const [a, b, c] = [head.val, head.next.val, head.next.next.val];
-    if (b < Math.min(a, c) || b > Math.max(a, c)) {
-      if (last < 0) {
-        first = i;
-        last = i;
-      } else {
-        ans[0] = Math.min(ans[0], i - last);
-        last = i;
-        ans[1] = Math.max(ans[1], last - first);
-      }
+    const ans: number[] = [Infinity, 0];
+    let [first, last] = [-1, -1];
+    for (let i = 0; head.next.next; head = head.next, ++i) {
+        const [a, b, c] = [head.val, head.next.val, head.next.next.val];
+        if (b < Math.min(a, c) || b > Math.max(a, c)) {
+            if (last < 0) {
+                first = i;
+                last = i;
+            } else {
+                ans[0] = Math.min(ans[0], i - last);
+                last = i;
+                ans[1] = Math.max(ans[1], last - first);
+            }
+        }
     }
-  }
-  return first === last ? [-1, -1] : ans;
+    return first === last ? [-1, -1] : ans;
 }
 ```
 

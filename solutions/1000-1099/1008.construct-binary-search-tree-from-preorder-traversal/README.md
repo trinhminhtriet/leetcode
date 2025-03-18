@@ -1,94 +1,105 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1008.Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal/README.md
 rating: 1562
-source: Weekly Contest 127 Q4
+source: 第 127 场周赛 Q4
 tags:
-  - Stack
-  - Tree
-  - Binary Search Tree
-  - Array
-  - Binary Tree
-  - Monotonic Stack
+    - 栈
+    - 树
+    - 二叉搜索树
+    - 数组
+    - 二叉树
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [1008. Construct Binary Search Tree from Preorder Traversal](https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal)
+# [1008. 前序遍历构造二叉搜索树](https://leetcode.cn/problems/construct-binary-search-tree-from-preorder-traversal)
 
-## Description
+[English Version](/solution/1000-1099/1008.Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of integers preorder, which represents the <strong>preorder traversal</strong> of a BST (i.e., <strong>binary search tree</strong>), construct the tree and return <em>its root</em>.</p>
+<p>给定一个整数数组，它表示BST(即 <strong>二叉搜索树</strong> )的 <strong>先</strong><strong>序遍历</strong> ，构造树并返回其根。</p>
 
-<p>It is <strong>guaranteed</strong> that there is always possible to find a binary search tree with the given requirements for the given test cases.</p>
+<p><strong>保证</strong> 对于给定的测试用例，总是有可能找到具有给定需求的二叉搜索树。</p>
 
-<p>A <strong>binary search tree</strong> is a binary tree where for every node, any descendant of <code>Node.left</code> has a value <strong>strictly less than</strong> <code>Node.val</code>, and any descendant of <code>Node.right</code> has a value <strong>strictly greater than</strong> <code>Node.val</code>.</p>
+<p><strong>二叉搜索树</strong> 是一棵二叉树，其中每个节点，&nbsp;<code>Node.left</code>&nbsp;的任何后代的值 <strong>严格小于</strong> <code>Node.val</code>&nbsp;,&nbsp;<code>Node.right</code>&nbsp;的任何后代的值 <strong>严格大于</strong> <code>Node.val</code>。</p>
 
-<p>A <strong>preorder traversal</strong> of a binary tree displays the value of the node first, then traverses <code>Node.left</code>, then traverses <code>Node.right</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1008.Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal/images/1266.png" style="height: 386px; width: 590px;" />
-<pre>
-<strong>Input:</strong> preorder = [8,5,1,7,10,12]
-<strong>Output:</strong> [8,5,10,1,7,null,12]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> preorder = [1,3]
-<strong>Output:</strong> [1,null,3]
-</pre>
+<p>二叉树的 <strong>前序遍历</strong> 首先显示节点的值，然后遍历<code>Node.left</code>，最后遍历<code>Node.right</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1008.Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal/images/1266.png" /></p>
+
+<pre>
+<strong>输入：</strong>preorder = [8,5,1,7,10,12]
+<strong>输出：</strong>[8,5,10,1,7,null,12]
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> preorder = [1,3]
+<strong>输出:</strong> [1,null,3]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= preorder.length &lt;= 100</code></li>
-	<li><code>1 &lt;= preorder[i] &lt;= 1000</code></li>
-	<li>All the values of <code>preorder</code> are <strong>unique</strong>.</li>
+	<li><code>1 &lt;= preorder[i]&nbsp;&lt;= 10^8</code></li>
+	<li><code>preorder</code> 中的值 <strong>互不相同</strong></li>
 </ul>
+
+<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS + 二分查找
+
+我们设计一个函数 $\textit{dfs}(i, j)$，表示构造出从 $\textit{preorder}[i]$ 到 $\textit{preorder}[j]$ 这些节点构成的二叉搜索树。那么答案就是 $\textit{dfs}(0, n - 1)$。
+
+在 $\textit{dfs}(i, j)$ 中，我们首先构造根节点，即 $\textit{preorder}[i]$。然后使用二分查找的方法找到第一个大于 $\textit{preorder}[i]$ 的节点的下标 $\textit{mid}$，将 $\textit{dfs}(i + 1, \textit{mid} - 1)$ 作为根节点的左子树，将 $\textit{dfs}(\textit{mid}, j)$ 作为根节点的右子树。
+
+最后返回根节点即可。
+
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{preorder}$ 的长度。
 
 <!-- tabs:start -->
 
 #### Python3
 
 ```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
-        def dfs(preorder):
-            if not preorder:
+        def dfs(i: int, j: int) -> Optional[TreeNode]:
+            if i > j:
                 return None
-            root = TreeNode(preorder[0])
-            left, right = 1, len(preorder)
-            while left < right:
-                mid = (left + right) >> 1
-                if preorder[mid] > preorder[0]:
-                    right = mid
+            root = TreeNode(preorder[i])
+            l, r = i + 1, j + 1
+            while l < r:
+                mid = (l + r) >> 1
+                if preorder[mid] > preorder[i]:
+                    r = mid
                 else:
-                    left = mid + 1
-            root.left = dfs(preorder[1:left])
-            root.right = dfs(preorder[left:])
+                    l = mid + 1
+            root.left = dfs(i + 1, l - 1)
+            root.right = dfs(l, j)
             return root
 
-        return dfs(preorder)
+        return dfs(0, len(preorder) - 1)
 ```
 
 #### Java
@@ -110,27 +121,29 @@ class Solution:
  * }
  */
 class Solution {
+    private int[] preorder;
 
     public TreeNode bstFromPreorder(int[] preorder) {
-        return dfs(preorder, 0, preorder.length - 1);
+        this.preorder = preorder;
+        return dfs(0, preorder.length - 1);
     }
 
-    private TreeNode dfs(int[] preorder, int i, int j) {
-        if (i > j || i >= preorder.length) {
+    private TreeNode dfs(int i, int j) {
+        if (i > j) {
             return null;
         }
         TreeNode root = new TreeNode(preorder[i]);
-        int left = i + 1, right = j + 1;
-        while (left < right) {
-            int mid = (left + right) >> 1;
+        int l = i + 1, r = j + 1;
+        while (l < r) {
+            int mid = (l + r) >> 1;
             if (preorder[mid] > preorder[i]) {
-                right = mid;
+                r = mid;
             } else {
-                left = mid + 1;
+                l = mid + 1;
             }
         }
-        root.left = dfs(preorder, i + 1, left - 1);
-        root.right = dfs(preorder, left, j);
+        root.left = dfs(i + 1, l - 1);
+        root.right = dfs(l, j);
         return root;
     }
 }
@@ -153,23 +166,25 @@ class Solution {
 class Solution {
 public:
     TreeNode* bstFromPreorder(vector<int>& preorder) {
-        return dfs(preorder, 0, preorder.size() - 1);
-    }
-
-    TreeNode* dfs(vector<int>& preorder, int i, int j) {
-        if (i > j || i >= preorder.size()) return nullptr;
-        TreeNode* root = new TreeNode(preorder[i]);
-        int left = i + 1, right = j + 1;
-        while (left < right) {
-            int mid = (left + right) >> 1;
-            if (preorder[mid] > preorder[i])
-                right = mid;
-            else
-                left = mid + 1;
-        }
-        root->left = dfs(preorder, i + 1, left - 1);
-        root->right = dfs(preorder, left, j);
-        return root;
+        auto dfs = [&](this auto&& dfs, int i, int j) -> TreeNode* {
+            if (i > j) {
+                return nullptr;
+            }
+            TreeNode* root = new TreeNode(preorder[i]);
+            int l = i + 1, r = j + 1;
+            while (l < r) {
+                int mid = (l + r) >> 1;
+                if (preorder[mid] > preorder[i]) {
+                    r = mid;
+                } else {
+                    l = mid + 1;
+                }
+            }
+            root->left = dfs(i + 1, l - 1);
+            root->right = dfs(l, j);
+            return root;
+        };
+        return dfs(0, preorder.size() - 1);
     }
 };
 ```
@@ -188,21 +203,21 @@ public:
 func bstFromPreorder(preorder []int) *TreeNode {
 	var dfs func(i, j int) *TreeNode
 	dfs = func(i, j int) *TreeNode {
-		if i > j || i >= len(preorder) {
+		if i > j {
 			return nil
 		}
 		root := &TreeNode{Val: preorder[i]}
-		left, right := i+1, len(preorder)
-		for left < right {
-			mid := (left + right) >> 1
+		l, r := i+1, j+1
+		for l < r {
+			mid := (l + r) >> 1
 			if preorder[mid] > preorder[i] {
-				right = mid
+				r = mid
 			} else {
-				left = mid + 1
+				l = mid + 1
 			}
 		}
-		root.Left = dfs(i+1, left-1)
-		root.Right = dfs(left, j)
+		root.Left = dfs(i+1, l-1)
+		root.Right = dfs(l, j)
 		return root
 	}
 	return dfs(0, len(preorder)-1)
@@ -227,31 +242,25 @@ func bstFromPreorder(preorder []int) *TreeNode {
  */
 
 function bstFromPreorder(preorder: number[]): TreeNode | null {
-  const n = preorder.length;
-  const next = new Array(n);
-  const stack = [];
-  for (let i = n - 1; i >= 0; i--) {
-    while (
-      stack.length !== 0 &&
-      preorder[stack[stack.length - 1]] < preorder[i]
-    ) {
-      stack.pop();
-    }
-    next[i] = stack[stack.length - 1] ?? n;
-    stack.push(i);
-  }
-
-  const dfs = (left: number, right: number) => {
-    if (left >= right) {
-      return null;
-    }
-    return new TreeNode(
-      preorder[left],
-      dfs(left + 1, next[left]),
-      dfs(next[left], right)
-    );
-  };
-  return dfs(0, n);
+    const dfs = (i: number, j: number): TreeNode | null => {
+        if (i > j) {
+            return null;
+        }
+        const root = new TreeNode(preorder[i]);
+        let [l, r] = [i + 1, j + 1];
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (preorder[mid] > preorder[i]) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        root.left = dfs(i + 1, l - 1);
+        root.right = dfs(l, j);
+        return root;
+    };
+    return dfs(0, preorder.length - 1);
 }
 ```
 
@@ -279,36 +288,29 @@ function bstFromPreorder(preorder: number[]): TreeNode | null {
 use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
-    fn dfs(
-        preorder: &Vec<i32>,
-        next: &Vec<usize>,
-        left: usize,
-        right: usize,
-    ) -> Option<Rc<RefCell<TreeNode>>> {
-        if left >= right {
-            return None;
-        }
-        Some(Rc::new(RefCell::new(TreeNode {
-            val: preorder[left],
-            left: Self::dfs(preorder, next, left + 1, next[left]),
-            right: Self::dfs(preorder, next, next[left], right),
-        })))
-    }
-
     pub fn bst_from_preorder(preorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
-        let n = preorder.len();
-        let mut stack = Vec::new();
-        let mut next = vec![n; n];
-        for i in (0..n).rev() {
-            while !stack.is_empty() && preorder[*stack.last().unwrap()] < preorder[i] {
-                stack.pop();
+        fn dfs(preorder: &Vec<i32>, i: usize, j: usize) -> Option<Rc<RefCell<TreeNode>>> {
+            if i > j {
+                return None;
             }
-            if !stack.is_empty() {
-                next[i] = *stack.last().unwrap();
+            let root = Rc::new(RefCell::new(TreeNode::new(preorder[i])));
+            let mut l = i + 1;
+            let mut r = j + 1;
+            while l < r {
+                let mid = (l + r) >> 1;
+                if preorder[mid] > preorder[i] {
+                    r = mid;
+                } else {
+                    l = mid + 1;
+                }
             }
-            stack.push(i);
+            let mut root_ref = root.borrow_mut();
+            root_ref.left = dfs(preorder, i + 1, l - 1);
+            root_ref.right = dfs(preorder, l, j);
+            Some(root.clone())
         }
-        Self::dfs(&preorder, &next, 0, n)
+
+        dfs(&preorder, 0, preorder.len() - 1)
     }
 }
 ```

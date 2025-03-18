@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0511.Game%20Play%20Analysis%20I/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [511. Game Play Analysis I](https://leetcode.com/problems/game-play-analysis-i)
+# [511. 游戏玩法分析 I](https://leetcode.cn/problems/game-play-analysis-i)
 
-## Description
+[English Version](/solution/0500-0599/0511.Game%20Play%20Analysis%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Activity</code></p>
+<p>活动表&nbsp;<code>Activity</code>：</p>
 
 <pre>
 +--------------+---------+
@@ -24,25 +27,19 @@ tags:
 | event_date   | date    |
 | games_played | int     |
 +--------------+---------+
-(player_id, event_date) is the primary key (combination of columns with unique values) of this table.
-This table shows the activity of players of some games.
-Each row is a record of a player who logged in and played a number of games (possibly 0) before logging out on someday using some device.
+在 SQL 中，表的主键是 (player_id, event_date)。
+这张表展示了一些游戏玩家在游戏平台上的行为活动。
+每行数据记录了一名玩家在退出平台之前，当天使用同一台设备登录平台后打开的游戏的数目（可能是 0 个）。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to find the <strong>first login date</strong> for each player.</p>
+<p>查询每位玩家 <strong>第一次登录平台的日期</strong>。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
-
-<p>The result format is in the following example.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>查询结果的格式如下所示：</p>
 
 <pre>
-<strong>Input:</strong> 
-Activity table:
+Activity 表：
 +-----------+-----------+------------+--------------+
 | player_id | device_id | event_date | games_played |
 +-----------+-----------+------------+--------------+
@@ -52,7 +49,8 @@ Activity table:
 | 3         | 1         | 2016-03-02 | 0            |
 | 3         | 4         | 2018-07-03 | 5            |
 +-----------+-----------+------------+--------------+
-<strong>Output:</strong> 
+
+Result 表：
 +-----------+-------------+
 | player_id | first_login |
 +-----------+-------------+
@@ -64,13 +62,13 @@ Activity table:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Group By + Min Function
+### 方法一：分组求最小值
 
-We can use `GROUP BY` to group the `player_id` and then take the minimum `event_date` in each group as the date when the player first logged into the platform.
+我们可以用 `GROUP BY` 对 `player_id` 进行分组，然后取每一组中最小的 `event_date` 作为玩家第一次登录平台的日期。
 
 <!-- tabs:start -->
 

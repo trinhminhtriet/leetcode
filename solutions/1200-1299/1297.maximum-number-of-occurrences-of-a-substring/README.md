@@ -1,68 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1297.Maximum%20Number%20of%20Occurrences%20of%20a%20Substring/README.md
 rating: 1748
-source: Weekly Contest 168 Q3
+source: 第 168 场周赛 Q3
 tags:
-  - Hash Table
-  - String
-  - Sliding Window
+    - 哈希表
+    - 字符串
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1297. Maximum Number of Occurrences of a Substring](https://leetcode.com/problems/maximum-number-of-occurrences-of-a-substring)
+# [1297. 子串的最大出现次数](https://leetcode.cn/problems/maximum-number-of-occurrences-of-a-substring)
 
-## Description
+[English Version](/solution/1200-1299/1297.Maximum%20Number%20of%20Occurrences%20of%20a%20Substring/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, return the maximum number of occurrences of <strong>any</strong> substring under the following rules:</p>
+<p>给你一个字符串&nbsp;<code>s</code> ，请你返回满足以下条件且出现次数最大的&nbsp;<strong>任意</strong>&nbsp;子串的出现次数：</p>
 
 <ul>
-	<li>The number of unique characters in the substring must be less than or equal to <code>maxLetters</code>.</li>
-	<li>The substring size must be between <code>minSize</code> and <code>maxSize</code> inclusive.</li>
+	<li>子串中不同字母的数目必须小于等于 <code>maxLetters</code> 。</li>
+	<li>子串的长度必须大于等于&nbsp;<code>minSize</code> 且小于等于&nbsp;<code>maxSize</code> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;aababcaab&quot;, maxLetters = 2, minSize = 3, maxSize = 4
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Substring &quot;aab&quot; has 2 occurrences in the original string.
-It satisfies the conditions, 2 unique letters and size 3 (between minSize and maxSize).
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>s = &quot;aababcaab&quot;, maxLetters = 2, minSize = 3, maxSize = 4
+<strong>输出：</strong>2
+<strong>解释：</strong>子串 &quot;aab&quot; 在原字符串中出现了 2 次。
+它满足所有的要求：2 个不同的字母，长度为 3 （在 minSize 和 maxSize 范围内）。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;aaaa&quot;, maxLetters = 1, minSize = 3, maxSize = 3
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Substring &quot;aaa&quot; occur 2 times in the string. It can overlap.
+<pre><strong>输入：</strong>s = &quot;aaaa&quot;, maxLetters = 1, minSize = 3, maxSize = 3
+<strong>输出：</strong>2
+<strong>解释：</strong>子串 &quot;aaa&quot; 在原字符串中出现了 2 次，且它们有重叠部分。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>s = &quot;aabcabcab&quot;, maxLetters = 2, minSize = 2, maxSize = 3
+<strong>输出：</strong>3
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>s = &quot;abcde&quot;, maxLetters = 2, minSize = 3, maxSize = 3
+<strong>输出：</strong>0
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
 	<li><code>1 &lt;= maxLetters &lt;= 26</code></li>
 	<li><code>1 &lt;= minSize &lt;= maxSize &lt;= min(26, s.length)</code></li>
-	<li><code>s</code> consists of only lowercase English letters.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Enumeration
+### 方法一：哈希表 + 枚举
 
-According to the problem description, if a long string meets the condition, then its substring of length $\textit{minSize}$ must also meet the condition. Therefore, we only need to enumerate all substrings of length $\textit{minSize}$ in $s$, then use a hash table to record the occurrence frequency of all substrings, and find the maximum frequency as the answer.
+根据题目描述，如果一个长串满足条件，那么这个长串的长度为 $\textit{minSize}$ 的子串也一定满足条件。因此，我们只需要枚举 $s$ 中所有长度为 $\textit{minSize}$ 的子串，然后利用哈希表记录所有子串的出现次数，找出最大的次数作为答案即可。
 
-The time complexity is $O(n \times m)$, and the space complexity is $O(n \times m)$. Here, $n$ and $m$ are the lengths of the string $s$ and $\textit{minSize}$, respectively. In this problem, $m$ does not exceed $26$.
+时间复杂度 $O(n \times m)$，空间复杂度 $O(n \times m)$。其中 $n$ 和 $m$ 分别为字符串 $s$ 的长度以及 $\textit{minSize}$ 的大小。本题中 $m$ 不超过 $26$。
 
 <!-- tabs:start -->
 
@@ -150,23 +165,18 @@ func maxFreq(s string, maxLetters int, minSize int, maxSize int) (ans int) {
 #### TypeScript
 
 ```ts
-function maxFreq(
-  s: string,
-  maxLetters: number,
-  minSize: number,
-  maxSize: number
-): number {
-  const cnt = new Map<string, number>();
-  let ans = 0;
-  for (let i = 0; i < s.length - minSize + 1; ++i) {
-    const t = s.slice(i, i + minSize);
-    const ss = new Set(t.split(""));
-    if (ss.size <= maxLetters) {
-      cnt.set(t, (cnt.get(t) || 0) + 1);
-      ans = Math.max(ans, cnt.get(t)!);
+function maxFreq(s: string, maxLetters: number, minSize: number, maxSize: number): number {
+    const cnt = new Map<string, number>();
+    let ans = 0;
+    for (let i = 0; i < s.length - minSize + 1; ++i) {
+        const t = s.slice(i, i + minSize);
+        const ss = new Set(t.split(''));
+        if (ss.size <= maxLetters) {
+            cnt.set(t, (cnt.get(t) || 0) + 1);
+            ans = Math.max(ans, cnt.get(t)!);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

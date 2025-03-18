@@ -1,77 +1,82 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2223.Sum%20of%20Scores%20of%20Built%20Strings/README.md
 rating: 2220
-source: Biweekly Contest 75 Q4
+source: 第 75 场双周赛 Q4
 tags:
-  - String
-  - Binary Search
-  - String Matching
-  - Suffix Array
-  - Hash Function
-  - Rolling Hash
+    - 字符串
+    - 二分查找
+    - 字符串匹配
+    - 后缀数组
+    - 哈希函数
+    - 滚动哈希
 ---
 
 <!-- problem:start -->
 
-# [2223. Sum of Scores of Built Strings](https://leetcode.com/problems/sum-of-scores-of-built-strings)
+# [2223. 构造字符串的总得分和](https://leetcode.cn/problems/sum-of-scores-of-built-strings)
 
-## Description
+[English Version](/solution/2200-2299/2223.Sum%20of%20Scores%20of%20Built%20Strings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are <strong>building</strong> a string <code>s</code> of length <code>n</code> <strong>one</strong> character at a time, <strong>prepending</strong> each new character to the <strong>front</strong> of the string. The strings are labeled from <code>1</code> to <code>n</code>, where the string with length <code>i</code> is labeled <code>s<sub>i</sub></code>.</p>
+<p>你需要从空字符串开始&nbsp;<strong>构造</strong> 一个长度为 <code>n</code>&nbsp;的字符串 <code>s</code>&nbsp;，构造的过程为每次给当前字符串 <strong>前面</strong>&nbsp;添加 <strong>一个</strong> 字符。构造过程中得到的所有字符串编号为 <code>1</code>&nbsp;到 <code>n</code>&nbsp;，其中长度为 <code>i</code>&nbsp;的字符串编号为 <code>s<sub>i</sub></code>&nbsp;。</p>
 
 <ul>
-	<li>For example, for <code>s = &quot;abaca&quot;</code>, <code>s<sub>1</sub> == &quot;a&quot;</code>, <code>s<sub>2</sub> == &quot;ca&quot;</code>, <code>s<sub>3</sub> == &quot;aca&quot;</code>, etc.</li>
+	<li>比方说，<code>s = "abaca"</code>&nbsp;，<code>s<sub>1</sub> == "a"</code>&nbsp;，<code>s<sub>2</sub> == "ca"</code>&nbsp;，<code>s<sub>3</sub> == "aca"</code>&nbsp;依次类推。</li>
 </ul>
 
-<p>The <strong>score</strong> of <code>s<sub>i</sub></code> is the length of the <strong>longest common prefix</strong> between <code>s<sub>i</sub></code> and <code>s<sub>n</sub></code> (Note that <code>s == s<sub>n</sub></code>).</p>
+<p><code>s<sub>i</sub></code>&nbsp;的 <strong>得分</strong>&nbsp;为&nbsp;<code>s<sub>i</sub></code> 和&nbsp;<code>s<sub>n</sub></code>&nbsp;的 <strong>最长公共前缀</strong> 的长度（注意&nbsp;<code>s == s<sub>n</sub></code>&nbsp;）。</p>
 
-<p>Given the final string <code>s</code>, return<em> the <strong>sum</strong> of the <strong>score</strong> of every </em><code>s<sub>i</sub></code>.</p>
+<p>给你最终的字符串&nbsp;<code>s</code>&nbsp;，请你返回每一个<em>&nbsp;</em><code>s<sub>i</sub></code>&nbsp;的&nbsp;<strong>得分之和</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;babab&quot;
-<strong>Output:</strong> 9
-<strong>Explanation:</strong>
-For s<sub>1</sub> == &quot;b&quot;, the longest common prefix is &quot;b&quot; which has a score of 1.
-For s<sub>2</sub> == &quot;ab&quot;, there is no common prefix so the score is 0.
-For s<sub>3</sub> == &quot;bab&quot;, the longest common prefix is &quot;bab&quot; which has a score of 3.
-For s<sub>4</sub> == &quot;abab&quot;, there is no common prefix so the score is 0.
-For s<sub>5</sub> == &quot;babab&quot;, the longest common prefix is &quot;babab&quot; which has a score of 5.
-The sum of the scores is 1 + 0 + 3 + 0 + 5 = 9, so we return 9.</pre>
+<b>输入：</b>s = "babab"
+<b>输出：</b>9
+<b>解释：</b>
+s<sub>1</sub> == "b" ，最长公共前缀是 "b" ，得分为 1 。
+s<sub>2</sub> == "ab" ，没有公共前缀，得分为 0 。
+s<sub>3</sub> == "bab" ，最长公共前缀为 "bab" ，得分为 3 。
+s<sub>4</sub> == "abab" ，没有公共前缀，得分为 0 。
+s<sub>5</sub> == "babab" ，最长公共前缀为 "babab" ，得分为 5 。
+得分和为 1 + 0 + 3 + 0 + 5 = 9 ，所以我们返回 9 。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2 ：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;azbazbzaz&quot;
-<strong>Output:</strong> 14
-<strong>Explanation:</strong> 
-For s<sub>2</sub> == &quot;az&quot;, the longest common prefix is &quot;az&quot; which has a score of 2.
-For s<sub>6</sub> == &quot;azbzaz&quot;, the longest common prefix is &quot;azb&quot; which has a score of 3.
-For s<sub>9</sub> == &quot;azbazbzaz&quot;, the longest common prefix is &quot;azbazbzaz&quot; which has a score of 9.
-For all other s<sub>i</sub>, the score is 0.
-The sum of the scores is 2 + 3 + 9 = 14, so we return 14.
+<b>输入：</b>s = "azbazbzaz"
+<b>输出：</b>14
+<b>解释：</b>
+s<sub>2</sub> == "az" ，最长公共前缀为 "az" ，得分为 2 。
+s<sub>6</sub> == "azbzaz" ，最长公共前缀为 "azb" ，得分为 3 。
+s<sub>9</sub> == "azbazbzaz" ，最长公共前缀为 "azbazbzaz" ，得分为 9 。
+其他 s<sub>i</sub> 得分均为 0 。
+得分和为 2 + 3 + 9 = 14 ，所以我们返回 14 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

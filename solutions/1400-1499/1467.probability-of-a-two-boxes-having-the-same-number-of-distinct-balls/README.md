@@ -1,83 +1,103 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1467.Probability%20of%20a%20Two%20Boxes%20Having%20The%20Same%20Number%20of%20Distinct%20Balls/README.md
 rating: 2356
-source: Weekly Contest 191 Q4
+source: 第 191 场周赛 Q4
 tags:
-  - Array
-  - Math
-  - Dynamic Programming
-  - Backtracking
-  - Combinatorics
-  - Probability and Statistics
+    - 数组
+    - 数学
+    - 动态规划
+    - 回溯
+    - 组合数学
+    - 概率与统计
 ---
 
 <!-- problem:start -->
 
-# [1467. Probability of a Two Boxes Having The Same Number of Distinct Balls](https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls)
+# [1467. 两个盒子中球的颜色数相同的概率](https://leetcode.cn/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls)
 
-## Description
+[English Version](/solution/1400-1499/1467.Probability%20of%20a%20Two%20Boxes%20Having%20The%20Same%20Number%20of%20Distinct%20Balls/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given <code>2n</code> balls of <code>k</code> distinct colors. You will be given an integer array <code>balls</code> of size <code>k</code> where <code>balls[i]</code> is the number of balls of color <code>i</code>.</p>
+<p>桌面上有 <code>2n</code> 个颜色不完全相同的球，球的颜色共有 <code>k</code> 种。给你一个大小为 <code>k</code> 的整数数组 <code>balls</code> ，其中 <code>balls[i]</code> 是颜色为&nbsp;<code>i</code> 的球的数量。</p>
 
-<p>All the balls will be <strong>shuffled uniformly at random</strong>, then we will distribute the first <code>n</code> balls to the first box and the remaining <code>n</code> balls to the other box (Please read the explanation of the second example carefully).</p>
+<p>所有的球都已经 <strong>随机打乱顺序</strong> ，前 <code>n</code> 个球放入第一个盒子，后 <code>n</code> 个球放入另一个盒子（请认真阅读示例 2 的解释部分）。</p>
 
-<p>Please note that the two boxes are considered different. For example, if we have two balls of colors <code>a</code> and <code>b</code>, and two boxes <code>[]</code> and <code>()</code>, then the distribution <code>[a] (b)</code> is considered different than the distribution <code>[b] (a) </code>(Please read the explanation of the first example carefully).</p>
+<p><strong>注意：</strong>这两个盒子是不同的。例如，两个球颜色分别为 <code>a</code> 和 <code>b</code>，盒子分别为 <code>[]</code> 和 <code>()</code>，那么 <code>[a] (b)</code> 和 <code>[b] (a)</code> 这两种分配方式是不同的（请认真阅读示例的解释部分）。</p>
 
-<p>Return<em> the probability</em> that the two boxes have the same number of distinct balls. Answers within <code>10<sup>-5</sup></code> of the actual value will be accepted as correct.</p>
+<p>请返回「两个盒子中球的颜色数相同」的情况的概率。答案与真实值误差在 <code>10<sup>-5</sup></code> 以内，则被视为正确答案</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> balls = [1,1]
-<strong>Output:</strong> 1.00000
-<strong>Explanation:</strong> Only 2 ways to divide the balls equally:
-- A ball of color 1 to box 1 and a ball of color 2 to box 2
-- A ball of color 2 to box 1 and a ball of color 1 to box 2
-In both ways, the number of distinct colors in each box is equal. The probability is 2/2 = 1
+<strong>输入：</strong>balls = [1,1]
+<strong>输出：</strong>1.00000
+<strong>解释：</strong>球平均分配的方式只有两种：
+- 颜色为 1 的球放入第一个盒子，颜色为 2 的球放入第二个盒子
+- 颜色为 2 的球放入第一个盒子，颜色为 1 的球放入第二个盒子
+这两种分配，两个盒子中球的颜色数都相同。所以概率为 2/2 = 1 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> balls = [2,1,1]
-<strong>Output:</strong> 0.66667
-<strong>Explanation:</strong> We have the set of balls [1, 1, 2, 3]
-This set of balls will be shuffled randomly and we may have one of the 12 distinct shuffles with equal probability (i.e. 1/12):
+<strong>输入：</strong>balls = [2,1,1]
+<strong>输出：</strong>0.66667
+<strong>解释：</strong>球的列表为 [1, 1, 2, 3]
+随机打乱，得到 12 种等概率的不同打乱方案，每种方案概率为 1/12 ：
 [1,1 / 2,3], [1,1 / 3,2], [1,2 / 1,3], [1,2 / 3,1], [1,3 / 1,2], [1,3 / 2,1], [2,1 / 1,3], [2,1 / 3,1], [2,3 / 1,1], [3,1 / 1,2], [3,1 / 2,1], [3,2 / 1,1]
-After that, we add the first two balls to the first box and the second two balls to the second box.
-We can see that 8 of these 12 possible random distributions have the same number of distinct colors of balls in each box.
-Probability is 8/12 = 0.66667
+然后，我们将前两个球放入第一个盒子，后两个球放入第二个盒子。
+这 12 种可能的随机打乱方式中的 8 种满足「两个盒子中球的颜色数相同」。
+概率 = 8/12 = 0.66667
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> balls = [1,2,1,2]
-<strong>Output:</strong> 0.60000
-<strong>Explanation:</strong> The set of balls is [1, 2, 2, 3, 4, 4]. It is hard to display all the 180 possible random shuffles of this set but it is easy to check that 108 of them will have the same number of distinct colors in each box.
-Probability = 108 / 180 = 0.6
+<strong>输入：</strong>balls = [1,2,1,2]
+<strong>输出：</strong>0.60000
+<strong>解释：</strong>球的列表为 [1, 2, 2, 3, 4, 4]。要想显示所有 180 种随机打乱方案是很难的，但只检查「两个盒子中球的颜色数相同」的 108 种情况是比较容易的。
+概率 = 108 / 180 = 0.6 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= balls.length &lt;= 8</code></li>
 	<li><code>1 &lt;= balls[i] &lt;= 6</code></li>
-	<li><code>sum(balls)</code> is even.</li>
+	<li><code>sum(balls)</code> 是偶数</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：记忆化搜索 + 组合数学
+
+我们知道 $2n$ 个球，平均分到两个盒子中，总共有 $C_{2n}^n$ 种分法。接下来，我们可以求出每种分法中，两个盒子中球的颜色数相同的情况数。最后，将两者相除即可。
+
+我们可以预处理出组合数 $C_{n}^m$，然后使用记忆化搜索求解。
+
+设计一个函数 $dfs(i, j, diff)$，表示当前从第 $i$ 种球开始，第一个盒子剩余可放置 $j$ 个球，两个盒子中球的颜色数的差为 $diff$ 的方案数。
+
+函数 $dfs(i, j, diff)$ 的执行逻辑如下：
+
+-   如果 $i \geq k$，表示所有球都已经放完，如果 $j = 0$ 且 $diff = 0$，表示两个盒子中球的颜色数相同，返回 $1$，否则返回 $0$；
+-   如果 $j < 0$，表示第一个盒子中球的数量超过了 $n$，返回 $0$；
+-   如果 $f[i][j][diff]$ 不为 $-1$，表示已经计算过，直接返回 $f[i][j][diff]$；
+-   否则，枚举第 $i$ 种球放入第一个盒子中的数量 $x$，则第 $i$ 种球放入第二个盒子中的数量为 $balls[i] - x$，两个盒子中球的颜色数的变化量为 $y$。如果所有球都放入第一个盒子中，那么 $y = 1$；如果所有球都放入第二个盒子中，那么 $y = -1$；否则 $y = 0$。然后，递归计算 $dfs(i + 1, j - x, diff + y)$，并将结果与 $C_{balls[i]}^x$ 相乘，累加到答案中。最后，将答案存入 $f[i][j][diff]$ 中，并返回答案。
+
+时间复杂度 $O(n^2 \times k^2)$，空间复杂度 $O(n \times k^2)$。其中 $n$ 和 $k$ 分别是球的总数和颜色的种数。
 
 <!-- tabs:start -->
 
@@ -264,44 +284,44 @@ func getProbability(balls []int) float64 {
 
 ```ts
 function getProbability(balls: number[]): number {
-  const n = balls.reduce((a, b) => a + b, 0) >> 1;
-  const mx = Math.max(...balls);
-  const m = Math.max(mx, n << 1);
-  const c: number[][] = Array(m + 1)
-    .fill(0)
-    .map(() => Array(m + 1).fill(0));
-  for (let i = 0; i <= m; ++i) {
-    c[i][0] = 1;
-    for (let j = 1; j <= i; ++j) {
-      c[i][j] = c[i - 1][j - 1] + c[i - 1][j];
-    }
-  }
-  const k = balls.length;
-  const f: number[][][] = Array(k)
-    .fill(0)
-    .map(() =>
-      Array(n + 1)
+    const n = balls.reduce((a, b) => a + b, 0) >> 1;
+    const mx = Math.max(...balls);
+    const m = Math.max(mx, n << 1);
+    const c: number[][] = Array(m + 1)
         .fill(0)
-        .map(() => Array((k << 1) | 1).fill(-1))
-    );
-  const dfs = (i: number, j: number, diff: number): number => {
-    if (i >= k) {
-      return j === 0 && diff === k ? 1 : 0;
+        .map(() => Array(m + 1).fill(0));
+    for (let i = 0; i <= m; ++i) {
+        c[i][0] = 1;
+        for (let j = 1; j <= i; ++j) {
+            c[i][j] = c[i - 1][j - 1] + c[i - 1][j];
+        }
     }
-    if (j < 0) {
-      return 0;
-    }
-    if (f[i][j][diff] !== -1) {
-      return f[i][j][diff];
-    }
-    let ans = 0;
-    for (let x = 0; x <= balls[i]; ++x) {
-      const y = x === balls[i] ? 1 : x === 0 ? -1 : 0;
-      ans += dfs(i + 1, j - x, diff + y) * c[balls[i]][x];
-    }
-    return (f[i][j][diff] = ans);
-  };
-  return dfs(0, n, k) / c[n << 1][n];
+    const k = balls.length;
+    const f: number[][][] = Array(k)
+        .fill(0)
+        .map(() =>
+            Array(n + 1)
+                .fill(0)
+                .map(() => Array((k << 1) | 1).fill(-1)),
+        );
+    const dfs = (i: number, j: number, diff: number): number => {
+        if (i >= k) {
+            return j === 0 && diff === k ? 1 : 0;
+        }
+        if (j < 0) {
+            return 0;
+        }
+        if (f[i][j][diff] !== -1) {
+            return f[i][j][diff];
+        }
+        let ans = 0;
+        for (let x = 0; x <= balls[i]; ++x) {
+            const y = x === balls[i] ? 1 : x === 0 ? -1 : 0;
+            ans += dfs(i + 1, j - x, diff + y) * c[balls[i]][x];
+        }
+        return (f[i][j][diff] = ans);
+    };
+    return dfs(0, n, k) / c[n << 1][n];
 }
 ```
 

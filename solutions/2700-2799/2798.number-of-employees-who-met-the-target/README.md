@@ -1,54 +1,57 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2798.Number%20of%20Employees%20Who%20Met%20the%20Target/README.md
 rating: 1142
-source: Weekly Contest 356 Q1
+source: 第 356 场周赛 Q1
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [2798. Number of Employees Who Met the Target](https://leetcode.com/problems/number-of-employees-who-met-the-target)
+# [2798. 满足目标工作时长的员工数目](https://leetcode.cn/problems/number-of-employees-who-met-the-target)
 
-## Description
+[English Version](/solution/2700-2799/2798.Number%20of%20Employees%20Who%20Met%20the%20Target/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> employees in a company, numbered from <code>0</code> to <code>n - 1</code>. Each employee <code>i</code> has worked for <code>hours[i]</code> hours in the company.</p>
+<p>公司里共有 <code>n</code> 名员工，按从 <code>0</code> 到 <code>n - 1</code> 编号。每个员工 <code>i</code> 已经在公司工作了 <code>hours[i]</code> 小时。</p>
 
-<p>The company requires each employee to work for <strong>at least</strong> <code>target</code> hours.</p>
+<p>公司要求每位员工工作&nbsp;<strong>至少</strong> <code>target</code> 小时。</p>
 
-<p>You are given a <strong>0-indexed</strong> array of non-negative integers <code>hours</code> of length <code>n</code> and a non-negative integer <code>target</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的非负整数数组 <code>hours</code> 和一个非负整数 <code>target</code> 。</p>
 
-<p>Return <em>the integer denoting the number of employees who worked at least</em> <code>target</code> <em>hours</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> hours = [0,1,2,3,4], target = 2
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The company wants each employee to work for at least 2 hours.
-- Employee 0 worked for 0 hours and didn&#39;t meet the target.
-- Employee 1 worked for 1 hours and didn&#39;t meet the target.
-- Employee 2 worked for 2 hours and met the target.
-- Employee 3 worked for 3 hours and met the target.
-- Employee 4 worked for 4 hours and met the target.
-There are 3 employees who met the target.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> hours = [5,1,4,2,2], target = 6
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The company wants each employee to work for at least 6 hours.
-There are 0 employees who met the target.
-</pre>
+<p>请你用整数表示并返回工作至少 <code>target</code> 小时的员工数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>hours = [0,1,2,3,4], target = 2
+<strong>输出：</strong>3
+<strong>解释：</strong>公司要求每位员工工作至少 2 小时。
+- 员工 0 工作 0 小时，不满足要求。
+- 员工 1 工作 1 小时，不满足要求。
+- 员工 2 工作 2 小时，满足要求。
+- 员工 3 工作 3 小时，满足要求。
+- 员工 4 工作 4 小时，满足要求。
+共有 3 位满足要求的员工。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>hours = [5,1,4,2,2], target = 6
+<strong>输出：</strong>0
+<strong>解释：</strong>公司要求每位员工工作至少 6 小时。
+共有 0 位满足要求的员工。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == hours.length &lt;= 50</code></li>
@@ -57,17 +60,17 @@ There are 0 employees who met the target.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Iteration and Counting
+### 方法一：遍历计数
 
-We can iterate through the array $hours$. For each employee, if their working hours $x$ is greater than or equal to $target$, then we increment the counter $ans$ by one.
+我们可以遍历数组 $hours$，对于每个员工，如果其工作时长 $x$ 大于等于 $target$，则将计数器 $ans$ 加一。
 
-After the iteration, we return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $hours$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $hours$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -122,11 +125,8 @@ func numberOfEmployeesWhoMetTarget(hours []int, target int) (ans int) {
 #### TypeScript
 
 ```ts
-function numberOfEmployeesWhoMetTarget(
-  hours: number[],
-  target: number
-): number {
-  return hours.filter((x) => x >= target).length;
+function numberOfEmployeesWhoMetTarget(hours: number[], target: number): number {
+    return hours.filter(x => x >= target).length;
 }
 ```
 

@@ -1,86 +1,91 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1856.Maximum%20Subarray%20Min-Product/README.md
 rating: 2051
-source: Weekly Contest 240 Q3
+source: 第 240 场周赛 Q3
 tags:
-  - Stack
-  - Array
-  - Prefix Sum
-  - Monotonic Stack
+    - 栈
+    - 数组
+    - 前缀和
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [1856. Maximum Subarray Min-Product](https://leetcode.com/problems/maximum-subarray-min-product)
+# [1856. 子数组最小乘积的最大值](https://leetcode.cn/problems/maximum-subarray-min-product)
 
-## Description
+[English Version](/solution/1800-1899/1856.Maximum%20Subarray%20Min-Product/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <strong>min-product</strong> of an array is equal to the <strong>minimum value</strong> in the array <strong>multiplied by</strong> the array&#39;s <strong>sum</strong>.</p>
+<p>一个数组的 <strong>最小乘积</strong> 定义为这个数组中 <strong>最小值</strong> <strong>乘以 </strong>数组的 <strong>和</strong> 。</p>
 
 <ul>
-	<li>For example, the array <code>[3,2,5]</code> (minimum value is <code>2</code>) has a min-product of <code>2 * (3+2+5) = 2 * 10 = 20</code>.</li>
+	<li>比方说，数组 <code>[3,2,5]</code> （最小值是 <code>2</code>）的最小乘积为 <code>2 * (3+2+5) = 2 * 10 = 20</code> 。</li>
 </ul>
 
-<p>Given an array of integers <code>nums</code>, return <em>the <strong>maximum min-product</strong> of any <strong>non-empty subarray</strong> of </em><code>nums</code>. Since the answer may be large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>给你一个正整数数组 <code>nums</code> ，请你返回 <code>nums</code> 任意 <strong>非空子数组</strong> 的<strong>最小乘积</strong> 的 <strong>最大值</strong> 。由于答案可能很大，请你返回答案对  <code>10<sup>9</sup> + 7</code> <strong>取余 </strong>的结果。</p>
 
-<p>Note that the min-product should be maximized <strong>before</strong> performing the modulo operation. Testcases are generated such that the maximum min-product <strong>without</strong> modulo will fit in a <strong>64-bit signed integer</strong>.</p>
+<p>请注意，最小乘积的最大值考虑的是取余操作 <strong>之前</strong> 的结果。题目保证最小乘积的最大值在 <strong>不取余</strong> 的情况下可以用 <strong>64 位有符号整数</strong> 保存。</p>
 
-<p>A <strong>subarray</strong> is a <strong>contiguous</strong> part of an array.</p>
+<p><strong>子数组</strong> 定义为一个数组的 <strong>连续</strong> 部分。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [1,<u>2,3,2</u>]
-<strong>Output:</strong> 14
-<strong>Explanation:</strong> The maximum min-product is achieved with the subarray [2,3,2] (minimum value is 2).
-2 * (2+3+2) = 2 * 7 = 14.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,<u>3,3</u>,1,2]
-<strong>Output:</strong> 18
-<strong>Explanation:</strong> The maximum min-product is achieved with the subarray [3,3] (minimum value is 3).
-3 * (3+3) = 3 * 6 = 18.
+<b>输入：</b>nums = [1,<strong>2,3,2</strong>]
+<b>输出：</b>14
+<b>解释：</b>最小乘积的最大值由子数组 [2,3,2] （最小值是 2）得到。
+2 * (2+3+2) = 2 * 7 = 14 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,1,<u>5,6,4</u>,2]
-<strong>Output:</strong> 60
-<strong>Explanation:</strong> The maximum min-product is achieved with the subarray [5,6,4] (minimum value is 4).
-4 * (5+6+4) = 4 * 15 = 60.
+<b>输入：</b>nums = [2,<strong>3,3</strong>,1,2]
+<b>输出：</b>18
+<b>解释：</b>最小乘积的最大值由子数组 [3,3] （最小值是 3）得到。
+3 * (3+3) = 3 * 6 = 18 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [3,1,<strong>5,6,4</strong>,2]
+<b>输出：</b>60
+<b>解释：</b>最小乘积的最大值由子数组 [5,6,4] （最小值是 4）得到。
+4 * (5+6+4) = 4 * 15 = 60 。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 10<sup>7</sup></code></li>
+	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
+	<li><code>1 <= nums[i] <= 10<sup>7</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Monotonic Stack + Prefix Sum
+### 方法一：单调栈 + 前缀和
 
-We can enumerate each element $nums[i]$ as the minimum value of the subarray, and find the left and right boundaries $left[i]$ and $right[i]$ of the subarray. Where $left[i]$ represents the first position strictly less than $nums[i]$ on the left side of $i$, and $right[i]$ represents the first position less than or equal to $nums[i]$ on the right side of $i$.
+我们可以枚举每个元素 $nums[i]$ 作为子数组的最小值，找出子数组的左右边界 $left[i]$ 和 $right[i]$。其中 $left[i]$ 表示 $i$ 左侧第一个严格小于 $nums[i]$ 的位置，而 $right[i]$ 表示 $i$ 右侧第一个小于等于 $nums[i]$ 的位置。
 
-To conveniently calculate the sum of the subarray, we can preprocess the prefix sum array $s$, where $s[i]$ represents the sum of the first $i$ elements of $nums$.
+为了方便地算出子数组的和，我们可以预处理出前缀和数组 $s$，其中 $s[i]$ 表示 $nums$ 前 $i$ 个元素的和。
 
-Then the minimum product with $nums[i]$ as the minimum value of the subarray is $nums[i] \times (s[right[i]] - s[left[i] + 1])$. We can enumerate each element $nums[i]$, find the minimum product with $nums[i]$ as the minimum value of the subarray, and then take the maximum value.
+那么以 $nums[i]$ 作为子数组最小值的最小乘积为 $nums[i] \times s[right[i]] - s[left[i] + 1]$。我们可以枚举每个元素 $nums[i]$，求出以 $nums[i]$ 作为子数组最小值的最小乘积，然后取最大值即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -249,42 +254,42 @@ func maxSumMinProduct(nums []int) int {
 
 ```ts
 function maxSumMinProduct(nums: number[]): number {
-  const n = nums.length;
-  const left: number[] = Array(n).fill(-1);
-  const right: number[] = Array(n).fill(n);
-  const stk: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    while (stk.length && nums[stk.at(-1)!] >= nums[i]) {
-      stk.pop();
+    const n = nums.length;
+    const left: number[] = Array(n).fill(-1);
+    const right: number[] = Array(n).fill(n);
+    const stk: number[] = [];
+    for (let i = 0; i < n; ++i) {
+        while (stk.length && nums[stk.at(-1)!] >= nums[i]) {
+            stk.pop();
+        }
+        if (stk.length) {
+            left[i] = stk.at(-1)!;
+        }
+        stk.push(i);
     }
-    if (stk.length) {
-      left[i] = stk.at(-1)!;
+    stk.length = 0;
+    for (let i = n - 1; i >= 0; --i) {
+        while (stk.length && nums[stk.at(-1)!] > nums[i]) {
+            stk.pop();
+        }
+        if (stk.length) {
+            right[i] = stk.at(-1)!;
+        }
+        stk.push(i);
     }
-    stk.push(i);
-  }
-  stk.length = 0;
-  for (let i = n - 1; i >= 0; --i) {
-    while (stk.length && nums[stk.at(-1)!] > nums[i]) {
-      stk.pop();
+    const s: number[] = Array(n + 1).fill(0);
+    for (let i = 0; i < n; ++i) {
+        s[i + 1] = s[i] + nums[i];
     }
-    if (stk.length) {
-      right[i] = stk.at(-1)!;
+    let ans: bigint = 0n;
+    const mod = 10 ** 9 + 7;
+    for (let i = 0; i < n; ++i) {
+        const t = BigInt(nums[i]) * BigInt(s[right[i]] - s[left[i] + 1]);
+        if (ans < t) {
+            ans = t;
+        }
     }
-    stk.push(i);
-  }
-  const s: number[] = Array(n + 1).fill(0);
-  for (let i = 0; i < n; ++i) {
-    s[i + 1] = s[i] + nums[i];
-  }
-  let ans: bigint = 0n;
-  const mod = 10 ** 9 + 7;
-  for (let i = 0; i < n; ++i) {
-    const t = BigInt(nums[i]) * BigInt(s[right[i]] - s[left[i] + 1]);
-    if (ans < t) {
-      ans = t;
-    }
-  }
-  return Number(ans % BigInt(mod));
+    return Number(ans % BigInt(mod));
 }
 ```
 

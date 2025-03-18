@@ -1,75 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1616.Split%20Two%20Strings%20to%20Make%20Palindrome/README.md
 rating: 1868
-source: Weekly Contest 210 Q3
+source: 第 210 场周赛 Q3
 tags:
-  - Two Pointers
-  - String
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1616. Split Two Strings to Make Palindrome](https://leetcode.com/problems/split-two-strings-to-make-palindrome)
+# [1616. 分割两个字符串得到回文串](https://leetcode.cn/problems/split-two-strings-to-make-palindrome)
 
-## Description
+[English Version](/solution/1600-1699/1616.Split%20Two%20Strings%20to%20Make%20Palindrome/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two strings <code>a</code> and <code>b</code> of the same length. Choose an index and split both strings <strong>at the same index</strong>, splitting <code>a</code> into two strings: <code>a<sub>prefix</sub></code> and <code>a<sub>suffix</sub></code> where <code>a = a<sub>prefix</sub> + a<sub>suffix</sub></code>, and splitting <code>b</code> into two strings: <code>b<sub>prefix</sub></code> and <code>b<sub>suffix</sub></code> where <code>b = b<sub>prefix</sub> + b<sub>suffix</sub></code>. Check if <code>a<sub>prefix</sub> + b<sub>suffix</sub></code> or <code>b<sub>prefix</sub> + a<sub>suffix</sub></code> forms a palindrome.</p>
+<p>给你两个字符串&nbsp;<code>a</code> 和&nbsp;<code>b</code>&nbsp;，它们长度相同。请你选择一个下标，将两个字符串都在&nbsp;<strong>相同的下标 </strong>分割开。由&nbsp;<code>a</code>&nbsp;可以得到两个字符串：&nbsp;<code>a<sub>prefix</sub></code>&nbsp;和&nbsp;<code>a<sub>suffix</sub></code>&nbsp;，满足&nbsp;<code>a = a<sub>prefix</sub> + a<sub>suffix</sub></code><sub>&nbsp;</sub>，同理，由&nbsp;<code>b</code> 可以得到两个字符串&nbsp;<code>b<sub>prefix</sub></code> 和&nbsp;<code>b<sub>suffix</sub></code>&nbsp;，满足&nbsp;<code>b = b<sub>prefix</sub> + b<sub>suffix</sub></code>&nbsp;。请你判断&nbsp;<code>a<sub>prefix</sub> + b<sub>suffix</sub></code> 或者&nbsp;<code>b<sub>prefix</sub> + a<sub>suffix</sub></code>&nbsp;能否构成回文串。</p>
 
-<p>When you split a string <code>s</code> into <code>s<sub>prefix</sub></code> and <code>s<sub>suffix</sub></code>, either <code>s<sub>suffix</sub></code> or <code>s<sub>prefix</sub></code> is allowed to be empty. For example, if <code>s = &quot;abc&quot;</code>, then <code>&quot;&quot; + &quot;abc&quot;</code>, <code>&quot;a&quot; + &quot;bc&quot;</code>, <code>&quot;ab&quot; + &quot;c&quot;</code> , and <code>&quot;abc&quot; + &quot;&quot;</code> are valid splits.</p>
+<p>当你将一个字符串&nbsp;<code>s</code>&nbsp;分割成&nbsp;<code>s<sub>prefix</sub></code> 和&nbsp;<code>s<sub>suffix</sub></code>&nbsp;时，&nbsp;<code>s<sub>suffix</sub></code> 或者&nbsp;<code>s<sub>prefix</sub></code> 可以为空。比方说，&nbsp;<code>s = "abc"</code>&nbsp;那么&nbsp;<code>"" + "abc"</code>&nbsp;，&nbsp;<code>"a" + "bc"&nbsp;</code>，&nbsp;<code>"ab" + "c"</code>&nbsp;和&nbsp;<code>"abc" + ""</code>&nbsp;都是合法分割。</p>
 
-<p>Return <code>true</code><em> if it is possible to form</em><em> a palindrome string, otherwise return </em><code>false</code>.</p>
+<p>如果 <strong>能构成回文字符串</strong> ，那么请返回&nbsp;<code>true</code>，否则返回<em>&nbsp;</em><code>false</code>&nbsp;。</p>
 
-<p><strong>Notice</strong> that&nbsp;<code>x + y</code> denotes the concatenation of strings <code>x</code> and <code>y</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> a = &quot;x&quot;, b = &quot;y&quot;
-<strong>Output:</strong> true
-<strong>Explaination:</strong> If either a or b are palindromes the answer is true since you can split in the following way:
-a<sub>prefix</sub> = &quot;&quot;, a<sub>suffix</sub> = &quot;x&quot;
-b<sub>prefix</sub> = &quot;&quot;, b<sub>suffix</sub> = &quot;y&quot;
-Then, a<sub>prefix</sub> + b<sub>suffix</sub> = &quot;&quot; + &quot;y&quot; = &quot;y&quot;, which is a palindrome.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> a = &quot;xbdef&quot;, b = &quot;xecab&quot;
-<strong>Output:</strong> false
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> a = &quot;ulacfd&quot;, b = &quot;jizalu&quot;
-<strong>Output:</strong> true
-<strong>Explaination:</strong> Split them at index 3:
-a<sub>prefix</sub> = &quot;ula&quot;, a<sub>suffix</sub> = &quot;cfd&quot;
-b<sub>prefix</sub> = &quot;jiz&quot;, b<sub>suffix</sub> = &quot;alu&quot;
-Then, a<sub>prefix</sub> + b<sub>suffix</sub> = &quot;ula&quot; + &quot;alu&quot; = &quot;ulaalu&quot;, which is a palindrome.
-</pre>
+<p><strong>注意</strong>，&nbsp;<code>x + y</code>&nbsp;表示连接字符串&nbsp;<code>x</code> 和&nbsp;<code>y</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>a = "x", b = "y"
+<b>输出：</b>true
+<b>解释：</b>如果 a 或者 b 是回文串，那么答案一定为 true ，因为你可以如下分割：
+a<sub>prefix</sub> = "", a<sub>suffix</sub> = "x"
+b<sub>prefix</sub> = "", b<sub>suffix</sub> = "y"
+那么 a<sub>prefix</sub> + b<sub>suffix</sub> = "" + "y" = "y" 是回文串。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>a = "xbdef", b = "xecab"
+<strong>输出：</strong>false
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>a = "ulacfd", b = "jizalu"
+<b>输出：</b>true
+<b>解释：</b>在下标为 3 处分割：
+a<sub>prefix</sub> = "ula", a<sub>suffix</sub> = "cfd"
+b<sub>prefix</sub> = "jiz", b<sub>suffix</sub> = "alu"
+那么 a<sub>prefix</sub> + b<sub>suffix</sub> = "ula" + "alu" = "ulaalu" 是回文串。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= a.length, b.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>a.length == b.length</code></li>
-	<li><code>a</code> and <code>b</code> consist of lowercase English letters</li>
+	<li><code>a</code> 和&nbsp;<code>b</code>&nbsp;都只包含小写英文字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：双指针
+
+我们可以使用双指针，其中一个指针 $i$ 从字符串 $a$ 的头部开始，另一个指针 $j$ 从字符串 $b$ 的尾部开始，如果两个指针指向的字符相等，那么两个指针同时往中间移动，直到遇到不同的字符或两指针交叉。
+
+如果两指针交叉，即 $i \geq j$，说明 $prefix$ 和 $suffix$ 已经可以得到回文串，返回 `true`；否则，我们还需要判断 $a[i,...j]$ 或者 $b[i,...j]$ 是否是回文串，若是，返回 `true`。
+
+否则，我们尝试交换两个字符串 $a$ 和 $b$，重复上述同样的过程。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 是字符串 $a$ 或 $b$ 的长度。
 
 <!-- tabs:start -->
 
@@ -176,24 +188,24 @@ func check2(a string, i, j int) bool {
 
 ```ts
 function checkPalindromeFormation(a: string, b: string): boolean {
-  const check1 = (a: string, b: string) => {
-    let i = 0;
-    let j = b.length - 1;
-    while (i < j && a.charAt(i) === b.charAt(j)) {
-      i++;
-      j--;
-    }
-    return i >= j || check2(a, i, j) || check2(b, i, j);
-  };
+    const check1 = (a: string, b: string) => {
+        let i = 0;
+        let j = b.length - 1;
+        while (i < j && a.charAt(i) === b.charAt(j)) {
+            i++;
+            j--;
+        }
+        return i >= j || check2(a, i, j) || check2(b, i, j);
+    };
 
-  const check2 = (a: string, i: number, j: number) => {
-    while (i < j && a.charAt(i) === a.charAt(j)) {
-      i++;
-      j--;
-    }
-    return i >= j;
-  };
-  return check1(a, b) || check1(b, a);
+    const check2 = (a: string, i: number, j: number) => {
+        while (i < j && a.charAt(i) === a.charAt(j)) {
+            i++;
+            j--;
+        }
+        return i >= j;
+    };
+    return check1(a, b) || check1(b, a);
 }
 ```
 

@@ -1,64 +1,69 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2909.Minimum%20Sum%20of%20Mountain%20Triplets%20II/README.md
 rating: 1478
-source: Weekly Contest 368 Q2
+source: 第 368 场周赛 Q2
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [2909. Minimum Sum of Mountain Triplets II](https://leetcode.com/problems/minimum-sum-of-mountain-triplets-ii)
+# [2909. 元素和最小的山形三元组 II](https://leetcode.cn/problems/minimum-sum-of-mountain-triplets-ii)
 
-## Description
+[English Version](/solution/2900-2999/2909.Minimum%20Sum%20of%20Mountain%20Triplets%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array <code>nums</code> of integers.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 。</p>
 
-<p>A triplet of indices <code>(i, j, k)</code> is a <strong>mountain</strong> if:</p>
+<p>如果下标三元组 <code>(i, j, k)</code> 满足下述全部条件，则认为它是一个 <strong>山形三元组</strong> ：</p>
 
 <ul>
 	<li><code>i &lt; j &lt; k</code></li>
-	<li><code>nums[i] &lt; nums[j]</code> and <code>nums[k] &lt; nums[j]</code></li>
+	<li><code>nums[i] &lt; nums[j]</code> 且 <code>nums[k] &lt; nums[j]</code></li>
 </ul>
 
-<p>Return <em>the <strong>minimum possible sum</strong> of a mountain triplet of</em> <code>nums</code>. <em>If no such triplet exists, return</em> <code>-1</code>.</p>
+<p>请你找出 <code>nums</code> 中 <strong>元素和最小</strong> 的山形三元组，并返回其 <strong>元素和</strong> 。如果不存在满足条件的三元组，返回 <code>-1</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [8,6,1,5,3]
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> Triplet (2, 3, 4) is a mountain triplet of sum 9 since: 
+<strong>输入：</strong>nums = [8,6,1,5,3]
+<strong>输出：</strong>9
+<strong>解释：</strong>三元组 (2, 3, 4) 是一个元素和等于 9 的山形三元组，因为： 
 - 2 &lt; 3 &lt; 4
-- nums[2] &lt; nums[3] and nums[4] &lt; nums[3]
-And the sum of this triplet is nums[2] + nums[3] + nums[4] = 9. It can be shown that there are no mountain triplets with a sum of less than 9.
+- nums[2] &lt; nums[3] 且 nums[4] &lt; nums[3]
+这个三元组的元素和等于 nums[2] + nums[3] + nums[4] = 9 。可以证明不存在元素和小于 9 的山形三元组。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [5,4,8,7,10,2]
-<strong>Output:</strong> 13
-<strong>Explanation:</strong> Triplet (1, 3, 5) is a mountain triplet of sum 13 since: 
-- 1 &lt; 3 &lt; 5
-- nums[1] &lt; nums[3] and nums[5] &lt; nums[3]
-And the sum of this triplet is nums[1] + nums[3] + nums[5] = 13. It can be shown that there are no mountain triplets with a sum of less than 13.
+<strong>输入：</strong>nums = [5,4,8,7,10,2]
+<strong>输出：</strong>13
+<strong>解释：</strong>三元组 (1, 3, 5) 是一个元素和等于 13 的山形三元组，因为： 
+- 1 &lt; 3 &lt; 5 
+- nums[1] &lt; nums[3] 且 nums[5] &lt; nums[3]
+这个三元组的元素和等于 nums[1] + nums[3] + nums[5] = 13 。可以证明不存在元素和小于 13 的山形三元组。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [6,5,4,3,4,5]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It can be shown that there are no mountain triplets in nums.
+<strong>输入：</strong>nums = [6,5,4,3,4,5]
+<strong>输出：</strong>-1
+<strong>解释：</strong>可以证明 nums 中不存在山形三元组。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -67,19 +72,19 @@ And the sum of this triplet is nums[1] + nums[3] + nums[5] = 13. It can be shown
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Preprocessing + Enumeration
+### 方法一：预处理 + 枚举
 
-We can preprocess the minimum value on the right side of each position and record it in the array $right[i]$, where $right[i]$ represents the minimum value in $nums[i+1..n-1]$.
+我们可以预处理出每个位置右侧的最小值，记录在数组 $right[i]$ 中，即 $right[i]$ 表示 $nums[i+1..n-1]$ 中的最小值。
 
-Next, we enumerate the middle element $nums[i]$ of the mountain triplet from left to right, and use a variable $left$ to represent the minimum value in $ums[0..i-1]$, and a variable $ans$ to represent the current minimum element sum found. For each $i$, we need to find the element $nums[i]$ that satisfies $left < nums[i]$ and $right[i+1] < nums[i]$, and update $ans$.
+接下来，我们从左到右枚举山形三元组的中间元素 $nums[i]$，用一个变量 $left$ 表示 $nums[0..i-1]$ 中的最小值，用一个变量 $ans$ 表示当前找到的最小元素和。对于每个 $i$，我们需要找到满足 $left < nums[i]$ 且 $right[i+1] < nums[i]$ 的元素 $nums[i]$，并更新 $ans$。
 
-Finally, if $ans$ is still the initial value, it means that there is no mountain triplet, and we return $-1$.
+最后，如果 $ans$ 仍然为初始值，则说明不存在山形三元组，返回 $-1$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
 
 <!-- tabs:start -->
 
@@ -178,19 +183,19 @@ func minimumSum(nums []int) int {
 
 ```ts
 function minimumSum(nums: number[]): number {
-  const n = nums.length;
-  const right: number[] = Array(n + 1).fill(Infinity);
-  for (let i = n - 1; ~i; --i) {
-    right[i] = Math.min(right[i + 1], nums[i]);
-  }
-  let [ans, left] = [Infinity, Infinity];
-  for (let i = 0; i < n; ++i) {
-    if (left < nums[i] && right[i + 1] < nums[i]) {
-      ans = Math.min(ans, left + nums[i] + right[i + 1]);
+    const n = nums.length;
+    const right: number[] = Array(n + 1).fill(Infinity);
+    for (let i = n - 1; ~i; --i) {
+        right[i] = Math.min(right[i + 1], nums[i]);
     }
-    left = Math.min(left, nums[i]);
-  }
-  return ans === Infinity ? -1 : ans;
+    let [ans, left] = [Infinity, Infinity];
+    for (let i = 0; i < n; ++i) {
+        if (left < nums[i] && right[i + 1] < nums[i]) {
+            ans = Math.min(ans, left + nums[i] + right[i + 1]);
+        }
+        left = Math.min(left, nums[i]);
+    }
+    return ans === Infinity ? -1 : ans;
 }
 ```
 

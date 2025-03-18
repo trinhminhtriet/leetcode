@@ -1,51 +1,54 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2470.Number%20of%20Subarrays%20With%20LCM%20Equal%20to%20K/README.md
 rating: 1559
-source: Weekly Contest 319 Q2
+source: 第 319 场周赛 Q2
 tags:
-  - Array
-  - Math
-  - Number Theory
+    - 数组
+    - 数学
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [2470. Number of Subarrays With LCM Equal to K](https://leetcode.com/problems/number-of-subarrays-with-lcm-equal-to-k)
+# [2470. 最小公倍数等于 K 的子数组数目](https://leetcode.cn/problems/number-of-subarrays-with-lcm-equal-to-k)
 
-## Description
+[English Version](/solution/2400-2499/2470.Number%20of%20Subarrays%20With%20LCM%20Equal%20to%20K/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the number of <strong>subarrays</strong> of </em><code>nums</code><em> where the least common multiple of the subarray&#39;s elements is </em><code>k</code>.</p>
+<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> ，请你统计并返回 <code>nums</code> 的 <strong>子数组</strong> 中满足 <em>元素最小公倍数为 <code>k</code> </em>的子数组数目。</p>
 
-<p>A <strong>subarray</strong> is a contiguous non-empty sequence of elements within an array.</p>
+<p><strong>子数组</strong> 是数组中一个连续非空的元素序列。</p>
 
-<p>The <strong>least common multiple of an array</strong> is the smallest positive integer that is divisible by all the array elements.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [3,6,2,7,1], k = 6
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The subarrays of nums where 6 is the least common multiple of all the subarray&#39;s elements are:
-- [<u><strong>3</strong></u>,<u><strong>6</strong></u>,2,7,1]
-- [<u><strong>3</strong></u>,<u><strong>6</strong></u>,<u><strong>2</strong></u>,7,1]
-- [3,<u><strong>6</strong></u>,2,7,1]
-- [3,<u><strong>6</strong></u>,<u><strong>2</strong></u>,7,1]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [3], k = 2
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are no subarrays of nums where 2 is the least common multiple of all the subarray&#39;s elements.
-</pre>
+<p><strong>数组的最小公倍数</strong> 是可被所有数组元素整除的最小正整数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1 ：</strong></p>
+
+<pre><strong>输入：</strong>nums = [3,6,2,7,1], k = 6
+<strong>输出：</strong>4
+<strong>解释：</strong>以 6 为最小公倍数的子数组是：
+- [<em><strong>3</strong></em>,<em><strong>6</strong></em>,2,7,1]
+- [<em><strong>3</strong></em>,<em><strong>6</strong></em>,<em><strong>2</strong></em>,7,1]
+- [3,<em><strong>6</strong></em>,2,7,1]
+- [3,<em><strong>6</strong></em>,<em><strong>2</strong></em>,7,1]
+</pre>
+
+<p><strong>示例 2 ：</strong></p>
+
+<pre><strong>输入：</strong>nums = [3], k = 2
+<strong>输出：</strong>0
+<strong>解释：</strong>不存在以 2 为最小公倍数的子数组。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -54,15 +57,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-Enumerate each number as the first number of the subarray, and then enumerate each number as the last number of the subarray. Calculate the least common multiple of this subarray. If the least common multiple equals $k$, then increment the answer by one.
+枚举每个数作为子数组的第一个数，然后枚举每个数作为子数组的最后一个数，计算这个子数组的最小公倍数，如果最小公倍数等于 $k$，则答案加一。
 
-The time complexity is $O(n^2)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n^2)$。
 
 <!-- tabs:start -->
 

@@ -1,86 +1,80 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1138.Alphabet%20Board%20Path/README.md
 rating: 1410
-source: Weekly Contest 147 Q2
+source: 第 147 场周赛 Q2
 tags:
-  - Hash Table
-  - String
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1138. Alphabet Board Path](https://leetcode.com/problems/alphabet-board-path)
+# [1138. 字母板上的路径](https://leetcode.cn/problems/alphabet-board-path)
 
-## Description
+[English Version](/solution/1100-1199/1138.Alphabet%20Board%20Path/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>On an alphabet board, we start at position <code>(0, 0)</code>, corresponding to character&nbsp;<code>board[0][0]</code>.</p>
+<p>我们从一块字母板上的位置&nbsp;<code>(0, 0)</code>&nbsp;出发，该坐标对应的字符为&nbsp;<code>board[0][0]</code>。</p>
 
-<p>Here, <code>board = [&quot;abcde&quot;, &quot;fghij&quot;, &quot;klmno&quot;, &quot;pqrst&quot;, &quot;uvwxy&quot;, &quot;z&quot;]</code>, as shown in the diagram below.</p>
+<p>在本题里，字母板为<code>board = ["abcde", "fghij", "klmno", "pqrst", "uvwxy", "z"]</code>，如下所示。</p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1138.Alphabet%20Board%20Path/images/azboard.png" style="width: 250px; height: 317px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1138.Alphabet%20Board%20Path/images/azboard.png" style="width: 300px;" /></p>
 
-<p>We may make the following moves:</p>
+<p>我们可以按下面的指令规则行动：</p>
 
 <ul>
-
-    <li><code>&#39;U&#39;</code> moves our position up one row, if the position exists on the board;</li>
-
-    <li><code>&#39;D&#39;</code> moves our position down one row, if the position exists on the board;</li>
-
-    <li><code>&#39;L&#39;</code> moves our position left one column, if the position exists on the board;</li>
-
-    <li><code>&#39;R&#39;</code> moves our position right one column, if the position exists on the board;</li>
-
-    <li><code>&#39;!&#39;</code>&nbsp;adds the character <code>board[r][c]</code> at our current position <code>(r, c)</code>&nbsp;to the&nbsp;answer.</li>
-
+	<li>如果方格存在，<code>'U'</code>&nbsp;意味着将我们的位置上移一行；</li>
+	<li>如果方格存在，<code>'D'</code>&nbsp;意味着将我们的位置下移一行；</li>
+	<li>如果方格存在，<code>'L'</code>&nbsp;意味着将我们的位置左移一列；</li>
+	<li>如果方格存在，<code>'R'</code>&nbsp;意味着将我们的位置右移一列；</li>
+	<li><code>'!'</code>&nbsp;会把在我们当前位置 <code>(r, c)</code> 的字符&nbsp;<code>board[r][c]</code>&nbsp;添加到答案中。</li>
 </ul>
 
-<p>(Here, the only positions that exist on the board are positions with letters on them.)</p>
+<p>（注意，字母板上只存在有字母的位置。）</p>
 
-<p>Return a sequence of moves that makes our answer equal to <code>target</code>&nbsp;in the minimum number of moves.&nbsp; You may return any path that does so.</p>
+<p>返回指令序列，用最小的行动次数让答案和目标&nbsp;<code>target</code>&nbsp;相同。你可以返回任何达成目标的路径。</p>
 
 <p>&nbsp;</p>
 
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1：</strong></p>
 
-<pre><strong>Input:</strong> target = "leet"
+<pre>
+<strong>输入：</strong>target = "leet"
+<strong>输出：</strong>"DDR!UURRR!!DDD!"
+</pre>
 
-<strong>Output:</strong> "DDR!UURRR!!DDD!"
+<p><strong>示例 2：</strong></p>
 
-</pre><p><strong class="example">Example 2:</strong></p>
-
-<pre><strong>Input:</strong> target = "code"
-
-<strong>Output:</strong> "RR!DDRR!UUL!R!"
-
+<pre>
+<strong>输入：</strong>target = "code"
+<strong>输出：</strong>"RR!DDRR!UUL!R!"
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>1 &lt;= target.length &lt;= 100</code></li>
-
-    <li><code>target</code> consists only of English lowercase letters.</li>
-
+	<li><code>1 &lt;= target.length &lt;= 100</code></li>
+	<li><code>target</code>&nbsp;仅含有小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-Starting from the origin point $(0, 0)$, simulate each step of the movement, appending the result of each step to the answer. Note that the direction of movement follows the order "left, up, right, down".
+从起点 $(0, 0)$ 出发，模拟每一步的移动，将每一步的移动结果拼接到答案中。注意移动的方向遵循“左、上、右、下”的顺序。
 
-The time complexity is $O(n)$, where $n$ is the length of the string target, as each character in the string target needs to be traversed. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是字符串 $target$ 的长度，需要遍历字符串 $target$ 中的每一个字符。忽略答案的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

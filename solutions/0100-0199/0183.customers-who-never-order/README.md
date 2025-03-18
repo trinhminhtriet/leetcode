@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0183.Customers%20Who%20Never%20Order/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [183. Customers Who Never Order](https://leetcode.com/problems/customers-who-never-order)
+# [183. 从不订购的客户](https://leetcode.cn/problems/customers-who-never-order)
 
-## Description
+[English Version](/solution/0100-0199/0183.Customers%20Who%20Never%20Order/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Customers</code></p>
+<p><code>Customers</code> 表：</p>
 
 <pre>
 +-------------+---------+
@@ -22,13 +25,10 @@ tags:
 | id          | int     |
 | name        | varchar |
 +-------------+---------+
-id is the primary key (column with unique values) for this table.
-Each row of this table indicates the ID and name of a customer.
-</pre>
+在 SQL 中，id 是该表的主键。
+该表的每一行都表示客户的 ID 和名称。</pre>
 
-<p>&nbsp;</p>
-
-<p>Table: <code>Orders</code></p>
+<p><code>Orders</code> 表：</p>
 
 <pre>
 +-------------+------+
@@ -37,24 +37,24 @@ Each row of this table indicates the ID and name of a customer.
 | id          | int  |
 | customerId  | int  |
 +-------------+------+
-id is the primary key (column with unique values) for this table.
-customerId is a foreign key (reference columns) of the ID from the Customers table.
-Each row of this table indicates the ID of an order and the ID of the customer who ordered it.
-</pre>
+在 SQL 中，id 是该表的主键。
+customerId 是 Customers 表中 ID 的外键( Pandas 中的连接键)。
+该表的每一行都表示订单的 ID 和订购该订单的客户的 ID。</pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to find all customers who never order anything.</p>
+<p>找出所有从不点任何东西的顾客。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
+<p>以 <strong>任意顺序</strong> 返回结果表。</p>
 
-<p>The result format is in the following example.</p>
+<p>结果格式如下所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
+<b>输入：</b>
 Customers table:
 +----+-------+
 | id | name  |
@@ -71,24 +71,23 @@ Orders table:
 | 1  | 3          |
 | 2  | 1          |
 +----+------------+
-<strong>Output:</strong> 
+<b>输出：</b>
 +-----------+
 | Customers |
 +-----------+
 | Henry     |
 | Max       |
-+-----------+
-</pre>
++-----------+</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: NOT IN
+### 方法一：NOT IN
 
-List all customer IDs of existing orders, and use `NOT IN` to find customers who are not in the list.
+列举所有已存在订单的客户 ID，使用 `NOT IN` 找到不存在其中的客户。
 
 <!-- tabs:start -->
 
@@ -127,9 +126,9 @@ WHERE
 
 <!-- solution:start -->
 
-### Solution 2: LEFT JOIN
+### 方法二：LEFT JOIN
 
-Use `LEFT JOIN` to join the tables and return the data where `CustomerId` is `NULL`.
+使用 `LEFT JOIN` 连接表格，返回 `CustomerId` 为 `NULL` 的数据。
 
 <!-- tabs:start -->
 

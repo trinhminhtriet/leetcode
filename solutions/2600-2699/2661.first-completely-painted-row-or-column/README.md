@@ -1,47 +1,52 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2661.First%20Completely%20Painted%20Row%20or%20Column/README.md
 rating: 1502
-source: Weekly Contest 343 Q2
+source: 第 343 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Matrix
+    - 数组
+    - 哈希表
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [2661. First Completely Painted Row or Column](https://leetcode.com/problems/first-completely-painted-row-or-column)
+# [2661. 找出叠涂元素](https://leetcode.cn/problems/first-completely-painted-row-or-column)
 
-## Description
+[English Version](/solution/2600-2699/2661.First%20Completely%20Painted%20Row%20or%20Column/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>arr</code>, and an <code>m x n</code> integer <strong>matrix</strong> <code>mat</code>. <code>arr</code> and <code>mat</code> both contain <strong>all</strong> the integers in the range <code>[1, m * n]</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>arr</code> 和一个 <code>m x n</code> 的整数 <strong>矩阵</strong> <code>mat</code> 。<code>arr</code> 和 <code>mat</code> 都包含范围 <code>[1，m * n]</code> 内的 <strong>所有</strong> 整数。</p>
 
-<p>Go through each index <code>i</code> in <code>arr</code> starting from index <code>0</code> and paint the cell in <code>mat</code> containing the integer <code>arr[i]</code>.</p>
+<p>从下标 <code>0</code> 开始遍历 <code>arr</code> 中的每个下标 <code>i</code> ，并将包含整数 <code>arr[i]</code> 的 <code>mat</code> 单元格涂色。</p>
 
-<p>Return <em>the smallest index</em> <code>i</code> <em>at which either a row or a column will be completely painted in</em> <code>mat</code>.</p>
+<p>请你找出 <code>arr</code> 中第一个使得&nbsp;<code>mat</code> 的某一行或某一列都被涂色的元素，并返回其下标 <code>i</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2661.First%20Completely%20Painted%20Row%20or%20Column/images/image explanation for example 1" /><img alt="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2661.First%20Completely%20Painted%20Row%20or%20Column/images/image explanation for example 1" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2661.First%20Completely%20Painted%20Row%20or%20Column/images/grid1.jpg" style="width: 321px; height: 81px;" />
+
+<p><strong>示例 1：</strong></p>
+<img alt="image explanation for example 1" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2661.First%20Completely%20Painted%20Row%20or%20Column/images/grid1.jpg" style="width: 321px; height: 81px;" />
 <pre>
-<strong>Input:</strong> arr = [1,3,4,2], mat = [[1,4],[2,3]]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The moves are shown in order, and both the first row and second column of the matrix become fully painted at arr[2].
+<strong>输入：</strong>arr = [1,3,4,2], mat = [[1,4],[2,3]]
+<strong>输出：</strong>2
+<strong>解释：</strong>遍历如上图所示，arr[2] 在矩阵中的第一行或第二列上都被涂色。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="image explanation for example 2" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2661.First%20Completely%20Painted%20Row%20or%20Column/images/grid2.jpg" style="width: 601px; height: 121px;" />
 <pre>
-<strong>Input:</strong> arr = [2,8,7,4,1,3,5,6,9], mat = [[3,2,5],[1,4,6],[8,7,9]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The second column becomes fully painted at arr[3].
+<strong>输入：</strong>arr = [2,8,7,4,1,3,5,6,9], mat = [[3,2,5],[1,4,6],[8,7,9]]
+<strong>输出：</strong>3
+<strong>解释：</strong>遍历如上图所示，arr[3] 在矩阵中的第二列上都被涂色。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == mat.length</code></li>
@@ -50,23 +55,23 @@ tags:
 	<li><code>1 &lt;= m, n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= m * n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= arr[i], mat[r][c] &lt;= m * n</code></li>
-	<li>All the integers of <code>arr</code> are <strong>unique</strong>.</li>
-	<li>All the integers of <code>mat</code> are <strong>unique</strong>.</li>
+	<li><code>arr</code> 中的所有整数 <strong>互不相同</strong></li>
+	<li><code>mat</code> 中的所有整数 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Array Counting
+### 方法一：哈希表 + 数组计数
 
-We use a hash table $idx$ to record the position of each element in the matrix $mat$, that is $idx[mat[i][j]] = (i, j)$, and define two arrays $row$ and $col$ to record the number of colored elements in each row and each column respectively.
+我们用一个哈希表 $idx$ 记录每个元素在矩阵 $mat$ 中的位置，即 $idx[mat[i][j]] = (i, j)$，定义两个数组 $row$ 和 $col$ 分别记录每行和每列已经涂色的元素个数。
 
-Traverse the array $arr$. For each element $arr[k]$, we find its position $(i, j)$ in the matrix $mat$, and then add $row[i]$ and $col[j]$ by one. If $row[i] = n$ or $col[j] = m$, it means that the $i$-th row or the $j$-th column has been colored, so $arr[k]$ is the element we are looking for, and we return $k$.
+遍历数组 $arr$，对于每个元素 $arr[k]$，我们找到其在矩阵 $mat$ 中的位置 $(i, j)$，然后将 $row[i]$ 和 $col[j]$ 分别加一，如果 $row[i] = n$ 或 $col[j] = m$，说明第 $i$ 行或第 $j$ 列已经被涂色，那么 $arr[k]$ 就是我们要找的元素，返回 $k$ 即可。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here $m$ and $n$ are the number of rows and columns of the matrix $mat$ respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵 $mat$ 的行数和列数。
 
 <!-- tabs:start -->
 
@@ -172,24 +177,24 @@ func firstCompleteIndex(arr []int, mat [][]int) int {
 
 ```ts
 function firstCompleteIndex(arr: number[], mat: number[][]): number {
-  const m = mat.length;
-  const n = mat[0].length;
-  const idx: Map<number, number[]> = new Map();
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      idx.set(mat[i][j], [i, j]);
+    const m = mat.length;
+    const n = mat[0].length;
+    const idx: Map<number, number[]> = new Map();
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            idx.set(mat[i][j], [i, j]);
+        }
     }
-  }
-  const row: number[] = Array(m).fill(0);
-  const col: number[] = Array(n).fill(0);
-  for (let k = 0; ; ++k) {
-    const [i, j] = idx.get(arr[k])!;
-    ++row[i];
-    ++col[j];
-    if (row[i] === n || col[j] === m) {
-      return k;
+    const row: number[] = Array(m).fill(0);
+    const col: number[] = Array(n).fill(0);
+    for (let k = 0; ; ++k) {
+        const [i, j] = idx.get(arr[k])!;
+        ++row[i];
+        ++col[j];
+        if (row[i] === n || col[j] === m) {
+            return k;
+        }
     }
-  }
 }
 ```
 

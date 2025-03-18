@@ -1,88 +1,93 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3014.Minimum%20Number%20of%20Pushes%20to%20Type%20Word%20I/README.md
 rating: 1324
-source: Weekly Contest 381 Q1
+source: 第 381 场周赛 Q1
 tags:
-  - Greedy
-  - Math
-  - String
+    - 贪心
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [3014. Minimum Number of Pushes to Type Word I](https://leetcode.com/problems/minimum-number-of-pushes-to-type-word-i)
+# [3014. 输入单词需要的最少按键次数 I](https://leetcode.cn/problems/minimum-number-of-pushes-to-type-word-i)
 
-## Description
+[English Version](/solution/3000-3099/3014.Minimum%20Number%20of%20Pushes%20to%20Type%20Word%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>word</code> containing <strong>distinct</strong> lowercase English letters.</p>
+<p>给你一个字符串 <code>word</code>，由 <strong>不同 </strong>小写英文字母组成。</p>
 
-<p>Telephone keypads have keys mapped with <strong>distinct</strong> collections of lowercase English letters, which can be used to form words by pushing them. For example, the key <code>2</code> is mapped with <code>[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]</code>, we need to push the key one time to type <code>&quot;a&quot;</code>, two times to type <code>&quot;b&quot;</code>, and three times to type <code>&quot;c&quot;</code> <em>.</em></p>
+<p>电话键盘上的按键与 <strong>不同 </strong>小写英文字母集合相映射，可以通过按压按键来组成单词。例如，按键 <code>2</code> 对应 <code>["a","b","c"]</code>，我们需要按一次键来输入 <code>"a"</code>，按两次键来输入 <code>"b"</code>，按三次键来输入 <code>"c"</code><em>。</em></p>
 
-<p>It is allowed to remap the keys numbered <code>2</code> to <code>9</code> to <strong>distinct</strong> collections of letters. The keys can be remapped to <strong>any</strong> amount of letters, but each letter <strong>must</strong> be mapped to <strong>exactly</strong> one key. You need to find the <strong>minimum</strong> number of times the keys will be pushed to type the string <code>word</code>.</p>
+<p>现在允许你将编号为 <code>2</code> 到 <code>9</code> 的按键重新映射到 <strong>不同 </strong>字母集合。每个按键可以映射到<strong> 任意数量 </strong>的字母，但每个字母 <strong>必须</strong> <strong>恰好</strong> 映射到 <strong>一个 </strong>按键上。你需要找到输入字符串 <code>word</code> 所需的<strong> 最少 </strong>按键次数。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of pushes needed to type </em><code>word</code> <em>after remapping the keys</em>.</p>
+<p>返回重新映射按键后输入 <code>word</code> 所需的 <strong>最少 </strong>按键次数。</p>
 
-<p>An example mapping of letters to keys on a telephone keypad is given below. Note that <code>1</code>, <code>*</code>, <code>#</code>, and <code>0</code> do <strong>not</strong> map to any letters.</p>
+<p>下面给出了一种电话键盘上字母到按键的映射作为示例。注意 <code>1</code>，<code>*</code>，<code>#</code> 和 <code>0</code> <strong>不</strong> 对应任何字母。</p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3014.Minimum%20Number%20of%20Pushes%20to%20Type%20Word%20I/images/keypaddesc.png" style="width: 329px; height: 313px;" />
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3014.Minimum%20Number%20of%20Pushes%20to%20Type%20Word%20I/images/keypadv1e1.png" style="width: 329px; height: 313px;" />
 <pre>
-<strong>Input:</strong> word = &quot;abcde&quot;
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The remapped keypad given in the image provides the minimum cost.
-&quot;a&quot; -&gt; one push on key 2
-&quot;b&quot; -&gt; one push on key 3
-&quot;c&quot; -&gt; one push on key 4
-&quot;d&quot; -&gt; one push on key 5
-&quot;e&quot; -&gt; one push on key 6
-Total cost is 1 + 1 + 1 + 1 + 1 = 5.
-It can be shown that no other mapping can provide a lower cost.
+<strong>输入：</strong>word = "abcde"
+<strong>输出：</strong>5
+<strong>解释：</strong>图片中给出的重新映射方案的输入成本最小。
+"a" -&gt; 在按键 2 上按一次
+"b" -&gt; 在按键 3 上按一次
+"c" -&gt; 在按键 4 上按一次
+"d" -&gt; 在按键 5 上按一次
+"e" -&gt; 在按键 6 上按一次
+总成本为 1 + 1 + 1 + 1 + 1 = 5 。
+可以证明不存在其他成本更低的映射方案。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3014.Minimum%20Number%20of%20Pushes%20to%20Type%20Word%20I/images/keypadv1e2.png" style="width: 329px; height: 313px;" />
 <pre>
-<strong>Input:</strong> word = &quot;xycdefghij&quot;
-<strong>Output:</strong> 12
-<strong>Explanation:</strong> The remapped keypad given in the image provides the minimum cost.
-&quot;x&quot; -&gt; one push on key 2
-&quot;y&quot; -&gt; two pushes on key 2
-&quot;c&quot; -&gt; one push on key 3
-&quot;d&quot; -&gt; two pushes on key 3
-&quot;e&quot; -&gt; one push on key 4
-&quot;f&quot; -&gt; one push on key 5
-&quot;g&quot; -&gt; one push on key 6
-&quot;h&quot; -&gt; one push on key 7
-&quot;i&quot; -&gt; one push on key 8
-&quot;j&quot; -&gt; one push on key 9
-Total cost is 1 + 2 + 1 + 2 + 1 + 1 + 1 + 1 + 1 + 1 = 12.
-It can be shown that no other mapping can provide a lower cost.
+<strong>输入：</strong>word = "xycdefghij"
+<strong>输出：</strong>12
+<strong>解释：</strong>图片中给出的重新映射方案的输入成本最小。
+"x" -&gt; 在按键 2 上按一次
+"y" -&gt; 在按键 2 上按两次
+"c" -&gt; 在按键 3 上按一次
+"d" -&gt; 在按键 3 上按两次
+"e" -&gt; 在按键 4 上按一次
+"f" -&gt; 在按键 5 上按一次
+"g" -&gt; 在按键 6 上按一次
+"h" -&gt; 在按键 7 上按一次
+"i" -&gt; 在按键 8 上按一次
+"j" -&gt; 在按键 9 上按一次
+总成本为 1 + 2 + 1 + 2 + 1 + 1 + 1 + 1 + 1 + 1 = 12 。
+可以证明不存在其他成本更低的映射方案。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length &lt;= 26</code></li>
-	<li><code>word</code> consists of lowercase English letters.</li>
-	<li>All letters in <code>word</code> are distinct.</li>
+	<li><code>word</code> 仅由小写英文字母组成。</li>
+	<li><code>word</code> 中的所有字母互不相同。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy Algorithm
+### 方法一：贪心
 
-We notice that all the letters in the string $word$ are different. Therefore, we can greedily distribute the letters evenly across the $8$ keys to minimize the number of key presses.
+我们注意到，字符串 $word$ 中的所有字母都是不同的，因此，我们贪心地将字母均匀地分配到 $8$ 个按键上，即可使得按键次数最少。
 
-The time complexity is $O(n / 8)$, where $n$ is the length of the string $word$. The space complexity is $O(1)$.
+时间复杂度 $O(n / 8)$，其中 $n$ 是字符串 $word$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -154,15 +159,15 @@ func minimumPushes(word string) (ans int) {
 
 ```ts
 function minimumPushes(word: string): number {
-  const n = word.length;
-  let ans = 0;
-  let k = 1;
-  for (let i = 0; i < ((n / 8) | 0); ++i) {
-    ans += k * 8;
-    ++k;
-  }
-  ans += k * (n % 8);
-  return ans;
+    const n = word.length;
+    let ans = 0;
+    let k = 1;
+    for (let i = 0; i < ((n / 8) | 0); ++i) {
+        ans += k * 8;
+        ++k;
+    }
+    ans += k * (n % 8);
+    return ans;
 }
 ```
 

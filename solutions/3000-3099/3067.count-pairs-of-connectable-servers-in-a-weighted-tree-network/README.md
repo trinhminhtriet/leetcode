@@ -1,57 +1,66 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3067.Count%20Pairs%20of%20Connectable%20Servers%20in%20a%20Weighted%20Tree%20Network/README.md
 rating: 1908
-source: Biweekly Contest 125 Q3
+source: 第 125 场双周赛 Q3
 tags:
-  - Tree
-  - Depth-First Search
-  - Array
+    - 树
+    - 深度优先搜索
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [3067. Count Pairs of Connectable Servers in a Weighted Tree Network](https://leetcode.com/problems/count-pairs-of-connectable-servers-in-a-weighted-tree-network)
+# [3067. 在带权树网络中统计可连接服务器对数目](https://leetcode.cn/problems/count-pairs-of-connectable-servers-in-a-weighted-tree-network)
 
-## Description
+[English Version](/solution/3000-3099/3067.Count%20Pairs%20of%20Connectable%20Servers%20in%20a%20Weighted%20Tree%20Network/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an unrooted weighted tree with <code>n</code> vertices representing servers numbered from <code>0</code> to <code>n - 1</code>, an array <code>edges</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>, weight<sub>i</sub>]</code> represents a bidirectional edge between vertices <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> of weight <code>weight<sub>i</sub></code>. You are also given an integer <code>signalSpeed</code>.</p>
+<p>给你一棵无根带权树，树中总共有 <code>n</code>&nbsp;个节点，分别表示 <code>n</code>&nbsp;个服务器，服务器从 <code>0</code>&nbsp;到 <code>n - 1</code>&nbsp;编号。同时给你一个数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>, weight<sub>i</sub>]</code>&nbsp;表示节点&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条双向边，边的权值为&nbsp;<code>weight<sub>i</sub></code>&nbsp;。再给你一个整数&nbsp;<code>signalSpeed</code>&nbsp;。</p>
 
-<p>Two servers <code>a</code> and <code>b</code> are <strong>connectable</strong> through a server <code>c</code> if:</p>
+<p>如果两台服务器 <code>a</code>&nbsp;和 <code>b</code>&nbsp;是通过服务器 <code>c</code>&nbsp;<strong>可连接的</strong>，则：</p>
 
 <ul>
-	<li><code>a &lt; b</code>, <code>a != c</code> and <code>b != c</code>.</li>
-	<li>The distance from <code>c</code> to <code>a</code> is divisible by <code>signalSpeed</code>.</li>
-	<li>The distance from <code>c</code> to <code>b</code> is divisible by <code>signalSpeed</code>.</li>
-	<li>The path from <code>c</code> to <code>b</code> and the path from <code>c</code> to <code>a</code> do not share any edges.</li>
+	<li><code>a &lt; b</code>&nbsp;，<code>a != c</code> 且&nbsp;<code>b != c</code>&nbsp;。</li>
+	<li>从&nbsp;<code>c</code>&nbsp;到&nbsp;<code>a</code>&nbsp;的距离是可以被&nbsp;<code>signalSpeed</code>&nbsp;整除的。</li>
+	<li>从&nbsp;<code>c</code>&nbsp;到&nbsp;<code>b</code>&nbsp;的距离是可以被&nbsp;<code>signalSpeed</code>&nbsp;整除的。</li>
+	<li>从&nbsp;<code>c</code>&nbsp;到&nbsp;<code>b</code>&nbsp;的路径与从&nbsp;<code>c</code>&nbsp;到&nbsp;<code>a</code>&nbsp;的路径没有任何公共边。</li>
 </ul>
 
-<p>Return <em>an integer array</em> <code>count</code> <em>of length</em> <code>n</code> <em>where</em> <code>count[i]</code> <em>is the <strong>number</strong> of server pairs that are <strong>connectable</strong> through</em> <em>the server</em> <code>i</code>.</p>
+<p>请你返回一个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>count</code>&nbsp;，其中&nbsp;<code>count[i]</code> 表示通过服务器&nbsp;<code>i</code>&nbsp;<strong>可连接</strong>&nbsp;的服务器对的&nbsp;<strong>数目</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3067.Count%20Pairs%20of%20Connectable%20Servers%20in%20a%20Weighted%20Tree%20Network/images/example22.png" style="width: 438px; height: 243px; padding: 10px; background: #fff; border-radius: .5rem;" />
+
+<p><b>示例 1：</b></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3067.Count%20Pairs%20of%20Connectable%20Servers%20in%20a%20Weighted%20Tree%20Network/images/example22.png" style="width: 438px; height: 243px; padding: 10px; background: #fff; border-radius: .5rem;" /></p>
+
 <pre>
-<strong>Input:</strong> edges = [[0,1,1],[1,2,5],[2,3,13],[3,4,9],[4,5,2]], signalSpeed = 1
-<strong>Output:</strong> [0,4,6,6,4,0]
-<strong>Explanation:</strong> Since signalSpeed is 1, count[c] is equal to the number of pairs of paths that start at c and do not share any edges.
-In the case of the given path graph, count[c] is equal to the number of servers to the left of c multiplied by the servers to the right of c.
+<b>输入：</b>edges = [[0,1,1],[1,2,5],[2,3,13],[3,4,9],[4,5,2]], signalSpeed = 1
+<b>输出：</b>[0,4,6,6,4,0]
+<b>解释：</b>由于 signalSpeed 等于 1 ，count[c] 等于所有从 c 开始且没有公共边的路径对数目。
+在输入图中，count[c] 等于服务器 c 左边服务器数目乘以右边服务器数目。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3067.Count%20Pairs%20of%20Connectable%20Servers%20in%20a%20Weighted%20Tree%20Network/images/example11.png" style="width: 495px; height: 484px; padding: 10px; background: #fff; border-radius: .5rem;" />
+<p><strong class="example">示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3067.Count%20Pairs%20of%20Connectable%20Servers%20in%20a%20Weighted%20Tree%20Network/images/example11.png" style="width: 495px; height: 484px; padding: 10px; background: #fff; border-radius: .5rem;" /></p>
+
 <pre>
-<strong>Input:</strong> edges = [[0,6,3],[6,5,3],[0,3,1],[3,2,7],[3,1,6],[3,4,2]], signalSpeed = 3
-<strong>Output:</strong> [2,0,0,0,0,0,2]
-<strong>Explanation:</strong> Through server 0, there are 2 pairs of connectable servers: (4, 5) and (4, 6).
-Through server 6, there are 2 pairs of connectable servers: (4, 5) and (0, 5).
-It can be shown that no two servers are connectable through servers other than 0 and 6.
+<b>输入：</b>edges = [[0,6,3],[6,5,3],[0,3,1],[3,2,7],[3,1,6],[3,4,2]], signalSpeed = 3
+<b>输出：</b>[2,0,0,0,0,0,2]
+<b>解释：</b>通过服务器 0 ，有 2 个可连接服务器对(4, 5) 和 (4, 6) 。
+通过服务器 6 ，有 2 个可连接服务器对 (4, 5) 和 (0, 5) 。
+所有服务器对都必须通过服务器 0 或 6 才可连接，所以其他服务器对应的可连接服务器对数目都为 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 1000</code></li>
@@ -61,24 +70,24 @@ It can be shown that no two servers are connectable through servers other than 0
 	<li><code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>, weight<sub>i</sub>]</code><!-- notionvc: a2623897-1bb1-4c07-84b6-917ffdcd83ec --></li>
 	<li><code>1 &lt;= weight<sub>i</sub> &lt;= 10<sup>6</sup></code></li>
 	<li><code>1 &lt;= signalSpeed &lt;= 10<sup>6</sup></code></li>
-	<li>The input is generated such that <code>edges</code> represents a valid tree.</li>
+	<li>输入保证&nbsp;<code>edges</code>&nbsp;构成一棵合法的树。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration + DFS
+### 方法一：枚举 + DFS
 
-First, we construct an adjacency list `g` based on the edges given in the problem, where `g[a]` represents all the neighbor nodes of node `a` and their corresponding edge weights.
+我们先根据题目给定的边构建出一个邻接表 $g$，其中 $g[a]$ 表示节点 $a$ 的所有邻居节点以及对应的边权。
 
-Then, we can enumerate each node `a` as the connecting intermediate node, and calculate the number of nodes `t` that start from the neighbor node `b` of `a` and whose distance to node `a` can be divided by `signalSpeed` through depth-first search. Then, the number of connectable node pairs of node `a` increases by `s * t`, where `s` represents the cumulative number of nodes that start from the neighbor node `b` of `a` and whose distance to node `a` cannot be divided by `signalSpeed`. Then we update `s` to `s + t`.
+然后，我们可以枚举每一个节点 $a$ 作为连接的中间节点，通过深度优先搜索计算出从 $a$ 的邻居节点 $b$ 出发的，且到节点 $a$ 的距离可以被 $signalSpeed$ 整除的节点数 $t$。那么，节点 $a$ 的可连接节点对数目增加了 $s \times t$，其中 $s$ 表示节点 $a$ 的邻居节点 $b$ 出发的，且到节点 $a$ 的距离不可以被 $signalSpeed$ 整除的累计节点数。然后我们更新 $s$ 为 $s + t$。
 
-After enumerating all nodes `a`, we can get the number of connectable node pairs for all nodes.
+枚举完所有节点 $a$ 之后，我们就可以得到所有节点的可连接节点对数目。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$, where $n$ is the number of nodes.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 表示节点数。
 
 <!-- tabs:start -->
 
@@ -233,35 +242,32 @@ func countPairsOfConnectableServers(edges [][]int, signalSpeed int) []int {
 #### TypeScript
 
 ```ts
-function countPairsOfConnectableServers(
-  edges: number[][],
-  signalSpeed: number
-): number[] {
-  const n = edges.length + 1;
-  const g: [number, number][][] = Array.from({ length: n }, () => []);
-  for (const [a, b, w] of edges) {
-    g[a].push([b, w]);
-    g[b].push([a, w]);
-  }
-  const dfs = (a: number, fa: number, ws: number): number => {
-    let cnt = ws % signalSpeed === 0 ? 1 : 0;
-    for (const [b, w] of g[a]) {
-      if (b != fa) {
-        cnt += dfs(b, a, ws + w);
-      }
+function countPairsOfConnectableServers(edges: number[][], signalSpeed: number): number[] {
+    const n = edges.length + 1;
+    const g: [number, number][][] = Array.from({ length: n }, () => []);
+    for (const [a, b, w] of edges) {
+        g[a].push([b, w]);
+        g[b].push([a, w]);
     }
-    return cnt;
-  };
-  const ans: number[] = Array(n).fill(0);
-  for (let a = 0; a < n; ++a) {
-    let s = 0;
-    for (const [b, w] of g[a]) {
-      const t = dfs(b, a, w);
-      ans[a] += s * t;
-      s += t;
+    const dfs = (a: number, fa: number, ws: number): number => {
+        let cnt = ws % signalSpeed === 0 ? 1 : 0;
+        for (const [b, w] of g[a]) {
+            if (b != fa) {
+                cnt += dfs(b, a, ws + w);
+            }
+        }
+        return cnt;
+    };
+    const ans: number[] = Array(n).fill(0);
+    for (let a = 0; a < n; ++a) {
+        let s = 0;
+        for (const [b, w] of g[a]) {
+            const t = dfs(b, a, w);
+            ans[a] += s * t;
+            s += t;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

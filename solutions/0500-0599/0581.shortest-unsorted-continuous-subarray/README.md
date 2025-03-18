@@ -1,72 +1,82 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0581.Shortest%20Unsorted%20Continuous%20Subarray/README.md
 tags:
-  - Stack
-  - Greedy
-  - Array
-  - Two Pointers
-  - Sorting
-  - Monotonic Stack
+    - 栈
+    - 贪心
+    - 数组
+    - 双指针
+    - 排序
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [581. Shortest Unsorted Continuous Subarray](https://leetcode.com/problems/shortest-unsorted-continuous-subarray)
+# [581. 最短无序连续子数组](https://leetcode.cn/problems/shortest-unsorted-continuous-subarray)
 
-## Description
+[English Version](/solution/0500-0599/0581.Shortest%20Unsorted%20Continuous%20Subarray/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code>, you need to find one <b>continuous subarray</b> such that if you only sort this subarray in non-decreasing order, then the whole array will be sorted in non-decreasing order.</p>
+<p>给你一个整数数组 <code>nums</code> ，你需要找出一个 <strong>连续子数组</strong> ，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。</p>
 
-<p>Return <em>the shortest such subarray and output its length</em>.</p>
+<p>请你找出符合题意的 <strong>最短</strong> 子数组，并输出它的长度。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [2,6,4,8,10,9,15]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> You need to sort [6, 4, 8, 10, 9] in ascending order to make the whole array sorted in ascending order.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<div class="original__bRMd">
+<div>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,3,4]
-<strong>Output:</strong> 0
+<strong>输入：</strong>nums = [2,6,4,8,10,9,15]
+<strong>输出：</strong>5
+<strong>解释：</strong>你只需要对 [6, 4, 8, 10, 9] 进行升序排序，那么整个表都会变为升序排序。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1]
-<strong>Output:</strong> 0
+<strong>输入：</strong>nums = [1,2,3,4]
+<strong>输出：</strong>0
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1]
+<strong>输出：</strong>0
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>5</sup> &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 <= nums.length <= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>5</sup> <= nums[i] <= 10<sup>5</sup></code></li>
 </ul>
 
-<p>&nbsp;</p>
-<strong>Follow up:</strong> Can you solve it in <code>O(n)</code> time complexity?
+<p> </p>
+
+<p><strong>进阶：</strong>你可以设计一个时间复杂度为 <code>O(n)</code> 的解决方案吗？</p>
+</div>
+</div>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-We can first sort the array, and then compare the sorted array with the original array to find the leftmost and rightmost positions where they differ. The length between them is the length of the shortest unsorted continuous subarray.
+我们可以先对数组进行排序，然后比较排序后的数组和原数组，找到最左边和最右边不相等的位置，它们之间的长度就是我们要找的最短无序连续子数组的长度。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -145,16 +155,16 @@ func findUnsortedSubarray(nums []int) int {
 
 ```ts
 function findUnsortedSubarray(nums: number[]): number {
-  const arr = [...nums];
-  arr.sort((a, b) => a - b);
-  let [l, r] = [0, arr.length - 1];
-  while (l <= r && arr[l] === nums[l]) {
-    ++l;
-  }
-  while (l <= r && arr[r] === nums[r]) {
-    --r;
-  }
-  return r - l + 1;
+    const arr = [...nums];
+    arr.sort((a, b) => a - b);
+    let [l, r] = [0, arr.length - 1];
+    while (l <= r && arr[l] === nums[l]) {
+        ++l;
+    }
+    while (l <= r && arr[r] === nums[r]) {
+        --r;
+    }
+    return r - l + 1;
 }
 ```
 
@@ -199,11 +209,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Maintaining the Maximum Value on the Left and the Minimum Value on the Right
+### 方法二：维护左侧最大值和右侧最小值
 
-We can traverse the array from left to right and maintain a maximum value $mx$. If the current value is less than $mx$, it means that the current value is not in the correct position, and we update the right boundary $r$ to the current position. Similarly, we can traverse the array from right to left and maintain a minimum value $mi$. If the current value is greater than $mi$, it means that the current value is not in the correct position, and we update the left boundary $l$ to the current position. At initialization, we set $l$ and $r$ to $-1$. If $l$ and $r$ are not updated, it means that the array is already sorted, and we return $0$. Otherwise, we return $r - l + 1$.
+我们可以从左到右遍历数组，维护一个最大值 $mx$，如果当前值小于 $mx$，说明当前值不在正确的位置上，我们更新右边界 $r$ 为当前位置。同理，我们可以从右到左遍历数组，维护一个最小值 $mi$，如果当前值大于 $mi$，说明当前值不在正确的位置上，我们更新左边界 $l$ 为当前位置。在初始化时，我们将 $l$ 和 $r$ 都初始化为 $-1$，如果 $l$ 和 $r$ 都没有被更新，说明数组已经有序，返回 $0$，否则返回 $r - l + 1$。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -311,22 +321,22 @@ func findUnsortedSubarray(nums []int) int {
 
 ```ts
 function findUnsortedSubarray(nums: number[]): number {
-  let [l, r] = [-1, -1];
-  let [mi, mx] = [Infinity, -Infinity];
-  const n = nums.length;
-  for (let i = 0; i < n; ++i) {
-    if (mx > nums[i]) {
-      r = i;
-    } else {
-      mx = nums[i];
+    let [l, r] = [-1, -1];
+    let [mi, mx] = [Infinity, -Infinity];
+    const n = nums.length;
+    for (let i = 0; i < n; ++i) {
+        if (mx > nums[i]) {
+            r = i;
+        } else {
+            mx = nums[i];
+        }
+        if (mi < nums[n - i - 1]) {
+            l = n - i - 1;
+        } else {
+            mi = nums[n - i - 1];
+        }
     }
-    if (mi < nums[n - i - 1]) {
-      l = n - i - 1;
-    } else {
-      mi = nums[n - i - 1];
-    }
-  }
-  return r === -1 ? 0 : r - l + 1;
+    return r === -1 ? 0 : r - l + 1;
 }
 ```
 

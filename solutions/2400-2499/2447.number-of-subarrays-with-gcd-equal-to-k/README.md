@@ -1,51 +1,54 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2447.Number%20of%20Subarrays%20With%20GCD%20Equal%20to%20K/README.md
 rating: 1602
-source: Weekly Contest 316 Q2
+source: 第 316 场周赛 Q2
 tags:
-  - Array
-  - Math
-  - Number Theory
+    - 数组
+    - 数学
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [2447. Number of Subarrays With GCD Equal to K](https://leetcode.com/problems/number-of-subarrays-with-gcd-equal-to-k)
+# [2447. 最大公因数等于 K 的子数组数目](https://leetcode.cn/problems/number-of-subarrays-with-gcd-equal-to-k)
 
-## Description
+[English Version](/solution/2400-2499/2447.Number%20of%20Subarrays%20With%20GCD%20Equal%20to%20K/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the number of <strong>subarrays</strong> of </em><code>nums</code><em> where the greatest common divisor of the subarray&#39;s elements is </em><code>k</code>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code> ，请你统计并返回 <code>nums</code>&nbsp;的子数组中元素的最大公因数等于 <code>k</code>&nbsp;的子数组数目。</p>
 
-<p>A <strong>subarray</strong> is a contiguous non-empty sequence of elements within an array.</p>
+<p><strong>子数组</strong> 是数组中一个连续的非空序列。</p>
 
-<p>The <strong>greatest common divisor of an array</strong> is the largest integer that evenly divides all the array elements.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [9,3,1,2,6,3], k = 3
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The subarrays of nums where 3 is the greatest common divisor of all the subarray&#39;s elements are:
-- [9,<u><strong>3</strong></u>,1,2,6,3]
-- [9,3,1,2,6,<u><strong>3</strong></u>]
-- [<u><strong>9,3</strong></u>,1,2,6,3]
-- [9,3,1,2,<u><strong>6,3</strong></u>]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [4], k = 7
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are no subarrays of nums where 7 is the greatest common divisor of all the subarray&#39;s elements.
-</pre>
+<p><strong>数组的最大公因数</strong>&nbsp;是能整除数组中所有元素的最大整数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><b>示例 1：</b></p>
+
+<pre><b>输入：</b>nums = [9,3,1,2,6,3], k = 3
+<b>输出：</b>4
+<b>解释：</b>nums 的子数组中，以 3 作为最大公因数的子数组如下：
+- [9,<strong><em>3</em></strong>,1,2,6,3]
+- [9,3,1,2,6,<em><strong>3</strong></em>]
+- [<strong><em>9,3</em></strong>,1,2,6,3]
+- [9,3,1,2,<em><strong>6,3</strong></em>]
+</pre>
+
+<p><b>示例 2：</b></p>
+
+<pre><b>输入：</b>nums = [4], k = 7
+<b>输出：</b>0
+<b>解释：</b>不存在以 7 作为最大公因数的子数组。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><b>提示：</b></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -54,17 +57,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Direct Enumeration
+### 方法一：直接枚举
 
-We can enumerate $nums[i]$ as the left endpoint of the subarray, and then enumerate $nums[j]$ as the right endpoint of the subarray, where $i \le j$. During the enumeration of the right endpoint, we can use a variable $g$ to maintain the greatest common divisor of the current subarray. Each time we enumerate a new right endpoint, we update the greatest common divisor $g = \gcd(g, nums[j])$. If $g=k$, then the greatest common divisor of the current subarray equals $k$, and we increase the answer by $1$.
+我们可以枚举 $nums[i]$ 作为子数组的左端点，然后枚举 $nums[j]$ 作为子数组的右端点，其中 $i \le j$。在枚举右端点的过程中，我们可以用一个变量 $g$ 来维护当前子数组的最大公因数，每次枚举到一个新的右端点时，我们更新最大公因数 $g = \gcd(g, nums[j])$。如果 $g=k$，那么当前子数组的最大公因数等于 $k$，我们就将答案增加 $1$。
 
-After the enumeration ends, return the answer.
+枚举结束后，返回答案即可。
 
-The time complexity is $O(n \times (n + \log M))$, where $n$ and $M$ are the length of the array $nums$ and the maximum value in the array $nums$, respectively.
+时间复杂度 $O(n \times (n + \log M))$，其中 $n$ 和 $M$ 分别是数组 $nums$ 的长度和数组 $nums$ 中的最大值。
 
 <!-- tabs:start -->
 
@@ -155,22 +158,22 @@ func gcd(a, b int) int {
 
 ```ts
 function subarrayGCD(nums: number[], k: number): number {
-  let ans = 0;
-  const n = nums.length;
-  for (let i = 0; i < n; ++i) {
-    let g = 0;
-    for (let j = i; j < n; ++j) {
-      g = gcd(g, nums[j]);
-      if (g === k) {
-        ++ans;
-      }
+    let ans = 0;
+    const n = nums.length;
+    for (let i = 0; i < n; ++i) {
+        let g = 0;
+        for (let j = i; j < n; ++j) {
+            g = gcd(g, nums[j]);
+            if (g === k) {
+                ++ans;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 
 function gcd(a: number, b: number): number {
-  return b === 0 ? a : gcd(b, a % b);
+    return b === 0 ? a : gcd(b, a % b);
 }
 ```
 

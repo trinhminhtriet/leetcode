@@ -1,0 +1,224 @@
+---
+comments: true
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0277.Find%20the%20Celebrity/README.md
+tags:
+    - 图
+    - 双指针
+    - 交互
+---
+
+<!-- problem:start -->
+
+# [277. 搜寻名人 🔒](https://leetcode.cn/problems/find-the-celebrity)
+
+[English Version](/solution/0200-0299/0277.Find%20the%20Celebrity/README_EN.md)
+
+## 题目描述
+
+<!-- description:start -->
+
+<p>假设你是一个专业的狗仔，参加了一个&nbsp;<code>n</code>&nbsp;人派对，其中每个人被从&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;标号。在这个派对人群当中可能存在一位&nbsp;“名人”。所谓 “名人” 的定义是：其他所有&nbsp;<code>n - 1</code>&nbsp;个人都认识他/她，而他/她并不认识其他任何人。</p>
+
+<p>现在你想要确认这个 “名人” 是谁，或者确定这里没有&nbsp;“名人”。而你唯一能做的就是问诸如 “A&nbsp;你好呀，请问你认不认识&nbsp;B呀？”&nbsp;的问题，以确定 A 是否认识 B。你需要在（渐近意义上）尽可能少的问题内来确定这位 “名人” 是谁（或者确定这里没有 “名人”）。</p>
+
+<p>给定整数&nbsp;<code>n</code>&nbsp;和一个辅助函数&nbsp;<code>bool knows(a, b)</code>&nbsp;用来获取&nbsp;<code>a</code> 是否认识&nbsp;<code>b</code>。实现一个函数&nbsp;<code>int findCelebrity(n)</code>。派对最多只会有一个 “名人” 参加。</p>
+
+<p>若&nbsp;“名人” 存在，请返回他/她的编号；若&nbsp;“名人”&nbsp;不存在，请返回&nbsp;<code>-1</code>。</p>
+
+<p><strong>注意</strong>&nbsp;<code>n x n</code>&nbsp;的二维数组&nbsp;<code>graph</code>&nbsp;给定的输入并不是&nbsp;<strong>直接</strong>&nbsp;提供给你的，而是&nbsp;<strong>只能</strong>&nbsp;通过辅助函数 <code>knows</code>&nbsp;获取。<code>graph[i][j] == 1</code>&nbsp;表示&nbsp;<code>i</code> 认识 <code>j</code>，而&nbsp;<code>graph[i][j] == 0</code>&nbsp;表示&nbsp;<code>j</code>&nbsp;不认识&nbsp;<code>i</code>。</p>
+
+<p>&nbsp;</p>
+
+<p><strong class="example">示例 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0277.Find%20the%20Celebrity/images/g1.jpg" style="width: 224px; height: 145px;" />
+<pre>
+<strong>输入: </strong>graph = [[1,1,0],[0,1,0],[1,1,1]]
+<strong>输出: </strong>1
+<strong>解释: </strong>有编号分别为 0、1 和 2 的三个人。graph[i][j] = 1 代表编号为 i 的人认识编号为 j 的人，而 graph[i][j] = 0 则代表编号为 i 的人不认识编号为 j 的人。“名人” 是编号 1 的人，因为 0 和 2 均认识他/她，但 1 不认识任何人。
+</pre>
+<strong> </strong>
+
+<p><strong><strong class="example">示例&nbsp;2:</strong></strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0277.Find%20the%20Celebrity/images/g2.jpg" style="width: 224px; height: 145px;" />
+<pre>
+<strong>输入: </strong>graph = [[1,0,1],[1,1,0],[0,1,1]]
+<strong>输出: </strong>-1
+<strong>解释: </strong>没有 “名人”
+</pre>
+
+<p><strong>&nbsp;</strong></p>
+<strong> </strong>
+
+<p><strong><strong>提示：</strong></strong></p>
+<strong> </strong>
+
+<ul>
+	<li><code>n == graph.length == graph[i].length</code></li>
+	<li><code>2 &lt;= n &lt;= 100</code></li>
+	<li><code>graph[i][j]</code> 是 <code>0</code> 或 <code>1</code></li>
+	<li><code>graph[i][i] == 1</code></li>
+</ul>
+<strong> </strong>
+
+<p><strong>&nbsp;</strong></p>
+<strong> </strong>
+
+<p><strong><strong>进阶：</strong></strong>如果允许调用 API <code>knows</code> 的最大次数为 <code>3 * n</code> ，你可以设计一个不超过最大调用次数的解决方案吗？</p>
+<strong> </strong>
+
+<ol>
+</ol>
+<strong> </strong>
+
+<!-- description:end -->
+
+## 解法
+
+<!-- solution:start -->
+
+### 方法一：O(n) 遍历
+
+经过验证，若暴力遍历，调用 $O(n^2)$ 次 $knows$ 方法，会报 TLE 错误。因此，我们需要寻找更优的解法。
+
+要找出 $n$ 个人中的名人，题目给我们的关键信息是：1. 名人不认识其他所有人；2. 其他所有人都认识名人。
+
+那么，我们初始时假定名人 $ans=0$。然后在 $[1,n)$ 范围内遍历 $i$，若 $ans$ 认识 $i$，说明 $ans$ 不是我们要找的名人，此时我们可以直接将 $ans$ 更新为 $i$。
+
+为什么呢？我们来举个实际的例子。
+
+```bash
+ans = 0
+for i in [1,n) {
+	if (ans knows i) {
+		ans = i
+	}
+}
+
+ans = 0
+
+ans not knows 1
+ans not knows 2
+ans knows 3
+ans = 3
+
+ans not knows 4
+ans not knows 5
+ans not knows 6
+ans = 6
+```
+
+这里 $ans$ 认识 $3$，说明 $ans$ 不是名人（即 $0$ 不是名人），那么名人会是 $1$ 或者 $2$ 吗？不会！因为若 $1$ 或者 $2$ 是名人，那么 $0$ 应该认识 $1$ 或者 $2$ 才对，与前面的例子冲突。因此，我们可以直接将 $ans$ 更新为 $i$。
+
+我们找出 $ans$ 之后，接下来再遍历一遍，判断 $ans$ 是否满足名人的条件。若不满足，返回 $-1$。
+
+否则遍历结束，返回 $ans$。
+
+<!-- tabs:start -->
+
+#### Python3
+
+```python
+# The knows API is already defined for you.
+# return a bool, whether a knows b
+# def knows(a: int, b: int) -> bool:
+
+
+class Solution:
+    def findCelebrity(self, n: int) -> int:
+        ans = 0
+        for i in range(1, n):
+            if knows(ans, i):
+                ans = i
+        for i in range(n):
+            if ans != i:
+                if knows(ans, i) or not knows(i, ans):
+                    return -1
+        return ans
+```
+
+#### Java
+
+```java
+/* The knows API is defined in the parent class Relation.
+      boolean knows(int a, int b); */
+
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
+        int ans = 0;
+        for (int i = 1; i < n; ++i) {
+            if (knows(ans, i)) {
+                ans = i;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (ans != i) {
+                if (knows(ans, i) || !knows(i, ans)) {
+                    return -1;
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
+
+#### C++
+
+```cpp
+/* The knows API is defined for you.
+      bool knows(int a, int b); */
+
+class Solution {
+public:
+    int findCelebrity(int n) {
+        int ans = 0;
+        for (int i = 1; i < n; ++i) {
+            if (knows(ans, i)) {
+                ans = i;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (ans != i) {
+                if (knows(ans, i) || !knows(i, ans)) {
+                    return -1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+#### Go
+
+```go
+/**
+ * The knows API is already defined for you.
+ *     knows := func(a int, b int) bool
+ */
+func solution(knows func(a int, b int) bool) func(n int) int {
+	return func(n int) int {
+		ans := 0
+		for i := 1; i < n; i++ {
+			if knows(ans, i) {
+				ans = i
+			}
+		}
+		for i := 0; i < n; i++ {
+			if ans != i {
+				if knows(ans, i) || !knows(i, ans) {
+					return -1
+				}
+			}
+		}
+		return ans
+	}
+}
+```
+
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- problem:end -->

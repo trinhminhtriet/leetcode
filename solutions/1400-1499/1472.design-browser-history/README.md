@@ -1,88 +1,92 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1472.Design%20Browser%20History/README.md
 rating: 1453
-source: Weekly Contest 192 Q3
+source: 第 192 场周赛 Q3
 tags:
-  - Stack
-  - Design
-  - Array
-  - Linked List
-  - Data Stream
-  - Doubly-Linked List
+    - 栈
+    - 设计
+    - 数组
+    - 链表
+    - 数据流
+    - 双向链表
 ---
 
 <!-- problem:start -->
 
-# [1472. Design Browser History](https://leetcode.com/problems/design-browser-history)
+# [1472. 设计浏览器历史记录](https://leetcode.cn/problems/design-browser-history)
 
-## Description
+[English Version](/solution/1400-1499/1472.Design%20Browser%20History/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have a <strong>browser</strong> of one tab where you start on the <code>homepage</code> and you can visit another <code>url</code>, get back in the history number of <code>steps</code> or move forward in the history number of <code>steps</code>.</p>
+<p>你有一个只支持单个标签页的 <strong>浏览器</strong>&nbsp;，最开始你浏览的网页是&nbsp;<code>homepage</code>&nbsp;，你可以访问其他的网站&nbsp;<code>url</code>&nbsp;，也可以在浏览历史中后退&nbsp;<code>steps</code>&nbsp;步或前进&nbsp;<code>steps</code>&nbsp;步。</p>
 
-<p>Implement the <code>BrowserHistory</code> class:</p>
+<p>请你实现&nbsp;<code>BrowserHistory</code> 类：</p>
 
 <ul>
-	<li><code>BrowserHistory(string homepage)</code> Initializes the object with the <code>homepage</code>&nbsp;of the browser.</li>
-	<li><code>void visit(string url)</code>&nbsp;Visits&nbsp;<code>url</code> from the current page. It clears up all the forward history.</li>
-	<li><code>string back(int steps)</code>&nbsp;Move <code>steps</code> back in history. If you can only return <code>x</code> steps in the history and <code>steps &gt; x</code>, you will&nbsp;return only <code>x</code> steps. Return the current <code>url</code>&nbsp;after moving back in history <strong>at most</strong> <code>steps</code>.</li>
-	<li><code>string forward(int steps)</code>&nbsp;Move <code>steps</code> forward in history. If you can only forward <code>x</code> steps in the history and <code>steps &gt; x</code>, you will&nbsp;forward only&nbsp;<code>x</code> steps. Return the current <code>url</code>&nbsp;after forwarding in history <strong>at most</strong> <code>steps</code>.</li>
+	<li><code>BrowserHistory(string homepage)</code>&nbsp;，用&nbsp;<code>homepage</code>&nbsp;初始化浏览器类。</li>
+	<li><code>void visit(string url)</code>&nbsp;从当前页跳转访问 <code>url</code> 对应的页面&nbsp;&nbsp;。执行此操作会把浏览历史前进的记录全部删除。</li>
+	<li><code>string back(int steps)</code>&nbsp;在浏览历史中后退&nbsp;<code>steps</code>&nbsp;步。如果你只能在浏览历史中后退至多&nbsp;<code>x</code> 步且&nbsp;<code>steps &gt; x</code>&nbsp;，那么你只后退&nbsp;<code>x</code>&nbsp;步。请返回后退 <strong>至多</strong> <code>steps</code>&nbsp;步以后的&nbsp;<code>url</code>&nbsp;。</li>
+	<li><code>string forward(int steps)</code>&nbsp;在浏览历史中前进&nbsp;<code>steps</code>&nbsp;步。如果你只能在浏览历史中前进至多&nbsp;<code>x</code>&nbsp;步且&nbsp;<code>steps &gt; x</code>&nbsp;，那么你只前进 <code>x</code>&nbsp;步。请返回前进&nbsp;<strong>至多</strong>&nbsp;<code>steps</code>步以后的 <code>url</code>&nbsp;。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example:</strong></p>
 
-<pre>
-<b>Input:</b>
+<p><strong>示例：</strong></p>
+
+<pre><strong>输入：</strong>
 [&quot;BrowserHistory&quot;,&quot;visit&quot;,&quot;visit&quot;,&quot;visit&quot;,&quot;back&quot;,&quot;back&quot;,&quot;forward&quot;,&quot;visit&quot;,&quot;forward&quot;,&quot;back&quot;,&quot;back&quot;]
 [[&quot;leetcode.com&quot;],[&quot;google.com&quot;],[&quot;facebook.com&quot;],[&quot;youtube.com&quot;],[1],[1],[1],[&quot;linkedin.com&quot;],[2],[2],[7]]
-<b>Output:</b>
+<strong>输出：</strong>
 [null,null,null,null,&quot;facebook.com&quot;,&quot;google.com&quot;,&quot;facebook.com&quot;,null,&quot;linkedin.com&quot;,&quot;google.com&quot;,&quot;leetcode.com&quot;]
 
-<b>Explanation:</b>
+<strong>解释：</strong>
 BrowserHistory browserHistory = new BrowserHistory(&quot;leetcode.com&quot;);
-browserHistory.visit(&quot;google.com&quot;);       // You are in &quot;leetcode.com&quot;. Visit &quot;google.com&quot;
-browserHistory.visit(&quot;facebook.com&quot;);     // You are in &quot;google.com&quot;. Visit &quot;facebook.com&quot;
-browserHistory.visit(&quot;youtube.com&quot;);      // You are in &quot;facebook.com&quot;. Visit &quot;youtube.com&quot;
-browserHistory.back(1);                   // You are in &quot;youtube.com&quot;, move back to &quot;facebook.com&quot; return &quot;facebook.com&quot;
-browserHistory.back(1);                   // You are in &quot;facebook.com&quot;, move back to &quot;google.com&quot; return &quot;google.com&quot;
-browserHistory.forward(1);                // You are in &quot;google.com&quot;, move forward to &quot;facebook.com&quot; return &quot;facebook.com&quot;
-browserHistory.visit(&quot;linkedin.com&quot;);     // You are in &quot;facebook.com&quot;. Visit &quot;linkedin.com&quot;
-browserHistory.forward(2);                // You are in &quot;linkedin.com&quot;, you cannot move forward any steps.
-browserHistory.back(2);                   // You are in &quot;linkedin.com&quot;, move back two steps to &quot;facebook.com&quot; then to &quot;google.com&quot;. return &quot;google.com&quot;
-browserHistory.back(7);                   // You are in &quot;google.com&quot;, you can move back only one step to &quot;leetcode.com&quot;. return &quot;leetcode.com&quot;
+browserHistory.visit(&quot;google.com&quot;);       // 你原本在浏览 &quot;leetcode.com&quot; 。访问 &quot;google.com&quot;
+browserHistory.visit(&quot;facebook.com&quot;);     // 你原本在浏览 &quot;google.com&quot; 。访问 &quot;facebook.com&quot;
+browserHistory.visit(&quot;youtube.com&quot;);      // 你原本在浏览 &quot;facebook.com&quot; 。访问 &quot;youtube.com&quot;
+browserHistory.back(1);                   // 你原本在浏览 &quot;youtube.com&quot; ，后退到 &quot;facebook.com&quot; 并返回 &quot;facebook.com&quot;
+browserHistory.back(1);                   // 你原本在浏览 &quot;facebook.com&quot; ，后退到 &quot;google.com&quot; 并返回 &quot;google.com&quot;
+browserHistory.forward(1);                // 你原本在浏览 &quot;google.com&quot; ，前进到 &quot;facebook.com&quot; 并返回 &quot;facebook.com&quot;
+browserHistory.visit(&quot;linkedin.com&quot;);     // 你原本在浏览 &quot;facebook.com&quot; 。 访问 &quot;linkedin.com&quot;
+browserHistory.forward(2);                // 你原本在浏览 &quot;linkedin.com&quot; ，你无法前进任何步数。
+browserHistory.back(2);                   // 你原本在浏览 &quot;linkedin.com&quot; ，后退两步依次先到 &quot;facebook.com&quot; ，然后到 &quot;google.com&quot; ，并返回 &quot;google.com&quot;
+browserHistory.back(7);                   // 你原本在浏览 &quot;google.com&quot;， 你只能后退一步到 &quot;leetcode.com&quot; ，并返回 &quot;leetcode.com&quot;
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= homepage.length &lt;= 20</code></li>
 	<li><code>1 &lt;= url.length &lt;= 20</code></li>
 	<li><code>1 &lt;= steps &lt;= 100</code></li>
-	<li><code>homepage</code> and <code>url</code> consist of&nbsp; &#39;.&#39; or lower case English letters.</li>
-	<li>At most <code>5000</code>&nbsp;calls will be made to <code>visit</code>, <code>back</code>, and <code>forward</code>.</li>
+	<li><code>homepage</code> 和&nbsp;<code>url</code>&nbsp;都只包含&nbsp;&#39;.&#39; 或者小写英文字母。</li>
+	<li>最多调用&nbsp;<code>5000</code>&nbsp;次&nbsp;<code>visit</code>，&nbsp;<code>back</code>&nbsp;和&nbsp;<code>forward</code>&nbsp;函数。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Stacks
+### 方法一：双栈
 
-We can use two stacks, $\textit{stk1}$ and $\textit{stk2}$, to store the back and forward pages, respectively. Initially, $\textit{stk1}$ contains the $\textit{homepage}$, and $\textit{stk2}$ is empty.
+我们可以使用两个栈 $\textit{stk1}$ 和 $\textit{stk2}$ 分别存储浏览后退页面和前进页面。初始时 $\textit{stk1}$ 包含 $\textit{homepage}$，而 $\textit{stk2}$ 为空。
 
-When calling $\text{visit}(url)$, we add $\textit{url}$ to $\textit{stk1}$ and clear $\textit{stk2}$. The time complexity is $O(1)$.
+调用 $\text{visit}(url)$ 时，我们将 $\textit{url}$ 加入 $\textit{stk1}$，并清空 $\textit{stk2}$。时间复杂度 $O(1)$。
 
-When calling $\text{back}(steps)$, we pop the top element from $\textit{stk1}$ and push it to $\textit{stk2}$. We repeat this operation $steps$ times until the length of $\textit{stk1}$ is $1$ or $steps$ is $0$. Finally, we return the top element of $\textit{stk1}$. The time complexity is $O(\textit{steps})$.
+调用 $\text{back}(steps)$ 时，我们将 $\textit{stk1}$ 的栈顶元素弹出并加入 $\textit{stk2}$，重复这一操作 $steps$ 次，直到 $\textit{stk1}$ 的长度为 $1$ 或者 $steps$ 为 $0$。最后返回 $\textit{stk1}$ 的栈顶元素。时间复杂度 $O(\textit{steps})$。
 
-When calling $\text{forward}(steps)$, we pop the top element from $\textit{stk2}$ and push it to $\textit{stk1}$. We repeat this operation $steps$ times until $\textit{stk2}$ is empty or $steps$ is $0$. Finally, we return the top element of $\textit{stk1}$. The time complexity is $O(\textit{steps})$.
+调用 $\text{forward}(steps)$ 时，我们将 $\textit{stk2}$ 的栈顶元素弹出并加入 $\textit{stk1}$，重复这一操作 $steps$ 次，直到 $\textit{stk2}$ 为空或者 $steps$ 为 $0$。最后返回 $\textit{stk1}$ 的栈顶元素。时间复杂度 $O(\textit{steps})$。
 
-The space complexity is $O(n)$, where $n$ is the length of the browsing history.
+空间复杂度 $O(n)$，其中 $n$ 是浏览历史记录的长度。
 
 <!-- tabs:start -->
 

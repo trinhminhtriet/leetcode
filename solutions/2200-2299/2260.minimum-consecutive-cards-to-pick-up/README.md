@@ -1,45 +1,46 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2260.Minimum%20Consecutive%20Cards%20to%20Pick%20Up/README.md
 rating: 1364
-source: Weekly Contest 291 Q2
+source: 第 291 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Sliding Window
+    - 数组
+    - 哈希表
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2260. Minimum Consecutive Cards to Pick Up](https://leetcode.com/problems/minimum-consecutive-cards-to-pick-up)
+# [2260. 必须拿起的最小连续卡牌数](https://leetcode.cn/problems/minimum-consecutive-cards-to-pick-up)
 
-## Description
+[English Version](/solution/2200-2299/2260.Minimum%20Consecutive%20Cards%20to%20Pick%20Up/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>cards</code> where <code>cards[i]</code> represents the <strong>value</strong> of the <code>i<sup>th</sup></code> card. A pair of cards are <strong>matching</strong> if the cards have the <strong>same</strong> value.</p>
+<p>给你一个整数数组 <code>cards</code> ，其中 <code>cards[i]</code> 表示第 <code>i</code> 张卡牌的 <strong>值</strong> 。如果两张卡牌的值相同，则认为这一对卡牌 <strong>匹配</strong> 。</p>
 
-<p>Return<em> the <strong>minimum</strong> number of <strong>consecutive</strong> cards you have to pick up to have a pair of <strong>matching</strong> cards among the picked cards.</em> If it is impossible to have matching cards, return <code>-1</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> cards = [3,4,2,3,4,7]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> We can pick up the cards [3,4,2,3] which contain a matching pair of cards with value 3. Note that picking up the cards [4,2,3,4] is also optimal.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> cards = [1,0,5,3]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> There is no way to pick up a set of consecutive cards that contain a pair of matching cards.
-</pre>
+<p>返回你必须拿起的最小连续卡牌数，以使在拿起的卡牌中有一对匹配的卡牌。如果无法得到一对匹配的卡牌，返回 <code>-1</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>cards = [3,4,2,3,4,7]
+<strong>输出：</strong>4
+<strong>解释：</strong>拿起卡牌 [3,4,2,3] 将会包含一对值为 3 的匹配卡牌。注意，拿起 [4,2,3,4] 也是最优方案。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>cards = [1,0,5,3]
+<strong>输出：</strong>-1
+<strong>解释：</strong>无法找出含一对匹配卡牌的一组连续卡牌。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= cards.length &lt;= 10<sup>5</sup></code></li>
@@ -48,11 +49,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表
+
+我们初始化答案为 $+\infty$，遍历数组，对于每个数字 $x$，如果 $\textit{last}[x]$ 存在，则表示 $x$ 有一对匹配卡牌，此时更新答案为 $\textit{ans} = \min(\textit{ans}, i - \textit{last}[x] + 1)$，最后如果答案为 $+\infty$，则返回 $-1$，否则返回答案。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
 
 <!-- tabs:start -->
 
@@ -133,16 +138,16 @@ func minimumCardPickup(cards []int) int {
 
 ```ts
 function minimumCardPickup(cards: number[]): number {
-  const n = cards.length;
-  const last = new Map<number, number>();
-  let ans = n + 1;
-  for (let i = 0; i < n; ++i) {
-    if (last.has(cards[i])) {
-      ans = Math.min(ans, i - last.get(cards[i]) + 1);
+    const n = cards.length;
+    const last = new Map<number, number>();
+    let ans = n + 1;
+    for (let i = 0; i < n; ++i) {
+        if (last.has(cards[i])) {
+            ans = Math.min(ans, i - last.get(cards[i]) + 1);
+        }
+        last.set(cards[i], i);
     }
-    last.set(cards[i], i);
-  }
-  return ans > n ? -1 : ans;
+    return ans > n ? -1 : ans;
 }
 ```
 

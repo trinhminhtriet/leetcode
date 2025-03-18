@@ -1,85 +1,90 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2730.Find%20the%20Longest%20Semi-Repetitive%20Substring/README.md
 rating: 1501
-source: Biweekly Contest 106 Q2
+source: 第 106 场双周赛 Q2
 tags:
-  - String
-  - Sliding Window
+    - 字符串
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2730. Find the Longest Semi-Repetitive Substring](https://leetcode.com/problems/find-the-longest-semi-repetitive-substring)
+# [2730. 找到最长的半重复子字符串](https://leetcode.cn/problems/find-the-longest-semi-repetitive-substring)
 
-## Description
+[English Version](/solution/2700-2799/2730.Find%20the%20Longest%20Semi-Repetitive%20Substring/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a digit string <code>s</code> that consists of digits from 0 to 9.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的字符串&nbsp;<code>s</code>&nbsp;，这个字符串只包含&nbsp;<code>0</code>&nbsp;到&nbsp;<code>9</code>&nbsp;的数字字符。</p>
 
-<p>A string is called <strong>semi-repetitive</strong> if there is <strong>at most</strong> one adjacent pair of the same digit. For example, <code>&quot;0010&quot;</code>, <code>&quot;002020&quot;</code>, <code>&quot;0123&quot;</code>, <code>&quot;2002&quot;</code>, and <code>&quot;54944&quot;</code> are semi-repetitive while the following are not: <code>&quot;00101022&quot;</code> (adjacent same digit pairs are 00 and 22), and <code>&quot;1101234883&quot;</code> (adjacent same digit pairs are 11 and 88).</p>
+<p>如果一个字符串&nbsp;<code>t</code>&nbsp;中至多有一对相邻字符是相等的，那么称这个字符串 <code>t</code> 是 <strong>半重复的</strong>&nbsp;。例如，<code>"0010"</code>&nbsp;、<code>"002020"</code>&nbsp;、<code>"0123"</code>&nbsp;、<code>"2002"</code>&nbsp;和 <code>"54944"</code>&nbsp;是半重复字符串，而 <code>"00101022"</code>&nbsp;（相邻的相同数字对是 00 和 22）和 <code>"1101234883"</code>&nbsp;（相邻的相同数字对是 11 和 88）不是半重复字符串。</p>
 
-<p>Return the length of the <strong>longest semi-repetitive <span data-keyword="substring-nonempty">substring</span></strong> of <code>s</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;52233&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">4</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The longest semi-repetitive substring is &quot;5223&quot;. Picking the whole string &quot;52233&quot; has two adjacent same digit pairs 22 and 33, but at most one is allowed.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;5494&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">4</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p><code>s</code> is a semi-repetitive string.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;1111111&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The longest semi-repetitive substring is &quot;11&quot;. Picking the substring &quot;111&quot; has two adjacent same digit pairs, but at most one is allowed.</p>
-</div>
+<p>请你返回 <code>s</code>&nbsp;中最长 <strong>半重复</strong>&nbsp;<span data-keyword="substring-nonempty">子字符串</span> 的长度。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">s = "52233"</span></p>
+
+<p><strong>输出：</strong><span class="example-io">4</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>最长的半重复子字符串是 "5223"。整个字符串 "52233" 有两个相邻的相同数字对 22 和 33，但最多只能选取一个。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">s = "5494"</span></p>
+
+<p><strong>输出：</strong><span class="example-io">4</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p><code>s</code>&nbsp;是一个半重复字符串。</p>
+</div>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">s = "1111111"</span></p>
+
+<p><strong>输出：</strong><span class="example-io">2</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>最长的半重复子字符串是 "11"。子字符串 "111" 有两个相邻的相同数字对，但最多允许选取一个。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 50</code></li>
-	<li><code>&#39;0&#39; &lt;= s[i] &lt;= &#39;9&#39;</code></li>
+	<li><code>'0' &lt;= s[i] &lt;= '9'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-We use two pointers to maintain a range $s[j..i]$ such that there is at most one pair of adjacent characters that are equal, initially $j = 0$, $i = 1$. Initialize the answer $ans = 1$.
+我们用双指针维护一个区间 $s[j..i]$，使得区间内最多只有一个相邻字符相等，初始时 $j = 0$, $i = 1$。初始化答案 $ans = 1$。
 
-We use $cnt$ to record the number of pairs of adjacent characters that are equal in the range. If $cnt > 1$, then we need to move the left pointer $j$ until $cnt \le 1$. Each time, we update the answer as $ans = \max(ans, i - j + 1)$.
+我们用 $cnt$ 记录区间内相邻字符相等的个数，如果 $cnt \gt 1$，那么我们就需要移动左指针 $j$，直到 $cnt \le 1$。每一次，我们更新答案为 $ans = \max(ans, i - j + 1)$。
 
-The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是字符串的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -160,16 +165,16 @@ func longestSemiRepetitiveSubstring(s string) (ans int) {
 
 ```ts
 function longestSemiRepetitiveSubstring(s: string): number {
-  const n = s.length;
-  let ans = 1;
-  for (let i = 1, j = 0, cnt = 0; i < n; ++i) {
-    cnt += s[i] === s[i - 1] ? 1 : 0;
-    for (; cnt > 1; ++j) {
-      cnt -= s[j] === s[j + 1] ? 1 : 0;
+    const n = s.length;
+    let ans = 1;
+    for (let i = 1, j = 0, cnt = 0; i < n; ++i) {
+        cnt += s[i] === s[i - 1] ? 1 : 0;
+        for (; cnt > 1; ++j) {
+            cnt -= s[j] === s[j + 1] ? 1 : 0;
+        }
+        ans = Math.max(ans, i - j + 1);
     }
-    ans = Math.max(ans, i - j + 1);
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -179,13 +184,13 @@ function longestSemiRepetitiveSubstring(s: string): number {
 
 <!-- solution:start -->
 
-### Solution 2: Two Pointers (Optimization)
+### 方法二：双指针（优化）
 
-Since the problem only requires us to find the length of the longest semi-repetitive substring, each time the number of adjacent identical characters in the interval exceeds $1$, we can move the left pointer $l$ once, while the right pointer $r$ continues to move to the right. This ensures that the length of the substring does not decrease.
+由于题目只需要我们找到最长的半重复子字符串的长度，因此，每次当区间内相邻字符相等的个数超过 $1$ 时，我们可以只移动左指针 $l$ 一次，右指针 $r$ 继续向右移动。这样可以保证子字符串的长度不会减小。
 
-Finally, the answer is $n - l$, where $n$ is the length of the string.
+最后答案为 $n - l$，其中 $n$ 是字符串的长度。
 
-The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是字符串的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -265,16 +270,16 @@ func longestSemiRepetitiveSubstring(s string) (ans int) {
 
 ```ts
 function longestSemiRepetitiveSubstring(s: string): number {
-  const n = s.length;
-  let [cnt, l] = [0, 0];
-  for (let i = 1; i < n; ++i) {
-    cnt += s[i] === s[i - 1] ? 1 : 0;
-    if (cnt > 1) {
-      cnt -= s[l] === s[l + 1] ? 1 : 0;
-      ++l;
+    const n = s.length;
+    let [cnt, l] = [0, 0];
+    for (let i = 1; i < n; ++i) {
+        cnt += s[i] === s[i - 1] ? 1 : 0;
+        if (cnt > 1) {
+            cnt -= s[l] === s[l + 1] ? 1 : 0;
+            ++l;
+        }
     }
-  }
-  return n - l;
+    return n - l;
 }
 ```
 

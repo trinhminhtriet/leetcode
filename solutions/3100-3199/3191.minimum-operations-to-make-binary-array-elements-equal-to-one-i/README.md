@@ -1,67 +1,72 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3191.Minimum%20Operations%20to%20Make%20Binary%20Array%20Elements%20Equal%20to%20One%20I/README.md
 rating: 1311
-source: Biweekly Contest 133 Q2
+source: 第 133 场双周赛 Q2
 tags:
-  - Bit Manipulation
-  - Queue
-  - Array
-  - Prefix Sum
-  - Sliding Window
+    - 位运算
+    - 队列
+    - 数组
+    - 前缀和
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [3191. Minimum Operations to Make Binary Array Elements Equal to One I](https://leetcode.com/problems/minimum-operations-to-make-binary-array-elements-equal-to-one-i)
+# [3191. 使二进制数组全部等于 1 的最少操作次数 I](https://leetcode.cn/problems/minimum-operations-to-make-binary-array-elements-equal-to-one-i)
 
-## Description
+[English Version](/solution/3100-3199/3191.Minimum%20Operations%20to%20Make%20Binary%20Array%20Elements%20Equal%20to%20One%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <span data-keyword="binary-array">binary array</span> <code>nums</code>.</p>
+<p>给你一个二进制数组&nbsp;<code>nums</code>&nbsp;。</p>
 
-<p>You can do the following operation on the array <strong>any</strong> number of times (possibly zero):</p>
+<p>你可以对数组执行以下操作 <strong>任意</strong>&nbsp;次（也可以 0 次）：</p>
 
 <ul>
-	<li>Choose <strong>any</strong> 3 <strong>consecutive</strong> elements from the array and <strong>flip</strong> <strong>all</strong> of them.</li>
+	<li>选择数组中 <strong>任意连续</strong>&nbsp;3 个元素，并将它们 <strong>全部反转</strong>&nbsp;。</li>
 </ul>
 
-<p><strong>Flipping</strong> an element means changing its value from 0 to 1, and from 1 to 0.</p>
+<p><strong>反转</strong>&nbsp;一个元素指的是将它的值从 0 变 1 ，或者从 1 变 0 。</p>
 
-<p>Return the <strong>minimum</strong> number of operations required to make all elements in <code>nums</code> equal to 1. If it is impossible, return -1.</p>
+<p>请你返回将 <code>nums</code>&nbsp;中所有元素变为 1 的 <strong>最少</strong>&nbsp;操作次数。如果无法全部变成 1 ，返回 -1 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [0,1,1,1,0,0]</span></p>
+<p><span class="example-io"><b>输入：</b>nums = [0,1,1,1,0,0]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
+<p><span class="example-io"><b>输出：</b>3</span></p>
 
-<p><strong>Explanation:</strong><br />
-We can do the following operations:</p>
+<p><strong>解释：</strong><br />
+我们可以执行以下操作：</p>
 
 <ul>
-	<li>Choose the elements at indices 0, 1 and 2. The resulting array is <code>nums = [<u><strong>1</strong></u>,<u><strong>0</strong></u>,<u><strong>0</strong></u>,1,0,0]</code>.</li>
-	<li>Choose the elements at indices 1, 2 and 3. The resulting array is <code>nums = [1,<u><strong>1</strong></u>,<u><strong>1</strong></u>,<strong><u>0</u></strong>,0,0]</code>.</li>
-	<li>Choose the elements at indices 3, 4 and 5. The resulting array is <code>nums = [1,1,1,<strong><u>1</u></strong>,<u><strong>1</strong></u>,<u><strong>1</strong></u>]</code>.</li>
+	<li>选择下标为 0 ，1 和 2 的元素并反转，得到&nbsp;<code>nums = [<u><strong>1</strong></u>,<u><strong>0</strong></u>,<u><strong>0</strong></u>,1,0,0]</code>&nbsp;。</li>
+	<li>选择下标为 1 ，2 和 3 的元素并反转，得到&nbsp;<code>nums = [1,<u><strong>1</strong></u>,<u><strong>1</strong></u>,<strong><u>0</u></strong>,0,0]</code>&nbsp;。</li>
+	<li>选择下标为 3 ，4 和 5 的元素并反转，得到&nbsp;<code>nums = [1,1,1,<strong><u>1</u></strong>,<u><strong>1</strong></u>,<u><strong>1</strong></u>]</code>&nbsp;。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [0,1,1,1]</span></p>
+<p><span class="example-io"><b>输入：</b>nums = [0,1,1,1]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">-1</span></p>
+<p><span class="example-io"><b>输出：</b>-1</span></p>
 
-<p><strong>Explanation:</strong><br />
-It is impossible to make all elements equal to 1.</p>
+<p><strong>解释：</strong><br />
+无法将所有元素都变为 1 。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -70,17 +75,17 @@ It is impossible to make all elements equal to 1.</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sequential Traversal + Simulation
+### 方法一：顺序遍历 + 模拟
 
-We notice that the first position in the array that is $0$ must undergo a flip operation, otherwise, it cannot be turned into $1$. Therefore, we can sequentially traverse the array, and each time we encounter $0$, we flip the next two elements and accumulate one operation count.
+我们注意到，数组中的第一个为 $0$ 的位置，一定需要进行一次反转操作，否则无法将其变为 $1$。因此，我们可以顺序遍历数组，每次遇到 $0$，就将其后两个元素进行反转操作，累计一次操作次数。
 
-After the traversal, we return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -167,19 +172,19 @@ func minOperations(nums []int) (ans int) {
 
 ```ts
 function minOperations(nums: number[]): number {
-  const n = nums.length;
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    if (nums[i] === 0) {
-      if (i + 2 >= n) {
-        return -1;
-      }
-      nums[i + 1] ^= 1;
-      nums[i + 2] ^= 1;
-      ++ans;
+    const n = nums.length;
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        if (nums[i] === 0) {
+            if (i + 2 >= n) {
+                return -1;
+            }
+            nums[i + 1] ^= 1;
+            nums[i + 2] ^= 1;
+            ++ans;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

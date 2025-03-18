@@ -1,76 +1,82 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1345.Jump%20Game%20IV/README.md
 rating: 1809
-source: Biweekly Contest 19 Q4
+source: 第 19 场双周赛 Q4
 tags:
-  - Breadth-First Search
-  - Array
-  - Hash Table
+    - 广度优先搜索
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [1345. Jump Game IV](https://leetcode.com/problems/jump-game-iv)
+# [1345. 跳跃游戏 IV](https://leetcode.cn/problems/jump-game-iv)
 
-## Description
+[English Version](/solution/1300-1399/1345.Jump%20Game%20IV/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of&nbsp;integers <code>arr</code>, you are initially positioned at the first index of the array.</p>
+<p>给你一个整数数组&nbsp;<code>arr</code>&nbsp;，你一开始在数组的第一个元素处（下标为 0）。</p>
 
-<p>In one step you can jump from index <code>i</code> to index:</p>
+<p>每一步，你可以从下标&nbsp;<code>i</code>&nbsp;跳到下标&nbsp;<code>i + 1</code> 、<code>i - 1</code> 或者 <code>j</code> ：</p>
 
 <ul>
-	<li><code>i + 1</code> where:&nbsp;<code>i + 1 &lt; arr.length</code>.</li>
-	<li><code>i - 1</code> where:&nbsp;<code>i - 1 &gt;= 0</code>.</li>
-	<li><code>j</code> where: <code>arr[i] == arr[j]</code> and <code>i != j</code>.</li>
+	<li><code>i + 1</code> 需满足：<code>i + 1 &lt; arr.length</code></li>
+	<li><code>i - 1</code>&nbsp;需满足：<code>i - 1 &gt;= 0</code></li>
+	<li><code>j</code>&nbsp;需满足：<code>arr[i] == arr[j]</code>&nbsp;且&nbsp;<code>i != j</code></li>
 </ul>
 
-<p>Return <em>the minimum number of steps</em> to reach the <strong>last index</strong> of the array.</p>
+<p>请你返回到达数组最后一个元素的下标处所需的&nbsp;<strong>最少操作次数</strong>&nbsp;。</p>
 
-<p>Notice that you can not jump outside of the array at any time.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [100,-23,-23,404,100,23,23,23,3,404]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> You need three jumps from index 0 --&gt; 4 --&gt; 3 --&gt; 9. Note that index 9 is the last index of the array.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [7]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Start index is the last index. You do not need to jump.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [7,6,9,6,9,6,9,7]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> You can jump directly from index 0 to index 7 which is last index of the array.
-</pre>
+<p>注意：任何时候你都不能跳到数组外面。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [100,-23,-23,404,100,23,23,23,3,404]
+<strong>输出：</strong>3
+<strong>解释：</strong>那你需要跳跃 3 次，下标依次为 0 --&gt; 4 --&gt; 3 --&gt; 9 。下标 9 为数组的最后一个元素的下标。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [7]
+<strong>输出：</strong>0
+<strong>解释：</strong>一开始就在最后一个元素处，所以你不需要跳跃。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [7,6,9,6,9,6,9,7]
+<strong>输出：</strong>1
+<strong>解释：</strong>你可以直接从下标 0 处跳到下标 7 处，也就是数组的最后一个元素处。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
+<meta charset="UTF-8" />
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>-10<sup>8</sup> &lt;= arr[i] &lt;= 10<sup>8</sup></code></li>
+	<li><code>-10<sup>8</sup>&nbsp;&lt;= arr[i] &lt;= 10<sup>8</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -217,39 +223,39 @@ func minJumps(arr []int) int {
 
 ```ts
 function minJumps(arr: number[]): number {
-  const g: Map<number, number[]> = new Map();
-  const n = arr.length;
-  for (let i = 0; i < n; ++i) {
-    if (!g.has(arr[i])) {
-      g.set(arr[i], []);
-    }
-    g.get(arr[i])!.push(i);
-  }
-  let q: number[] = [0];
-  const vis: boolean[] = Array(n).fill(false);
-  vis[0] = true;
-  for (let ans = 0; ; ++ans) {
-    const nq: number[] = [];
-    for (const i of q) {
-      if (i === n - 1) {
-        return ans;
-      }
-      for (const j of g.get(arr[i])!) {
-        if (!vis[j]) {
-          vis[j] = true;
-          nq.push(j);
+    const g: Map<number, number[]> = new Map();
+    const n = arr.length;
+    for (let i = 0; i < n; ++i) {
+        if (!g.has(arr[i])) {
+            g.set(arr[i], []);
         }
-      }
-      g.get(arr[i])!.length = 0;
-      for (const j of [i - 1, i + 1]) {
-        if (j >= 0 && j < n && !vis[j]) {
-          vis[j] = true;
-          nq.push(j);
-        }
-      }
+        g.get(arr[i])!.push(i);
     }
-    q = nq;
-  }
+    let q: number[] = [0];
+    const vis: boolean[] = Array(n).fill(false);
+    vis[0] = true;
+    for (let ans = 0; ; ++ans) {
+        const nq: number[] = [];
+        for (const i of q) {
+            if (i === n - 1) {
+                return ans;
+            }
+            for (const j of g.get(arr[i])!) {
+                if (!vis[j]) {
+                    vis[j] = true;
+                    nq.push(j);
+                }
+            }
+            g.get(arr[i])!.length = 0;
+            for (const j of [i - 1, i + 1]) {
+                if (j >= 0 && j < n && !vis[j]) {
+                    vis[j] = true;
+                    nq.push(j);
+                }
+            }
+        }
+        q = nq;
+    }
 }
 ```
 

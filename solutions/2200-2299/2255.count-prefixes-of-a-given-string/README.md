@@ -1,69 +1,72 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2255.Count%20Prefixes%20of%20a%20Given%20String/README.md
 rating: 1260
-source: Biweekly Contest 77 Q1
+source: 第 77 场双周赛 Q1
 tags:
-  - Array
-  - String
+    - 数组
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2255. Count Prefixes of a Given String](https://leetcode.com/problems/count-prefixes-of-a-given-string)
+# [2255. 统计是给定字符串前缀的字符串数目](https://leetcode.cn/problems/count-prefixes-of-a-given-string)
 
-## Description
+[English Version](/solution/2200-2299/2255.Count%20Prefixes%20of%20a%20Given%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string array <code>words</code> and a string <code>s</code>, where <code>words[i]</code> and <code>s</code> comprise only of <strong>lowercase English letters</strong>.</p>
+<p>给你一个字符串数组&nbsp;<code>words</code>&nbsp;和一个字符串&nbsp;<code>s</code>&nbsp;，其中&nbsp;<code>words[i]</code> 和&nbsp;<code>s</code>&nbsp;只包含 <strong>小写英文字母</strong>&nbsp;。</p>
 
-<p>Return <em>the <strong>number of strings</strong> in</em> <code>words</code> <em>that are a <strong>prefix</strong> of</em> <code>s</code>.</p>
+<p>请你返回 <code>words</code>&nbsp;中是字符串 <code>s</code>&nbsp;<strong>前缀&nbsp;</strong>的 <strong>字符串数目</strong>&nbsp;。</p>
 
-<p>A <strong>prefix</strong> of a string is a substring that occurs at the beginning of the string. A <b>substring</b> is a contiguous sequence of characters within a string.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;ab&quot;,&quot;bc&quot;,&quot;abc&quot;], s = &quot;abc&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-The strings in words which are a prefix of s = &quot;abc&quot; are:
-&quot;a&quot;, &quot;ab&quot;, and &quot;abc&quot;.
-Thus the number of strings in words which are a prefix of s is 3.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;a&quot;,&quot;a&quot;], s = &quot;aa&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:
-</strong>Both of the strings are a prefix of s. 
-Note that the same string can occur multiple times in words, and it should be counted each time.</pre>
+<p>一个字符串的 <strong>前缀</strong>&nbsp;是出现在字符串开头的子字符串。<strong>子字符串</strong>&nbsp;是一个字符串中的连续一段字符序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>words = ["a","b","c","ab","bc","abc"], s = "abc"
+<b>输出：</b>3
+<strong>解释：</strong>
+words 中是 s = "abc" 前缀的字符串为：
+"a" ，"ab" 和 "abc" 。
+所以 words 中是字符串 s 前缀的字符串数目为 3 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>words = ["a","a"], s = "aa"
+<b>输出：</b>2
+<strong>解释：
+</strong>两个字符串都是 s 的前缀。
+注意，相同的字符串可能在 words 中出现多次，它们应该被计数多次。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= words[i].length, s.length &lt;= 10</code></li>
-	<li><code>words[i]</code> and <code>s</code> consist of lowercase English letters <strong>only</strong>.</li>
+	<li><code>words[i]</code> 和&nbsp;<code>s</code>&nbsp;<strong>只</strong>&nbsp;包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal Counting
+### 方法一：遍历计数
 
-We directly traverse the array words, and for each string w, we check if s starts with w as a prefix. If it does, we increment the answer by one.
+我们直接遍历数组 $words$，对于每个字符串 $w$，判断 $s$ 是否以 $w$ 为前缀，如果是则答案加一。
 
-After the traversal, we return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(m \times n)$, where $m$ and $n$ are the lengths of the array words and the string s, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是数组 $words$ 的长度和字符串 $s$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -123,7 +126,7 @@ func countPrefixes(words []string, s string) (ans int) {
 
 ```ts
 function countPrefixes(words: string[], s: string): number {
-  return words.filter((w) => s.startsWith(w)).length;
+    return words.filter(w => s.startsWith(w)).length;
 }
 ```
 

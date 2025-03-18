@@ -1,79 +1,80 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2457.Minimum%20Addition%20to%20Make%20Integer%20Beautiful/README.md
 rating: 1680
-source: Weekly Contest 317 Q3
+source: 第 317 场周赛 Q3
 tags:
-  - Greedy
-  - Math
+    - 贪心
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2457. Minimum Addition to Make Integer Beautiful](https://leetcode.com/problems/minimum-addition-to-make-integer-beautiful)
+# [2457. 美丽整数的最小增量](https://leetcode.cn/problems/minimum-addition-to-make-integer-beautiful)
 
-## Description
+[English Version](/solution/2400-2499/2457.Minimum%20Addition%20to%20Make%20Integer%20Beautiful/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two positive integers <code>n</code> and <code>target</code>.</p>
+<p>给你两个正整数 <code>n</code> 和 <code>target</code> 。</p>
 
-<p>An integer is considered <strong>beautiful</strong> if the sum of its digits is less than or equal to <code>target</code>.</p>
+<p>如果某个整数每一位上的数字相加小于或等于 <code>target</code> ，则认为这个整数是一个 <strong>美丽整数</strong> 。</p>
 
-<p>Return the <em>minimum <strong>non-negative</strong> integer </em><code>x</code><em> such that </em><code>n + x</code><em> is beautiful</em>. The input will be generated such that it is always possible to make <code>n</code> beautiful.</p>
+<p>找出并返回满足 <code>n + x</code> 是 <strong>美丽整数</strong> 的最小非负整数 <code>x</code> 。生成的输入保证总可以使 <code>n</code> 变成一个美丽整数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 16, target = 6
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> Initially n is 16 and its digit sum is 1 + 6 = 7. After adding 4, n becomes 20 and digit sum becomes 2 + 0 = 2. It can be shown that we can not make n beautiful with adding non-negative integer less than 4.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>n = 16, target = 6
+<strong>输出：</strong>4
+<strong>解释：</strong>最初，n 是 16 ，且其每一位数字的和是 1 + 6 = 7 。在加 4 之后，n 变为 20 且每一位数字的和变成 2 + 0 = 2 。可以证明无法加上一个小于 4 的非负整数使 n 变成一个美丽整数。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 467, target = 6
-<strong>Output:</strong> 33
-<strong>Explanation:</strong> Initially n is 467 and its digit sum is 4 + 6 + 7 = 17. After adding 33, n becomes 500 and digit sum becomes 5 + 0 + 0 = 5. It can be shown that we can not make n beautiful with adding non-negative integer less than 33.
-</pre>
+<pre><strong>输入：</strong>n = 467, target = 6
+<strong>输出：</strong>33
+<strong>解释：</strong>最初，n 是 467 ，且其每一位数字的和是 4 + 6 + 7 = 17 。在加 33 之后，n 变为 500 且每一位数字的和变成 5 + 0 + 0 = 5 。可以证明无法加上一个小于 33 的非负整数使 n 变成一个美丽整数。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 1, target = 1
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Initially n is 1 and its digit sum is 1, which is already smaller than or equal to target.
+<pre><strong>输入：</strong>n = 1, target = 1
+<strong>输出：</strong>0
+<strong>解释：</strong>最初，n 是 1 ，且其每一位数字的和是 1 ，已经小于等于 target 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>12</sup></code></li>
 	<li><code>1 &lt;= target &lt;= 150</code></li>
-	<li>The input will be generated such that it is always possible to make <code>n</code> beautiful.</li>
+	<li>生成的输入保证总可以使 <code>n</code> 变成一个美丽整数。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy Algorithm
+### 方法一：贪心
 
-We define a function $f(x)$ to represent the sum of the digits of an integer $x$. The problem is to find the minimum non-negative integer $x$ such that $f(n + x) \leq target$.
+我们定义函数 $f(x)$ 表示一个整数 $x$ 的每一位数字之和，那么题目求的是 $f(n + x) \leq target$ 的最小非负整数 $x$。
 
-If the sum of the digits of $y = n+x$ is greater than $target$, we can loop through the following operations to reduce the sum of the digits of $y$ to less than or equal to $target$:
+如果 $y = n+x$ 的每一位数字之和大于 $target$，那么我们可以循环通过以下操作，将 $y$ 的每一位数字之和减小到小于等于 $target$：
 
-- Find the lowest non-zero digit of $y$, reduce it to $0$, and add $1$ to the digit one place higher;
-- Update $x$ and continue the above operation until the sum of the digits of $n+x$ is less than or equal to $target$.
+-   找到 $y$ 的最低位的非零数字，将其减小到 $0$，并将其高一位的数字加 $1$；
+-   更新 $x$，继续上述操作，直到 $n+x$ 的每一位数字之和小于等于 $target$。
 
-After the loop ends, return $x$.
+循环结束，返回 $x$ 即可。
 
-For example, if $n=467$ and $target=6$, the change process of $n$ is as follows:
+我们可以举个例子，假设 $n=467$, $target=6$，那么 $n$ 的变化过程如下：
 
 $$
 \begin{aligned}
@@ -81,7 +82,7 @@ $$
 \end{aligned}
 $$
 
-The time complexity is $O(\log^2 n)$, where $n$ is the integer given in the problem. The space complexity is $O(1)$.
+时间复杂度 $O(\log^2 n)$，其中 $n$ 给题目给定的整数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -195,25 +196,25 @@ func makeIntegerBeautiful(n int64, target int) (x int64) {
 
 ```ts
 function makeIntegerBeautiful(n: number, target: number): number {
-  const f = (x: number): number => {
-    let y = 0;
-    for (; x > 0; x = Math.floor(x / 10)) {
-      y += x % 10;
-    }
-    return y;
-  };
+    const f = (x: number): number => {
+        let y = 0;
+        for (; x > 0; x = Math.floor(x / 10)) {
+            y += x % 10;
+        }
+        return y;
+    };
 
-  let x = 0;
-  while (f(n + x) > target) {
-    let y = n + x;
-    let p = 10;
-    while (y % 10 === 0) {
-      y = Math.floor(y / 10);
-      p *= 10;
+    let x = 0;
+    while (f(n + x) > target) {
+        let y = n + x;
+        let p = 10;
+        while (y % 10 === 0) {
+            y = Math.floor(y / 10);
+            p *= 10;
+        }
+        x = (Math.floor(y / 10) + 1) * p - n;
     }
-    x = (Math.floor(y / 10) + 1) * p - n;
-  }
-  return x;
+    return x;
 }
 ```
 

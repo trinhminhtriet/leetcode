@@ -1,159 +1,70 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2711.Difference%20of%20Number%20of%20Distinct%20Values%20on%20Diagonals/README.md
 rating: 1428
-source: Weekly Contest 347 Q2
+source: 第 347 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Matrix
+    - 数组
+    - 哈希表
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [2711. Difference of Number of Distinct Values on Diagonals](https://leetcode.com/problems/difference-of-number-of-distinct-values-on-diagonals)
+# [2711. 对角线上不同值的数量差](https://leetcode.cn/problems/difference-of-number-of-distinct-values-on-diagonals)
 
-## Description
+[English Version](/solution/2700-2799/2711.Difference%20of%20Number%20of%20Distinct%20Values%20on%20Diagonals/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a 2D <code>grid</code> of size <code>m x n</code>, you should find the matrix <code>answer</code> of size <code>m x n</code>.</p>
+<p>给你一个下标从 <code>0</code> 开始、大小为 <code>m x n</code> 的二维矩阵 <code>grid</code> ，请你求解大小同样为 <code>m x n</code> 的答案矩阵 <code>answer</code> 。</p>
 
-<p>The cell <code>answer[r][c]</code> is calculated by looking at the diagonal values of the cell <code>grid[r][c]</code>:</p>
-
-<ul>
-	<li>Let <code>leftAbove[r][c]</code> be the number of <strong>distinct</strong> values on the diagonal to the left and above the cell <code>grid[r][c]</code> not including the cell <code>grid[r][c]</code> itself.</li>
-	<li>Let <code>rightBelow[r][c]</code> be the number of <strong>distinct</strong> values on the diagonal to the right and below the cell <code>grid[r][c]</code>, not including the cell <code>grid[r][c]</code> itself.</li>
-	<li>Then <code>answer[r][c] = |leftAbove[r][c] - rightBelow[r][c]|</code>.</li>
-</ul>
-
-<p>A <strong>matrix diagonal</strong> is a diagonal line of cells starting from some cell in either the topmost row or leftmost column and going in the bottom-right direction until the end of the matrix is reached.</p>
+<p>矩阵 <code>answer</code> 中每个单元格 <code>(r, c)</code> 的值可以按下述方式进行计算：</p>
 
 <ul>
-	<li>For example, in the below diagram the diagonal is highlighted using the cell with indices <code>(2, 3)</code> colored gray:
-
-    <ul>
-    	<li>Red-colored cells are left and above the cell.</li>
-    	<li>Blue-colored cells are right and below the cell.</li>
-    </ul>
-    </li>
-
+	<li>令 <code>topLeft[r][c]</code> 为矩阵 <code>grid</code> 中单元格 <code>(r, c)</code> 左上角对角线上 <strong>不同值</strong> 的数量。</li>
+	<li>令 <code>bottomRight[r][c]</code> 为矩阵 <code>grid</code> 中单元格 <code>(r, c)</code> 右下角对角线上 <strong>不同值</strong> 的数量。</li>
 </ul>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2700-2799/2711.Difference%20of%20Number%20of%20Distinct%20Values%20on%20Diagonals/images/diagonal.png" style="width: 200px; height: 160px;" /></p>
+<p>然后 <code>answer[r][c] = |topLeft[r][c] - bottomRight[r][c]|</code> 。</p>
 
-<p>Return the matrix <code>answer</code>.</p>
+<p>返回矩阵 <code>answer</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>矩阵对角线</strong> 是从最顶行或最左列的某个单元格开始，向右下方向走到矩阵末尾的对角线。</p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[1,2,3],[3,1,5],[3,2,1]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">Output: [[1,1,0],[1,0,1],[0,1,1]]</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>To calculate the <code>answer</code> cells:</p>
-
-<table>
-	<thead>
-		<tr>
-			<th>answer</th>
-			<th>left-above elements</th>
-			<th>leftAbove</th>
-			<th>right-below elements</th>
-			<th>rightBelow</th>
-			<th>|leftAbove - rightBelow|</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>[0][0]</td>
-			<td>[]</td>
-			<td>0</td>
-			<td>[grid[1][1], grid[2][2]]</td>
-			<td>|{1, 1}| = 1</td>
-			<td>1</td>
-		</tr>
-		<tr>
-			<td>[0][1]</td>
-			<td>[]</td>
-			<td>0</td>
-			<td>[grid[1][2]]</td>
-			<td>|{5}| = 1</td>
-			<td>1</td>
-		</tr>
-		<tr>
-			<td>[0][2]</td>
-			<td>[]</td>
-			<td>0</td>
-			<td>[]</td>
-			<td>0</td>
-			<td>0</td>
-		</tr>
-		<tr>
-			<td>[1][0]</td>
-			<td>[]</td>
-			<td>0</td>
-			<td>[grid[2][1]]</td>
-			<td>|{2}| = 1</td>
-			<td>1</td>
-		</tr>
-		<tr>
-			<td>[1][1]</td>
-			<td>[grid[0][0]]</td>
-			<td>|{1}| = 1</td>
-			<td>[grid[2][2]]</td>
-			<td>|{1}| = 1</td>
-			<td>0</td>
-		</tr>
-		<tr>
-			<td>[1][2]</td>
-			<td>[grid[0][1]]</td>
-			<td>|{2}| = 1</td>
-			<td>[]</td>
-			<td>0</td>
-			<td>1</td>
-		</tr>
-		<tr>
-			<td>[2][0]</td>
-			<td>[]</td>
-			<td>0</td>
-			<td>[]</td>
-			<td>0</td>
-			<td>0</td>
-		</tr>
-		<tr>
-			<td>[2][1]</td>
-			<td>[grid[1][0]]</td>
-			<td>|{3}| = 1</td>
-			<td>[]</td>
-			<td>0</td>
-			<td>1</td>
-		</tr>
-		<tr>
-			<td>[2][2]</td>
-			<td>[grid[0][0], grid[1][1]]</td>
-			<td>|{1, 1}| = 1</td>
-			<td>[]</td>
-			<td>0</td>
-			<td>1</td>
-		</tr>
-	</tbody>
-</table>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[1]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">Output: [[0]]</span></p>
-</div>
+<p>如果单元格 <code>(r1, c1)</code> 和单元格 <code>(r, c) </code>属于同一条对角线且 <code>r1 &lt; r</code> ，则单元格 <code>(r1, c1)</code> 属于单元格 <code>(r, c)</code> 的左上对角线。类似地，可以定义右下对角线。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2700-2799/2711.Difference%20of%20Number%20of%20Distinct%20Values%20on%20Diagonals/images/ex2.png" style="width: 786px; height: 121px;" />
+<pre>
+<strong>输入：</strong>grid = [[1,2,3],[3,1,5],[3,2,1]]
+<strong>输出：</strong>[[1,1,0],[1,0,1],[0,1,1]]
+<strong>解释：</strong>第 1 个图表示最初的矩阵 grid 。&nbsp;
+第 2 个图表示对单元格 (0,0) 计算，其中蓝色单元格是位于右下对角线的单元格。
+第 3 个图表示对单元格 (1,2) 计算，其中红色单元格是位于左上对角线的单元格。
+第 4 个图表示对单元格 (1,1) 计算，其中蓝色单元格是位于右下对角线的单元格，红色单元格是位于左上对角线的单元格。
+- 单元格 (0,0) 的右下对角线包含 [1,1] ，而左上对角线包含 [] 。对应答案是 |1 - 0| = 1 。
+- 单元格 (1,2) 的右下对角线包含 [] ，而左上对角线包含 [2] 。对应答案是 |0 - 1| = 1 。
+- 单元格 (1,1) 的右下对角线包含 [1] ，而左上对角线包含 [1] 。对应答案是 |1 - 1| = 0 。
+其他单元格的对应答案也可以按照这样的流程进行计算。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>grid = [[1]]
+<strong>输出：</strong>[[0]]
+<strong>解释：</strong>- 单元格 (0,0) 的右下对角线包含 [] ，左上对角线包含 [] 。对应答案是 |0 - 0| = 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -163,15 +74,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can simulate the process described in the problem statement, calculating the number of distinct values on the top-left diagonal $tl$ and the bottom-right diagonal $br$ for each cell, then compute their difference $|tl - br|$.
+我们可以按照题目描述的流程模拟，计算出每个单元格的左上角对角线上不同值的数量 $tl$ 和右下角对角线上不同值的数量 $br$，然后计算它们的差值 $|tl - br|$。
 
-The time complexity is $O(m \times n \times \min(m, n))$, and the space complexity is $O(m \times n)$.
+时间复杂度 $O(m \times n \times \min(m, n))$，空间复杂度 $O(m \times n)$。
 
 <!-- tabs:start -->
 
@@ -302,29 +213,29 @@ func abs(x int) int {
 
 ```ts
 function differenceOfDistinctValues(grid: number[][]): number[][] {
-  const m = grid.length;
-  const n = grid[0].length;
-  const ans: number[][] = Array(m)
-    .fill(0)
-    .map(() => Array(n).fill(0));
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      let [x, y] = [i, j];
-      const s = new Set<number>();
-      while (x && y) {
-        s.add(grid[--x][--y]);
-      }
-      const tl = s.size;
-      [x, y] = [i, j];
-      s.clear();
-      while (x + 1 < m && y + 1 < n) {
-        s.add(grid[++x][++y]);
-      }
-      const br = s.size;
-      ans[i][j] = Math.abs(tl - br);
+    const m = grid.length;
+    const n = grid[0].length;
+    const ans: number[][] = Array(m)
+        .fill(0)
+        .map(() => Array(n).fill(0));
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            let [x, y] = [i, j];
+            const s = new Set<number>();
+            while (x && y) {
+                s.add(grid[--x][--y]);
+            }
+            const tl = s.size;
+            [x, y] = [i, j];
+            s.clear();
+            while (x + 1 < m && y + 1 < n) {
+                s.add(grid[++x][++y]);
+            }
+            const br = s.size;
+            ans[i][j] = Math.abs(tl - br);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

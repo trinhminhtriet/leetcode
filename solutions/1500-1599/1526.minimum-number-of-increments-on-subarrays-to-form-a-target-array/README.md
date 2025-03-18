@@ -1,90 +1,101 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1526.Minimum%20Number%20of%20Increments%20on%20Subarrays%20to%20Form%20a%20Target%20Array/README.md
 rating: 1872
-source: Biweekly Contest 31 Q4
+source: 第 31 场双周赛 Q4
 tags:
-  - Stack
-  - Greedy
-  - Array
-  - Dynamic Programming
-  - Monotonic Stack
+    - 栈
+    - 贪心
+    - 数组
+    - 动态规划
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [1526. Minimum Number of Increments on Subarrays to Form a Target Array](https://leetcode.com/problems/minimum-number-of-increments-on-subarrays-to-form-a-target-array)
+# [1526. 形成目标数组的子数组最少增加次数](https://leetcode.cn/problems/minimum-number-of-increments-on-subarrays-to-form-a-target-array)
 
-## Description
+[English Version](/solution/1500-1599/1526.Minimum%20Number%20of%20Increments%20on%20Subarrays%20to%20Form%20a%20Target%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>target</code>. You have an integer array <code>initial</code> of the same size as <code>target</code> with all elements initially zeros.</p>
+<p>给你一个整数数组&nbsp;<code>target</code>&nbsp;和一个数组&nbsp;<code>initial</code>&nbsp;，<code>initial</code>&nbsp;数组与 <code>target</code>&nbsp; 数组有同样的维度，且一开始全部为 0 。</p>
 
-<p>In one operation you can choose <strong>any</strong> subarray from <code>initial</code> and increment each value by one.</p>
-
-<p>Return <em>the minimum number of operations to form a </em><code>target</code><em> array from </em><code>initial</code>.</p>
-
-<p>The test cases are generated so that the answer fits in a 32-bit integer.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> target = [1,2,3,2,1]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We need at least 3 operations to form the target array from the initial array.
-[<strong><u>0,0,0,0,0</u></strong>] increment 1 from index 0 to 4 (inclusive).
-[1,<strong><u>1,1,1</u></strong>,1] increment 1 from index 1 to 3 (inclusive).
-[1,2,<strong><u>2</u></strong>,2,1] increment 1 at index 2.
-[1,2,3,2,1] target array is formed.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> target = [3,1,1,2]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> [<strong><u>0,0,0,0</u></strong>] -&gt; [1,1,1,<strong><u>1</u></strong>] -&gt; [<strong><u>1</u></strong>,1,1,2] -&gt; [<strong><u>2</u></strong>,1,1,2] -&gt; [3,1,1,2]
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> target = [3,1,5,4,2]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> [<strong><u>0,0,0,0,0</u></strong>] -&gt; [<strong><u>1</u></strong>,1,1,1,1] -&gt; [<strong><u>2</u></strong>,1,1,1,1] -&gt; [3,1,<strong><u>1,1,1</u></strong>] -&gt; [3,1,<strong><u>2,2</u></strong>,2] -&gt; [3,1,<strong><u>3,3</u></strong>,2] -&gt; [3,1,<strong><u>4</u></strong>,4,2] -&gt; [3,1,5,4,2].
-</pre>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p>请你返回从 <code>initial</code>&nbsp;得到&nbsp; <code>target</code>&nbsp;的最少操作次数，每次操作需遵循以下规则：</p>
 
 <ul>
-	<li><code>1 &lt;= target.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= target[i] &lt;= 10<sup>5</sup></code></li>
+	<li>在 <code>initial</code>&nbsp;中选择 <strong>任意</strong>&nbsp;子数组，并将子数组中每个元素增加 1 。</li>
+</ul>
+
+<p>答案保证在 32 位有符号整数以内。</p>
+
+<p>&nbsp;</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>target = [1,2,3,2,1]
+<strong>输出：</strong>3
+<strong>解释：</strong>我们需要至少 3 次操作从 intial 数组得到 target 数组。
+[0,0,0,0,0] 将下标为 0 到 4&nbsp;的元素（包含二者）加 1 。
+[1,1,1,1,1] 将下标为 1 到 3 的元素（包含二者）加 1 。
+[1,2,2,2,1] 将下表为 2 的元素增加 1 。
+[1,2,3,2,1] 得到了目标数组。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>target = [3,1,1,2]
+<strong>输出：</strong>4
+<strong>解释：</strong>(initial)[0,0,0,0] -&gt; [1,1,1,1] -&gt; [1,1,1,2] -&gt; [2,1,1,2] -&gt; [3,1,1,2] (target) 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>target = [3,1,5,4,2]
+<strong>输出：</strong>7
+<strong>解释：</strong>(initial)[0,0,0,0,0] -&gt; [1,1,1,1,1] -&gt; [2,1,1,1,1] -&gt; [3,1,1,1,1] 
+                                  -&gt; [3,1,2,2,2] -&gt; [3,1,3,3,2] -&gt; [3,1,4,4,2] -&gt; [3,1,5,4,2] (target)。
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>target = [1,1,1,1]
+<strong>输出：</strong>1
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
+
+<ul>
+	<li><code>1 &lt;= target.length &lt;= 10^5</code></li>
+	<li><code>1 &lt;= target[i] &lt;= 10^5</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i]$ as the minimum number of operations required to obtain $target[0,..i]$, initially setting $f[0] = target[0]$.
+我们定义 $f[i]$ 表示得到 $target[0,..i]$ 的最少操作次数，初始时 $f[0] = target[0]$。
 
-For $target[i]$, if $target[i] \leq target[i-1]$, then $f[i] = f[i-1]$; otherwise, $f[i] = f[i-1] + target[i] - target[i-1]$.
+对于 $target[i]$，如果 $target[i] \leq target[i-1]$，则 $f[i] = f[i-1]$；否则 $f[i] = f[i-1] + target[i] - target[i-1]$。
 
-The final answer is $f[n-1]$.
+最终答案即为 $f[n-1]$。
 
-We notice that $f[i]$ only depends on $f[i-1]$, so we can maintain the operation count using just one variable.
+我们注意到 $f[i]$ 只与 $f[i-1]$ 有关，因此可以只用一个变量来维护操作次数。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $target$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $target$ 的长度。空间复杂度 $O(1)$。
 
-Similar problems:
+相似题目：
 
-- [3229. Minimum Operations to Make Array Equal to Target](https://github.com/doocs/leetcode/blob/main/solution/3200-3299/3229.Minimum%20Operations%20to%20Make%20Array%20Equal%20to%20Target/README_EN.md)
+-   [3229. 使数组等于目标数组所需的最少操作次数](https://github.com/doocs/leetcode/blob/main/solution/3200-3299/3229.Minimum%20Operations%20to%20Make%20Array%20Equal%20to%20Target/README.md)
 
 <!-- tabs:start -->
 
@@ -147,13 +158,13 @@ func minNumberOperations(target []int) int {
 
 ```ts
 function minNumberOperations(target: number[]): number {
-  let f = target[0];
-  for (let i = 1; i < target.length; ++i) {
-    if (target[i] > target[i - 1]) {
-      f += target[i] - target[i - 1];
+    let f = target[0];
+    for (let i = 1; i < target.length; ++i) {
+        if (target[i] > target[i - 1]) {
+            f += target[i] - target[i - 1];
+        }
     }
-  }
-  return f;
+    return f;
 }
 ```
 

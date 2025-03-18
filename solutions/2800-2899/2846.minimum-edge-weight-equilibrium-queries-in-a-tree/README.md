@@ -1,63 +1,68 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2846.Minimum%20Edge%20Weight%20Equilibrium%20Queries%20in%20a%20Tree/README.md
 rating: 2507
-source: Weekly Contest 361 Q4
+source: 第 361 场周赛 Q4
 tags:
-  - Tree
-  - Graph
-  - Array
-  - Strongly Connected Component
+    - 树
+    - 图
+    - 数组
+    - 强连通分量
 ---
 
 <!-- problem:start -->
 
-# [2846. Minimum Edge Weight Equilibrium Queries in a Tree](https://leetcode.com/problems/minimum-edge-weight-equilibrium-queries-in-a-tree)
+# [2846. 边权重均等查询](https://leetcode.cn/problems/minimum-edge-weight-equilibrium-queries-in-a-tree)
 
-## Description
+[English Version](/solution/2800-2899/2846.Minimum%20Edge%20Weight%20Equilibrium%20Queries%20in%20a%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an undirected tree with <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>. You are given the integer <code>n</code> and a 2D integer array <code>edges</code> of length <code>n - 1</code>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>, w<sub>i</sub>]</code> indicates that there is an edge between nodes <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> with weight <code>w<sub>i</sub></code> in the tree.</p>
+<p>现有一棵由 <code>n</code> 个节点组成的无向树，节点按从 <code>0</code> 到 <code>n - 1</code> 编号。给你一个整数 <code>n</code> 和一个长度为 <code>n - 1</code> 的二维整数数组 <code>edges</code> ，其中 <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>, w<sub>i</sub>]</code> 表示树中存在一条位于节点 <code>u<sub>i</sub></code> 和节点 <code>v<sub>i</sub></code> 之间、权重为 <code>w<sub>i</sub></code> 的边。</p>
 
-<p>You are also given a 2D integer array <code>queries</code> of length <code>m</code>, where <code>queries[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>. For each query, find the <strong>minimum number of operations</strong> required to make the weight of every edge on the path from <code>a<sub>i</sub></code> to <code>b<sub>i</sub></code> equal. In one operation, you can choose any edge of the tree and change its weight to any value.</p>
+<p>另给你一个长度为 <code>m</code> 的二维整数数组 <code>queries</code> ，其中 <code>queries[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 。对于每条查询，请你找出使从 <code>a<sub>i</sub></code> 到 <code>b<sub>i</sub></code> 路径上每条边的权重相等所需的 <strong>最小操作次数</strong> 。在一次操作中，你可以选择树上的任意一条边，并将其权重更改为任意值。</p>
 
-<p><strong>Note</strong> that:</p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li>Queries are <strong>independent</strong> of each other, meaning that the tree returns to its <strong>initial state</strong> on each new query.</li>
-	<li>The path from <code>a<sub>i</sub></code> to <code>b<sub>i</sub></code> is a sequence of <strong>distinct</strong> nodes starting with node <code>a<sub>i</sub></code> and ending with node <code>b<sub>i</sub></code> such that every two adjacent nodes in the sequence share an edge in the tree.</li>
+	<li>查询之间 <strong>相互独立</strong> 的，这意味着每条新的查询时，树都会回到 <strong>初始状态</strong> 。</li>
+	<li>从 <code>a<sub>i</sub></code> 到 <code>b<sub>i</sub></code>的路径是一个由 <strong>不同</strong> 节点组成的序列，从节点 <code>a<sub>i</sub></code> 开始，到节点 <code>b<sub>i</sub></code> 结束，且序列中相邻的两个节点在树中共享一条边。</li>
 </ul>
 
-<p>Return <em>an array </em><code>answer</code><em> of length </em><code>m</code><em> where</em> <code>answer[i]</code> <em>is the answer to the</em> <code>i<sup>th</sup></code> <em>query.</em></p>
+<p>返回一个长度为 <code>m</code> 的数组 <code>answer</code> ，其中 <code>answer[i]</code> 是第 <code>i</code> 条查询的答案。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2846.Minimum%20Edge%20Weight%20Equilibrium%20Queries%20in%20a%20Tree/images/graph-6-1.png" style="width: 339px; height: 344px;" />
 <pre>
-<strong>Input:</strong> n = 7, edges = [[0,1,1],[1,2,1],[2,3,1],[3,4,2],[4,5,2],[5,6,2]], queries = [[0,3],[3,6],[2,6],[0,6]]
-<strong>Output:</strong> [0,0,1,3]
-<strong>Explanation:</strong> In the first query, all the edges in the path from 0 to 3 have a weight of 1. Hence, the answer is 0.
-In the second query, all the edges in the path from 3 to 6 have a weight of 2. Hence, the answer is 0.
-In the third query, we change the weight of edge [2,3] to 2. After this operation, all the edges in the path from 2 to 6 have a weight of 2. Hence, the answer is 1.
-In the fourth query, we change the weights of edges [0,1], [1,2] and [2,3] to 2. After these operations, all the edges in the path from 0 to 6 have a weight of 2. Hence, the answer is 3.
-For each queries[i], it can be shown that answer[i] is the minimum number of operations needed to equalize all the edge weights in the path from a<sub>i</sub> to b<sub>i</sub>.
+<strong>输入：</strong>n = 7, edges = [[0,1,1],[1,2,1],[2,3,1],[3,4,2],[4,5,2],[5,6,2]], queries = [[0,3],[3,6],[2,6],[0,6]]
+<strong>输出：</strong>[0,0,1,3]
+<strong>解释：</strong>第 1 条查询，从节点 0 到节点 3 的路径中的所有边的权重都是 1 。因此，答案为 0 。
+第 2 条查询，从节点 3 到节点 6 的路径中的所有边的权重都是 2 。因此，答案为 0 。
+第 3 条查询，将边 [2,3] 的权重变更为 2 。在这次操作之后，从节点 2 到节点 6 的路径中的所有边的权重都是 2 。因此，答案为 1 。
+第 4 条查询，将边 [0,1]、[1,2]、[2,3] 的权重变更为 2 。在这次操作之后，从节点 0 到节点 6 的路径中的所有边的权重都是 2 。因此，答案为 3 。
+对于每条查询 queries[i] ，可以证明 answer[i] 是使从 a<sub>i</sub> 到 b<sub>i</sub> 的路径中的所有边的权重相等的最小操作次数。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2846.Minimum%20Edge%20Weight%20Equilibrium%20Queries%20in%20a%20Tree/images/graph-9-1.png" style="width: 472px; height: 370px;" />
 <pre>
-<strong>Input:</strong> n = 8, edges = [[1,2,6],[1,3,4],[2,4,6],[2,5,3],[3,6,6],[3,0,8],[7,0,2]], queries = [[4,6],[0,4],[6,5],[7,4]]
-<strong>Output:</strong> [1,2,2,3]
-<strong>Explanation:</strong> In the first query, we change the weight of edge [1,3] to 6. After this operation, all the edges in the path from 4 to 6 have a weight of 6. Hence, the answer is 1.
-In the second query, we change the weight of edges [0,3] and [3,1] to 6. After these operations, all the edges in the path from 0 to 4 have a weight of 6. Hence, the answer is 2.
-In the third query, we change the weight of edges [1,3] and [5,2] to 6. After these operations, all the edges in the path from 6 to 5 have a weight of 6. Hence, the answer is 2.
-In the fourth query, we change the weights of edges [0,7], [0,3] and [1,3] to 6. After these operations, all the edges in the path from 7 to 4 have a weight of 6. Hence, the answer is 3.
-For each queries[i], it can be shown that answer[i] is the minimum number of operations needed to equalize all the edge weights in the path from a<sub>i</sub> to b<sub>i</sub>.
+<strong>输入：</strong>n = 8, edges = [[1,2,6],[1,3,4],[2,4,6],[2,5,3],[3,6,6],[3,0,8],[7,0,2]], queries = [[4,6],[0,4],[6,5],[7,4]]
+<strong>输出：</strong>[1,2,2,3]
+<strong>解释：</strong>第 1 条查询，将边 [1,3] 的权重变更为 6 。在这次操作之后，从节点 4 到节点 6 的路径中的所有边的权重都是 6 。因此，答案为 1 。
+第 2 条查询，将边 [0,3]、[3,1] 的权重变更为 6 。在这次操作之后，从节点 0 到节点 4 的路径中的所有边的权重都是 6 。因此，答案为 2 。
+第 3 条查询，将边 [1,3]、[5,2] 的权重变更为 6 。在这次操作之后，从节点 6 到节点 5 的路径中的所有边的权重都是 6 。因此，答案为 2 。
+第 4 条查询，将边 [0,7]、[0,3]、[1,3] 的权重变更为 6 。在这次操作之后，从节点 7 到节点 4 的路径中的所有边的权重都是 6 。因此，答案为 3 。
+对于每条查询 queries[i] ，可以证明 answer[i] 是使从 a<sub>i</sub> 到 b<sub>i</sub> 的路径中的所有边的权重相等的最小操作次数。 
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -65,7 +70,7 @@ For each queries[i], it can be shown that answer[i] is the minimum number of ope
 	<li><code>edges[i].length == 3</code></li>
 	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt; n</code></li>
 	<li><code>1 &lt;= w<sub>i</sub> &lt;= 26</code></li>
-	<li>The input is generated such that <code>edges</code> represents a valid tree.</li>
+	<li>生成的输入满足 <code>edges</code> 表示一棵有效的树</li>
 	<li><code>1 &lt;= queries.length == m &lt;= 2 * 10<sup>4</sup></code></li>
 	<li><code>queries[i].length == 2</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
@@ -73,29 +78,29 @@ For each queries[i], it can be shown that answer[i] is the minimum number of ope
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Lifting for LCA
+### 方法一：倍增法求 LCA
 
-The problem asks for the minimum number of operations to make all edge weights the same on the path between any two points. This is essentially the length of the path between these two points, minus the number of times the most frequently occurring edge appears on the path.
+题目求的是任意两点的路径上，将其所有边的权重变成相同值的最小操作次数。实际上就是求这两点之间的路径长度，减去路径上出现次数最多的边的次数。
 
-The length of the path between two points can be obtained by finding the LCA (Lowest Common Ancestor) using binary lifting. Let's denote the two points as $u$ and $v$, and their LCA as $x$. Then, the path length from $u$ to $v$ is $depth(u) + depth(v) - 2 \times depth(x)$.
+而求两点间的路径长度，可以通过倍增法求 LCA 来实现。我们记两点分别为 $u$ 和 $v$，最近公共祖先为 $x$，那么 $u$ 到 $v$ 的路径长度就是 $depth(u) + depth(v) - 2 \times depth(x)$。
 
-Additionally, we can use an array $cnt[n][26]$ to record the number of occurrences of each edge weight from the root node to each node. Then, the number of times the most frequently occurring edge appears on the path from $u$ to $v$ is $\max_{0 \leq j < 26} cnt[u][j] + cnt[v][j] - 2 \times cnt[x][j]$, where $x$ is the LCA of $u$ and $v$.
+另外，我们可以用一个数组 $cnt[n][26]$ 记录根节点到每个节点上，每个边权重出现的次数。那么 $u$ 到 $v$ 的路径上，出现次数最多的边的次数就是 $\max_{0 \leq j < 26} cnt[u][j] + cnt[v][j] - 2 \times cnt[x][j]$。其中 $x$ 为 $u$ 和 $v$ 的最近公共祖先。
 
-The process of finding the LCA using binary lifting is as follows:
+倍增法求 LCA 的过程如下：
 
-We denote the depth of each node as $depth$, its parent node as $p$, and $f[i][j]$ as the $2^j$th ancestor of node $i$. Then, for any two points $x$ and $y$, we can find their LCA as follows:
+我们记每个节点的深度为 $depth$，父节点为 $p$，而 $f[i][j]$ 表示节点 $i$ 的第 $2^j$ 个祖先。那么，对于任意两点 $x$ 和 $y$，我们可以通过以下方式求出它们的最近公共祖先：
 
-1. If $depth(x) < depth(y)$, then swap $x$ and $y$, i.e., ensure that the depth of $x$ is not less than the depth of $y$;
-2. Next, we continuously raise the depth of $x$ until the depths of $x$ and $y$ are the same, at which point the depths of $x$ and $y$ are both $depth(x)$;
-3. Then, we raise the depths of $x$ and $y$ simultaneously until the parents of $x$ and $y$ are the same, at which point the parents of $x$ and $y$ are both $f[x][0]$, which is the LCA of $x$ and $y$.
+1. 如果 $depth(x) < depth(y)$，那么交换 $x$ 和 $y$，即保证 $x$ 的深度不小于 $y$ 的深度；
+2. 接下来，我们将 $x$ 的深度不断向上提升，直到 $x$ 和 $y$ 的深度相同，此时 $x$ 和 $y$ 的深度都为 $depth(x)$；
+3. 然后，我们将 $x$ 和 $y$ 的深度同时向上提升，直到 $x$ 和 $y$ 的父节点相同，此时 $x$ 和 $y$ 的父节点都为 $f[x][0]$，即为 $x$ 和 $y$ 的最近公共祖先。
 
-Finally, the minimum number of operations from node $u$ to node $v$ is $depth(u) + depth(v) - 2 \times depth(x) - \max_{0 \leq j < 26} cnt[u][j] + cnt[v][j] - 2 \times cnt[x][j]$.
+最后，节点 $u$ 到节点 $v$ 的最小操作次数就是 $depth(u) + depth(v) - 2 \times depth(x) - \max_{0 \leq j < 26} cnt[u][j] + cnt[v][j] - 2 \times cnt[x][j]$。
 
-The time complexity is $O((n + q) \times C \times \log n)$, and the space complexity is $O(n \times C \times \log n)$. Here, $C$ is the maximum value of the edge weight.
+时间复杂度 $O((n + q) \times C \times \log n)$，空间复杂度 $O(n \times C \times \log n)$，其中 $C$ 为边权重的最大值。
 
 <!-- tabs:start -->
 

@@ -1,88 +1,91 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2606.Find%20the%20Substring%20With%20Maximum%20Cost/README.md
 rating: 1422
-source: Biweekly Contest 101 Q2
+source: 第 101 场双周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - String
-  - Dynamic Programming
+    - 数组
+    - 哈希表
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2606. Find the Substring With Maximum Cost](https://leetcode.com/problems/find-the-substring-with-maximum-cost)
+# [2606. 找到最大开销的子字符串](https://leetcode.cn/problems/find-the-substring-with-maximum-cost)
 
-## Description
+[English Version](/solution/2600-2699/2606.Find%20the%20Substring%20With%20Maximum%20Cost/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code>, a string <code>chars</code> of <strong>distinct</strong> characters and an integer array <code>vals</code> of the same length as <code>chars</code>.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，一个字符&nbsp;<strong>互不相同</strong>&nbsp;的字符串&nbsp;<code>chars</code>&nbsp;和一个长度与 <code>chars</code>&nbsp;相同的整数数组&nbsp;<code>vals</code>&nbsp;。</p>
 
-<p>The <strong>cost of the substring </strong>is the sum of the values of each character in the substring. The cost of an empty string is considered <code>0</code>.</p>
+<p><strong>子字符串的开销</strong>&nbsp;是一个子字符串中所有字符对应价值之和。空字符串的开销是 <code>0</code>&nbsp;。</p>
 
-<p>The <strong>value of the character </strong>is defined in the following way:</p>
+<p><strong>字符的价值</strong>&nbsp;定义如下：</p>
 
 <ul>
-	<li>If the character is not in the string <code>chars</code>, then its value is its corresponding position <strong>(1-indexed)</strong> in the alphabet.
+	<li>如果字符不在字符串&nbsp;<code>chars</code>&nbsp;中，那么它的价值是它在字母表中的位置（下标从 <strong>1</strong>&nbsp;开始）。
 
     <ul>
-    	<li>For example, the value of <code>&#39;a&#39;</code> is <code>1</code>, the value of <code>&#39;b&#39;</code> is <code>2</code>, and so on. The value of <code>&#39;z&#39;</code> is <code>26</code>.</li>
+    	<li>比方说，<code>'a'</code>&nbsp;的价值为&nbsp;<code>1</code>&nbsp;，<code>'b'</code>&nbsp;的价值为&nbsp;<code>2</code>&nbsp;，以此类推，<code>'z'</code>&nbsp;的价值为&nbsp;<code>26</code>&nbsp;。</li>
     </ul>
     </li>
-    <li>Otherwise, assuming <code>i</code> is the index where the character occurs in the string <code>chars</code>, then its value is <code>vals[i]</code>.</li>
+    <li>否则，如果这个字符在 <code>chars</code>&nbsp;中的位置为 <code>i</code>&nbsp;，那么它的价值就是&nbsp;<code>vals[i]</code>&nbsp;。</li>
 
 </ul>
 
-<p>Return <em>the maximum cost among all substrings of the string</em> <code>s</code>.</p>
+<p>请你返回字符串 <code>s</code>&nbsp;的所有子字符串中的最大开销。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;adaa&quot;, chars = &quot;d&quot;, vals = [-1000]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The value of the characters &quot;a&quot; and &quot;d&quot; is 1 and -1000 respectively.
-The substring with the maximum cost is &quot;aa&quot; and its cost is 1 + 1 = 2.
-It can be proven that 2 is the maximum cost.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>s = "adaa", chars = "d", vals = [-1000]
+<b>输出：</b>2
+<b>解释：</b>字符 "a" 和 "d" 的价值分别为 1 和 -1000 。
+最大开销子字符串是 "aa" ，它的开销为 1 + 1 = 2 。
+2 是最大开销。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;abc&quot;, chars = &quot;abc&quot;, vals = [-1,-1,-1]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The value of the characters &quot;a&quot;, &quot;b&quot; and &quot;c&quot; is -1, -1, and -1 respectively.
-The substring with the maximum cost is the empty substring &quot;&quot; and its cost is 0.
-It can be proven that 0 is the maximum cost.
+<pre><b>输入：</b>s = "abc", chars = "abc", vals = [-1,-1,-1]
+<b>输出：</b>0
+<b>解释：</b>字符 "a" ，"b" 和 "c" 的价值分别为 -1 ，-1 和 -1 。
+最大开销子字符串是 "" ，它的开销为 0 。
+0 是最大开销。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consist of lowercase English letters.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
 	<li><code>1 &lt;= chars.length &lt;= 26</code></li>
-	<li><code>chars</code> consist of <strong>distinct</strong> lowercase English letters.</li>
+	<li><code>chars</code>&nbsp;只包含小写英文字母，且 <strong>互不相同</strong>&nbsp;。</li>
 	<li><code>vals.length == chars.length</code></li>
 	<li><code>-1000 &lt;= vals[i] &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix sum + Maintain the minimum prefix sum
+### 方法一：前缀和 + 维护前缀和的最小值
 
-According to the description of the problem, we traverse each character $c$ in the string $s$, obtain its corresponding value $v$, and then update the current prefix sum $tot=tot+v$. Then, the cost of the maximum cost substring ending with $c$ is $tot$ minus the minimum prefix sum $mi$, that is, $tot-mi$. We update the answer $ans=max(ans,tot-mi)$ and maintain the minimum prefix sum $mi=min(mi,tot)$.
+我们根据题目描述，遍历字符串 $s$ 的每个字符 $c$，求出其对应的价值 $v$，然后更新当前的前缀和 $tot=tot+v$，那么以 $c$ 结尾的最大开销子字符串的开销为 $tot$ 减去前缀和的最小值 $mi$，即 $tot-mi$，我们更新答案 $ans=max(ans,tot-mi)$，并维护前缀和的最小值 $mi=min(mi,tot)$。
 
-After the traversal is over, return the answer $ans$.
+遍历结束后返回答案 $ans$ 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(C)$. Where $n$ is the length of the string $s$; and $C$ is the size of the character set, which is $26$ in this problem.
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为字符串 $s$ 的长度；而 $C$ 为字符集的大小，本题中 $C=26$。
 
 <!-- tabs:start -->
 
@@ -176,24 +179,20 @@ func maximumCostSubstring(s string, chars string, vals []int) (ans int) {
 #### TypeScript
 
 ```ts
-function maximumCostSubstring(
-  s: string,
-  chars: string,
-  vals: number[]
-): number {
-  const d: number[] = Array.from({ length: 26 }, (_, i) => i + 1);
-  for (let i = 0; i < chars.length; ++i) {
-    d[chars.charCodeAt(i) - 97] = vals[i];
-  }
-  let ans = 0;
-  let tot = 0;
-  let mi = 0;
-  for (const c of s) {
-    tot += d[c.charCodeAt(0) - 97];
-    ans = Math.max(ans, tot - mi);
-    mi = Math.min(mi, tot);
-  }
-  return ans;
+function maximumCostSubstring(s: string, chars: string, vals: number[]): number {
+    const d: number[] = Array.from({ length: 26 }, (_, i) => i + 1);
+    for (let i = 0; i < chars.length; ++i) {
+        d[chars.charCodeAt(i) - 97] = vals[i];
+    }
+    let ans = 0;
+    let tot = 0;
+    let mi = 0;
+    for (const c of s) {
+        tot += d[c.charCodeAt(0) - 97];
+        ans = Math.max(ans, tot - mi);
+        mi = Math.min(mi, tot);
+    }
+    return ans;
 }
 ```
 
@@ -203,13 +202,13 @@ function maximumCostSubstring(
 
 <!-- solution:start -->
 
-### Solution 2: Convert to the maximum subarray sum problem
+### 方法二：转化为最大子数组和问题
 
-We can consider the value $v$ of each character $c$ as an integer, so the actual problem is to solve the maximum subarray sum problem.
+我们可以将每个字符 $c$ 的价值 $v$ 看作是一个整数，那么题目实际上转化为求最大子数组和问题。
 
-We use the variable $f$ to maintain the cost of the maximum cost substring ending with the current character $c$. Each time we traverse to a character $c$, we update $f=max(f, 0) + v$. Then we update the answer $ans=max(ans,f)$.
+我们用变量 $f$ 维护以当前字符 $c$ 结尾的最大开销子字符串的开销，每次遍历到一个字符 $c$，更新 $f=max(f, 0) + v$，然后更新答案 $ans=max(ans,f)$ 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(C)$. Where $n$ is the length of the string $s$; and $C$ is the size of the character set, which is $26$ in this problem.
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为字符串 $s$ 的长度；而 $C$ 为字符集的大小，本题中 $C=26$。
 
 <!-- tabs:start -->
 
@@ -299,22 +298,18 @@ func maximumCostSubstring(s string, chars string, vals []int) (ans int) {
 #### TypeScript
 
 ```ts
-function maximumCostSubstring(
-  s: string,
-  chars: string,
-  vals: number[]
-): number {
-  const d: number[] = Array.from({ length: 26 }, (_, i) => i + 1);
-  for (let i = 0; i < chars.length; ++i) {
-    d[chars.charCodeAt(i) - 97] = vals[i];
-  }
-  let ans = 0;
-  let f = 0;
-  for (const c of s) {
-    f = Math.max(f, 0) + d[c.charCodeAt(0) - 97];
-    ans = Math.max(ans, f);
-  }
-  return ans;
+function maximumCostSubstring(s: string, chars: string, vals: number[]): number {
+    const d: number[] = Array.from({ length: 26 }, (_, i) => i + 1);
+    for (let i = 0; i < chars.length; ++i) {
+        d[chars.charCodeAt(i) - 97] = vals[i];
+    }
+    let ans = 0;
+    let f = 0;
+    for (const c of s) {
+        f = Math.max(f, 0) + d[c.charCodeAt(0) - 97];
+        ans = Math.max(ans, f);
+    }
+    return ans;
 }
 ```
 

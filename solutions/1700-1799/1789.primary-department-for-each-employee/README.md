@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1789.Primary%20Department%20for%20Each%20Employee/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1789. Primary Department for Each Employee](https://leetcode.com/problems/primary-department-for-each-employee)
+# [1789. 员工的直属部门](https://leetcode.cn/problems/primary-department-for-each-employee)
 
-## Description
+[English Version](/solution/1700-1799/1789.Primary%20Department%20for%20Each%20Employee/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Employee</code></p>
+<p>表：<code>Employee</code></p>
 
 <pre>
 +---------------+---------+
@@ -23,27 +26,28 @@ tags:
 | department_id | int     |
 | primary_flag  | varchar |
 +---------------+---------+
-(employee_id, department_id) is the primary key (combination of columns with unique values) for this table.
-employee_id is the id of the employee.
-department_id is the id of the department to which the employee belongs.
-primary_flag is an ENUM (category) of type (&#39;Y&#39;, &#39;N&#39;). If the flag is &#39;Y&#39;, the department is the primary department for the employee. If the flag is &#39;N&#39;, the department is not the primary.
+这张表的主键为 employee_id, department_id (具有唯一值的列的组合)
+employee_id 是员工的ID
+department_id 是部门的ID，表示员工与该部门有关系
+primary_flag 是一个枚举类型，值分别为('Y', 'N'). 如果值为'Y',表示该部门是员工的直属部门。 如果值是'N',则否
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Employees can belong to multiple departments. When the employee joins other departments, they need to decide which department is their primary department. Note that when an employee belongs to only one department, their primary column is <code>&#39;N&#39;</code>.</p>
+<p>一个员工可以属于多个部门。当一个员工加入<strong>超过一个部门</strong>的时候，他需要决定哪个部门是他的直属部门。请注意，当员工只加入一个部门的时候，那这个部门将默认为他的直属部门，虽然表记录的值为<code>'N'</code>.</p>
 
-<p>Write a solution to report all the employees with their primary department. For employees who belong to one department, report their only department.</p>
+<p>请编写解决方案，查出员工所属的直属部门。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
+<p>返回结果 <strong>没有顺序要求</strong> 。</p>
 
-<p>The&nbsp;result format is in the following example.</p>
+<p>返回结果格式如下例子所示：</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
+<strong>输入：</strong>
 Employee table:
 +-------------+---------------+--------------+
 | employee_id | department_id | primary_flag |
@@ -56,7 +60,7 @@ Employee table:
 | 4           | 3             | Y            |
 | 4           | 4             | N            |
 +-------------+---------------+--------------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +-------------+---------------+
 | employee_id | department_id |
 +-------------+---------------+
@@ -65,22 +69,23 @@ Employee table:
 | 3           | 3             |
 | 4           | 3             |
 +-------------+---------------+
-<strong>Explanation:</strong> 
-- The Primary department for employee 1 is 1.
-- The Primary department for employee 2 is 1.
-- The Primary department for employee 3 is 3.
-- The Primary department for employee 4 is 3.
-</pre>
+<strong>解释：</strong>
+- 员工 1 的直属部门是 1
+- 员工 2 的直属部门是 1
+- 员工 3 的直属部门是 3
+- 员工 4 的直属部门是 3</pre>
+
+<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Merging
+### 方法一：合并
 
-We can first query all employees who already have a direct department, and then query all employees who belong to only one department. Finally, we can merge the two results using `UNION`.
+我们可以查出所有已经有直属部门的员工，然后再查出所有只属于一个部门的员工，最后我们可以使用 `UNION` 合并两个结果集。
 
 <!-- tabs:start -->
 

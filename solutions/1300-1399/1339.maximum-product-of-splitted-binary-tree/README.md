@@ -1,60 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1339.Maximum%20Product%20of%20Splitted%20Binary%20Tree/README.md
 rating: 1674
-source: Weekly Contest 174 Q3
+source: 第 174 场周赛 Q3
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [1339. Maximum Product of Splitted Binary Tree](https://leetcode.com/problems/maximum-product-of-splitted-binary-tree)
+# [1339. 分裂二叉树的最大乘积](https://leetcode.cn/problems/maximum-product-of-splitted-binary-tree)
 
-## Description
+[English Version](/solution/1300-1399/1339.Maximum%20Product%20of%20Splitted%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, split the binary tree into two subtrees by removing one edge such that the product of the sums of the subtrees is maximized.</p>
+<p>给你一棵二叉树，它的根为&nbsp;<code>root</code> 。请你删除 1 条边，使二叉树分裂成两棵子树，且它们子树和的乘积尽可能大。</p>
 
-<p>Return <em>the maximum product of the sums of the two subtrees</em>. Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
-
-<p><strong>Note</strong> that you need to maximize the answer before taking the mod and not after taking it.</p>
+<p>由于答案可能会很大，请你将结果对 10^9 + 7 取模后再返回。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1339.Maximum%20Product%20of%20Splitted%20Binary%20Tree/images/sample_1_1699.png" style="width: 500px; height: 167px;" />
-<pre>
-<strong>Input:</strong> root = [1,2,3,4,5,6]
-<strong>Output:</strong> 110
-<strong>Explanation:</strong> Remove the red edge and get 2 binary trees with sum 11 and 10. Their product is 110 (11*10)
+
+<p><strong>示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1339.Maximum%20Product%20of%20Splitted%20Binary%20Tree/images/sample_1_1699.png" style="height: 200px; width: 495px;"></strong></p>
+
+<pre><strong>输入：</strong>root = [1,2,3,4,5,6]
+<strong>输出：</strong>110
+<strong>解释：</strong>删除红色的边，得到 2 棵子树，和分别为 11 和 10 。它们的乘积是 110 （11*10）
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1339.Maximum%20Product%20of%20Splitted%20Binary%20Tree/images/sample_2_1699.png" style="width: 500px; height: 211px;" />
-<pre>
-<strong>Input:</strong> root = [1,null,2,3,4,null,null,5,6]
-<strong>Output:</strong> 90
-<strong>Explanation:</strong> Remove the red edge and get 2 binary trees with sum 15 and 6.Their product is 90 (15*6)
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1339.Maximum%20Product%20of%20Splitted%20Binary%20Tree/images/sample_2_1699.png" style="height: 200px; width: 495px;"></p>
+
+<pre><strong>输入：</strong>root = [1,null,2,3,4,null,null,5,6]
+<strong>输出：</strong>90
+<strong>解释：</strong>移除红色的边，得到 2 棵子树，和分别是 15 和 6 。它们的乘积为 90 （15*6）
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>root = [2,3,9,10,7,8,6,5,4,11,1]
+<strong>输出：</strong>1025
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>root = [1,1]
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[2, 5 * 10<sup>4</sup>]</code>.</li>
-	<li><code>1 &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
+	<li>每棵树最多有&nbsp;<code>50000</code>&nbsp;个节点，且至少有&nbsp;<code>2</code>&nbsp;个节点。</li>
+	<li>每个节点的值在&nbsp;<code>[1, 10000]</code>&nbsp;之间。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：两次 DFS
+
+我们可以用两次 DFS 来解决这个问题。
+
+第一次，我们用一个 $sum(root)$ 函数递归求出整棵树所有节点的和，记为 $s$。
+
+第二次，我们用一个 $dfs(root)$ 函数递归遍历每个节点，求出以当前节点为根的子树的节点和 $t$，那么当前节点与其父节点分裂后两棵子树的节点和分别为 $t$ 和 $s - t$，它们的乘积为 $t \times (s - t)$，我们遍历所有节点，求出乘积的最大值，即为答案。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -242,27 +267,27 @@ func maxProduct(root *TreeNode) (ans int) {
  */
 
 function maxProduct(root: TreeNode | null): number {
-  const sum = (root: TreeNode | null): number => {
-    if (!root) {
-      return 0;
-    }
-    return root.val + sum(root.left) + sum(root.right);
-  };
-  const s = sum(root);
-  let ans = 0;
-  const mod = 1e9 + 7;
-  const dfs = (root: TreeNode | null): number => {
-    if (!root) {
-      return 0;
-    }
-    const t = root.val + dfs(root.left) + dfs(root.right);
-    if (t < s) {
-      ans = Math.max(ans, t * (s - t));
-    }
-    return t;
-  };
-  dfs(root);
-  return ans % mod;
+    const sum = (root: TreeNode | null): number => {
+        if (!root) {
+            return 0;
+        }
+        return root.val + sum(root.left) + sum(root.right);
+    };
+    const s = sum(root);
+    let ans = 0;
+    const mod = 1e9 + 7;
+    const dfs = (root: TreeNode | null): number => {
+        if (!root) {
+            return 0;
+        }
+        const t = root.val + dfs(root.left) + dfs(root.right);
+        if (t < s) {
+            ans = Math.max(ans, t * (s - t));
+        }
+        return t;
+    };
+    dfs(root);
+    return ans % mod;
 }
 ```
 

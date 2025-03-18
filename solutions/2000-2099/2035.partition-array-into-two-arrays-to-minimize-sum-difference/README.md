@@ -1,60 +1,66 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2035.Partition%20Array%20Into%20Two%20Arrays%20to%20Minimize%20Sum%20Difference/README.md
 rating: 2489
-source: Weekly Contest 262 Q4
+source: 第 262 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Array
-  - Two Pointers
-  - Binary Search
-  - Dynamic Programming
-  - Bitmask
-  - Ordered Set
+    - 位运算
+    - 数组
+    - 双指针
+    - 二分查找
+    - 动态规划
+    - 状态压缩
+    - 有序集合
 ---
 
 <!-- problem:start -->
 
-# [2035. Partition Array Into Two Arrays to Minimize Sum Difference](https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference)
+# [2035. 将数组分成两个数组并最小化数组和的差](https://leetcode.cn/problems/partition-array-into-two-arrays-to-minimize-sum-difference)
 
-## Description
+[English Version](/solution/2000-2099/2035.Partition%20Array%20Into%20Two%20Arrays%20to%20Minimize%20Sum%20Difference/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> of <code>2 * n</code> integers. You need to partition <code>nums</code> into <strong>two</strong> arrays of length <code>n</code> to <strong>minimize the absolute difference</strong> of the <strong>sums</strong> of the arrays. To partition <code>nums</code>, put each element of <code>nums</code> into <strong>one</strong> of the two arrays.</p>
+<p>给你一个长度为 <code>2 * n</code>&nbsp;的整数数组。你需要将&nbsp;<code>nums</code>&nbsp;分成&nbsp;<strong>两个</strong>&nbsp;长度为&nbsp;<code>n</code>&nbsp;的数组，分别求出两个数组的和，并 <strong>最小化</strong>&nbsp;两个数组和之&nbsp;<b>差的绝对值</b>&nbsp;。<code>nums</code>&nbsp;中每个元素都需要放入两个数组之一。</p>
 
-<p>Return <em>the <strong>minimum</strong> possible absolute difference</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="example-1" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2035.Partition%20Array%20Into%20Two%20Arrays%20to%20Minimize%20Sum%20Difference/images/ex1.png" style="width: 240px; height: 106px;" />
-<pre>
-<strong>Input:</strong> nums = [3,9,7,3]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> One optimal partition is: [3,9] and [7,3].
-The absolute difference between the sums of the arrays is abs((3 + 9) - (7 + 3)) = 2.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [-36,36]
-<strong>Output:</strong> 72
-<strong>Explanation:</strong> One optimal partition is: [-36] and [36].
-The absolute difference between the sums of the arrays is abs((-36) - (36)) = 72.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="example-3" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2035.Partition%20Array%20Into%20Two%20Arrays%20to%20Minimize%20Sum%20Difference/images/ex3.png" style="width: 316px; height: 106px;" />
-<pre>
-<strong>Input:</strong> nums = [2,-1,0,4,-2,-9]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> One optimal partition is: [2,4,-9] and [-1,0,-2].
-The absolute difference between the sums of the arrays is abs((2 + 4 + -9) - (-1 + 0 + -2)) = 0.
-</pre>
+<p>请你返回&nbsp;<strong>最小</strong>&nbsp;的数组和之差。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="example-1" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2035.Partition%20Array%20Into%20Two%20Arrays%20to%20Minimize%20Sum%20Difference/images/ex1.png" style="width: 240px; height: 106px;"></p>
+
+<pre><b>输入：</b>nums = [3,9,7,3]
+<b>输出：</b>2
+<strong>解释：</strong>最优分组方案是分成 [3,9] 和 [7,3] 。
+数组和之差的绝对值为 abs((3 + 9) - (7 + 3)) = 2 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>nums = [-36,36]
+<b>输出：</b>72
+<strong>解释：</strong>最优分组方案是分成 [-36] 和 [36] 。
+数组和之差的绝对值为 abs((-36) - (36)) = 72 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><img alt="example-3" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2035.Partition%20Array%20Into%20Two%20Arrays%20to%20Minimize%20Sum%20Difference/images/ex3.png" style="width: 316px; height: 106px;"></p>
+
+<pre><b>输入：</b>nums = [2,-1,0,4,-2,-9]
+<b>输出：</b>0
+<strong>解释：</strong>最优分组方案是分成 [2,4,-9] 和 [-1,0,-2] 。
+数组和之差的绝对值为 abs((2 + 4 + -9) - (-1 + 0 + -2)) = 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 15</code></li>
@@ -64,11 +70,11 @@ The absolute difference between the sums of the arrays is abs((2 + 4 + -9) - (-1
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

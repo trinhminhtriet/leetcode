@@ -1,62 +1,71 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2242.Maximum%20Score%20of%20a%20Node%20Sequence/README.md
 rating: 2304
-source: Biweekly Contest 76 Q4
+source: 第 76 场双周赛 Q4
 tags:
-  - Graph
-  - Array
-  - Enumeration
-  - Sorting
+    - 图
+    - 数组
+    - 枚举
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2242. Maximum Score of a Node Sequence](https://leetcode.com/problems/maximum-score-of-a-node-sequence)
+# [2242. 节点序列的最大得分](https://leetcode.cn/problems/maximum-score-of-a-node-sequence)
 
-## Description
+[English Version](/solution/2200-2299/2242.Maximum%20Score%20of%20a%20Node%20Sequence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an <strong>undirected</strong> graph with <code>n</code> nodes, numbered from <code>0</code> to <code>n - 1</code>.</p>
+<p>给你一个&nbsp;<code>n</code>&nbsp;个节点的&nbsp;<strong>无向图</strong>&nbsp;，节点编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;。</p>
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>scores</code> of length <code>n</code> where <code>scores[i]</code> denotes the score of node <code>i</code>. You are also given a 2D integer array <code>edges</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> denotes that there exists an <strong>undirected</strong> edge connecting nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>scores</code>&nbsp;，其中&nbsp;<code>scores[i]</code>&nbsp;是第 <code>i</code>&nbsp;个节点的分数。同时给你一个二维整数数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;，表示节点&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条&nbsp;<strong>无向</strong>&nbsp;边。</p>
 
-<p>A node sequence is <b>valid</b> if it meets the following conditions:</p>
+<p>一个合法的节点序列如果满足以下条件，我们称它是 <strong>合法的</strong>&nbsp;：</p>
 
 <ul>
-	<li>There is an edge connecting every pair of <strong>adjacent</strong> nodes in the sequence.</li>
-	<li>No node appears more than once in the sequence.</li>
+	<li>序列中每&nbsp;<b>相邻</b>&nbsp;节点之间有边相连。</li>
+	<li>序列中没有节点出现超过一次。</li>
 </ul>
 
-<p>The score of a node sequence is defined as the <strong>sum</strong> of the scores of the nodes in the sequence.</p>
+<p>节点序列的分数定义为序列中节点分数之 <strong>和</strong> 。</p>
 
-<p>Return <em>the <strong>maximum score</strong> of a valid node sequence with a length of </em><code>4</code><em>. </em>If no such sequence exists, return<em> </em><code>-1</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2242.Maximum%20Score%20of%20a%20Node%20Sequence/images/ex1new3.png" style="width: 290px; height: 215px;" />
-<pre>
-<strong>Input:</strong> scores = [5,2,9,8,4], edges = [[0,1],[1,2],[2,3],[0,2],[1,3],[2,4]]
-<strong>Output:</strong> 24
-<strong>Explanation:</strong> The figure above shows the graph and the chosen node sequence [0,1,2,3].
-The score of the node sequence is 5 + 2 + 9 + 8 = 24.
-It can be shown that no other node sequence has a score of more than 24.
-Note that the sequences [3,1,2,0] and [1,0,2,3] are also valid and have a score of 24.
-The sequence [0,3,2,4] is not valid since no edge connects nodes 0 and 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2242.Maximum%20Score%20of%20a%20Node%20Sequence/images/ex2.png" style="width: 333px; height: 151px;" />
-<pre>
-<strong>Input:</strong> scores = [9,20,6,4,11,12], edges = [[0,3],[5,3],[2,4],[1,3]]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> The figure above shows the graph.
-There are no valid node sequences of length 4, so we return -1.
-</pre>
+<p>请你返回一个长度为 <code>4</code>&nbsp;的合法节点序列的最大分数。如果不存在这样的序列，请你返回 <code>-1</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2242.Maximum%20Score%20of%20a%20Node%20Sequence/images/ex1new3.png" style="width: 290px; height: 215px;" /></p>
+
+<pre>
+<b>输入：</b>scores = [5,2,9,8,4], edges = [[0,1],[1,2],[2,3],[0,2],[1,3],[2,4]]
+<b>输出：</b>24
+<b>解释：</b>上图为输入的图，节点序列为 [0,1,2,3] 。
+节点序列的分数为 5 + 2 + 9 + 8 = 24 。
+观察可知，没有其他节点序列得分和超过 24 。
+注意节点序列 [3,1,2,0] 和 [1,0,2,3] 也是合法的，且分数为 24 。
+序列 [0,3,2,4] 不是合法的，因为没有边连接节点 0 和 3 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2242.Maximum%20Score%20of%20a%20Node%20Sequence/images/ex2.png" style="width: 333px; height: 151px;" /></p>
+
+<pre>
+<b>输入：</b>scores = [9,20,6,4,11,12], edges = [[0,3],[5,3],[2,4],[1,3]]
+<b>输出：</b>-1
+<b>解释：</b>上图为输入的图。
+没有长度为 4 的合法序列，所以我们返回 -1 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == scores.length</code></li>
@@ -66,16 +75,18 @@ There are no valid node sequences of length 4, so we return -1.
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li>There are no duplicate edges.</li>
+	<li>不会有重边。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：枚举中间边
+
+枚举中间边 $(a, b)$，假设与 $a$ 相邻的点为 $c$，与 $b$ 相邻的点为 $d$。对于相邻点，取分数最大的三个点进行枚举。
 
 <!-- tabs:start -->
 

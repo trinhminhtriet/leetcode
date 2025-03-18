@@ -1,58 +1,60 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2348.Number%20of%20Zero-Filled%20Subarrays/README.md
 rating: 1315
-source: Biweekly Contest 83 Q2
+source: 第 83 场双周赛 Q2
 tags:
-  - Array
-  - Math
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2348. Number of Zero-Filled Subarrays](https://leetcode.com/problems/number-of-zero-filled-subarrays)
+# [2348. 全 0 子数组的数目](https://leetcode.cn/problems/number-of-zero-filled-subarrays)
 
-## Description
+[English Version](/solution/2300-2399/2348.Number%20of%20Zero-Filled%20Subarrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code>, return <em>the number of <strong>subarrays</strong> filled with </em><code>0</code>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;，返回全部为&nbsp;<code>0</code>&nbsp;的&nbsp;<strong>子数组</strong>&nbsp;数目。</p>
 
-<p>A <strong>subarray</strong> is a contiguous non-empty sequence of elements within an array.</p>
+<p><strong>子数组</strong>&nbsp;是一个数组中一段连续非空元素组成的序列。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,3,0,0,2,0,0,4]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> 
-There are 4 occurrences of [0] as a subarray.
-There are 2 occurrences of [0,0] as a subarray.
-There is no occurrence of a subarray with a size more than 2 filled with 0. Therefore, we return 6.</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><b>输入：</b>nums = [1,3,0,0,2,0,0,4]
+<b>输出：</b>6
+<b>解释：</b>
+子数组 [0] 出现了 4 次。
+子数组 [0,0] 出现了 2 次。
+不存在长度大于 2 的全 0 子数组，所以我们返回 6 。</pre>
 
-<pre>
-<strong>Input:</strong> nums = [0,0,0,2,0,0]
-<strong>Output:</strong> 9
-<strong>Explanation:
-</strong>There are 5 occurrences of [0] as a subarray.
-There are 3 occurrences of [0,0] as a subarray.
-There is 1 occurrence of [0,0,0] as a subarray.
-There is no occurrence of a subarray with a size more than 3 filled with 0. Therefore, we return 9.
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>nums = [0,0,0,2,0,0]
+<b>输出：</b>9
+<strong>解释：
+</strong>子数组 [0] 出现了 5 次。
+子数组 [0,0] 出现了 3 次。
+子数组 [0,0,0] 出现了 1 次。
+不存在长度大于 3 的全 0 子数组，所以我们返回 9 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [2,10,2019]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There is no subarray filled with 0. Therefore, we return 0.
+<pre><b>输入：</b>nums = [2,10,2019]
+<b>输出：</b>0
+<b>解释：</b>没有全 0 子数组，所以我们返回 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -61,11 +63,22 @@ There is no occurrence of a subarray with a size more than 3 filled with 0. Ther
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：遍历计数
+
+我们可以遍历数组 `nums`，用变量 $cnt$ 记录当前连续的 `0` 的个数，用变量 $ans$ 记录答案。当遍历到 `nums[i]` 时，如果 `nums[i]` 为 `0`，则 $cnt$ 自增 $1$，否则 $cnt$ 置 $0$。然后将 $cnt$ 累加到答案 $ans$ 中。
+
+最后，返回 $ans$ 即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 是数组 `nums` 的长度。
+
+相似题目：
+
+-   [413. 等差数列划分](https://github.com/doocs/leetcode/blob/main/solution/0400-0499/0413.Arithmetic%20Slices/README.md)
+-   [1513. 仅含 1 的子串数](https://github.com/doocs/leetcode/blob/main/solution/1500-1599/1513.Number%20of%20Substrings%20With%20Only%201s/README.md)
 
 <!-- tabs:start -->
 
@@ -135,13 +148,13 @@ func zeroFilledSubarray(nums []int) (ans int64) {
 
 ```ts
 function zeroFilledSubarray(nums: number[]): number {
-  let ans = 0;
-  let cnt = 0;
-  for (const v of nums) {
-    cnt = v ? 0 : cnt + 1;
-    ans += cnt;
-  }
-  return ans;
+    let ans = 0;
+    let cnt = 0;
+    for (const v of nums) {
+        cnt = v ? 0 : cnt + 1;
+        ans += cnt;
+    }
+    return ans;
 }
 ```
 

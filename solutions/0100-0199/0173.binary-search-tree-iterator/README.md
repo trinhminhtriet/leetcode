@@ -1,82 +1,96 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0173.Binary%20Search%20Tree%20Iterator/README.md
 tags:
-  - Stack
-  - Tree
-  - Design
-  - Binary Search Tree
-  - Binary Tree
-  - Iterator
+    - 栈
+    - 树
+    - 设计
+    - 二叉搜索树
+    - 二叉树
+    - 迭代器
 ---
 
 <!-- problem:start -->
 
-# [173. Binary Search Tree Iterator](https://leetcode.com/problems/binary-search-tree-iterator)
+# [173. 二叉搜索树迭代器](https://leetcode.cn/problems/binary-search-tree-iterator)
 
-## Description
+[English Version](/solution/0100-0199/0173.Binary%20Search%20Tree%20Iterator/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Implement the <code>BSTIterator</code> class that represents an iterator over the <strong><a href="https://en.wikipedia.org/wiki/Tree_traversal#In-order_(LNR)" target="_blank">in-order traversal</a></strong> of a binary search tree (BST):</p>
+实现一个二叉搜索树迭代器类<code>BSTIterator</code> ，表示一个按中序遍历二叉搜索树（BST）的迭代器：
 
+<div class="original__bRMd">
+<div>
 <ul>
-	<li><code>BSTIterator(TreeNode root)</code> Initializes an object of the <code>BSTIterator</code> class. The <code>root</code> of the BST is given as part of the constructor. The pointer should be initialized to a non-existent number smaller than any element in the BST.</li>
-	<li><code>boolean hasNext()</code> Returns <code>true</code> if there exists a number in the traversal to the right of the pointer, otherwise returns <code>false</code>.</li>
-	<li><code>int next()</code> Moves the pointer to the right, then returns the number at the pointer.</li>
+	<li><code>BSTIterator(TreeNode root)</code> 初始化 <code>BSTIterator</code> 类的一个对象。BST 的根节点 <code>root</code> 会作为构造函数的一部分给出。指针应初始化为一个不存在于 BST 中的数字，且该数字小于 BST 中的任何元素。</li>
+	<li><code>boolean hasNext()</code> 如果向指针右侧遍历存在数字，则返回 <code>true</code> ；否则返回 <code>false</code> 。</li>
+	<li><code>int next()</code>将指针向右移动，然后返回指针处的数字。</li>
 </ul>
 
-<p>Notice that by initializing the pointer to a non-existent smallest number, the first call to <code>next()</code> will return the smallest element in the BST.</p>
+<p>注意，指针初始化为一个不存在于 BST 中的数字，所以对 <code>next()</code> 的首次调用将返回 BST 中的最小元素。</p>
+</div>
+</div>
 
-<p>You may assume that <code>next()</code> calls will always be valid. That is, there will be at least a next number in the in-order traversal when <code>next()</code> is called.</p>
+<p>你可以假设 <code>next()</code> 调用总是有效的，也就是说，当调用 <code>next()</code> 时，BST 的中序遍历中至少存在一个下一个数字。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0173.Binary%20Search%20Tree%20Iterator/images/bst-tree.png" style="width: 189px; height: 178px;" />
 <pre>
-<strong>Input</strong>
-[&quot;BSTIterator&quot;, &quot;next&quot;, &quot;next&quot;, &quot;hasNext&quot;, &quot;next&quot;, &quot;hasNext&quot;, &quot;next&quot;, &quot;hasNext&quot;, &quot;next&quot;, &quot;hasNext&quot;]
+<strong>输入</strong>
+["BSTIterator", "next", "next", "hasNext", "next", "hasNext", "next", "hasNext", "next", "hasNext"]
 [[[7, 3, 15, null, null, 9, 20]], [], [], [], [], [], [], [], [], []]
-<strong>Output</strong>
+<strong>输出</strong>
 [null, 3, 7, true, 9, true, 15, true, 20, false]
 
-<strong>Explanation</strong>
+<strong>解释</strong>
 BSTIterator bSTIterator = new BSTIterator([7, 3, 15, null, null, 9, 20]);
-bSTIterator.next(); // return 3
-bSTIterator.next(); // return 7
-bSTIterator.hasNext(); // return True
-bSTIterator.next(); // return 9
-bSTIterator.hasNext(); // return True
-bSTIterator.next(); // return 15
-bSTIterator.hasNext(); // return True
-bSTIterator.next(); // return 20
-bSTIterator.hasNext(); // return False
+bSTIterator.next(); // 返回 3
+bSTIterator.next(); // 返回 7
+bSTIterator.hasNext(); // 返回 True
+bSTIterator.next(); // 返回 9
+bSTIterator.hasNext(); // 返回 True
+bSTIterator.next(); // 返回 15
+bSTIterator.hasNext(); // 返回 True
+bSTIterator.next(); // 返回 20
+bSTIterator.hasNext(); // 返回 False
 
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>5</sup>]</code>.</li>
-	<li><code>0 &lt;= Node.val &lt;= 10<sup>6</sup></code></li>
-	<li>At most <code>10<sup>5</sup></code> calls will be made to <code>hasNext</code>, and <code>next</code>.</li>
+	<li>树中节点的数目在范围 <code>[1, 10<sup>5</sup>]</code> 内</li>
+	<li><code>0 <= Node.val <= 10<sup>6</sup></code></li>
+	<li>最多调用 <code>10<sup>5</sup></code> 次 <code>hasNext</code> 和 <code>next</code> 操作</li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong>Follow up:</strong></p>
+<p> </p>
+
+<p><strong>进阶：</strong></p>
 
 <ul>
-	<li>Could you implement <code>next()</code> and <code>hasNext()</code> to run in average <code>O(1)</code> time and use&nbsp;<code>O(h)</code> memory, where <code>h</code> is the height of the tree?</li>
+	<li>你可以设计一个满足下述条件的解决方案吗？<code>next()</code> 和 <code>hasNext()</code> 操作均摊时间复杂度为 <code>O(1)</code> ，并使用 <code>O(h)</code> 内存。其中 <code>h</code> 是树的高度。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：递归
+
+初始化数据时，递归中序遍历，将二叉搜索树每个结点的值保存在列表 `vals` 中。用 `cur` 指针记录外部即将遍历的位置，初始化为 0。
+
+调用 `next()` 时，返回 `vals[cur]`，同时 `cur` 指针自增。调用 `hasNext()` 时，判断 `cur` 指针是否已经达到 `len(vals)` 个数，若是，说明已经遍历结束，返回 false，否则返回 true。
 
 <!-- tabs:start -->
 
@@ -279,31 +293,31 @@ func (this *BSTIterator) HasNext() bool {
  */
 
 class BSTIterator {
-  private data: number[];
-  private index: number;
+    private data: number[];
+    private index: number;
 
-  constructor(root: TreeNode | null) {
-    this.index = 0;
-    this.data = [];
-    const dfs = (root: TreeNode | null) => {
-      if (root == null) {
-        return;
-      }
-      const { val, left, right } = root;
-      dfs(left);
-      this.data.push(val);
-      dfs(right);
-    };
-    dfs(root);
-  }
+    constructor(root: TreeNode | null) {
+        this.index = 0;
+        this.data = [];
+        const dfs = (root: TreeNode | null) => {
+            if (root == null) {
+                return;
+            }
+            const { val, left, right } = root;
+            dfs(left);
+            this.data.push(val);
+            dfs(right);
+        };
+        dfs(root);
+    }
 
-  next(): number {
-    return this.data[this.index++];
-  }
+    next(): number {
+        return this.data[this.index++];
+    }
 
-  hasNext(): boolean {
-    return this.index < this.data.length;
-  }
+    hasNext(): boolean {
+        return this.index < this.data.length;
+    }
 }
 
 /**
@@ -388,29 +402,29 @@ impl BSTIterator {
  * @param {TreeNode} root
  */
 var BSTIterator = function (root) {
-  this.stack = [];
-  for (; root != null; root = root.left) {
-    this.stack.push(root);
-  }
+    this.stack = [];
+    for (; root != null; root = root.left) {
+        this.stack.push(root);
+    }
 };
 
 /**
  * @return {number}
  */
 BSTIterator.prototype.next = function () {
-  let cur = this.stack.pop();
-  let node = cur.right;
-  for (; node != null; node = node.left) {
-    this.stack.push(node);
-  }
-  return cur.val;
+    let cur = this.stack.pop();
+    let node = cur.right;
+    for (; node != null; node = node.left) {
+        this.stack.push(node);
+    }
+    return cur.val;
 };
 
 /**
  * @return {boolean}
  */
 BSTIterator.prototype.hasNext = function () {
-  return this.stack.length > 0;
+    return this.stack.length > 0;
 };
 
 /**
@@ -427,7 +441,11 @@ BSTIterator.prototype.hasNext = function () {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：栈迭代
+
+初始化时，从根节点一路遍历所有左子节点，压入栈 `stack` 中。
+
+调用 `next()`时，弹出栈顶元素 `cur`，获取 `cur` 的右子节点 `node`，若 `node` 不为空，一直循环压入左节点。最后返回 `cur.val` 即可。调用 `hasNext()` 时，判断 `stack` 是否为空，空则表示迭代结束。
 
 <!-- tabs:start -->
 
@@ -577,35 +595,35 @@ public:
  */
 
 class BSTIterator {
-  private stack: TreeNode[];
+    private stack: TreeNode[];
 
-  constructor(root: TreeNode | null) {
-    this.stack = [];
-    const dfs = (root: TreeNode | null) => {
-      if (root == null) {
-        return;
-      }
-      this.stack.push(root);
-      dfs(root.left);
-    };
-    dfs(root);
-  }
-
-  next(): number {
-    const { val, right } = this.stack.pop();
-    if (right) {
-      let cur = right;
-      while (cur != null) {
-        this.stack.push(cur);
-        cur = cur.left;
-      }
+    constructor(root: TreeNode | null) {
+        this.stack = [];
+        const dfs = (root: TreeNode | null) => {
+            if (root == null) {
+                return;
+            }
+            this.stack.push(root);
+            dfs(root.left);
+        };
+        dfs(root);
     }
-    return val;
-  }
 
-  hasNext(): boolean {
-    return this.stack.length !== 0;
-  }
+    next(): number {
+        const { val, right } = this.stack.pop();
+        if (right) {
+            let cur = right;
+            while (cur != null) {
+                this.stack.push(cur);
+                cur = cur.left;
+            }
+        }
+        return val;
+    }
+
+    hasNext(): boolean {
+        return this.stack.length !== 0;
+    }
 }
 
 /**

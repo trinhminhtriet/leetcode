@@ -1,92 +1,92 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2157.Groups%20of%20Strings/README.md
 rating: 2499
-source: Weekly Contest 278 Q4
+source: 第 278 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Union Find
-  - String
+    - 位运算
+    - 并查集
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2157. Groups of Strings](https://leetcode.com/problems/groups-of-strings)
+# [2157. 字符串分组](https://leetcode.cn/problems/groups-of-strings)
 
-## Description
+[English Version](/solution/2100-2199/2157.Groups%20of%20Strings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array of strings <code>words</code>. Each string consists of <strong>lowercase English letters</strong> only. No letter occurs more than once in any string of <code>words</code>.</p>
+<p>给你一个下标从&nbsp;<strong>0&nbsp;</strong>开始的字符串数组&nbsp;<code>words</code>&nbsp;。每个字符串都只包含 <strong>小写英文字母</strong>&nbsp;。<code>words</code>&nbsp;中任意一个子串中，每个字母都至多只出现一次。</p>
 
-<p>Two strings <code>s1</code> and <code>s2</code> are said to be <strong>connected</strong> if the set of letters of <code>s2</code> can be obtained from the set of letters of <code>s1</code> by any <strong>one</strong> of the following operations:</p>
+<p>如果通过以下操作之一，我们可以从 <code>s1</code>&nbsp;的字母集合得到 <code>s2</code>&nbsp;的字母集合，那么我们称这两个字符串为 <strong>关联的</strong>&nbsp;：</p>
 
 <ul>
-	<li>Adding exactly one letter to the set of the letters of <code>s1</code>.</li>
-	<li>Deleting exactly one letter from the set of the letters of <code>s1</code>.</li>
-	<li>Replacing exactly one letter from the set of the letters of <code>s1</code> with any letter, <strong>including</strong> itself.</li>
+	<li>往&nbsp;<code>s1</code>&nbsp;的字母集合中添加一个字母。</li>
+	<li>从&nbsp;<code>s1</code>&nbsp;的字母集合中删去一个字母。</li>
+	<li>将 <code>s1</code>&nbsp;中的一个字母替换成另外任意一个字母（也可以替换为这个字母本身）。</li>
 </ul>
 
-<p>The array <code>words</code> can be divided into one or more non-intersecting <strong>groups</strong>. A string belongs to a group if any <strong>one</strong> of the following is true:</p>
+<p>数组&nbsp;<code>words</code>&nbsp;可以分为一个或者多个无交集的 <strong>组</strong>&nbsp;。如果一个字符串与另一个字符串关联，那么它们应当属于同一个组。</p>
+
+<p>注意，你需要确保分好组后，一个组内的任一字符串与其他组的字符串都不关联。可以证明在这个条件下，分组方案是唯一的。</p>
+
+<p>请你返回一个长度为 <code>2</code>&nbsp;的数组&nbsp;<code>ans</code>&nbsp;：</p>
 
 <ul>
-	<li>It is connected to <strong>at least one</strong> other string of the group.</li>
-	<li>It is the <strong>only</strong> string present in the group.</li>
-</ul>
-
-<p>Note that the strings in <code>words</code> should be grouped in such a manner that a string belonging to a group cannot be connected to a string present in any other group. It can be proved that such an arrangement is always unique.</p>
-
-<p>Return <em>an array</em> <code>ans</code> <em>of size</em> <code>2</code> <em>where:</em></p>
-
-<ul>
-	<li><code>ans[0]</code> <em>is the <strong>maximum number</strong> of groups</em> <code>words</code> <em>can be divided into, and</em></li>
-	<li><code>ans[1]</code> <em>is the <strong>size of the largest</strong> group</em>.</li>
+	<li><code>ans[0]</code>&nbsp;是&nbsp;<code>words</code>&nbsp;分组后的&nbsp;<strong>总组数</strong>&nbsp;。</li>
+	<li><code>ans[1]</code>&nbsp;是字符串数目最多的组所包含的字符串数目。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> words = [&quot;a&quot;,&quot;b&quot;,&quot;ab&quot;,&quot;cde&quot;]
-<strong>Output:</strong> [2,3]
-<strong>Explanation:</strong>
-- words[0] can be used to obtain words[1] (by replacing &#39;a&#39; with &#39;b&#39;), and words[2] (by adding &#39;b&#39;). So words[0] is connected to words[1] and words[2].
-- words[1] can be used to obtain words[0] (by replacing &#39;b&#39; with &#39;a&#39;), and words[2] (by adding &#39;a&#39;). So words[1] is connected to words[0] and words[2].
-- words[2] can be used to obtain words[0] (by deleting &#39;b&#39;), and words[1] (by deleting &#39;a&#39;). So words[2] is connected to words[0] and words[1].
-- words[3] is not connected to any string in words.
-Thus, words can be divided into 2 groups [&quot;a&quot;,&quot;b&quot;,&quot;ab&quot;] and [&quot;cde&quot;]. The size of the largest group is 3.  
+<b>输入：</b>words = ["a","b","ab","cde"]
+<b>输出：</b>[2,3]
+<b>解释：</b>
+- words[0] 可以得到 words[1] （将 'a' 替换为 'b'）和 words[2] （添加 'b'）。所以 words[0] 与 words[1] 和 words[2] 关联。
+- words[1] 可以得到 words[0] （将 'b' 替换为 'a'）和 words[2] （添加 'a'）。所以 words[1] 与 words[0] 和 words[2] 关联。
+- words[2] 可以得到 words[0] （删去 'b'）和 words[1] （删去 'a'）。所以 words[2] 与 words[0] 和 words[1] 关联。
+- words[3] 与 words 中其他字符串都不关联。
+所以，words 可以分成 2 个组 ["a","b","ab"] 和 ["cde"] 。最大的组大小为 3 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> words = [&quot;a&quot;,&quot;ab&quot;,&quot;abc&quot;]
-<strong>Output:</strong> [1,3]
-<strong>Explanation:</strong>
-- words[0] is connected to words[1].
-- words[1] is connected to words[0] and words[2].
-- words[2] is connected to words[1].
-Since all strings are connected to each other, they should be grouped together.
-Thus, the size of the largest group is 3.
+<b>输入：</b>words = ["a","ab","abc"]
+<b>输出：</b>[1,3]
+<strong>解释：</strong>
+- words[0] 与 words[1] 关联。
+- words[1] 与 words[0] 和 words[2] 关联。
+- words[2] 与 words[1] 关联。
+由于所有字符串与其他字符串都关联，所以它们全部在同一个组内。
+所以最大的组大小为 3 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 2 * 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 26</code></li>
-	<li><code>words[i]</code> consists of lowercase English letters only.</li>
-	<li>No letter occurs more than once in <code>words[i]</code>.</li>
+	<li><code>words[i]</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>words[i]</code> 中每个字母最多只出现一次。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：状态压缩（位运算） + 并查集
 
 <!-- tabs:start -->
 

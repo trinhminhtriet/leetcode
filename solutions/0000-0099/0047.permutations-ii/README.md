@@ -1,41 +1,47 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0047.Permutations%20II/README.md
 tags:
-  - Array
-  - Backtracking
+    - 数组
+    - 回溯
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [47. Permutations II](https://leetcode.com/problems/permutations-ii)
+# [47. 全排列 II](https://leetcode.cn/problems/permutations-ii)
 
-## Description
+[English Version](/solution/0000-0099/0047.Permutations%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a collection of numbers, <code>nums</code>,&nbsp;that might contain duplicates, return <em>all possible unique permutations <strong>in any order</strong>.</em></p>
+<p>给定一个可包含重复数字的序列 <code>nums</code> ，<em><strong>按任意顺序</strong></em> 返回所有不重复的全排列。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,1,2]
-<strong>Output:</strong>
+<strong>输入：</strong>nums = [1,1,2]
+<strong>输出：</strong>
 [[1,1,2],
  [1,2,1],
  [2,1,1]]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,3]
-<strong>Output:</strong> [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+<strong>输入：</strong>nums = [1,2,3]
+<strong>输出：</strong>[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 8</code></li>
@@ -44,26 +50,26 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting + Backtracking
+### 方法一：排序 + 回溯
 
-We can first sort the array, which allows us to place duplicate numbers together, making it easier for us to remove duplicates.
+我们可以先对数组进行排序，这样就可以将重复的数字放在一起，方便我们进行去重。
 
-Next, we design a function $dfs(i)$, indicating that we need to fill in the number at the $i$th position. The specific implementation of the function is as follows:
+然后，我们设计一个函数 $\textit{dfs}(i)$，表示当前需要填写第 $i$ 个位置的数。函数的具体实现如下：
 
-- If $i = n$, it means we have finished filling in, add the current permutation to the answer array, and then return.
-- Otherwise, we enumerate the number $nums[j]$ at the $i$th position, where the range of $j$ is $[0, n - 1]$. We need to ensure that $nums[j]$ has not been used and is different from the number enumerated before, so as to ensure that the current permutation is not repeated. If the conditions are met, we can fill in $nums[j]$, and continue to recursively fill in the next position, that is, call $dfs(i + 1)$. After the recursive call ends, we need to mark $nums[j]$ as unused for later enumeration.
+-   如果 $i = n$，说明我们已经填写完毕，将当前排列加入答案数组中，然后返回。
+-   否则，我们枚举第 $i$ 个位置的数 $nums[j]$，其中 $j$ 的范围是 $[0, n - 1]$。我们需要保证 $nums[j]$ 没有被使用过，并且与前面枚举的数不同，这样才能保证当前排列不重复。如果满足条件，我们就可以填写 $nums[j]$，并继续递归地填写下一个位置，即调用 $\textit{dfs}(i + 1)$。在递归调用结束后，我们需要将 $nums[j]$ 标记为未使用，以便于进行后面的枚举。
 
-In the main function, we first sort the array, then call $dfs(0)$, that is, start filling from the 0th position, and finally return the answer array.
+在主函数中，我们首先对数组进行排序，然后调用 $\textit{dfs}(0)$，即从第 0 个位置开始填写，最终返回答案数组即可。
 
-The time complexity is $O(n \times n!)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array. We need to enumerate $n!$ times, and each enumeration takes $O(n)$ time to judge whether it is repeated. In addition, we need a marker array to mark whether each position has been used, so the space complexity is $O(n)$.
+时间复杂度 $O(n \times n!)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。需要进行 $n!$ 次枚举，每次枚举需要 $O(n)$ 的时间来判断是否重复。另外，我们需要一个标记数组来标记每个位置是否被使用过，因此空间复杂度为 $O(n)$。
 
-Similar problems:
+相似题目：
 
-- [46. Permutations](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0046.Permutations/README_EN.md)
+-   [46. 全排列](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0046.Permutations/README.md)
 
 <!-- tabs:start -->
 
@@ -135,12 +141,12 @@ class Solution {
 class Solution {
 public:
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
+        ranges::sort(nums);
         int n = nums.size();
         vector<vector<int>> ans;
         vector<int> t(n);
         vector<bool> vis(n);
-        function<void(int)> dfs = [&](int i) {
+        auto dfs = [&](this auto&& dfs, int i) {
             if (i == n) {
                 ans.emplace_back(t);
                 return;
@@ -165,7 +171,7 @@ public:
 
 ```go
 func permuteUnique(nums []int) (ans [][]int) {
-	sort.Ints(nums)
+	slices.Sort(nums)
 	n := len(nums)
 	t := make([]int, n)
 	vis := make([]bool, n)
@@ -194,60 +200,101 @@ func permuteUnique(nums []int) (ans [][]int) {
 
 ```ts
 function permuteUnique(nums: number[]): number[][] {
-  nums.sort((a, b) => a - b);
-  const n = nums.length;
-  const ans: number[][] = [];
-  const t: number[] = new Array(n);
-  const vis: boolean[] = new Array(n);
-  const dfs = (i: number) => {
-    if (i === n) {
-      ans.push(t.slice());
-      return;
-    }
-    for (let j = 0; j < n; ++j) {
-      if (vis[j] || (j > 0 && nums[j] === nums[j - 1] && !vis[j - 1])) {
-        continue;
-      }
-      t[i] = nums[j];
-      vis[j] = true;
-      dfs(i + 1);
-      vis[j] = false;
-    }
-  };
-  dfs(0);
-  return ans;
+    nums.sort((a, b) => a - b);
+    const n = nums.length;
+    const ans: number[][] = [];
+    const t: number[] = Array(n);
+    const vis: boolean[] = Array(n).fill(false);
+    const dfs = (i: number) => {
+        if (i === n) {
+            ans.push(t.slice());
+            return;
+        }
+        for (let j = 0; j < n; ++j) {
+            if (vis[j] || (j > 0 && nums[j] === nums[j - 1] && !vis[j - 1])) {
+                continue;
+            }
+            t[i] = nums[j];
+            vis[j] = true;
+            dfs(i + 1);
+            vis[j] = false;
+        }
+    };
+    dfs(0);
+    return ans;
 }
 ```
 
 #### Rust
 
 ```rust
-use std::collections::HashSet;
 impl Solution {
-    fn dfs(i: usize, nums: &mut Vec<i32>, res: &mut Vec<Vec<i32>>) {
-        let n = nums.len();
-        if i == n {
-            res.push(nums.clone());
-            return;
-        }
-        let mut set = HashSet::new();
-        for j in i..n {
-            if set.contains(&nums[j]) {
-                continue;
-            }
-            set.insert(nums[j]);
-            nums.swap(i, j);
-            Self::dfs(i + 1, nums, res);
-            nums.swap(i, j);
-        }
-    }
-
     pub fn permute_unique(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
-        let mut res = vec![];
-        Self::dfs(0, &mut nums, &mut res);
-        res
+        nums.sort();
+        let n = nums.len();
+        let mut ans = Vec::new();
+        let mut t = vec![0; n];
+        let mut vis = vec![false; n];
+
+        fn dfs(
+            nums: &Vec<i32>,
+            t: &mut Vec<i32>,
+            vis: &mut Vec<bool>,
+            ans: &mut Vec<Vec<i32>>,
+            i: usize,
+        ) {
+            if i == nums.len() {
+                ans.push(t.clone());
+                return;
+            }
+            for j in 0..nums.len() {
+                if vis[j] || (j > 0 && nums[j] == nums[j - 1] && !vis[j - 1]) {
+                    continue;
+                }
+                t[i] = nums[j];
+                vis[j] = true;
+                dfs(nums, t, vis, ans, i + 1);
+                vis[j] = false;
+            }
+        }
+
+        dfs(&nums, &mut t, &mut vis, &mut ans, 0);
+        ans
     }
 }
+```
+
+#### JavaScript
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permuteUnique = function (nums) {
+    nums.sort((a, b) => a - b);
+    const n = nums.length;
+    const ans = [];
+    const t = Array(n);
+    const vis = Array(n).fill(false);
+    const dfs = i => {
+        if (i === n) {
+            ans.push(t.slice());
+            return;
+        }
+        for (let j = 0; j < n; ++j) {
+            if (vis[j] || (j > 0 && nums[j] === nums[j - 1] && !vis[j - 1])) {
+                continue;
+            }
+            t[i] = nums[j];
+            vis[j] = true;
+            dfs(i + 1);
+            vis[j] = false;
+        }
+    };
+    dfs(0);
+    return ans;
+};
 ```
 
 #### C#

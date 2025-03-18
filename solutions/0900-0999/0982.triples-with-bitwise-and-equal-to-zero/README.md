@@ -1,38 +1,41 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0982.Triples%20with%20Bitwise%20AND%20Equal%20To%20Zero/README.md
 tags:
-  - Bit Manipulation
-  - Array
-  - Hash Table
+    - 位运算
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [982. Triples with Bitwise AND Equal To Zero](https://leetcode.com/problems/triples-with-bitwise-and-equal-to-zero)
+# [982. 按位与为零的三元组](https://leetcode.cn/problems/triples-with-bitwise-and-equal-to-zero)
 
-## Description
+[English Version](/solution/0900-0999/0982.Triples%20with%20Bitwise%20AND%20Equal%20To%20Zero/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array nums, return <em>the number of <strong>AND triples</strong></em>.</p>
+<p>给你一个整数数组 <code>nums</code> ，返回其中 <strong>按位与三元组</strong> 的数目。</p>
 
-<p>An <strong>AND triple</strong> is a triple of indices <code>(i, j, k)</code> such that:</p>
+<p><strong>按位与三元组</strong> 是由下标 <code>(i, j, k)</code> 组成的三元组，并满足下述全部条件：</p>
 
 <ul>
 	<li><code>0 &lt;= i &lt; nums.length</code></li>
 	<li><code>0 &lt;= j &lt; nums.length</code></li>
 	<li><code>0 &lt;= k &lt; nums.length</code></li>
-	<li><code>nums[i] &amp; nums[j] &amp; nums[k] == 0</code>, where <code>&amp;</code> represents the bitwise-AND operator.</li>
+	<li><code>nums[i] &amp; nums[j] &amp; nums[k] == 0</code> ，其中 <code>&amp;</code> 表示按位与运算符。</li>
 </ul>
+&nbsp;
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,1,3]
-<strong>Output:</strong> 12
-<strong>Explanation:</strong> We could choose the following i, j, k triples:
+<strong>输入：</strong>nums = [2,1,3]
+<strong>输出：</strong>12
+<strong>解释：</strong>可以选出如下 i, j, k 三元组：
 (i=0, j=0, k=1) : 2 &amp; 2 &amp; 1
 (i=0, j=1, k=0) : 2 &amp; 1 &amp; 2
 (i=0, j=1, k=1) : 2 &amp; 1 &amp; 1
@@ -47,15 +50,16 @@ tags:
 (i=2, j=1, k=0) : 3 &amp; 1 &amp; 2
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [0,0,0]
-<strong>Output:</strong> 27
+<strong>输入：</strong>nums = [0,0,0]
+<strong>输出：</strong>27
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -64,19 +68,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration + Counting
+### 方法一：枚举 + 计数
 
-First, we enumerate any two numbers $x$ and $y$, and use a hash table or array $cnt$ to count the occurrences of their bitwise AND result $x \& y$.
+我们可以先枚举任意两个数 $x$ 和 $y$，用哈希表或数组 $cnt$ 统计它们的按位与结果 $x \& y$ 出现的次数。
 
-Then, we enumerate the bitwise AND result $xy$, and enumerate $z$. If $xy \& z = 0$, then we add the value of $cnt[xy]$ to the answer.
+然后我们枚举 $x$ 和 $y$ 的按位与结果 $xy$，再枚举 $z$，如果 $xy \& z = 0$，则将 $cnt[xy]$ 的值加入答案。
 
-Finally, we return the answer.
+最后返回答案即可。
 
-The time complexity is $O(n^2 + n \times M)$, and the space complexity is $O(M)$, where $n$ is the length of the array $nums$; and $M$ is the maximum value in the array $nums$, with $M \leq 2^{16}$ in this problem.
+时间复杂度 $O(n^2 + n \times M)$，空间复杂度 $O(M)$，其中 $n$ 是数组 $nums$ 的长度；而 $M$ 是数组 $nums$ 中的最大值，本题中 $M \leq 2^{16}$。
 
 <!-- tabs:start -->
 
@@ -123,7 +127,7 @@ class Solution {
 class Solution {
 public:
     int countTriplets(vector<int>& nums) {
-        int mx = *max_element(nums.begin(), nums.end());
+        int mx = ranges::max(nums);
         int cnt[mx + 1];
         memset(cnt, 0, sizeof cnt);
         for (int& x : nums) {
@@ -170,22 +174,22 @@ func countTriplets(nums []int) (ans int) {
 
 ```ts
 function countTriplets(nums: number[]): number {
-  const mx = Math.max(...nums);
-  const cnt: number[] = Array(mx + 1).fill(0);
-  for (const x of nums) {
-    for (const y of nums) {
-      cnt[x & y]++;
+    const mx = Math.max(...nums);
+    const cnt: number[] = Array(mx + 1).fill(0);
+    for (const x of nums) {
+        for (const y of nums) {
+            cnt[x & y]++;
+        }
     }
-  }
-  let ans = 0;
-  for (let xy = 0; xy <= mx; ++xy) {
-    for (const z of nums) {
-      if ((xy & z) === 0) {
-        ans += cnt[xy];
-      }
+    let ans = 0;
+    for (let xy = 0; xy <= mx; ++xy) {
+        for (const z of nums) {
+            if ((xy & z) === 0) {
+                ans += cnt[xy];
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

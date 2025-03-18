@@ -1,57 +1,65 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1465.Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts/README.md
 rating: 1444
-source: Weekly Contest 191 Q2
+source: 第 191 场周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts](https://leetcode.com/problems/maximum-area-of-a-piece-of-cake-after-horizontal-and-vertical-cuts)
+# [1465. 切割后面积最大的蛋糕](https://leetcode.cn/problems/maximum-area-of-a-piece-of-cake-after-horizontal-and-vertical-cuts)
 
-## Description
+[English Version](/solution/1400-1499/1465.Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a rectangular cake of size <code>h x w</code> and two arrays of integers <code>horizontalCuts</code> and <code>verticalCuts</code> where:</p>
+<p>矩形蛋糕的高度为 <code>h</code> 且宽度为 <code>w</code>，给你两个整数数组 <code>horizontalCuts</code> 和 <code>verticalCuts</code>，其中：</p>
 
 <ul>
-	<li><code>horizontalCuts[i]</code> is the distance from the top of the rectangular cake to the <code>i<sup>th</sup></code> horizontal cut and similarly, and</li>
-	<li><code>verticalCuts[j]</code> is the distance from the left of the rectangular cake to the <code>j<sup>th</sup></code> vertical cut.</li>
+	<li>&nbsp;<code>horizontalCuts[i]</code> 是从矩形蛋糕顶部到第&nbsp; <code>i</code> 个水平切口的距离</li>
+	<li><code>verticalCuts[j]</code> 是从矩形蛋糕的左侧到第 <code>j</code> 个竖直切口的距离</li>
 </ul>
 
-<p>Return <em>the maximum area of a piece of cake after you cut at each horizontal and vertical position provided in the arrays</em> <code>horizontalCuts</code> <em>and</em> <code>verticalCuts</code>. Since the answer can be a large number, return this <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>请你按数组 <em><code>horizontalCuts</code> </em>和<em> <code>verticalCuts</code> </em>中提供的水平和竖直位置切割后，请你找出 <strong>面积最大</strong> 的那份蛋糕，并返回其 <strong>面积</strong> 。由于答案可能是一个很大的数字，因此需要将结果&nbsp;<strong>对</strong>&nbsp;<code>10<sup>9</sup>&nbsp;+ 7</code>&nbsp;<strong>取余</strong> 后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1465.Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts/images/leetcode_max_area_2.png" style="width: 225px; height: 240px;" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1465.Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts/images/leetcode_max_area_2.png" /></p>
+
 <pre>
-<strong>Input:</strong> h = 5, w = 4, horizontalCuts = [1,2,4], verticalCuts = [1,3]
-<strong>Output:</strong> 4 
-<strong>Explanation:</strong> The figure above represents the given rectangular cake. Red lines are the horizontal and vertical cuts. After you cut the cake, the green piece of cake has the maximum area.
+<strong>输入：</strong>h = 5, w = 4, horizontalCuts = [1,2,4], verticalCuts = [1,3]
+<strong>输出：</strong>4 
+<strong>解释：</strong>上图所示的矩阵蛋糕中，红色线表示水平和竖直方向上的切口。切割蛋糕后，绿色的那份蛋糕面积最大。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1465.Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts/images/leetcode_max_area_3.png" style="width: 225px; height: 240px;" />
-<pre>
-<strong>Input:</strong> h = 5, w = 4, horizontalCuts = [3,1], verticalCuts = [1]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The figure above represents the given rectangular cake. Red lines are the horizontal and vertical cuts. After you cut the cake, the green and yellow pieces of cake have the maximum area.
-</pre>
+<p><strong>示例 2：</strong></p>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1465.Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts/images/leetcode_max_area_3.png" /></strong></p>
 
 <pre>
-<strong>Input:</strong> h = 5, w = 4, horizontalCuts = [3], verticalCuts = [3]
-<strong>Output:</strong> 9
+<strong>输入：</strong>h = 5, w = 4, horizontalCuts = [3,1], verticalCuts = [1]
+<strong>输出：</strong>6
+<strong>解释：</strong>上图所示的矩阵蛋糕中，红色线表示水平和竖直方向上的切口。切割蛋糕后，绿色和黄色的两份蛋糕面积最大。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>h = 5, w = 4, horizontalCuts = [3], verticalCuts = [3]
+<strong>输出：</strong>9
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= h, w &lt;= 10<sup>9</sup></code></li>
@@ -59,23 +67,23 @@ tags:
 	<li><code>1 &lt;= verticalCuts.length &lt;= min(w - 1, 10<sup>5</sup>)</code></li>
 	<li><code>1 &lt;= horizontalCuts[i] &lt; h</code></li>
 	<li><code>1 &lt;= verticalCuts[i] &lt; w</code></li>
-	<li>All the elements in <code>horizontalCuts</code> are distinct.</li>
-	<li>All the elements in <code>verticalCuts</code> are distinct.</li>
+	<li>题目数据保证 <code>horizontalCuts</code> 中的所有元素各不相同</li>
+	<li>题目数据保证 <code>verticalCuts</code>&nbsp;中的所有元素各不相同</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-We first sort `horizontalCuts` and `verticalCuts` separately, and then traverse both arrays to calculate the maximum difference between adjacent elements. We denote these maximum differences as $x$ and $y$, respectively. Finally, we return $x \times y$.
+我们先分别对 `horizontalCuts` 和 `verticalCuts` 排序，然后分别遍历两个数组，计算相邻两个元素的最大差值，分别记为 $x$ 和 $y$，最后返回 $x \times y$ 即可。
 
-Note that we need to consider the boundary cases, i.e., the first and last elements of `horizontalCuts` and `verticalCuts`.
+注意要考虑边界情况，即 `horizontalCuts` 和 `verticalCuts` 的首尾元素。
 
-The time complexity is $O(m\log m + n\log n)$, where $m$ and $n$ are the lengths of `horizontalCuts` and `verticalCuts`, respectively. The space complexity is $O(\log m + \log n)$.
+时间复杂度 $O(m\log m + n\log n)$，空间复杂度 $(\log m + \log n)$。其中 $m$ 和 $n$ 分别为 `horizontalCuts` 和 `verticalCuts` 的长度。
 
 <!-- tabs:start -->
 
@@ -166,25 +174,20 @@ func maxArea(h int, w int, horizontalCuts []int, verticalCuts []int) int {
 #### TypeScript
 
 ```ts
-function maxArea(
-  h: number,
-  w: number,
-  horizontalCuts: number[],
-  verticalCuts: number[]
-): number {
-  const mod = 1e9 + 7;
-  horizontalCuts.push(0, h);
-  verticalCuts.push(0, w);
-  horizontalCuts.sort((a, b) => a - b);
-  verticalCuts.sort((a, b) => a - b);
-  let [x, y] = [0, 0];
-  for (let i = 1; i < horizontalCuts.length; i++) {
-    x = Math.max(x, horizontalCuts[i] - horizontalCuts[i - 1]);
-  }
-  for (let i = 1; i < verticalCuts.length; i++) {
-    y = Math.max(y, verticalCuts[i] - verticalCuts[i - 1]);
-  }
-  return Number((BigInt(x) * BigInt(y)) % BigInt(mod));
+function maxArea(h: number, w: number, horizontalCuts: number[], verticalCuts: number[]): number {
+    const mod = 1e9 + 7;
+    horizontalCuts.push(0, h);
+    verticalCuts.push(0, w);
+    horizontalCuts.sort((a, b) => a - b);
+    verticalCuts.sort((a, b) => a - b);
+    let [x, y] = [0, 0];
+    for (let i = 1; i < horizontalCuts.length; i++) {
+        x = Math.max(x, horizontalCuts[i] - horizontalCuts[i - 1]);
+    }
+    for (let i = 1; i < verticalCuts.length; i++) {
+        y = Math.max(y, verticalCuts[i] - verticalCuts[i - 1]);
+    }
+    return Number((BigInt(x) * BigInt(y)) % BigInt(mod));
 }
 ```
 

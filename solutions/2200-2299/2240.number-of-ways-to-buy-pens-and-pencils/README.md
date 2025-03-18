@@ -1,48 +1,51 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2240.Number%20of%20Ways%20to%20Buy%20Pens%20and%20Pencils/README.md
 rating: 1399
-source: Biweekly Contest 76 Q2
+source: 第 76 场双周赛 Q2
 tags:
-  - Math
-  - Enumeration
+    - 数学
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2240. Number of Ways to Buy Pens and Pencils](https://leetcode.com/problems/number-of-ways-to-buy-pens-and-pencils)
+# [2240. 买钢笔和铅笔的方案数](https://leetcode.cn/problems/number-of-ways-to-buy-pens-and-pencils)
 
-## Description
+[English Version](/solution/2200-2299/2240.Number%20of%20Ways%20to%20Buy%20Pens%20and%20Pencils/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer <code>total</code> indicating the amount of money you have. You are also given two integers <code>cost1</code> and <code>cost2</code> indicating the price of a pen and pencil respectively. You can spend <strong>part or all</strong> of your money to buy multiple quantities (or none) of each kind of writing utensil.</p>
+<p>给你一个整数&nbsp;<code>total</code>&nbsp;，表示你拥有的总钱数。同时给你两个整数&nbsp;<code>cost1</code> 和&nbsp;<code>cost2</code>&nbsp;，分别表示一支钢笔和一支铅笔的价格。你可以花费你部分或者全部的钱，去买任意数目的两种笔。</p>
 
-<p>Return <em>the <strong>number of distinct ways</strong> you can buy some number of pens and pencils.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> total = 20, cost1 = 10, cost2 = 5
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> The price of a pen is 10 and the price of a pencil is 5.
-- If you buy 0 pens, you can buy 0, 1, 2, 3, or 4 pencils.
-- If you buy 1 pen, you can buy 0, 1, or 2 pencils.
-- If you buy 2 pens, you cannot buy any pencils.
-The total number of ways to buy pens and pencils is 5 + 3 + 1 = 9.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> total = 5, cost1 = 10, cost2 = 10
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The price of both pens and pencils are 10, which cost more than total, so you cannot buy any writing utensils. Therefore, there is only 1 way: buy 0 pens and 0 pencils.
-</pre>
+<p>请你返回购买钢笔和铅笔的&nbsp;<strong>不同方案数目</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>total = 20, cost1 = 10, cost2 = 5
+<b>输出：</b>9
+<b>解释：</b>一支钢笔的价格为 10 ，一支铅笔的价格为 5 。
+- 如果你买 0 支钢笔，那么你可以买 0 ，1 ，2 ，3 或者 4 支铅笔。
+- 如果你买 1 支钢笔，那么你可以买 0 ，1 或者 2 支铅笔。
+- 如果你买 2 支钢笔，那么你没法买任何铅笔。
+所以买钢笔和铅笔的总方案数为 5 + 3 + 1 = 9 种。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>total = 5, cost1 = 10, cost2 = 10
+<b>输出：</b>1
+<b>解释：</b>钢笔和铅笔的价格都为 10 ，都比拥有的钱数多，所以你没法购买任何文具。所以只有 1 种方案：买 0 支钢笔和 0 支铅笔。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= total, cost1, cost2 &lt;= 10<sup>6</sup></code></li>
@@ -50,15 +53,15 @@ The total number of ways to buy pens and pencils is 5 + 3 + 1 = 9.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We can enumerate the number of pens to buy, denoted as $x$. For each $x$, the maximum number of pencils we can buy is $\frac{\textit{total} - x \times \textit{cost1}}{\textit{cost2}}$. The number of ways for each $x$ is this value plus 1. We sum up the number of ways for all $x$ to get the answer.
+我们可以枚举购买钢笔的数量 $x$，对于每个 $x$，我们最多可以购买铅笔的数量为 $\frac{\textit{total} - x \times \textit{cost1}}{\textit{cost2}}$，那么数量加 $1$ 即为 $x$ 的方案数。我们累加所有的 $x$ 的方案数，即为答案。
 
-The time complexity is $O(\frac{\textit{total}}{\textit{cost1}})$, and the space complexity is $O(1)$.
+时间复杂度 $O(\frac{total}{cost1})$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -120,17 +123,13 @@ func waysToBuyPensPencils(total int, cost1 int, cost2 int) (ans int64) {
 #### TypeScript
 
 ```ts
-function waysToBuyPensPencils(
-  total: number,
-  cost1: number,
-  cost2: number
-): number {
-  let ans = 0;
-  for (let x = 0; x <= Math.floor(total / cost1); ++x) {
-    const y = Math.floor((total - x * cost1) / cost2) + 1;
-    ans += y;
-  }
-  return ans;
+function waysToBuyPensPencils(total: number, cost1: number, cost2: number): number {
+    let ans = 0;
+    for (let x = 0; x <= Math.floor(total / cost1); ++x) {
+        const y = Math.floor((total - x * cost1) / cost2) + 1;
+        ans += y;
+    }
+    return ans;
 }
 ```
 

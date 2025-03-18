@@ -1,82 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1419.Minimum%20Number%20of%20Frogs%20Croaking/README.md
 rating: 1689
-source: Weekly Contest 185 Q3
+source: 第 185 场周赛 Q3
 tags:
-  - String
-  - Counting
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1419. Minimum Number of Frogs Croaking](https://leetcode.com/problems/minimum-number-of-frogs-croaking)
+# [1419. 数青蛙](https://leetcode.cn/problems/minimum-number-of-frogs-croaking)
 
-## Description
+[English Version](/solution/1400-1499/1419.Minimum%20Number%20of%20Frogs%20Croaking/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the string <code>croakOfFrogs</code>, which represents a combination of the string <code>&quot;croak&quot;</code> from different frogs, that is, multiple frogs can croak at the same time, so multiple <code>&quot;croak&quot;</code> are mixed.</p>
+<p>给你一个字符串 <code>croakOfFrogs</code>，它表示不同青蛙发出的蛙鸣声（字符串 <code>"croak"</code> ）的组合。由于同一时间可以有多只青蛙呱呱作响，所以&nbsp;<code>croakOfFrogs</code> 中会混合多个 <code>“croak”</code> <em>。</em></p>
 
-<p><em>Return the minimum number of </em>different<em> frogs to finish all the croaks in the given string.</em></p>
+<p>请你返回模拟字符串中所有蛙鸣所需不同青蛙的最少数目。</p>
 
-<p>A valid <code>&quot;croak&quot;</code> means a frog is printing five letters <code>&#39;c&#39;</code>, <code>&#39;r&#39;</code>, <code>&#39;o&#39;</code>, <code>&#39;a&#39;</code>, and <code>&#39;k&#39;</code> <strong>sequentially</strong>. The frogs have to print all five letters to finish a croak. If the given string is not a combination of a valid <code>&quot;croak&quot;</code> return <code>-1</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> croakOfFrogs = &quot;croakcroak&quot;
-<strong>Output:</strong> 1 
-<strong>Explanation:</strong> One frog yelling &quot;croak<strong>&quot;</strong> twice.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> croakOfFrogs = &quot;crcoakroak&quot;
-<strong>Output:</strong> 2 
-<strong>Explanation:</strong> The minimum number of frogs is two. 
-The first frog could yell &quot;<strong>cr</strong>c<strong>oak</strong>roak&quot;.
-The second frog could yell later &quot;cr<strong>c</strong>oak<strong>roak</strong>&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> croakOfFrogs = &quot;croakcrook&quot;
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> The given string is an invalid combination of &quot;croak<strong>&quot;</strong> from different frogs.
-</pre>
+<p>要想发出蛙鸣 "croak"，青蛙必须 <strong>依序</strong> 输出 <code>‘c’, ’r’, ’o’, ’a’, ’k’</code> 这 5 个字母。如果没有输出全部五个字母，那么它就不会发出声音。如果字符串 <code>croakOfFrogs</code> 不是由若干有效的 "croak" 字符混合而成，请返回 <code>-1</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>croakOfFrogs = "croakcroak"
+<strong>输出：</strong>1 
+<strong>解释：</strong>一只青蛙 “呱呱” 两次
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>croakOfFrogs = "crcoakroak"
+<strong>输出：</strong>2 
+<strong>解释：</strong>最少需要两只青蛙，“呱呱” 声用黑体标注
+第一只青蛙 "<strong>cr</strong>c<strong>oak</strong>roak"
+第二只青蛙 "cr<strong>c</strong>oak<strong>roak</strong>"
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>croakOfFrogs = "croakcrook"
+<strong>输出：</strong>-1
+<strong>解释：</strong>给出的字符串不是 "croak<strong>"</strong> 的有效组合。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= croakOfFrogs.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>croakOfFrogs</code> is either <code>&#39;c&#39;</code>, <code>&#39;r&#39;</code>, <code>&#39;o&#39;</code>, <code>&#39;a&#39;</code>, or <code>&#39;k&#39;</code>.</li>
+	<li>字符串中的字符只有 <code>'c'</code>, <code>'r'</code>, <code>'o'</code>, <code>'a'</code> 或者 <code>'k'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting + Simulation
+### 方法一：计数 + 模拟
 
-We note that if the string `croakOfFrogs` is composed of several valid `"croak"` characters mixed together, its length must be a multiple of $5$. Therefore, if the length of the string is not a multiple of $5$, we can directly return $-1$.
+我们注意到，如果字符串 `croakOfFrogs` 是由若干有效的 `"croak"` 字符混合而成，那么它的长度一定是 $5$ 的倍数。因此，如果字符串的长度不是 $5$ 的倍数，可以直接返回 $-1$。
 
-Next, we map the letters `'c'`, `'r'`, `'o'`, `'a'`, `'k'` to indices $0$ to $4$, respectively, and use an array $cnt$ of length $5$ to record the number of occurrences of each letter in the string `croakOfFrogs`, where $cnt[i]$ represents the number of occurrences of the letter at index $i$. Additionally, we define an integer variable $x$ to represent the number of frogs that have not completed their croak, and the minimum number of frogs needed $ans$ is the maximum value of $x$.
+接下来，我们将 `'c'`, `'r'`, `'o'`, `'a'`, `'k'` 这 $5$ 个字母分别对应下标 $0$ 到 $4$，用一个长度为 $5$ 的数组 $cnt$ 记录字符串 `croakOfFrogs` 中每个字母出现的次数，其中 $cnt[i]$ 表示当前下标为 $i$ 的字母出现的次数。另外，我们定义一个整数变量 $x$ 表示当前未完成蛙鸣的青蛙的数目，需要的青蛙的最少数目 $ans$ 即为 $x$ 的最大值。
 
-We traverse each letter $c$ in the string `croakOfFrogs`, find the index $i$ corresponding to $c$, and then increment $cnt[i]$ by $1$. Next, depending on the value of $i$, we perform the following operations:
+我们遍历字符串 `croakOfFrogs` 中的每个字母 $c$，找到 $c$ 对应的下标 $i$，然后将 $cnt[i]$ 加 $1$。接下来，根据 $i$ 值的不同，我们分别进行如下操作：
 
-- If $i=0$, then a new frog starts croaking, so we increment $x$ by $1$, and then update $ans = \max(ans, x)$;
-- Otherwise, if $cnt[i-1]=0$, it means that there is no frog that can make the sound $c$, and the croak cannot be completed, so we return $-1$. Otherwise, we decrement $cnt[i-1]$ by $1$. If $i=4$, it means that a frog has completed a croak, so we decrement $x$ by $1$.
+-   如果 $i=0$，那么当前有一个新的青蛙开始蛙鸣，因此令 $x$ 的值加 $1$，然后我们更新 $ans = \max(ans, x)$；
+-   否则，如果 $cnt[i-1]=0$，那么表示当前没有青蛙可以发出字母 $c$，无法完成蛙鸣，返回 $-1$，否则我们令 $cnt[i-1]$ 减 $1$。如果 $i=4$，那么表示青蛙已经完成了一个蛙鸣，因此令 $x$ 的值减 $1$。
 
-After traversing, if $x=0$, it means that all frogs have completed their croaks, and we return $ans$. Otherwise, we return $-1$.
+遍历结束后，如果 $x=0$，那么说明青蛙已经完成了所有的蛙鸣，返回 $ans$，否则返回 $-1$。
 
-The time complexity is $O(n)$, and the space complexity is $O(C)$. Where $n$ is the length of the string `croakOfFrogs`, and $C$ is the size of the character set, in this problem $C=26$.
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 是字符串 `croakOfFrogs` 的长度；而 $C$ 是字符集的大小，本题中 $C=26$。
 
 <!-- tabs:start -->
 
@@ -216,29 +221,29 @@ func minNumberOfFrogs(croakOfFrogs string) int {
 
 ```ts
 function minNumberOfFrogs(croakOfFrogs: string): number {
-  const n = croakOfFrogs.length;
-  if (n % 5 !== 0) {
-    return -1;
-  }
-  const idx = (c: string): number => "croak".indexOf(c);
-  const cnt: number[] = [0, 0, 0, 0, 0];
-  let ans = 0;
-  let x = 0;
-  for (const c of croakOfFrogs) {
-    const i = idx(c);
-    ++cnt[i];
-    if (i === 0) {
-      ans = Math.max(ans, ++x);
-    } else {
-      if (--cnt[i - 1] < 0) {
+    const n = croakOfFrogs.length;
+    if (n % 5 !== 0) {
         return -1;
-      }
-      if (i === 4) {
-        --x;
-      }
     }
-  }
-  return x > 0 ? -1 : ans;
+    const idx = (c: string): number => 'croak'.indexOf(c);
+    const cnt: number[] = [0, 0, 0, 0, 0];
+    let ans = 0;
+    let x = 0;
+    for (const c of croakOfFrogs) {
+        const i = idx(c);
+        ++cnt[i];
+        if (i === 0) {
+            ans = Math.max(ans, ++x);
+        } else {
+            if (--cnt[i - 1] < 0) {
+                return -1;
+            }
+            if (i === 4) {
+                --x;
+            }
+        }
+    }
+    return x > 0 ? -1 : ans;
 }
 ```
 

@@ -1,55 +1,63 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1025.Divisor%20Game/README.md
 rating: 1435
-source: Weekly Contest 132 Q1
+source: 第 132 场周赛 Q1
 tags:
-  - Brainteaser
-  - Math
-  - Dynamic Programming
-  - Game Theory
+    - 脑筋急转弯
+    - 数学
+    - 动态规划
+    - 博弈
 ---
 
 <!-- problem:start -->
 
-# [1025. Divisor Game](https://leetcode.com/problems/divisor-game)
+# [1025. 除数博弈](https://leetcode.cn/problems/divisor-game)
 
-## Description
+[English Version](/solution/1000-1099/1025.Divisor%20Game/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Alice and Bob take turns playing a game, with Alice starting first.</p>
+<p>爱丽丝和鲍勃一起玩游戏，他们轮流行动。爱丽丝先手开局。</p>
 
-<p>Initially, there is a number <code>n</code> on the chalkboard. On each player&#39;s turn, that player makes a move consisting of:</p>
+<p>最初，黑板上有一个数字&nbsp;<code>n</code>&nbsp;。在每个玩家的回合，玩家需要执行以下操作：</p>
 
 <ul>
-	<li>Choosing any <code>x</code> with <code>0 &lt; x &lt; n</code> and <code>n % x == 0</code>.</li>
-	<li>Replacing the number <code>n</code> on the chalkboard with <code>n - x</code>.</li>
+	<li>选出任一&nbsp;<code>x</code>，满足&nbsp;<code>0 &lt; x &lt; n</code>&nbsp;且&nbsp;<code>n % x == 0</code>&nbsp;。</li>
+	<li>用 <code>n - x</code>&nbsp;替换黑板上的数字&nbsp;<code>n</code> 。</li>
 </ul>
 
-<p>Also, if a player cannot make a move, they lose the game.</p>
+<p>如果玩家无法执行这些操作，就会输掉游戏。</p>
 
-<p>Return <code>true</code> <em>if and only if Alice wins the game, assuming both players play optimally</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 2
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Alice chooses 1, and Bob has no more moves.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 3
-<strong>Output:</strong> false
-<strong>Explanation:</strong> Alice chooses 1, Bob chooses 1, and Alice has no more moves.
-</pre>
+<p><em>只有在爱丽丝在游戏中取得胜利时才返回&nbsp;<code>true</code>&nbsp;。假设两个玩家都以最佳状态参与游戏。</em></p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<ol>
+</ol>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 2
+<strong>输出：</strong>true
+<strong>解释：</strong>爱丽丝选择 1，鲍勃无法进行操作。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 3
+<strong>输出：</strong>false
+<strong>解释：</strong>爱丽丝选择 1，鲍勃也选择 1，然后爱丽丝无法进行操作。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -57,30 +65,30 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Mathematical Induction
+### 方法一：数学归纳法
 
-- When $n=1$, the first player loses.
-- When $n=2$, the first player takes $1$, leaving $1$, the second player loses, the first player wins.
-- When $n=3$, the first player takes $1$, leaving $2$, the second player wins, the first player loses.
-- When $n=4$, the first player takes $1$, leaving $3$, the second player loses, the first player wins.
-- ...
+-   当 $n=1$，先手败
+-   当 $n=2$，先手拿 $1$，剩下 $1$，后手败，先手胜
+-   当 $n=3$，先手拿 $1$，剩下 $2$，后手胜，先手败
+-   当 $n=4$，先手拿 $1$，剩下 $3$，后手败，先手胜
+-   ...
 
-We conjecture that when $n$ is odd, the first player loses; when $n$ is even, the first player wins.
+猜想，当 $n$ 为奇数时，先手败；当 $n$ 为偶数时，先手胜。
 
-Proof:
+证明：
 
-1. If $n=1$ or $n=2$, the conclusion holds.
-1. If $n \gt 2$, assume that the conclusion holds when $n \le k$, then when $n=k+1$:
-   - If $k+1$ is odd, since $x$ is a divisor of $k+1$, then $x$ can only be odd, so $k+1-x$ is even, the second player wins, the first player loses.
-   - If $k+1$ is even, now $x$ can be either odd $1$ or even. If $x$ is odd, then $k+1-x$ is odd, the second player loses, the first player wins.
+1. 若 $n=1$ 或 $n=2$，结论成立；
+1. 若 $n \gt 2$，假设 $n \le k$ 时，该结论成立，则 $n=k+1$ 时：
+    - 若 $k+1$ 为奇数，由于 $x$ 是 $k+1$ 的因数，那么 $x$ 只可能是奇数，因此 $k+1-x$ 为偶数，后手胜，先手败；
+    - 若 $k+1$ 为偶数，此时 $x$ 既可以是奇数 $1$，也可以是偶数，若 $x$ 取奇数，那么 $k+1-x$ 为奇数，后手败，先手胜。
 
-In conclusion, when $n$ is odd, the first player loses; when $n$ is even, the first player wins. The conclusion is correct.
+综上，当 $n$ 为奇数时，先手败；当 $n$ 为偶数时，先手胜。结论正确。
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -125,7 +133,7 @@ func divisorGame(n int) bool {
 
 ```js
 var divisorGame = function (n) {
-  return n % 2 === 0;
+    return n % 2 === 0;
 };
 ```
 

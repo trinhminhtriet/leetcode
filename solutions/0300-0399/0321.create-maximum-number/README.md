@@ -1,52 +1,57 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0321.Create%20Maximum%20Number/README.md
 tags:
-  - Stack
-  - Greedy
-  - Array
-  - Two Pointers
-  - Monotonic Stack
+    - 栈
+    - 贪心
+    - 数组
+    - 双指针
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [321. Create Maximum Number](https://leetcode.com/problems/create-maximum-number)
+# [321. 拼接最大数](https://leetcode.cn/problems/create-maximum-number)
 
-## Description
+[English Version](/solution/0300-0399/0321.Create%20Maximum%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two integer arrays <code>nums1</code> and <code>nums2</code> of lengths <code>m</code> and <code>n</code> respectively. <code>nums1</code> and <code>nums2</code> represent the digits of two numbers. You are also given an integer <code>k</code>.</p>
+<p>给你两个整数数组 <code>nums1</code> 和 <code>nums2</code>，它们的长度分别为 <code>m</code> 和 <code>n</code>。数组 <code>nums1</code> 和 <code>nums2</code> 分别代表两个数各位上的数字。同时你也会得到一个整数 <code>k</code>。</p>
 
-<p>Create the maximum number of length <code>k &lt;= m + n</code> from digits of the two numbers. The relative order of the digits from the same array must be preserved.</p>
+<p>请你利用这两个数组中的数字创建一个长度为 <code>k &lt;= m + n</code> 的最大数。同一数组中数字的相对顺序必须保持不变。</p>
 
-<p>Return an array of the <code>k</code> digits representing the answer.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [3,4,6,5], nums2 = [9,1,2,5,8,3], k = 5
-<strong>Output:</strong> [9,8,6,5,3]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [6,7], nums2 = [6,0,4], k = 5
-<strong>Output:</strong> [6,7,6,0,4]
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [3,9], nums2 = [8,9], k = 3
-<strong>Output:</strong> [9,8,9]
-</pre>
+<p>返回代表答案的长度为 <code>k</code> 的数组。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [3,4,6,5], nums2 = [9,1,2,5,8,3], k = 5
+<strong>输出：</strong>[9,8,6,5,3]
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [6,7], nums2 = [6,0,4], k = 5
+<strong>输出：</strong>[6,7,6,0,4]
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [3,9], nums2 = [8,9], k = 3
+<strong>输出：</strong>[9,8,9]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == nums1.length</code></li>
@@ -54,15 +59,24 @@ tags:
 	<li><code>1 &lt;= m, n &lt;= 500</code></li>
 	<li><code>0 &lt;= nums1[i], nums2[i] &lt;= 9</code></li>
 	<li><code>1 &lt;= k &lt;= m + n</code></li>
+	<li><code>nums1</code>&nbsp;和&nbsp;<code>nums2</code> 没有前导 0。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：枚举 + 单调栈
+
+我们可以枚举从数组 $nums1$ 中取出 $x$ 个数，那么从数组 $nums2$ 中就需要取出 $k-x$ 个数。其中 $x \in [max(0, k-n), min(k, m)]$。
+
+对于每一个 $x$，我们可以使用单调栈求出数组 $nums1$ 中长度为 $x$ 的最大子序列，以及数组 $nums2$ 中长度为 $k-x$ 的最大子序列。然后将这两个子序列合并得到长度为 $k$ 的最大子序列。
+
+最后，我们比较所有的长度为 $k$ 的最大子序列，找出最大的序列即可。
+
+时间复杂度 $O(k \times (m + n + k^2))$，空间复杂度 $O(k)$。其中 $m$ 和 $n$ 分别是数组 $nums1$ 和 $nums2$ 的长度。
 
 <!-- tabs:start -->
 
@@ -339,76 +353,71 @@ func maxNumber(nums1 []int, nums2 []int, k int) []int {
 
 ```ts
 function maxNumber(nums1: number[], nums2: number[], k: number): number[] {
-  const m = nums1.length;
-  const n = nums2.length;
-  const l = Math.max(0, k - n);
-  const r = Math.min(k, m);
-  let ans: number[] = Array(k).fill(0);
-  for (let x = l; x <= r; ++x) {
-    const arr1 = f(nums1, x);
-    const arr2 = f(nums2, k - x);
-    const arr = merge(arr1, arr2);
-    if (compare(arr, ans, 0, 0)) {
-      ans = arr;
+    const m = nums1.length;
+    const n = nums2.length;
+    const l = Math.max(0, k - n);
+    const r = Math.min(k, m);
+    let ans: number[] = Array(k).fill(0);
+    for (let x = l; x <= r; ++x) {
+        const arr1 = f(nums1, x);
+        const arr2 = f(nums2, k - x);
+        const arr = merge(arr1, arr2);
+        if (compare(arr, ans, 0, 0)) {
+            ans = arr;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 
 function f(nums: number[], k: number): number[] {
-  const n = nums.length;
-  const stk: number[] = Array(k).fill(0);
-  let top = -1;
-  let remain = n - k;
-  for (const x of nums) {
-    while (top >= 0 && stk[top] < x && remain > 0) {
-      --top;
-      --remain;
+    const n = nums.length;
+    const stk: number[] = Array(k).fill(0);
+    let top = -1;
+    let remain = n - k;
+    for (const x of nums) {
+        while (top >= 0 && stk[top] < x && remain > 0) {
+            --top;
+            --remain;
+        }
+        if (top + 1 < k) {
+            stk[++top] = x;
+        } else {
+            --remain;
+        }
     }
-    if (top + 1 < k) {
-      stk[++top] = x;
-    } else {
-      --remain;
-    }
-  }
-  return stk;
+    return stk;
 }
 
-function compare(
-  nums1: number[],
-  nums2: number[],
-  i: number,
-  j: number
-): boolean {
-  if (i >= nums1.length) {
-    return false;
-  }
-  if (j >= nums2.length) {
-    return true;
-  }
-  if (nums1[i] > nums2[j]) {
-    return true;
-  }
-  if (nums1[i] < nums2[j]) {
-    return false;
-  }
-  return compare(nums1, nums2, i + 1, j + 1);
+function compare(nums1: number[], nums2: number[], i: number, j: number): boolean {
+    if (i >= nums1.length) {
+        return false;
+    }
+    if (j >= nums2.length) {
+        return true;
+    }
+    if (nums1[i] > nums2[j]) {
+        return true;
+    }
+    if (nums1[i] < nums2[j]) {
+        return false;
+    }
+    return compare(nums1, nums2, i + 1, j + 1);
 }
 
 function merge(nums1: number[], nums2: number[]): number[] {
-  const m = nums1.length;
-  const n = nums2.length;
-  const ans: number[] = Array(m + n).fill(0);
-  let i = 0;
-  let j = 0;
-  for (let k = 0; k < m + n; ++k) {
-    if (compare(nums1, nums2, i, j)) {
-      ans[k] = nums1[i++];
-    } else {
-      ans[k] = nums2[j++];
+    const m = nums1.length;
+    const n = nums2.length;
+    const ans: number[] = Array(m + n).fill(0);
+    let i = 0;
+    let j = 0;
+    for (let k = 0; k < m + n; ++k) {
+        if (compare(nums1, nums2, i, j)) {
+            ans[k] = nums1[i++];
+        } else {
+            ans[k] = nums2[j++];
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

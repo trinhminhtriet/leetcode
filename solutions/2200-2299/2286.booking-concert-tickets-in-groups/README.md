@@ -1,119 +1,124 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2286.Booking%20Concert%20Tickets%20in%20Groups/README.md
 rating: 2470
-source: Biweekly Contest 79 Q4
+source: 第 79 场双周赛 Q4
 tags:
-  - Design
-  - Binary Indexed Tree
-  - Segment Tree
-  - Binary Search
+    - 设计
+    - 树状数组
+    - 线段树
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [2286. Booking Concert Tickets in Groups](https://leetcode.com/problems/booking-concert-tickets-in-groups)
+# [2286. 以组为单位订音乐会的门票](https://leetcode.cn/problems/booking-concert-tickets-in-groups)
 
-## Description
+[English Version](/solution/2200-2299/2286.Booking%20Concert%20Tickets%20in%20Groups/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A concert hall has <code>n</code> rows numbered from <code>0</code> to <code>n - 1</code>, each with <code>m</code> seats, numbered from <code>0</code> to <code>m - 1</code>. You need to design a ticketing system that can allocate seats in the following cases:</p>
+<p>一个音乐会总共有&nbsp;<code>n</code>&nbsp;排座位，编号从&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;，每一排有&nbsp;<code>m</code>&nbsp;个座椅，编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>m - 1</code>&nbsp;。你需要设计一个买票系统，针对以下情况进行座位安排：</p>
 
 <ul>
-	<li>If a group of <code>k</code> spectators can sit <strong>together</strong> in a row.</li>
-	<li>If <strong>every</strong> member of a group of <code>k</code> spectators can get a seat. They may or <strong>may not</strong> sit together.</li>
+	<li>同一组的 <code>k</code>&nbsp;位观众坐在<strong> 同一排座位，且座位连续 </strong>。</li>
+	<li><code>k</code>&nbsp;位观众中 <strong>每一位</strong>&nbsp;都有座位坐，但他们 <strong>不一定</strong>&nbsp;坐在一起。</li>
 </ul>
 
-<p>Note that the spectators are very picky. Hence:</p>
+<p>由于观众非常挑剔，所以：</p>
 
 <ul>
-	<li>They will book seats only if each member of their group can get a seat with row number <strong>less than or equal</strong> to <code>maxRow</code>. <code>maxRow</code> can <strong>vary</strong> from group to group.</li>
-	<li>In case there are multiple rows to choose from, the row with the <strong>smallest</strong> number is chosen. If there are multiple seats to choose in the same row, the seat with the <strong>smallest</strong> number is chosen.</li>
+	<li>只有当一个组里所有成员座位的排数都 <strong>小于等于</strong>&nbsp;<code>maxRow</code>&nbsp;，这个组才能订座位。每一组的&nbsp;<code>maxRow</code>&nbsp;可能 <strong>不同</strong>&nbsp;。</li>
+	<li>如果有多排座位可以选择，优先选择 <strong>最小</strong>&nbsp;的排数。如果同一排中有多个座位可以坐，优先选择号码 <strong>最小</strong>&nbsp;的。</li>
 </ul>
 
-<p>Implement the <code>BookMyShow</code> class:</p>
+<p>请你实现&nbsp;<code>BookMyShow</code>&nbsp;类：</p>
 
 <ul>
-	<li><code>BookMyShow(int n, int m)</code> Initializes the object with <code>n</code> as number of rows and <code>m</code> as number of seats per row.</li>
-	<li><code>int[] gather(int k, int maxRow)</code> Returns an array of length <code>2</code> denoting the row and seat number (respectively) of the <strong>first seat</strong> being allocated to the <code>k</code> members of the group, who must sit <strong>together</strong>. In other words, it returns the smallest possible <code>r</code> and <code>c</code> such that all <code>[c, c + k - 1]</code> seats are valid and empty in row <code>r</code>, and <code>r &lt;= maxRow</code>. Returns <code>[]</code> in case it is <strong>not possible</strong> to allocate seats to the group.</li>
-	<li><code>boolean scatter(int k, int maxRow)</code> Returns <code>true</code> if all <code>k</code> members of the group can be allocated seats in rows <code>0</code> to <code>maxRow</code>, who may or <strong>may not</strong> sit together. If the seats can be allocated, it allocates <code>k</code> seats to the group with the <strong>smallest</strong> row numbers, and the smallest possible seat numbers in each row. Otherwise, returns <code>false</code>.</li>
+	<li><code>BookMyShow(int n, int m)</code>&nbsp;，初始化对象，<code>n</code>&nbsp;是排数，<code>m</code>&nbsp;是每一排的座位数。</li>
+	<li><code>int[] gather(int k, int maxRow)</code>&nbsp;返回长度为 <code>2</code>&nbsp;的数组，表示 <code>k</code>&nbsp;个成员中 <strong>第一个座位</strong>&nbsp;的排数和座位编号，这 <code>k</code>&nbsp;位成员必须坐在 <strong>同一排座位，且座位连续 </strong>。换言之，返回最小可能的&nbsp;<code>r</code> 和&nbsp;<code>c</code>&nbsp;满足第&nbsp;<code>r</code>&nbsp;排中&nbsp;<code>[c, c + k - 1]</code>&nbsp;的座位都是空的，且&nbsp;<code>r &lt;= maxRow</code>&nbsp;。如果&nbsp;<strong>无法</strong>&nbsp;安排座位，返回&nbsp;<code>[]</code>&nbsp;。</li>
+	<li><code>boolean scatter(int k, int maxRow)</code>&nbsp;如果组里所有&nbsp;<code>k</code>&nbsp;个成员&nbsp;<strong>不一定</strong>&nbsp;要坐在一起的前提下，都能在第&nbsp;<code>0</code> 排到第&nbsp;<code>maxRow</code>&nbsp;排之间找到座位，那么请返回&nbsp;<code>true</code>&nbsp;。这种情况下，每个成员都优先找排数&nbsp;<strong>最小</strong>&nbsp;，然后是座位编号最小的座位。如果不能安排所有&nbsp;<code>k</code>&nbsp;个成员的座位，请返回&nbsp;<code>false</code>&nbsp;。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;BookMyShow&quot;, &quot;gather&quot;, &quot;gather&quot;, &quot;scatter&quot;, &quot;scatter&quot;]
+<strong>输入：</strong>
+["BookMyShow", "gather", "gather", "scatter", "scatter"]
 [[2, 5], [4, 0], [2, 0], [5, 1], [5, 1]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null, [0, 0], [], true, false]
 
-<strong>Explanation</strong>
-BookMyShow bms = new BookMyShow(2, 5); // There are 2 rows with 5 seats each 
-bms.gather(4, 0); // return [0, 0]
-                  // The group books seats [0, 3] of row 0. 
-bms.gather(2, 0); // return []
-                  // There is only 1 seat left in row 0,
-                  // so it is not possible to book 2 consecutive seats. 
-bms.scatter(5, 1); // return True
-                   // The group books seat 4 of row 0 and seats [0, 3] of row 1. 
-bms.scatter(5, 1); // return False
-                   // There is only one seat left in the hall.
+<strong>解释：</strong>
+BookMyShow bms = new BookMyShow(2, 5); // 总共有 2 排，每排 5 个座位。
+bms.gather(4, 0); // 返回 [0, 0]
+                  // 这一组安排第 0 排 [0, 3] 的座位。
+bms.gather(2, 0); // 返回 []
+                  // 第 0 排只剩下 1 个座位。
+                  // 所以无法安排 2 个连续座位。
+bms.scatter(5, 1); // 返回 True
+                   // 这一组安排第 0 排第 4 个座位和第 1 排 [0, 3] 的座位。
+bms.scatter(5, 1); // 返回 False
+                   // 总共只剩下 1 个座位。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= m, k &lt;= 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= maxRow &lt;= n - 1</code></li>
-	<li>At most <code>5 * 10<sup>4</sup></code> calls <strong>in total</strong> will be made to <code>gather</code> and <code>scatter</code>.</li>
+	<li><code>gather</code> 和&nbsp;<code>scatter</code>&nbsp;<strong>总</strong> 调用次数不超过&nbsp;<code>5 * 10<sup>4</sup></code> 次。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Segment Tree
+### 方法一：线段树
 
-From the problem description, we can deduce the following:
+分析题意我们得知：
 
-- For the `gather(k, maxRow)` operation, the goal is to seat $k$ people on the same row with consecutive seats. In other words, we need to find the smallest row where the remaining seats are greater than or equal to $k$.
-- For the `scatter(k, maxRow)` operation, we just need to find $k$ seats in total, but we want to minimize the row number. Therefore, we need to find the first row that has more than $0$ seats remaining, allocate seats there, and continue searching for the rest.
+-   对于 `gather(k, maxRow)` 操作，要求 $k$ 个人坐在同一行并且座位连续，也就是说，我们要找到最小的行，满足该行的剩余座位大于等于 $k$。
+-   对于 `scatter(k, maxRow)` 操作，只需要找到 $k$ 个座位就行，但是要求这 $k$ 个座位的行数尽可能小，因此，我们要找到第一个满足剩余座位数大于 $0$ 的行，进行座位分配，然后继续往后查找。
 
-We can implement this using a segment tree. Each segment tree node contains the following information:
+我们可以用线段树来实现。线段树每个节点的信息有：
 
-- `l`: The left endpoint of the node's interval
-- `r`: The right endpoint of the node's interval
-- `s`: The total remaining seats in the interval corresponding to the node
-- `mx`: The maximum remaining seats in the interval corresponding to the node
+-   `l`：节点对应的区间左端点
+-   `r`：节点对应的区间右端点
+-   `s`：节点对应的区间总的剩余座位数
+-   `mx`：节点对应的区间最大剩余座位数
 
-Note that the index range for the segment tree starts from $1$.
+注意，线段树节点区间的下标从 $1$ 开始。
 
-The operations of the segment tree are as follows:
+线段树的操作有：
 
-- `build(u, l, r)`: Builds node $u$, corresponding to the interval $[l, r]$, and recursively builds its left and right children.
-- `modify(u, x, v)`: Starting from node $u$, finds the first node corresponding to the interval $[l, r]$ where $l = r = x$, and modifies the `s` and `mx` values of this node to $v$, then updates the tree upwards.
-- `query_sum(u, l, r)`: Starting from node $u$, calculates the sum of `s` values in the interval $[l, r]$.
-- `query_idx(u, l, r, k)`: Starting from node $u$, finds the first node in the interval $[l, r]$ where `mx` is greater than or equal to $k$, and returns the left endpoint `l` of this node. When searching, we start from the largest interval $[1, maxRow]$. Since we need to find the leftmost node with `mx` greater than or equal to $k$, we check whether the `mx` of the first half of the interval meets the condition. If so, the answer is in the first half, and we recursively search that half. Otherwise, the answer is in the second half, and we search that half recursively.
-- `pushup(u)`: Updates the information of node $u$ using the information from its children.
+-   `build(u, l, r)`：建立节点 $u$，对应区间 $[l, r]$，并递归建立其左右子节点。
+-   `modify(u, x, v)`：从节点 $u$ 开始，找到对应区间 $[l, r]$ 中的第一个满足 $l = r = x$ 的节点，将该节点的 `s` 和 `mx` 修改为 $v$，并向上更新。
+-   `query_sum(u, l, r)`：从节点 $u$ 开始，统计对应区间 $[l, r]$ 中的 `s` 之和。
+-   `query_idx(u, l, r, k)`：从节点 $u$ 开始，找到对应区间 $[l, r]$ 中的第一个满足 `mx` 大于等于 $k$ 的节点，返回该节点的 `l`。查找时，我们从最大的区间 $[1, maxRow]$ 开始，由于我们要找最左边的满足 `mx` 大于等于 $k$ 的节点。因此，对于当前区间，我们判断前半部分区间的 `mx` 是否符合要求，是则说明答案就在前半部分区间，递归查找即可。否则说明答案在后半部分区间，递归查找后半部分区间。
+-   `pushup(u)`：利用 $u$ 的子节点信息更新当前 $u$ 的信息。
 
-For the `gather(k, maxRow)` operation, we first use `query_idx(1, 1, n, k)` to find the first row where the remaining seats are greater than or equal to $k$, denoted as $i$. Then, we use `query_sum(1, i, i)` to get the remaining seats in this row, denoted as $s$. Next, we use `modify(1, i, s - k)` to modify the remaining seats of this row to $s - k$, and update the tree upwards. Finally, we return the result $[i - 1, m - s]$.
+对于 `gather(k, maxRow)` 操作，我们先用 `query_idx(1, 1, n, k)` 找到第一个满足剩余座位数大于等于 $k$ 的行，记为 $i$。然后我们用 `query_sum(1, i, i)` 得到该行的剩余座位数，记为 $s$。接下来，我们用 `modify(1, i, s - k)` 将该行的剩余座位数修改为 $s - k$，并向上更新。最后，我们返回 $[i - 1, m - s]$ 即可。
 
-For the `scatter(k, maxRow)` operation, we first use `query_sum(1, 1, maxRow)` to calculate the total remaining seats in the first $maxRow$ rows, denoted as $s$. If $s \lt k$, there are not enough seats, so we return `false`. Otherwise, we use `query_idx(1, 1, maxRow, 1)` to find the first row where the remaining seats are greater than or equal to $1$, denoted as $i$. Starting from this row, we use `query_sum(1, i, i)` to get the remaining seats in row $i$, denoted as $s_i$. If $s_i \geq k$, we directly use `modify(1, i, s_i - k)` to modify the remaining seats of this row to $s_i - k$, update the tree upwards, and return `true`. Otherwise, we update $k = k - s_i$, modify the remaining seats of this row to $0$, and update the tree upwards. Finally, we return `true`.
+对于 `scatter(k, maxRow)` 操作，我们先用 `query_sum(1, 1, maxRow)` 统计前 $maxRow$ 行的剩余座位数，记为 $s$。如果 $s \lt k$，说明没有足够的座位，返回 `false`；否则，我们用 `query_idx(1, 1, maxRow, 1)` 找到第一个满足剩余座位数大于等于 $1$ 的行，记为 $i$。从该行开始，每次用 `query_sum(1, i, i)` 得到该行的剩余座位数，记为 $s_i$。如果 $s_i \geq k$，我们直接用 `modify(1, i, s_i - k)` 将该行的剩余座位数修改为 $s_i - k$，并向上更新，然后返回 `true`。否则，我们更新 $k = k - s_i$，然后将该行的剩余座位数修改为 $0$，并向上更新。最后，我们返回 `true`。
 
-Time complexity:
+时间复杂度：
 
-- The initialization time complexity is $O(n)$.
-- The time complexity of `gather(k, maxRow)` is $O(\log n)$.
-- The time complexity of `scatter(k, maxRow)` is $O((n + q) \times \log n)$.
+-   初始化的时间复杂度为 $O(n)$。
+-   `gather(k, maxRow)` 的时间复杂度为 $O(\log n)$。
+-   `scatter(k, maxRow)` 的时间复杂度为 $O((n + q) \times \log n)$。
 
-The overall time complexity is $O(n + q \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of rows, and $q$ is the number of operations.
+整体时间复杂度为 $O(n + q \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 和 $q$ 分别为行数和操作数。
 
 <!-- tabs:start -->
 
@@ -630,135 +635,135 @@ func (t *segmentTree) pushup(u int) {
 
 ```ts
 class Node {
-  l: number;
-  r: number;
-  mx: number;
-  s: number;
+    l: number;
+    r: number;
+    mx: number;
+    s: number;
 
-  constructor() {
-    this.l = 0;
-    this.r = 0;
-    this.mx = 0;
-    this.s = 0;
-  }
+    constructor() {
+        this.l = 0;
+        this.r = 0;
+        this.mx = 0;
+        this.s = 0;
+    }
 }
 
 class SegmentTree {
-  private tr: Node[];
-  private m: number;
+    private tr: Node[];
+    private m: number;
 
-  constructor(n: number, m: number) {
-    this.m = m;
-    this.tr = Array.from({ length: n << 2 }, () => new Node());
-    this.build(1, 1, n);
-  }
+    constructor(n: number, m: number) {
+        this.m = m;
+        this.tr = Array.from({ length: n << 2 }, () => new Node());
+        this.build(1, 1, n);
+    }
 
-  private build(u: number, l: number, r: number): void {
-    this.tr[u].l = l;
-    this.tr[u].r = r;
-    if (l === r) {
-      this.tr[u].s = this.m;
-      this.tr[u].mx = this.m;
-      return;
+    private build(u: number, l: number, r: number): void {
+        this.tr[u].l = l;
+        this.tr[u].r = r;
+        if (l === r) {
+            this.tr[u].s = this.m;
+            this.tr[u].mx = this.m;
+            return;
+        }
+        const mid = (l + r) >> 1;
+        this.build(u << 1, l, mid);
+        this.build((u << 1) | 1, mid + 1, r);
+        this.pushup(u);
     }
-    const mid = (l + r) >> 1;
-    this.build(u << 1, l, mid);
-    this.build((u << 1) | 1, mid + 1, r);
-    this.pushup(u);
-  }
 
-  public modify(u: number, x: number, v: number): void {
-    if (this.tr[u].l === x && this.tr[u].r === x) {
-      this.tr[u].s = v;
-      this.tr[u].mx = v;
-      return;
+    public modify(u: number, x: number, v: number): void {
+        if (this.tr[u].l === x && this.tr[u].r === x) {
+            this.tr[u].s = v;
+            this.tr[u].mx = v;
+            return;
+        }
+        const mid = (this.tr[u].l + this.tr[u].r) >> 1;
+        if (x <= mid) {
+            this.modify(u << 1, x, v);
+        } else {
+            this.modify((u << 1) | 1, x, v);
+        }
+        this.pushup(u);
     }
-    const mid = (this.tr[u].l + this.tr[u].r) >> 1;
-    if (x <= mid) {
-      this.modify(u << 1, x, v);
-    } else {
-      this.modify((u << 1) | 1, x, v);
-    }
-    this.pushup(u);
-  }
 
-  public querySum(u: number, l: number, r: number): number {
-    if (this.tr[u].l >= l && this.tr[u].r <= r) {
-      return this.tr[u].s;
+    public querySum(u: number, l: number, r: number): number {
+        if (this.tr[u].l >= l && this.tr[u].r <= r) {
+            return this.tr[u].s;
+        }
+        const mid = (this.tr[u].l + this.tr[u].r) >> 1;
+        let v = 0;
+        if (l <= mid) {
+            v += this.querySum(u << 1, l, r);
+        }
+        if (r > mid) {
+            v += this.querySum((u << 1) | 1, l, r);
+        }
+        return v;
     }
-    const mid = (this.tr[u].l + this.tr[u].r) >> 1;
-    let v = 0;
-    if (l <= mid) {
-      v += this.querySum(u << 1, l, r);
-    }
-    if (r > mid) {
-      v += this.querySum((u << 1) | 1, l, r);
-    }
-    return v;
-  }
 
-  public queryIdx(u: number, l: number, r: number, k: number): number {
-    if (this.tr[u].mx < k) {
-      return 0;
+    public queryIdx(u: number, l: number, r: number, k: number): number {
+        if (this.tr[u].mx < k) {
+            return 0;
+        }
+        if (this.tr[u].l === this.tr[u].r) {
+            return this.tr[u].l;
+        }
+        const mid = (this.tr[u].l + this.tr[u].r) >> 1;
+        if (this.tr[u << 1].mx >= k) {
+            return this.queryIdx(u << 1, l, r, k);
+        }
+        if (r > mid) {
+            return this.queryIdx((u << 1) | 1, l, r, k);
+        }
+        return 0;
     }
-    if (this.tr[u].l === this.tr[u].r) {
-      return this.tr[u].l;
-    }
-    const mid = (this.tr[u].l + this.tr[u].r) >> 1;
-    if (this.tr[u << 1].mx >= k) {
-      return this.queryIdx(u << 1, l, r, k);
-    }
-    if (r > mid) {
-      return this.queryIdx((u << 1) | 1, l, r, k);
-    }
-    return 0;
-  }
 
-  private pushup(u: number): void {
-    this.tr[u].s = this.tr[u << 1].s + this.tr[(u << 1) | 1].s;
-    this.tr[u].mx = Math.max(this.tr[u << 1].mx, this.tr[(u << 1) | 1].mx);
-  }
+    private pushup(u: number): void {
+        this.tr[u].s = this.tr[u << 1].s + this.tr[(u << 1) | 1].s;
+        this.tr[u].mx = Math.max(this.tr[u << 1].mx, this.tr[(u << 1) | 1].mx);
+    }
 }
 
 class BookMyShow {
-  private n: number;
-  private m: number;
-  private tree: SegmentTree;
+    private n: number;
+    private m: number;
+    private tree: SegmentTree;
 
-  constructor(n: number, m: number) {
-    this.n = n;
-    this.m = m;
-    this.tree = new SegmentTree(n, m);
-  }
-
-  public gather(k: number, maxRow: number): number[] {
-    ++maxRow;
-    const i = this.tree.queryIdx(1, 1, maxRow, k);
-    if (i === 0) {
-      return [];
+    constructor(n: number, m: number) {
+        this.n = n;
+        this.m = m;
+        this.tree = new SegmentTree(n, m);
     }
-    const s = this.tree.querySum(1, i, i);
-    this.tree.modify(1, i, s - k);
-    return [i - 1, this.m - s];
-  }
 
-  public scatter(k: number, maxRow: number): boolean {
-    ++maxRow;
-    if (this.tree.querySum(1, 1, maxRow) < k) {
-      return false;
+    public gather(k: number, maxRow: number): number[] {
+        ++maxRow;
+        const i = this.tree.queryIdx(1, 1, maxRow, k);
+        if (i === 0) {
+            return [];
+        }
+        const s = this.tree.querySum(1, i, i);
+        this.tree.modify(1, i, s - k);
+        return [i - 1, this.m - s];
     }
-    let i = this.tree.queryIdx(1, 1, maxRow, 1);
-    for (let j = i; j <= this.n; ++j) {
-      const s = this.tree.querySum(1, j, j);
-      if (s >= k) {
-        this.tree.modify(1, j, s - k);
+
+    public scatter(k: number, maxRow: number): boolean {
+        ++maxRow;
+        if (this.tree.querySum(1, 1, maxRow) < k) {
+            return false;
+        }
+        let i = this.tree.queryIdx(1, 1, maxRow, 1);
+        for (let j = i; j <= this.n; ++j) {
+            const s = this.tree.querySum(1, j, j);
+            if (s >= k) {
+                this.tree.modify(1, j, s - k);
+                return true;
+            }
+            k -= s;
+            this.tree.modify(1, j, 0);
+        }
         return true;
-      }
-      k -= s;
-      this.tree.modify(1, j, 0);
     }
-    return true;
-  }
 }
 ```
 

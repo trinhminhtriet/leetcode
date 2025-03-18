@@ -1,81 +1,93 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2347.Best%20Poker%20Hand/README.md
 rating: 1241
-source: Biweekly Contest 83 Q1
+source: 第 83 场双周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - Counting
+    - 数组
+    - 哈希表
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2347. Best Poker Hand](https://leetcode.com/problems/best-poker-hand)
+# [2347. 最好的扑克手牌](https://leetcode.cn/problems/best-poker-hand)
 
-## Description
+[English Version](/solution/2300-2399/2347.Best%20Poker%20Hand/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>ranks</code> and a character array <code>suits</code>. You have <code>5</code> cards where the <code>i<sup>th</sup></code> card has a rank of <code>ranks[i]</code> and a suit of <code>suits[i]</code>.</p>
+<p>给你一个整数数组&nbsp;<code>ranks</code>&nbsp;和一个字符数组&nbsp;<code>suit</code>&nbsp;。你有&nbsp;<code>5</code>&nbsp;张扑克牌，第&nbsp;<code>i</code>&nbsp;张牌大小为&nbsp;<code>ranks[i]</code>&nbsp;，花色为&nbsp;<code>suits[i]</code>&nbsp;。</p>
 
-<p>The following are the types of <strong>poker hands</strong> you can make from best to worst:</p>
+<p>下述是从好到坏你可能持有的 <strong>手牌类型&nbsp;</strong>：</p>
 
 <ol>
-	<li><code>&quot;Flush&quot;</code>: Five cards of the same suit.</li>
-	<li><code>&quot;Three of a Kind&quot;</code>: Three cards of the same rank.</li>
-	<li><code>&quot;Pair&quot;</code>: Two cards of the same rank.</li>
-	<li><code>&quot;High Card&quot;</code>: Any single card.</li>
+	<li><code>"Flush"</code>：同花，五张相同花色的扑克牌。</li>
+	<li><code>"Three of a Kind"</code>：三条，有 3 张大小相同的扑克牌。</li>
+	<li><code>"Pair"</code>：对子，两张大小一样的扑克牌。</li>
+	<li><code>"High Card"</code>：高牌，五张大小互不相同的扑克牌。</li>
 </ol>
 
-<p>Return <em>a string representing the <strong>best</strong> type of <strong>poker hand</strong> you can make with the given cards.</em></p>
+<p>请你返回一个字符串，表示给定的 5 张牌中，你能组成的 <strong>最好手牌类型</strong>&nbsp;。</p>
 
-<p><strong>Note</strong> that the return values are <strong>case-sensitive</strong>.</p>
+<p><strong>注意：</strong>返回的字符串&nbsp;<strong>大小写</strong>&nbsp;需与题目描述相同。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> ranks = [13,2,3,1,9], suits = [&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;]
-<strong>Output:</strong> &quot;Flush&quot;
-<strong>Explanation:</strong> The hand with all the cards consists of 5 cards with the same suit, so we have a &quot;Flush&quot;.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>ranks = [13,2,3,1,9], suits = ["a","a","a","a","a"]
+<b>输出：</b>"Flush"
+<b>解释：</b>5 张扑克牌的花色相同，所以返回 "Flush" 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> ranks = [4,4,2,4,4], suits = [&quot;d&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
-<strong>Output:</strong> &quot;Three of a Kind&quot;
-<strong>Explanation:</strong> The hand with the first, second, and fourth card consists of 3 cards with the same rank, so we have a &quot;Three of a Kind&quot;.
-Note that we could also make a &quot;Pair&quot; hand but &quot;Three of a Kind&quot; is a better hand.
-Also note that other cards could be used to make the &quot;Three of a Kind&quot; hand.</pre>
+<pre><b>输入：</b>ranks = [4,4,2,4,4], suits = ["d","a","a","b","c"]
+<b>输出：</b>"Three of a Kind"
+<b>解释：</b>第一、二和四张牌组成三张相同大小的扑克牌，所以得到 "Three of a Kind" 。
+注意我们也可以得到 "Pair" ，但是 "Three of a Kind" 是更好的手牌类型。
+有其他的 3 张牌也可以组成 "Three of a Kind" 手牌类型。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> ranks = [10,10,2,12,9], suits = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;a&quot;,&quot;d&quot;]
-<strong>Output:</strong> &quot;Pair&quot;
-<strong>Explanation:</strong> The hand with the first and second card consists of 2 cards with the same rank, so we have a &quot;Pair&quot;.
-Note that we cannot make a &quot;Flush&quot; or a &quot;Three of a Kind&quot;.
+<pre><b>输入：</b>ranks = [10,10,2,12,9], suits = ["a","b","c","a","d"]
+<b>输出：</b>"Pair"
+<b>解释：</b>第一和第二张牌大小相同，所以得到 "Pair" 。
+我们无法得到 "Flush" 或者 "Three of a Kind" 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>ranks.length == suits.length == 5</code></li>
 	<li><code>1 &lt;= ranks[i] &lt;= 13</code></li>
-	<li><code>&#39;a&#39; &lt;= suits[i] &lt;= &#39;d&#39;</code></li>
-	<li>No two cards have the same rank and suit.</li>
+	<li><code>'a' &lt;= suits[i] &lt;= 'd'</code></li>
+	<li>任意两张扑克牌不会同时有相同的大小和花色。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：计数
+
+我们可以先遍历数组 $\textit{suits}$，判断相邻两个元素是否均相等，如果是，则返回 `"Flush"`。
+
+接下来，我们用哈希表或数组 $\textit{cnt}$ 统计每张牌的数量：
+
+-   如果有任意一张牌的数量等于 $3$，返回 `"Three of a Kind"`；
+-   否则，如果有任意一张牌的数量等于 $2$，返回 `"Pair"`；
+-   否则，返回 `"High Card"`。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{ranks}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -177,21 +189,21 @@ func bestHand(ranks []int, suits []byte) string {
 
 ```ts
 function bestHand(ranks: number[], suits: string[]): string {
-  if (suits.every((v) => v === suits[0])) {
-    return "Flush";
-  }
-  const count = new Array(14).fill(0);
-  let isPair = false;
-  for (const v of ranks) {
-    if (++count[v] === 3) {
-      return "Three of a Kind";
+    if (suits.every(v => v === suits[0])) {
+        return 'Flush';
     }
-    isPair = isPair || count[v] === 2;
-  }
-  if (isPair) {
-    return "Pair";
-  }
-  return "High Card";
+    const count = new Array(14).fill(0);
+    let isPair = false;
+    for (const v of ranks) {
+        if (++count[v] === 3) {
+            return 'Three of a Kind';
+        }
+        isPair = isPair || count[v] === 2;
+    }
+    if (isPair) {
+        return 'Pair';
+    }
+    return 'High Card';
 }
 ```
 

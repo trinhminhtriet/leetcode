@@ -1,75 +1,80 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2085.Count%20Common%20Words%20With%20One%20Occurrence/README.md
 rating: 1307
-source: Biweekly Contest 66 Q1
+source: 第 66 场双周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - String
-  - Counting
+    - 数组
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2085. Count Common Words With One Occurrence](https://leetcode.com/problems/count-common-words-with-one-occurrence)
+# [2085. 统计出现过一次的公共字符串](https://leetcode.cn/problems/count-common-words-with-one-occurrence)
 
-## Description
+[English Version](/solution/2000-2099/2085.Count%20Common%20Words%20With%20One%20Occurrence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two string arrays <code>words1</code> and <code>words2</code>, return <em>the number of strings that appear <strong>exactly once</strong> in <b>each</b>&nbsp;of the two arrays.</em></p>
+<p>给你两个字符串数组&nbsp;<code>words1</code>&nbsp;和&nbsp;<code>words2</code>&nbsp;，请你返回在两个字符串数组中 <strong>都恰好出现一次</strong>&nbsp;的字符串的数目。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> words1 = [&quot;leetcode&quot;,&quot;is&quot;,&quot;amazing&quot;,&quot;as&quot;,&quot;is&quot;], words2 = [&quot;amazing&quot;,&quot;leetcode&quot;,&quot;is&quot;]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong>
-- &quot;leetcode&quot; appears exactly once in each of the two arrays. We count this string.
-- &quot;amazing&quot; appears exactly once in each of the two arrays. We count this string.
-- &quot;is&quot; appears in each of the two arrays, but there are 2 occurrences of it in words1. We do not count this string.
-- &quot;as&quot; appears once in words1, but does not appear in words2. We do not count this string.
-Thus, there are 2 strings that appear exactly once in each of the two arrays.
+<b>输入：</b>words1 = ["leetcode","is","amazing","as","is"], words2 = ["amazing","leetcode","is"]
+<b>输出：</b>2
+<strong>解释：</strong>
+- "leetcode" 在两个数组中都恰好出现一次，计入答案。
+- "amazing" 在两个数组中都恰好出现一次，计入答案。
+- "is" 在两个数组中都出现过，但在 words1 中出现了 2 次，不计入答案。
+- "as" 在 words1 中出现了一次，但是在 words2 中没有出现过，不计入答案。
+所以，有 2 个字符串在两个数组中都恰好出现了一次。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> words1 = [&quot;b&quot;,&quot;bb&quot;,&quot;bbb&quot;], words2 = [&quot;a&quot;,&quot;aa&quot;,&quot;aaa&quot;]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are no strings that appear in each of the two arrays.
+<b>输入：</b>words1 = ["b","bb","bbb"], words2 = ["a","aa","aaa"]
+<b>输出：</b>0
+<b>解释：</b>没有字符串在两个数组中都恰好出现一次。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> words1 = [&quot;a&quot;,&quot;ab&quot;], words2 = [&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;ab&quot;]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The only string that appears exactly once in each of the two arrays is &quot;ab&quot;.
+<b>输入：</b>words1 = ["a","ab"], words2 = ["a","a","a","ab"]
+<b>输出：</b>1
+<b>解释：</b>唯一在两个数组中都出现一次的字符串是 "ab" 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words1.length, words2.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= words1[i].length, words2[j].length &lt;= 30</code></li>
-	<li><code>words1[i]</code> and <code>words2[j]</code> consists only of lowercase English letters.</li>
+	<li><code>words1[i]</code> 和&nbsp;<code>words2[j]</code>&nbsp;都只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Counting
+### 方法一：哈希表计数
 
-We can use two hash tables, $cnt1$ and $cnt2$, to count the occurrences of each string in the two string arrays respectively. Then, we traverse one of the hash tables. If a string appears once in the other hash table and also appears once in the current hash table, we increment the answer by one.
+我们可以用两个哈希表 $cnt1$ 和 $cnt2$ 分别统计两个字符串数组中每个字符串出现的次数，然后遍历其中一个哈希表，如果某个字符串在另一个哈希表中出现了一次，且在当前哈希表中也出现了一次，则答案加一。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Where $n$ and $m$ are the lengths of the two string arrays respectively.
+时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是两个字符串数组的长度。
 
 <!-- tabs:start -->
 
@@ -155,21 +160,21 @@ func countWords(words1 []string, words2 []string) (ans int) {
 
 ```ts
 function countWords(words1: string[], words2: string[]): number {
-  const cnt1 = new Map<string, number>();
-  const cnt2 = new Map<string, number>();
-  for (const w of words1) {
-    cnt1.set(w, (cnt1.get(w) ?? 0) + 1);
-  }
-  for (const w of words2) {
-    cnt2.set(w, (cnt2.get(w) ?? 0) + 1);
-  }
-  let ans = 0;
-  for (const [w, v] of cnt1) {
-    if (v === 1 && cnt2.get(w) === 1) {
-      ++ans;
+    const cnt1 = new Map<string, number>();
+    const cnt2 = new Map<string, number>();
+    for (const w of words1) {
+        cnt1.set(w, (cnt1.get(w) ?? 0) + 1);
     }
-  }
-  return ans;
+    for (const w of words2) {
+        cnt2.set(w, (cnt2.get(w) ?? 0) + 1);
+    }
+    let ans = 0;
+    for (const [w, v] of cnt1) {
+        if (v === 1 && cnt2.get(w) === 1) {
+            ++ans;
+        }
+    }
+    return ans;
 }
 ```
 

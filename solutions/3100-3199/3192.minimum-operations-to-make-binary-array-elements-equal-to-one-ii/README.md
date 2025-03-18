@@ -1,70 +1,75 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3192.Minimum%20Operations%20to%20Make%20Binary%20Array%20Elements%20Equal%20to%20One%20II/README.md
 rating: 1432
-source: Biweekly Contest 133 Q3
+source: 第 133 场双周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Dynamic Programming
+    - 贪心
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [3192. Minimum Operations to Make Binary Array Elements Equal to One II](https://leetcode.com/problems/minimum-operations-to-make-binary-array-elements-equal-to-one-ii)
+# [3192. 使二进制数组全部等于 1 的最少操作次数 II](https://leetcode.cn/problems/minimum-operations-to-make-binary-array-elements-equal-to-one-ii)
 
-## Description
+[English Version](/solution/3100-3199/3192.Minimum%20Operations%20to%20Make%20Binary%20Array%20Elements%20Equal%20to%20One%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <span data-keyword="binary-array">binary array</span> <code>nums</code>.</p>
+<p>给你一个二进制数组&nbsp;<code>nums</code>&nbsp;。</p>
 
-<p>You can do the following operation on the array <strong>any</strong> number of times (possibly zero):</p>
+<p>你可以对数组执行以下操作&nbsp;<strong>任意</strong>&nbsp;次（也可以 0 次）：</p>
 
 <ul>
-	<li>Choose <strong>any</strong> index <code>i</code> from the array and <strong>flip</strong> <strong>all</strong> the elements from index <code>i</code> to the end of the array.</li>
+	<li>选择数组中 <strong>任意</strong>&nbsp;一个下标 <code>i</code>&nbsp;，并将从下标 <code>i</code>&nbsp;开始一直到数组末尾 <strong>所有</strong>&nbsp;元素 <strong>反转</strong>&nbsp;。</li>
 </ul>
 
-<p><strong>Flipping</strong> an element means changing its value from 0 to 1, and from 1 to 0.</p>
+<p><b>反转</b>&nbsp;一个元素指的是将它的值从 0 变 1 ，或者从 1 变 0 。</p>
 
-<p>Return the <strong>minimum</strong> number of operations required to make all elements in <code>nums</code> equal to 1.</p>
+<p>请你返回将 <code>nums</code>&nbsp;中所有元素变为 1 的 <strong>最少</strong>&nbsp;操作次数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [0,1,1,0,1]</span></p>
+<p><span class="example-io"><b>输入：</b>nums = [0,1,1,0,1]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">4</span></p>
+<p><span class="example-io"><b>输出：</b>4</span></p>
 
-<p><strong>Explanation:</strong><br />
-We can do the following operations:</p>
+<p><strong>解释：</strong><br />
+我们可以执行以下操作：</p>
 
 <ul>
-	<li>Choose the index <code>i = 1</code><span class="example-io">. The resulting array will be <code>nums = [0,<u><strong>0</strong></u>,<u><strong>0</strong></u>,<u><strong>1</strong></u>,<u><strong>0</strong></u>]</code>.</span></li>
-	<li>Choose the index <code>i = 0</code><span class="example-io">. The resulting array will be <code>nums = [<u><strong>1</strong></u>,<u><strong>1</strong></u>,<u><strong>1</strong></u>,<u><strong>0</strong></u>,<u><strong>1</strong></u>]</code>.</span></li>
-	<li>Choose the index <code>i = 4</code><span class="example-io">. The resulting array will be <code>nums = [1,1,1,0,<u><strong>0</strong></u>]</code>.</span></li>
-	<li>Choose the index <code>i = 3</code><span class="example-io">. The resulting array will be <code>nums = [1,1,1,<u><strong>1</strong></u>,<u><strong>1</strong></u>]</code>.</span></li>
+	<li>选择下标&nbsp;<code>i = 1</code>&nbsp;执行操作，得到<span class="example-io">&nbsp;<code>nums = [0,<u><strong>0</strong></u>,<u><strong>0</strong></u>,<u><strong>1</strong></u>,<u><strong>0</strong></u>]</code>&nbsp;。</span></li>
+	<li>选择下标&nbsp;<code>i = 0</code>&nbsp;执行操作，得到<span class="example-io">&nbsp;<code>nums = [<u><strong>1</strong></u>,<u><strong>1</strong></u>,<u><strong>1</strong></u>,<u><strong>0</strong></u>,<u><strong>1</strong></u>]</code>&nbsp;。</span></li>
+	<li>选择下标&nbsp;<code>i = 4</code>&nbsp;执行操作，得到<span class="example-io">&nbsp;<code>nums = [1,1,1,0,<u><strong>0</strong></u>]</code>&nbsp;。</span></li>
+	<li>选择下标&nbsp;<code>i = 3</code>&nbsp;执行操作，得到<span class="example-io">&nbsp;<code>nums = [1,1,1,<u><strong>1</strong></u>,<u><strong>1</strong></u>]</code>&nbsp;。</span></li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,0,0,0]</span></p>
+<p><span class="example-io"><b>输入：</b>nums = [1,0,0,0]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
+<p><span class="example-io"><b>输出：</b>1</span></p>
 
-<p><strong>Explanation:</strong><br />
-We can do the following operation:</p>
+<p><strong>解释：</strong><br />
+我们可以执行以下操作：</p>
 
 <ul>
-	<li>Choose the index <code>i = 1</code><span class="example-io">. The resulting array will be <code>nums = [1,<u><strong>1</strong></u>,<u><strong>1</strong></u>,<u><strong>1</strong></u>]</code>.</span></li>
+	<li>选择下标&nbsp;<code>i = 1</code>&nbsp;执行操作，得到<span class="example-io">&nbsp;<code>nums = [1,<u><strong>1</strong></u>,<u><strong>1</strong></u>,<u><strong>1</strong></u>]</code>&nbsp;。</span></li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -73,19 +78,19 @@ We can do the following operation:</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Bit Manipulation
+### 方法一：位运算
 
-We notice that whenever we change an element at a certain position to 1, all the elements to its right are flipped. Therefore, we can use a variable $v$ to record whether the current position and all elements to its right have been flipped. If flipped, the value of $v$ is 1, otherwise, it is 0.
+我们注意到，每当我们将某个位置的元素变为 1 时，它的右侧的所有元素都会被反转。因此，我们可以用一个变量 $v$ 来记录当前位置及其右侧的元素是否被反转，如果被反转，那么 $v$ 的值为 1，否则为 0。
 
-We iterate through the array $\textit{nums}$. For each element $x$, we perform an XOR operation between $x$ and $v$. If $x$ is 0, then we need to change $x$ to 1, which requires a flip operation. We increment the answer by one and flip the value of $v$.
+我们遍历数组 $\textit{nums}$，对于每个元素 $x$，我们将 $x$ 与 $v$ 进行异或运算，如果 $x$ 为 0，那么我们需要将 $x$ 变为 1，我们需要进行反转操作，我们将答案加一，并将 $v$ 取反。
 
-After the iteration, we can obtain the minimum number of operations.
+遍历结束后，我们就可以得到最少操作次数。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -160,15 +165,15 @@ func minOperations(nums []int) (ans int) {
 
 ```ts
 function minOperations(nums: number[]): number {
-  let [ans, v] = [0, 0];
-  for (let x of nums) {
-    x ^= v;
-    if (x === 0) {
-      v ^= 1;
-      ++ans;
+    let [ans, v] = [0, 0];
+    for (let x of nums) {
+        x ^= v;
+        if (x === 0) {
+            v ^= 1;
+            ++ans;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

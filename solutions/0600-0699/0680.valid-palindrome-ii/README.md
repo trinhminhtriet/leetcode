@@ -1,66 +1,72 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0680.Valid%20Palindrome%20II/README.md
 tags:
-  - Greedy
-  - Two Pointers
-  - String
+    - 贪心
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [680. Valid Palindrome II](https://leetcode.com/problems/valid-palindrome-ii)
+# [680. 验证回文串 II](https://leetcode.cn/problems/valid-palindrome-ii)
 
-## Description
+[English Version](/solution/0600-0699/0680.Valid%20Palindrome%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, return <code>true</code> <em>if the </em><code>s</code><em> can be palindrome after deleting <strong>at most one</strong> character from it</em>.</p>
+<p>给你一个字符串&nbsp;<code>s</code>，<strong>最多</strong> 可以从中删除一个字符。</p>
+
+<p>请你判断 <code>s</code> 是否能成为回文字符串：如果能，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;aba&quot;
-<strong>Output:</strong> true
+<strong>输入：</strong>s = "aba"
+<strong>输出：</strong>true
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;abca&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> You could delete the character &#39;c&#39;.
+<strong>输入：</strong>s = "abca"
+<strong>输出：</strong>true
+<strong>解释：</strong>你可以删除字符 'c' 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;abc&quot;
-<strong>Output:</strong> false
-</pre>
+<strong>输入：</strong>s = "abc"
+<strong>输出：</strong>false</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code> 由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-We use two pointers to point to the left and right ends of the string, respectively. Each time, we check whether the characters pointed to by the two pointers are the same. If they are not the same, we check whether the string is a palindrome after deleting the character corresponding to the left pointer, or we check whether the string is a palindrome after deleting the character corresponding to the right pointer. If the characters pointed to by the two pointers are the same, we move both pointers towards the middle by one position, until the two pointers meet.
+我们用两个指针分别指向字符串的左右两端，每次判断两个指针指向的字符是否相同，如果不相同，则判断删除左指针对应的字符后字符串是否是回文字符串，或者判断删除右指针对应的字符后字符串是否是回文字符串。如果两个指针指向的字符相同，则将左右指针都往中间移动一位，直到两个指针相遇为止。
 
-If we have not encountered a situation where the characters pointed to by the pointers are different by the end of the traversal, then the string itself is a palindrome, and we return `true`.
+如果遍历结束，都没有遇到指针指向的字符不相同的情况，那么字符串本身就是一个回文字符串，返回 `true` 即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是字符串 $s$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -88,18 +94,21 @@ class Solution:
 
 ```java
 class Solution {
-    public boolean validPalindrome(String s) {
-        for (int i = 0, j = s.length() - 1; i < j; ++i, --j) {
-            if (s.charAt(i) != s.charAt(j)) {
-                return check(s, i + 1, j) || check(s, i, j - 1);
+    private char[] s;
+
+    public boolean validPalindrome(String S) {
+        this.s = S.toCharArray();
+        for (int i = 0, j = s.length - 1; i < j; ++i, --j) {
+            if (s[i] != s[j]) {
+                return check(i + 1, j) || check(i, j - 1);
             }
         }
         return true;
     }
 
-    private boolean check(String s, int i, int j) {
+    private boolean check(int i, int j) {
         for (; i < j; ++i, --j) {
-            if (s.charAt(i) != s.charAt(j)) {
+            if (s[i] != s[j]) {
                 return false;
             }
         }
@@ -114,18 +123,17 @@ class Solution {
 class Solution {
 public:
     bool validPalindrome(string s) {
+        auto check = [&](int i, int j) {
+            for (; i < j; ++i, --j) {
+                if (s[i] != s[j]) {
+                    return false;
+                }
+            }
+            return true;
+        };
         for (int i = 0, j = s.size() - 1; i < j; ++i, --j) {
             if (s[i] != s[j]) {
-                return check(s, i + 1, j) || check(s, i, j - 1);
-            }
-        }
-        return 1;
-    }
-
-    bool check(string s, int i, int j) {
-        for (; i < j; ++i, --j) {
-            if (s[i] != s[j]) {
-                return false;
+                return check(i + 1, j) || check(i, j - 1);
             }
         }
         return true;
@@ -158,23 +166,20 @@ func validPalindrome(s string) bool {
 
 ```ts
 function validPalindrome(s: string): boolean {
-  for (let i: number = 0, j = s.length - 1; i < j; ++i, --j) {
-    if (s.charAt(i) != s.charAt(j)) {
-      return (
-        isPalinddrome(s.slice(i, j)) || isPalinddrome(s.slice(i + 1, j + 1))
-      );
+    const check = (i: number, j: number): boolean => {
+        for (; i < j; ++i, --j) {
+            if (s[i] !== s[j]) {
+                return false;
+            }
+        }
+        return true;
+    };
+    for (let i = 0, j = s.length - 1; i < j; ++i, --j) {
+        if (s[i] !== s[j]) {
+            return check(i + 1, j) || check(i, j - 1);
+        }
     }
-  }
-  return true;
-}
-
-function isPalinddrome(s: string): boolean {
-  for (let i: number = 0, j = s.length - 1; i < j; ++i, --j) {
-    if (s.charAt(i) != s.charAt(j)) {
-      return false;
-    }
-  }
-  return true;
+    return true;
 }
 ```
 
@@ -186,20 +191,20 @@ function isPalinddrome(s: string): boolean {
  * @return {boolean}
  */
 var validPalindrome = function (s) {
-  let check = function (i, j) {
-    for (; i < j; ++i, --j) {
-      if (s.charAt(i) != s.charAt(j)) {
-        return false;
-      }
+    const check = function (i, j) {
+        for (; i < j; ++i, --j) {
+            if (s[i] !== s[j]) {
+                return false;
+            }
+        }
+        return true;
+    };
+    for (let i = 0, j = s.length - 1; i < j; ++i, --j) {
+        if (s[i] !== s[j]) {
+            return check(i + 1, j) || check(i, j - 1);
+        }
     }
     return true;
-  };
-  for (let i = 0, j = s.length - 1; i < j; ++i, --j) {
-    if (s.charAt(i) != s.charAt(j)) {
-      return check(i + 1, j) || check(i, j - 1);
-    }
-  }
-  return true;
 };
 ```
 

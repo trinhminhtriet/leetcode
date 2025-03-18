@@ -1,58 +1,61 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1431.Kids%20With%20the%20Greatest%20Number%20of%20Candies/README.md
 rating: 1176
-source: Biweekly Contest 25 Q1
+source: 第 25 场双周赛 Q1
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [1431. Kids With the Greatest Number of Candies](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies)
+# [1431. 拥有最多糖果的孩子](https://leetcode.cn/problems/kids-with-the-greatest-number-of-candies)
 
-## Description
+[English Version](/solution/1400-1499/1431.Kids%20With%20the%20Greatest%20Number%20of%20Candies/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> kids with candies. You are given an integer array <code>candies</code>, where each <code>candies[i]</code> represents the number of candies the <code>i<sup>th</sup></code> kid has, and an integer <code>extraCandies</code>, denoting the number of extra candies that you have.</p>
+<p>有&nbsp;<code>n</code>&nbsp;个有糖果的孩子。给你一个数组&nbsp;<code>candies</code>，其中&nbsp;<code>candies[i]</code>&nbsp;代表第 <code>i</code> 个孩子拥有的糖果数目，和一个整数&nbsp;<code>extraCandies</code>&nbsp;表示你所有的额外糖果的数量。</p>
 
-<p>Return <em>a boolean array </em><code>result</code><em> of length </em><code>n</code><em>, where </em><code>result[i]</code><em> is </em><code>true</code><em> if, after giving the </em><code>i<sup>th</sup></code><em> kid all the </em><code>extraCandies</code><em>, they will have the <strong>greatest</strong> number of candies among all the kids</em><em>, or </em><code>false</code><em> otherwise</em>.</p>
+<p>返回一个长度为&nbsp;<code>n</code>&nbsp;的布尔数组 <code>result</code>，如果把所有的&nbsp;<code>extraCandies</code>&nbsp;给第&nbsp;<code>i</code>&nbsp;个孩子之后，他会拥有所有孩子中&nbsp;<strong>最多&nbsp;</strong>的糖果，那么&nbsp;<code>result[i]</code>&nbsp;为&nbsp;<code>true</code>，否则为 <code>false</code>。</p>
 
-<p>Note that <strong>multiple</strong> kids can have the <strong>greatest</strong> number of candies.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> candies = [2,3,5,1,3], extraCandies = 3
-<strong>Output:</strong> [true,true,true,false,true] 
-<strong>Explanation:</strong> If you give all extraCandies to:
-- Kid 1, they will have 2 + 3 = 5 candies, which is the greatest among the kids.
-- Kid 2, they will have 3 + 3 = 6 candies, which is the greatest among the kids.
-- Kid 3, they will have 5 + 3 = 8 candies, which is the greatest among the kids.
-- Kid 4, they will have 1 + 3 = 4 candies, which is not the greatest among the kids.
-- Kid 5, they will have 3 + 3 = 6 candies, which is the greatest among the kids.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> candies = [4,2,1,1,2], extraCandies = 1
-<strong>Output:</strong> [true,false,false,false,false] 
-<strong>Explanation:</strong> There is only 1 extra candy.
-Kid 1 will always have the greatest number of candies, even if a different kid is given the extra candy.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> candies = [12,1,12], extraCandies = 10
-<strong>Output:</strong> [true,false,true]
-</pre>
+<p>注意，允许有多个孩子同时拥有 <strong>最多</strong>&nbsp;的糖果数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>candies = [2,3,5,1,3], extraCandies = 3
+<strong>输出：</strong>[true,true,true,false,true] 
+<strong>解释：</strong>如果你把额外的糖果全部给：
+孩子 1，将有 2 + 3 = 5 个糖果，是孩子中最多的。
+孩子 2，将有 3 + 3 = 6 个糖果，是孩子中最多的。
+孩子 3，将有 5 + 3 = 8 个糖果，是孩子中最多的。
+孩子 4，将有 1 + 3 = 4 个糖果，不是孩子中最多的。
+孩子 5，将有 3 + 3 = 6 个糖果，是孩子中最多的。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>candies = [4,2,1,1,2], extraCandies = 1
+<strong>输出：</strong>[true,false,false,false,false] 
+<strong>解释：</strong>只有 1 个额外糖果，所以不管额外糖果给谁，只有孩子 1 可以成为拥有糖果最多的孩子。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>candies = [12,1,12], extraCandies = 10
+<strong>输出：</strong>[true,false,true]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == candies.length</code></li>
@@ -63,11 +66,11 @@ Kid 1 will always have the greatest number of candies, even if a different kid i
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -130,8 +133,8 @@ func kidsWithCandies(candies []int, extraCandies int) (ans []bool) {
 
 ```ts
 function kidsWithCandies(candies: number[], extraCandies: number): boolean[] {
-  const max = candies.reduce((r, v) => Math.max(r, v));
-  return candies.map((v) => v + extraCandies >= max);
+    const max = candies.reduce((r, v) => Math.max(r, v));
+    return candies.map(v => v + extraCandies >= max);
 }
 ```
 

@@ -1,50 +1,52 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0391.Perfect%20Rectangle/README.md
 tags:
-  - Array
-  - Line Sweep
+    - 数组
+    - 扫描线
 ---
 
 <!-- problem:start -->
 
-# [391. Perfect Rectangle](https://leetcode.com/problems/perfect-rectangle)
+# [391. 完美矩形](https://leetcode.cn/problems/perfect-rectangle)
 
-## Description
+[English Version](/solution/0300-0399/0391.Perfect%20Rectangle/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array <code>rectangles</code> where <code>rectangles[i] = [x<sub>i</sub>, y<sub>i</sub>, a<sub>i</sub>, b<sub>i</sub>]</code> represents an axis-aligned rectangle. The bottom-left point of the rectangle is <code>(x<sub>i</sub>, y<sub>i</sub>)</code> and the top-right point of it is <code>(a<sub>i</sub>, b<sub>i</sub>)</code>.</p>
+<p>给你一个数组 <code>rectangles</code> ，其中 <code>rectangles[i] = [x<sub>i</sub>, y<sub>i</sub>, a<sub>i</sub>, b<sub>i</sub>]</code> 表示一个坐标轴平行的矩形。这个矩形的左下顶点是 <code>(x<sub>i</sub>, y<sub>i</sub>)</code> ，右上顶点是 <code>(a<sub>i</sub>, b<sub>i</sub>)</code> 。</p>
 
-<p>Return <code>true</code> <em>if all the rectangles together form an exact cover of a rectangular region</em>.</p>
+<p>如果所有矩形一起精确覆盖了某个矩形区域，则返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+&nbsp;
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0391.Perfect%20Rectangle/images/perectrec1-plane.jpg" style="height: 294px; width: 300px;" />
+<pre>
+<strong>输入：</strong>rectangles = [[1,1,3,3],[3,1,4,2],[3,2,4,4],[1,3,2,4],[2,3,3,4]]
+<strong>输出：</strong>true
+<strong>解释：</strong>5 个矩形一起可以精确地覆盖一个矩形区域。 
+</pre>
+
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0391.Perfect%20Rectangle/images/perfectrec2-plane.jpg" style="height: 294px; width: 300px;" />
+<pre>
+<strong>输入：</strong>rectangles = [[1,1,2,3],[1,3,2,4],[3,1,4,2],[3,2,4,4]]
+<strong>输出：</strong>false
+<strong>解释：</strong>两个矩形之间有间隔，无法覆盖成一个矩形。</pre>
+
+<p><strong>示例 3：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0391.Perfect%20Rectangle/images/perfecrrec4-plane.jpg" style="height: 294px; width: 300px;" />
+<pre>
+<strong>输入：</strong>rectangles = [[1,1,3,3],[3,1,4,2],[1,3,2,4],[2,2,4,4]]
+<strong>输出：</strong>false
+<strong>解释：</strong>因为中间有相交区域，虽然形成了矩形，但不是精确覆盖。</pre>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0391.Perfect%20Rectangle/images/perectrec1-plane.jpg" style="width: 300px; height: 294px;" />
-<pre>
-<strong>Input:</strong> rectangles = [[1,1,3,3],[3,1,4,2],[3,2,4,4],[1,3,2,4],[2,3,3,4]]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> All 5 rectangles together form an exact cover of a rectangular region.
-</pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0391.Perfect%20Rectangle/images/perfectrec2-plane.jpg" style="width: 300px; height: 294px;" />
-<pre>
-<strong>Input:</strong> rectangles = [[1,1,2,3],[1,3,2,4],[3,1,4,2],[3,2,4,4]]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> Because there is a gap between the two rectangular regions.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0391.Perfect%20Rectangle/images/perfecrrec4-plane.jpg" style="width: 300px; height: 294px;" />
-<pre>
-<strong>Input:</strong> rectangles = [[1,1,3,3],[3,1,4,2],[1,3,2,4],[2,2,4,4]]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> Because two of the rectangles overlap with each other.
-</pre>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= rectangles.length &lt;= 2 * 10<sup>4</sup></code></li>
@@ -55,11 +57,11 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

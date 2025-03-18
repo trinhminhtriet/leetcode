@@ -1,48 +1,53 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1971.Find%20if%20Path%20Exists%20in%20Graph/README.md
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Graph
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [1971. Find if Path Exists in Graph](https://leetcode.com/problems/find-if-path-exists-in-graph)
+# [1971. 寻找图中是否存在路径](https://leetcode.cn/problems/find-if-path-exists-in-graph)
 
-## Description
+[English Version](/solution/1900-1999/1971.Find%20if%20Path%20Exists%20in%20Graph/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a <strong>bi-directional</strong> graph with <code>n</code> vertices, where each vertex is labeled from <code>0</code> to <code>n - 1</code> (<strong>inclusive</strong>). The edges in the graph are represented as a 2D integer array <code>edges</code>, where each <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> denotes a bi-directional edge between vertex <code>u<sub>i</sub></code> and vertex <code>v<sub>i</sub></code>. Every vertex pair is connected by <strong>at most one</strong> edge, and no vertex has an edge to itself.</p>
+<p>有一个具有 <code>n</code> 个顶点的 <strong>双向</strong> 图，其中每个顶点标记从 <code>0</code> 到 <code>n - 1</code>（包含 <code>0</code> 和 <code>n - 1</code>）。图中的边用一个二维整数数组 <code>edges</code> 表示，其中 <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> 表示顶点 <code>ui</code> 和顶点 <code>vi</code> 之间的双向边。 每个顶点对由 <strong>最多一条</strong> 边连接，并且没有顶点存在与自身相连的边。</p>
 
-<p>You want to determine if there is a <strong>valid path</strong> that exists from vertex <code>source</code> to vertex <code>destination</code>.</p>
+<p>请你确定是否存在从顶点 <code>source</code> 开始，到顶点 <code>destination</code> 结束的 <strong>有效路径</strong> 。</p>
 
-<p>Given <code>edges</code> and the integers <code>n</code>, <code>source</code>, and <code>destination</code>, return <code>true</code><em> if there is a <strong>valid path</strong> from </em><code>source</code><em> to </em><code>destination</code><em>, or </em><code>false</code><em> otherwise</em><em>.</em></p>
+<p>给你数组 <code>edges</code> 和整数 <code>n</code>、<code>source</code> 和 <code>destination</code>，如果从 <code>source</code> 到 <code>destination</code> 存在 <strong>有效路径</strong> ，则返回 <code>true</code>，否则返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1971.Find%20if%20Path%20Exists%20in%20Graph/images/validpath-ex1.png" style="width: 141px; height: 121px;" />
 <pre>
-<strong>Input:</strong> n = 3, edges = [[0,1],[1,2],[2,0]], source = 0, destination = 2
-<strong>Output:</strong> true
-<strong>Explanation:</strong> There are two paths from vertex 0 to vertex 2:
-- 0 &rarr; 1 &rarr; 2
-- 0 &rarr; 2
+<strong>输入：</strong>n = 3, edges = [[0,1],[1,2],[2,0]], source = 0, destination = 2
+<strong>输出：</strong>true
+<strong>解释：</strong>存在由顶点 0 到顶点 2 的路径:
+- 0 → 1 → 2 
+- 0 → 2
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1971.Find%20if%20Path%20Exists%20in%20Graph/images/validpath-ex2.png" style="width: 281px; height: 141px;" />
 <pre>
-<strong>Input:</strong> n = 6, edges = [[0,1],[0,2],[3,5],[5,4],[4,3]], source = 0, destination = 5
-<strong>Output:</strong> false
-<strong>Explanation:</strong> There is no path from vertex 0 to vertex 5.
+<strong>输入：</strong>n = 6, edges = [[0,1],[0,2],[3,5],[5,4],[4,3]], source = 0, destination = 5
+<strong>输出：</strong>false
+<strong>解释：</strong>不存在由顶点 0 到顶点 5 的路径.
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2 * 10<sup>5</sup></code></li>
@@ -51,23 +56,23 @@ tags:
 	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>u<sub>i</sub> != v<sub>i</sub></code></li>
 	<li><code>0 &lt;= source, destination &lt;= n - 1</code></li>
-	<li>There are no duplicate edges.</li>
-	<li>There are no self edges.</li>
+	<li>不存在重复边</li>
+	<li>不存在指向顶点自身的边</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-We first convert $\textit{edges}$ into an adjacency list $g$, then use DFS to determine whether there is a path from $\textit{source}$ to $\textit{destination}$.
+我们首先将 $\textit{edges}$ 转换成邻接表 $g$，然后使用 DFS，判断是否存在从 $\textit{source}$ 到 $\textit{destination}$ 的路径。
 
-During the process, we use an array $\textit{vis}$ to record the vertices that have already been visited to avoid revisiting them.
+过程中，我们用数组 $\textit{vis}$ 记录已经访问过的顶点，避免重复访问。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Here, $n$ and $m$ are the number of nodes and edges, respectively.
+时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是节点数和边数。
 
 <!-- tabs:start -->
 
@@ -192,29 +197,24 @@ func validPath(n int, edges [][]int, source int, destination int) bool {
 #### TypeScript
 
 ```ts
-function validPath(
-  n: number,
-  edges: number[][],
-  source: number,
-  destination: number
-): boolean {
-  const g: number[][] = Array.from({ length: n }, () => []);
-  for (const [u, v] of edges) {
-    g[u].push(v);
-    g[v].push(u);
-  }
-  const vis = new Set<number>();
-  const dfs = (i: number) => {
-    if (i === destination) {
-      return true;
+function validPath(n: number, edges: number[][], source: number, destination: number): boolean {
+    const g: number[][] = Array.from({ length: n }, () => []);
+    for (const [u, v] of edges) {
+        g[u].push(v);
+        g[v].push(u);
     }
-    if (vis.has(i)) {
-      return false;
-    }
-    vis.add(i);
-    return g[i].some(dfs);
-  };
-  return dfs(source);
+    const vis = new Set<number>();
+    const dfs = (i: number) => {
+        if (i === destination) {
+            return true;
+        }
+        if (vis.has(i)) {
+            return false;
+        }
+        vis.add(i);
+        return g[i].some(dfs);
+    };
+    return dfs(source);
 }
 ```
 
@@ -261,17 +261,17 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: BFS
+### 方法二：BFS
 
-We can also use BFS to determine whether there is a path from $\textit{source}$ to $\textit{destination}$.
+我们也可以使用 BFS，判断是否存在从 $\textit{source}$ 到 $\textit{destination}$ 的路径。
 
-Specifically, we define a queue $q$, initially adding $\textit{source}$ to the queue. Additionally, we use a set $\textit{vis}$ to record the vertices that have already been visited to avoid revisiting them.
+具体地，我们定义一个队列 $q$，初始时将 $\textit{source}$ 加入队列。另外，我们用一个集合 $\textit{vis}$ 记录已经访问过的顶点，避免重复访问。
 
-Next, we continuously take vertices $i$ from the queue. If $i = \textit{destination}$, it means there is a path from $\textit{source}$ to $\textit{destination}$, and we return $\textit{true}$. Otherwise, we traverse all adjacent vertices $j$ of $i$. If $j$ has not been visited, we add $j$ to the queue $q$ and mark $j$ as visited.
+接下来，我们不断从队列中取出顶点 $i$，如果 $i = \textit{destination}$，则说明存在从 $\textit{source}$ 到 $\textit{destination}$ 的路径，返回 $\textit{true}$。否则，我们遍历 $i$ 的所有邻接顶点 $j$，如果 $j$ 没有被访问过，我们将 $j$ 加入队列 $q$，并且标记 $j$ 为已访问。
 
-Finally, if the queue is empty, it means there is no path from $\textit{source}$ to $\textit{destination}$, and we return $\textit{false}$.
+最后，如果队列为空，说明不存在从 $\textit{source}$ 到 $\textit{destination}$ 的路径，返回 $\textit{false}$。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Here, $n$ and $m$ are the number of nodes and edges, respectively.
+时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是节点数和边数。
 
 <!-- tabs:start -->
 
@@ -398,32 +398,27 @@ func validPath(n int, edges [][]int, source int, destination int) bool {
 #### TypeScript
 
 ```ts
-function validPath(
-  n: number,
-  edges: number[][],
-  source: number,
-  destination: number
-): boolean {
-  const g: number[][] = Array.from({ length: n }, () => []);
-  for (const [u, v] of edges) {
-    g[u].push(v);
-    g[v].push(u);
-  }
-  const vis = new Set<number>([source]);
-  const q = [source];
-  while (q.length) {
-    const i = q.pop()!;
-    if (i === destination) {
-      return true;
+function validPath(n: number, edges: number[][], source: number, destination: number): boolean {
+    const g: number[][] = Array.from({ length: n }, () => []);
+    for (const [u, v] of edges) {
+        g[u].push(v);
+        g[v].push(u);
     }
-    for (const j of g[i]) {
-      if (!vis.has(j)) {
-        vis.add(j);
-        q.push(j);
-      }
+    const vis = new Set<number>([source]);
+    const q = [source];
+    while (q.length) {
+        const i = q.pop()!;
+        if (i === destination) {
+            return true;
+        }
+        for (const j of g[i]) {
+            if (!vis.has(j)) {
+                vis.add(j);
+                q.push(j);
+            }
+        }
     }
-  }
-  return false;
+    return false;
 }
 ```
 
@@ -474,16 +469,16 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 3: Union-Find
+### 方法三：并查集
 
-Union-Find is a tree-like data structure that, as the name suggests, is used to handle some disjoint set **merge** and **query** problems. It supports two operations:
+并查集是一种树形的数据结构，顾名思义，它用于处理一些不交集的**合并**及**查询**问题。 它支持两种操作：
 
-1. Find: Determine which subset an element belongs to. The time complexity of a single operation is $O(\alpha(n))$.
-2. Union: Merge two subsets into one set. The time complexity of a single operation is $O(\alpha(n))$.
+1. 查找（Find）：确定某个元素处于哪个子集，单次操作时间复杂度 $O(\alpha(n))$
+1. 合并（Union）：将两个子集合并成一个集合，单次操作时间复杂度 $O(\alpha(n))$
 
-For this problem, we can use the Union-Find set to merge the edges in `edges`, and then determine whether `source` and `destination` are in the same set.
+对于本题，我们可以利用并查集，将 `edges` 中的边进行合并，然后判断 `source` 和 `destination` 是否在同一个集合中。
 
-The time complexity is $O(n \log n + m)$ or $O(n \alpha(n) + m)$, and the space complexity is $O(n)$. Where $n$ and $m$ are the number of nodes and edges, respectively.
+时间复杂度 $O(n \log n + m)$ 或 $O(n \alpha(n) + m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是节点数和边数。
 
 <!-- tabs:start -->
 
@@ -670,47 +665,42 @@ func validPath(n int, edges [][]int, source int, destination int) bool {
 
 ```ts
 class UnionFind {
-  p: number[];
-  size: number[];
-  constructor(n: number) {
-    this.p = Array(n)
-      .fill(0)
-      .map((_, i) => i);
-    this.size = Array(n).fill(1);
-  }
+    p: number[];
+    size: number[];
+    constructor(n: number) {
+        this.p = Array(n)
+            .fill(0)
+            .map((_, i) => i);
+        this.size = Array(n).fill(1);
+    }
 
-  find(x: number): number {
-    if (this.p[x] !== x) {
-      this.p[x] = this.find(this.p[x]);
+    find(x: number): number {
+        if (this.p[x] !== x) {
+            this.p[x] = this.find(this.p[x]);
+        }
+        return this.p[x];
     }
-    return this.p[x];
-  }
 
-  union(a: number, b: number): boolean {
-    const [pa, pb] = [this.find(a), this.find(b)];
-    if (pa === pb) {
-      return false;
+    union(a: number, b: number): boolean {
+        const [pa, pb] = [this.find(a), this.find(b)];
+        if (pa === pb) {
+            return false;
+        }
+        if (this.size[pa] > this.size[pb]) {
+            this.p[pb] = pa;
+            this.size[pa] += this.size[pb];
+        } else {
+            this.p[pa] = pb;
+            this.size[pb] += this.size[pa];
+        }
+        return true;
     }
-    if (this.size[pa] > this.size[pb]) {
-      this.p[pb] = pa;
-      this.size[pa] += this.size[pb];
-    } else {
-      this.p[pa] = pb;
-      this.size[pb] += this.size[pa];
-    }
-    return true;
-  }
 }
 
-function validPath(
-  n: number,
-  edges: number[][],
-  source: number,
-  destination: number
-): boolean {
-  const uf = new UnionFind(n);
-  edges.forEach(([u, v]) => uf.union(u, v));
-  return uf.find(source) === uf.find(destination);
+function validPath(n: number, edges: number[][], source: number, destination: number): boolean {
+    const uf = new UnionFind(n);
+    edges.forEach(([u, v]) => uf.union(u, v));
+    return uf.find(source) === uf.find(destination);
 }
 ```
 

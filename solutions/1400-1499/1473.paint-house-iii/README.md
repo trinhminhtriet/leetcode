@@ -1,107 +1,115 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1473.Paint%20House%20III/README.md
 rating: 2056
-source: Weekly Contest 192 Q4
+source: 第 192 场周赛 Q4
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1473. Paint House III](https://leetcode.com/problems/paint-house-iii)
+# [1473. 粉刷房子 III](https://leetcode.cn/problems/paint-house-iii)
 
-## Description
+[English Version](/solution/1400-1499/1473.Paint%20House%20III/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a row of <code>m</code> houses in a small city, each house must be painted with one of the <code>n</code> colors (labeled from <code>1</code> to <code>n</code>), some houses that have been painted last summer should not be painted again.</p>
+<p>在一个小城市里，有 <code>m</code> 个房子排成一排，你需要给每个房子涂上 <code>n</code> 种颜色之一（颜色编号为 <code>1</code> 到 <code>n</code> ）。有的房子去年夏天已经涂过颜色了，所以这些房子不可以被重新涂色。</p>
 
-<p>A neighborhood is a maximal group of continuous houses that are painted with the same color.</p>
+<p>我们将连续相同颜色尽可能多的房子称为一个街区。（比方说 <code>houses = [1,2,2,3,3,2,1,1]</code> ，它包含 5 个街区 <code> [{1}, {2,2}, {3,3}, {2}, {1,1}]</code> 。）</p>
 
-<ul>
-	<li>For example: <code>houses = [1,2,2,3,3,2,1,1]</code> contains <code>5</code> neighborhoods <code>[{1}, {2,2}, {3,3}, {2}, {1,1}]</code>.</li>
-</ul>
-
-<p>Given an array <code>houses</code>, an <code>m x n</code> matrix <code>cost</code> and an integer <code>target</code> where:</p>
+<p>给你一个数组 <code>houses</code> ，一个 <code>m * n</code> 的矩阵 <code>cost</code> 和一个整数 <code>target</code> ，其中：</p>
 
 <ul>
-	<li><code>houses[i]</code>: is the color of the house <code>i</code>, and <code>0</code> if the house is not painted yet.</li>
-	<li><code>cost[i][j]</code>: is the cost of paint the house <code>i</code> with the color <code>j + 1</code>.</li>
+	<li><code>houses[i]</code>：是第 <code>i</code> 个房子的颜色，<strong>0</strong> 表示这个房子还没有被涂色。</li>
+	<li><code>cost[i][j]</code>：是将第 <code>i</code> 个房子涂成颜色 <code>j+1</code> 的花费。</li>
 </ul>
 
-<p>Return <em>the minimum cost of painting all the remaining houses in such a way that there are exactly</em> <code>target</code> <em>neighborhoods</em>. If it is not possible, return <code>-1</code>.</p>
+<p>请你返回房子涂色方案的最小总花费，使得每个房子都被涂色后，恰好组成 <code>target</code> 个街区。如果没有可用的涂色方案，请返回 <strong>-1</strong> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> houses = [0,0,0,0,0], cost = [[1,10],[10,1],[10,1],[1,10],[5,1]], m = 5, n = 2, target = 3
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> Paint houses of this way [1,2,2,1,1]
-This array contains target = 3 neighborhoods, [{1}, {2,2}, {1,1}].
-Cost of paint all houses (1 + 1 + 1 + 1 + 5) = 9.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> houses = [0,2,1,2,0], cost = [[1,10],[10,1],[10,1],[1,10],[5,1]], m = 5, n = 2, target = 3
-<strong>Output:</strong> 11
-<strong>Explanation:</strong> Some houses are already painted, Paint the houses of this way [2,2,1,2,2]
-This array contains target = 3 neighborhoods, [{2,2}, {1}, {2,2}]. 
-Cost of paint the first and last house (10 + 1) = 11.
+<strong>输入：</strong>houses = [0,0,0,0,0], cost = [[1,10],[10,1],[10,1],[1,10],[5,1]], m = 5, n = 2, target = 3
+<strong>输出：</strong>9
+<strong>解释：</strong>房子涂色方案为 [1,2,2,1,1]
+此方案包含 target = 3 个街区，分别是 [{1}, {2,2}, {1,1}]。
+涂色的总花费为 (1 + 1 + 1 + 1 + 5) = 9。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> houses = [3,1,2,3], cost = [[1,1,1],[1,1,1],[1,1,1],[1,1,1]], m = 4, n = 3, target = 3
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> Houses are already painted with a total of 4 neighborhoods [{3},{1},{2},{3}] different of target = 3.
+<strong>输入：</strong>houses = [0,2,1,2,0], cost = [[1,10],[10,1],[10,1],[1,10],[5,1]], m = 5, n = 2, target = 3
+<strong>输出：</strong>11
+<strong>解释：</strong>有的房子已经被涂色了，在此基础上涂色方案为 [2,2,1,2,2]
+此方案包含 target = 3 个街区，分别是 [{2,2}, {1}, {2,2}]。
+给第一个和最后一个房子涂色的花费为 (10 + 1) = 11。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>houses = [0,0,0,0,0], cost = [[1,10],[10,1],[1,10],[10,1],[1,10]], m = 5, n = 2, target = 5
+<strong>输出：</strong>5
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>houses = [3,1,2,3], cost = [[1,1,1],[1,1,1],[1,1,1],[1,1,1]], m = 4, n = 3, target = 3
+<strong>输出：</strong>-1
+<strong>解释：</strong>房子已经被涂色并组成了 4 个街区，分别是 [{3},{1},{2},{3}] ，无法形成 target = 3 个街区。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == houses.length == cost.length</code></li>
 	<li><code>n == cost[i].length</code></li>
-	<li><code>1 &lt;= m &lt;= 100</code></li>
-	<li><code>1 &lt;= n &lt;= 20</code></li>
-	<li><code>1 &lt;= target &lt;= m</code></li>
-	<li><code>0 &lt;= houses[i] &lt;= n</code></li>
-	<li><code>1 &lt;= cost[i][j] &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 <= m <= 100</code></li>
+	<li><code>1 <= n <= 20</code></li>
+	<li><code>1 <= target <= m</code></li>
+	<li><code>0 <= houses[i] <= n</code></li>
+	<li><code>1 <= cost[i][j] <= 10^4</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j][k]$ to represent the minimum cost to paint houses from index $0$ to $i$, with the last house painted in color $j$, and exactly forming $k$ blocks. The answer is $f[m-1][j][\textit{target}]$, where $j$ ranges from $1$ to $n$. Initially, we check if the house at index $0$ is already painted. If it is not painted, then $f[0][j][1] = \textit{cost}[0][j - 1]$, where $j \in [1,..n]$. If it is already painted, then $f[0][\textit{houses}[0]][1] = 0$. All other values of $f[i][j][k]$ are initialized to $\infty$.
+我们定义 $f[i][j][k]$ 表示将下标 $[0,..i]$ 的房子涂上颜色，最后一个房子的颜色为 $j$，且恰好形成 $k$ 个街区的最小花费。那么答案就是 $f[m-1][j][\textit{target}]$，其中 $j$ 的取值范围为 $[1,..n]$。初始时，我们判断下标为 $0$ 的房子是否已经涂色，如果未涂色，那么 $f[0][j][1] = \textit{cost}[0][j - 1]$，其中 $j \in [1,..n]$。如果已经涂色，那么 $f[0][\textit{houses}[0]][1] = 0$。其他的 $f[i][j][k]$ 的值都初始化为 $\infty$。
 
-Next, we start iterating from index $i=1$. For each $i$, we check if the house at index $i$ is already painted:
+接下来，我们从下标 $i=1$ 开始遍历，对于每个 $i$，我们判断下标为 $i$ 的房子是否已经涂色：
 
-If it is not painted, we can paint the house at index $i$ with color $j$. We enumerate the number of blocks $k$, where $k \in [1,..\min(\textit{target}, i + 1)]$, and enumerate the color of the previous house $j_0$, where $j_0 \in [1,..n]$. Then we can derive the state transition equation:
+如果未涂色，那么我们可以将下标为 $i$ 的房子涂成颜色 $j$，我们枚举街区的数量 $k$，其中 $k \in [1,..\min(\textit{target}, i + 1)]$，并且枚举下标为 $i$ 的房子的前一个房子的颜色 $j_0$，其中 $j_0 \in [1,..n]$，那么我们可以得到状态转移方程：
 
 $$
 f[i][j][k] = \min_{j_0 \in [1,..n]} \{ f[i - 1][j_0][k - (j \neq j_0)] + \textit{cost}[i][j - 1] \}
 $$
 
-If it is already painted, we can paint the house at index $i$ with color $j$. We enumerate the number of blocks $k$, where $k \in [1,..\min(\textit{target}, i + 1)]$, and enumerate the color of the previous house $j_0$, where $j_0 \in [1,..n]$. Then we can derive the state transition equation:
+如果已经涂色，那么我们可以将下标为 $i$ 的房子涂成颜色 $j$，我们枚举街区的数量 $k$，其中 $k \in [1,..\min(\textit{target}, i + 1)]$，并且枚举下标为 $i$ 的房子的前一个房子的颜色 $j_0$，其中 $j_0 \in [1,..n]$，那么我们可以得到状态转移方程：
 
 $$
 f[i][j][k] = \min_{j_0 \in [1,..n]} \{ f[i - 1][j_0][k - (j \neq j_0)] \}
 $$
 
-Finally, we return $f[m - 1][j][\textit{target}]$, where $j \in [1,..n]$. If all values of $f[m - 1][j][\textit{target}]$ are $\infty$, then return $-1$.
+最后，我们返回 $f[m - 1][j][\textit{target}]$，其中 $j \in [1,..n]$，如果所有的 $f[m - 1][j][\textit{target}]$ 的值都为 $\infty$，那么返回 $-1$。
 
-The time complexity is $O(m \times n^2 \times \textit{target})$, and the space complexity is $O(m \times n \times \textit{target})$. Here, $m$, $n$, and $\textit{target}$ represent the number of houses, the number of colors, and the number of blocks, respectively.
+时间复杂度 $O(m \times n^2 \times \textit{target})$，空间复杂度 $O(m \times n \times \textit{target})$。其中 $m$, $n$, $\textit{target}$ 分别为房子的数量，颜色的数量，街区的数量。
 
 <!-- tabs:start -->
 
@@ -311,63 +319,49 @@ func minCost(houses []int, cost [][]int, m int, n int, target int) int {
 #### TypeScript
 
 ```ts
-function minCost(
-  houses: number[],
-  cost: number[][],
-  m: number,
-  n: number,
-  target: number
-): number {
-  const inf = 1 << 30;
-  const f: number[][][] = new Array(m)
-    .fill(0)
-    .map(() =>
-      new Array(n + 1).fill(0).map(() => new Array(target + 1).fill(inf))
-    );
-  if (houses[0] === 0) {
-    for (let j = 1; j <= n; ++j) {
-      f[0][j][1] = cost[0][j - 1];
-    }
-  } else {
-    f[0][houses[0]][1] = 0;
-  }
-  for (let i = 1; i < m; ++i) {
-    if (houses[i] === 0) {
-      for (let j = 1; j <= n; ++j) {
-        for (let k = 1; k <= Math.min(target, i + 1); ++k) {
-          for (let j0 = 1; j0 <= n; ++j0) {
-            if (j0 === j) {
-              f[i][j][k] = Math.min(
-                f[i][j][k],
-                f[i - 1][j][k] + cost[i][j - 1]
-              );
-            } else {
-              f[i][j][k] = Math.min(
-                f[i][j][k],
-                f[i - 1][j0][k - 1] + cost[i][j - 1]
-              );
-            }
-          }
+function minCost(houses: number[], cost: number[][], m: number, n: number, target: number): number {
+    const inf = 1 << 30;
+    const f: number[][][] = new Array(m)
+        .fill(0)
+        .map(() => new Array(n + 1).fill(0).map(() => new Array(target + 1).fill(inf)));
+    if (houses[0] === 0) {
+        for (let j = 1; j <= n; ++j) {
+            f[0][j][1] = cost[0][j - 1];
         }
-      }
     } else {
-      const j = houses[i];
-      for (let k = 1; k <= Math.min(target, i + 1); ++k) {
-        for (let j0 = 1; j0 <= n; ++j0) {
-          if (j0 === j) {
-            f[i][j][k] = Math.min(f[i][j][k], f[i - 1][j][k]);
-          } else {
-            f[i][j][k] = Math.min(f[i][j][k], f[i - 1][j0][k - 1]);
-          }
-        }
-      }
+        f[0][houses[0]][1] = 0;
     }
-  }
-  let ans = inf;
-  for (let j = 1; j <= n; ++j) {
-    ans = Math.min(ans, f[m - 1][j][target]);
-  }
-  return ans >= inf ? -1 : ans;
+    for (let i = 1; i < m; ++i) {
+        if (houses[i] === 0) {
+            for (let j = 1; j <= n; ++j) {
+                for (let k = 1; k <= Math.min(target, i + 1); ++k) {
+                    for (let j0 = 1; j0 <= n; ++j0) {
+                        if (j0 === j) {
+                            f[i][j][k] = Math.min(f[i][j][k], f[i - 1][j][k] + cost[i][j - 1]);
+                        } else {
+                            f[i][j][k] = Math.min(f[i][j][k], f[i - 1][j0][k - 1] + cost[i][j - 1]);
+                        }
+                    }
+                }
+            }
+        } else {
+            const j = houses[i];
+            for (let k = 1; k <= Math.min(target, i + 1); ++k) {
+                for (let j0 = 1; j0 <= n; ++j0) {
+                    if (j0 === j) {
+                        f[i][j][k] = Math.min(f[i][j][k], f[i - 1][j][k]);
+                    } else {
+                        f[i][j][k] = Math.min(f[i][j][k], f[i - 1][j0][k - 1]);
+                    }
+                }
+            }
+        }
+    }
+    let ans = inf;
+    for (let j = 1; j <= n; ++j) {
+        ans = Math.min(ans, f[m - 1][j][target]);
+    }
+    return ans >= inf ? -1 : ans;
 }
 ```
 

@@ -1,56 +1,63 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0015.3Sum/README.md
 tags:
-  - Array
-  - Two Pointers
-  - Sorting
+    - 数组
+    - 双指针
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [15. 3Sum](https://leetcode.com/problems/3sum)
+# [15. 三数之和](https://leetcode.cn/problems/3sum)
 
-## Description
+[English Version](/solution/0000-0099/0015.3Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array nums, return all the triplets <code>[nums[i], nums[j], nums[k]]</code> such that <code>i != j</code>, <code>i != k</code>, and <code>j != k</code>, and <code>nums[i] + nums[j] + nums[k] == 0</code>.</p>
+<p>给你一个整数数组 <code>nums</code> ，判断是否存在三元组 <code>[nums[i], nums[j], nums[k]]</code> 满足 <code>i != j</code>、<code>i != k</code> 且 <code>j != k</code> ，同时还满足 <code>nums[i] + nums[j] + nums[k] == 0</code> 。请你返回所有和为 <code>0</code> 且不重复的三元组。</p>
 
-<p>Notice that the solution set must not contain duplicate triplets.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [-1,0,1,2,-1,-4]
-<strong>Output:</strong> [[-1,-1,2],[-1,0,1]]
-<strong>Explanation:</strong> 
-nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
-nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
-nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
-The distinct triplets are [-1,0,1] and [-1,-1,2].
-Notice that the order of the output and the order of the triplets does not matter.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [0,1,1]
-<strong>Output:</strong> []
-<strong>Explanation:</strong> The only possible triplet does not sum up to 0.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [0,0,0]
-<strong>Output:</strong> [[0,0,0]]
-<strong>Explanation:</strong> The only possible triplet sums up to 0.
-</pre>
+<p><strong>注意：</strong>答案中不可以包含重复的三元组。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p>&nbsp;</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [-1,0,1,2,-1,-4]
+<strong>输出：</strong>[[-1,-1,2],[-1,0,1]]
+<strong>解释：</strong>
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0 。
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0 。
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0 。
+不同的三元组是 [-1,0,1] 和 [-1,-1,2] 。
+注意，输出的顺序和三元组的顺序并不重要。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [0,1,1]
+<strong>输出：</strong>[]
+<strong>解释：</strong>唯一可能的三元组和不为 0 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [0,0,0]
+<strong>输出：</strong>[[0,0,0]]
+<strong>解释：</strong>唯一可能的三元组和为 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 3000</code></li>
@@ -59,31 +66,31 @@ Notice that the order of the output and the order of the triplets does not matte
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sort + Two Pointers
+### 方法一：排序 + 双指针
 
-We notice that the problem does not require us to return the triplet in order, so we might as well sort the array first, which makes it easy to skip duplicate elements.
+我们注意到，题目不要求我们按照顺序返回三元组，因此我们不妨先对数组进行排序，这样就可以方便地跳过重复的元素。
 
-Next, we enumerate the first element of the triplet $nums[i]$, where $0 \leq i \lt n - 2$. For each $i$, we can find $j$ and $k$ satisfying $nums[i] + nums[j] + nums[k] = 0$ by maintaining two pointers $j = i + 1$ and $k = n - 1$. In the enumeration process, we need to skip duplicate elements to avoid duplicate triplets.
+接下来，我们枚举三元组的第一个元素 $nums[i]$，其中 $0 \leq i \lt n - 2$。对于每个 $i$，我们可以通过维护两个指针 $j = i + 1$ 和 $k = n - 1$，从而找到满足 $nums[i] + nums[j] + nums[k] = 0$ 的 $j$ 和 $k$。在枚举的过程中，我们需要跳过重复的元素，以避免出现重复的三元组。
 
-The specific judgment logic is as follows:
+具体判断逻辑如下：
 
-If $i \gt 0$ and $nums[i] = nums[i - 1]$, it means that the element currently enumerated is the same as the previous element, we can skip it directly, because it will not produce new results.
+如果 $i \gt 0$ 并且 $nums[i] = nums[i - 1]$，则说明当前枚举的元素与上一个元素相同，我们可以直接跳过，因为不会产生新的结果。
 
-If $nums[i] \gt 0$, it means that the element currently enumerated is greater than $0$, so the sum of three numbers must not be equal to $0$, and the enumeration ends.
+如果 $nums[i] \gt 0$，则说明当前枚举的元素大于 $0$，则三数之和必然无法等于 $0$，结束枚举。
 
-Otherwise, we let the left pointer $j = i + 1$, and the right pointer $k = n - 1$. When $j \lt k$, the loop is executed, and the sum of three numbers $x = nums[i] + nums[j] + nums[k]$ is calculated and compared with $0$:
+否则，我们令左指针 $j = i + 1$，右指针 $k = n - 1$，当 $j \lt k$ 时，执行循环，计算三数之和 $x = nums[i] + nums[j] + nums[k]$，并与 $0$ 比较：
 
-- If $x \lt 0$, it means that $nums[j]$ is too small, we need to move $j$ to the right.
-- If $x \gt 0$, it means that $nums[k]$ is too large, we need to move $k$ to the left.
-- Otherwise, it means that we have found a valid triplet, add it to the answer, move $j$ to the right, move $k$ to the left, and skip all duplicate elements to continue looking for the next valid triplet.
+-   如果 $x \lt 0$，则说明 $nums[j]$ 太小，我们需要将 $j$ 右移一位。
+-   如果 $x \gt 0$，则说明 $nums[k]$ 太大，我们需要将 $k$ 左移一位。
+-   否则，说明我们找到了一个合法的三元组，将其加入答案，并将 $j$ 右移一位，将 $k$ 左移一位，同时跳过所有重复的元素，继续寻找下一个合法的三元组。
 
-After the enumeration is over, we can get the answer to the triplet.
+枚举结束后，我们即可得到三元组的答案。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(\log n)$. The $n$ is the length of the array.
+时间复杂度 $O(n^2)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组的长度。
 
 <!-- tabs:start -->
 
@@ -225,33 +232,33 @@ func threeSum(nums []int) (ans [][]int) {
 
 ```ts
 function threeSum(nums: number[]): number[][] {
-  nums.sort((a, b) => a - b);
-  const ans: number[][] = [];
-  const n = nums.length;
-  for (let i = 0; i < n - 2 && nums[i] <= 0; i++) {
-    if (i > 0 && nums[i] === nums[i - 1]) {
-      continue;
-    }
-    let j = i + 1;
-    let k = n - 1;
-    while (j < k) {
-      const x = nums[i] + nums[j] + nums[k];
-      if (x < 0) {
-        ++j;
-      } else if (x > 0) {
-        --k;
-      } else {
-        ans.push([nums[i], nums[j++], nums[k--]]);
-        while (j < k && nums[j] === nums[j - 1]) {
-          ++j;
+    nums.sort((a, b) => a - b);
+    const ans: number[][] = [];
+    const n = nums.length;
+    for (let i = 0; i < n - 2 && nums[i] <= 0; i++) {
+        if (i > 0 && nums[i] === nums[i - 1]) {
+            continue;
         }
-        while (j < k && nums[k] === nums[k + 1]) {
-          --k;
+        let j = i + 1;
+        let k = n - 1;
+        while (j < k) {
+            const x = nums[i] + nums[j] + nums[k];
+            if (x < 0) {
+                ++j;
+            } else if (x > 0) {
+                --k;
+            } else {
+                ans.push([nums[i], nums[j++], nums[k--]]);
+                while (j < k && nums[j] === nums[j - 1]) {
+                    ++j;
+                }
+                while (j < k && nums[k] === nums[k + 1]) {
+                    --k;
+                }
+            }
         }
-      }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -308,33 +315,33 @@ impl Solution {
  * @return {number[][]}
  */
 var threeSum = function (nums) {
-  const n = nums.length;
-  nums.sort((a, b) => a - b);
-  const ans = [];
-  for (let i = 0; i < n - 2 && nums[i] <= 0; ++i) {
-    if (i > 0 && nums[i] === nums[i - 1]) {
-      continue;
-    }
-    let j = i + 1;
-    let k = n - 1;
-    while (j < k) {
-      const x = nums[i] + nums[j] + nums[k];
-      if (x < 0) {
-        ++j;
-      } else if (x > 0) {
-        --k;
-      } else {
-        ans.push([nums[i], nums[j++], nums[k--]]);
-        while (j < k && nums[j] === nums[j - 1]) {
-          ++j;
+    const n = nums.length;
+    nums.sort((a, b) => a - b);
+    const ans = [];
+    for (let i = 0; i < n - 2 && nums[i] <= 0; ++i) {
+        if (i > 0 && nums[i] === nums[i - 1]) {
+            continue;
         }
-        while (j < k && nums[k] === nums[k + 1]) {
-          --k;
+        let j = i + 1;
+        let k = n - 1;
+        while (j < k) {
+            const x = nums[i] + nums[j] + nums[k];
+            if (x < 0) {
+                ++j;
+            } else if (x > 0) {
+                --k;
+            } else {
+                ans.push([nums[i], nums[j++], nums[k--]]);
+                while (j < k && nums[j] === nums[j - 1]) {
+                    ++j;
+                }
+                while (j < k && nums[k] === nums[k + 1]) {
+                    --k;
+                }
+            }
         }
-      }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 

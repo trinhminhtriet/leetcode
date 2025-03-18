@@ -1,122 +1,98 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1803.Count%20Pairs%20With%20XOR%20in%20a%20Range/README.md
 rating: 2479
-source: Weekly Contest 233 Q4
+source: 第 233 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Trie
-  - Array
+    - 位运算
+    - 字典树
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [1803. Count Pairs With XOR in a Range](https://leetcode.com/problems/count-pairs-with-xor-in-a-range)
+# [1803. 统计异或值在范围内的数对有多少](https://leetcode.cn/problems/count-pairs-with-xor-in-a-range)
 
-## Description
+[English Version](/solution/1800-1899/1803.Count%20Pairs%20With%20XOR%20in%20a%20Range/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <strong>(0-indexed)</strong> integer array <code>nums</code> and two integers <code>low</code> and <code>high</code>, return <em>the number of <strong>nice pairs</strong></em>.</p>
+<p>给你一个整数数组 <code>nums</code> （下标 <strong>从 0 开始</strong> 计数）以及两个整数：<code>low</code> 和 <code>high</code> ，请返回 <strong>漂亮数对</strong> 的数目。</p>
 
-<p>A <strong>nice pair</strong> is a pair <code>(i, j)</code> where <code>0 &lt;= i &lt; j &lt; nums.length</code> and <code>low &lt;= (nums[i] XOR nums[j]) &lt;= high</code>.</p>
+<p><strong>漂亮数对</strong> 是一个形如 <code>(i, j)</code> 的数对，其中 <code>0 &lt;= i &lt; j &lt; nums.length</code> 且 <code>low &lt;= (nums[i] XOR nums[j]) &lt;= high</code> 。</p>
 
-<p>&nbsp;</p>
+<p> </p>
 
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1：</strong></p>
 
-<pre>
-
-<strong>Input:</strong> nums = [1,4,2,7], low = 2, high = 6
-
-<strong>Output:</strong> 6
-
-<strong>Explanation:</strong> All nice pairs (i, j) are as follows:
-
+<pre><strong>输入：</strong>nums = [1,4,2,7], low = 2, high = 6
+<strong>输出：</strong>6
+<strong>解释：</strong>所有漂亮数对 (i, j) 列出如下：
     - (0, 1): nums[0] XOR nums[1] = 5 
-
     - (0, 2): nums[0] XOR nums[2] = 3
-
     - (0, 3): nums[0] XOR nums[3] = 6
-
     - (1, 2): nums[1] XOR nums[2] = 6
-
     - (1, 3): nums[1] XOR nums[3] = 3
-
     - (2, 3): nums[2] XOR nums[3] = 5
-
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-
-<strong>Input:</strong> nums = [9,8,4,2,1], low = 5, high = 14
-
-<strong>Output:</strong> 8
-
-<strong>Explanation:</strong> All nice pairs (i, j) are as follows:
-
+<pre><strong>输入：</strong>nums = [9,8,4,2,1], low = 5, high = 14
+<strong>输出：</strong>8
+<strong>解释：</strong>所有漂亮数对 (i, j) 列出如下：
 ​​​​​    - (0, 2): nums[0] XOR nums[2] = 13
+    - (0, 3): nums[0] XOR nums[3] = 11
+    - (0, 4): nums[0] XOR nums[4] = 8
+    - (1, 2): nums[1] XOR nums[2] = 12
+    - (1, 3): nums[1] XOR nums[3] = 10
+    - (1, 4): nums[1] XOR nums[4] = 9
+    - (2, 3): nums[2] XOR nums[3] = 6
+    - (2, 4): nums[2] XOR nums[4] = 5</pre>
 
-&nbsp;   - (0, 3): nums[0] XOR nums[3] = 11
+<p> </p>
 
-&nbsp;   - (0, 4): nums[0] XOR nums[4] = 8
-
-&nbsp;   - (1, 2): nums[1] XOR nums[2] = 12
-
-&nbsp;   - (1, 3): nums[1] XOR nums[3] = 10
-
-&nbsp;   - (1, 4): nums[1] XOR nums[4] = 9
-
-&nbsp;   - (2, 3): nums[2] XOR nums[3] = 6
-
-&nbsp;   - (2, 4): nums[2] XOR nums[4] = 5</pre>
-
-<p>&nbsp;</p>
-
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
-
-    <li><code>1 &lt;= nums[i] &lt;= 2 * 10<sup>4</sup></code></li>
-
-    <li><code>1 &lt;= low &lt;= high &lt;= 2 * 10<sup>4</sup></code></li>
-
+	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 2 * 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= low &lt;= high &lt;= 2 * 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: 0-1 Trie
+### 方法一：0-1 字典树
 
-For this kind of problem that counts the interval $[low, high]$, we can consider converting it into counting $[0, high]$ and $[0, low - 1]$, and then subtracting the latter from the former to get the answer.
+对于这种区间 $[low, high]$ 统计的问题，我们可以考虑将其转换为统计 $[0, high]$ 和 $[0, low - 1]$ 的问题，然后相减即可得到答案。
 
-In this problem, we can count how many pairs of numbers have an XOR value less than $high+1$, and then count how many pairs of numbers have an XOR value less than $low$. The difference between these two counts is the number of pairs whose XOR value is in the interval $[low, high]$.
+在这道题中，我们可以统计有多少数对的异或值小于 $high+1$，然后再统计有多少数对的异或值小于 $low$，相减的结果就是异或值在区间 $[low, high]$ 之间的数对数量。
 
-Moreover, for array XOR counting problems, we can usually use a "0-1 Trie" to solve them.
+另外，对于数组异或计数问题，我们通常可以使用“0-1 字典树”来解决。
 
-The definition of the Trie node is as follows:
+字典树的节点定义如下：
 
-- `children[0]` and `children[1]` represent the left and right child nodes of the current node, respectively;
-- `cnt` represents the number of numbers ending with the current node.
+-   `children[0]` 和 `children[1]` 分别表示当前节点的左右子节点；
+-   `cnt` 表示以当前节点为结尾的数的数量。
 
-In the Trie, we also define the following two functions:
+在字典树中，我们还定义了以下两个函数：
 
-One function is $insert(x)$, which inserts the number $x$ into the Trie. This function inserts the number $x$ into the "0-1 Trie" in the order of binary bits from high to low. If the current binary bit is $0$, it is inserted into the left child node, otherwise, it is inserted into the right child node. Then the count value $cnt$ of the node is increased by $1$.
+其中一个函数是 $insert(x)$，表示将数 $x$ 插入到字典树中。该函数将数字 $x$ 按照二进制位从高到低的顺序，插入到“0-1 字典树”中。如果当前二进制位为 $0$，则插入到左子节点，否则插入到右子节点。然后将节点的计数值 $cnt$ 加 $1$。
 
-Another function is $search(x, limit)$, which searches for the count of numbers in the Trie that have an XOR value with $x$ less than $limit$. This function starts from the root node `node` of the Trie, traverses the binary bits of $x$ from high to low, and denotes the current binary bit of $x$ as $v$. If the current binary bit of $limit$ is $1$, we can directly add the count value $cnt$ of the child node that has the same binary bit $v$ as $x$ to the answer, and then move the current node to the child node that has a different binary bit $v$ from $x$, i.e., `node = node.children[v ^ 1]`. Continue to traverse the next bit. If the current binary bit of $limit$ is $0$, we can only move the current node to the child node that has the same binary bit $v$ as $x$, i.e., `node = node.children[v]`. Continue to traverse the next bit. After traversing the binary bits of $x$, return the answer.
+另一个函数是 $search(x, limit)$，表示在字典树中查找与 $x$ 异或值小于 $limit$ 的数量。该函数从字典树的根节点 `node` 开始，遍历 $x$ 的二进制位，从高到低，记当前 $x$ 的二进制位的数为 $v$。如果当前 $limit$ 的二进制位为 $1$，此时我们可以直接将答案加上与 $x$ 的当前二进制位 $v$ 相同的子节点的计数值 $cnt$，然后将当前节点移动到与 $x$ 的当前二进制位 $v$ 不同的子节点，即 `node = node.children[v ^ 1]`。继续遍历下一位。如果当前 $limit$ 的二进制位为 $0$，此时我们只能将当前节点移动到与 $x$ 的当前二进制位 $v$ 相同的子节点，即 `node = node.children[v]`。继续遍历下一位。遍历完 $x$ 的二进制位后，返回答案。
 
-With the above two functions, we can solve this problem.
+有了以上两个函数，我们就可以解决本题了。
 
-We traverse the array `nums`. For each number $x$, we first search in the Trie for the count of numbers that have an XOR value with $x$ less than $high+1$, and then search in the Trie for the count of pairs that have an XOR value with $x$ less than $low$, and add the difference between the two counts to the answer. Then insert $x$ into the Trie. Continue to traverse the next number $x$ until the array `nums` is traversed. Finally, return the answer.
+我们遍历数组 `nums`，对于每个数 $x$，我们先在字典树中查找与 $x$ 异或值小于 $high+1$ 的数量，然后在字典树中查找与 $x$ 异或值小于 $low$ 的数对数量，将两者的差值加到答案中。接着将 $x$ 插入到字典树中。继续遍历下一个数 $x$，直到遍历完数组 `nums`。最后返回答案即可。
 
-The time complexity is $O(n \times \log M)$, and the space complexity is $O(n \times \log M)$. Here, $n$ is the length of the array `nums`, and $M$ is the maximum value in the array `nums`. In this problem, we directly take $\log M = 16$.
+时间复杂度 $O(n \times \log M)$，空间复杂度 $O(n \times \log M)$。其中 $n$ 为数组 `nums` 的长度，而 $M$ 为数组 `nums` 中的最大值。本题中我们直接取 $\log M = 16$。
 
 <!-- tabs:start -->
 

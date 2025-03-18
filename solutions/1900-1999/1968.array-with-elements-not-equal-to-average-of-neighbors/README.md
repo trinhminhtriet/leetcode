@@ -1,53 +1,56 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1968.Array%20With%20Elements%20Not%20Equal%20to%20Average%20of%20Neighbors/README.md
 rating: 1499
-source: Weekly Contest 254 Q2
+source: 第 254 场周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1968. Array With Elements Not Equal to Average of Neighbors](https://leetcode.com/problems/array-with-elements-not-equal-to-average-of-neighbors)
+# [1968. 构造元素不等于两相邻元素平均值的数组](https://leetcode.cn/problems/array-with-elements-not-equal-to-average-of-neighbors)
 
-## Description
+[English Version](/solution/1900-1999/1968.Array%20With%20Elements%20Not%20Equal%20to%20Average%20of%20Neighbors/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array <code>nums</code> of <strong>distinct</strong> integers. You want to rearrange the elements in the array such that every element in the rearranged array is <strong>not</strong> equal to the <strong>average</strong> of its neighbors.</p>
+<p>给你一个 <strong>下标从 0 开始</strong> 的数组 <code>nums</code> ，数组由若干 <strong>互不相同的</strong> 整数组成。你打算重新排列数组中的元素以满足：重排后，数组中的每个元素都 <strong>不等于</strong> 其两侧相邻元素的 <strong>平均值</strong> 。</p>
 
-<p>More formally, the rearranged array should have the property such that for every <code>i</code> in the range <code>1 &lt;= i &lt; nums.length - 1</code>, <code>(nums[i-1] + nums[i+1]) / 2</code> is <strong>not</strong> equal to <code>nums[i]</code>.</p>
+<p>更公式化的说法是，重新排列的数组应当满足这一属性：对于范围&nbsp;<code>1 &lt;= i &lt; nums.length - 1</code> 中的每个 <code>i</code> ，<code>(nums[i-1] + nums[i+1]) / 2</code> <strong>不等于</strong> <code>nums[i]</code> 均成立 。</p>
 
-<p>Return <em><strong>any</strong> rearrangement of </em><code>nums</code><em> that meets the requirements</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4,5]
-<strong>Output:</strong> [1,2,4,5,3]
-<strong>Explanation:</strong>
-When i=1, nums[i] = 2, and the average of its neighbors is (1+4) / 2 = 2.5.
-When i=2, nums[i] = 4, and the average of its neighbors is (2+5) / 2 = 3.5.
-When i=3, nums[i] = 5, and the average of its neighbors is (4+3) / 2 = 3.5.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [6,2,0,9,7]
-<strong>Output:</strong> [9,7,6,2,0]
-<strong>Explanation:</strong>
-When i=1, nums[i] = 7, and the average of its neighbors is (9+6) / 2 = 7.5.
-When i=2, nums[i] = 6, and the average of its neighbors is (7+2) / 2 = 4.5.
-When i=3, nums[i] = 2, and the average of its neighbors is (6+0) / 2 = 3.
-</pre>
+<p>返回满足题意的任一重排结果。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [1,2,3,4,5]
+<strong>输出：</strong>[1,2,4,5,3]
+<strong>解释：</strong>
+i=1, nums[i] = 2, 两相邻元素平均值为 (1+4) / 2 = 2.5
+i=2, nums[i] = 4, 两相邻元素平均值为 (2+5) / 2 = 3.5
+i=3, nums[i] = 5, 两相邻元素平均值为 (4+3) / 2 = 3.5
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>nums = [6,2,0,9,7]
+<strong>输出：</strong>[9,7,6,2,0]
+<strong>解释：</strong>
+i=1, nums[i] = 7, 两相邻元素平均值为 (9+6) / 2 = 7.5
+i=2, nums[i] = 6, 两相邻元素平均值为 (7+2) / 2 = 4.5
+i=3, nums[i] = 2, 两相邻元素平均值为 (6+0) / 2 = 3
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -56,15 +59,15 @@ When i=3, nums[i] = 2, and the average of its neighbors is (6+0) / 2 = 3.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-Since the elements in the array are distinct, we can first sort the array, then divide the array into two parts. Place the first half of the elements in the even positions of the answer array, and the second half of the elements in the odd positions of the answer array. In this way, for each element, its two adjacent elements will not be equal to its average value.
+由于数组中的元素是互不相同的，我们可以先对数组进行排序，然后将数组分成两部分，将前一半的元素放到答案数组中的偶数位置，将后一半的元素放到答案数组中的奇数位置。这样，对于每个元素，它的两个相邻元素都不会等于它的平均值。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -146,17 +149,17 @@ func rearrangeArray(nums []int) (ans []int) {
 
 ```ts
 function rearrangeArray(nums: number[]): number[] {
-  nums.sort((a, b) => a - b);
-  const n = nums.length;
-  const m = (n + 1) >> 1;
-  const ans: number[] = [];
-  for (let i = 0; i < m; i++) {
-    ans.push(nums[i]);
-    if (i + m < n) {
-      ans.push(nums[i + m]);
+    nums.sort((a, b) => a - b);
+    const n = nums.length;
+    const m = (n + 1) >> 1;
+    const ans: number[] = [];
+    for (let i = 0; i < m; i++) {
+        ans.push(nums[i]);
+        if (i + m < n) {
+            ans.push(nums[i + m]);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

@@ -1,91 +1,96 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2896.Apply%20Operations%20to%20Make%20Two%20Strings%20Equal/README.md
 rating: 2172
-source: Weekly Contest 366 Q3
+source: 第 366 场周赛 Q3
 tags:
-  - String
-  - Dynamic Programming
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2896. Apply Operations to Make Two Strings Equal](https://leetcode.com/problems/apply-operations-to-make-two-strings-equal)
+# [2896. 执行操作使两个字符串相等](https://leetcode.cn/problems/apply-operations-to-make-two-strings-equal)
 
-## Description
+[English Version](/solution/2800-2899/2896.Apply%20Operations%20to%20Make%20Two%20Strings%20Equal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>0-indexed</strong> binary strings <code>s1</code> and <code>s2</code>, both of length <code>n</code>, and a positive integer <code>x</code>.</p>
+<p>给你两个下标从 <strong>0</strong>&nbsp;开始的二进制字符串&nbsp;<code>s1</code> 和&nbsp;<code>s2</code>&nbsp;，两个字符串的长度都是&nbsp;<code>n</code>&nbsp;，再给你一个正整数&nbsp;<code>x</code>&nbsp;。</p>
 
-<p>You can perform any of the following operations on the string <code>s1</code> <strong>any</strong> number of times:</p>
+<p>你可以对字符串 <code>s1</code>&nbsp;执行以下操作 <strong>任意次</strong>&nbsp;：</p>
 
 <ul>
-	<li>Choose two indices <code>i</code> and <code>j</code>, and flip both <code>s1[i]</code> and <code>s1[j]</code>. The cost of this operation is <code>x</code>.</li>
-	<li>Choose an index <code>i</code> such that <code>i &lt; n - 1</code> and flip both <code>s1[i]</code> and <code>s1[i + 1]</code>. The cost of this operation is <code>1</code>.</li>
+	<li>选择两个下标&nbsp;<code>i</code>&nbsp;和&nbsp;<code>j</code>&nbsp;，将&nbsp;<code>s1[i]</code> 和&nbsp;<code>s1[j]</code>&nbsp;都反转，操作的代价为&nbsp;<code>x</code>&nbsp;。</li>
+	<li>选择满足 <code>i &lt; n - 1</code>&nbsp;的下标&nbsp;<code>i</code>&nbsp;，反转&nbsp;<code>s1[i]</code> 和&nbsp;<code>s1[i + 1]</code>&nbsp;，操作的代价为&nbsp;<code>1</code>&nbsp;。</li>
 </ul>
 
-<p>Return <em>the <strong>minimum</strong> cost needed to make the strings </em><code>s1</code><em> and </em><code>s2</code><em> equal, or return </em><code>-1</code><em> if it is impossible.</em></p>
+<p>请你返回使字符串&nbsp;<code>s1</code>&nbsp;和&nbsp;<code>s2</code>&nbsp;相等的&nbsp;<strong>最小</strong>&nbsp;操作代价之和，如果无法让二者相等，返回&nbsp;<code>-1</code>&nbsp;。</p>
 
-<p><strong>Note</strong> that flipping a character means changing it from <code>0</code> to <code>1</code> or vice-versa.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s1 = &quot;1100011000&quot;, s2 = &quot;0101001010&quot;, x = 2
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> We can do the following operations:
-- Choose i = 3 and apply the second operation. The resulting string is s1 = &quot;110<u><strong>11</strong></u>11000&quot;.
-- Choose i = 4 and apply the second operation. The resulting string is s1 = &quot;1101<strong><u>00</u></strong>1000&quot;.
-- Choose i = 0 and j = 8 and apply the first operation. The resulting string is s1 = &quot;<u><strong>0</strong></u>1010010<u><strong>1</strong></u>0&quot; = s2.
-The total cost is 1 + 1 + 2 = 4. It can be shown that it is the minimum cost possible.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s1 = &quot;10110&quot;, s2 = &quot;00011&quot;, x = 4
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It is not possible to make the two strings equal.
-</pre>
+<p><strong>注意</strong>&nbsp;，反转字符的意思是将&nbsp;<code>0</code>&nbsp;变成&nbsp;<code>1</code>&nbsp;，或者 <code>1</code>&nbsp;变成 <code>0</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>s1 = "1100011000", s2 = "0101001010", x = 2
+<b>输出：</b>4
+<b>解释：</b>我们可以执行以下操作：
+- 选择 i = 3 执行第二个操作。结果字符串是 s1 = "110<em><strong>11</strong></em>11000" 。
+- 选择 i = 4 执行第二个操作。结果字符串是 s1 = "1101<em><strong>00</strong></em>1000" 。
+- 选择 i = 0 和 j = 8 ，执行第一个操作。结果字符串是 s1 = "<em><strong>0</strong></em>1010010<em><strong>1</strong></em>0" = s2 。
+总代价是 1 + 1 + 2 = 4 。这是最小代价和。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>s1 = "10110", s2 = "00011", x = 4
+<b>输出：</b>-1
+<b>解释：</b>无法使两个字符串相等。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == s1.length == s2.length</code></li>
 	<li><code>1 &lt;= n, x &lt;= 500</code></li>
-	<li><code>s1</code> and <code>s2</code> consist only of the characters <code>&#39;0&#39;</code> and <code>&#39;1&#39;</code>.</li>
+	<li><code>s1</code> 和&nbsp;<code>s2</code>&nbsp;只包含字符&nbsp;<code>'0'</code> 和&nbsp;<code>'1'</code> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization
+### 方法一：记忆化搜索
 
-We notice that since each operation reverses two characters, if the number of different characters in the two strings is odd, it is impossible to make them equal, and we directly return $-1$. Otherwise, we store the indices of the different characters in the two strings in an array $idx$, and let $m$ be the length of $idx$.
+我们注意到，由于每次操作都是反转两个字符，因此，如果不同的字符个数为奇数，那么无法使两个字符串相等，直接返回 $-1$。否则，我们将两个字符串中不同的字符的下标存入数组 $idx$ 中，记数组长度为 $m$。
 
-Next, we design a function $dfs(i, j)$, which represents the minimum cost of reversing the characters in $idx[i..j]$. The answer is $dfs(0, m - 1)$.
+接下来，我们设计一个函数 $dfs(i, j)$，表示将 $idx[i..j]$ 中的字符反转的最小操作代价。答案即为 $dfs(0, m - 1)$。
 
-The calculation process of the function $dfs(i, j)$ is as follows:
+函数 $dfs(i, j)$ 的计算过程如下：
 
-If $i > j$, we do not need to perform any operation, and return $0$.
+如果 $i \gt j$，那么不需要进行任何操作，返回 $0$；
 
-Otherwise, we consider the two endpoints of the interval $[i, j]$:
+否则，我们考虑对区间 $[i, j]$ 的端点进行操作：
 
-- If we perform the first operation on endpoint $i$, since the cost $x$ is fixed, the optimal choice is to reverse $idx[i]$ and $idx[j]$, and then recursively calculate $dfs(i + 1, j - 1)$, with a total cost of $dfs(i + 1, j - 1) + x$.
-- If we perform the second operation on endpoint $i$, we need to reverse all the characters in $[idx[i]..idx[i + 1]]$, and then recursively calculate $dfs(i + 2, j)$, with a total cost of $dfs(i + 2, j) + idx[i + 1] - idx[i]$.
-- If we perform the second operation on endpoint $j$, we need to reverse all the characters in $[idx[j - 1]..idx[j]]$, and then recursively calculate $dfs(i, j - 2)$, with a total cost of $dfs(i, j - 2) + idx[j] - idx[j - 1]$.
+-   如果我们对端点 $i$ 进行第一种操作，由于代价 $x$ 已经固定，因此，我们最优的选择是将 $idx[i]$ 和 $idx[j]$ 反转，然后递归计算 $dfs(i + 1, j - 1)$，总代价为 $dfs(i + 1, j - 1) + x$；
+-   如果我们对端点 $i$ 进行第二种操作，那么我们需要将 $[idx[i]..idx[i + 1]]$ 中的字符全部反转，然后递归计算 $dfs(i + 2, j)$，总代价为 $dfs(i + 2, j) + idx[i + 1] - idx[i]$；
+-   如果我们对端点 $j$ 进行第二种操作，那么我们需要将 $[idx[j - 1]..idx[j]]$ 中的字符全部反转，然后递归计算 $dfs(i, j - 2)$，总代价为 $dfs(i, j - 2) + idx[j] - idx[j - 1]$。
 
-We take the minimum value of the above three operations as the value of $dfs(i, j)$.
+我们取上述三种操作的最小值，即为 $dfs(i, j)$ 的值。
 
-To avoid redundant calculations, we can use memoization to record the return value of $dfs(i, j)$ in a 2D array $f$. If $f[i][j]$ is not equal to $-1$, it means that we have already calculated it, so we can directly return $f[i][j]$.
+为了避免重复计算，我们可以使用记忆化搜索。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the strings.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是字符串的长度。
 
 <!-- tabs:start -->
 
@@ -228,35 +233,33 @@ func minOperations(s1 string, s2 string, x int) int {
 
 ```ts
 function minOperations(s1: string, s2: string, x: number): number {
-  const idx: number[] = [];
-  for (let i = 0; i < s1.length; ++i) {
-    if (s1[i] !== s2[i]) {
-      idx.push(i);
+    const idx: number[] = [];
+    for (let i = 0; i < s1.length; ++i) {
+        if (s1[i] !== s2[i]) {
+            idx.push(i);
+        }
     }
-  }
-  const m = idx.length;
-  if (m % 2 === 1) {
-    return -1;
-  }
-  if (m === 0) {
-    return 0;
-  }
-  const f: number[][] = Array.from({ length: m }, () =>
-    Array.from({ length: m }, () => -1)
-  );
-  const dfs = (i: number, j: number): number => {
-    if (i > j) {
-      return 0;
+    const m = idx.length;
+    if (m % 2 === 1) {
+        return -1;
     }
-    if (f[i][j] !== -1) {
-      return f[i][j];
+    if (m === 0) {
+        return 0;
     }
-    f[i][j] = dfs(i + 1, j - 1) + x;
-    f[i][j] = Math.min(f[i][j], dfs(i + 2, j) + idx[i + 1] - idx[i]);
-    f[i][j] = Math.min(f[i][j], dfs(i, j - 2) + idx[j] - idx[j - 1]);
-    return f[i][j];
-  };
-  return dfs(0, m - 1);
+    const f: number[][] = Array.from({ length: m }, () => Array.from({ length: m }, () => -1));
+    const dfs = (i: number, j: number): number => {
+        if (i > j) {
+            return 0;
+        }
+        if (f[i][j] !== -1) {
+            return f[i][j];
+        }
+        f[i][j] = dfs(i + 1, j - 1) + x;
+        f[i][j] = Math.min(f[i][j], dfs(i + 2, j) + idx[i + 1] - idx[i]);
+        f[i][j] = Math.min(f[i][j], dfs(i, j - 2) + idx[j] - idx[j - 1]);
+        return f[i][j];
+    };
+    return dfs(0, m - 1);
 }
 ```
 
@@ -266,7 +269,7 @@ function minOperations(s1: string, s2: string, x: number): number {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

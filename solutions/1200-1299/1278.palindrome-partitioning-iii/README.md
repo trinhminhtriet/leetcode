@@ -1,68 +1,78 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1278.Palindrome%20Partitioning%20III/README.md
 rating: 1979
-source: Weekly Contest 165 Q4
+source: 第 165 场周赛 Q4
 tags:
-  - String
-  - Dynamic Programming
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1278. Palindrome Partitioning III](https://leetcode.com/problems/palindrome-partitioning-iii)
+# [1278. 分割回文串 III](https://leetcode.cn/problems/palindrome-partitioning-iii)
 
-## Description
+[English Version](/solution/1200-1299/1278.Palindrome%20Partitioning%20III/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> containing lowercase letters and an integer <code>k</code>. You need to :</p>
+<p>给你一个由小写字母组成的字符串&nbsp;<code>s</code>，和一个整数&nbsp;<code>k</code>。</p>
+
+<p>请你按下面的要求分割字符串：</p>
 
 <ul>
-	<li>First, change some characters of <code>s</code> to other lowercase English letters.</li>
-	<li>Then divide <code>s</code> into <code>k</code> non-empty disjoint substrings such that each substring is a palindrome.</li>
+	<li>首先，你可以将&nbsp;<code>s</code>&nbsp;中的部分字符修改为其他的小写英文字母。</li>
+	<li>接着，你需要把&nbsp;<code>s</code>&nbsp;分割成&nbsp;<code>k</code>&nbsp;个非空且不相交的子串，并且每个子串都是回文串。</li>
 </ul>
 
-<p>Return <em>the minimal number of characters that you need to change to divide the string</em>.</p>
+<p>请返回以这种方式分割字符串所需修改的最少字符数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;abc&quot;, k = 2
-<strong>Output:</strong> 1
-<strong>Explanation:</strong>&nbsp;You can split the string into &quot;ab&quot; and &quot;c&quot;, and change 1 character in &quot;ab&quot; to make it palindrome.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>s = &quot;abc&quot;, k = 2
+<strong>输出：</strong>1
+<strong>解释：</strong>你可以把字符串分割成 &quot;ab&quot; 和 &quot;c&quot;，并修改 &quot;ab&quot; 中的 1 个字符，将它变成回文串。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;aabbc&quot;, k = 3
-<strong>Output:</strong> 0
-<strong>Explanation:</strong>&nbsp;You can split the string into &quot;aa&quot;, &quot;bb&quot; and &quot;c&quot;, all of them are palindrome.</pre>
+<pre><strong>输入：</strong>s = &quot;aabbc&quot;, k = 3
+<strong>输出：</strong>0
+<strong>解释：</strong>你可以把字符串分割成 &quot;aa&quot;、&quot;bb&quot; 和 &quot;c&quot;，它们都是回文串。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;leetcode&quot;, k = 8
-<strong>Output:</strong> 0
+<pre><strong>输入：</strong>s = &quot;leetcode&quot;, k = 8
+<strong>输出：</strong>0
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= k &lt;= s.length &lt;= 100</code>.</li>
-	<li><code>s</code> only contains lowercase English letters.</li>
+	<li><code>1 &lt;= k &lt;= s.length &lt;= 100</code></li>
+	<li><code>s</code>&nbsp;中只含有小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：动态规划
+
+我们定义 $f[i][j]$ 表示将字符串 $s$ 的前 $i$ 个字符分割成 $j$ 个回文串所需要的最少修改次数，我们假定 $i$ 下标从 $1$ 开始，答案为 $f[n][k]$。
+
+对于 $f[i][j]$，我们可以枚举第 $j-1$ 个回文串的最后一个字符的位置 $h$，那么 $f[i][j]$ 就等于 $f[h][j-1] + g[h][i-1]$ 的较小值，其中 $g[h][i-1]$ 表示将字符串 $s[h..i-1]$ 变成回文串所需要的最少修改次数（这一部分我们可以通过预处理得到，时间复杂度 $O(n^2)$。
+
+时间复杂度 $O(n^2 \times k)$，空间复杂度 $O(n \times (n + k))$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -192,6 +202,76 @@ func palindromePartition(s string, k int) int {
 		}
 	}
 	return f[n][k]
+}
+```
+
+#### TypeScript
+
+```ts
+function palindromePartition(s: string, k: number): number {
+    const n = s.length;
+    const g: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
+    for (let i = n - 1; i >= 0; i--) {
+        for (let j = i + 1; j < n; j++) {
+            g[i][j] = s[i] !== s[j] ? 1 : 0;
+            if (i + 1 < j) {
+                g[i][j] += g[i + 1][j - 1];
+            }
+        }
+    }
+    const f: number[][] = Array.from({ length: n + 1 }, () => Array(k + 1).fill(0));
+    for (let i = 1; i <= n; i++) {
+        for (let j = 1; j <= Math.min(i, k); j++) {
+            if (j === 1) {
+                f[i][j] = g[0][i - 1];
+            } else {
+                f[i][j] = 1 << 30;
+                for (let h = j - 1; h < i; h++) {
+                    f[i][j] = Math.min(f[i][j], f[h][j - 1] + g[h][i - 1]);
+                }
+            }
+        }
+    }
+    return f[n][k];
+}
+```
+
+#### Rust
+
+```rust
+impl Solution {
+    pub fn palindrome_partition(s: String, k: i32) -> i32 {
+        let n = s.len();
+        let s: Vec<char> = s.chars().collect();
+        let mut g = vec![vec![0; n]; n];
+
+        for i in (0..n).rev() {
+            for j in i + 1..n {
+                g[i][j] = if s[i] != s[j] { 1 } else { 0 };
+                if i + 1 < j {
+                    g[i][j] += g[i + 1][j - 1];
+                }
+            }
+        }
+
+        let mut f = vec![vec![0; (k + 1) as usize]; n + 1];
+        let inf = i32::MAX;
+
+        for i in 1..=n {
+            for j in 1..=i.min(k as usize) {
+                if j == 1 {
+                    f[i][j] = g[0][i - 1];
+                } else {
+                    f[i][j] = inf;
+                    for h in (j - 1)..i {
+                        f[i][j] = f[i][j].min(f[h][j - 1] + g[h][i - 1]);
+                    }
+                }
+            }
+        }
+
+        f[n][k as usize]
+    }
 }
 ```
 

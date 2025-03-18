@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0485.Max%20Consecutive%20Ones/README.md
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [485. Max Consecutive Ones](https://leetcode.com/problems/max-consecutive-ones)
+# [485. 最大连续 1 的个数](https://leetcode.cn/problems/max-consecutive-ones)
 
-## Description
+[English Version](/solution/0400-0499/0485.Max%20Consecutive%20Ones/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary array <code>nums</code>, return <em>the maximum number of consecutive </em><code>1</code><em>&#39;s in the array</em>.</p>
+<p>给定一个二进制数组 <code>nums</code> ， 计算其中最大连续 <code>1</code> 的个数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,1,0,1,1,1]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.
+<strong>输入：</strong>nums = [1,1,0,1,1,1]
+<strong>输出：</strong>3
+<strong>解释：</strong>开头的两位和最后的三位都是连续 1 ，所以最大连续 1 的个数是 3.
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2:</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,0,1,1,0,1]
-<strong>Output:</strong> 2
+<b>输入：</b>nums = [1,0,1,1,0,1]
+<b>输出：</b>2
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums[i]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>nums[i]</code>&nbsp;不是&nbsp;<code>0</code>&nbsp;就是&nbsp;<code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Single Pass
+### 方法一：一次遍历
 
-We can iterate through the array, using a variable $\textit{cnt}$ to record the current number of consecutive 1s, and another variable $\textit{ans}$ to record the maximum number of consecutive 1s.
+我们可以遍历数组，用一个变量 $\textit{cnt}$ 记录当前连续的 1 的个数，用另一个变量 $\textit{ans}$ 记录最大连续 1 的个数。
 
-When we encounter a 1, we increment $\textit{cnt}$ by one, and then update $\textit{ans}$ to be the maximum of $\textit{cnt}$ and $\textit{ans}$ itself, i.e., $\textit{ans} = \max(\textit{ans}, \textit{cnt})$. Otherwise, we reset $\textit{cnt}$ to 0.
+当遍历到一个 1 时，将 $\textit{cnt}$ 加一，然后更新 $\textit{ans}$ 的值为 $\textit{cnt}$ 和 $\textit{ans}$ 本身的最大值，即 $\textit{ans} = \max(\textit{ans}, \textit{cnt})$。否则，将 $\textit{cnt}$ 重置为 0。
 
-After the iteration ends, we return the value of $\textit{ans}$.
+遍历结束后，返回 $\textit{ans}$ 的值即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -130,15 +135,15 @@ func findMaxConsecutiveOnes(nums []int) (ans int) {
 
 ```ts
 function findMaxConsecutiveOnes(nums: number[]): number {
-  let [ans, cnt] = [0, 0];
-  for (const x of nums) {
-    if (x) {
-      ans = Math.max(ans, ++cnt);
-    } else {
-      cnt = 0;
+    let [ans, cnt] = [0, 0];
+    for (const x of nums) {
+        if (x) {
+            ans = Math.max(ans, ++cnt);
+        } else {
+            cnt = 0;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -172,15 +177,15 @@ impl Solution {
  * @return {number}
  */
 var findMaxConsecutiveOnes = function (nums) {
-  let [ans, cnt] = [0, 0];
-  for (const x of nums) {
-    if (x) {
-      ans = Math.max(ans, ++cnt);
-    } else {
-      cnt = 0;
+    let [ans, cnt] = [0, 0];
+    for (const x of nums) {
+        if (x) {
+            ans = Math.max(ans, ++cnt);
+        } else {
+            cnt = 0;
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 

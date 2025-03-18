@@ -1,80 +1,89 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1105.Filling%20Bookcase%20Shelves/README.md
 rating: 2014
-source: Weekly Contest 143 Q3
+source: 第 143 场周赛 Q3
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1105. Filling Bookcase Shelves](https://leetcode.com/problems/filling-bookcase-shelves)
+# [1105. 填充书架](https://leetcode.cn/problems/filling-bookcase-shelves)
 
-## Description
+[English Version](/solution/1100-1199/1105.Filling%20Bookcase%20Shelves/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>books</code> where <code>books[i] = [thickness<sub>i</sub>, height<sub>i</sub>]</code> indicates the thickness and height of the <code>i<sup>th</sup></code> book. You are also given an integer <code>shelfWidth</code>.</p>
+<p>给定一个数组 <code>books</code> ，其中&nbsp;<code>books[i] = [thickness<sub>i</sub>, height<sub>i</sub>]</code>&nbsp;表示第 <code>i</code> 本书的厚度和高度。你也会得到一个整数 <code>shelfWidth</code> 。</p>
 
-<p>We want to place these books in order onto bookcase shelves that have a total width <code>shelfWidth</code>.</p>
+<p><strong>按顺序</strong>&nbsp;将这些书摆放到总宽度为 <code>shelfWidth</code> 的书架上。</p>
 
-<p>We choose some of the books to place on this shelf such that the sum of their thickness is less than or equal to <code>shelfWidth</code>, then build another level of the shelf of the bookcase so that the total height of the bookcase has increased by the maximum height of the books we just put down. We repeat this process until there are no more books to place.</p>
+<p>先选几本书放在书架上（它们的厚度之和小于等于书架的宽度 <code>shelfWidth</code> ），然后再建一层书架。重复这个过程，直到把所有的书都放在书架上。</p>
 
-<p>Note that at each step of the above process, the order of the books we place is the same order as the given sequence of books.</p>
+<p>需要注意的是，在上述过程的每个步骤中，<strong>摆放书的顺序与给定图书数组 </strong><code>books</code><strong> 顺序相同</strong>。</p>
 
 <ul>
-	<li>For example, if we have an ordered list of <code>5</code> books, we might place the first and second book onto the first shelf, the third book on the second shelf, and the fourth and fifth book on the last shelf.</li>
+	<li>例如，如果这里有 5 本书，那么可能的一种摆放情况是：第一和第二本书放在第一层书架上，第三本书放在第二层书架上，第四和第五本书放在最后一层书架上。</li>
 </ul>
 
-<p>Return <em>the minimum possible height that the total bookshelf can be after placing shelves in this manner</em>.</p>
+<p>每一层所摆放的书的最大高度就是这一层书架的层高，书架整体的高度为各层高之和。</p>
+
+<p>以这种方式布置书架，返回书架整体可能的最小高度。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1105.Filling%20Bookcase%20Shelves/images/shelves.png" style="height: 500px; width: 337px;" />
+
+<p><strong class="example">示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1105.Filling%20Bookcase%20Shelves/images/shelves.png" style="width: 337px; height: 500px;" /></p>
+
 <pre>
-<strong>Input:</strong> books = [[1,1],[2,3],[2,3],[1,1],[1,1],[1,1],[1,2]], shelfWidth = 4
-<strong>Output:</strong> 6
-<strong>Explanation:</strong>
-The sum of the heights of the 3 shelves is 1 + 3 + 2 = 6.
-Notice that book number 2 does not have to be on the first shelf.
+<strong>输入：</strong>books = [[1,1],[2,3],[2,3],[1,1],[1,1],[1,1],[1,2]], shelfWidth = 4
+<strong>输出：</strong>6
+<strong>解释：</strong>
+3 层书架的高度和为 1 + 3 + 2 = 6 。
+第 2 本书不必放在第一层书架上。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2:</strong></p>
 
 <pre>
-<strong>Input:</strong> books = [[1,3],[2,4],[3,2]], shelfWidth = 6
-<strong>Output:</strong> 4
+<strong>输入:</strong> books = [[1,3],[2,4],[3,2]], shelfWidth = 6
+<strong>输出:</strong> 4
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= books.length &lt;= 1000</code></li>
-	<li><code>1 &lt;= thickness<sub>i</sub> &lt;= shelfWidth &lt;= 1000</code></li>
-	<li><code>1 &lt;= height<sub>i</sub> &lt;= 1000</code></li>
+	<li><code>1 &lt;= thickness<sub>i</sub>&nbsp;&lt;= shelfWidth &lt;= 1000</code></li>
+	<li><code>1 &lt;= height<sub>i</sub>&nbsp;&lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i]$ as the minimum height for placing the first $i$ books, initially $f[0] = 0$, and the answer is $f[n]$.
+我们定义 $f[i]$ 表示前 $i$ 本书摆放的最小高度，初始时 $f[0] = 0$，答案为 $f[n]$。
 
-Consider $f[i]$, the last book is $books[i - 1]$, its thickness is $w$, and its height is $h$.
+考虑 $f[i]$，最后一本书为 $books[i - 1]$，其厚度为 $w$，高度为 $h$。
 
-- If this book is placed on a new layer alone, then $f[i] = f[i - 1] + h$;
-- If this book can be placed on the same layer with the last few books in front, we enumerate the first book $books[j-1]$ on the same layer from back to front, where $j \in [1, i - 1]$, accumulate the thickness of the book to $w$, if $w > shelfWidth$, it means that $books[j-1]$ can no longer be placed on the same layer with $books[i-1]$, stop enumeration; otherwise, we update the maximum height $h = \max(h, books[j-1][1])$ of the current layer, then $f[i] = \min(f[i], f[j - 1] + h)$.
+-   如果这本书单独摆放在新的一层，那么有 $f[i] = f[i - 1] + h$；
+-   如果这本书可以与前面的最后几本书摆放在同一层，我们从后往前枚举同一层的第一本书 $boos[j-1]$，其中 $j \in [1, i - 1]$，将书的厚度累积到 $w$，如果 $w \gt shelfWidth$，说明此时的 $books[j-1]$ 已经无法与 $books[i-1]$ 摆放在同一层，停止枚举；否则我们更新当前层的最大高度 $h = \max(h, books[j-1][1])$，那么此时有 $f[i] = \min(f[i], f[j - 1] + h)$。
 
-The final answer is $f[n]$.
+最终的答案即为 $f[n]$。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $books$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $books$ 的长度。
 
 <!-- tabs:start -->
 
@@ -172,21 +181,21 @@ func minHeightShelves(books [][]int, shelfWidth int) int {
 
 ```ts
 function minHeightShelves(books: number[][], shelfWidth: number): number {
-  const n = books.length;
-  const f = new Array(n + 1).fill(0);
-  for (let i = 1; i <= n; ++i) {
-    let [w, h] = books[i - 1];
-    f[i] = f[i - 1] + h;
-    for (let j = i - 1; j > 0; --j) {
-      w += books[j - 1][0];
-      if (w > shelfWidth) {
-        break;
-      }
-      h = Math.max(h, books[j - 1][1]);
-      f[i] = Math.min(f[i], f[j - 1] + h);
+    const n = books.length;
+    const f = new Array(n + 1).fill(0);
+    for (let i = 1; i <= n; ++i) {
+        let [w, h] = books[i - 1];
+        f[i] = f[i - 1] + h;
+        for (let j = i - 1; j > 0; --j) {
+            w += books[j - 1][0];
+            if (w > shelfWidth) {
+                break;
+            }
+            h = Math.max(h, books[j - 1][1]);
+            f[i] = Math.min(f[i], f[j - 1] + h);
+        }
     }
-  }
-  return f[n];
+    return f[n];
 }
 ```
 

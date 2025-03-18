@@ -1,65 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2381.Shifting%20Letters%20II/README.md
 rating: 1793
-source: Biweekly Contest 85 Q3
+source: 第 85 场双周赛 Q3
 tags:
-  - Array
-  - String
-  - Prefix Sum
+    - 数组
+    - 字符串
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2381. Shifting Letters II](https://leetcode.com/problems/shifting-letters-ii)
+# [2381. 字母移位 II](https://leetcode.cn/problems/shifting-letters-ii)
 
-## Description
+[English Version](/solution/2300-2399/2381.Shifting%20Letters%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> of lowercase English letters and a 2D integer array <code>shifts</code> where <code>shifts[i] = [start<sub>i</sub>, end<sub>i</sub>, direction<sub>i</sub>]</code>. For every <code>i</code>, <strong>shift</strong> the characters in <code>s</code> from the index <code>start<sub>i</sub></code> to the index <code>end<sub>i</sub></code> (<strong>inclusive</strong>) forward if <code>direction<sub>i</sub> = 1</code>, or shift the characters backward if <code>direction<sub>i</sub> = 0</code>.</p>
+<p>给你一个小写英文字母组成的字符串&nbsp;<code>s</code>&nbsp;和一个二维整数数组&nbsp;<code>shifts</code>&nbsp;，其中&nbsp;<code>shifts[i] = [start<sub>i</sub>, end<sub>i</sub>, direction<sub>i</sub>]</code>&nbsp;。对于每个&nbsp;<code>i</code>&nbsp;，将&nbsp;<code>s</code>&nbsp;中从下标&nbsp;<code>start<sub>i</sub></code>&nbsp;到下标&nbsp;<code>end<sub>i</sub></code>&nbsp;（两者都包含）所有字符都进行移位运算，如果&nbsp;<code>direction<sub>i</sub> = 1</code>&nbsp;将字符向后移位，如果&nbsp;<code>direction<sub>i</sub> = 0</code>&nbsp;将字符向前移位。</p>
 
-<p>Shifting a character <strong>forward</strong> means replacing it with the <strong>next</strong> letter in the alphabet (wrapping around so that <code>&#39;z&#39;</code> becomes <code>&#39;a&#39;</code>). Similarly, shifting a character <strong>backward</strong> means replacing it with the <strong>previous</strong> letter in the alphabet (wrapping around so that <code>&#39;a&#39;</code> becomes <code>&#39;z&#39;</code>).</p>
+<p>将一个字符 <strong>向后</strong>&nbsp;移位的意思是将这个字符用字母表中 <strong>下一个</strong>&nbsp;字母替换（字母表视为环绕的，所以&nbsp;<code>'z'</code>&nbsp;变成&nbsp;<code>'a'</code>）。类似的，将一个字符 <strong>向前</strong>&nbsp;移位的意思是将这个字符用字母表中 <strong>前一个</strong>&nbsp;字母替换（字母表是环绕的，所以&nbsp;<code>'a'</code>&nbsp;变成&nbsp;<code>'z'</code>&nbsp;）。</p>
 
-<p>Return <em>the final string after all such shifts to </em><code>s</code><em> are applied</em>.</p>
+<p>请你返回对 <code>s</code>&nbsp;进行所有移位操作以后得到的最终字符串。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;abc&quot;, shifts = [[0,1,0],[1,2,1],[0,2,1]]
-<strong>Output:</strong> &quot;ace&quot;
-<strong>Explanation:</strong> Firstly, shift the characters from index 0 to index 1 backward. Now s = &quot;zac&quot;.
-Secondly, shift the characters from index 1 to index 2 forward. Now s = &quot;zbd&quot;.
-Finally, shift the characters from index 0 to index 2 forward. Now s = &quot;ace&quot;.</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><b>输入：</b>s = "abc", shifts = [[0,1,0],[1,2,1],[0,2,1]]
+<b>输出：</b>"ace"
+<b>解释：</b>首先，将下标从 0 到 1 的字母向前移位，得到 s = "zac" 。
+然后，将下标从 1 到 2 的字母向后移位，得到 s = "zbd" 。
+最后，将下标从 0 到 2 的字符向后移位，得到 s = "ace" 。</pre>
 
-<pre>
-<strong>Input:</strong> s = &quot;dztz&quot;, shifts = [[0,0,0],[1,1,1]]
-<strong>Output:</strong> &quot;catz&quot;
-<strong>Explanation:</strong> Firstly, shift the characters from index 0 to index 0 backward. Now s = &quot;cztz&quot;.
-Finally, shift the characters from index 1 to index 1 forward. Now s = &quot;catz&quot;.
+<p><strong>示例 2:</strong></p>
+
+<pre><b>输入：</b>s = "dztz", shifts = [[0,0,0],[1,1,1]]
+<b>输出：</b>"catz"
+<b>解释：</b>首先，将下标从 0 到 0 的字母向前移位，得到 s = "cztz" 。
+最后，将下标从 1 到 1 的字符向后移位，得到 s = "catz" 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length, shifts.length &lt;= 5 * 10<sup>4</sup></code></li>
 	<li><code>shifts[i].length == 3</code></li>
 	<li><code>0 &lt;= start<sub>i</sub> &lt;= end<sub>i</sub> &lt; s.length</code></li>
 	<li><code>0 &lt;= direction<sub>i</sub> &lt;= 1</code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：差分数组
+
+用差分数组 $d$ 记录区间的变化，然后对 $d$ 求前缀和，得到每个下标 $i$ 的变化量 $d[i]$。
+
+然后将原字符串中每个字符加上对应的 $d[i]$，最终得到一个新的字符串。
+
+时间复杂度 $O(n+m)$。其中 $n$ 是原字符串 $s$ 的长度，而 $m$ 是移位操作 $shifts$ 的长度。
 
 <!-- tabs:start -->
 
@@ -166,28 +175,28 @@ func shiftingLetters(s string, shifts [][]int) string {
 
 ```ts
 function shiftingLetters(s: string, shifts: number[][]): string {
-  const n: number = s.length;
-  const d: number[] = new Array(n + 1).fill(0);
+    const n: number = s.length;
+    const d: number[] = new Array(n + 1).fill(0);
 
-  for (let [i, j, v] of shifts) {
-    if (v === 0) {
-      v--;
+    for (let [i, j, v] of shifts) {
+        if (v === 0) {
+            v--;
+        }
+        d[i] += v;
+        d[j + 1] -= v;
     }
-    d[i] += v;
-    d[j + 1] -= v;
-  }
 
-  for (let i = 1; i <= n; ++i) {
-    d[i] += d[i - 1];
-  }
+    for (let i = 1; i <= n; ++i) {
+        d[i] += d[i - 1];
+    }
 
-  let ans: string = "";
-  for (let i = 0; i < n; ++i) {
-    const j = (s.charCodeAt(i) - "a".charCodeAt(0) + (d[i] % 26) + 26) % 26;
-    ans += String.fromCharCode("a".charCodeAt(0) + j);
-  }
+    let ans: string = '';
+    for (let i = 0; i < n; ++i) {
+        const j = (s.charCodeAt(i) - 'a'.charCodeAt(0) + (d[i] % 26) + 26) % 26;
+        ans += String.fromCharCode('a'.charCodeAt(0) + j);
+    }
 
-  return ans;
+    return ans;
 }
 ```
 

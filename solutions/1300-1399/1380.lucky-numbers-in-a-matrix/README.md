@@ -1,74 +1,84 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1380.Lucky%20Numbers%20in%20a%20Matrix/README.md
 rating: 1207
-source: Weekly Contest 180 Q1
+source: 第 180 场周赛 Q1
 tags:
-  - Array
-  - Matrix
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [1380. Lucky Numbers in a Matrix](https://leetcode.com/problems/lucky-numbers-in-a-matrix)
+# [1380. 矩阵中的幸运数](https://leetcode.cn/problems/lucky-numbers-in-a-matrix)
 
-## Description
+[English Version](/solution/1300-1399/1380.Lucky%20Numbers%20in%20a%20Matrix/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an <code>m x n</code> matrix of <strong>distinct </strong>numbers, return <em>all <strong>lucky numbers</strong> in the matrix in <strong>any </strong>order</em>.</p>
+<p>给你一个 <code>m x&nbsp;n</code> 的矩阵，矩阵中的数字 <strong>各不相同</strong> 。请你按 <strong>任意</strong> 顺序返回矩阵中的所有幸运数。</p>
 
-<p>A <strong>lucky number</strong> is an element of the matrix such that it is the minimum element in its row and maximum in its column.</p>
+<p><strong>幸运数</strong> 是指矩阵中满足同时下列两个条件的元素：</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> matrix = [[3,7,8],[9,11,13],[15,16,17]]
-<strong>Output:</strong> [15]
-<strong>Explanation:</strong> 15 is the only lucky number since it is the minimum in its row and the maximum in its column.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> matrix = [[1,10,4,2],[9,3,8,7],[15,16,17,12]]
-<strong>Output:</strong> [12]
-<strong>Explanation:</strong> 12 is the only lucky number since it is the minimum in its row and the maximum in its column.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> matrix = [[7,8],[1,2]]
-<strong>Output:</strong> [7]
-<strong>Explanation:</strong> 7 is the only lucky number since it is the minimum in its row and the maximum in its column.
-</pre>
+<ul>
+	<li>在同一行的所有元素中最小</li>
+	<li>在同一列的所有元素中最大</li>
+</ul>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>matrix = [[3,7,8],[9,11,13],[15,16,17]]
+<strong>输出：</strong>[15]
+<strong>解释：</strong>15 是唯一的幸运数，因为它是其所在行中的最小值，也是所在列中的最大值。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>matrix = [[1,10,4,2],[9,3,8,7],[15,16,17,12]]
+<strong>输出：</strong>[12]
+<strong>解释：</strong>12 是唯一的幸运数，因为它是其所在行中的最小值，也是所在列中的最大值。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>matrix = [[7,8],[1,2]]
+<strong>输出：</strong>[7]
+<strong>解释：</strong>7 是唯一的幸运数字，因为它是行中的最小值，列中的最大值。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == mat.length</code></li>
 	<li><code>n == mat[i].length</code></li>
 	<li><code>1 &lt;= n, m &lt;= 50</code></li>
-	<li><code>1 &lt;= matrix[i][j] &lt;= 10<sup>5</sup></code>.</li>
-	<li>All elements in the matrix are distinct.</li>
+	<li><code>1 &lt;=&nbsp;matrix[i][j]&nbsp;&lt;= 10<sup>5</sup></code></li>
+	<li>矩阵中的所有元素都是不同的</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Maintain Row Minimum and Column Maximum
+### 方法一：维护行最小值和列最大值
 
-We can use two arrays $rows$ and $cols$ to record the minimum value of each row and the maximum value of each column in the matrix. Then, we traverse each element in the matrix, checking whether this element is the minimum value of its row and the maximum value of its column. If it is, then this element is a lucky number, and we add it to the answer array.
+我们可以使用两个数组 $rows$ 和 $cols$ 记录矩阵中每一行的最小值和每一列的最大值，然后遍历矩阵中的每一个元素，检查该元素是否为所在行的最小值且为所在列的最大值，如果是则该元素为幸运数，我们将其加入答案数组。
 
-After the traversal is finished, we return the answer array.
+遍历结束后，我们返回答案数组即可。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m + n)$. Where $m$ and $n$ are the number of rows and columns in the matrix, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -170,25 +180,25 @@ func luckyNumbers(matrix [][]int) (ans []int) {
 
 ```ts
 function luckyNumbers(matrix: number[][]): number[] {
-  const m = matrix.length;
-  const n = matrix[0].length;
-  const rows: number[] = new Array(m).fill(1 << 30);
-  const cols: number[] = new Array(n).fill(0);
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; j++) {
-      rows[i] = Math.min(rows[i], matrix[i][j]);
-      cols[j] = Math.max(cols[j], matrix[i][j]);
+    const m = matrix.length;
+    const n = matrix[0].length;
+    const rows: number[] = new Array(m).fill(1 << 30);
+    const cols: number[] = new Array(n).fill(0);
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; j++) {
+            rows[i] = Math.min(rows[i], matrix[i][j]);
+            cols[j] = Math.max(cols[j], matrix[i][j]);
+        }
     }
-  }
-  const ans: number[] = [];
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; j++) {
-      if (rows[i] === cols[j]) {
-        ans.push(rows[i]);
-      }
+    const ans: number[] = [];
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; j++) {
+            if (rows[i] === cols[j]) {
+                ans.push(rows[i]);
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -200,25 +210,25 @@ function luckyNumbers(matrix: number[][]): number[] {
  * @return {number[]}
  */
 var luckyNumbers = function (matrix) {
-  const m = matrix.length;
-  const n = matrix[0].length;
-  const rows = new Array(m).fill(1 << 30);
-  const cols = new Array(n).fill(0);
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; j++) {
-      rows[i] = Math.min(rows[i], matrix[i][j]);
-      cols[j] = Math.max(cols[j], matrix[i][j]);
+    const m = matrix.length;
+    const n = matrix[0].length;
+    const rows = new Array(m).fill(1 << 30);
+    const cols = new Array(n).fill(0);
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; j++) {
+            rows[i] = Math.min(rows[i], matrix[i][j]);
+            cols[j] = Math.max(cols[j], matrix[i][j]);
+        }
     }
-  }
-  const ans = [];
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; j++) {
-      if (rows[i] === cols[j]) {
-        ans.push(rows[i]);
-      }
+    const ans = [];
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; j++) {
+            if (rows[i] === cols[j]) {
+                ans.push(rows[i]);
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 

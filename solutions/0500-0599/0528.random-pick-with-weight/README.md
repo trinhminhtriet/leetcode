@@ -1,89 +1,93 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0528.Random%20Pick%20with%20Weight/README.md
 tags:
-  - Array
-  - Math
-  - Binary Search
-  - Prefix Sum
-  - Randomized
+    - 数组
+    - 数学
+    - 二分查找
+    - 前缀和
+    - 随机化
 ---
 
 <!-- problem:start -->
 
-# [528. Random Pick with Weight](https://leetcode.com/problems/random-pick-with-weight)
+# [528. 按权重随机选择](https://leetcode.cn/problems/random-pick-with-weight)
 
-## Description
+[English Version](/solution/0500-0599/0528.Random%20Pick%20with%20Weight/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array of positive integers <code>w</code> where <code>w[i]</code> describes the <strong>weight</strong> of the <code>i<sup>th</sup></code> index.</p>
+<p>给你一个 <strong>下标从 0 开始</strong> 的正整数数组&nbsp;<code>w</code> ，其中&nbsp;<code>w[i]</code> 代表第 <code>i</code> 个下标的权重。</p>
 
-<p>You need to implement the function <code>pickIndex()</code>, which <strong>randomly</strong> picks an index in the range <code>[0, w.length - 1]</code> (<strong>inclusive</strong>) and returns it. The <strong>probability</strong> of picking an index <code>i</code> is <code>w[i] / sum(w)</code>.</p>
+<p>请你实现一个函数&nbsp;<code>pickIndex</code>&nbsp;，它可以 <strong>随机地</strong> 从范围 <code>[0, w.length - 1]</code> 内（含 <code>0</code> 和 <code>w.length - 1</code>）选出并返回一个下标。选取下标 <code>i</code>&nbsp;的 <strong>概率</strong> 为 <code>w[i] / sum(w)</code> 。</p>
+
+<ol>
+</ol>
 
 <ul>
-	<li>For example, if <code>w = [1, 3]</code>, the probability of picking index <code>0</code> is <code>1 / (1 + 3) = 0.25</code> (i.e., <code>25%</code>), and the probability of picking index <code>1</code> is <code>3 / (1 + 3) = 0.75</code> (i.e., <code>75%</code>).</li>
+	<li>例如，对于 <code>w = [1, 3]</code>，挑选下标 <code>0</code> 的概率为 <code>1 / (1 + 3)&nbsp;= 0.25</code> （即，25%），而选取下标 <code>1</code> 的概率为 <code>3 / (1 + 3)&nbsp;= 0.75</code>（即，<code>75%</code>）。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;Solution&quot;,&quot;pickIndex&quot;]
+<strong>输入：</strong>
+["Solution","pickIndex"]
 [[[1]],[]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null,0]
-
-<strong>Explanation</strong>
+<strong>解释：</strong>
 Solution solution = new Solution([1]);
-solution.pickIndex(); // return 0. The only option is to return 0 since there is only one element in w.
-</pre>
+solution.pickIndex(); // 返回 0，因为数组中只有一个元素，所以唯一的选择是返回下标 0。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;Solution&quot;,&quot;pickIndex&quot;,&quot;pickIndex&quot;,&quot;pickIndex&quot;,&quot;pickIndex&quot;,&quot;pickIndex&quot;]
+<strong>输入：</strong>
+["Solution","pickIndex","pickIndex","pickIndex","pickIndex","pickIndex"]
 [[[1,3]],[],[],[],[],[]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null,1,1,1,1,0]
-
-<strong>Explanation</strong>
+<strong>解释：</strong>
 Solution solution = new Solution([1, 3]);
-solution.pickIndex(); // return 1. It is returning the second element (index = 1) that has a probability of 3/4.
-solution.pickIndex(); // return 1
-solution.pickIndex(); // return 1
-solution.pickIndex(); // return 1
-solution.pickIndex(); // return 0. It is returning the first element (index = 0) that has a probability of 1/4.
+solution.pickIndex(); // 返回 1，返回下标 1，返回该下标概率为 3/4 。
+solution.pickIndex(); // 返回 1
+solution.pickIndex(); // 返回 1
+solution.pickIndex(); // 返回 1
+solution.pickIndex(); // 返回 0，返回下标 0，返回该下标概率为 1/4 。
 
-Since this is a randomization problem, multiple answers are allowed.
-All of the following outputs can be considered correct:
+由于这是一个随机问题，允许多个答案，因此下列输出都可以被认为是正确的:
 [null,1,1,1,1,0]
 [null,1,1,1,1,1]
 [null,1,1,1,0,0]
 [null,1,1,1,0,1]
 [null,1,0,1,0,0]
 ......
-and so on.
+诸若此类。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= w.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= w[i] &lt;= 10<sup>5</sup></code></li>
-	<li><code>pickIndex</code> will be called at most <code>10<sup>4</sup></code> times.</li>
+	<li><code>pickIndex</code>&nbsp;将被调用不超过 <code>10<sup>4</sup></code>&nbsp;次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -269,30 +273,30 @@ impl Solution {
  * @param {number[]} w
  */
 var Solution = function (w) {
-  const n = w.length;
-  this.s = new Array(n + 1).fill(0);
-  for (let i = 0; i < n; ++i) {
-    this.s[i + 1] = this.s[i] + w[i];
-  }
+    const n = w.length;
+    this.s = new Array(n + 1).fill(0);
+    for (let i = 0; i < n; ++i) {
+        this.s[i + 1] = this.s[i] + w[i];
+    }
 };
 
 /**
  * @return {number}
  */
 Solution.prototype.pickIndex = function () {
-  const n = this.s.length;
-  const x = 1 + Math.floor(Math.random() * this.s[n - 1]);
-  let left = 1,
-    right = n - 1;
-  while (left < right) {
-    const mid = (left + right) >> 1;
-    if (this.s[mid] >= x) {
-      right = mid;
-    } else {
-      left = mid + 1;
+    const n = this.s.length;
+    const x = 1 + Math.floor(Math.random() * this.s[n - 1]);
+    let left = 1,
+        right = n - 1;
+    while (left < right) {
+        const mid = (left + right) >> 1;
+        if (this.s[mid] >= x) {
+            right = mid;
+        } else {
+            left = mid + 1;
+        }
     }
-  }
-  return left - 1;
+    return left - 1;
 };
 
 /**

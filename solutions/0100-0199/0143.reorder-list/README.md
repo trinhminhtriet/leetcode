@@ -1,69 +1,75 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0143.Reorder%20List/README.md
 tags:
-  - Stack
-  - Recursion
-  - Linked List
-  - Two Pointers
+    - 栈
+    - 递归
+    - 链表
+    - 双指针
 ---
 
 <!-- problem:start -->
 
-# [143. Reorder List](https://leetcode.com/problems/reorder-list)
+# [143. 重排链表](https://leetcode.cn/problems/reorder-list)
 
-## Description
+[English Version](/solution/0100-0199/0143.Reorder%20List/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the head of a singly linked-list. The list can be represented as:</p>
+<p>给定一个单链表 <code>L</code><em> </em>的头节点 <code>head</code> ，单链表 <code>L</code> 表示为：</p>
 
 <pre>
-L<sub>0</sub> &rarr; L<sub>1</sub> &rarr; &hellip; &rarr; L<sub>n - 1</sub> &rarr; L<sub>n</sub>
+L<sub>0</sub> → L<sub>1</sub> → … → L<sub>n - 1</sub> → L<sub>n</sub>
 </pre>
 
-<p><em>Reorder the list to be on the following form:</em></p>
+<p>请将其重新排列后变为：</p>
 
 <pre>
-L<sub>0</sub> &rarr; L<sub>n</sub> &rarr; L<sub>1</sub> &rarr; L<sub>n - 1</sub> &rarr; L<sub>2</sub> &rarr; L<sub>n - 2</sub> &rarr; &hellip;
-</pre>
+L<sub>0</sub> → L<sub>n</sub> → L<sub>1</sub> → L<sub>n - 1</sub> → L<sub>2</sub> → L<sub>n - 2</sub> → …</pre>
 
-<p>You may not modify the values in the list&#39;s nodes. Only nodes themselves may be changed.</p>
+<p>不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0143.Reorder%20List/images/reorder1linked-list.jpg" style="width: 422px; height: 222px;" />
-<pre>
-<strong>Input:</strong> head = [1,2,3,4]
-<strong>Output:</strong> [1,4,2,3]
-</pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0143.Reorder%20List/images/reorder2-linked-list.jpg" style="width: 542px; height: 222px;" />
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0143.Reorder%20List/images/1626420311-PkUiGI-image.png" style="width: 240px; " /></p>
+
 <pre>
-<strong>Input:</strong> head = [1,2,3,4,5]
-<strong>Output:</strong> [1,5,2,4,3]
-</pre>
+<strong>输入：</strong>head = [1,2,3,4]
+<strong>输出：</strong>[1,4,2,3]</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0143.Reorder%20List/images/1626420320-YUiulT-image.png" style="width: 320px; " /></p>
+
+<pre>
+<strong>输入：</strong>head = [1,2,3,4,5]
+<strong>输出：</strong>[1,5,2,4,3]</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the list is in the range <code>[1, 5 * 10<sup>4</sup>]</code>.</li>
-	<li><code>1 &lt;= Node.val &lt;= 1000</code></li>
+	<li>链表的长度范围为 <code>[1, 5 * 10<sup>4</sup>]</code></li>
+	<li><code>1 &lt;= node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Fast and Slow Pointers + Reverse List + Merge Lists
+### 方法一：快慢指针 + 反转链表 + 合并链表
 
-We first use fast and slow pointers to find the midpoint of the linked list, then reverse the second half of the list, and finally merge the two halves.
+我们先用快慢指针找到链表的中点，然后将链表的后半部分反转，最后将左右两个链表合并。
 
-The time complexity is $O(n)$, where $n$ is the length of the linked list. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是链表的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -77,14 +83,17 @@ The time complexity is $O(n)$, where $n$ is the length of the linked list. The s
 #         self.next = next
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
+        # 快慢指针找到链表中点
         fast = slow = head
         while fast.next and fast.next.next:
             slow = slow.next
             fast = fast.next.next
 
+        # cur 指向右半部分链表
         cur = slow.next
         slow.next = None
 
+        # 反转右半部分链表
         pre = None
         while cur:
             t = cur.next
@@ -92,6 +101,8 @@ class Solution:
             pre, cur = cur, t
         cur = head
 
+        # 此时 cur, pre 分别指向链表左右两半的第一个节点
+        # 合并
         while pre:
             t = pre.next
             pre.next = cur.next
@@ -114,15 +125,18 @@ class Solution:
  */
 class Solution {
     public void reorderList(ListNode head) {
+        // 快慢指针找到链表中点
         ListNode fast = head, slow = head;
         while (fast.next != null && fast.next.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
 
+        // cur 指向右半部分链表
         ListNode cur = slow.next;
         slow.next = null;
 
+        // 反转右半部分链表
         ListNode pre = null;
         while (cur != null) {
             ListNode t = cur.next;
@@ -132,6 +146,8 @@ class Solution {
         }
         cur = head;
 
+        // 此时 cur, pre 分别指向链表左右两半的第一个节点
+        // 合并
         while (pre != null) {
             ListNode t = pre.next;
             pre.next = cur.next;
@@ -159,6 +175,7 @@ class Solution {
 class Solution {
 public:
     void reorderList(ListNode* head) {
+        // 快慢指针找到链表中点
         ListNode* fast = head;
         ListNode* slow = head;
         while (fast->next && fast->next->next) {
@@ -166,9 +183,11 @@ public:
             fast = fast->next->next;
         }
 
+        // cur 指向右半部分链表
         ListNode* cur = slow->next;
         slow->next = nullptr;
 
+        // 反转右半部分链表
         ListNode* pre = nullptr;
         while (cur) {
             ListNode* t = cur->next;
@@ -178,6 +197,8 @@ public:
         }
         cur = head;
 
+        // 此时 cur, pre 分别指向链表左右两半的第一个节点
+        // 合并
         while (pre) {
             ListNode* t = pre->next;
             pre->next = cur->next;
@@ -200,14 +221,17 @@ public:
  * }
  */
 func reorderList(head *ListNode) {
+	// 快慢指针找到链表中点
 	fast, slow := head, head
 	for fast.Next != nil && fast.Next.Next != nil {
 		slow, fast = slow.Next, fast.Next.Next
 	}
 
+	// cur 指向右半部分链表
 	cur := slow.Next
 	slow.Next = nil
 
+	// 反转右半部分链表
 	var pre *ListNode
 	for cur != nil {
 		t := cur.Next
@@ -216,6 +240,8 @@ func reorderList(head *ListNode) {
 	}
 	cur = head
 
+	// 此时 cur, pre 分别指向链表左右两半的第一个节点
+	// 合并
 	for pre != nil {
 		t := pre.Next
 		pre.Next = cur.Next
@@ -244,28 +270,29 @@ func reorderList(head *ListNode) {
  Do not return anything, modify head in-place instead.
  */
 function reorderList(head: ListNode | null): void {
-  let slow = head;
-  let fast = head;
-  while (fast && fast.next) {
-    slow = slow.next;
-    fast = fast.next.next;
-  }
-
-  let next = slow.next;
-  slow.next = null;
-  while (next) {
-    [next.next, slow, next] = [slow, next, next.next];
-  }
-
-  let left = head;
-  let right = slow;
-  while (right.next) {
-    const next = left.next;
-    left.next = right;
-    right = right.next;
-    left.next.next = next;
-    left = left.next.next;
-  }
+    let slow = head;
+    let fast = head;
+    // 找到中心节点
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    // 反转节点
+    let next = slow.next;
+    slow.next = null;
+    while (next) {
+        [next.next, slow, next] = [slow, next, next.next];
+    }
+    // 合并
+    let left = head;
+    let right = slow;
+    while (right.next) {
+        const next = left.next;
+        left.next = right;
+        right = right.next;
+        left.next.next = next;
+        left = left.next.next;
+    }
 }
 ```
 
@@ -328,32 +355,37 @@ impl Solution {
  * @return {void} Do not return anything, modify head in-place instead.
  */
 var reorderList = function (head) {
-  let slow = head;
-  let fast = head;
-  while (fast.next && fast.next.next) {
-    slow = slow.next;
-    fast = fast.next.next;
-  }
+    // 快慢指针找到链表中点
+    let slow = head;
+    let fast = head;
+    while (fast.next && fast.next.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
 
-  let cur = slow.next;
-  slow.next = null;
+    // cur 指向右半部分链表
+    let cur = slow.next;
+    slow.next = null;
 
-  let pre = null;
-  while (cur) {
-    const t = cur.next;
-    cur.next = pre;
-    pre = cur;
-    cur = t;
-  }
-  cur = head;
+    // 反转右半部分链表
+    let pre = null;
+    while (cur) {
+        const t = cur.next;
+        cur.next = pre;
+        pre = cur;
+        cur = t;
+    }
+    cur = head;
 
-  while (pre) {
-    const t = pre.next;
-    pre.next = cur.next;
-    cur.next = pre;
-    cur = pre.next;
-    pre = t;
-  }
+    // 此时 cur, pre 分别指向链表左右两半的第一个节点
+    // 合并
+    while (pre) {
+        const t = pre.next;
+        pre.next = cur.next;
+        cur.next = pre;
+        cur = pre.next;
+        pre = t;
+    }
 };
 ```
 
@@ -373,6 +405,7 @@ var reorderList = function (head) {
  */
 public class Solution {
     public void ReorderList(ListNode head) {
+        // 快慢指针找到链表中点
         ListNode slow = head;
         ListNode fast = head;
         while (fast.next != null && fast.next.next != null) {
@@ -380,9 +413,11 @@ public class Solution {
             fast = fast.next.next;
         }
 
+        // cur 指向右半部分链表
         ListNode cur = slow.next;
         slow.next = null;
 
+        // 反转右半部分链表
         ListNode pre = null;
         while (cur != null) {
             ListNode t = cur.next;
@@ -392,6 +427,8 @@ public class Solution {
         }
         cur = head;
 
+        // 此时 cur, pre 分别指向链表左右两半的第一个节点
+        // 合并
         while (pre != null) {
             ListNode t = pre.next;
             pre.next = cur.next;

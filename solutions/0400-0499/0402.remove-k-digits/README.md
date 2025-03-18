@@ -1,64 +1,79 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0402.Remove%20K%20Digits/README.md
 tags:
-  - Stack
-  - Greedy
-  - String
-  - Monotonic Stack
+    - 栈
+    - 贪心
+    - 字符串
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [402. Remove K Digits](https://leetcode.com/problems/remove-k-digits)
+# [402. 移掉 K 位数字](https://leetcode.cn/problems/remove-k-digits)
 
-## Description
+[English Version](/solution/0400-0499/0402.Remove%20K%20Digits/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given string num representing a non-negative integer <code>num</code>, and an integer <code>k</code>, return <em>the smallest possible integer after removing</em> <code>k</code> <em>digits from</em> <code>num</code>.</p>
+<p>给你一个以字符串表示的非负整数 <code>num</code> 和一个整数 <code>k</code> ，移除这个数中的 <code>k</code><em> </em>位数字，使得剩下的数字最小。请你以字符串形式返回这个最小的数字。</p>
+ 
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = &quot;1432219&quot;, k = 3
-<strong>Output:</strong> &quot;1219&quot;
-<strong>Explanation:</strong> Remove the three digits 4, 3, and 2 to form the new number 1219 which is the smallest.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1 ：</strong></p>
 
 <pre>
-<strong>Input:</strong> num = &quot;10200&quot;, k = 1
-<strong>Output:</strong> &quot;200&quot;
-<strong>Explanation:</strong> Remove the leading 1 and the number is 200. Note that the output must not contain leading zeroes.
+<strong>输入：</strong>num = "1432219", k = 3
+<strong>输出：</strong>"1219"
+<strong>解释：</strong>移除掉三个数字 4, 3, 和 2 形成一个新的最小的数字 1219 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2 ：</strong></p>
 
 <pre>
-<strong>Input:</strong> num = &quot;10&quot;, k = 2
-<strong>Output:</strong> &quot;0&quot;
-<strong>Explanation:</strong> Remove all the digits from the number and it is left with nothing which is 0.
+<strong>输入：</strong>num = "10200", k = 1
+<strong>输出：</strong>"200"
+<strong>解释：</strong>移掉首位的 1 剩下的数字为 200. 注意输出不能有任何前导零。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3 ：</strong></p>
+
+<pre>
+<strong>输入：</strong>num = "10", k = 2
+<strong>输出：</strong>"0"
+<strong>解释：</strong>从原数字移除所有的数字，剩余为空就是 0 。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= k &lt;= num.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>num</code> consists of only digits.</li>
-	<li><code>num</code> does not have any leading zeros except for the zero itself.</li>
+	<li><code>1 <= k <= num.length <= 10<sup>5</sup></code></li>
+	<li><code>num</code> 仅由若干位数字（0 - 9）组成</li>
+	<li>除了 <strong>0</strong> 本身之外，<code>num</code> 不含任何前导零</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy Algorithm
+### 方法一：贪心算法
+
+前置知识：两个相同位数的数字大小关系取决于第一个不同位的数的大小。
+
+基本的思路如下：
+
+-   从左到右遍历数组元素；
+-   对于遍历到的当前元素，选择保留；
+-   但可以选择性丢弃前面的相邻元素，丢弃与否取决于当前元素和前面相邻元素的大小；
+-   根据前置知识可知当当前元素小于前面相邻元素时可以移除前面相邻的元素。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -155,18 +170,18 @@ func removeKdigits(num string, k int) string {
 
 ```ts
 function removeKdigits(num: string, k: number): string {
-  const stk: string[] = [];
-  for (const c of num) {
-    while (k && stk.length > 0 && stk[stk.length - 1] > c) {
-      stk.pop();
-      k--;
+    const stk: string[] = [];
+    for (const c of num) {
+        while (k && stk.length > 0 && stk[stk.length - 1] > c) {
+            stk.pop();
+            k--;
+        }
+        stk.push(c);
     }
-    stk.push(c);
-  }
-  while (k--) {
-    stk.pop();
-  }
-  return stk.join("").replace(/^0*/g, "") || "0";
+    while (k--) {
+        stk.pop();
+    }
+    return stk.join('').replace(/^0*/g, '') || '0';
 }
 ```
 

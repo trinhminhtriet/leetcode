@@ -1,66 +1,71 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1749.Maximum%20Absolute%20Sum%20of%20Any%20Subarray/README.md
 rating: 1541
-source: Biweekly Contest 45 Q2
+source: 第 45 场双周赛 Q2
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1749. Maximum Absolute Sum of Any Subarray](https://leetcode.com/problems/maximum-absolute-sum-of-any-subarray)
+# [1749. 任意子数组和的绝对值的最大值](https://leetcode.cn/problems/maximum-absolute-sum-of-any-subarray)
 
-## Description
+[English Version](/solution/1700-1799/1749.Maximum%20Absolute%20Sum%20of%20Any%20Subarray/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code>. The <strong>absolute sum</strong> of a subarray <code>[nums<sub>l</sub>, nums<sub>l+1</sub>, ..., nums<sub>r-1</sub>, nums<sub>r</sub>]</code> is <code>abs(nums<sub>l</sub> + nums<sub>l+1</sub> + ... + nums<sub>r-1</sub> + nums<sub>r</sub>)</code>.</p>
+<p>给你一个整数数组 <code>nums</code> 。一个子数组 <code>[nums<sub>l</sub>, nums<sub>l+1</sub>, ..., nums<sub>r-1</sub>, nums<sub>r</sub>]</code> 的 <strong>和的绝对值</strong> 为 <code>abs(nums<sub>l</sub> + nums<sub>l+1</sub> + ... + nums<sub>r-1</sub> + nums<sub>r</sub>)</code> 。</p>
 
-<p>Return <em>the <strong>maximum</strong> absolute sum of any <strong>(possibly empty)</strong> subarray of </em><code>nums</code>.</p>
+<p>请你找出 <code>nums</code> 中 <strong>和的绝对值</strong> 最大的任意子数组（<b>可能为空</b>），并返回该 <strong>最大值</strong> 。</p>
 
-<p>Note that <code>abs(x)</code> is defined as follows:</p>
+<p><code>abs(x)</code> 定义如下：</p>
 
 <ul>
-	<li>If <code>x</code> is a negative integer, then <code>abs(x) = -x</code>.</li>
-	<li>If <code>x</code> is a non-negative integer, then <code>abs(x) = x</code>.</li>
+	<li>如果 <code>x</code> 是负整数，那么 <code>abs(x) = -x</code> 。</li>
+	<li>如果 <code>x</code> 是非负整数，那么 <code>abs(x) = x</code> 。</li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,-3,2,3,-4]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The subarray [2,3] has absolute sum = abs(2+3) = abs(5) = 5.
+<b>输入：</b>nums = [1,-3,2,3,-4]
+<b>输出：</b>5
+<b>解释：</b>子数组 [2,3] 和的绝对值最大，为 abs(2+3) = abs(5) = 5 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,-5,1,-4,3,-2]
-<strong>Output:</strong> 8
-<strong>Explanation:</strong> The subarray [-5,1,-4] has absolute sum = abs(-5+1-4) = abs(-8) = 8.
+<b>输入：</b>nums = [2,-5,1,-4,3,-2]
+<b>输出：</b>8
+<b>解释：</b>子数组 [-5,1,-4] 和的绝对值最大，为 abs(-5+1-4) = abs(-8) = 8 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>4</sup> <= nums[i] <= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i]$ to represent the maximum value of the subarray ending with $nums[i]$, and define $g[i]$ to represent the minimum value of the subarray ending with $nums[i]$. Then the state transition equation of $f[i]$ and $g[i]$ is as follows:
+我们定义 $f[i]$ 表示以 $nums[i]$ 结尾的子数组的和的最大值，定义 $g[i]$ 表示以 $nums[i]$ 结尾的子数组的和的最小值。那么 $f[i]$ 和 $g[i]$ 的状态转移方程如下：
 
 $$
 \begin{aligned}
@@ -69,11 +74,11 @@ g[i] &= \min(g[i - 1], 0) + nums[i]
 \end{aligned}
 $$
 
-The final answer is the maximum value of $max(f[i], |g[i]|)$.
+最后答案为 $max(f[i], |g[i]|)$ 的最大值。
 
-Since $f[i]$ and $g[i]$ are only related to $f[i - 1]$ and $g[i - 1]$, we can use two variables to replace the array, reducing the space complexity to $O(1)$.
+由于 $f[i]$ 和 $g[i]$ 只与 $f[i - 1]$ 和 $g[i - 1]$ 有关，因此我们可以使用两个变量代替数组，将空间复杂度降低到 $O(1)$。
 
-Time complexity $O(n)$, space complexity $O(1)$, where $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -151,15 +156,15 @@ func abs(x int) int {
 
 ```ts
 function maxAbsoluteSum(nums: number[]): number {
-  let f = 0;
-  let g = 0;
-  let ans = 0;
-  for (const x of nums) {
-    f = Math.max(f, 0) + x;
-    g = Math.min(g, 0) + x;
-    ans = Math.max(ans, f, -g);
-  }
-  return ans;
+    let f = 0;
+    let g = 0;
+    let ans = 0;
+    for (const x of nums) {
+        f = Math.max(f, 0) + x;
+        g = Math.min(g, 0) + x;
+        ans = Math.max(ans, f, -g);
+    }
+    return ans;
 }
 ```
 

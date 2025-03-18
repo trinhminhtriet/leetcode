@@ -1,53 +1,58 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2862.Maximum%20Element-Sum%20of%20a%20Complete%20Subset%20of%20Indices/README.md
 rating: 2291
-source: Weekly Contest 363 Q4
+source: 第 363 场周赛 Q4
 tags:
-  - Array
-  - Math
-  - Number Theory
+    - 数组
+    - 数学
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [2862. Maximum Element-Sum of a Complete Subset of Indices](https://leetcode.com/problems/maximum-element-sum-of-a-complete-subset-of-indices)
+# [2862. 完全子集的最大元素和](https://leetcode.cn/problems/maximum-element-sum-of-a-complete-subset-of-indices)
 
-## Description
+[English Version](/solution/2800-2899/2862.Maximum%20Element-Sum%20of%20a%20Complete%20Subset%20of%20Indices/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>1</strong><strong>-indexed</strong> array <code>nums</code>. Your task is to select a <strong>complete subset</strong> from <code>nums</code> where every pair of selected indices multiplied is a <span data-keyword="perfect-square">perfect square,</span>. i. e. if you select <code>a<sub>i</sub></code> and <code>a<sub>j</sub></code>, <code>i * j</code> must be a perfect square.</p>
+<p>给你一个下标从 <strong>1</strong> 开始、由 <code>n</code> 个整数组成的数组。你需要从&nbsp;<code>nums</code>&nbsp;选择一个&nbsp;<strong>完全集</strong>，其中每对元素下标的乘积都是一个 <span data-keyword="perfect-square">完全平方数</span>，例如选择&nbsp;<code>a<sub>i</sub></code>&nbsp;和&nbsp;<code>a<sub>j</sub></code>&nbsp;，<code>i * j</code>&nbsp;一定是完全平方数。</p>
 
-<p>Return the <em>sum</em> of the complete subset with the <em>maximum sum</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [8,7,3,5,7,2,4,9]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">16</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>We select elements at indices 2 and 8 and 2<code>&nbsp;* 8</code>&nbsp;is a perfect square.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [8,10,3,8,1,13,7,9,4]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">20</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>We select elements at indices 1, 4, and 9. <code>1 * 4</code>, <code>1 * 9</code>, <code>4 * 9</code> are perfect squares.</p>
-</div>
+<p>返回&nbsp;<strong>完全子集</strong> 所能取到的 <strong>最大元素和</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">nums = [8,7,3,5,7,2,4,9]</span></p>
+
+<p><strong>输出：</strong><span class="example-io">16</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>我们选择下标为 2 和 8 的元素，并且&nbsp;<code>2 * 8</code>&nbsp;是一个完全平方数。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>nums = [8,10,3,8,1,13,7,9,4]</span></p>
+
+<p><span class="example-io"><b>输出：</b>20</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>我们选择下标为 1, 4, 9 的元素。<code>1 * 4</code>, <code>1 * 9</code>, <code>4 * 9</code>&nbsp;是完全平方数。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums.length &lt;= 10<sup>4</sup></code></li>
@@ -56,19 +61,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We note that if a number can be expressed in the form of $k \times j^2$, then all numbers of this form have the same $k$.
+我们注意到，如果一个数字可以表示成 $k \times j^2$ 的形式，那么所有该形式的数字的 $k$ 是相同的。
 
-Therefore, we can enumerate $k$ in the range $[1,..n]$, and then start enumerating $j$ from $1$, each time adding the value of $nums[k \times j^2 - 1]$ to $t$, until $k \times j^2 > n$. At this point, update the answer to $ans = \max(ans, t)$.
+因此，我们可以在 $[1,..n]$ 范围内枚举 $k$，然后从 $1$ 开始枚举 $j$，每一次累加 $nums[k \times j^2 - 1]$ 的值到 $t$ 中，直到 $k \times j^2 > n$。此时更新答案为 $ans = \max(ans, t)$。
 
-Finally, return the answer $ans$.
+最后返回答案 $ans$ 即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -96,6 +101,25 @@ class Solution {
     public long maximumSum(List<Integer> nums) {
         long ans = 0;
         int n = nums.size();
+        for (int k = 1; k <= n; ++k) {
+            long t = 0;
+            for (int j = 1; k * j * j <= n; ++j) {
+                t += nums.get(k * j * j - 1);
+            }
+            ans = Math.max(ans, t);
+        }
+        return ans;
+    }
+}
+```
+
+#### Java
+
+```java
+class Solution {
+    public long maximumSum(List<Integer> nums) {
+        long ans = 0;
+        int n = nums.size();
         boolean[] used = new boolean[n + 1];
         int bound = (int) Math.floor(Math.sqrt(n));
         int[] squares = new int[bound + 1];
@@ -111,25 +135,6 @@ class Solution {
                 curr = i * squares[++idx];
             }
             ans = Math.max(ans, res);
-        }
-        return ans;
-    }
-}
-```
-
-#### Java
-
-```java
-class Solution {
-    public long maximumSum(List<Integer> nums) {
-        long ans = 0;
-        int n = nums.size();
-        for (int k = 1; k <= n; ++k) {
-            long t = 0;
-            for (int j = 1; k * j * j <= n; ++j) {
-                t += nums.get(k * j * j - 1);
-            }
-            ans = Math.max(ans, t);
         }
         return ans;
     }
@@ -176,16 +181,16 @@ func maximumSum(nums []int) (ans int64) {
 
 ```ts
 function maximumSum(nums: number[]): number {
-  let ans = 0;
-  const n = nums.length;
-  for (let k = 1; k <= n; ++k) {
-    let t = 0;
-    for (let j = 1; k * j * j <= n; ++j) {
-      t += nums[k * j * j - 1];
+    let ans = 0;
+    const n = nums.length;
+    for (let k = 1; k <= n; ++k) {
+        let t = 0;
+        for (let j = 1; k * j * j <= n; ++j) {
+            t += nums[k * j * j - 1];
+        }
+        ans = Math.max(ans, t);
     }
-    ans = Math.max(ans, t);
-  }
-  return ans;
+    return ans;
 }
 ```
 

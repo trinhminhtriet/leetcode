@@ -1,59 +1,68 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1941.Check%20if%20All%20Characters%20Have%20Equal%20Number%20of%20Occurrences/README.md
 rating: 1242
-source: Biweekly Contest 57 Q1
+source: 第 57 场双周赛 Q1
 tags:
-  - Hash Table
-  - String
-  - Counting
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1941. Check if All Characters Have Equal Number of Occurrences](https://leetcode.com/problems/check-if-all-characters-have-equal-number-of-occurrences)
+# [1941. 检查是否所有字符出现次数相同](https://leetcode.cn/problems/check-if-all-characters-have-equal-number-of-occurrences)
 
-## Description
+[English Version](/solution/1900-1999/1941.Check%20if%20All%20Characters%20Have%20Equal%20Number%20of%20Occurrences/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, return <code>true</code><em> if </em><code>s</code><em> is a <strong>good</strong> string, or </em><code>false</code><em> otherwise</em>.</p>
+<p>给你一个字符串 <code>s</code> ，如果 <code>s</code> 是一个 <strong>好</strong> 字符串，请你返回 <code>true</code> ，否则请返回 <code>false</code> 。</p>
 
-<p>A string <code>s</code> is <strong>good</strong> if <strong>all</strong> the characters that appear in <code>s</code> have the <strong>same</strong> number of occurrences (i.e., the same frequency).</p>
+<p>如果 <code>s</code> 中出现过的 <strong>所有</strong> 字符的出现次数 <strong>相同</strong> ，那么我们称字符串 <code>s</code> 是 <strong>好</strong> 字符串。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s = &quot;abacbc&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The characters that appear in s are &#39;a&#39;, &#39;b&#39;, and &#39;c&#39;. All characters occur 2 times in s.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>s = "abacbc"
+<b>输出：</b>true
+<b>解释：</b>s 中出现过的字符为 'a'，'b' 和 'c' 。s 中所有字符均出现 2 次。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;aaabb&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The characters that appear in s are &#39;a&#39; and &#39;b&#39;.
-&#39;a&#39; occurs 3 times while &#39;b&#39; occurs 2 times, which is not the same number of times.
+<pre><b>输入：</b>s = "aaabb"
+<b>输出：</b>false
+<b>解释：</b>s 中出现过的字符为 'a' 和 'b' 。
+'a' 出现了 3 次，'b' 出现了 2 次，两者出现次数不同。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code> 只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：计数
+
+我们用一个哈希表或者一个长度为 $26$ 的数组 $\textit{cnt}$ 记录字符串 $s$ 中每个字符出现的次数。
+
+接下来遍历 $\textit{cnt}$ 中的每个值，判断所有非零值是否相等即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 是字符串 $s$ 的长度；而 $\Sigma$ 是字符集大小，本题中字符集为小写英文字母，因此 $|\Sigma|=26$。
 
 <!-- tabs:start -->
 
@@ -62,8 +71,7 @@ tags:
 ```python
 class Solution:
     def areOccurrencesEqual(self, s: str) -> bool:
-        cnt = Counter(s)
-        return len(set(cnt.values())) == 1
+        return len(set(Counter(s).values())) == 1
 ```
 
 #### Java
@@ -72,18 +80,18 @@ class Solution:
 class Solution {
     public boolean areOccurrencesEqual(String s) {
         int[] cnt = new int[26];
-        for (int i = 0; i < s.length(); ++i) {
-            ++cnt[s.charAt(i) - 'a'];
+        for (char c : s.toCharArray()) {
+            ++cnt[c - 'a'];
         }
-        int x = 0;
-        for (int v : cnt) {
-            if (v > 0) {
-                if (x == 0) {
-                    x = v;
-                } else if (x != v) {
-                    return false;
-                }
+        int v = 0;
+        for (int x : cnt) {
+            if (x == 0) {
+                continue;
             }
+            if (v > 0 && v != x) {
+                return false;
+            }
+            v = x;
         }
         return true;
     }
@@ -96,19 +104,19 @@ class Solution {
 class Solution {
 public:
     bool areOccurrencesEqual(string s) {
-        int cnt[26]{};
-        for (char& c : s) {
+        vector<int> cnt(26);
+        for (char c : s) {
             ++cnt[c - 'a'];
         }
-        int x = 0;
-        for (int& v : cnt) {
-            if (v) {
-                if (!x) {
-                    x = v;
-                } else if (x != v) {
-                    return false;
-                }
+        int v = 0;
+        for (int x : cnt) {
+            if (x == 0) {
+                continue;
             }
+            if (v && v != x) {
+                return false;
+            }
+            v = x;
         }
         return true;
     }
@@ -123,15 +131,15 @@ func areOccurrencesEqual(s string) bool {
 	for _, c := range s {
 		cnt[c-'a']++
 	}
-	x := 0
-	for _, v := range cnt {
-		if v > 0 {
-			if x == 0 {
-				x = v
-			} else if x != v {
-				return false
-			}
+	v := 0
+	for _, x := range cnt {
+		if x == 0 {
+			continue
 		}
+		if v > 0 && v != x {
+			return false
+		}
+		v = x
 	}
 	return true
 }
@@ -141,21 +149,12 @@ func areOccurrencesEqual(s string) bool {
 
 ```ts
 function areOccurrencesEqual(s: string): boolean {
-  const cnt: number[] = new Array(26).fill(0);
-  for (const c of s) {
-    ++cnt[c.charCodeAt(0) - "a".charCodeAt(0)];
-  }
-  let x = 0;
-  for (const v of cnt) {
-    if (v) {
-      if (!x) {
-        x = v;
-      } else if (x !== v) {
-        return false;
-      }
+    const cnt: number[] = Array(26).fill(0);
+    for (const c of s) {
+        ++cnt[c.charCodeAt(0) - 'a'.charCodeAt(0)];
     }
-  }
-  return true;
+    const v = cnt.find(v => v);
+    return cnt.every(x => !x || v === x);
 }
 ```
 
@@ -168,35 +167,22 @@ class Solution {
      * @return Boolean
      */
     function areOccurrencesEqual($s) {
+        $cnt = array_fill(0, 26, 0);
         for ($i = 0; $i < strlen($s); $i++) {
-            $hashtable[$s[$i]] += 1;
+            $cnt[ord($s[$i]) - ord('a')]++;
         }
-        $rs = array_unique($hashtable);
-        return count($rs) === 1;
+        $v = 0;
+        foreach ($cnt as $x) {
+            if ($x == 0) {
+                continue;
+            }
+            if ($v && $v != $x) {
+                return false;
+            }
+            $v = $x;
+        }
+        return true;
     }
-}
-```
-
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### Solution 2
-
-<!-- tabs:start -->
-
-#### TypeScript
-
-```ts
-function areOccurrencesEqual(s: string): boolean {
-  const cnt: number[] = new Array(26).fill(0);
-  for (const c of s) {
-    ++cnt[c.charCodeAt(0) - "a".charCodeAt(0)];
-  }
-  const x = cnt.find((v) => v);
-  return cnt.every((v) => !v || v === x);
 }
 ```
 

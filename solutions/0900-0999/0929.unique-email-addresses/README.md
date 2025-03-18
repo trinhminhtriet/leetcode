@@ -1,79 +1,89 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0929.Unique%20Email%20Addresses/README.md
 tags:
-  - Array
-  - Hash Table
-  - String
+    - 数组
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [929. Unique Email Addresses](https://leetcode.com/problems/unique-email-addresses)
+# [929. 独特的电子邮件地址](https://leetcode.cn/problems/unique-email-addresses)
 
-## Description
+[English Version](/solution/0900-0999/0929.Unique%20Email%20Addresses/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Every <strong>valid email</strong> consists of a <strong>local name</strong> and a <strong>domain name</strong>, separated by the <code>&#39;@&#39;</code> sign. Besides lowercase letters, the email may contain one or more <code>&#39;.&#39;</code> or <code>&#39;+&#39;</code>.</p>
+<p>每个 <strong>有效电子邮件地址</strong> 都由一个 <strong>本地名</strong> 和一个 <strong>域名</strong> 组成，以 <code>'@'</code> 符号分隔。除小写字母之外，电子邮件地址还可以含有一个或多个&nbsp;<code>'.'</code> 或 <code>'+'</code> 。</p>
 
 <ul>
-	<li>For example, in <code>&quot;alice@leetcode.com&quot;</code>, <code>&quot;alice&quot;</code> is the <strong>local name</strong>, and <code>&quot;leetcode.com&quot;</code> is the <strong>domain name</strong>.</li>
+	<li>例如，在&nbsp;<code>alice@leetcode.com</code>中，&nbsp;<code>alice</code>&nbsp;是 <strong>本地名</strong> ，而&nbsp;<code>leetcode.com</code>&nbsp;是 <strong>域名</strong> 。</li>
 </ul>
 
-<p>If you add periods <code>&#39;.&#39;</code> between some characters in the <strong>local name</strong> part of an email address, mail sent there will be forwarded to the same address without dots in the local name. Note that this rule <strong>does not apply</strong> to <strong>domain names</strong>.</p>
+<p>如果在电子邮件地址的<strong> 本地名 </strong>部分中的某些字符之间添加句点（<code>'.'</code>），则发往那里的邮件将会转发到本地名中没有点的同一地址。请注意，此规则 <strong>不适用于域名</strong> 。</p>
 
 <ul>
-	<li>For example, <code>&quot;alice.z@leetcode.com&quot;</code> and <code>&quot;alicez@leetcode.com&quot;</code> forward to the same email address.</li>
+	<li>例如，<code>"alice.z@leetcode.com”</code> 和 <code>“alicez@leetcode.com”</code>&nbsp;会转发到同一电子邮件地址。</li>
 </ul>
 
-<p>If you add a plus <code>&#39;+&#39;</code> in the <strong>local name</strong>, everything after the first plus sign <strong>will be ignored</strong>. This allows certain emails to be filtered. Note that this rule <strong>does not apply</strong> to <strong>domain names</strong>.</p>
+<p>如果在<strong> 本地名 </strong>中添加加号（<code>'+'</code>），则会忽略第一个加号后面的所有内容。这允许过滤某些电子邮件。同样，此规则 <strong>不适用于域名</strong> 。</p>
 
 <ul>
-	<li>For example, <code>&quot;m.y+name@email.com&quot;</code> will be forwarded to <code>&quot;my@email.com&quot;</code>.</li>
+	<li>例如 <code>m.y+name@email.com</code> 将转发到 <code>my@email.com</code>。</li>
 </ul>
 
-<p>It is possible to use both of these rules at the same time.</p>
+<p>可以同时使用这两个规则。</p>
 
-<p>Given an array of strings <code>emails</code> where we send one email to each <code>emails[i]</code>, return <em>the number of different addresses that actually receive mails</em>.</p>
+<p>给你一个字符串数组 <code>emails</code>，我们会向每个 <code>emails[i]</code> 发送一封电子邮件。返回实际收到邮件的不同地址数目。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> emails = [&quot;test.email+alex@leetcode.com&quot;,&quot;test.e.mail+bob.cathy@leetcode.com&quot;,&quot;testemail+david@lee.tcode.com&quot;]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> &quot;testemail@leetcode.com&quot; and &quot;testemail@lee.tcode.com&quot; actually receive mails.
+<strong>输入：</strong>emails = ["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]
+<strong>输出：</strong>2
+<strong>解释：</strong>实际收到邮件的是 "testemail@leetcode.com" 和 "testemail@lee.tcode.com"。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> emails = [&quot;a@leetcode.com&quot;,&quot;b@leetcode.com&quot;,&quot;c@leetcode.com&quot;]
-<strong>Output:</strong> 3
+<strong>输入：</strong>emails = ["a@leetcode.com","b@leetcode.com","c@leetcode.com"]
+<strong>输出：</strong>3
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><br />
+<strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= emails.length &lt;= 100</code></li>
-	<li><code>1 &lt;= emails[i].length &lt;= 100</code></li>
-	<li><code>emails[i]</code> consist of lowercase English letters, <code>&#39;+&#39;</code>, <code>&#39;.&#39;</code> and <code>&#39;@&#39;</code>.</li>
-	<li>Each <code>emails[i]</code> contains exactly one <code>&#39;@&#39;</code> character.</li>
-	<li>All local and domain names are non-empty.</li>
-	<li>Local names do not start with a <code>&#39;+&#39;</code> character.</li>
-	<li>Domain names end with the <code>&quot;.com&quot;</code> suffix.</li>
-	<li>Domain names must contain at least one character before <code>&quot;.com&quot;</code> suffix.</li>
+	<li><code>1 &lt;= emails[i].length&nbsp;&lt;= 100</code></li>
+	<li><code>emails[i]</code> 由小写英文字母、<code>'+'</code>、<code>'.'</code> 和 <code>'@'</code> 组成</li>
+	<li>每个 <code>emails[i]</code> 都包含有且仅有一个 <code>'@'</code> 字符</li>
+	<li>所有本地名和域名都不为空</li>
+	<li>本地名不会以 <code>'+'</code> 字符作为开头</li>
+	<li>域名以&nbsp;<code>".com"</code> 后缀结尾。</li>
+	<li>域名在&nbsp;<code>".com"</code> 后缀前至少包含一个字符</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表
+
+我们可以用一个哈希表 $s$ 来存储所有的电子邮件地址，然后遍历数组 $\textit{emails}$，对于每个电子邮件地址，我们将其分为本地名和域名两部分，然后对本地名进行处理，去掉所有的点号和加号后面的字符，最后将处理后的本地名和域名拼接起来，加入哈希表 $s$ 中。
+
+最后返回哈希表 $s$ 的大小即可。
+
+时间复杂度 $O(L)$，空间复杂度 $O(L)$，其中 $L$ 为所有电子邮件地址的长度之和。
 
 <!-- tabs:start -->
 
@@ -84,11 +94,15 @@ class Solution:
     def numUniqueEmails(self, emails: List[str]) -> int:
         s = set()
         for email in emails:
-            local, domain = email.split('@')
-            local = local.replace('.', '')
-            if (i := local.find('+')) != -1:
-                local = local[:i]
-            s.add(local + '@' + domain)
+            local, domain = email.split("@")
+            t = []
+            for c in local:
+                if c == ".":
+                    continue
+                if c == "+":
+                    break
+                t.append(c)
+            s.add("".join(t) + "@" + domain)
         return len(s)
 ```
 
@@ -99,14 +113,20 @@ class Solution {
     public int numUniqueEmails(String[] emails) {
         Set<String> s = new HashSet<>();
         for (String email : emails) {
-            String[] t = email.split("@");
-            String local = t[0].replace(".", "");
-            String domain = t[1];
-            int i = local.indexOf('+');
-            if (i != -1) {
-                local = local.substring(0, i);
+            String[] parts = email.split("@");
+            String local = parts[0];
+            String domain = parts[1];
+            StringBuilder t = new StringBuilder();
+            for (char c : local.toCharArray()) {
+                if (c == '.') {
+                    continue;
+                }
+                if (c == '+') {
+                    break;
+                }
+                t.append(c);
             }
-            s.add(local + "@" + domain);
+            s.add(t.toString() + "@" + domain);
         }
         return s.size();
     }
@@ -120,15 +140,21 @@ class Solution {
 public:
     int numUniqueEmails(vector<string>& emails) {
         unordered_set<string> s;
-        for (auto& email : emails) {
-            int i = email.find('@');
-            string local = email.substr(0, i);
-            string domain = email.substr(i + 1);
-            i = local.find('+', 0);
-            if (~i) local = local.substr(0, i);
-            while (~(i = local.find('.', 0)))
-                local.erase(local.begin() + i);
-            s.insert(local + "@" + domain);
+        for (const string& email : emails) {
+            size_t atPos = email.find('@');
+            string local = email.substr(0, atPos);
+            string domain = email.substr(atPos + 1);
+            string t;
+            for (char c : local) {
+                if (c == '.') {
+                    continue;
+                }
+                if (c == '+') {
+                    break;
+                }
+                t.push_back(c);
+            }
+            s.insert(t + "@" + domain);
         }
         return s.size();
     }
@@ -139,13 +165,22 @@ public:
 
 ```go
 func numUniqueEmails(emails []string) int {
-	s := map[string]bool{}
+	s := make(map[string]struct{})
 	for _, email := range emails {
-		i := strings.IndexByte(email, '@')
-		local := strings.SplitN(email[:i], "+", 2)[0]
-		local = strings.ReplaceAll(local, ".", "")
-		domain := email[i:]
-		s[local+domain] = true
+		parts := strings.Split(email, "@")
+		local := parts[0]
+		domain := parts[1]
+		var t strings.Builder
+		for _, c := range local {
+			if c == '.' {
+				continue
+			}
+			if c == '+' {
+				break
+			}
+			t.WriteByte(byte(c))
+		}
+		s[t.String()+"@"+domain] = struct{}{}
 	}
 	return len(s)
 }
@@ -155,11 +190,22 @@ func numUniqueEmails(emails []string) int {
 
 ```ts
 function numUniqueEmails(emails: string[]): number {
-  return new Set(
-    emails
-      .map((email) => email.split("@"))
-      .map(([start, end]) => start.replace(/\+.*|\./g, "") + "@" + end)
-  ).size;
+    const s = new Set<string>();
+    for (const email of emails) {
+        const [local, domain] = email.split('@');
+        let t = '';
+        for (const c of local) {
+            if (c === '.') {
+                continue;
+            }
+            if (c === '+') {
+                break;
+            }
+            t += c;
+        }
+        s.add(t + '@' + domain);
+    }
+    return s.size;
 }
 ```
 
@@ -167,26 +213,29 @@ function numUniqueEmails(emails: string[]): number {
 
 ```rust
 use std::collections::HashSet;
+
 impl Solution {
     pub fn num_unique_emails(emails: Vec<String>) -> i32 {
-        let mut set = HashSet::new();
-        for email in emails.iter() {
-            let res: Vec<&str> = email.split('@').collect();
-            let mut s = String::new();
-            for &c in res[0].as_bytes().iter() {
-                if c == b'.' {
+        let mut s = HashSet::new();
+
+        for email in emails {
+            let parts: Vec<&str> = email.split('@').collect();
+            let local = parts[0];
+            let domain = parts[1];
+            let mut t = String::new();
+            for c in local.chars() {
+                if c == '.' {
                     continue;
                 }
-                if c == b'+' {
+                if c == '+' {
                     break;
                 }
-                s.push(c as char);
+                t.push(c);
             }
-            s.push('@');
-            s.push_str(res[1]);
-            set.insert(s);
+            s.insert(format!("{}@{}", t, domain));
         }
-        set.len() as i32
+
+        s.len() as i32
     }
 }
 ```
@@ -194,45 +243,27 @@ impl Solution {
 #### JavaScript
 
 ```js
-const numUniqueEmails2 = function (emails) {
-  const emailFilter = function (str) {
-    let index = str.search(/@/);
-    let s = str.substring(0, index);
-    let s2 = str.substring(index + 1, str.length);
-    let res = "";
-    for (let i = 0; i < s.length; i++) {
-      if (s[i] === "+") break;
-      if (s[i] === ".") continue;
-      res = res + s[i];
+/**
+ * @param {string[]} emails
+ * @return {number}
+ */
+var numUniqueEmails = function (emails) {
+    const s = new Set();
+    for (const email of emails) {
+        const [local, domain] = email.split('@');
+        let t = '';
+        for (const c of local) {
+            if (c === '.') {
+                continue;
+            }
+            if (c === '+') {
+                break;
+            }
+            t += c;
+        }
+        s.add(t + '@' + domain);
     }
-    return res + s2;
-  };
-
-  let arr = [];
-  for (let i = 0; i < emails.length; i++) {
-    let t = emailFilter(emails[i]);
-    if (arr.indexOf(t) === -1) {
-      arr.push(t);
-    }
-  }
-  return arr.length;
-};
-
-const numUniqueEmails = function (emails) {
-  let arr = emails.map((str) => {
-    let index = str.search(/@/);
-    let s = str.substring(0, index);
-    let s2 = str.substring(index + 1, str.length);
-    let res = "";
-    for (let i = 0; i < s.length; i++) {
-      if (s[i] === "+") break;
-      if (s[i] === ".") continue;
-      res = res + s[i];
-    }
-    return res + s2;
-  });
-  let set = new Set(arr);
-  return set.size;
+    return s.size;
 };
 ```
 

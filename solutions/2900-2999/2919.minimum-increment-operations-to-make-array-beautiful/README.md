@@ -1,77 +1,82 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2919.Minimum%20Increment%20Operations%20to%20Make%20Array%20Beautiful/README.md
 rating: 2030
-source: Weekly Contest 369 Q3
+source: 第 369 场周赛 Q3
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2919. Minimum Increment Operations to Make Array Beautiful](https://leetcode.com/problems/minimum-increment-operations-to-make-array-beautiful)
+# [2919. 使数组变美的最小增量运算数](https://leetcode.cn/problems/minimum-increment-operations-to-make-array-beautiful)
 
-## Description
+[English Version](/solution/2900-2999/2919.Minimum%20Increment%20Operations%20to%20Make%20Array%20Beautiful/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> having length <code>n</code>, and an integer <code>k</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的整数数组 <code>nums</code> ，和一个整数 <code>k</code> 。</p>
 
-<p>You can perform the following <strong>increment</strong> operation <strong>any</strong> number of times (<strong>including zero</strong>):</p>
+<p>你可以执行下述 <strong>递增</strong> 运算 <strong>任意</strong> 次（可以是 <strong>0</strong> 次）：</p>
 
 <ul>
-	<li>Choose an index <code>i</code> in the range <code>[0, n - 1]</code>, and increase <code>nums[i]</code> by <code>1</code>.</li>
+	<li>从范围&nbsp;<code>[0, n - 1]</code> 中选择一个下标 <code>i</code> ，并将 <code>nums[i]</code> 的值加 <code>1</code> 。</li>
 </ul>
 
-<p>An array is considered <strong>beautiful</strong> if, for any <strong>subarray</strong> with a size of <code>3</code> or <strong>more</strong>, its <strong>maximum</strong> element is <strong>greater than or equal</strong> to <code>k</code>.</p>
+<p>如果数组中任何长度 <strong>大于或等于 3</strong> 的子数组，其 <strong>最大</strong> 元素都大于或等于 <code>k</code> ，则认为数组是一个 <strong>美丽数组</strong> 。</p>
 
-<p>Return <em>an integer denoting the <strong>minimum</strong> number of increment operations needed to make </em><code>nums</code><em> <strong>beautiful</strong>.</em></p>
+<p>以整数形式返回使数组变为 <strong>美丽数组</strong> 需要执行的 <strong>最小</strong> 递增运算数。</p>
 
-<p>A subarray is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2,3,0,0,2], k = 4
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We can perform the following increment operations to make nums beautiful:
-Choose index i = 1 and increase nums[1] by 1 -&gt; [2,4,0,0,2].
-Choose index i = 4 and increase nums[4] by 1 -&gt; [2,4,0,0,3].
-Choose index i = 4 and increase nums[4] by 1 -&gt; [2,4,0,0,4].
-The subarrays with a size of 3 or more are: [2,4,0], [4,0,0], [0,0,4], [2,4,0,0], [4,0,0,4], [2,4,0,0,4].
-In all the subarrays, the maximum element is equal to k = 4, so nums is now beautiful.
-It can be shown that nums cannot be made beautiful with fewer than 3 increment operations.
-Hence, the answer is 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [0,1,3,3], k = 5
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We can perform the following increment operations to make nums beautiful:
-Choose index i = 2 and increase nums[2] by 1 -&gt; [0,1,4,3].
-Choose index i = 2 and increase nums[2] by 1 -&gt; [0,1,5,3].
-The subarrays with a size of 3 or more are: [0,1,5], [1,5,3], [0,1,5,3].
-In all the subarrays, the maximum element is equal to k = 5, so nums is now beautiful.
-It can be shown that nums cannot be made beautiful with fewer than 2 increment operations.
-Hence, the answer is 2.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,1,2], k = 1
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The only subarray with a size of 3 or more in this example is [1,1,2].
-The maximum element, 2, is already greater than k = 1, so we don&#39;t need any increment operation.
-Hence, the answer is 0.
-</pre>
+<p>子数组是数组中的一个连续 <strong>非空</strong> 元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [2,3,0,0,2], k = 4
+<strong>输出：</strong>3
+<strong>解释：</strong>可以执行下述递增运算，使 nums 变为美丽数组：
+选择下标 i = 1 ，并且将 nums[1] 的值加 1 -&gt; [2,4,0,0,2] 。
+选择下标 i = 4 ，并且将 nums[4] 的值加 1 -&gt; [2,4,0,0,3] 。
+选择下标 i = 4 ，并且将 nums[4] 的值加 1 -&gt; [2,4,0,0,4] 。
+长度大于或等于 3 的子数组为 [2,4,0], [4,0,0], [0,0,4], [2,4,0,0], [4,0,0,4], [2,4,0,0,4] 。
+在所有子数组中，最大元素都等于 k = 4 ，所以 nums 现在是美丽数组。
+可以证明无法用少于 3 次递增运算使 nums 变为美丽数组。
+因此，答案为 3 。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [0,1,3,3], k = 5
+<strong>输出：</strong>2
+<strong>解释：</strong>可以执行下述递增运算，使 nums 变为美丽数组：
+选择下标 i = 2 ，并且将 nums[2] 的值加 1 -&gt; [0,1,4,3] 。
+选择下标 i = 2 ，并且将 nums[2] 的值加 1 -&gt; [0,1,5,3] 。
+长度大于或等于 3 的子数组为 [0,1,5]、[1,5,3]、[0,1,5,3] 。
+在所有子数组中，最大元素都等于 k = 5 ，所以 nums 现在是美丽数组。
+可以证明无法用少于 2 次递增运算使 nums 变为美丽数组。 
+因此，答案为 2 。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,1,2], k = 1
+<strong>输出：</strong>0
+<strong>解释：</strong>在这个示例中，只有一个长度大于或等于 3 的子数组 [1,1,2] 。
+其最大元素 2 已经大于 k = 1 ，所以无需执行任何增量运算。
+因此，答案为 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= n == nums.length &lt;= 10<sup>5</sup></code></li>
@@ -81,15 +86,15 @@ Hence, the answer is 0.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f$, $g$, and $h$ as the minimum number of increment operations needed to get the maximum value from the last three items in the first $i$ items, initially $f = 0$, $g = 0$, $h = 0$.
+我们定义 $f$, $g$, $h$ 表示前 $i$ 项中，分别以最后三项作为子数组的最大值所需要的最小增量运算数，初始时 $f = 0$, $g = 0$, $h = 0$。
 
-Next, we traverse the array $nums$. For each $x$, we need to update the values of $f$, $g$, and $h$ to meet the requirements of the problem, that is:
+接下来，我们遍历数组 $nums$，对于每个 $x$，我们需要更新 $f$, $g$, $h$ 的值，使其满足题目要求，即：
 
 $$
 \begin{aligned}
@@ -99,9 +104,9 @@ h' &= \min(f, g, h) + \max(k - x, 0)
 \end{aligned}
 $$
 
-Finally, we only need to return the minimum value among $f$, $g$, and $h$.
+最后，我们只需要返回 $f$, $g$, $h$ 中的最小值即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -167,11 +172,11 @@ func minIncrementOperations(nums []int, k int) int64 {
 
 ```ts
 function minIncrementOperations(nums: number[], k: number): number {
-  let [f, g, h] = [0, 0, 0];
-  for (const x of nums) {
-    [f, g, h] = [g, h, Math.min(f, g, h) + Math.max(k - x, 0)];
-  }
-  return Math.min(f, g, h);
+    let [f, g, h] = [0, 0, 0];
+    for (const x of nums) {
+        [f, g, h] = [g, h, Math.min(f, g, h) + Math.max(k - x, 0)];
+    }
+    return Math.min(f, g, h);
 }
 ```
 

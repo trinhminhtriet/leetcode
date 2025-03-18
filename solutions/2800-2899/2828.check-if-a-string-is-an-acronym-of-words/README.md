@@ -1,76 +1,81 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2828.Check%20if%20a%20String%20Is%20an%20Acronym%20of%20Words/README.md
 rating: 1151
-source: Weekly Contest 359 Q1
+source: 第 359 场周赛 Q1
 tags:
-  - Array
-  - String
+    - 数组
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2828. Check if a String Is an Acronym of Words](https://leetcode.com/problems/check-if-a-string-is-an-acronym-of-words)
+# [2828. 判别首字母缩略词](https://leetcode.cn/problems/check-if-a-string-is-an-acronym-of-words)
 
-## Description
+[English Version](/solution/2800-2899/2828.Check%20if%20a%20String%20Is%20an%20Acronym%20of%20Words/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of strings <code>words</code> and a string <code>s</code>, determine if <code>s</code> is an <strong>acronym</strong> of words.</p>
+<p>给你一个字符串数组&nbsp;<code>words</code> 和一个字符串 <code>s</code> ，请你判断 <code>s</code> 是不是 <code>words</code> 的 <strong>首字母缩略词</strong> 。</p>
 
-<p>The string <code>s</code> is considered an acronym of <code>words</code> if it can be formed by concatenating the <strong>first</strong> character of each string in <code>words</code> <strong>in order</strong>. For example, <code>&quot;ab&quot;</code> can be formed from <code>[&quot;apple&quot;, &quot;banana&quot;]</code>, but it can&#39;t be formed from <code>[&quot;bear&quot;, &quot;aardvark&quot;]</code>.</p>
+<p>如果可以按顺序串联 <code>words</code> 中每个字符串的第一个字符形成字符串 <code>s</code> ，则认为 <code>s</code> 是 <code>words</code> 的首字母缩略词。例如，<code>"ab"</code> 可以由 <code>["apple", "banana"]</code> 形成，但是无法从 <code>["bear", "aardvark"]</code> 形成。</p>
 
-<p>Return <code>true</code><em> if </em><code>s</code><em> is an acronym of </em><code>words</code><em>, and </em><code>false</code><em> otherwise. </em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;alice&quot;,&quot;bob&quot;,&quot;charlie&quot;], s = &quot;abc&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The first character in the words &quot;alice&quot;, &quot;bob&quot;, and &quot;charlie&quot; are &#39;a&#39;, &#39;b&#39;, and &#39;c&#39;, respectively. Hence, s = &quot;abc&quot; is the acronym. 
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;an&quot;,&quot;apple&quot;], s = &quot;a&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The first character in the words &quot;an&quot; and &quot;apple&quot; are &#39;a&#39; and &#39;a&#39;, respectively. 
-The acronym formed by concatenating these characters is &quot;aa&quot;. 
-Hence, s = &quot;a&quot; is not the acronym.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;never&quot;,&quot;gonna&quot;,&quot;give&quot;,&quot;up&quot;,&quot;on&quot;,&quot;you&quot;], s = &quot;ngguoy&quot;
-<strong>Output:</strong> true
-<strong>Explanation: </strong>By concatenating the first character of the words in the array, we get the string &quot;ngguoy&quot;. 
-Hence, s = &quot;ngguoy&quot; is the acronym.
-</pre>
+<p>如果 <code>s</code> 是 <code>words</code> 的首字母缩略词，返回 <code>true</code><em> </em>；否则，返回<em> </em><code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["alice","bob","charlie"], s = "abc"
+<strong>输出：</strong>true
+<strong>解释：</strong>words 中 "alice"、"bob" 和 "charlie" 的第一个字符分别是 'a'、'b' 和 'c'。因此，s = "abc" 是首字母缩略词。 
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["an","apple"], s = "a"
+<strong>输出：</strong>false
+<strong>解释：</strong>words 中 "an" 和 "apple" 的第一个字符分别是 'a' 和 'a'。
+串联这些字符形成的首字母缩略词是 "aa" 。
+因此，s = "a" 不是首字母缩略词。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["never","gonna","give","up","on","you"], s = "ngguoy"
+<strong>输出：</strong>true
+<strong>解释：</strong>串联数组 words 中每个字符串的第一个字符，得到字符串 "ngguoy" 。
+因此，s = "ngguoy" 是首字母缩略词。 
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 10</code></li>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>words[i]</code> and <code>s</code> consist of lowercase English letters.</li>
+	<li><code>words[i]</code> 和 <code>s</code> 由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can iterate over each string in the array $words$, concatenate their first letters to form a new string $t$, and then check if $t$ is equal to $s$.
+我们可以遍历数组 $words$ 中的每个字符串，将其首字母拼接起来，得到一个新的字符串 $t$，然后判断 $t$ 是否等于 $s$ 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $words$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $words$ 的长度。
 
 <!-- tabs:start -->
 
@@ -127,7 +132,7 @@ func isAcronym(words []string, s string) bool {
 
 ```ts
 function isAcronym(words: string[], s: string): boolean {
-  return words.map((w) => w[0]).join("") === s;
+    return words.map(w => w[0]).join('') === s;
 }
 ```
 
@@ -151,15 +156,15 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Simulation (Space Optimization)
+### 方法二：模拟（空间优化）
 
-First, we check if the number of strings in $words$ is equal to the length of $s$. If not, $s$ is definitely not an acronym of the first letters of $words$, and we directly return $false$.
+我们首先判断 $words$ 中的字符串个数是否等于 $s$ 的长度，如果不等于，那么 $s$ 一定不是 $words$ 的首字母缩略词，直接返回 $false$。
 
-Then, we iterate over each character in $s$, checking if it is equal to the first letter of the corresponding string in $words$. If not, $s$ is definitely not an acronym of the first letters of $words$, and we directly return $false$.
+然后我们遍历 $s$ 的每个字符，判断其是否等于 $words$ 中对应字符串的首字母，如果不等于，那么 $s$ 一定不是 $words$ 的首字母缩略词，直接返回 $false$。
 
-After the iteration, if we haven't returned $false$, then $s$ is an acronym of the first letters of $words$, and we return $true$.
+遍历结束后，如果没有返回 $false$，那么 $s$ 就是 $words$ 的首字母缩略词，返回 $true$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $words$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $words$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -228,15 +233,15 @@ func isAcronym(words []string, s string) bool {
 
 ```ts
 function isAcronym(words: string[], s: string): boolean {
-  if (words.length !== s.length) {
-    return false;
-  }
-  for (let i = 0; i < words.length; i++) {
-    if (words[i][0] !== s[i]) {
-      return false;
+    if (words.length !== s.length) {
+        return false;
     }
-  }
-  return true;
+    for (let i = 0; i < words.length; i++) {
+        if (words[i][0] !== s[i]) {
+            return false;
+        }
+    }
+    return true;
 }
 ```
 

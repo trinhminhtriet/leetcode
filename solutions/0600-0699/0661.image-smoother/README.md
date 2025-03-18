@@ -1,48 +1,61 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0661.Image%20Smoother/README.md
 tags:
-  - Array
-  - Matrix
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [661. Image Smoother](https://leetcode.com/problems/image-smoother)
+# [661. 图片平滑器](https://leetcode.cn/problems/image-smoother)
 
-## Description
+[English Version](/solution/0600-0699/0661.Image%20Smoother/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>An <strong>image smoother</strong> is a filter of the size <code>3 x 3</code> that can be applied to each cell of an image by rounding down the average of the cell and the eight surrounding cells (i.e., the average of the nine cells in the blue smoother). If one or more of the surrounding cells of a cell is not present, we do not consider it in the average (i.e., the average of the four cells in the red smoother).</p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0661.Image%20Smoother/images/smoother-grid.jpg" style="width: 493px; height: 493px;" />
-<p>Given an <code>m x n</code> integer matrix <code>img</code> representing the grayscale of an image, return <em>the image after applying the smoother on each cell of it</em>.</p>
+<p><strong>图像平滑器</strong> 是大小为&nbsp;<code>3 x 3</code> 的过滤器，用于对图像的每个单元格平滑处理，平滑处理后单元格的值为该单元格的平均灰度。</p>
+
+<p>每个单元格的<strong>&nbsp; 平均灰度</strong> 定义为：该单元格自身及其周围的 8 个单元格的平均值，结果需向下取整。（即，需要计算蓝色平滑器中 9 个单元格的平均值）。</p>
+
+<p>如果一个单元格周围存在单元格缺失的情况，则计算平均灰度时不考虑缺失的单元格（即，需要计算红色平滑器中 4 个单元格的平均值）。</p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0661.Image%20Smoother/images/smoother-grid.jpg" style="height: 493px; width: 493px;" /></p>
+
+<p>给你一个表示图像灰度的 <code>m x n</code> 整数矩阵 <code>img</code> ，返回对图像的每个单元格平滑处理后的图像&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0661.Image%20Smoother/images/smooth-grid.jpg" style="width: 613px; height: 253px;" />
+
+<p><strong>示例 1:</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0661.Image%20Smoother/images/smooth-grid.jpg" /></p>
+
 <pre>
-<strong>Input:</strong> img = [[1,1,1],[1,0,1],[1,1,1]]
-<strong>Output:</strong> [[0,0,0],[0,0,0],[0,0,0]]
-<strong>Explanation:</strong>
-For the points (0,0), (0,2), (2,0), (2,2): floor(3/4) = floor(0.75) = 0
-For the points (0,1), (1,0), (1,2), (2,1): floor(5/6) = floor(0.83333333) = 0
-For the point (1,1): floor(8/9) = floor(0.88888889) = 0
+<strong>输入:</strong>img = [[1,1,1],[1,0,1],[1,1,1]]
+<strong>输出:</strong>[[0, 0, 0],[0, 0, 0], [0, 0, 0]]
+<strong>解释:</strong>
+对于点 (0,0), (0,2), (2,0), (2,2): 平均(3/4) = 平均(0.75) = 0
+对于点 (0,1), (1,0), (1,2), (2,1): 平均(5/6) = 平均(0.83333333) = 0
+对于点 (1,1): 平均(8/9) = 平均(0.88888889) = 0
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0661.Image%20Smoother/images/smooth2-grid.jpg" style="width: 613px; height: 253px;" />
+<p><strong>示例 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0661.Image%20Smoother/images/smooth2-grid.jpg" />
 <pre>
-<strong>Input:</strong> img = [[100,200,100],[200,50,200],[100,200,100]]
-<strong>Output:</strong> [[137,141,137],[141,138,141],[137,141,137]]
-<strong>Explanation:</strong>
-For the points (0,0), (0,2), (2,0), (2,2): floor((100+200+200+50)/4) = floor(137.5) = 137
-For the points (0,1), (1,0), (1,2), (2,1): floor((200+200+50+200+100+100)/6) = floor(141.666667) = 141
-For the point (1,1): floor((50+200+200+200+200+100+100+100+100)/9) = floor(138.888889) = 138
+<strong>输入:</strong> img = [[100,200,100],[200,50,200],[100,200,100]]
+<strong>输出:</strong> [[137,141,137],[141,138,141],[137,141,137]]
+<strong>解释:</strong>
+对于点 (0,0), (0,2), (2,0), (2,2): floor((100+200+200+50)/4) = floor(137.5) = 137
+对于点 (0,1), (1,0), (1,2), (2,1): floor((200+200+50+200+100+100)/6) = floor(141.666667) = 141
+对于点 (1,1): floor((50+200+200+200+200+100+100+100+100)/9) = floor(138.888889) = 138
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>m == img.length</code></li>
@@ -53,11 +66,19 @@ For the point (1,1): floor((50+200+200+200+200+100+100+100+100)/9) = floor(138.8
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：直接遍历
+
+我们创建一个大小为 $m \times n$ 的二维数组 $\textit{ans}$，其中 $\textit{ans}[i][j]$ 表示图像中第 $i$ 行第 $j$ 列的单元格的平滑值。
+
+对于 $\textit{ans}[i][j]$，我们遍历 $\textit{img}$ 中第 $i$ 行第 $j$ 列的单元格及其周围的 $8$ 个单元格，计算它们的和 $s$ 以及个数 $cnt$，然后计算平均值 $s / cnt$ 并将其存入 $\textit{ans}[i][j]$ 中。
+
+遍历结束后，我们返回 $\textit{ans}$ 即可。
+
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是 $\textit{img}$ 的行数和列数。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -121,7 +142,9 @@ public:
                 int s = 0, cnt = 0;
                 for (int x = i - 1; x <= i + 1; ++x) {
                     for (int y = j - 1; y <= j + 1; ++y) {
-                        if (x < 0 || x >= m || y < 0 || y >= n) continue;
+                        if (x < 0 || x >= m || y < 0 || y >= n) {
+                            continue;
+                        }
                         ++cnt;
                         s += img[x][y];
                     }
@@ -163,36 +186,25 @@ func imageSmoother(img [][]int) [][]int {
 
 ```ts
 function imageSmoother(img: number[][]): number[][] {
-  const m = img.length;
-  const n = img[0].length;
-  const locations = [
-    [-1, -1],
-    [-1, 0],
-    [-1, 1],
-    [0, -1],
-    [0, 0],
-    [0, 1],
-    [1, -1],
-    [1, 0],
-    [1, 1],
-  ];
-
-  const res = [];
-  for (let i = 0; i < m; i++) {
-    res.push([]);
-    for (let j = 0; j < n; j++) {
-      let sum = 0;
-      let count = 0;
-      for (const [y, x] of locations) {
-        if ((img[i + y] || [])[j + x] != null) {
-          sum += img[i + y][j + x];
-          count++;
+    const m = img.length;
+    const n = img[0].length;
+    const ans: number[][] = Array.from({ length: m }, () => Array(n).fill(0));
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            let s = 0;
+            let cnt = 0;
+            for (let x = i - 1; x <= i + 1; ++x) {
+                for (let y = j - 1; y <= j + 1; ++y) {
+                    if (x >= 0 && x < m && y >= 0 && y < n) {
+                        ++cnt;
+                        s += img[x][y];
+                    }
+                }
+            }
+            ans[i][j] = Math.floor(s / cnt);
         }
-      }
-      res[i].push(Math.floor(sum / count));
     }
-  }
-  return res;
+    return ans;
 }
 ```
 
@@ -203,37 +215,21 @@ impl Solution {
     pub fn image_smoother(img: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
         let m = img.len();
         let n = img[0].len();
-        let locations = [
-            [-1, -1],
-            [-1, 0],
-            [-1, 1],
-            [0, -1],
-            [0, 0],
-            [0, 1],
-            [1, -1],
-            [1, 0],
-            [1, 1],
-        ];
-
-        let mut res = vec![];
+        let mut ans = vec![vec![0; n]; m];
         for i in 0..m {
-            res.push(vec![]);
             for j in 0..n {
-                let mut sum = 0;
-                let mut count = 0;
-                for [y, x] in locations.iter() {
-                    let i = (i as i32) + y;
-                    let j = (j as i32) + x;
-                    if i < 0 || i == (m as i32) || j < 0 || j == (n as i32) {
-                        continue;
+                let mut s = 0;
+                let mut cnt = 0;
+                for x in i.saturating_sub(1)..=(i + 1).min(m - 1) {
+                    for y in j.saturating_sub(1)..=(j + 1).min(n - 1) {
+                        s += img[x][y];
+                        cnt += 1;
                     }
-                    count += 1;
-                    sum += img[i as usize][j as usize];
                 }
-                res[i].push(sum / count);
+                ans[i][j] = s / cnt;
             }
         }
-        res
+        ans
     }
 }
 ```

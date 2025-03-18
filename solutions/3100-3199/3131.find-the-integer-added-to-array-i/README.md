@@ -1,103 +1,108 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3131.Find%20the%20Integer%20Added%20to%20Array%20I/README.md
 rating: 1160
-source: Weekly Contest 395 Q1
+source: 第 395 场周赛 Q1
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [3131. Find the Integer Added to Array I](https://leetcode.com/problems/find-the-integer-added-to-array-i)
+# [3131. 找出与数组相加的整数 I](https://leetcode.cn/problems/find-the-integer-added-to-array-i)
 
-## Description
+[English Version](/solution/3100-3199/3131.Find%20the%20Integer%20Added%20to%20Array%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two arrays of equal length, <code>nums1</code> and <code>nums2</code>.</p>
+<p>给你两个长度相等的数组 <code>nums1</code> 和 <code>nums2</code>。</p>
 
-<p>Each element in <code>nums1</code> has been increased (or decreased in the case of negative) by an integer, represented by the variable <code>x</code>.</p>
+<p>数组 <code>nums1</code> 中的每个元素都与变量 <code>x</code> 所表示的整数相加。如果 <code>x</code> 为负数，则表现为元素值的减少。</p>
 
-<p>As a result, <code>nums1</code> becomes <strong>equal</strong> to <code>nums2</code>. Two arrays are considered <strong>equal</strong> when they contain the same integers with the same frequencies.</p>
+<p>在与 <code>x</code> 相加后，<code>nums1</code> 和 <code>nums2</code> <strong>相等</strong> 。当两个数组中包含相同的整数，并且这些整数出现的频次相同时，两个数组 <strong>相等</strong> 。</p>
 
-<p>Return the integer <code>x</code>.</p>
+<p>返回整数 <code>x</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1:</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io" style="
+<p><strong>输入：</strong><span class="example-io" style="
     font-family: Menlo,sans-serif;
     font-size: 0.85rem;
 ">nums1 = [2,6,4], nums2 = [9,7,5]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io" style="
+<p><strong>输出：</strong><span class="example-io" style="
     font-family: Menlo,sans-serif;
     font-size: 0.85rem;
 ">3</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The integer added to each element of <code>nums1</code> is 3.</p>
+<p>与 3 相加后，<code>nums1</code> 和 <code>nums2</code> 相等。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2:</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io" style="
+<p><strong>输入：</strong><span class="example-io" style="
     font-family: Menlo,sans-serif;
     font-size: 0.85rem;
 ">nums1 = [10], nums2 = [5]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io" style="
+<p><strong>输出：</strong><span class="example-io" style="
     font-family: Menlo,sans-serif;
     font-size: 0.85rem;
 ">-5</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The integer added to each element of <code>nums1</code> is -5.</p>
+<p>与 <code>-5</code> 相加后，<code>nums1</code> 和 <code>nums2</code> 相等。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3:</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io" style="
+<p><strong>输入：</strong><span class="example-io" style="
     font-family: Menlo,sans-serif;
     font-size: 0.85rem;
 ">nums1 = [1,1,1,1], nums2 = [1,1,1,1]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io" style="
+<p><strong>输出：</strong><span class="example-io" style="
     font-family: Menlo,sans-serif;
     font-size: 0.85rem;
 ">0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The integer added to each element of <code>nums1</code> is 0.</p>
+<p>与 0 相加后，<code>nums1</code> 和 <code>nums2</code> 相等。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length == nums2.length &lt;= 100</code></li>
 	<li><code>0 &lt;= nums1[i], nums2[i] &lt;= 1000</code></li>
-	<li>The test cases are generated in a way that there is an integer <code>x</code> such that <code>nums1</code> can become equal to <code>nums2</code> by adding <code>x</code> to each element of <code>nums1</code>.</li>
+	<li>测试用例以这样的方式生成：存在一个整数 <code>x</code>，使得 <code>nums1</code> 中的每个元素都与 <code>x</code> 相加后，<code>nums1</code> 与 <code>nums2</code> 相等。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Calculate Minimum Difference
+### 方法一：求最小值差
 
-We can find the minimum value of each array, then return the difference between the two minimum values.
+我们可以分别求出两个数组的最小值，然后返回两个最小值的差值即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -142,7 +147,7 @@ func addedInteger(nums1 []int, nums2 []int) int {
 
 ```ts
 function addedInteger(nums1: number[], nums2: number[]): number {
-  return Math.min(...nums2) - Math.min(...nums1);
+    return Math.min(...nums2) - Math.min(...nums1);
 }
 ```
 

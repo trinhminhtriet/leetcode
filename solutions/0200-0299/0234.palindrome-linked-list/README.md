@@ -1,56 +1,66 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0234.Palindrome%20Linked%20List/README.md
 tags:
-  - Stack
-  - Recursion
-  - Linked List
-  - Two Pointers
+    - 栈
+    - 递归
+    - 链表
+    - 双指针
 ---
 
 <!-- problem:start -->
 
-# [234. Palindrome Linked List](https://leetcode.com/problems/palindrome-linked-list)
+# [234. 回文链表](https://leetcode.cn/problems/palindrome-linked-list)
 
-## Description
+[English Version](/solution/0200-0299/0234.Palindrome%20Linked%20List/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>head</code> of a singly linked list, return <code>true</code><em> if it is a </em><span data-keyword="palindrome-sequence"><em>palindrome</em></span><em> or </em><code>false</code><em> otherwise</em>.</p>
+<p>给你一个单链表的头节点 <code>head</code> ，请你判断该链表是否为<span data-keyword="palindrome-sequence">回文链表</span>。如果是，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0234.Palindrome%20Linked%20List/images/pal1linked-list.jpg" style="width: 422px; height: 62px;" />
 <pre>
-<strong>Input:</strong> head = [1,2,2,1]
-<strong>Output:</strong> true
+<strong>输入：</strong>head = [1,2,2,1]
+<strong>输出：</strong>true
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0234.Palindrome%20Linked%20List/images/pal2linked-list.jpg" style="width: 182px; height: 62px;" />
 <pre>
-<strong>Input:</strong> head = [1,2]
-<strong>Output:</strong> false
+<strong>输入：</strong>head = [1,2]
+<strong>输出：</strong>false
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the list is in the range <code>[1, 10<sup>5</sup>]</code>.</li>
+	<li>链表中节点数目在范围<code>[1, 10<sup>5</sup>]</code> 内</li>
 	<li><code>0 &lt;= Node.val &lt;= 9</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<strong>Follow up:</strong> Could you do it in <code>O(n)</code> time and <code>O(1)</code> space?
+
+<p><strong>进阶：</strong>你能否用&nbsp;<code>O(n)</code> 时间复杂度和 <code>O(1)</code> 空间复杂度解决此题？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：快慢指针
+
+我们可以先用快慢指针找到链表的中点，接着反转右半部分的链表。然后同时遍历前后两段链表，若前后两段链表节点对应的值不等，说明不是回文链表，否则说明是回文链表。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为链表的长度。
 
 <!-- tabs:start -->
 
@@ -210,27 +220,27 @@ func isPalindrome(head *ListNode) bool {
  */
 
 function isPalindrome(head: ListNode | null): boolean {
-  let slow: ListNode = head,
-    fast: ListNode = head.next;
-  while (fast != null && fast.next != null) {
-    slow = slow.next;
-    fast = fast.next.next;
-  }
-  let cur: ListNode = slow.next;
-  slow.next = null;
-  let prev: ListNode = null;
-  while (cur != null) {
-    let t: ListNode = cur.next;
-    cur.next = prev;
-    prev = cur;
-    cur = t;
-  }
-  while (prev != null) {
-    if (prev.val != head.val) return false;
-    prev = prev.next;
-    head = head.next;
-  }
-  return true;
+    let slow: ListNode = head,
+        fast: ListNode = head.next;
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    let cur: ListNode = slow.next;
+    slow.next = null;
+    let prev: ListNode = null;
+    while (cur != null) {
+        let t: ListNode = cur.next;
+        cur.next = prev;
+        prev = cur;
+        cur = t;
+    }
+    while (prev != null) {
+        if (prev.val != head.val) return false;
+        prev = prev.next;
+        head = head.next;
+    }
+    return true;
 }
 ```
 
@@ -249,29 +259,29 @@ function isPalindrome(head: ListNode | null): boolean {
  * @return {boolean}
  */
 var isPalindrome = function (head) {
-  let slow = head;
-  let fast = head.next;
-  while (fast && fast.next) {
-    slow = slow.next;
-    fast = fast.next.next;
-  }
-  let cur = slow.next;
-  slow.next = null;
-  let pre = null;
-  while (cur) {
-    let t = cur.next;
-    cur.next = pre;
-    pre = cur;
-    cur = t;
-  }
-  while (pre) {
-    if (pre.val !== head.val) {
-      return false;
+    let slow = head;
+    let fast = head.next;
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
     }
-    pre = pre.next;
-    head = head.next;
-  }
-  return true;
+    let cur = slow.next;
+    slow.next = null;
+    let pre = null;
+    while (cur) {
+        let t = cur.next;
+        cur.next = pre;
+        pre = cur;
+        cur = t;
+    }
+    while (pre) {
+        if (pre.val !== head.val) {
+            return false;
+        }
+        pre = pre.next;
+        head = head.next;
+    }
+    return true;
 };
 ```
 

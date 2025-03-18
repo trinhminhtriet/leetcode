@@ -1,84 +1,86 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1367.Linked%20List%20in%20Binary%20Tree/README.md
 rating: 1649
-source: Weekly Contest 178 Q3
+source: 第 178 场周赛 Q3
 tags:
-  - Tree
-  - Depth-First Search
-  - Linked List
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 链表
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [1367. Linked List in Binary Tree](https://leetcode.com/problems/linked-list-in-binary-tree)
+# [1367. 二叉树中的链表](https://leetcode.cn/problems/linked-list-in-binary-tree)
 
-## Description
+[English Version](/solution/1300-1399/1367.Linked%20List%20in%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary tree <code>root</code> and a&nbsp;linked list with&nbsp;<code>head</code>&nbsp;as the first node.&nbsp;</p>
+<p>给你一棵以&nbsp;<code>root</code>&nbsp;为根的二叉树和一个&nbsp;<code>head</code>&nbsp;为第一个节点的链表。</p>
 
-<p>Return True if all the elements in the linked list starting from the <code>head</code> correspond to some <em>downward path</em> connected in the binary tree&nbsp;otherwise return False.</p>
+<p>如果在二叉树中，存在一条一直向下的路径，且每个点的数值恰好一一对应以&nbsp;<code>head</code>&nbsp;为首的链表中每个节点的值，那么请你返回 <code>True</code> ，否则返回 <code>False</code> 。</p>
 
-<p>In this context downward path means a path that starts at some node and goes downwards.</p>
+<p>一直向下的路径的意思是：从树中某个节点开始，一直连续向下的路径。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1367.Linked%20List%20in%20Binary%20Tree/images/sample_1_1720.png" style="width: 220px; height: 280px;" /></strong></p>
+<p><strong>示例 1：</strong></p>
 
-<pre>
-<strong>Input:</strong> head = [4,2,8], root = [1,4,4,null,2,2,null,1,null,6,8,null,null,null,null,1,3]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Nodes in blue form a subpath in the binary Tree.  
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1367.Linked%20List%20in%20Binary%20Tree/images/sample_1_1720.png" style="height: 280px; width: 220px;"></strong></p>
+
+<pre><strong>输入：</strong>head = [4,2,8], root = [1,4,4,null,2,2,null,1,null,6,8,null,null,null,null,1,3]
+<strong>输出：</strong>true
+<strong>解释：</strong>树中蓝色的节点构成了与链表对应的子路径。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1367.Linked%20List%20in%20Binary%20Tree/images/sample_2_1720.png" style="width: 220px; height: 280px;" /></strong></p>
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1367.Linked%20List%20in%20Binary%20Tree/images/sample_2_1720.png" style="height: 280px; width: 220px;"></strong></p>
 
-<pre>
-<strong>Input:</strong> head = [1,4,2,6], root = [1,4,4,null,2,2,null,1,null,6,8,null,null,null,null,1,3]
-<strong>Output:</strong> true
+<pre><strong>输入：</strong>head = [1,4,2,6], root = [1,4,4,null,2,2,null,1,null,6,8,null,null,null,null,1,3]
+<strong>输出：</strong>true
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> head = [1,4,2,6,8], root = [1,4,4,null,2,2,null,1,null,6,8,null,null,null,null,1,3]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> There is no path in the binary tree that contains all the elements of the linked list from <code>head</code>.
+<pre><strong>输入：</strong>head = [1,4,2,6,8], root = [1,4,4,null,2,2,null,1,null,6,8,null,null,null,null,1,3]
+<strong>输出：</strong>false
+<strong>解释：</strong>二叉树中不存在一一对应链表的路径。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree will be in the range <code>[1, 2500]</code>.</li>
-	<li>The number of nodes in the list will be in the range <code>[1, 100]</code>.</li>
-	<li><code>1 &lt;= Node.val&nbsp;&lt;= 100</code>&nbsp;for each node in the linked list and binary tree.</li>
+	<li>二叉树和链表中的每个节点的值都满足&nbsp;<code>1 &lt;= node.val&nbsp;&lt;= 100</code>&nbsp;。</li>
+	<li>链表包含的节点数目在&nbsp;<code>1</code>&nbsp;到&nbsp;<code>100</code>&nbsp;之间。</li>
+	<li>二叉树包含的节点数目在&nbsp;<code>1</code>&nbsp;到&nbsp;<code>2500</code>&nbsp;之间。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Recursion
+### 方法一：递归
 
-We design a recursive function $dfs(head, root)$, which indicates whether the linked list $head$ corresponds to a subpath on the path starting with $root$ in the binary tree. The logic of the function $dfs(head, root)$ is as follows:
+我们设计一个递归函数 $dfs(head, root)$，表示链表 $head$ 是否是以 $root$ 为起点的路径上的节点值一一对应的子路径。函数 $dfs(head, root)$ 的逻辑如下：
 
-- If the linked list $head$ is empty, it means that the linked list has been traversed, return `true`;
-- If the binary tree $root$ is empty, it means that the binary tree has been traversed, but the linked list has not been traversed yet, return `false`;
-- If the value of the binary tree $root$ is not equal to the value of the linked list $head$, return `false`;
-- Otherwise, return $dfs(head.next, root.left)$ or $dfs(head.next, root.right)$.
+-   如果链表 $head$ 为空，说明链表已经遍历完了，返回 `true`；
+-   如果二叉树 $root$ 为空，说明二叉树已经遍历完了，但链表还没遍历完，返回 `false`；
+-   如果二叉树 $root$ 的值与链表 $head$ 的值不相等，返回 `false`；
+-   否则，返回 $dfs(head.next, root.left)$ 或 $dfs(head.next, root.right)$。
 
-In the main function, we call $dfs(head, root)$ for each node of the binary tree. As long as one returns `true`, it means that the linked list is a subpath of the binary tree, return `true`; if all nodes return `false`, it means that the linked list is not a subpath of the binary tree, return `false`.
+我们在主函数中，对二叉树的每个节点调用 $dfs(head, root)$，只要有一个返回 `true`，就说明链表是二叉树的子路径，返回 `true`；如果所有节点都返回 `false`，说明链表不是二叉树的子路径，返回 `false`。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n^2)，空间复杂度 O(n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -273,22 +275,20 @@ func dfs(head *ListNode, root *TreeNode) bool {
  */
 
 const dfs = (head: ListNode | null, root: TreeNode | null) => {
-  if (head == null) {
-    return true;
-  }
-  if (root == null || head.val !== root.val) {
-    return false;
-  }
-  return dfs(head.next, root.left) || dfs(head.next, root.right);
+    if (head == null) {
+        return true;
+    }
+    if (root == null || head.val !== root.val) {
+        return false;
+    }
+    return dfs(head.next, root.left) || dfs(head.next, root.right);
 };
 
 function isSubPath(head: ListNode | null, root: TreeNode | null): boolean {
-  if (root == null) {
-    return false;
-  }
-  return (
-    dfs(head, root) || isSubPath(head, root.left) || isSubPath(head, root.right)
-  );
+    if (root == null) {
+        return false;
+    }
+    return dfs(head, root) || isSubPath(head, root.left) || isSubPath(head, root.right);
 }
 ```
 

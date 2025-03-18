@@ -1,70 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2101.Detonate%20the%20Maximum%20Bombs/README.md
 rating: 1880
-source: Biweekly Contest 67 Q3
+source: 第 67 场双周赛 Q3
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
-  - Geometry
-  - Array
-  - Math
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
+    - 几何
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2101. Detonate the Maximum Bombs](https://leetcode.com/problems/detonate-the-maximum-bombs)
+# [2101. 引爆最多的炸弹](https://leetcode.cn/problems/detonate-the-maximum-bombs)
 
-## Description
+[English Version](/solution/2100-2199/2101.Detonate%20the%20Maximum%20Bombs/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a list of bombs. The <strong>range</strong> of a bomb is defined as the area where its effect can be felt. This area is in the shape of a <strong>circle</strong> with the center as the location of the bomb.</p>
+<p>给你一个炸弹列表。一个炸弹的 <strong>爆炸范围</strong>&nbsp;定义为以炸弹为圆心的一个圆。</p>
 
-<p>The bombs are represented by a <strong>0-indexed</strong> 2D integer array <code>bombs</code> where <code>bombs[i] = [x<sub>i</sub>, y<sub>i</sub>, r<sub>i</sub>]</code>. <code>x<sub>i</sub></code> and <code>y<sub>i</sub></code> denote the X-coordinate and Y-coordinate of the location of the <code>i<sup>th</sup></code> bomb, whereas <code>r<sub>i</sub></code> denotes the <strong>radius</strong> of its range.</p>
+<p>炸弹用一个下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code>bombs</code>&nbsp;表示，其中&nbsp;<code>bombs[i] = [x<sub>i</sub>, y<sub>i</sub>, r<sub>i</sub>]</code>&nbsp;。<code>x<sub>i</sub></code> 和&nbsp;<code>y<sub>i</sub></code>&nbsp;表示第 <code>i</code>&nbsp;个炸弹的 X 和 Y 坐标，<code>r<sub>i</sub></code>&nbsp;表示爆炸范围的 <strong>半径</strong>&nbsp;。</p>
 
-<p>You may choose to detonate a <strong>single</strong> bomb. When a bomb is detonated, it will detonate <strong>all bombs</strong> that lie in its range. These bombs will further detonate the bombs that lie in their ranges.</p>
+<p>你需要选择引爆 <strong>一个&nbsp;</strong>炸弹。当这个炸弹被引爆时，<strong>所有</strong> 在它爆炸范围内的炸弹都会被引爆，这些炸弹会进一步将它们爆炸范围内的其他炸弹引爆。</p>
 
-<p>Given the list of <code>bombs</code>, return <em>the <strong>maximum</strong> number of bombs that can be detonated if you are allowed to detonate <strong>only one</strong> bomb</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2101.Detonate%20the%20Maximum%20Bombs/images/desmos-eg-3.png" style="width: 300px; height: 300px;" />
-<pre>
-<strong>Input:</strong> bombs = [[2,1,3],[6,1,4]]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong>
-The above figure shows the positions and ranges of the 2 bombs.
-If we detonate the left bomb, the right bomb will not be affected.
-But if we detonate the right bomb, both bombs will be detonated.
-So the maximum bombs that can be detonated is max(1, 2) = 2.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2101.Detonate%20the%20Maximum%20Bombs/images/desmos-eg-2.png" style="width: 300px; height: 300px;" />
-<pre>
-<strong>Input:</strong> bombs = [[1,1,5],[10,10,5]]
-<strong>Output:</strong> 1
-<strong>Explanation:
-</strong>Detonating either bomb will not detonate the other bomb, so the maximum number of bombs that can be detonated is 1.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2101.Detonate%20the%20Maximum%20Bombs/images/desmos-eg1.png" style="width: 300px; height: 300px;" />
-<pre>
-<strong>Input:</strong> bombs = [[1,2,3],[2,3,1],[3,4,2],[4,5,3],[5,6,4]]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong>
-The best bomb to detonate is bomb 0 because:
-- Bomb 0 detonates bombs 1 and 2. The red circle denotes the range of bomb 0.
-- Bomb 2 detonates bomb 3. The blue circle denotes the range of bomb 2.
-- Bomb 3 detonates bomb 4. The green circle denotes the range of bomb 3.
-Thus all 5 bombs are detonated.
-</pre>
+<p>给你数组&nbsp;<code>bombs</code>&nbsp;，请你返回在引爆&nbsp;<strong>一个</strong>&nbsp;炸弹的前提下，<strong>最多</strong>&nbsp;能引爆的炸弹数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2101.Detonate%20the%20Maximum%20Bombs/images/desmos-eg-3.png" style="width: 300px; height: 300px;"></p>
+
+<pre><b>输入：</b>bombs = [[2,1,3],[6,1,4]]
+<b>输出：</b>2
+<strong>解释：</strong>
+上图展示了 2 个炸弹的位置和爆炸范围。
+如果我们引爆左边的炸弹，右边的炸弹不会被影响。
+但如果我们引爆右边的炸弹，两个炸弹都会爆炸。
+所以最多能引爆的炸弹数目是 max(1, 2) = 2 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2101.Detonate%20the%20Maximum%20Bombs/images/desmos-eg-2.png" style="width: 300px; height: 300px;"></p>
+
+<pre><b>输入：</b>bombs = [[1,1,5],[10,10,5]]
+<b>输出：</b>1
+<strong>解释：
+</strong>引爆任意一个炸弹都不会引爆另一个炸弹。所以最多能引爆的炸弹数目为 1 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2101.Detonate%20the%20Maximum%20Bombs/images/desmos-eg1.png" style="width: 300px; height: 300px;"></p>
+
+<pre><b>输入：</b>bombs = [[1,2,3],[2,3,1],[3,4,2],[4,5,3],[5,6,4]]
+<b>输出：</b>5
+<strong>解释：</strong>
+最佳引爆炸弹为炸弹 0 ，因为：
+- 炸弹 0 引爆炸弹 1 和 2 。红色圆表示炸弹 0 的爆炸范围。
+- 炸弹 2 引爆炸弹 3 。蓝色圆表示炸弹 2 的爆炸范围。
+- 炸弹 3 引爆炸弹 4 。绿色圆表示炸弹 3 的爆炸范围。
+所以总共有 5 个炸弹被引爆。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= bombs.length&nbsp;&lt;= 100</code></li>
@@ -74,19 +82,19 @@ Thus all 5 bombs are detonated.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-We define an array $g$ of length $n$, where $g[i]$ represents the indices of all bombs that can be triggered by bomb $i$ within its explosion range.
+我们定义一个长度为 $n$ 的数组 $g$，其中 $g[i]$ 表示炸弹 $i$ 的爆炸范围内可以引爆的所有炸弹的下标。
 
-Next, we iterate over all bombs. For two bombs $(x_1, y_1, r_1)$ and $(x_2, y_2, r_2)$, we calculate the distance between them $\textit{dist} = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}$. If $\textit{dist} \leq r_1$, then bomb $i$ can trigger bomb $j$ within its explosion range, so we add $j$ to $g[i]$. If $\textit{dist} \leq r_2$, then bomb $j$ can trigger bomb $i$ within its explosion range, so we add $i$ to $g[j]$.
+然后，我们遍历所有炸弹，对于两个炸弹 $(x_1, y_1, r_1)$ 和 $(x_2, y_2, r_2)$，我们计算它们之间的距离 $\textit{dist} = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}$。如果 $\textit{dist} \leq r_1$，那么炸弹 $i$ 的爆炸范围内可以引爆炸弹 $j$，我们就将 $j$ 添加到 $g[i]$ 中。如果 $\textit{dist} \leq r_2$，那么炸弹 $j$ 的爆炸范围内可以引爆炸弹 $i$，我们就将 $i$ 添加到 $g[j]$ 中。
 
-Next, we iterate over all bombs. For each bomb $k$, we use breadth-first search to calculate the indices of all bombs that can be triggered by bomb $k$ within its explosion range and record them. If the number of these bombs equals $n$, then we can trigger all bombs and directly return $n$. Otherwise, we record the number of these bombs and return the maximum value.
+接下来，我们遍历所有炸弹，对于每个炸弹 $k$，我们使用广度优先搜索计算炸弹 $k$ 的爆炸范围内可以引爆的所有炸弹的下标，并记录下来。如果这些炸弹的数量等于 $n$，那么我们就可以引爆所有炸弹，直接返回 $n$。否则，我们记录下来这些炸弹的数量，并返回最大值。
 
-The time complexity is $O(n^3)$ and the space complexity is $O(n^2)$, where $n$ is the number of bombs.
+时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 为炸弹的数量。
 
 <!-- tabs:start -->
 
@@ -266,39 +274,39 @@ func maximumDetonation(bombs [][]int) (ans int) {
 
 ```ts
 function maximumDetonation(bombs: number[][]): number {
-  const n = bombs.length;
-  const g: number[][] = Array.from({ length: n }, () => []);
-  for (let i = 0; i < n - 1; ++i) {
-    const [x1, y1, r1] = bombs[i];
-    for (let j = i + 1; j < n; ++j) {
-      const [x2, y2, r2] = bombs[j];
-      const d = Math.hypot(x1 - x2, y1 - y2);
-      if (d <= r1) {
-        g[i].push(j);
-      }
-      if (d <= r2) {
-        g[j].push(i);
-      }
-    }
-  }
-  let ans = 0;
-  for (let k = 0; k < n; ++k) {
-    const vis: Set<number> = new Set([k]);
-    const q: number[] = [k];
-    for (const i of q) {
-      for (const j of g[i]) {
-        if (!vis.has(j)) {
-          vis.add(j);
-          q.push(j);
+    const n = bombs.length;
+    const g: number[][] = Array.from({ length: n }, () => []);
+    for (let i = 0; i < n - 1; ++i) {
+        const [x1, y1, r1] = bombs[i];
+        for (let j = i + 1; j < n; ++j) {
+            const [x2, y2, r2] = bombs[j];
+            const d = Math.hypot(x1 - x2, y1 - y2);
+            if (d <= r1) {
+                g[i].push(j);
+            }
+            if (d <= r2) {
+                g[j].push(i);
+            }
         }
-      }
     }
-    if (vis.size === n) {
-      return n;
+    let ans = 0;
+    for (let k = 0; k < n; ++k) {
+        const vis: Set<number> = new Set([k]);
+        const q: number[] = [k];
+        for (const i of q) {
+            for (const j of g[i]) {
+                if (!vis.has(j)) {
+                    vis.add(j);
+                    q.push(j);
+                }
+            }
+        }
+        if (vis.size === n) {
+            return n;
+        }
+        ans = Math.max(ans, vis.size);
     }
-    ans = Math.max(ans, vis.size);
-  }
-  return ans;
+    return ans;
 }
 ```
 

@@ -1,69 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1382.Balance%20a%20Binary%20Search%20Tree/README.md
 rating: 1540
-source: Weekly Contest 180 Q3
+source: 第 180 场周赛 Q3
 tags:
-  - Greedy
-  - Tree
-  - Depth-First Search
-  - Binary Search Tree
-  - Divide and Conquer
-  - Binary Tree
+    - 贪心
+    - 树
+    - 深度优先搜索
+    - 二叉搜索树
+    - 分治
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [1382. Balance a Binary Search Tree](https://leetcode.com/problems/balance-a-binary-search-tree)
+# [1382. 将二叉搜索树变平衡](https://leetcode.cn/problems/balance-a-binary-search-tree)
 
-## Description
+[English Version](/solution/1300-1399/1382.Balance%20a%20Binary%20Search%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary search tree, return <em>a <strong>balanced</strong> binary search tree with the same node values</em>. If there is more than one answer, return <strong>any of them</strong>.</p>
+<p>给你一棵二叉搜索树，请你返回一棵&nbsp;<strong>平衡后</strong>&nbsp;的二叉搜索树，新生成的树应该与原来的树有着相同的节点值。如果有多种构造方法，请你返回任意一种。</p>
 
-<p>A binary search tree is <strong>balanced</strong> if the depth of the two subtrees of every node never differs by more than <code>1</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1382.Balance%20a%20Binary%20Search%20Tree/images/balance1-tree.jpg" style="width: 500px; height: 319px;" />
-<pre>
-<strong>Input:</strong> root = [1,null,2,null,3,null,4,null,null]
-<strong>Output:</strong> [2,1,3,null,null,null,4]
-<b>Explanation:</b> This is not the only correct answer, [3,1,4,null,2] is also correct.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1382.Balance%20a%20Binary%20Search%20Tree/images/balanced2-tree.jpg" style="width: 224px; height: 145px;" />
-<pre>
-<strong>Input:</strong> root = [2,1,3]
-<strong>Output:</strong> [2,1,3]
-</pre>
+<p>如果一棵二叉搜索树中，每个节点的两棵子树高度差不超过 <code>1</code> ，我们就称这棵二叉搜索树是&nbsp;<strong>平衡的</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1382.Balance%20a%20Binary%20Search%20Tree/images/balance1-tree.jpg" style="height: 319px; width: 500px;" /></p>
+
+<pre>
+<strong>输入：</strong>root = [1,null,2,null,3,null,4,null,null]
+<strong>输出：</strong>[2,1,3,null,null,null,4]
+<strong>解释：</strong>这不是唯一的正确答案，[3,1,4,null,2,null,null] 也是一个可行的构造方案。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1382.Balance%20a%20Binary%20Search%20Tree/images/balanced2-tree.jpg" style="height: 145px; width: 224px;" /></p>
+
+<pre>
+<strong>输入:</strong> root = [2,1,3]
+<strong>输出:</strong> [2,1,3]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li>树节点的数目在&nbsp;<code>[1, 10<sup>4</sup>]</code>&nbsp;范围内。</li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: In-order Traversal + Construct Balanced Binary Search Tree
+### 方法一：中序遍历 + 构造平衡二叉树
 
-Since the original tree is a binary search tree, we can save the result of the in-order traversal in an array $nums$. Then we design a function $build(i, j)$, which is used to construct a balanced binary search tree within the index range $[i, j]$ in $nums$. The answer is $build(0, |nums| - 1)$.
+由于原树是一棵二叉搜索树，因此我们可以将其中序遍历的结果保存在一个数组 $nums$ 中，然后我们设计一个函数 $build(i, j)$，它用来构造 $nums$ 中下标范围 $[i, j]$ 内的平衡二叉搜索树，那么答案就是 $build(0, |nums| - 1)$。
 
-The execution logic of the function $build(i, j)$ is as follows:
+函数 $build(i, j)$ 的执行逻辑如下：
 
-- If $i > j$, then the balanced binary search tree is empty, return an empty node;
-- Otherwise, we take $mid = (i + j) / 2$ as the root node, then recursively build the left and right subtrees, and return the root node.
+-   如果 $i > j$，那么平衡二叉搜索树为空，返回空节点；
+-   否则，我们取 $mid = (i + j) / 2$ 作为根节点，然后递归构建左子树和右子树，返回根节点。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes in the binary search tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉搜索树的节点数。
 
 <!-- tabs:start -->
 
@@ -245,26 +254,26 @@ func balanceBST(root *TreeNode) *TreeNode {
  */
 
 function balanceBST(root: TreeNode | null): TreeNode | null {
-  const nums: number[] = [];
-  const dfs = (root: TreeNode | null): void => {
-    if (root == null) {
-      return;
-    }
-    dfs(root.left);
-    nums.push(root.val);
-    dfs(root.right);
-  };
-  const build = (i: number, j: number): TreeNode | null => {
-    if (i > j) {
-      return null;
-    }
-    const mid: number = (i + j) >> 1;
-    const left: TreeNode | null = build(i, mid - 1);
-    const right: TreeNode | null = build(mid + 1, j);
-    return new TreeNode(nums[mid], left, right);
-  };
-  dfs(root);
-  return build(0, nums.length - 1);
+    const nums: number[] = [];
+    const dfs = (root: TreeNode | null): void => {
+        if (root == null) {
+            return;
+        }
+        dfs(root.left);
+        nums.push(root.val);
+        dfs(root.right);
+    };
+    const build = (i: number, j: number): TreeNode | null => {
+        if (i > j) {
+            return null;
+        }
+        const mid: number = (i + j) >> 1;
+        const left: TreeNode | null = build(i, mid - 1);
+        const right: TreeNode | null = build(mid + 1, j);
+        return new TreeNode(nums[mid], left, right);
+    };
+    dfs(root);
+    return build(0, nums.length - 1);
 }
 ```
 

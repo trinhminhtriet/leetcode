@@ -1,79 +1,84 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1931.Painting%20a%20Grid%20With%20Three%20Different%20Colors/README.md
 rating: 2170
-source: Weekly Contest 249 Q3
+source: 第 249 场周赛 Q3
 tags:
-  - Dynamic Programming
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1931. Painting a Grid With Three Different Colors](https://leetcode.com/problems/painting-a-grid-with-three-different-colors)
+# [1931. 用三种不同颜色为网格涂色](https://leetcode.cn/problems/painting-a-grid-with-three-different-colors)
 
-## Description
+[English Version](/solution/1900-1999/1931.Painting%20a%20Grid%20With%20Three%20Different%20Colors/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two integers <code>m</code> and <code>n</code>. Consider an <code>m x n</code> grid where each cell is initially white. You can paint each cell <strong>red</strong>, <strong>green</strong>, or <strong>blue</strong>. All cells <strong>must</strong> be painted.</p>
+<p>给你两个整数 <code>m</code> 和 <code>n</code> 。构造一个 <code>m x n</code> 的网格，其中每个单元格最开始是白色。请你用 <strong>红、绿、蓝</strong> 三种颜色为每个单元格涂色。所有单元格都需要被涂色。</p>
 
-<p>Return<em> the number of ways to color the grid with <strong>no two adjacent cells having the same color</strong></em>. Since the answer can be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>涂色方案需要满足：<strong>不存在相邻两个单元格颜色相同的情况</strong> 。返回网格涂色的方法数。因为答案可能非常大， 返回 <strong>对 </strong><code>10<sup>9</sup> + 7</code><strong> 取余</strong> 的结果。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1931.Painting%20a%20Grid%20With%20Three%20Different%20Colors/images/colorthegrid.png" style="width: 200px; height: 50px;" />
 <pre>
-<strong>Input:</strong> m = 1, n = 1
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The three possible colorings are shown in the image above.
+<strong>输入：</strong>m = 1, n = 1
+<strong>输出：</strong>3
+<strong>解释：</strong>如上图所示，存在三种可能的涂色方案。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1931.Painting%20a%20Grid%20With%20Three%20Different%20Colors/images/copy-of-colorthegrid.png" style="width: 321px; height: 121px;" />
 <pre>
-<strong>Input:</strong> m = 1, n = 2
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The six possible colorings are shown in the image above.
+<strong>输入：</strong>m = 1, n = 2
+<strong>输出：</strong>6
+<strong>解释：</strong>如上图所示，存在六种可能的涂色方案。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> m = 5, n = 5
-<strong>Output:</strong> 580986
+<strong>输入：</strong>m = 5, n = 5
+<strong>输出：</strong>580986
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= m &lt;= 5</code></li>
-	<li><code>1 &lt;= n &lt;= 1000</code></li>
+	<li><code>1 <= m <= 5</code></li>
+	<li><code>1 <= n <= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: State Compression + Dynamic Programming
+### 方法一：状态压缩 + 动态规划
 
-We notice that the number of rows in the grid does not exceed $5$, so there are at most $3^5=243$ different color schemes in a column.
+我们注意到，网格的行数不超过 $5$，那么一列中最多有 $3^5=243$ 种不同的颜色方案。
 
-Therefore, we define $f[i][j]$ to represent the number of schemes in the first $i$ columns, where the coloring state of the $i$th column is $j$. The state $f[i][j]$ is transferred from $f[i - 1][k]$, where $k$ is the coloring state of the $i - 1$th column, and $k$ and $j$ meet the requirement of different colors being adjacent. That is:
+因此，我们定义 $f[i][j]$ 表示前 $i$ 列中，第 $i$ 列的涂色状态为 $j$ 的方案数。状态 $f[i][j]$ 由 $f[i - 1][k]$ 转移而来，其中 $k$ 是第 $i - 1$ 列的涂色状态，且 $k$ 和 $j$ 满足不同颜色相邻的要求。即：
 
 $$
 f[i][j] = \sum_{k \in \textit{valid}(j)} f[i - 1][k]
 $$
 
-where $\textit{valid}(j)$ represents all legal predecessor states of state $j$.
+其中 $\textit{valid}(j)$ 表示状态 $j$ 的所有合法前驱状态。
 
-The final answer is the sum of $f[n][j]$, where $j$ is any legal state.
+最终的答案即为 $f[n][j]$ 的总和，其中 $j$ 是任意合法的状态。
 
-We notice that $f[i][j]$ is only related to $f[i - 1][k]$, so we can use a rolling array to optimize the space complexity.
+我们注意到，$f[i][j]$ 只和 $f[i - 1][k]$ 有关，因此我们可以使用滚动数组优化空间复杂度。
 
-The time complexity is $O((m + n) \times 3^{2m})$, and the space complexity is $O(3^m)$. Here, $m$ and $n$ are the number of rows and columns of the grid, respectively.
+时间复杂度 $O((m + n) \times 3^{2m})$，空间复杂度 $O(3^m)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
 
 <!-- tabs:start -->
 
@@ -310,59 +315,59 @@ func colorTheGrid(m int, n int) (ans int) {
 
 ```ts
 function colorTheGrid(m: number, n: number): number {
-  const f1 = (x: number): boolean => {
-    let last = -1;
-    for (let i = 0; i < m; ++i) {
-      if (x % 3 === last) {
-        return false;
-      }
-      last = x % 3;
-      x = Math.floor(x / 3);
+    const f1 = (x: number): boolean => {
+        let last = -1;
+        for (let i = 0; i < m; ++i) {
+            if (x % 3 === last) {
+                return false;
+            }
+            last = x % 3;
+            x = Math.floor(x / 3);
+        }
+        return true;
+    };
+    const f2 = (x: number, y: number): boolean => {
+        for (let i = 0; i < m; ++i) {
+            if (x % 3 === y % 3) {
+                return false;
+            }
+            x = Math.floor(x / 3);
+            y = Math.floor(y / 3);
+        }
+        return true;
+    };
+    const mx = 3 ** m;
+    const valid = new Set<number>();
+    const f: number[] = Array(mx).fill(0);
+    for (let i = 0; i < mx; ++i) {
+        if (f1(i)) {
+            valid.add(i);
+            f[i] = 1;
+        }
     }
-    return true;
-  };
-  const f2 = (x: number, y: number): boolean => {
-    for (let i = 0; i < m; ++i) {
-      if (x % 3 === y % 3) {
-        return false;
-      }
-      x = Math.floor(x / 3);
-      y = Math.floor(y / 3);
-    }
-    return true;
-  };
-  const mx = 3 ** m;
-  const valid = new Set<number>();
-  const f: number[] = Array(mx).fill(0);
-  for (let i = 0; i < mx; ++i) {
-    if (f1(i)) {
-      valid.add(i);
-      f[i] = 1;
-    }
-  }
-  const d: Map<number, number[]> = new Map();
-  for (const i of valid) {
-    for (const j of valid) {
-      if (f2(i, j)) {
-        d.set(i, (d.get(i) || []).concat(j));
-      }
-    }
-  }
-  const mod = 10 ** 9 + 7;
-  for (let k = 1; k < n; ++k) {
-    const g: number[] = Array(mx).fill(0);
+    const d: Map<number, number[]> = new Map();
     for (const i of valid) {
-      for (const j of d.get(i) || []) {
-        g[i] = (g[i] + f[j]) % mod;
-      }
+        for (const j of valid) {
+            if (f2(i, j)) {
+                d.set(i, (d.get(i) || []).concat(j));
+            }
+        }
     }
-    f.splice(0, f.length, ...g);
-  }
-  let ans = 0;
-  for (const x of f) {
-    ans = (ans + x) % mod;
-  }
-  return ans;
+    const mod = 10 ** 9 + 7;
+    for (let k = 1; k < n; ++k) {
+        const g: number[] = Array(mx).fill(0);
+        for (const i of valid) {
+            for (const j of d.get(i) || []) {
+                g[i] = (g[i] + f[j]) % mod;
+            }
+        }
+        f.splice(0, f.length, ...g);
+    }
+    let ans = 0;
+    for (const x of f) {
+        ans = (ans + x) % mod;
+    }
+    return ans;
 }
 ```
 

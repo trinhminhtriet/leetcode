@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1378.Replace%20Employee%20ID%20With%20The%20Unique%20Identifier/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1378. Replace Employee ID With The Unique Identifier](https://leetcode.com/problems/replace-employee-id-with-the-unique-identifier)
+# [1378. 使用唯一标识码替换员工ID](https://leetcode.cn/problems/replace-employee-id-with-the-unique-identifier)
 
-## Description
+[English Version](/solution/1300-1399/1378.Replace%20Employee%20ID%20With%20The%20Unique%20Identifier/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Employees</code></p>
+<p><code>Employees</code> 表：</p>
 
 <pre>
 +---------------+---------+
@@ -22,13 +25,13 @@ tags:
 | id            | int     |
 | name          | varchar |
 +---------------+---------+
-id is the primary key (column with unique values) for this table.
-Each row of this table contains the id and the name of an employee in a company.
+在 SQL 中，id 是这张表的主键。
+这张表的每一行分别代表了某公司其中一位员工的名字和 ID 。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Table: <code>EmployeeUNI</code></p>
+<p><code>EmployeeUNI</code>&nbsp;表：</p>
 
 <pre>
 +---------------+---------+
@@ -37,24 +40,25 @@ Each row of this table contains the id and the name of an employee in a company.
 | id            | int     |
 | unique_id     | int     |
 +---------------+---------+
-(id, unique_id) is the primary key (combination of columns with unique values) for this table.
-Each row of this table contains the id and the corresponding unique id of an employee in the company.
+在 SQL 中，(id, unique_id) 是这张表的主键。
+这张表的每一行包含了该公司某位员工的 ID 和他的唯一标识码（unique ID）。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to show the <strong>unique ID </strong>of each user, If a user does not have a unique ID replace just show <code>null</code>.</p>
+<p>展示每位用户的<strong> 唯一标识码（unique ID ）</strong>；如果某位员工没有唯一标识码，使用 null 填充即可。</p>
 
-<p>Return the result table in <strong>any</strong> order.</p>
+<p>你可以以<strong> 任意</strong> 顺序返回结果表。</p>
 
-<p>The result format is in the following example.</p>
+<p>返回结果的格式如下例所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Employees table:
+<code><strong>输入：</strong>
+Employees</code> 表:
 +----+----------+
 | id | name     |
 +----+----------+
@@ -64,7 +68,7 @@ Employees table:
 | 90 | Winston  |
 | 3  | Jonathan |
 +----+----------+
-EmployeeUNI table:
+<code>EmployeeUNI</code> 表:
 +----+-----------+
 | id | unique_id |
 +----+-----------+
@@ -72,7 +76,7 @@ EmployeeUNI table:
 | 11 | 2         |
 | 90 | 3         |
 +----+-----------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +-----------+----------+
 | unique_id | name     |
 +-----------+----------+
@@ -82,20 +86,21 @@ EmployeeUNI table:
 | 3         | Winston  |
 | 1         | Jonathan |
 +-----------+----------+
-<strong>Explanation:</strong> 
-Alice and Bob do not have a unique ID, We will show null instead.
-The unique ID of Meir is 2.
-The unique ID of Winston is 3.
-The unique ID of Jonathan is 1.
-</pre>
+<strong>解释：</strong>
+Alice and Bob 没有唯一标识码, 因此我们使用 null 替代。
+Meir 的唯一标识码是 2 。
+Winston 的唯一标识码是 3 。
+Jonathan 唯一标识码是 1 。</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：LEFT JOIN
+
+我们可以使用 `LEFT JOIN` 来连接 `Employees` 和 `EmployeeUNI` 表，然后使用 `SELECT` 语句来选择 `unique_id` 和 `name` 列。
 
 <!-- tabs:start -->
 

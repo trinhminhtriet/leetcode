@@ -1,60 +1,65 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3181.Maximum%20Total%20Reward%20Using%20Operations%20II/README.md
 rating: 2688
-source: Weekly Contest 401 Q4
+source: 第 401 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Array
-  - Dynamic Programming
+    - 位运算
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [3181. Maximum Total Reward Using Operations II](https://leetcode.com/problems/maximum-total-reward-using-operations-ii)
+# [3181. 执行操作可获得的最大总奖励 II](https://leetcode.cn/problems/maximum-total-reward-using-operations-ii)
 
-## Description
+[English Version](/solution/3100-3199/3181.Maximum%20Total%20Reward%20Using%20Operations%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>rewardValues</code> of length <code>n</code>, representing the values of rewards.</p>
+<p>给你一个整数数组 <code>rewardValues</code>，长度为 <code>n</code>，代表奖励的值。</p>
 
-<p>Initially, your total reward <code>x</code> is 0, and all indices are <strong>unmarked</strong>. You are allowed to perform the following operation <strong>any</strong> number of times:</p>
+<p>最初，你的总奖励 <code>x</code> 为 0，所有下标都是<strong> 未标记 </strong>的。你可以执行以下操作 <strong>任意次 </strong>：</p>
 
 <ul>
-	<li>Choose an <strong>unmarked</strong> index <code>i</code> from the range <code>[0, n - 1]</code>.</li>
-	<li>If <code>rewardValues[i]</code> is <strong>greater</strong> than your current total reward <code>x</code>, then add <code>rewardValues[i]</code> to <code>x</code> (i.e., <code>x = x + rewardValues[i]</code>), and <strong>mark</strong> the index <code>i</code>.</li>
+	<li>从区间 <code>[0, n - 1]</code> 中选择一个 <strong>未标记 </strong>的下标 <code>i</code>。</li>
+	<li>如果 <code>rewardValues[i]</code> <strong>大于</strong> 你当前的总奖励 <code>x</code>，则将 <code>rewardValues[i]</code> 加到 <code>x</code> 上（即 <code>x = x + rewardValues[i]</code>），并<strong> 标记</strong> 下标 <code>i</code>。</li>
 </ul>
 
-<p>Return an integer denoting the <strong>maximum </strong><em>total reward</em> you can collect by performing the operations optimally.</p>
+<p>以整数形式返回执行最优操作能够获得的<strong> 最大</strong><em> </em>总奖励。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">rewardValues = [1,1,3,3]</span></p>
+<p><strong>输入：</strong><span class="example-io">rewardValues = [1,1,3,3]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">4</span></p>
+<p><strong>输出：</strong><span class="example-io">4</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>During the operations, we can choose to mark the indices 0 and 2 in order, and the total reward will be 4, which is the maximum.</p>
+<p>依次标记下标 0 和 2，总奖励为 4，这是可获得的最大值。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">rewardValues = [1,6,4,3,2]</span></p>
+<p><strong>输入：</strong><span class="example-io">rewardValues = [1,6,4,3,2]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">11</span></p>
+<p><strong>输出：</strong><span class="example-io">11</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>Mark the indices 0, 2, and 1 in order. The total reward will then be 11, which is the maximum.</p>
+<p>依次标记下标 0、2 和 1。总奖励为 11，这是可获得的最大值。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= rewardValues.length &lt;= 5 * 10<sup>4</sup></code></li>
@@ -63,31 +68,31 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming + Bit Manipulation
+### 方法一：动态规划 + 位运算
 
-We define $f[i][j]$ as whether it is possible to obtain a total reward of $j$ using the first $i$ reward values. Initially, $f[0][0] = \textit{True}$, and all other values are $\textit{False}$.
+我们定义 $f[i][j]$ 表示用前 $i$ 个奖励值，能否得到总奖励 $j$。初始时 $f[0][0] = \textit{True}$，其余值均为 $\textit{False}$。
 
-We consider the $i$-th reward value $v$. If we do not choose it, then $f[i][j] = f[i - 1][j]$; if we choose it, then $f[i][j] = f[i - 1][j - v]$, where $0 \leq j - v < v$. Thus, the state transition equation is:
+我们考虑第 $i$ 个奖励值 $v$，如果我们不选择它，那么 $f[i][j] = f[i - 1][j]$；如果我们选择它，那么 $f[i][j] = f[i - 1][j - v]$，其中 $0 \leq j - v \lt v$。即状态转移方程为：
 
 $$
 f[i][j] = f[i - 1][j] \vee f[i - 1][j - v]
 $$
 
-The final answer is $\max\{j \mid f[n][j] = \textit{True}\}$.
+最终答案为 $\max\{j \mid f[n][j] = \textit{True}\}$。
 
-Since $f[i][j]$ only depends on $f[i - 1][j]$ and $f[i - 1][j - v]$, we can optimize away the first dimension and use only a one-dimensional array for state transitions. Additionally, due to the large data range of this problem, we need to use bit manipulation to optimize the efficiency of state transitions.
+由于 $f[i][j]$ 只与 $f[i - 1][j]$ 和 $f[i - 1][j - v]$ 有关，我们可以优化掉第一维，只使用一个一维数组进行状态转移。另外，由于本题数据范围较大，我们需要使用位运算来优化状态转移的效率。
 
-We define a binary number $f$ to save the current state, where the $i$-th bit of $f$ being $1$ indicates that a total reward of $i$ is reachable.
+我们定义一个二进制数 $f$ 保存当前的状态，其中 $f$ 的第 $i$ 位为 $1$ 表示当前总奖励为 $i$ 是可达的。
 
-Observing the state transition equation $f[j] = f[j] \vee f[j - v]$, this is equivalent to taking the lower $v$ bits of $f$, shifting them left by $v$ bits, and then performing an OR operation with the original $f$.
+观察上述状态转移方程 $f[j] = f[j] \vee f[j - v]$，这相当于取 $f$ 的低 $v$ 位，再左移 $v$ 位，然后与原来的 $f$ 进行或运算。
 
-Thus, the answer is the position of the highest bit in $f$.
+那么答案为 $f$ 的最高位的位置。
 
-The time complexity is $O(n \times M / w)$, and the space complexity is $O(n + M / w)$. Where $n$ is the length of the `rewardValues` array, $M$ is twice the maximum value in the `rewardValues` array, and the integer $w = 32$ or $64$.
+时间复杂度 $O(n \times M / w)$，空间复杂度 $O(n + M / w)$。其中 $n$ 是数组 `rewardValues` 的长度，而 $M$ 是数组 `rewardValues` 中的最大值的两倍。整数 $w = 32$ 或 $64$。
 
 <!-- tabs:start -->
 
@@ -107,7 +112,6 @@ class Solution:
 
 ```java
 import java.math.BigInteger;
-import java.util.Arrays;
 
 class Solution {
     public int maxTotalReward(int[] rewardValues) {
@@ -166,14 +170,14 @@ func maxTotalReward(rewardValues []int) int {
 
 ```ts
 function maxTotalReward(rewardValues: number[]): number {
-  rewardValues.sort((a, b) => a - b);
-  rewardValues = [...new Set(rewardValues)];
-  let f = 1n;
-  for (const x of rewardValues) {
-    const mask = (1n << BigInt(x)) - 1n;
-    f = f | ((f & mask) << BigInt(x));
-  }
-  return f.toString(2).length - 1;
+    rewardValues.sort((a, b) => a - b);
+    rewardValues = [...new Set(rewardValues)];
+    let f = 1n;
+    for (const x of rewardValues) {
+        const mask = (1n << BigInt(x)) - 1n;
+        f = f | ((f & mask) << BigInt(x));
+    }
+    return f.toString(2).length - 1;
 }
 ```
 

@@ -1,49 +1,52 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1707.Maximum%20XOR%20With%20an%20Element%20From%20Array/README.md
 rating: 2358
-source: Weekly Contest 221 Q4
+source: 第 221 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Trie
-  - Array
+    - 位运算
+    - 字典树
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [1707. Maximum XOR With an Element From Array](https://leetcode.com/problems/maximum-xor-with-an-element-from-array)
+# [1707. 与数组中元素的最大异或值](https://leetcode.cn/problems/maximum-xor-with-an-element-from-array)
 
-## Description
+[English Version](/solution/1700-1799/1707.Maximum%20XOR%20With%20an%20Element%20From%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>nums</code> consisting of non-negative integers. You are also given a <code>queries</code> array, where <code>queries[i] = [x<sub>i</sub>, m<sub>i</sub>]</code>.</p>
+<p>给你一个由非负整数组成的数组 <code>nums</code> 。另有一个查询数组 <code>queries</code> ，其中 <code>queries[i] = [x<sub>i</sub>, m<sub>i</sub>]</code> 。</p>
 
-<p>The answer to the <code>i<sup>th</sup></code> query is the maximum bitwise <code>XOR</code> value of <code>x<sub>i</sub></code> and any element of <code>nums</code> that does not exceed <code>m<sub>i</sub></code>. In other words, the answer is <code>max(nums[j] XOR x<sub>i</sub>)</code> for all <code>j</code> such that <code>nums[j] &lt;= m<sub>i</sub></code>. If all elements in <code>nums</code> are larger than <code>m<sub>i</sub></code>, then the answer is <code>-1</code>.</p>
+<p>第 <code>i</code> 个查询的答案是 <code>x<sub>i</sub></code> 和任何 <code>nums</code> 数组中不超过 <code>m<sub>i</sub></code> 的元素按位异或（<code>XOR</code>）得到的最大值。换句话说，答案是 <code>max(nums[j] XOR x<sub>i</sub>)</code> ，其中所有 <code>j</code> 均满足 <code>nums[j] &lt;= m<sub>i</sub></code> 。如果 <code>nums</code> 中的所有元素都大于 <code>m<sub>i</sub></code>，最终答案就是 <code>-1</code> 。</p>
 
-<p>Return <em>an integer array </em><code>answer</code><em> where </em><code>answer.length == queries.length</code><em> and </em><code>answer[i]</code><em> is the answer to the </em><code>i<sup>th</sup></code><em> query.</em></p>
+<p>返回一个整数数组<em> </em><code>answer</code><em> </em>作为查询的答案，其中<em> </em><code>answer.length == queries.length</code><em> </em>且<em> </em><code>answer[i]</code><em> </em>是第<em> </em><code>i</code><em> </em>个查询的答案。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [0,1,2,3,4], queries = [[3,1],[1,3],[5,6]]
-<strong>Output:</strong> [3,3,7]
-<strong>Explanation:</strong>
-1) 0 and 1 are the only two integers not greater than 1. 0 XOR 3 = 3 and 1 XOR 3 = 2. The larger of the two is 3.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [0,1,2,3,4], queries = [[3,1],[1,3],[5,6]]
+<strong>输出：</strong>[3,3,7]
+<strong>解释：</strong>
+1) 0 和 1 是仅有的两个不超过 1 的整数。0 XOR 3 = 3 而 1 XOR 3 = 2 。二者中的更大值是 3 。
 2) 1 XOR 2 = 3.
 3) 5 XOR 2 = 7.
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [5,2,4,6,6,3], queries = [[12,4],[8,1],[6,3]]
-<strong>Output:</strong> [15,-1,5]
+<pre><strong>输入：</strong>nums = [5,2,4,6,6,3], queries = [[12,4],[8,1],[6,3]]
+<strong>输出：</strong>[15,-1,5]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length, queries.length &lt;= 10<sup>5</sup></code></li>
@@ -53,17 +56,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Offline Query + Binary Trie
+### 方法一：离线查询 + 0-1 字典树
 
-From the problem description, we know that each query is independent and the result of the query is irrelevant to the order of elements in $nums$. Therefore, we consider sorting all queries in ascending order of $m_i$, and also sorting $nums$ in ascending order.
+根据题目描述我们知道，每个查询相互独立，并且查询的结果与 $nums$ 中的元素顺序无关，因此，我们考虑将所有的查询按照 $m_i$ 从小到大排序，并且将 $nums$ 从小到大排序。
 
-Next, we use a binary trie to maintain the elements in $nums$. We use a pointer $j$ to record the current elements in the trie, initially $j=0$. For each query $[x_i, m_i]$, we continuously insert elements from $nums$ into the trie until $nums[j] > m_i$. At this point, we can query all elements not exceeding $m_i$ in the trie, and we take the XOR value of the element with the maximum XOR value with $x_i$ as the answer.
+接下来，我们使用一个 $0-1$ 字典树来维护 $nums$ 中的元素。我们用一个指针 $j$ 来记录当前字典树中的元素，初始时 $j=0$。对于每个查询 $[x_i, m_i]$，我们不断地将 $nums$ 中的元素插入到字典树中，直到 $nums[j] > m_i$，此时我们就可以在字典树中查询到所有不超过 $m_i$ 的元素，我们将其中与 $x_i$ 异或值最大的元素的异或值作为答案。
 
-The time complexity is $O(m \times \log m + n \times (\log n + \log M))$, and the space complexity is $O(n \times \log M)$. Where $m$ and $n$ are the lengths of the arrays $nums$ and $queries$ respectively, and $M$ is the maximum value in the array $nums$. In this problem, $M \le 10^9$.
+时间复杂度 $O(m \times \log m + n \times (\log n + \log M))$，空间复杂度 $O(n \times \log M)$，其中 $m$ 和 $n$ 分别是数组 $nums$ 和 $queries$ 的长度，而 $M$ 是数组 $nums$ 中的最大值，本题中 $M \le 10^9$。
 
 <!-- tabs:start -->
 
@@ -303,58 +306,58 @@ func maximizeXor(nums []int, queries [][]int) []int {
 
 ```ts
 class Trie {
-  children: (Trie | null)[];
+    children: (Trie | null)[];
 
-  constructor() {
-    this.children = [null, null];
-  }
-
-  insert(x: number): void {
-    let node: Trie | null = this;
-    for (let i = 30; ~i; i--) {
-      const v = (x >> i) & 1;
-      if (node.children[v] === null) {
-        node.children[v] = new Trie();
-      }
-      node = node.children[v] as Trie;
+    constructor() {
+        this.children = [null, null];
     }
-  }
 
-  search(x: number): number {
-    let node: Trie | null = this;
-    let ans = 0;
-    for (let i = 30; ~i; i--) {
-      const v = (x >> i) & 1;
-      if (node.children[v ^ 1] !== null) {
-        ans |= 1 << i;
-        node = node.children[v ^ 1] as Trie;
-      } else if (node.children[v] !== null) {
-        node = node.children[v] as Trie;
-      } else {
-        return -1;
-      }
+    insert(x: number): void {
+        let node: Trie | null = this;
+        for (let i = 30; ~i; i--) {
+            const v = (x >> i) & 1;
+            if (node.children[v] === null) {
+                node.children[v] = new Trie();
+            }
+            node = node.children[v] as Trie;
+        }
     }
-    return ans;
-  }
+
+    search(x: number): number {
+        let node: Trie | null = this;
+        let ans = 0;
+        for (let i = 30; ~i; i--) {
+            const v = (x >> i) & 1;
+            if (node.children[v ^ 1] !== null) {
+                ans |= 1 << i;
+                node = node.children[v ^ 1] as Trie;
+            } else if (node.children[v] !== null) {
+                node = node.children[v] as Trie;
+            } else {
+                return -1;
+            }
+        }
+        return ans;
+    }
 }
 
 function maximizeXor(nums: number[], queries: number[][]): number[] {
-  nums.sort((a, b) => a - b);
-  const n = queries.length;
-  const idx = Array.from({ length: n }, (_, i) => i);
-  idx.sort((i, j) => queries[i][1] - queries[j][1]);
-  const ans: number[] = [];
-  const trie = new Trie();
-  let j = 0;
-  for (const i of idx) {
-    const x = queries[i][0];
-    const m = queries[i][1];
-    while (j < nums.length && nums[j] <= m) {
-      trie.insert(nums[j++]);
+    nums.sort((a, b) => a - b);
+    const n = queries.length;
+    const idx = Array.from({ length: n }, (_, i) => i);
+    idx.sort((i, j) => queries[i][1] - queries[j][1]);
+    const ans: number[] = [];
+    const trie = new Trie();
+    let j = 0;
+    for (const i of idx) {
+        const x = queries[i][0];
+        const m = queries[i][1];
+        while (j < nums.length && nums[j] <= m) {
+            trie.insert(nums[j++]);
+        }
+        ans[i] = trie.search(x);
     }
-    ans[i] = trie.search(x);
-  }
-  return ans;
+    return ans;
 }
 ```
 

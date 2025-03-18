@@ -1,47 +1,52 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2667.Create%20Hello%20World%20Function/README.md
 tags:
-  - JavaScript
+    - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2667. Create Hello World Function](https://leetcode.com/problems/create-hello-world-function)
+# [2667. 创建 Hello World 函数](https://leetcode.cn/problems/create-hello-world-function)
 
-## Description
+[English Version](/solution/2600-2699/2667.Create%20Hello%20World%20Function/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-Write a function&nbsp;<code>createHelloWorld</code>.&nbsp;It should return a new function that always returns&nbsp;<code>&quot;Hello World&quot;</code>.
+请你编写一个名为 <code>createHelloWorld</code> 的函数。它应该返回一个新的函数，该函数总是返回 <code>"Hello World"</code>&nbsp;。
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> args = []
-<strong>Output:</strong> &quot;Hello World&quot;
-<strong>Explanation:</strong>
+<b>输入：</b>args = []
+<b>输出：</b>"Hello World"
+<strong>解释：</strong>
 const f = createHelloWorld();
-f(); // &quot;Hello World&quot;
+f(); // "Hello World"
 
-The function returned by createHelloWorld should always return &quot;Hello World&quot;.
+createHelloWorld 返回的函数应始终返回 "Hello World"。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> args = [{},null,42]
-<strong>Output:</strong> &quot;Hello World&quot;
-<strong>Explanation:</strong>
+<b>输入：</b>args = [{},null,42]
+<b>输出：</b>"Hello World"
+<strong>解释：</strong>
 const f = createHelloWorld();
-f({}, null, 42); // &quot;Hello World&quot;
+f({}, null, 42); // "Hello World"
 
-Any arguments could be passed to the function but it should still always return &quot;Hello World&quot;.
+可以传递任何参数给函数，但它应始终返回 "Hello World"。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= args.length &lt;= 10</code></li>
@@ -49,11 +54,11 @@ Any arguments could be passed to the function but it should still always return 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -61,9 +66,9 @@ Any arguments could be passed to the function but it should still always return 
 
 ```ts
 function createHelloWorld() {
-  return function (...args): string {
-    return "Hello World";
-  };
+    return function (...args): string {
+        return 'Hello World';
+    };
 }
 
 /**

@@ -1,76 +1,80 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1710.Maximum%20Units%20on%20a%20Truck/README.md
 rating: 1309
-source: Weekly Contest 222 Q1
+source: 第 222 场周赛 Q1
 tags:
-  - Greedy
-  - Array
-  - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1710. Maximum Units on a Truck](https://leetcode.com/problems/maximum-units-on-a-truck)
+# [1710. 卡车上的最大单元数](https://leetcode.cn/problems/maximum-units-on-a-truck)
 
-## Description
+[English Version](/solution/1700-1799/1710.Maximum%20Units%20on%20a%20Truck/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are assigned to put some amount of boxes onto <strong>one truck</strong>. You are given a 2D array <code>boxTypes</code>, where <code>boxTypes[i] = [numberOfBoxes<sub>i</sub>, numberOfUnitsPerBox<sub>i</sub>]</code>:</p>
+<p>请你将一些箱子装在 <strong>一辆卡车</strong> 上。给你一个二维数组 <code>boxTypes</code> ，其中 <code>boxTypes[i] = [numberOfBoxes<sub>i</sub>, numberOfUnitsPerBox<sub>i</sub>]</code> ：</p>
 
 <ul>
-	<li><code>numberOfBoxes<sub>i</sub></code> is the number of boxes of type <code>i</code>.</li>
-	<li><code>numberOfUnitsPerBox<sub>i</sub></code><sub> </sub>is the number of units in each box of the type <code>i</code>.</li>
+	<li><code>numberOfBoxes<sub>i</sub></code> 是类型 <code>i</code> 的箱子的数量。</li>
+	<li><code>numberOfUnitsPerBox<sub>i</sub></code><sub> </sub>是类型 <code>i</code> 每个箱子可以装载的单元数量。</li>
 </ul>
 
-<p>You are also given an integer <code>truckSize</code>, which is the <strong>maximum</strong> number of <strong>boxes</strong> that can be put on the truck. You can choose any boxes to put on the truck as long as the number&nbsp;of boxes does not exceed <code>truckSize</code>.</p>
+<p>整数 <code>truckSize</code> 表示卡车上可以装载 <strong>箱子</strong> 的 <strong>最大数量</strong> 。只要箱子数量不超过 <code>truckSize</code> ，你就可以选择任意箱子装到卡车上。</p>
 
-<p>Return <em>the <strong>maximum</strong> total number of <strong>units</strong> that can be put on the truck.</em></p>
+<p>返回卡车可以装载 <strong>单元</strong> 的 <strong>最大</strong> 总数<em>。</em></p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> boxTypes = [[1,3],[2,2],[3,1]], truckSize = 4
-<strong>Output:</strong> 8
-<strong>Explanation:</strong> There are:
-- 1 box of the first type that contains 3 units.
-- 2 boxes of the second type that contain 2 units each.
-- 3 boxes of the third type that contain 1 unit each.
-You can take all the boxes of the first and second types, and one box of the third type.
-The total number of units will be = (1 * 3) + (2 * 2) + (1 * 1) = 8.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> boxTypes = [[5,10],[2,5],[4,7],[3,9]], truckSize = 10
-<strong>Output:</strong> 91
+<strong>输入：</strong>boxTypes = [[1,3],[2,2],[3,1]], truckSize = 4
+<strong>输出：</strong>8
+<strong>解释：</strong>箱子的情况如下：
+- 1 个第一类的箱子，里面含 3 个单元。
+- 2 个第二类的箱子，每个里面含 2 个单元。
+- 3 个第三类的箱子，每个里面含 1 个单元。
+可以选择第一类和第二类的所有箱子，以及第三类的一个箱子。
+单元总数 = (1 * 3) + (2 * 2) + (1 * 1) = 8</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>boxTypes = [[5,10],[2,5],[4,7],[3,9]], truckSize = 10
+<strong>输出：</strong>91
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= boxTypes.length &lt;= 1000</code></li>
-	<li><code>1 &lt;= numberOfBoxes<sub>i</sub>, numberOfUnitsPerBox<sub>i</sub> &lt;= 1000</code></li>
-	<li><code>1 &lt;= truckSize &lt;= 10<sup>6</sup></code></li>
+	<li><code>1 <= boxTypes.length <= 1000</code></li>
+	<li><code>1 <= numberOfBoxes<sub>i</sub>, numberOfUnitsPerBox<sub>i</sub> <= 1000</code></li>
+	<li><code>1 <= truckSize <= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Sorting
+### 方法一：贪心 + 排序
 
-According to the problem, we should choose as many units as possible. Therefore, we first sort `boxTypes` in descending order of the number of units.
+根据题意，我们应该选择尽可能多的单元数，因此，我们先对 `boxTypes` 按照单元数从大到小的顺序排列。
 
-Then we traverse `boxTypes` from front to back, choose up to `truckSize` boxes, and accumulate the number of units.
+然后从前往后遍历 `boxTypes`，选择最多 `truckSize` 个箱子，累加单元数。
 
-The time complexity is $O(n \times \log n)$, where $n$ is the length of the two-dimensional array `boxTypes`.
+时间复杂度 $O(n \times \log n)$，其中 $n$ 表示二维数组 `boxTypes` 的长度。
 
 <!-- tabs:start -->
 
@@ -148,14 +152,14 @@ func maximumUnits(boxTypes [][]int, truckSize int) (ans int) {
 
 ```ts
 export function maximumUnits(boxTypes: number[][], truckSize: number): number {
-  boxTypes.sort(([_, a], [__, b]) => b - a);
-  let ans = 0;
-  for (const [count, size] of boxTypes) {
-    ans += Math.min(truckSize, count) * size;
-    truckSize -= count;
-    if (truckSize < 0) break;
-  }
-  return ans;
+    boxTypes.sort(([_, a], [__, b]) => b - a);
+    let ans = 0;
+    for (const [count, size] of boxTypes) {
+        ans += Math.min(truckSize, count) * size;
+        truckSize -= count;
+        if (truckSize < 0) break;
+    }
+    return ans;
 }
 ```
 
@@ -187,13 +191,13 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Counting Sort
+### 方法二：计数排序
 
-We can also use the idea of counting sort, create an array $cnt$ of length $1001$, where $cnt[b]$ represents the number of boxes with $b$ units.
+我们还可以利用计数排序的思想，开一个长度为 $1001$ 的数组 $cnt$，其中 $cnt[b]$ 表示单元数为 $b$ 的箱子的数量。
 
-Then starting from the box with the maximum number of units, choose up to `truckSize` boxes, and accumulate the number of units.
+然后从单元数最大的箱子开始，选择最多 `truckSize` 个箱子，累加单元数。
 
-The time complexity is $O(M)$, where $M$ is the maximum number of units. In this problem, $M=1000$.
+时间复杂度 $O(M)$，其中 $M$ 是单元数的最大值。本题中 $M=1000$。
 
 <!-- tabs:start -->
 
@@ -287,16 +291,16 @@ func maximumUnits(boxTypes [][]int, truckSize int) (ans int) {
 
 ```ts
 function maximumUnits(boxTypes: number[][], truckSize: number): number {
-  boxTypes.sort(([_, a], [__, b]) => b - a);
-  let ans = 0;
-  for (const [count, size] of boxTypes) {
-    ans += Math.min(truckSize, count) * size;
-    truckSize -= count;
-    if (truckSize < 0) {
-      break;
+    boxTypes.sort(([_, a], [__, b]) => b - a);
+    let ans = 0;
+    for (const [count, size] of boxTypes) {
+        ans += Math.min(truckSize, count) * size;
+        truckSize -= count;
+        if (truckSize < 0) {
+            break;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

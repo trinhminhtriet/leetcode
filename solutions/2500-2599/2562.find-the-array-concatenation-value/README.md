@@ -1,105 +1,101 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2562.Find%20the%20Array%20Concatenation%20Value/README.md
 rating: 1259
-source: Weekly Contest 332 Q1
+source: 第 332 场周赛 Q1
 tags:
-  - Array
-  - Two Pointers
-  - Simulation
+    - 数组
+    - 双指针
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2562. Find the Array Concatenation Value](https://leetcode.com/problems/find-the-array-concatenation-value)
+# [2562. 找出数组的串联值](https://leetcode.cn/problems/find-the-array-concatenation-value)
 
-## Description
+[English Version](/solution/2500-2599/2562.Find%20the%20Array%20Concatenation%20Value/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组&nbsp;<code>nums</code> 。</p>
 
-<p>The <strong>concatenation</strong> of two numbers is the number formed by concatenating their numerals.</p>
-
-<ul>
-	<li>For example, the concatenation of <code>15</code>, <code>49</code> is <code>1549</code>.</li>
-</ul>
-
-<p>The <strong>concatenation value</strong> of <code>nums</code> is initially equal to <code>0</code>. Perform this operation until <code>nums</code> becomes empty:</p>
+<p>现定义两个数字的 <strong>串联</strong>&nbsp;是由这两个数值串联起来形成的新数字。</p>
 
 <ul>
-	<li>If there exists more than one number in <code>nums</code>, pick the first element and last element in <code>nums</code> respectively and add the value of their concatenation to the <strong>concatenation value</strong> of <code>nums</code>, then delete the first and last element from <code>nums</code>.</li>
-	<li>If one element exists, add its value to the <strong>concatenation value</strong> of <code>nums</code>, then delete it.</li>
+	<li>例如，<code>15</code><span style="">&nbsp;和&nbsp;</span><code>49</code>&nbsp;的串联是&nbsp;<code>1549</code> 。</li>
 </ul>
 
-<p>Return<em> the concatenation value of the <code>nums</code></em>.</p>
+<p><code>nums</code>&nbsp;的 <strong>串联值</strong>&nbsp;最初等于 <code>0</code> 。执行下述操作直到&nbsp;<code>nums</code>&nbsp;变为空：</p>
+
+<ul>
+	<li>如果&nbsp;<code>nums</code>&nbsp;的长度大于 1，分别选中 <code>nums</code> 中的第一个元素和最后一个元素，将二者串联得到的值加到&nbsp;<code>nums</code>&nbsp;的 <strong>串联值</strong> 上，然后从&nbsp;<code>nums</code>&nbsp;中删除第一个和最后一个元素。例如，如果&nbsp;<code>nums</code> 是 <code>[1, 2, 4, 5, 6]</code>，将 16 添加到串联值。</li>
+	<li>如果&nbsp;<code>nums</code>&nbsp;中仅存在一个元素，则将该元素的值加到&nbsp;<code>nums</code> 的串联值上，然后删除这个元素。</li>
+</ul>
+
+<p>返回执行完所有操作后<em>&nbsp;</em><code>nums</code> 的串联值。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [7,52,2,4]
-<strong>Output:</strong> 596
-<strong>Explanation:</strong> Before performing any operation, nums is [7,52,2,4] and concatenation value is 0.
- - In the first operation:
-We pick the first element, 7, and the last element, 4.
-Their concatenation is 74, and we add it to the concatenation value, so it becomes equal to 74.
-Then we delete them from nums, so nums becomes equal to [52,2].
- - In the second operation:
-We pick the first element, 52, and the last element, 2.
-Their concatenation is 522, and we add it to the concatenation value, so it becomes equal to 596.
-Then we delete them from the nums, so nums becomes empty.
-Since the concatenation value is 596 so the answer is 596.
+<b>输入：</b>nums = [7,52,2,4]
+<b>输出：</b>596
+<b>解释：</b>在执行任一步操作前，nums 为 [7,52,2,4] ，串联值为 0 。
+ - 在第一步操作中：
+我们选中第一个元素 7 和最后一个元素 4 。
+二者的串联是 74 ，将其加到串联值上，所以串联值等于 74 。
+接着我们从 nums 中移除这两个元素，所以 nums 变为 [52,2] 。
+ - 在第二步操作中： 
+我们选中第一个元素 52 和最后一个元素 2 。 
+二者的串联是 522 ，将其加到串联值上，所以串联值等于 596 。
+接着我们从 nums 中移除这两个元素，所以 nums 变为空。
+由于串联值等于 596 ，所以答案就是 596 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [5,14,13,8,12]
-<strong>Output:</strong> 673
-<strong>Explanation:</strong> Before performing any operation, nums is [5,14,13,8,12] and concatenation value is 0.
- - In the first operation:
-We pick the first element, 5, and the last element, 12.
-Their concatenation is 512, and we add it to the concatenation value, so it becomes equal to 512.
-Then we delete them from the nums, so nums becomes equal to [14,13,8].
- - In the second operation:
-We pick the first element, 14, and the last element, 8.
-Their concatenation is 148, and we add it to the concatenation value, so it becomes equal to 660.
-Then we delete them from the nums, so nums becomes equal to [13].
- - In the third operation:
-nums has only one element, so we pick 13 and add it to the concatenation value, so it becomes equal to 673.
-Then we delete it from nums, so nums become empty.
-Since the concatenation value is 673 so the answer is 673.
+<b>输入：</b>nums = [5,14,13,8,12]
+<b>输出：</b>673
+<b>解释：</b>在执行任一步操作前，nums 为 [5,14,13,8,12] ，串联值为 0 。 
+- 在第一步操作中： 
+我们选中第一个元素 5 和最后一个元素 12 。 
+二者的串联是 512 ，将其加到串联值上，所以串联值等于 512 。 
+接着我们从 nums 中移除这两个元素，所以 nums 变为 [14,13,8] 。
+- 在第二步操作中：
+我们选中第一个元素 14 和最后一个元素 8 。
+二者的串联是 148 ，将其加到串联值上，所以串联值等于 660 。
+接着我们从 nums 中移除这两个元素，所以 nums 变为 [13] 。 
+- 在第三步操作中：
+nums 只有一个元素，所以我们选中 13 并将其加到串联值上，所以串联值等于 673 。
+接着我们从 nums 中移除这个元素，所以 nums 变为空。 
+由于串联值等于 673 ，所以答案就是 673 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
-<p>&nbsp;</p>
-<style type="text/css">.spoilerbutton {display:block; border:dashed; padding: 0px 0px; margin:10px 0px; font-size:150%; font-weight: bold; color:#000000; background-color:cyan; outline:0; 
-}
-.spoiler {overflow:hidden;}
-.spoiler > div {-webkit-transition: all 0s ease;-moz-transition: margin 0s ease;-o-transition: all 0s ease;transition: margin 0s ease;}
-.spoilerbutton[value="Show Message"] + .spoiler > div {margin-top:-500%;}
-.spoilerbutton[value="Hide Message"] + .spoiler {padding:5px;}
-</style>
-
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-Starting from both ends of the array, we take out one element at a time, concatenate it with another element, and then add the concatenated result to the answer. We repeat this process until the array is empty.
+从数组两端开始，每次取出一个元素，将其与另一个元素拼接，然后将拼接后的结果加到答案中。重复这个过程，直到数组为空。
 
-The time complexity is $O(n \times \log M)$, and the space complexity is $O(\log M)$. Here, $n$ and $M$ are the length of the array and the maximum value in the array, respectively.
+时间复杂度 $O(n \times \log M)$，空间复杂度 $O(\log M)$。其中 $n$ 和 $M$ 分别是数组的长度和数组中的最大值。
 
 <!-- tabs:start -->
 
@@ -175,19 +171,19 @@ func findTheArrayConcVal(nums []int) (ans int64) {
 
 ```ts
 function findTheArrayConcVal(nums: number[]): number {
-  const n = nums.length;
-  let ans = 0;
-  let i = 0;
-  let j = n - 1;
-  while (i < j) {
-    ans += Number(`${nums[i]}${nums[j]}`);
-    i++;
-    j--;
-  }
-  if (i === j) {
-    ans += nums[i];
-  }
-  return ans;
+    const n = nums.length;
+    let ans = 0;
+    let i = 0;
+    let j = n - 1;
+    while (i < j) {
+        ans += Number(`${nums[i]}${nums[j]}`);
+        i++;
+        j--;
+    }
+    if (i === j) {
+        ans += nums[i];
+    }
+    return ans;
 }
 ```
 
@@ -247,7 +243,7 @@ long long findTheArrayConcVal(int* nums, int numsSize) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

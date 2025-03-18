@@ -1,66 +1,71 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0050.Pow%28x%2C%20n%29/README.md
 tags:
-  - Recursion
-  - Math
+    - 递归
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [50. Pow(x, n)](https://leetcode.com/problems/powx-n)
+# [50. Pow(x, n)](https://leetcode.cn/problems/powx-n)
 
-## Description
+[English Version](/solution/0000-0099/0050.Pow%28x%2C%20n%29/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Implement <a href="http://www.cplusplus.com/reference/valarray/pow/" target="_blank">pow(x, n)</a>, which calculates <code>x</code> raised to the power <code>n</code> (i.e., <code>x<sup>n</sup></code>).</p>
+<p>实现&nbsp;<a href="https://www.cplusplus.com/reference/valarray/pow/" target="_blank">pow(<em>x</em>, <em>n</em>)</a>&nbsp;，即计算 <code>x</code> 的整数&nbsp;<code>n</code> 次幂函数（即，<code>x<sup>n</sup></code><sup><span style="font-size:10.8333px"> </span></sup>）。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> x = 2.00000, n = 10
-<strong>Output:</strong> 1024.00000
+<strong>输入：</strong>x = 2.00000, n = 10
+<strong>输出：</strong>1024.00000
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> x = 2.10000, n = 3
-<strong>Output:</strong> 9.26100
+<strong>输入：</strong>x = 2.10000, n = 3
+<strong>输出：</strong>9.26100
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> x = 2.00000, n = -2
-<strong>Output:</strong> 0.25000
-<strong>Explanation:</strong> 2<sup>-2</sup> = 1/2<sup>2</sup> = 1/4 = 0.25
+<strong>输入：</strong>x = 2.00000, n = -2
+<strong>输出：</strong>0.25000
+<strong>解释：</strong>2<sup>-2</sup> = 1/2<sup>2</sup> = 1/4 = 0.25
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>-100.0 &lt; x &lt; 100.0</code></li>
 	<li><code>-2<sup>31</sup> &lt;= n &lt;= 2<sup>31</sup>-1</code></li>
-	<li><code>n</code> is an integer.</li>
-	<li>Either <code>x</code> is not zero or <code>n &gt; 0</code>.</li>
+	<li><code>n</code>&nbsp;是一个整数</li>
+	<li>要么 <code>x</code> 不为零，要么 <code>n &gt; 0</code> 。</li>
 	<li><code>-10<sup>4</sup> &lt;= x<sup>n</sup> &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Mathematics (Fast Powering)
+### 方法一：数学（快速幂）
 
-The core idea of the fast powering algorithm is to decompose the exponent $n$ into the sum of $1$s on several binary bits, and then transform the $n$th power of $x$ into the product of several powers of $x$.
+快速幂算法的核心思想是将幂指数 $n$ 拆分为若干个二进制位上的 $1$ 的和，然后将 $x$ 的 $n$ 次幂转化为 $x$ 的若干个幂的乘积。
 
-The time complexity is $O(\log n)$, and the space complexity is $O(1)$. Here, $n$ is the exponent.
+时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。其中 $n$ 为幂指数。
 
 <!-- tabs:start -->
 
@@ -148,17 +153,17 @@ func myPow(x float64, n int) float64 {
 
 ```ts
 function myPow(x: number, n: number): number {
-  const qpow = (a: number, n: number): number => {
-    let ans = 1;
-    for (; n; n >>>= 1) {
-      if (n & 1) {
-        ans *= a;
-      }
-      a *= a;
-    }
-    return ans;
-  };
-  return n >= 0 ? qpow(x, n) : 1 / qpow(x, -n);
+    const qpow = (a: number, n: number): number => {
+        let ans = 1;
+        for (; n; n >>>= 1) {
+            if (n & 1) {
+                ans *= a;
+            }
+            a *= a;
+        }
+        return ans;
+    };
+    return n >= 0 ? qpow(x, n) : 1 / qpow(x, -n);
 }
 ```
 
@@ -202,17 +207,17 @@ impl Solution {
  * @return {number}
  */
 var myPow = function (x, n) {
-  const qpow = (a, n) => {
-    let ans = 1;
-    for (; n; n >>>= 1) {
-      if (n & 1) {
-        ans *= a;
-      }
-      a *= a;
-    }
-    return ans;
-  };
-  return n >= 0 ? qpow(x, n) : 1 / qpow(x, -n);
+    const qpow = (a, n) => {
+        let ans = 1;
+        for (; n; n >>>= 1) {
+            if (n & 1) {
+                ans *= a;
+            }
+            a *= a;
+        }
+        return ans;
+    };
+    return n >= 0 ? qpow(x, n) : 1 / qpow(x, -n);
 };
 ```
 

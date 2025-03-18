@@ -1,9 +1,6 @@
-function map(inputArray: number[], transformFn: (value: number, index: number) => number): number[] {
-    const resultArray: number[] = [];
-  
-    for (let i = 0; i < inputArray.length; i++) {
-        resultArray[i] = transformFn(inputArray[i], i);
+function map(arr: number[], fn: (n: number, i: number) => number): number[] {
+    for (let i = 0; i < arr.length; ++i) {
+        arr[i] = fn(arr[i], i);
     }
-  
-    return resultArray;
+    return arr;
 }

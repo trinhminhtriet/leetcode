@@ -1,77 +1,84 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2030.Smallest%20K-Length%20Subsequence%20With%20Occurrences%20of%20a%20Letter/README.md
 rating: 2561
-source: Weekly Contest 261 Q4
+source: 第 261 场周赛 Q4
 tags:
-  - Stack
-  - Greedy
-  - String
-  - Monotonic Stack
+    - 栈
+    - 贪心
+    - 字符串
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [2030. Smallest K-Length Subsequence With Occurrences of a Letter](https://leetcode.com/problems/smallest-k-length-subsequence-with-occurrences-of-a-letter)
+# [2030. 含特定字母的最小子序列](https://leetcode.cn/problems/smallest-k-length-subsequence-with-occurrences-of-a-letter)
 
-## Description
+[English Version](/solution/2000-2099/2030.Smallest%20K-Length%20Subsequence%20With%20Occurrences%20of%20a%20Letter/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code>, an integer <code>k</code>, a letter <code>letter</code>, and an integer <code>repetition</code>.</p>
+<p>给你一个字符串 <code>s</code> ，一个整数 <code>k</code> ，一个字母 <code>letter</code> 以及另一个整数 <code>repetition</code> 。</p>
 
-<p>Return <em>the <strong>lexicographically smallest</strong> subsequence of</em> <code>s</code><em> of length</em> <code>k</code> <em>that has the letter</em> <code>letter</code> <em>appear <strong>at least</strong></em> <code>repetition</code> <em>times</em>. The test cases are generated so that the <code>letter</code> appears in <code>s</code> <strong>at least</strong> <code>repetition</code> times.</p>
+<p>返回 <code>s</code> 中长度为 <code>k</code> 且 <strong>字典序最小</strong> 的子序列，该子序列同时应满足字母 <code>letter</code> 出现<strong> 至少</strong> <code>repetition</code> 次。生成的测试用例满足 <code>letter</code> 在 <code>s</code> 中出现 <strong>至少</strong> <code>repetition</code> 次。</p>
 
-<p>A <strong>subsequence</strong> is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters.</p>
+<p><strong>子序列</strong> 是由原字符串删除一些（或不删除）字符且不改变剩余字符顺序得到的剩余字符串。</p>
 
-<p>A string <code>a</code> is <strong>lexicographically smaller</strong> than a string <code>b</code> if in the first position where <code>a</code> and <code>b</code> differ, string <code>a</code> has a letter that appears earlier in the alphabet than the corresponding letter in <code>b</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;leet&quot;, k = 3, letter = &quot;e&quot;, repetition = 1
-<strong>Output:</strong> &quot;eet&quot;
-<strong>Explanation:</strong> There are four subsequences of length 3 that have the letter &#39;e&#39; appear at least 1 time:
-- &quot;lee&quot; (from &quot;<strong><u>lee</u></strong>t&quot;)
-- &quot;let&quot; (from &quot;<strong><u>le</u></strong>e<u><strong>t</strong></u>&quot;)
-- &quot;let&quot; (from &quot;<u><strong>l</strong></u>e<u><strong>et</strong></u>&quot;)
-- &quot;eet&quot; (from &quot;l<u><strong>eet</strong></u>&quot;)
-The lexicographically smallest subsequence among them is &quot;eet&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="example-2" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2030.Smallest%20K-Length%20Subsequence%20With%20Occurrences%20of%20a%20Letter/images/smallest-k-length-subsequence.png" style="width: 339px; height: 67px;" />
-<pre>
-<strong>Input:</strong> s = &quot;leetcode&quot;, k = 4, letter = &quot;e&quot;, repetition = 2
-<strong>Output:</strong> &quot;ecde&quot;
-<strong>Explanation:</strong> &quot;ecde&quot; is the lexicographically smallest subsequence of length 4 that has the letter &quot;e&quot; appear at least 2 times.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;bb&quot;, k = 2, letter = &quot;b&quot;, repetition = 2
-<strong>Output:</strong> &quot;bb&quot;
-<strong>Explanation:</strong> &quot;bb&quot; is the only subsequence of length 2 that has the letter &quot;b&quot; appear at least 2 times.
-</pre>
+<p>字符串 <code>a</code> 字典序比字符串 <code>b</code> 小的定义为：在 <code>a</code> 和 <code>b</code> 出现不同字符的第一个位置上，字符串 <code>a</code> 的字符在字母表中的顺序早于字符串 <code>b</code>&nbsp;的字符。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "leet", k = 3, letter = "e", repetition = 1
+<strong>输出：</strong>"eet"
+<strong>解释：</strong>存在 4 个长度为 3 ，且满足字母 'e' 出现至少 1 次的子序列：
+- "lee"（"<em><strong>lee</strong></em>t"）
+- "let"（"<em><strong>le</strong></em>e<em><strong>t</strong></em>"）
+- "let"（"<em><strong>l</strong></em>e<em><strong>et</strong></em>"）
+- "eet"（"l<em><strong>eet</strong></em>"）
+其中字典序最小的子序列是 "eet" 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="example-2" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2030.Smallest%20K-Length%20Subsequence%20With%20Occurrences%20of%20a%20Letter/images/smallest-k-length-subsequence.png" style="width: 339px; height: 67px;" /></p>
+
+<pre>
+<strong>输入：</strong>s = "leetcode", k = 4, letter = "e", repetition = 2
+<strong>输出：</strong>"ecde"
+<strong>解释：</strong>"ecde" 是长度为 4 且满足字母 "e" 出现至少 2 次的字典序最小的子序列。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "bb", k = 2, letter = "b", repetition = 2
+<strong>输出：</strong>"bb"
+<strong>解释：</strong>"bb" 是唯一一个长度为 2 且满足字母 "b" 出现至少 2 次的子序列。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= repetition &lt;= k &lt;= s.length &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
-	<li><code>letter</code> is a lowercase English letter, and appears in <code>s</code> at least <code>repetition</code> times.</li>
+	<li><code>s</code> 由小写英文字母组成</li>
+	<li><code>letter</code> 是一个小写英文字母，在 <code>s</code>&nbsp;中至少出现 <code>repetition</code> 次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

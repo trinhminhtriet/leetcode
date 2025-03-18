@@ -1,66 +1,71 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0121.Best%20Time%20to%20Buy%20and%20Sell%20Stock/README.md
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [121. Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock)
+# [121. 买卖股票的最佳时机](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock)
 
-## Description
+[English Version](/solution/0100-0199/0121.Best%20Time%20to%20Buy%20and%20Sell%20Stock/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>prices</code> where <code>prices[i]</code> is the price of a given stock on the <code>i<sup>th</sup></code> day.</p>
+<p>给定一个数组 <code>prices</code> ，它的第 <code>i</code> 个元素 <code>prices[i]</code> 表示一支给定股票第 <code>i</code> 天的价格。</p>
 
-<p>You want to maximize your profit by choosing a <strong>single day</strong> to buy one stock and choosing a <strong>different day in the future</strong> to sell that stock.</p>
+<p>你只能选择 <strong>某一天</strong> 买入这只股票，并选择在 <strong>未来的某一个不同的日子</strong> 卖出该股票。设计一个算法来计算你所能获取的最大利润。</p>
 
-<p>Return <em>the maximum profit you can achieve from this transaction</em>. If you cannot achieve any profit, return <code>0</code>.</p>
+<p>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 <code>0</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> prices = [7,1,5,3,6,4]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
-Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> prices = [7,6,4,3,1]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> In this case, no transactions are done and the max profit = 0.
+<strong>输入：</strong>[7,1,5,3,6,4]
+<strong>输出：</strong>5
+<strong>解释：</strong>在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
+     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>prices = [7,6,4,3,1]
+<strong>输出：</strong>0
+<strong>解释：</strong>在这种情况下, 没有交易完成, 所以最大利润为 0。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= prices.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>0 &lt;= prices[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 <= prices.length <= 10<sup>5</sup></code></li>
+	<li><code>0 <= prices[i] <= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumerate + Maintain the Minimum Value of the Prefix
+### 方法一：枚举 + 维护前缀最小值
 
-We can enumerate each element of the array $nums$ as the selling price. Then we need to find a minimum value in front of it as the purchase price to maximize the profit.
+我们可以枚举数组 $nums$ 每个元素作为卖出价格，那么我们需要在前面找到一个最小值作为买入价格，这样才能使得利润最大化。
 
-Therefore, we use a variable $mi$ to maintain the prefix minimum value of the array $nums$. Then we traverse the array $nums$ and for each element $v$, calculate the difference between it and the minimum value $mi$ in front of it, and update the answer to the maximum of the difference. Then update $mi = min(mi, v)$. Continue to traverse the array $nums$ until the traversal ends.
+因此，我们用一个变量 $mi$ 维护数组 $nums$ 的前缀最小值。接下来遍历数组 $nums$，对于每个元素 $v$，计算其与前面元素的最小值 $mi$ 的差值，更新答案为差值的最大值。然后更新 $mi = min(mi, v)$。继续遍历数组 $nums$，直到遍历结束。
 
-Finally, return the answer.
+最后返回答案即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -124,13 +129,13 @@ func maxProfit(prices []int) (ans int) {
 
 ```ts
 function maxProfit(prices: number[]): number {
-  let ans = 0;
-  let mi = prices[0];
-  for (const v of prices) {
-    ans = Math.max(ans, v - mi);
-    mi = Math.min(mi, v);
-  }
-  return ans;
+    let ans = 0;
+    let mi = prices[0];
+    for (const v of prices) {
+        ans = Math.max(ans, v - mi);
+        mi = Math.min(mi, v);
+    }
+    return ans;
 }
 ```
 
@@ -158,13 +163,13 @@ impl Solution {
  * @return {number}
  */
 var maxProfit = function (prices) {
-  let ans = 0;
-  let mi = prices[0];
-  for (const v of prices) {
-    ans = Math.max(ans, v - mi);
-    mi = Math.min(mi, v);
-  }
-  return ans;
+    let ans = 0;
+    let mi = prices[0];
+    for (const v of prices) {
+        ans = Math.max(ans, v - mi);
+        mi = Math.min(mi, v);
+    }
+    return ans;
 };
 ```
 

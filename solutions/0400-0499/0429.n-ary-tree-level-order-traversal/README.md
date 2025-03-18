@@ -1,71 +1,76 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0429.N-ary%20Tree%20Level%20Order%20Traversal/README.md
 tags:
-  - Tree
-  - Breadth-First Search
+    - 树
+    - 广度优先搜索
 ---
 
 <!-- problem:start -->
 
-# [429. N-ary Tree Level Order Traversal](https://leetcode.com/problems/n-ary-tree-level-order-traversal)
+# [429. N 叉树的层序遍历](https://leetcode.cn/problems/n-ary-tree-level-order-traversal)
 
-## Description
+[English Version](/solution/0400-0499/0429.N-ary%20Tree%20Level%20Order%20Traversal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an n-ary tree, return the <em>level order</em> traversal of its nodes&#39; values.</p>
+<p>给定一个 N 叉树，返回其节点值的<em>层序遍历</em>。（即从左到右，逐层遍历）。</p>
 
-<p><em>Nary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value (See examples).</em></p>
+<p>树的序列化输入是用层序遍历，每组子节点都由 null 值分隔（参见示例）。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0429.N-ary%20Tree%20Level%20Order%20Traversal/images/narytreeexample.png" style="width: 100%; max-width: 300px;" /></p>
 
 <pre>
-<strong>Input:</strong> root = [1,null,3,2,4,null,5,6]
-<strong>Output:</strong> [[1],[3,2,4],[5,6]]
+<strong>输入：</strong>root = [1,null,3,2,4,null,5,6]
+<strong>输出：</strong>[[1],[3,2,4],[5,6]]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0429.N-ary%20Tree%20Level%20Order%20Traversal/images/sample_4_964.png" style="width: 296px; height: 241px;" /></p>
 
 <pre>
-<strong>Input:</strong> root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
-<strong>Output:</strong> [[1],[2,3,4,5],[6,7,8,9,10],[11,12,13],[14]]
+<strong>输入：</strong>root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+<strong>输出：</strong>[[1],[2,3,4,5],[6,7,8,9,10],[11,12,13],[14]]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The height of the n-ary tree is less than or equal to <code>1000</code></li>
-	<li>The total number of nodes is between <code>[0, 10<sup>4</sup>]</code></li>
+	<li>树的高度不会超过&nbsp;<code>1000</code></li>
+	<li>树的节点总数在 <code>[0,&nbsp;10<sup>4</sup>]</code> 之间</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-First, we check if the root node is null. If it is, we return an empty list directly.
+我们首先判断根节点是否为空，若为空则直接返回空列表。
 
-Otherwise, we create a queue $q$ and initially add the root node to the queue.
+否则，我们创建一个队列 $q$，初始时将根节点加入队列。
 
-When the queue is not empty, we loop through the following operations:
+当队列不为空时，我们循环以下操作：
 
-1. Create an empty list $t$ to store the values of the current level nodes.
-2. For each node in the queue, add its value to $t$ and add its child nodes to the queue.
-3. Add $t$ to the result list $ans$.
+1. 创建一个空列表 $t$，用于存放当前层的节点值。
+2. 对于队列中的每个节点，将其值加入 $t$ 中，并将其子节点加入队列。
+3. 将 $t$ 加入结果列表 $ans$。
 
-Finally, return the result list $ans$.
+最后返回结果列表 $ans$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the N-ary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为 N 叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -237,22 +242,22 @@ func levelOrder(root *Node) (ans [][]int) {
  */
 
 function levelOrder(root: Node | null): number[][] {
-  const ans: number[][] = [];
-  if (!root) {
-    return ans;
-  }
-  const q: Node[] = [root];
-  while (q.length) {
-    const qq: Node[] = [];
-    const t: number[] = [];
-    for (const { val, children } of q) {
-      qq.push(...children);
-      t.push(val);
+    const ans: number[][] = [];
+    if (!root) {
+        return ans;
     }
-    ans.push(t);
-    q.splice(0, q.length, ...qq);
-  }
-  return ans;
+    const q: Node[] = [root];
+    while (q.length) {
+        const qq: Node[] = [];
+        const t: number[] = [];
+        for (const { val, children } of q) {
+            qq.push(...children);
+            t.push(val);
+        }
+        ans.push(t);
+        q.splice(0, q.length, ...qq);
+    }
+    return ans;
 }
 ```
 
@@ -262,21 +267,21 @@ function levelOrder(root: Node | null): number[][] {
 
 <!-- solution:start -->
 
-### Solution 2: DFS
+### 方法二：DFS
 
-We can use the Depth-First Search method to traverse the entire tree.
+我们可以使用深度优先搜索的方法，遍历整棵树。
 
-We define a helper function $dfs(root, i)$, where $root$ represents the current node, and $i$ represents the current level.
+我们定义一个辅助函数 $dfs(root, i)$，其中 $root$ 表示当前节点，而 $i$ 表示当前层数。
 
-In the $dfs$ function, we first check if $root$ is null. If it is, we return directly.
+在 $dfs$ 函数中，我们首先判断 $root$ 是否为空，若为空则直接返回。
 
-Otherwise, we check if the length of $ans$ is less than or equal to $i$. If it is, it means that the current level has not been added to $ans$ yet, so we need to add an empty list first. Then we add the value of $root$ to $ans[i]$.
+否则，我们判断 $ans$ 的长度是否小于等于 $i$，若是则说明当前层还没有加入到 $ans$ 中，我们需要先加入一个空列表。然后将 $root$ 的值加入 $ans[i]$ 中。
 
-Next, we traverse all child nodes of $root$. For each child node, we call $dfs(child, i + 1)$.
+接着，我们遍历 $root$ 的所有子节点，对于每个子节点，我们调用 $dfs(child, i + 1)$。
 
-In the main function, we call $dfs(root, 0)$ and return $ans$.
+在主函数中，我们调用 $dfs(root, 0)$，并返回 $ans$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the N-ary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为 N 叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -444,20 +449,20 @@ func levelOrder(root *Node) (ans [][]int) {
  */
 
 function levelOrder(root: Node | null): number[][] {
-  const ans: number[][] = [];
-  const dfs = (root: Node | null, i: number) => {
-    if (root === null) {
-      return;
-    }
-    if (ans.length <= i) {
-      ans.push([]);
-    }
-    const { val, children } = root;
-    ans[i++].push(val);
-    children.forEach((node) => dfs(node, i));
-  };
-  dfs(root, 0);
-  return ans;
+    const ans: number[][] = [];
+    const dfs = (root: Node | null, i: number) => {
+        if (root === null) {
+            return;
+        }
+        if (ans.length <= i) {
+            ans.push([]);
+        }
+        const { val, children } = root;
+        ans[i++].push(val);
+        children.forEach(node => dfs(node, i));
+    };
+    dfs(root, 0);
+    return ans;
 }
 ```
 

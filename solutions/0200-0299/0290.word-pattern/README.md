@@ -1,90 +1,74 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0290.Word%20Pattern/README.md
 tags:
-    - Hash Table
-    - String
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [290. Word Pattern](https://leetcode.com/problems/word-pattern)
+# [290. 单词规律](https://leetcode.cn/problems/word-pattern)
 
-## Description
+[English Version](/solution/0200-0299/0290.Word%20Pattern/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <code>pattern</code> and a string <code>s</code>, find if <code>s</code>&nbsp;follows the same pattern.</p>
+<p>给定一种规律 <code>pattern</code>&nbsp;和一个字符串&nbsp;<code>s</code>&nbsp;，判断 <code>s</code>&nbsp;是否遵循相同的规律。</p>
 
-<p>Here <b>follow</b> means a full match, such that there is a bijection between a letter in <code>pattern</code> and a <b>non-empty</b> word in <code>s</code>. Specifically:</p>
-
-<ul>
-	<li>Each letter in <code>pattern</code> maps to <strong>exactly</strong> one unique word in <code>s</code>.</li>
-	<li>Each unique word in <code>s</code> maps to <strong>exactly</strong> one letter in <code>pattern</code>.</li>
-	<li>No two letters map to the same word, and no two words map to the same letter.</li>
-</ul>
+<p>这里的&nbsp;<strong>遵循&nbsp;</strong>指完全匹配，例如，&nbsp;<code>pattern</code>&nbsp;里的每个字母和字符串&nbsp;<code>s</code><strong>&nbsp;</strong>中的每个非空单词之间存在着双向连接的对应规律。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">pattern = &quot;abba&quot;, s = &quot;dog cat cat dog&quot;</span></p>
+<p><strong class="example">示例1:</strong></p>
 
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
+<pre>
+<strong>输入:</strong> pattern = <code>"abba"</code>, s = <code>"dog cat cat dog"</code>
+<strong>输出:</strong> true</pre>
 
-<p><strong>Explanation:</strong></p>
+<p><strong class="example">示例 2:</strong></p>
 
-<p>The bijection can be established as:</p>
+<pre>
+<strong>输入:</strong>pattern = <code>"abba"</code>, s = <code>"dog cat cat fish"</code>
+<strong>输出:</strong> false</pre>
 
-<ul>
-	<li><code>&#39;a&#39;</code> maps to <code>&quot;dog&quot;</code>.</li>
-	<li><code>&#39;b&#39;</code> maps to <code>&quot;cat&quot;</code>.</li>
-</ul>
-</div>
+<p><strong class="example">示例 3:</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">pattern = &quot;abba&quot;, s = &quot;dog cat cat fish&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">pattern = &quot;aaaa&quot;, s = &quot;dog cat cat dog&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
-</div>
+<pre>
+<strong>输入:</strong> pattern = <code>"aaaa"</code>, s = <code>"dog cat cat dog"</code>
+<strong>输出:</strong> false</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= pattern.length &lt;= 300</code></li>
-	<li><code>pattern</code> contains only lower-case English letters.</li>
+	<li><code>pattern</code>&nbsp;只包含小写英文字母</li>
 	<li><code>1 &lt;= s.length &lt;= 3000</code></li>
-	<li><code>s</code> contains only lowercase English letters and spaces <code>&#39; &#39;</code>.</li>
-	<li><code>s</code> <strong>does not contain</strong> any leading or trailing spaces.</li>
-	<li>All the words in <code>s</code> are separated by a <strong>single space</strong>.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母和&nbsp;<code>' '</code></li>
+	<li><code>s</code>&nbsp;<strong>不包含</strong> 任何前导或尾随对空格</li>
+	<li><code>s</code>&nbsp;中每个单词都被 <strong>单个空格 </strong>分隔</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-First, we split the string $s$ into a word array $ws$ with spaces. If the length of $pattern$ and $ws$ is not equal, return `false` directly. Otherwise, we use two hash tables $d_1$ and $d_2$ to record the correspondence between each character and word in $pattern$ and $ws$.
+我们先将字符串 $s$ 按照空格分割成单词数组 $ws$，如果 $pattern$ 和 $ws$ 的长度不相等，直接返回 `false`。否则，我们使用两个哈希表 $d_1$ 和 $d_2$，分别记录 $pattern$ 和 $ws$ 中每个字符和单词的对应关系。
 
-Then, we traverse $pattern$ and $ws$. For each character $a$ and word $b$, if there is a mapping for $a$ in $d_1$, and the mapped word is not $b$, or there is a mapping for $b$ in $d_2$, and the mapped character is not $a$, return `false`. Otherwise, we add the mapping of $a$ and $b$ to $d_1$ and $d_2$ respectively.
+接下来，我们遍历 $pattern$ 和 $ws$，对于每个字符 $a$ 和单词 $b$，如果 $d_1$ 中存在 $a$ 的映射，且映射的单词不是 $b$，或者 $d_2$ 中存在 $b$ 的映射，且映射的字符不是 $a$，则返回 `false`。否则，我们将 $a$ 和 $b$ 的映射分别加入 $d_1$ 和 $d_2$ 中。
 
-After the traversal, return `true`.
+遍历结束后，返回 `true`。
 
-The time complexity is $O(m + n)$ and the space complexity is $O(m + n)$. Here $m$ and $n$ are the length of $pattern$ and string $s$.
+时间复杂度 $O(m + n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别是 $pattern$ 和字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -279,7 +263,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：哈希表的另一种写法
 
 <!-- tabs:start -->
 

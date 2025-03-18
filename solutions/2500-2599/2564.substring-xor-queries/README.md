@@ -1,82 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2564.Substring%20XOR%20Queries/README.md
 rating: 1959
-source: Weekly Contest 332 Q3
+source: 第 332 场周赛 Q3
 tags:
-  - Bit Manipulation
-  - Array
-  - Hash Table
-  - String
+    - 位运算
+    - 数组
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2564. Substring XOR Queries](https://leetcode.com/problems/substring-xor-queries)
+# [2564. 子字符串异或查询](https://leetcode.cn/problems/substring-xor-queries)
 
-## Description
+[English Version](/solution/2500-2599/2564.Substring%20XOR%20Queries/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>binary string</strong> <code>s</code>, and a <strong>2D</strong> integer array <code>queries</code> where <code>queries[i] = [first<sub>i</sub>, second<sub>i</sub>]</code>.</p>
+<p>给你一个 <strong>二进制字符串</strong>&nbsp;<code>s</code>&nbsp;和一个整数数组&nbsp;<code>queries</code>&nbsp;，其中&nbsp;<code>queries[i] = [first<sub>i</sub>, second<sub>i</sub>]</code>&nbsp;。</p>
 
-<p>For the <code>i<sup>th</sup></code> query, find the <strong>shortest substring</strong> of <code>s</code> whose <strong>decimal value</strong>, <code>val</code>, yields <code>second<sub>i</sub></code> when <strong>bitwise XORed</strong> with <code>first<sub>i</sub></code>. In other words, <code>val ^ first<sub>i</sub> == second<sub>i</sub></code>.</p>
+<p>对于第&nbsp;<code>i</code>&nbsp;个查询，找到 <code>s</code>&nbsp;的 <strong>最短子字符串</strong>&nbsp;，它对应的 <strong>十进制</strong>值&nbsp;<code>val</code>&nbsp;与&nbsp;<code>first<sub>i</sub></code>&nbsp;<b>按位异或</b>&nbsp;得到&nbsp;<code>second<sub>i</sub></code>&nbsp;，换言之，<code>val ^ first<sub>i</sub> == second<sub>i</sub></code>&nbsp;。</p>
 
-<p>The answer to the <code>i<sup>th</sup></code> query is the endpoints (<strong>0-indexed</strong>) of the substring <code>[left<sub>i</sub>, right<sub>i</sub>]</code> or <code>[-1, -1]</code> if no such substring exists. If there are multiple answers, choose the one with the <strong>minimum</strong> <code>left<sub>i</sub></code>.</p>
+<p>第&nbsp;<code>i</code>&nbsp;个查询的答案是子字符串&nbsp;<code>[left<sub>i</sub>, right<sub>i</sub>]</code> 的两个端点（下标从&nbsp;<strong>0</strong>&nbsp;开始），如果不存在这样的子字符串，则答案为&nbsp;<code>[-1, -1]</code>&nbsp;。如果有多个答案，请你选择&nbsp;<code>left<sub>i</sub></code>&nbsp;最小的一个。</p>
 
-<p><em>Return an array</em> <code>ans</code> <em>where</em> <code>ans[i] = [left<sub>i</sub>, right<sub>i</sub>]</code> <em>is the answer to the</em> <code>i<sup>th</sup></code> <em>query.</em></p>
+<p>请你返回一个数组&nbsp;<code>ans</code>&nbsp;，其中&nbsp;<code>ans[i] = [left<sub>i</sub>, right<sub>i</sub>]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;个查询的答案。</p>
 
-<p>A <strong>substring</strong> is a contiguous non-empty sequence of characters within a string.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;101101&quot;, queries = [[0,5],[1,2]]
-<strong>Output:</strong> [[0,2],[2,3]]
-<strong>Explanation:</strong> For the first query the substring in range <code>[0,2]</code> is <strong>&quot;101&quot;</strong> which has a decimal value of <strong><code>5</code></strong>, and <strong><code>5 ^ 0 = 5</code></strong>, hence the answer to the first query is <code>[0,2]</code>. In the second query, the substring in range <code>[2,3]</code> is <strong>&quot;11&quot;,</strong> and has a decimal value of <strong>3</strong>, and <strong>3<code> ^ 1 = 2</code></strong>.&nbsp;So, <code>[2,3]</code> is returned for the second query. 
-
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;0101&quot;, queries = [[12,8]]
-<strong>Output:</strong> [[-1,-1]]
-<strong>Explanation:</strong> In this example there is no substring that answers the query, hence <code>[-1,-1] is returned</code>.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;1&quot;, queries = [[4,5]]
-<strong>Output:</strong> [[0,0]]
-<strong>Explanation:</strong> For this example, the substring in range <code>[0,0]</code> has a decimal value of <strong><code>1</code></strong>, and <strong><code>1 ^ 4 = 5</code></strong>. So, the answer is <code>[0,0]</code>.
-</pre>
+<p><strong>子字符串</strong>&nbsp;是一个字符串中一段连续非空的字符序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>s = "101101", queries = [[0,5],[1,2]]
+<b>输出：</b>[[0,2],[2,3]]
+<b>解释：</b>第一个查询，端点为 <code>[0,2]</code> 的子字符串为 <strong>"101"</strong> ，对应十进制数字 <strong><code>5 ，且</code></strong> <strong><code>5 ^ 0 = 5</code></strong>&nbsp;，所以第一个查询的答案为 <code>[0,2]。第二个查询中，</code>端点为 <code>[2,3] 的子字符串为 </code><strong>"11" ，对应十进制数字</strong> <strong>3</strong>&nbsp;，且 <strong>3<code> ^ 1 = 2</code></strong><code>&nbsp;。所以第二个查询的答案为</code> <code>[2,3]</code> 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>s = "0101", queries = [[12,8]]
+<b>输出：</b>[[-1,-1]]
+<b>解释：</b>这个例子中，没有符合查询的答案，所以返回 <code>[-1,-1] 。</code>
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>s = "1", queries = [[4,5]]
+<b>输出：</b>[[0,0]]
+<b>解释：</b>这个例子中，端点为 <code>[0,0]</code> 的子字符串对应的十进制值为 <strong><code>1</code></strong><code>&nbsp;，且</code> <strong><code>1 ^ 4 = 5</code></strong><code>&nbsp;。所以答案为</code> <code>[0,0] 。</code>
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>s[i]</code>&nbsp;要么是&nbsp;<code>'0'</code>&nbsp;，要么是&nbsp;<code>'1'</code>&nbsp;。</li>
 	<li><code>1 &lt;= queries.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= first<sub>i</sub>, second<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
 </ul>
 
+<p>&nbsp;</p>
+
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Preprocessing + Enumeration
+### 方法一：预处理 + 枚举
 
-We can first preprocess all substrings of length $1$ to $32$ into their corresponding decimal values, find the minimum index and the corresponding right endpoint index for each value, and store them in the hash table $d$.
+我们可以先预处理出所有长度为 $1$ 到 $32$ 的子串对应的十进制值，找到每个值对应的最小下标以及对应的右端点下标，存放在哈希表 $d$ 中。
 
-Then we enumerate each query. For each query $[first, second]$, we only need to check in the hash table $d$ whether there exists a key-value pair with the key as $first \oplus second$. If it exists, add the corresponding minimum index and right endpoint index to the answer array. Otherwise, add $[-1, -1]$.
+然后枚举每个查询，对于每个查询 $[first, second]$，我们只需要在哈希表 $d$ 中查找是否存在键为 $first \oplus second$ 的键值对，如果存在，把对应的最小下标和右端点下标加入答案数组即可，否则加入 $[-1, -1]$。
 
-The time complexity is $O(n \times \log M + m)$, and the space complexity is $O(n \times \log M)$. Where $n$ and $m$ are the lengths of the string $s$ and the query array $queries$ respectively, and $M$ can take the maximum value of an integer $2^{31} - 1$.
+时间复杂度 $O(n \times \log M + m)$，空间复杂度 $O(n \times \log M)$。其中 $n$ 和 $m$ 分别为字符串 $s$ 和查询数组 $queries$ 的长度，而 $M$ 可以取整数的最大值 $2^{31} - 1$。
 
 <!-- tabs:start -->
 

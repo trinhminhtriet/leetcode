@@ -1,110 +1,117 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2151.Maximum%20Good%20People%20Based%20on%20Statements/README.md
 rating: 1979
-source: Weekly Contest 277 Q4
+source: 第 277 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Array
-  - Backtracking
-  - Enumeration
+    - 位运算
+    - 数组
+    - 回溯
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2151. Maximum Good People Based on Statements](https://leetcode.com/problems/maximum-good-people-based-on-statements)
+# [2151. 基于陈述统计最多好人数](https://leetcode.cn/problems/maximum-good-people-based-on-statements)
 
-## Description
+[English Version](/solution/2100-2199/2151.Maximum%20Good%20People%20Based%20on%20Statements/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are two types of persons:</p>
+<p>游戏中存在两种角色：</p>
 
 <ul>
-	<li>The <strong>good person</strong>: The person who always tells the truth.</li>
-	<li>The <strong>bad person</strong>: The person who might tell the truth and might lie.</li>
+	<li><strong>好人</strong>：该角色只说真话。</li>
+	<li><strong>坏人</strong>：该角色可能说真话，也可能说假话。</li>
 </ul>
 
-<p>You are given a <strong>0-indexed</strong> 2D integer array <code>statements</code> of size <code>n x n</code> that represents the statements made by <code>n</code> people about each other. More specifically, <code>statements[i][j]</code> could be one of the following:</p>
+<p>给你一个下标从 <strong>0</strong> 开始的二维整数数组 <code>statements</code> ，大小为 <code>n x n</code> ，表示 <code>n</code> 个玩家对彼此角色的陈述。具体来说，<code>statements[i][j]</code> 可以是下述值之一：</p>
 
 <ul>
-	<li><code>0</code> which represents a statement made by person <code>i</code> that person <code>j</code> is a <strong>bad</strong> person.</li>
-	<li><code>1</code> which represents a statement made by person <code>i</code> that person <code>j</code> is a <strong>good</strong> person.</li>
-	<li><code>2</code> represents that <strong>no statement</strong> is made by person <code>i</code> about person <code>j</code>.</li>
+	<li><code>0</code> 表示 <code>i</code> 的陈述认为 <code>j</code> 是 <strong>坏人</strong> 。</li>
+	<li><code>1</code> 表示 <code>i</code> 的陈述认为 <code>j</code> 是 <strong>好人</strong> 。</li>
+	<li><code>2</code> 表示 <code>i</code> 没有对 <code>j</code> 作出陈述。</li>
 </ul>
 
-<p>Additionally, no person ever makes a statement about themselves. Formally, we have that <code>statements[i][i] = 2</code> for all <code>0 &lt;= i &lt; n</code>.</p>
+<p>另外，玩家不会对自己进行陈述。形式上，对所有&nbsp;<code>0 &lt;= i &lt; n</code> ，都有 <code>statements[i][i] = 2</code> 。</p>
 
-<p>Return <em>the <strong>maximum</strong> number of people who can be <strong>good</strong> based on the statements made by the </em><code>n</code><em> people</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2151.Maximum%20Good%20People%20Based%20on%20Statements/images/logic1.jpg" style="width: 600px; height: 262px;" />
-<pre>
-<strong>Input:</strong> statements = [[2,1,2],[1,2,2],[2,0,2]]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Each person makes a single statement.
-- Person 0 states that person 1 is good.
-- Person 1 states that person 0 is good.
-- Person 2 states that person 1 is bad.
-Let&#39;s take person 2 as the key.
-- Assuming that person 2 is a good person:
-    - Based on the statement made by person 2, person 1 is a bad person.
-    - Now we know for sure that person 1 is bad and person 2 is good.
-    - Based on the statement made by person 1, and since person 1 is bad, they could be:
-        - telling the truth. There will be a contradiction in this case and this assumption is invalid.
-        - lying. In this case, person 0 is also a bad person and lied in their statement.
-    - <strong>Following that person 2 is a good person, there will be only one good person in the group</strong>.
-- Assuming that person 2 is a bad person:
-    - Based on the statement made by person 2, and since person 2 is bad, they could be:
-        - telling the truth. Following this scenario, person 0 and 1 are both bad as explained before.
-            - <strong>Following that person 2 is bad but told the truth, there will be no good persons in the group</strong>.
-        - lying. In this case person 1 is a good person.
-            - Since person 1 is a good person, person 0 is also a good person.
-            - <strong>Following that person 2 is bad and lied, there will be two good persons in the group</strong>.
-We can see that at most 2 persons are good in the best case, so we return 2.
-Note that there is more than one way to arrive at this conclusion.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2151.Maximum%20Good%20People%20Based%20on%20Statements/images/logic2.jpg" style="width: 600px; height: 262px;" />
-<pre>
-<strong>Input:</strong> statements = [[2,0],[0,2]]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> Each person makes a single statement.
-- Person 0 states that person 1 is bad.
-- Person 1 states that person 0 is bad.
-Let&#39;s take person 0 as the key.
-- Assuming that person 0 is a good person:
-    - Based on the statement made by person 0, person 1 is a bad person and was lying.
-    - <strong>Following that person 0 is a good person, there will be only one good person in the group</strong>.
-- Assuming that person 0 is a bad person:
-    - Based on the statement made by person 0, and since person 0 is bad, they could be:
-        - telling the truth. Following this scenario, person 0 and 1 are both bad.
-            - <strong>Following that person 0 is bad but told the truth, there will be no good persons in the group</strong>.
-        - lying. In this case person 1 is a good person.
-            - <strong>Following that person 0 is bad and lied, there will be only one good person in the group</strong>.
-We can see that at most, one person is good in the best case, so we return 1.
-Note that there is more than one way to arrive at this conclusion.
-</pre>
+<p>根据这 <code>n</code> 个玩家的陈述，返回可以认为是 <strong>好人</strong> 的 <strong>最大</strong> 数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2151.Maximum%20Good%20People%20Based%20on%20Statements/images/logic1.jpg" style="width: 600px; height: 262px;">
+<pre><strong>输入：</strong>statements = [[2,1,2],[1,2,2],[2,0,2]]
+<strong>输出：</strong>2
+<strong>解释：</strong>每个人都做一条陈述。
+- 0 认为 1 是好人。
+- 1 认为 0 是好人。
+- 2 认为 1 是坏人。
+以 2 为突破点。
+- 假设 2 是一个好人：
+    - 基于 2 的陈述，1 是坏人。
+    - 那么可以确认 1 是坏人，2 是好人。
+    - 基于 1 的陈述，由于 1 是坏人，那么他在陈述时可能：
+        - 说真话。在这种情况下会出现矛盾，所以假设无效。
+        - 说假话。在这种情况下，0 也是坏人并且在陈述时说假话。
+    - <strong>在认为 2 是好人的情况下，这组玩家中只有一个好人。</strong>
+- 假设 2 是一个坏人：
+    - 基于 2 的陈述，由于 2 是坏人，那么他在陈述时可能：
+        - 说真话。在这种情况下，0 和 1 都是坏人。
+            - <strong>在认为 2 是坏人但说真话的情况下，这组玩家中没有一个好人。</strong>
+        - 说假话。在这种情况下，1 是好人。
+            - 由于 1 是好人，0 也是好人。
+            - <strong>在认为 2 是坏人且说假话的情况下，这组玩家中有两个好人。</strong>
+在最佳情况下，至多有两个好人，所以返回 2 。
+注意，能得到此结论的方法不止一种。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2151.Maximum%20Good%20People%20Based%20on%20Statements/images/logic2.jpg" style="width: 600px; height: 262px;">
+<pre><strong>输入：</strong>statements = [[2,0],[0,2]]
+<strong>输出：</strong>1
+<strong>解释：</strong>每个人都做一条陈述。
+- 0 认为 1 是坏人。
+- 1 认为 0 是坏人。
+以 0 为突破点。
+- 假设 0 是一个好人：
+    - 基于与 0 的陈述，1 是坏人并说假话。
+    - <strong>在认为 0 是好人的情况下，这组玩家中只有一个好人。</strong>
+- 假设 0 是一个坏人：
+    - 基于 0 的陈述，由于 0 是坏人，那么他在陈述时可能：
+        - 说真话。在这种情况下，0 和 1 都是坏人。
+            - <strong>在认为 0 是坏人但说真话的情况下，这组玩家中没有一个好人。</strong>
+        - 说假话。在这种情况下，1 是好人。
+            - <strong>在认为 0 是坏人且说假话的情况下，这组玩家中只有一个好人。</strong>
+在最佳情况下，至多有一个好人，所以返回 1 。 
+注意，能得到此结论的方法不止一种。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == statements.length == statements[i].length</code></li>
 	<li><code>2 &lt;= n &lt;= 15</code></li>
-	<li><code>statements[i][j]</code> is either <code>0</code>, <code>1</code>, or <code>2</code>.</li>
+	<li><code>statements[i][j]</code> 的值为 <code>0</code>、<code>1</code> 或 <code>2</code></li>
 	<li><code>statements[i][i] == 2</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：二进制枚举
+
+二进制枚举好人的状态 $mask$，由于“好人只说真话”，我们借此判断 $statements$ 与 $mask$ 是否存在矛盾，不存在则获取 $mask$ 中好人的数量 $cnt$。迭代获取最大的合法 $cnt$。
+
+时间复杂度 $O(2^n*n^2)$，其中 $n$ 表示 $statements$ 的长度。
 
 <!-- tabs:start -->
 
@@ -113,17 +120,17 @@ Note that there is more than one way to arrive at this conclusion.
 ```python
 class Solution:
     def maximumGood(self, statements: List[List[int]]) -> int:
-        def check(mask):
+        def check(mask: int) -> int:
             cnt = 0
-            for i, s in enumerate(statements):
-                if (mask >> i) & 1:
-                    for j, v in enumerate(s):
-                        if v < 2 and ((mask >> j) & 1) != v:
+            for i, row in enumerate(statements):
+                if mask >> i & 1:
+                    for j, x in enumerate(row):
+                        if x < 2 and (mask >> j & 1) != x:
                             return 0
                     cnt += 1
             return cnt
 
-        return max(check(mask) for mask in range(1, 1 << len(statements)))
+        return max(check(i) for i in range(1, 1 << len(statements)))
 ```
 
 #### Java
@@ -216,27 +223,27 @@ func maximumGood(statements [][]int) int {
 
 ```ts
 function maximumGood(statements: number[][]): number {
-  const n = statements.length;
-  function check(mask) {
-    let cnt = 0;
-    for (let i = 0; i < n; ++i) {
-      if ((mask >> i) & 1) {
-        for (let j = 0; j < n; ++j) {
-          const v = statements[i][j];
-          if (v < 2 && ((mask >> j) & 1) != v) {
-            return 0;
-          }
+    const n = statements.length;
+    function check(mask) {
+        let cnt = 0;
+        for (let i = 0; i < n; ++i) {
+            if ((mask >> i) & 1) {
+                for (let j = 0; j < n; ++j) {
+                    const v = statements[i][j];
+                    if (v < 2 && ((mask >> j) & 1) != v) {
+                        return 0;
+                    }
+                }
+                ++cnt;
+            }
         }
-        ++cnt;
-      }
+        return cnt;
     }
-    return cnt;
-  }
-  let ans = 0;
-  for (let mask = 1; mask < 1 << n; ++mask) {
-    ans = Math.max(ans, check(mask));
-  }
-  return ans;
+    let ans = 0;
+    for (let mask = 1; mask < 1 << n; ++mask) {
+        ans = Math.max(ans, check(mask));
+    }
+    return ans;
 }
 ```
 

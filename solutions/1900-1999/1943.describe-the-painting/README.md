@@ -1,102 +1,107 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1943.Describe%20the%20Painting/README.md
 rating: 1969
-source: Biweekly Contest 57 Q3
+source: 第 57 场双周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Prefix Sum
-  - Sorting
+    - 数组
+    - 哈希表
+    - 前缀和
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1943. Describe the Painting](https://leetcode.com/problems/describe-the-painting)
+# [1943. 描述绘画结果](https://leetcode.cn/problems/describe-the-painting)
 
-## Description
+[English Version](/solution/1900-1999/1943.Describe%20the%20Painting/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a long and thin painting that can be represented by a number line. The painting was painted with multiple overlapping segments where each segment was painted with a <strong>unique</strong> color. You are given a 2D integer array <code>segments</code>, where <code>segments[i] = [start<sub>i</sub>, end<sub>i</sub>, color<sub>i</sub>]</code> represents the <strong>half-closed segment</strong> <code>[start<sub>i</sub>, end<sub>i</sub>)</code> with <code>color<sub>i</sub></code> as the color.</p>
+<p>给你一个细长的画，用数轴表示。这幅画由若干有重叠的线段表示，每个线段有 <strong>独一无二</strong>&nbsp;的颜色。给你二维整数数组&nbsp;<code>segments</code>&nbsp;，其中&nbsp;<code>segments[i] = [start<sub>i</sub>, end<sub>i</sub>, color<sub>i</sub>]</code>&nbsp;表示线段为&nbsp;<strong>半开区间</strong>&nbsp;<code>[start<sub>i</sub>, end<sub>i</sub>)</code> 且颜色为&nbsp;<code>color<sub>i</sub></code>&nbsp;。</p>
 
-<p>The colors in the overlapping segments of the painting were <strong>mixed</strong> when it was painted. When two or more colors mix, they form a new color that can be represented as a <strong>set</strong> of mixed colors.</p>
+<p>线段间重叠部分的颜色会被 <strong>混合</strong>&nbsp;。如果有两种或者更多颜色混合时，它们会形成一种新的颜色，用一个 <strong>集合</strong>&nbsp;表示这个混合颜色。</p>
 
 <ul>
-	<li>For example, if colors <code>2</code>, <code>4</code>, and <code>6</code> are mixed, then the resulting mixed color is <code>{2,4,6}</code>.</li>
+	<li>比方说，如果颜色&nbsp;<code>2</code>&nbsp;，<code>4</code>&nbsp;和&nbsp;<code>6</code>&nbsp;被混合，那么结果颜色为&nbsp;<code>{2,4,6}</code>&nbsp;。</li>
 </ul>
 
-<p>For the sake of simplicity, you should only output the <strong>sum</strong> of the elements in the set rather than the full set.</p>
+<p>为了简化题目，你不需要输出整个集合，只需要用集合中所有元素的 <strong>和</strong>&nbsp;来表示颜色集合。</p>
 
-<p>You want to <strong>describe</strong> the painting with the <strong>minimum</strong> number of non-overlapping <strong>half-closed segments</strong> of these mixed colors. These segments can be represented by the 2D array <code>painting</code> where <code>painting[j] = [left<sub>j</sub>, right<sub>j</sub>, mix<sub>j</sub>]</code> describes a <strong>half-closed segment</strong> <code>[left<sub>j</sub>, right<sub>j</sub>)</code> with the mixed color <strong>sum</strong> of <code>mix<sub>j</sub></code>.</p>
+<p>你想要用 <strong>最少数目</strong>&nbsp;不重叠 <strong>半开区间</strong>&nbsp;来 <b>表示</b>&nbsp;这幅混合颜色的画。这些线段可以用二维数组&nbsp;<code>painting</code>&nbsp;表示，其中 <code>painting[j] = [left<sub>j</sub>, right<sub>j</sub>, mix<sub>j</sub>]</code>&nbsp;表示一个&nbsp;<strong>半开区间</strong><code>[left<sub>j</sub>, right<sub>j</sub>)</code>&nbsp;的颜色 <strong>和</strong>&nbsp;为&nbsp;<code>mix<sub>j</sub></code>&nbsp;。</p>
 
 <ul>
-	<li>For example, the painting created with <code>segments = [[1,4,5],[1,7,7]]</code> can be described by <code>painting = [[1,4,12],[4,7,7]]</code> because:
+	<li>比方说，这幅画由&nbsp;<code>segments = [[1,4,5],[1,7,7]]</code>&nbsp;组成，那么它可以表示为&nbsp;<code>painting = [[1,4,12],[4,7,7]]</code>&nbsp;，因为：
 
     <ul>
-    	<li><code>[1,4)</code> is colored <code>{5,7}</code> (with a sum of <code>12</code>) from both the first and second segments.</li>
-    	<li><code>[4,7)</code> is colored <code>{7}</code> from only the second segment.</li>
+    	<li><code>[1,4)</code>&nbsp;由颜色&nbsp;<code>{5,7}</code>&nbsp;组成（和为&nbsp;<code>12</code>），分别来自第一个线段和第二个线段。</li>
+    	<li><code>[4,7)</code>&nbsp;由颜色 <code>{7}</code>&nbsp;组成，来自第二个线段。</li>
     </ul>
     </li>
 
 </ul>
 
-<p>Return <em>the 2D array </em><code>painting</code><em> describing the finished painting (excluding any parts that are <strong>not </strong>painted). You may return the segments in <strong>any order</strong></em>.</p>
+<p>请你返回二维数组&nbsp;<code>painting</code>&nbsp;，它表示最终绘画的结果（<strong>没有</strong>&nbsp;被涂色的部分不出现在结果中）。你可以按 <strong>任意顺序</strong> 返回最终数组的结果。</p>
 
-<p>A <strong>half-closed segment</strong> <code>[a, b)</code> is the section of the number line between points <code>a</code> and <code>b</code> <strong>including</strong> point <code>a</code> and <strong>not including</strong> point <code>b</code>.</p>
+<p><strong>半开区间&nbsp;</strong><code>[a, b)</code>&nbsp;是数轴上点&nbsp;<code>a</code> 和点&nbsp;<code>b</code>&nbsp;之间的部分，<strong>包含 </strong>点&nbsp;<code>a</code>&nbsp;且 <strong>不包含</strong>&nbsp;点&nbsp;<code>b</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1943.Describe%20the%20Painting/images/1.png" style="width: 529px; height: 241px;" />
 <pre>
-<strong>Input:</strong> segments = [[1,4,5],[4,7,7],[1,7,9]]
-<strong>Output:</strong> [[1,4,14],[4,7,16]]
-<strong>Explanation: </strong>The painting can be described as follows:
-- [1,4) is colored {5,9} (with a sum of 14) from the first and third segments.
-- [4,7) is colored {7,9} (with a sum of 16) from the second and third segments.
+<b>输入：</b>segments = [[1,4,5],[4,7,7],[1,7,9]]
+<b>输出：</b>[[1,4,14],[4,7,16]]
+<strong>解释：</strong>绘画结果可以表示为：
+- [1,4) 颜色为 {5,9} （和为 14），分别来自第一和第二个线段。
+- [4,7) 颜色为 {7,9} （和为 16），分别来自第二和第三个线段。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1943.Describe%20the%20Painting/images/2.png" style="width: 532px; height: 219px;" />
 <pre>
-<strong>Input:</strong> segments = [[1,7,9],[6,8,15],[8,10,7]]
-<strong>Output:</strong> [[1,6,9],[6,7,24],[7,8,15],[8,10,7]]
-<strong>Explanation: </strong>The painting can be described as follows:
-- [1,6) is colored 9 from the first segment.
-- [6,7) is colored {9,15} (with a sum of 24) from the first and second segments.
-- [7,8) is colored 15 from the second segment.
-- [8,10) is colored 7 from the third segment.
+<b>输入：</b>segments = [[1,7,9],[6,8,15],[8,10,7]]
+<b>输出：</b>[[1,6,9],[6,7,24],[7,8,15],[8,10,7]]
+<b>解释：</b>绘画结果可以以表示为：
+- [1,6) 颜色为 9 ，来自第一个线段。
+- [6,7) 颜色为 {9,15} （和为 24），来自第一和第二个线段。
+- [7,8) 颜色为 15 ，来自第二个线段。
+- [8,10) 颜色为 7 ，来自第三个线段。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1943.Describe%20the%20Painting/images/c1.png" style="width: 529px; height: 289px;" />
 <pre>
-<strong>Input:</strong> segments = [[1,4,5],[1,4,7],[4,7,1],[4,7,11]]
-<strong>Output:</strong> [[1,4,12],[4,7,12]]
-<strong>Explanation: </strong>The painting can be described as follows:
-- [1,4) is colored {5,7} (with a sum of 12) from the first and second segments.
-- [4,7) is colored {1,11} (with a sum of 12) from the third and fourth segments.
-Note that returning a single segment [1,7) is incorrect because the mixed color sets are different.
+<b>输入：</b>segments = [[1,4,5],[1,4,7],[4,7,1],[4,7,11]]
+<b>输出：</b>[[1,4,12],[4,7,12]]
+<strong>解释：</strong>绘画结果可以表示为：
+- [1,4) 颜色为 {5,7} （和为 12），分别来自第一和第二个线段。
+- [4,7) 颜色为 {1,11} （和为 12），分别来自第三和第四个线段。
+注意，只返回一个单独的线段 [1,7) 是不正确的，因为混合颜色的集合不相同。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= segments.length &lt;= 2 * 10<sup>4</sup></code></li>
 	<li><code>segments[i].length == 3</code></li>
 	<li><code>1 &lt;= start<sub>i</sub> &lt; end<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= color<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
-	<li>Each <code>color<sub>i</sub></code> is distinct.</li>
+	<li>每种颜色&nbsp;<code>color<sub>i</sub></code>&nbsp;互不相同。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：差分数组
 
 <!-- tabs:start -->
 

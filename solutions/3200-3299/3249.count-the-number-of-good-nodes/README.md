@@ -1,98 +1,105 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3249.Count%20the%20Number%20of%20Good%20Nodes/README.md
 rating: 1565
-source: Weekly Contest 410 Q2
+source: 第 410 场周赛 Q2
 tags:
-  - Tree
-  - Depth-First Search
+    - 树
+    - 深度优先搜索
 ---
 
 <!-- problem:start -->
 
-# [3249. Count the Number of Good Nodes](https://leetcode.com/problems/count-the-number-of-good-nodes)
+# [3249. 统计好节点的数目](https://leetcode.cn/problems/count-the-number-of-good-nodes)
 
-## Description
+[English Version](/solution/3200-3299/3249.Count%20the%20Number%20of%20Good%20Nodes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an <strong>undirected</strong> tree with <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>, and rooted at node <code>0</code>. You are given a 2D integer array <code>edges</code> of length <code>n - 1</code>, where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree.</p>
+<p>现有一棵 <strong>无向</strong> 树，树中包含 <code>n</code> 个节点，按从 <code>0</code> 到 <code>n - 1</code> 标记。树的根节点是节点 <code>0</code> 。给你一个长度为 <code>n - 1</code> 的二维整数数组 <code>edges</code>，其中 <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 表示树中节点 <code>a<sub>i</sub></code> 与节点 <code>b<sub>i</sub></code> 之间存在一条边。</p>
 
-<p>A node is <strong>good</strong> if all the <span data-keyword="subtree">subtrees</span> rooted at its children have the same size.</p>
+<p>如果一个节点的所有子节点为根的&nbsp;<span data-keyword="subtree">子树</span>&nbsp;包含的节点数相同，则认为该节点是一个 <strong>好节点</strong>。</p>
 
-<p>Return the number of <strong>good</strong> nodes in the given tree.</p>
+<p>返回给定树中<strong> 好节点 </strong>的数量。</p>
 
-<p>A <strong>subtree</strong> of <code>treeName</code> is a tree consisting of a node in <code>treeName</code> and all of its descendants.</p>
+<p><strong>子树</strong>&nbsp;指的是一个节点以及它所有后代节点构成的一棵树。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p>&nbsp;</p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]</span></p>
+<p><strong>输入：</strong><span class="example-io">edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">7</span></p>
+<p><strong>输出：</strong><span class="example-io">7</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>说明：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3249.Count%20the%20Number%20of%20Good%20Nodes/images/tree1.png" style="width: 360px; height: 158px;" />
-<p>All of the nodes of the given tree are good.</p>
+<p>树的所有节点都是好节点。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">edges = [[0,1],[1,2],[2,3],[3,4],[0,5],[1,6],[2,7],[3,8]]</span></p>
+<p><strong>输入：</strong><span class="example-io">edges = [[0,1],[1,2],[2,3],[3,4],[0,5],[1,6],[2,7],[3,8]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">6</span></p>
+<p><strong>输出：</strong><span class="example-io">6</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>说明：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3249.Count%20the%20Number%20of%20Good%20Nodes/images/screenshot-2024-06-03-193552.png" style="width: 360px; height: 303px;" />
-<p>There are 6 good nodes in the given tree. They are colored in the image above.</p>
+<p>树中有 6 个好节点。上图中已将这些节点着色。</p>
+</div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">edges = [[0,1],[1,2],[1,3],[1,4],[0,5],[5,6],[6,7],[7,8],[0,9],[9,10],[9,12],[10,11]]</span></p>
+<p><span class="example-io"><b>输入：</b>edges = [[0,1],[1,2],[1,3],[1,4],[0,5],[5,6],[6,7],[7,8],[0,9],[9,10],[9,12],[10,11]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">12</span></p>
+<p><span class="example-io"><b>输出：</b>12</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3249.Count%20the%20Number%20of%20Good%20Nodes/images/rob.jpg" style="width: 450px; height: 277px;" />
-<p>All nodes except node 9 are good.</p>
-</div>
+<p>除了节点 9 以外其他所有节点都是好节点。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
-	<li>The input is generated such that <code>edges</code> represents a valid tree.</li>
+	<li>输入确保 <code>edges</code> 总表示一棵有效的树。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-First, we construct the adjacency list $\textit{g}$ of the tree based on the given edges $\textit{edges}$, where $\textit{g}[a]$ represents all the neighboring nodes of node $a$.
+我们先根据题目给定的边 $\textit{edges}$ 构建出树的邻接表 $\textit{g}$，其中 $\textit{g}[a]$ 表示节点 $a$ 的所有邻居节点。
 
-Next, we design a function $\textit{dfs}(a, \textit{fa})$ to calculate the number of nodes in the subtree rooted at node $a$ and to accumulate the count of good nodes. Here, $\textit{fa}$ represents the parent node of node $a$.
+然后，我们设计一个函数 $\textit{dfs}(a, \textit{fa})$，表示计算以节点 $a$ 为根的子树中的节点数，并累计好节点的数量。其中 $\textit{fa}$ 表示节点 $a$ 的父节点。
 
-The execution process of the function $\textit{dfs}(a, \textit{fa})$ is as follows:
+函数 $\textit{dfs}(a, \textit{fa})$ 的执行过程如下：
 
-1. Initialize variables $\textit{pre} = -1$, $\textit{cnt} = 1$, $\textit{ok} = 1$, representing the number of nodes in a subtree of node $a$, the total number of nodes in all subtrees of node $a$, and whether node $a$ is a good node, respectively.
-2. Traverse all neighboring nodes $b$ of node $a$. If $b$ is not equal to $\textit{fa}$, recursively call $\textit{dfs}(b, a)$, with the return value being $\textit{cur}$, and add $\textit{cur}$ to $\textit{cnt}$. If $\textit{pre} < 0$, assign $\textit{cur}$ to $\textit{pre}$; otherwise, if $\textit{pre}$ is not equal to $\textit{cur}$, it means the number of nodes in different subtrees of node $a$ is different, and set $\textit{ok}$ to $0$.
-3. Finally, add $\textit{ok}$ to the answer and return $\textit{cnt}$.
+1. 初始化变量 $\textit{pre} = -1$, $\textit{cnt} = 1$, $\textit{ok} = 1$，分别表示节点 $a$ 的某个子树的节点数、节点 $a$ 的所有子树的节点数、以及节点 $a$ 是否为好节点。
+2. 遍历节点 $a$ 的所有邻居节点 $b$，如果 $b$ 不等于 $\textit{fa}$，则递归调用 $\textit{dfs}(b, a)$，返回值为 $\textit{cur}$，并累加到 $\textit{cnt}$ 中。如果 $\textit{pre} < 0$，则将 $\textit{cur}$ 赋值给 $\textit{pre}$；否则，如果 $\textit{pre}$ 不等于 $\textit{cur}$，说明节点 $a$ 的不同子树的节点数不同，将 $\textit{ok}$ 置为 $0$。
+3. 最后，累加 $\textit{ok}$ 到答案中，并返回 $\textit{cnt}$。
 
-In the main function, we call $\textit{dfs}(0, -1)$ and return the final answer.
+在主函数中，我们调用 $\textit{dfs}(0, -1)$，最后返回答案。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ represents the number of nodes.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 表示节点的数量。
 
 <!-- tabs:start -->
 
@@ -178,11 +185,11 @@ public:
             g[b].push_back(a);
         }
         int ans = 0;
-        auto dfs = [&](auto&& dfs, int a, int fa) -> int {
+        auto dfs = [&](this auto&& dfs, int a, int fa) -> int {
             int pre = -1, cnt = 1, ok = 1;
             for (int b : g[a]) {
                 if (b != fa) {
-                    int cur = dfs(dfs, b, a);
+                    int cur = dfs(b, a);
                     cnt += cur;
                     if (pre < 0) {
                         pre = cur;
@@ -194,7 +201,7 @@ public:
             ans += ok;
             return cnt;
         };
-        dfs(dfs, 0, -1);
+        dfs(0, -1);
         return ans;
     }
 };
@@ -237,31 +244,31 @@ func countGoodNodes(edges [][]int) (ans int) {
 
 ```ts
 function countGoodNodes(edges: number[][]): number {
-  const n = edges.length + 1;
-  const g: number[][] = Array.from({ length: n }, () => []);
-  for (const [a, b] of edges) {
-    g[a].push(b);
-    g[b].push(a);
-  }
-  let ans = 0;
-  const dfs = (a: number, fa: number): number => {
-    let [pre, cnt, ok] = [-1, 1, 1];
-    for (const b of g[a]) {
-      if (b !== fa) {
-        const cur = dfs(b, a);
-        cnt += cur;
-        if (pre < 0) {
-          pre = cur;
-        } else if (pre !== cur) {
-          ok = 0;
-        }
-      }
+    const n = edges.length + 1;
+    const g: number[][] = Array.from({ length: n }, () => []);
+    for (const [a, b] of edges) {
+        g[a].push(b);
+        g[b].push(a);
     }
-    ans += ok;
-    return cnt;
-  };
-  dfs(0, -1);
-  return ans;
+    let ans = 0;
+    const dfs = (a: number, fa: number): number => {
+        let [pre, cnt, ok] = [-1, 1, 1];
+        for (const b of g[a]) {
+            if (b !== fa) {
+                const cur = dfs(b, a);
+                cnt += cur;
+                if (pre < 0) {
+                    pre = cur;
+                } else if (pre !== cur) {
+                    ok = 0;
+                }
+            }
+        }
+        ans += ok;
+        return cnt;
+    };
+    dfs(0, -1);
+    return ans;
 }
 ```
 

@@ -1,76 +1,81 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2451.Odd%20String%20Difference/README.md
 rating: 1406
-source: Biweekly Contest 90 Q1
+source: 第 90 场双周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - String
+    - 数组
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2451. Odd String Difference](https://leetcode.com/problems/odd-string-difference)
+# [2451. 差值数组不同的字符串](https://leetcode.cn/problems/odd-string-difference)
 
-## Description
+[English Version](/solution/2400-2499/2451.Odd%20String%20Difference/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of equal-length strings <code>words</code>. Assume that the length of each string is <code>n</code>.</p>
+<p>给你一个字符串数组 <code>words</code>&nbsp;，每一个字符串长度都相同，令所有字符串的长度都为 <code>n</code>&nbsp;。</p>
 
-<p>Each string <code>words[i]</code> can be converted into a <strong>difference integer array</strong> <code>difference[i]</code> of length <code>n - 1</code> where <code>difference[i][j] = words[i][j+1] - words[i][j]</code> where <code>0 &lt;= j &lt;= n - 2</code>. Note that the difference between two letters is the difference between their <strong>positions</strong> in the alphabet i.e.&nbsp;the position of <code>&#39;a&#39;</code> is <code>0</code>, <code>&#39;b&#39;</code> is <code>1</code>, and <code>&#39;z&#39;</code> is <code>25</code>.</p>
+<p>每个字符串&nbsp;<code>words[i]</code>&nbsp;可以被转化为一个长度为&nbsp;<code>n - 1</code>&nbsp;的&nbsp;<strong>差值整数数组</strong>&nbsp;<code>difference[i]</code>&nbsp;，其中对于&nbsp;<code>0 &lt;= j &lt;= n - 2</code>&nbsp;有&nbsp;<code>difference[i][j] = words[i][j+1] - words[i][j]</code>&nbsp;。注意两个字母的差值定义为它们在字母表中&nbsp;<strong>位置</strong>&nbsp;之差，也就是说&nbsp;<code>'a'</code>&nbsp;的位置是&nbsp;<code>0</code>&nbsp;，<code>'b'</code>&nbsp;的位置是&nbsp;<code>1</code>&nbsp;，<code>'z'</code>&nbsp;的位置是&nbsp;<code>25</code>&nbsp;。</p>
 
 <ul>
-	<li>For example, for the string <code>&quot;acb&quot;</code>, the difference integer array is <code>[2 - 0, 1 - 2] = [2, -1]</code>.</li>
+	<li>比方说，字符串&nbsp;<code>"acb"</code>&nbsp;的差值整数数组是&nbsp;<code>[2 - 0, 1 - 2] = [2, -1]</code>&nbsp;。</li>
 </ul>
 
-<p>All the strings in words have the same difference integer array, <strong>except one</strong>. You should find that string.</p>
+<p><code>words</code>&nbsp;中所有字符串 <strong>除了一个字符串以外</strong>&nbsp;，其他字符串的差值整数数组都相同。你需要找到那个不同的字符串。</p>
 
-<p>Return<em> the string in </em><code>words</code><em> that has different <strong>difference integer array</strong>.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;adc&quot;,&quot;wzy&quot;,&quot;abc&quot;]
-<strong>Output:</strong> &quot;abc&quot;
-<strong>Explanation:</strong> 
-- The difference integer array of &quot;adc&quot; is [3 - 0, 2 - 3] = [3, -1].
-- The difference integer array of &quot;wzy&quot; is [25 - 22, 24 - 25]= [3, -1].
-- The difference integer array of &quot;abc&quot; is [1 - 0, 2 - 1] = [1, 1]. 
-The odd array out is [1, 1], so we return the corresponding string, &quot;abc&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;aaa&quot;,&quot;bob&quot;,&quot;ccc&quot;,&quot;ddd&quot;]
-<strong>Output:</strong> &quot;bob&quot;
-<strong>Explanation:</strong> All the integer arrays are [0, 0] except for &quot;bob&quot;, which corresponds to [13, -13].
-</pre>
+<p>请你返回<em>&nbsp;</em><code>words</code>中&nbsp;<strong>差值整数数组</strong>&nbsp;不同的字符串。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>words = ["adc","wzy","abc"]
+<b>输出：</b>"abc"
+<b>解释：</b>
+- "adc" 的差值整数数组是 [3 - 0, 2 - 3] = [3, -1] 。
+- "wzy" 的差值整数数组是 [25 - 22, 24 - 25]= [3, -1] 。
+- "abc" 的差值整数数组是 [1 - 0, 2 - 1] = [1, 1] 。
+不同的数组是 [1, 1]，所以返回对应的字符串，"abc"。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>words = ["aaa","bob","ccc","ddd"]
+<b>输出：</b>"bob"
+<b>解释：</b>除了 "bob" 的差值整数数组是 [13, -13] 以外，其他字符串的差值整数数组都是 [0, 0] 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= words.length &lt;= 100</code></li>
 	<li><code>n == words[i].length</code></li>
 	<li><code>2 &lt;= n &lt;= 20</code></li>
-	<li><code>words[i]</code> consists of lowercase English letters.</li>
+	<li><code>words[i]</code>&nbsp;只含有小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table Simulation
+### 方法一：哈希表模拟
 
-We use a hash table $d$ to maintain the mapping relationship between the difference array of the string and the string itself, where the difference array is an array composed of the differences of adjacent characters in the string. Since the problem guarantees that except for one string, the difference arrays of other strings are the same, we only need to find the string with a different difference array.
+我们用哈希表 $d$ 维护字符串的差值数组和字符串的映射关系，其中差值数组为字符串的相邻字符的差值构成的数组。由于题目保证了除了一个字符串以外，其他字符串的差值数组都相同，因此我们只需要找到差值数组不同的字符串即可。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m + n)$. Here, $m$ and $n$ are the length of the string and the number of strings, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为字符串的长度和字符串的个数。
 
 <!-- tabs:start -->
 
@@ -164,24 +169,24 @@ func oddString(words []string) string {
 
 ```ts
 function oddString(words: string[]): string {
-  const d: Map<string, string[]> = new Map();
-  for (const s of words) {
-    const cs: number[] = [];
-    for (let i = 0; i < s.length - 1; ++i) {
-      cs.push(s[i + 1].charCodeAt(0) - s[i].charCodeAt(0));
+    const d: Map<string, string[]> = new Map();
+    for (const s of words) {
+        const cs: number[] = [];
+        for (let i = 0; i < s.length - 1; ++i) {
+            cs.push(s[i + 1].charCodeAt(0) - s[i].charCodeAt(0));
+        }
+        const t = cs.join(',');
+        if (!d.has(t)) {
+            d.set(t, []);
+        }
+        d.get(t)!.push(s);
     }
-    const t = cs.join(",");
-    if (!d.has(t)) {
-      d.set(t, []);
+    for (const [_, ss] of d) {
+        if (ss.length === 1) {
+            return ss[0];
+        }
     }
-    d.get(t)!.push(s);
-  }
-  for (const [_, ss] of d) {
-    if (ss.length === 1) {
-      return ss[0];
-    }
-  }
-  return "";
+    return '';
 }
 ```
 
@@ -218,7 +223,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

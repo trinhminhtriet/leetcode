@@ -1,83 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3039.Apply%20Operations%20to%20Make%20String%20Empty/README.md
 rating: 1423
-source: Biweekly Contest 124 Q2
+source: 第 124 场双周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Counting
-  - Sorting
+    - 数组
+    - 哈希表
+    - 计数
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3039. Apply Operations to Make String Empty](https://leetcode.com/problems/apply-operations-to-make-string-empty)
+# [3039. 进行操作使字符串为空](https://leetcode.cn/problems/apply-operations-to-make-string-empty)
 
-## Description
+[English Version](/solution/3000-3099/3039.Apply%20Operations%20to%20Make%20String%20Empty/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code>.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;。</p>
 
-<p>Consider performing the following operation until <code>s</code> becomes <strong>empty</strong>:</p>
-
-<ul>
-	<li>For <strong>every</strong> alphabet character from <code>&#39;a&#39;</code> to <code>&#39;z&#39;</code>, remove the <strong>first</strong> occurrence of that character in <code>s</code> (if it exists).</li>
-</ul>
-
-<p>For example, let initially <code>s = &quot;aabcbbca&quot;</code>. We do the following operations:</p>
+<p>请你进行以下操作直到 <code>s</code>&nbsp;为 <strong>空</strong>&nbsp;：</p>
 
 <ul>
-	<li>Remove the underlined characters <code>s = &quot;<u><strong>a</strong></u>a<strong><u>bc</u></strong>bbca&quot;</code>. The resulting string is <code>s = &quot;abbca&quot;</code>.</li>
-	<li>Remove the underlined characters <code>s = &quot;<u><strong>ab</strong></u>b<u><strong>c</strong></u>a&quot;</code>. The resulting string is <code>s = &quot;ba&quot;</code>.</li>
-	<li>Remove the underlined characters <code>s = &quot;<u><strong>ba</strong></u>&quot;</code>. The resulting string is <code>s = &quot;&quot;</code>.</li>
+	<li>每次操作 <strong>依次</strong> 遍历 <code>'a'</code> 到 <code>'z'</code>，如果当前字符出现在 <code>s</code> 中，那么删除出现位置&nbsp;<strong>最早</strong>&nbsp;的该字符（如果存在的话）。</li>
 </ul>
 
-<p>Return <em>the value of the string </em><code>s</code><em> right <strong>before</strong> applying the <strong>last</strong> operation</em>. In the example above, answer is <code>&quot;ba&quot;</code>.</p>
+<p>例如，最初 <code>s = "aabcbbca"</code>。我们执行下述操作：</p>
+
+<ul>
+	<li>移除下划线的字符&nbsp; <code>s = "<u><strong>a</strong></u>a<u><strong>bc</strong></u>bbca"</code>。结果字符串为 <code>s = "abbca"</code>。</li>
+	<li>移除下划线的字符&nbsp; <code>s = "<u><strong>ab</strong></u>b<u><strong>c</strong></u>a"</code>。结果字符串为 <code>s = "ba"</code>。</li>
+	<li>移除下划线的字符&nbsp; <code>s = "<u><strong>ba</strong></u>"</code>。结果字符串为 <code>s = ""</code>。</li>
+</ul>
+
+<p>请你返回进行 <strong>最后</strong>&nbsp;一次操作 <strong>之前</strong>&nbsp;的字符串<em>&nbsp;</em><code>s</code><em>&nbsp;</em>。在上面的例子中，答案是&nbsp;<code>"ba"</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;aabcbbca&quot;
-<strong>Output:</strong> &quot;ba&quot;
-<strong>Explanation:</strong> Explained in the statement.
+<b>输入：</b>s = "aabcbbca"
+<b>输出：</b>"ba"
+<b>解释：</b>已经在题目描述中解释。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;abcd&quot;
-<strong>Output:</strong> &quot;abcd&quot;
-<strong>Explanation:</strong> We do the following operation:
-- Remove the underlined characters s = &quot;<u><strong>abcd</strong></u>&quot;. The resulting string is s = &quot;&quot;.
-The string just before the last operation is &quot;abcd&quot;.
+<b>输入：</b>s = "abcd"
+<b>输出：</b>"abcd"
+<b>解释：</b>我们进行以下操作：
+- 删除 s = "<em><strong>abcd</strong></em>" 中加粗加斜字符，得到字符串 s = "" 。
+进行最后一次操作之前的字符串为 "abcd" 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 5 * 10<sup>5</sup></code></li>
-	<li><code>s</code> consists only of lowercase English letters.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table or Array
+### 方法一：哈希表或数组
 
-We use a hash table or array $cnt$ to record the occurrence times of each character in string $s$, and use another hash table or array $last$ to record the last occurrence position of each character in string $s$. The maximum occurrence times of characters in string $s$ is denoted as $mx$.
+我们用一个哈希表或数组 $cnt$ 记录字符串 $s$ 中每个字符的出现次数，用一个哈希表或数组 $last$ 记录字符串 $s$ 中每个字符最后一次出现的位置。字符串 $s$ 中出现次数最多的字符的出现次数记为 $mx$。
 
-Then we traverse the string $s$. If the occurrence times of the current character equals $mx$ and the position of the current character equals the last occurrence position of this character, then we add the current character to the answer.
+然后我们遍历字符串 $s$，如果当前字符的出现次数等于 $mx$ 且当前字符所在位置等于该字符最后一次出现的位置，那么我们将当前字符加入答案中。
 
-After the traversal, we return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(|\Sigma|)$, where $n$ is the length of string $s$, and $\Sigma$ is the character set. In this problem, $\Sigma$ is the set of lowercase English letters.
+时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|)$，其中 $n$ 是字符串 $s$ 的长度，而 $\Sigma$ 是字符集，本题中 $\Sigma$ 为小写英文字母。
 
 <!-- tabs:start -->
 
@@ -172,23 +177,23 @@ func lastNonEmptyString(s string) string {
 
 ```ts
 function lastNonEmptyString(s: string): string {
-  const cnt: number[] = Array(26).fill(0);
-  const last: number[] = Array(26).fill(0);
-  const n = s.length;
-  let mx = 0;
-  for (let i = 0; i < n; ++i) {
-    const c = s.charCodeAt(i) - 97;
-    mx = Math.max(mx, ++cnt[c]);
-    last[c] = i;
-  }
-  const ans: string[] = [];
-  for (let i = 0; i < n; ++i) {
-    const c = s.charCodeAt(i) - 97;
-    if (cnt[c] === mx && last[c] === i) {
-      ans.push(String.fromCharCode(c + 97));
+    const cnt: number[] = Array(26).fill(0);
+    const last: number[] = Array(26).fill(0);
+    const n = s.length;
+    let mx = 0;
+    for (let i = 0; i < n; ++i) {
+        const c = s.charCodeAt(i) - 97;
+        mx = Math.max(mx, ++cnt[c]);
+        last[c] = i;
     }
-  }
-  return ans.join("");
+    const ans: string[] = [];
+    for (let i = 0; i < n; ++i) {
+        const c = s.charCodeAt(i) - 97;
+        if (cnt[c] === mx && last[c] === i) {
+            ans.push(String.fromCharCode(c + 97));
+        }
+    }
+    return ans.join('');
 }
 ```
 

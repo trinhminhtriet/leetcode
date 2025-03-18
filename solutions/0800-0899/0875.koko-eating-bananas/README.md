@@ -1,51 +1,59 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0875.Koko%20Eating%20Bananas/README.md
 tags:
-  - Array
-  - Binary Search
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas)
+# [875. 爱吃香蕉的珂珂](https://leetcode.cn/problems/koko-eating-bananas)
 
-## Description
+[English Version](/solution/0800-0899/0875.Koko%20Eating%20Bananas/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Koko loves to eat bananas. There are <code>n</code> piles of bananas, the <code>i<sup>th</sup></code> pile has <code>piles[i]</code> bananas. The guards have gone and will come back in <code>h</code> hours.</p>
+<p>珂珂喜欢吃香蕉。这里有 <code>n</code> 堆香蕉，第 <code>i</code> 堆中有&nbsp;<code>piles[i]</code>&nbsp;根香蕉。警卫已经离开了，将在 <code>h</code> 小时后回来。</p>
 
-<p>Koko can decide her bananas-per-hour eating speed of <code>k</code>. Each hour, she chooses some pile of bananas and eats <code>k</code> bananas from that pile. If the pile has less than <code>k</code> bananas, she eats all of them instead and will not eat any more bananas during this hour.</p>
+<p>珂珂可以决定她吃香蕉的速度 <code>k</code> （单位：根/小时）。每个小时，她将会选择一堆香蕉，从中吃掉 <code>k</code> 根。如果这堆香蕉少于 <code>k</code> 根，她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。&nbsp;&nbsp;</p>
 
-<p>Koko likes to eat slowly but still wants to finish eating all the bananas before the guards return.</p>
+<p>珂珂喜欢慢慢吃，但仍然想在警卫回来前吃掉所有的香蕉。</p>
 
-<p>Return <em>the minimum integer</em> <code>k</code> <em>such that she can eat all the bananas within</em> <code>h</code> <em>hours</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> piles = [3,6,7,11], h = 8
-<strong>Output:</strong> 4
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> piles = [30,11,23,4,20], h = 5
-<strong>Output:</strong> 30
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> piles = [30,11,23,4,20], h = 6
-<strong>Output:</strong> 23
-</pre>
+<p>返回她可以在 <code>h</code> 小时内吃掉所有香蕉的最小速度 <code>k</code>（<code>k</code> 为整数）。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<ul>
+</ul>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>piles = [3,6,7,11], h = 8
+<strong>输出：</strong>4
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>piles = [30,11,23,4,20], h = 5
+<strong>输出：</strong>30
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>piles = [30,11,23,4,20], h = 6
+<strong>输出：</strong>23
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= piles.length &lt;= 10<sup>4</sup></code></li>
@@ -55,17 +63,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-We notice that if Koko can eat all the bananas at a speed of $k$ within $h$ hours, then she can also eat all the bananas at a speed of $k' > k$ within $h$ hours. This shows monotonicity, so we can use binary search to find the smallest $k$ that satisfies the condition.
+我们注意到，如果珂珂能够以 $k$ 的速度在 $h$ 小时内吃完所有香蕉，那么她也可以以 $k' > k$ 的速度在 $h$ 小时内吃完所有香蕉。这存在着单调性，因此我们可以使用二分查找，找到最小的满足条件的 $k$。
 
-We define the left boundary of the binary search as $l = 1$, and the right boundary as $r = \max(\textit{piles})$. For each binary search, we take the middle value $mid = \frac{l + r}{2}$, and then calculate the time $s$ required to eat bananas at a speed of $mid$. If $s \leq h$, it means that the speed of $mid$ can meet the condition, and we update the right boundary $r$ to $mid$; otherwise, we update the left boundary $l$ to $mid + 1$. Finally, when $l = r$, we find the smallest $k$ that satisfies the condition.
+我们定义二分查找的左边界 $l = 1$，右边界 $r = \max(\textit{piles})$。每一次二分，我们取中间值 $mid = \frac{l + r}{2}$，然后计算以 $mid$ 的速度吃香蕉需要的时间 $s$。如果 $s \leq h$，说明 $mid$ 的速度可以满足条件，我们将右边界 $r$ 更新为 $mid$；否则，我们将左边界 $l$ 更新为 $mid + 1$。最终，当 $l = r$ 时，我们找到了最小的满足条件的 $k$。
 
-The time complexity is $O(n \times \log M)$, where $n$ and $M$ are the length and maximum value of the array `piles` respectively. The space complexity is $O(1)$.
+时间复杂度 $O(n \times \log M)$，其中 $n$ 和 $M$ 分别是数组 `piles` 的长度和最大值。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -146,17 +154,17 @@ func minEatingSpeed(piles []int, h int) int {
 
 ```ts
 function minEatingSpeed(piles: number[], h: number): number {
-  let [l, r] = [1, Math.max(...piles)];
-  while (l < r) {
-    const mid = (l + r) >> 1;
-    const s = piles.map((x) => Math.ceil(x / mid)).reduce((a, b) => a + b);
-    if (s <= h) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    let [l, r] = [1, Math.max(...piles)];
+    while (l < r) {
+        const mid = (l + r) >> 1;
+        const s = piles.map(x => Math.ceil(x / mid)).reduce((a, b) => a + b);
+        if (s <= h) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return l;
+    return l;
 }
 ```
 

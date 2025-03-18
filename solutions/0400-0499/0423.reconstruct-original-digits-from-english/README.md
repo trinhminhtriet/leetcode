@@ -1,46 +1,58 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0423.Reconstruct%20Original%20Digits%20from%20English/README.md
 tags:
-  - Hash Table
-  - Math
-  - String
+    - 哈希表
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [423. Reconstruct Original Digits from English](https://leetcode.com/problems/reconstruct-original-digits-from-english)
+# [423. 从英文中重建数字](https://leetcode.cn/problems/reconstruct-original-digits-from-english)
 
-## Description
+[English Version](/solution/0400-0499/0423.Reconstruct%20Original%20Digits%20from%20English/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code> containing an out-of-order English representation of digits <code>0-9</code>, return <em>the digits in <strong>ascending</strong> order</em>.</p>
+<p>给你一个字符串 <code>s</code> ，其中包含字母顺序打乱的用英文单词表示的若干数字（<code>0-9</code>）。按 <strong>升序</strong> 返回原始的数字。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> s = "owoztneoer"
-<strong>Output:</strong> "012"
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> s = "fviefuro"
-<strong>Output:</strong> "45"
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "owoztneoer"
+<strong>输出：</strong>"012"
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "fviefuro"
+<strong>输出：</strong>"45"
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> is one of the characters <code>[&quot;e&quot;,&quot;g&quot;,&quot;f&quot;,&quot;i&quot;,&quot;h&quot;,&quot;o&quot;,&quot;n&quot;,&quot;s&quot;,&quot;r&quot;,&quot;u&quot;,&quot;t&quot;,&quot;w&quot;,&quot;v&quot;,&quot;x&quot;,&quot;z&quot;]</code>.</li>
-	<li><code>s</code> is <strong>guaranteed</strong> to be valid.</li>
+	<li><code>s[i]</code> 为 <code>["e","g","f","i","h","o","n","s","r","u","t","w","v","x","z"]</code> 这些字符之一</li>
+	<li><code>s</code> 保证是一个符合题目要求的字符串</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

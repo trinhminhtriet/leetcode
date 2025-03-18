@@ -1,62 +1,67 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0099.Recover%20Binary%20Search%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Search Tree
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉搜索树
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [99. Recover Binary Search Tree](https://leetcode.com/problems/recover-binary-search-tree)
+# [99. 恢复二叉搜索树](https://leetcode.cn/problems/recover-binary-search-tree)
 
-## Description
+[English Version](/solution/0000-0099/0099.Recover%20Binary%20Search%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the <code>root</code> of a binary search tree (BST), where the values of <strong>exactly</strong> two nodes of the tree were swapped by mistake. <em>Recover the tree without changing its structure</em>.</p>
+<p>给你二叉搜索树的根节点 <code>root</code> ，该树中的 <strong>恰好</strong> 两个节点的值被错误地交换。<em>请在不改变其结构的情况下，恢复这棵树&nbsp;</em>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0099.Recover%20Binary%20Search%20Tree/images/recover1.jpg" style="width: 422px; height: 302px;" />
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0099.Recover%20Binary%20Search%20Tree/images/recover1.jpg" style="width: 300px;" />
 <pre>
-<strong>Input:</strong> root = [1,3,null,null,2]
-<strong>Output:</strong> [3,1,null,null,2]
-<strong>Explanation:</strong> 3 cannot be a left child of 1 because 3 &gt; 1. Swapping 1 and 3 makes the BST valid.
+<strong>输入：</strong>root = [1,3,null,null,2]
+<strong>输出：</strong>[3,1,null,null,2]
+<strong>解释：</strong>3 不能是 1 的左孩子，因为 3 &gt; 1 。交换 1 和 3 使二叉搜索树有效。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0099.Recover%20Binary%20Search%20Tree/images/recover2.jpg" style="width: 581px; height: 302px;" />
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0099.Recover%20Binary%20Search%20Tree/images/recover2.jpg" style="height: 208px; width: 400px;" />
 <pre>
-<strong>Input:</strong> root = [3,1,4,null,null,2]
-<strong>Output:</strong> [2,1,4,null,null,3]
-<strong>Explanation:</strong> 2 cannot be in the right subtree of 3 because 2 &lt; 3. Swapping 2 and 3 makes the BST valid.
-</pre>
+<strong>输入：</strong>root = [3,1,4,null,null,2]
+<strong>输出：</strong>[2,1,4,null,null,3]
+<strong>解释：</strong>2 不能在 3 的右子树中，因为 2 &lt; 3 。交换 2 和 3 使二叉搜索树有效。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[2, 1000]</code>.</li>
+	<li>树上节点的数目在范围 <code>[2, 1000]</code> 内</li>
 	<li><code>-2<sup>31</sup> &lt;= Node.val &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<strong>Follow up:</strong> A solution using <code>O(n)</code> space is pretty straight-forward. Could you devise a constant <code>O(1)</code> space solution?
+
+<p><strong>进阶：</strong>使用 <code>O(n)</code> 空间复杂度的解法很容易实现。你能想出一个只使用&nbsp;<code>O(1)</code> 空间的解决方案吗？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: In-order Traversal
+### 方法一：中序遍历
 
-In-order traversal of a binary search tree results in an increasing sequence. If two nodes' values are mistakenly swapped, there will definitely be two reverse pairs in the sequence obtained from the in-order traversal. We use `first` and `second` to record the smaller and larger values of these two reverse pairs, respectively. Finally, swapping the values of these two nodes will correct the mistake.
+中序遍历二叉搜索树，得到的序列是递增的。如果有两个节点的值被错误地交换，那么中序遍历得到的序列中，一定会出现两个逆序对。我们用 `first` 和 `second` 分别记录这两个逆序对中较小值和较大值的节点，最后交换这两个节点的值即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary search tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉搜索树的节点个数。
 
 <!-- tabs:start -->
 
@@ -224,27 +229,27 @@ func recoverTree(root *TreeNode) {
  * @return {void} Do not return anything, modify root in-place instead.
  */
 var recoverTree = function (root) {
-  let prev = null;
-  let first = null;
-  let second = null;
-  function dfs(root) {
-    if (!root) {
-      return;
+    let prev = null;
+    let first = null;
+    let second = null;
+    function dfs(root) {
+        if (!root) {
+            return;
+        }
+        dfs(root.left);
+        if (prev && prev.val > root.val) {
+            if (!first) {
+                first = prev;
+            }
+            second = root;
+        }
+        prev = root;
+        dfs(root.right);
     }
-    dfs(root.left);
-    if (prev && prev.val > root.val) {
-      if (!first) {
-        first = prev;
-      }
-      second = root;
-    }
-    prev = root;
-    dfs(root.right);
-  }
-  dfs(root);
-  const t = first.val;
-  first.val = second.val;
-  second.val = t;
+    dfs(root);
+    const t = first.val;
+    first.val = second.val;
+    second.val = t;
 };
 ```
 

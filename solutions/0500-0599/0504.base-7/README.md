@@ -1,42 +1,58 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0504.Base%207/README.md
 tags:
-  - Math
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [504. Base 7](https://leetcode.com/problems/base-7)
+# [504. 七进制数](https://leetcode.cn/problems/base-7)
 
-## Description
+[English Version](/solution/0500-0599/0504.Base%207/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer <code>num</code>, return <em>a string of its <strong>base 7</strong> representation</em>.</p>
+<p>给定一个整数 <code>num</code>，将其转化为 <strong>7 进制</strong>，并以字符串形式输出。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> num = 100
-<strong>Output:</strong> "202"
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> num = -7
-<strong>Output:</strong> "-10"
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> num = 100
+<strong>输出:</strong> "202"
 </pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> num = -7
+<strong>输出:</strong> "-10"
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>-10<sup>7</sup> &lt;= num &lt;= 10<sup>7</sup></code></li>
+	<li><code>-10<sup>7</sup>&nbsp;&lt;= num &lt;= 10<sup>7</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+我们不妨假设 `num` 大于等于 $0$，那么，如果 `num` 等于 $0$，只需要返回 $0$ 即可。否则，我们将 $num$ 模 $7$ 的结果保存起来，最后逆序拼接成字符串即可。
+
+时间复杂度 $O(\log n)$，忽略答案的空间消耗，空间复杂度 $O(1)$。其中 $n$ 是 `num` 的绝对值大小。
 
 <!-- tabs:start -->
 
@@ -118,20 +134,20 @@ func convertToBase7(num int) string {
 
 ```ts
 function convertToBase7(num: number): string {
-  if (num == 0) {
-    return "0";
-  }
-  let res = "";
-  const isMinus = num < 0;
-  if (isMinus) {
-    num = -num;
-  }
-  while (num != 0) {
-    const r = num % 7;
-    res = r + res;
-    num = (num - r) / 7;
-  }
-  return isMinus ? "-" + res : res;
+    if (num == 0) {
+        return '0';
+    }
+    let res = '';
+    const isMinus = num < 0;
+    if (isMinus) {
+        num = -num;
+    }
+    while (num != 0) {
+        const r = num % 7;
+        res = r + res;
+        num = (num - r) / 7;
+    }
+    return isMinus ? '-' + res : res;
 }
 ```
 

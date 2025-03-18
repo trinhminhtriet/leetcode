@@ -1,46 +1,48 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0069.Sqrt%28x%29/README.md
 tags:
-  - Math
-  - Binary Search
+    - 数学
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [69. Sqrt(x)](https://leetcode.com/problems/sqrtx)
+# [69. x 的平方根](https://leetcode.cn/problems/sqrtx)
 
-## Description
+[English Version](/solution/0000-0099/0069.Sqrt%28x%29/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a non-negative integer <code>x</code>, return <em>the square root of </em><code>x</code><em> rounded down to the nearest integer</em>. The returned integer should be <strong>non-negative</strong> as well.</p>
+<p>给你一个非负整数 <code>x</code> ，计算并返回&nbsp;<code>x</code>&nbsp;的 <strong>算术平方根</strong> 。</p>
 
-<p>You <strong>must not use</strong> any built-in exponent function or operator.</p>
+<p>由于返回类型是整数，结果只保留 <strong>整数部分 </strong>，小数部分将被 <strong>舍去 。</strong></p>
 
-<ul>
-	<li>For example, do not use <code>pow(x, 0.5)</code> in c++ or <code>x ** 0.5</code> in python.</li>
-</ul>
+<p><strong>注意：</strong>不允许使用任何内置指数函数和算符，例如 <code>pow(x, 0.5)</code> 或者 <code>x ** 0.5</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> x = 4
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The square root of 4 is 2, so we return 2.
+<strong>输入：</strong>x = 4
+<strong>输出：</strong>2
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> x = 8
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.
+<strong>输入：</strong>x = 8
+<strong>输出：</strong>2
+<strong>解释：</strong>8 的算术平方根是 2.82842..., 由于返回类型是整数，小数部分将被舍去。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= x &lt;= 2<sup>31</sup> - 1</code></li>
@@ -48,19 +50,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-We define the left boundary of the binary search as $l = 0$ and the right boundary as $r = x$, then we search for the square root within the range $[l, r]$.
+我们定义二分查找的左边界 $l = 0$，右边界 $r = x$，然后在 $[l, r]$ 范围内查找平方根。
 
-In each step of the search, we find the middle value $mid = (l + r + 1) / 2$. If $mid > x / mid$, it means the square root is within the range $[l, mid - 1]$, so we set $r = mid - 1$. Otherwise, it means the square root is within the range $[mid, r]$, so we set $l = mid$.
+在每一步查找中，我们找出中间值 $mid = (l + r + 1) / 2$，如果 $mid > x / mid$，说明平方根在 $[l, mid - 1]$ 范围内，我们令 $r = mid - 1$；否则说明平方根在 $[mid, r]$ 范围内，我们令 $l = mid$。
 
-After the search ends, we return $l$.
+查找结束后，返回 $l$ 即可。
 
-The time complexity is $O(\log x)$, and the space complexity is $O(1)$.
+时间复杂度 $O(\log x)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -157,16 +159,16 @@ impl Solution {
  * @return {number}
  */
 var mySqrt = function (x) {
-  let [l, r] = [0, x];
-  while (l < r) {
-    const mid = (l + r + 1) >> 1;
-    if (mid > x / mid) {
-      r = mid - 1;
-    } else {
-      l = mid;
+    let [l, r] = [0, x];
+    while (l < r) {
+        const mid = (l + r + 1) >> 1;
+        if (mid > x / mid) {
+            r = mid - 1;
+        } else {
+            l = mid;
+        }
     }
-  }
-  return l;
+    return l;
 };
 ```
 

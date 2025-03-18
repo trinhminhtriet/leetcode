@@ -1,53 +1,56 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2799.Count%20Complete%20Subarrays%20in%20an%20Array/README.md
 rating: 1397
-source: Weekly Contest 356 Q2
+source: 第 356 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Sliding Window
+    - 数组
+    - 哈希表
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2799. Count Complete Subarrays in an Array](https://leetcode.com/problems/count-complete-subarrays-in-an-array)
+# [2799. 统计完全子数组的数目](https://leetcode.cn/problems/count-complete-subarrays-in-an-array)
 
-## Description
+[English Version](/solution/2700-2799/2799.Count%20Complete%20Subarrays%20in%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>nums</code> consisting of <strong>positive</strong> integers.</p>
+<p>给你一个由 <strong>正</strong> 整数组成的数组 <code>nums</code> 。</p>
 
-<p>We call a subarray of an array <strong>complete</strong> if the following condition is satisfied:</p>
+<p>如果数组中的某个子数组满足下述条件，则称之为 <strong>完全子数组</strong> ：</p>
 
 <ul>
-	<li>The number of <strong>distinct</strong> elements in the subarray is equal to the number of distinct elements in the whole array.</li>
+	<li>子数组中 <strong>不同</strong> 元素的数目等于整个数组不同元素的数目。</li>
 </ul>
 
-<p>Return <em>the number of <strong>complete</strong> subarrays</em>.</p>
+<p>返回数组中 <strong>完全子数组</strong> 的数目。</p>
 
-<p>A <strong>subarray</strong> is a contiguous non-empty part of an array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,3,1,2,2]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The complete subarrays are the following: [1,3,1,2], [1,3,1,2,2], [3,1,2] and [3,1,2,2].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [5,5,5,5]
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> The array consists only of the integer 5, so any subarray is complete. The number of subarrays that we can choose is 10.
-</pre>
+<p><strong>子数组</strong> 是数组中的一个连续非空序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [1,3,1,2,2]
+<strong>输出：</strong>4
+<strong>解释：</strong>完全子数组有：[1,3,1,2]、[1,3,1,2,2]、[3,1,2] 和 [3,1,2,2] 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>nums = [5,5,5,5]
+<strong>输出：</strong>10
+<strong>解释：</strong>数组仅由整数 5 组成，所以任意子数组都满足完全子数组的条件。子数组的总数为 10 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -56,11 +59,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表 + 枚举
+
+我们先用哈希表统计数组中不同元素的数目，记为 $cnt$。
+
+接下来，我们枚举子数组的左端点下标 $i$，并维护一个集合 $s$，用于存储子数组中的元素。每次向右移动右端点下标 $j$ 时，我们将 $nums[j]$ 加入集合 $s$ 中，并判断集合 $s$ 的大小是否等于 $cnt$。如果等于 $cnt$，则说明当前子数组是完全子数组，我们将答案增加 $1$。
+
+枚举结束后，返回答案即可。
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -154,20 +165,20 @@ func countCompleteSubarrays(nums []int) (ans int) {
 
 ```ts
 function countCompleteSubarrays(nums: number[]): number {
-  const s: Set<number> = new Set(nums);
-  const cnt = s.size;
-  const n = nums.length;
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    s.clear();
-    for (let j = i; j < n; ++j) {
-      s.add(nums[j]);
-      if (s.size === cnt) {
-        ++ans;
-      }
+    const s: Set<number> = new Set(nums);
+    const cnt = s.size;
+    const n = nums.length;
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        s.clear();
+        for (let j = i; j < n; ++j) {
+            s.add(nums[j]);
+            if (s.size === cnt) {
+                ++ans;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -202,7 +213,15 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：哈希表 + 双指针
+
+与方法一类似，我们可以使用哈希表统计数组中不同元素的数目，记为 $cnt$。
+
+接下来，我们使用双指针维护一个滑动窗口，滑动窗口的右端点下标为 $j$，左端点下标为 $i$。
+
+每次固定左端点下标 $i$，然后向右移动右端点下标 $j$，当滑动窗口中的元素种类数等于 $cnt$ 时，这意味着从左端点下标 $i$ 到右端点下标 $j$ 以及右侧的所有子数组都是完全子数组，我们将答案增加 $n - j$，其中 $n$ 是数组的长度。然后我们将左端点下标 $i$ 右移一位，继续上述过程。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -311,27 +330,27 @@ func countCompleteSubarrays(nums []int) (ans int) {
 
 ```ts
 function countCompleteSubarrays(nums: number[]): number {
-  const d: Map<number, number> = new Map();
-  for (const x of nums) {
-    d.set(x, (d.get(x) ?? 0) + 1);
-  }
-  const cnt = d.size;
-  d.clear();
-  const n = nums.length;
-  let ans = 0;
-  let i = 0;
-  for (let j = 0; j < n; ++j) {
-    d.set(nums[j], (d.get(nums[j]) ?? 0) + 1);
-    while (d.size === cnt) {
-      ans += n - j;
-      d.set(nums[i], d.get(nums[i])! - 1);
-      if (d.get(nums[i]) === 0) {
-        d.delete(nums[i]);
-      }
-      ++i;
+    const d: Map<number, number> = new Map();
+    for (const x of nums) {
+        d.set(x, (d.get(x) ?? 0) + 1);
     }
-  }
-  return ans;
+    const cnt = d.size;
+    d.clear();
+    const n = nums.length;
+    let ans = 0;
+    let i = 0;
+    for (let j = 0; j < n; ++j) {
+        d.set(nums[j], (d.get(nums[j]) ?? 0) + 1);
+        while (d.size === cnt) {
+            ans += n - j;
+            d.set(nums[i], d.get(nums[i])! - 1);
+            if (d.get(nums[i]) === 0) {
+                d.delete(nums[i]);
+            }
+            ++i;
+        }
+    }
+    return ans;
 }
 ```
 

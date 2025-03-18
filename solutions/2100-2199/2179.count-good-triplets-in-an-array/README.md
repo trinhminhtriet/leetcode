@@ -1,68 +1,105 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2179.Count%20Good%20Triplets%20in%20an%20Array/README.md
 rating: 2272
-source: Biweekly Contest 72 Q4
+source: 第 72 场双周赛 Q4
 tags:
-  - Binary Indexed Tree
-  - Segment Tree
-  - Array
-  - Binary Search
-  - Divide and Conquer
-  - Ordered Set
-  - Merge Sort
+    - 树状数组
+    - 线段树
+    - 数组
+    - 二分查找
+    - 分治
+    - 有序集合
+    - 归并排序
 ---
 
 <!-- problem:start -->
 
-# [2179. Count Good Triplets in an Array](https://leetcode.com/problems/count-good-triplets-in-an-array)
+# [2179. 统计数组中好三元组数目](https://leetcode.cn/problems/count-good-triplets-in-an-array)
 
-## Description
+[English Version](/solution/2100-2199/2179.Count%20Good%20Triplets%20in%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>0-indexed</strong> arrays <code>nums1</code> and <code>nums2</code> of length <code>n</code>, both of which are <strong>permutations</strong> of <code>[0, 1, ..., n - 1]</code>.</p>
+<p>给你两个下标从 <strong>0</strong>&nbsp;开始且长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums1</code>&nbsp;和&nbsp;<code>nums2</code>&nbsp;，两者都是&nbsp;<code>[0, 1, ..., n - 1]</code>&nbsp;的&nbsp;<strong>排列</strong>&nbsp;。</p>
 
-<p>A <strong>good triplet</strong> is a set of <code>3</code> <strong>distinct</strong> values which are present in <strong>increasing order</strong> by position both in <code>nums1</code> and <code>nums2</code>. In other words, if we consider <code>pos1<sub>v</sub></code> as the index of the value <code>v</code> in <code>nums1</code> and <code>pos2<sub>v</sub></code> as the index of the value <code>v</code> in <code>nums2</code>, then a good triplet will be a set <code>(x, y, z)</code> where <code>0 &lt;= x, y, z &lt;= n - 1</code>, such that <code>pos1<sub>x</sub> &lt; pos1<sub>y</sub> &lt; pos1<sub>z</sub></code> and <code>pos2<sub>x</sub> &lt; pos2<sub>y</sub> &lt; pos2<sub>z</sub></code>.</p>
+<p><strong>好三元组&nbsp;</strong>指的是&nbsp;<code>3</code>&nbsp;个&nbsp;<strong>互不相同</strong>&nbsp;的值，且它们在数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;中出现顺序保持一致。换句话说，如果我们将&nbsp;<code>pos1<sub>v</sub></code> 记为值&nbsp;<code>v</code>&nbsp;在&nbsp;<code>nums1</code>&nbsp;中出现的位置，<code>pos2<sub>v</sub></code>&nbsp;为值&nbsp;<code>v</code>&nbsp;在&nbsp;<code>nums2</code>&nbsp;中的位置，那么一个好三元组定义为&nbsp;<code>0 &lt;= x, y, z &lt;= n - 1</code>&nbsp;，且&nbsp;<code>pos1<sub>x</sub> &lt; pos1<sub>y</sub> &lt; pos1<sub>z</sub></code> 和&nbsp;<code>pos2<sub>x</sub> &lt; pos2<sub>y</sub> &lt; pos2<sub>z</sub></code>&nbsp;都成立的&nbsp;<code>(x, y, z)</code>&nbsp;。</p>
 
-<p>Return <em>the <strong>total number</strong> of good triplets</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [2,0,1,3], nums2 = [0,1,2,3]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> 
-There are 4 triplets (x,y,z) such that pos1<sub>x</sub> &lt; pos1<sub>y</sub> &lt; pos1<sub>z</sub>. They are (2,0,1), (2,0,3), (2,1,3), and (0,1,3). 
-Out of those triplets, only the triplet (0,1,3) satisfies pos2<sub>x</sub> &lt; pos2<sub>y</sub> &lt; pos2<sub>z</sub>. Hence, there is only 1 good triplet.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [4,0,1,3,2], nums2 = [4,1,0,2,3]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The 4 good triplets are (4,0,3), (4,0,2), (4,1,3), and (4,1,2).
-</pre>
+<p>请你返回好三元组的 <strong>总数目</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums1 = [2,0,1,3], nums2 = [0,1,2,3]
+<b>输出：</b>1
+<b>解释：</b>
+总共有 4 个三元组 (x,y,z) 满足 pos1<sub>x</sub> &lt; pos1<sub>y</sub> &lt; pos1<sub>z&nbsp;</sub>，分别是 (2,0,1) ，(2,0,3) ，(2,1,3) 和 (0,1,3) 。
+这些三元组中，只有 (0,1,3) 满足 pos2<sub>x</sub> &lt; pos2<sub>y</sub> &lt; pos2<sub>z</sub>&nbsp;。所以只有 1 个好三元组。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>nums1 = [4,0,1,3,2], nums2 = [4,1,0,2,3]
+<b>输出：</b>4
+<b>解释：</b>总共有 4 个好三元组 (4,0,3) ，(4,0,2) ，(4,1,3) 和 (4,1,2) 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums1.length == nums2.length</code></li>
 	<li><code>3 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= nums1[i], nums2[i] &lt;= n - 1</code></li>
-	<li><code>nums1</code> and <code>nums2</code> are permutations of <code>[0, 1, ..., n - 1]</code>.</li>
+	<li><code>nums1</code>&nbsp;和&nbsp;<code>nums2</code>&nbsp;是&nbsp;<code>[0, 1, ..., n - 1]</code> 的排列。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：树状数组或线段树
+
+对于本题，我们先用 pos 记录每个数在 nums2 中的位置，然后依次对 nums1 中的每个元素进行处理。
+
+考虑**以当前数字作为三元组中间数字**的好三元组的数目。第一个数字需要是之前已经遍历过的，并且在 nums2 中的位置比当前数字更靠前的；第三个数字需要是当前还没有遍历过的，并且在 nums2 中的位置比当前数字更靠后的。
+
+以 `nums1 = [4,0,1,3,2], nums2 = [4,1,0,2,3]`为例，考虑我们的遍历过程：
+
+1. 首先处理 4，此时 nums2 中出现情况为 `[4,X,X,X,X]`，4 之前有值的个数是 0，4 之后没有值的个数有 4 个。因此以 4 为中间数字能形成 0 个好三元组。
+1. 接下来是 0，此时 nums2 中出现情况为 `[4,X,0,X,X]`，0 之前有值的个数是 1，0 之后没有值的个数有 2 个。因此以 0 为中间数字能形成 2 个好三元组。
+1. 接下来是 1，此时 nums2 中出现情况为 `[4,1,0,X,X]`，1 之前有值的个数是 1，0 之后没有值的个数有 2 个。因此以 1 为中间数字能形成 2 个好三元组。
+1. ...
+1. 最后是 2，此时 nums2 中出现情况为 `[4,1,0,2,3]`，2 之前有值的个数是 4，2 之后没有值的个数是 0。因此以 2 为中间数字能形成 0 个好三元组。
+
+我们可以用**树状数组**或**线段树**这两种数据结构来更新 nums2 中各个位置数字的出现情况，快速算出每个数字左侧 1 的个数，以及右侧 0 的个数。
+
+**数据结构 1：树状数组**
+
+树状数组，也称作“二叉索引树”（Binary Indexed Tree）或 Fenwick 树。 它可以高效地实现如下两个操作：
+
+1. **单点更新** `update(x, delta)`： 把序列 x 位置的数加上一个值 delta；
+1. **前缀和查询** `query(x)`：查询序列 `[1,...x]` 区间的区间和，即位置 x 的前缀和。
+
+这两个操作的时间复杂度均为 $O(\log n)$。
+
+**数据结构 2：线段树**
+
+线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 `log(width)`。更新某个元素的值，只需要更新 `log(width)` 个区间，并且这些区间都包含在一个包含该元素的大区间内。
+
+-   线段树的每个节点代表一个区间；
+-   线段树具有唯一的根节点，代表的区间是整个统计范围，如 `[1, N]`；
+-   线段树的每个叶子节点代表一个长度为 1 的元区间 `[x, x]`；
+-   对于每个内部节点 `[l, r]`，它的左儿子是 `[l, mid]`，右儿子是 `[mid + 1, r]`, 其中 `mid = ⌊(l + r) / 2⌋` (即向下取整)。
+
+> 本题 Python3 线段树代码 TLE。
 
 <!-- tabs:start -->
 
@@ -271,7 +308,7 @@ func goodTriplets(nums1 []int, nums2 []int) int64 {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

@@ -1,67 +1,78 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2781.Length%20of%20the%20Longest%20Valid%20Substring/README.md
 rating: 2203
-source: Weekly Contest 354 Q4
+source: 第 354 场周赛 Q4
 tags:
-  - Array
-  - Hash Table
-  - String
-  - Sliding Window
+    - 数组
+    - 哈希表
+    - 字符串
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2781. Length of the Longest Valid Substring](https://leetcode.com/problems/length-of-the-longest-valid-substring)
+# [2781. 最长合法子字符串的长度](https://leetcode.cn/problems/length-of-the-longest-valid-substring)
 
-## Description
+[English Version](/solution/2700-2799/2781.Length%20of%20the%20Longest%20Valid%20Substring/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>word</code> and an array of strings <code>forbidden</code>.</p>
+<p>给你一个字符串&nbsp;<code>word</code>&nbsp;和一个字符串数组&nbsp;<code>forbidden</code>&nbsp;。</p>
 
-<p>A string is called <strong>valid</strong> if none of its substrings are present in <code>forbidden</code>.</p>
+<p>如果一个字符串不包含&nbsp;<code>forbidden</code>&nbsp;中的任何字符串，我们称这个字符串是&nbsp;<strong>合法</strong>&nbsp;的。</p>
 
-<p>Return <em>the length of the <strong>longest valid substring</strong> of the string </em><code>word</code>.</p>
+<p>请你返回字符串 <code>word</code>&nbsp;的一个 <strong>最长合法子字符串</strong>&nbsp;的长度。</p>
 
-<p>A <strong>substring</strong> is a contiguous sequence of characters in a string, possibly empty.</p>
+<p><strong>子字符串</strong> 指的是一个字符串中一段连续的字符，它可以为空。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> word = &quot;cbaaaabc&quot;, forbidden = [&quot;aaa&quot;,&quot;cb&quot;]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> There are 11 valid substrings in word: &quot;c&quot;, &quot;b&quot;, &quot;a&quot;, &quot;ba&quot;, &quot;aa&quot;, &quot;bc&quot;, &quot;baa&quot;, &quot;aab&quot;, &quot;ab&quot;, &quot;abc&quot; and &quot;aabc&quot;. The length of the longest valid substring is 4. 
-It can be shown that all other substrings contain either &quot;aaa&quot; or &quot;cb&quot; as a substring. </pre>
+<b>输入：</b>word = "cbaaaabc", forbidden = ["aaa","cb"]
+<b>输出：</b>4
+<b>解释：</b>总共有 11 个合法子字符串："c", "b", "a", "ba", "aa", "bc", "baa", "aab", "ab", "abc" 和 "aabc"。最长合法子字符串的长度为 4 。
+其他子字符串都要么包含 "aaa" ，要么包含 "cb" 。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> word = &quot;leetcode&quot;, forbidden = [&quot;de&quot;,&quot;le&quot;,&quot;e&quot;]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> There are 11 valid substrings in word: &quot;l&quot;, &quot;t&quot;, &quot;c&quot;, &quot;o&quot;, &quot;d&quot;, &quot;tc&quot;, &quot;co&quot;, &quot;od&quot;, &quot;tco&quot;, &quot;cod&quot;, and &quot;tcod&quot;. The length of the longest valid substring is 4.
-It can be shown that all other substrings contain either &quot;de&quot;, &quot;le&quot;, or &quot;e&quot; as a substring. 
+<b>输入：</b>word = "leetcode", forbidden = ["de","le","e"]
+<strong>输出：</strong>4
+<b>解释：</b>总共有 11 个合法子字符串："l" ，"t" ，"c" ，"o" ，"d" ，"tc" ，"co" ，"od" ，"tco" ，"cod" 和 "tcod" 。最长合法子字符串的长度为 4 。
+所有其他子字符串都至少包含 "de" ，"le" 和 "e" 之一。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>word</code> consists only of lowercase English letters.</li>
+	<li><code>word</code>&nbsp;只包含小写英文字母。</li>
 	<li><code>1 &lt;= forbidden.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= forbidden[i].length &lt;= 10</code></li>
-	<li><code>forbidden[i]</code> consists only of lowercase English letters.</li>
+	<li><code>forbidden[i]</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表 + 双指针
+
+我们用哈希表 $s$ 记录所有禁止的字符串，然后用双指针 $i$ 和 $j$ 遍历字符串 $word$，其中 $i$ 和 $j$ 分别表示当前合法子字符串的左右边界。
+
+接下来，我们枚举子字符串的右端点 $j$，判断此时 $word[k..j]$ 是否合法，如果不合法，那么我们更新 $i = k + 1$。接下来更新答案 $ans = \max(ans, j - i + 1)$。
+
+时间复杂度 $O(n \times \max(|forbidden[i]|^2) + m)$，空间复杂度 $O(m)$。其中 $n$ 和 $m$ 分别表示字符串 $word$ 和 $forbidden$ 的长度。
 
 <!-- tabs:start -->
 
@@ -150,19 +161,19 @@ func longestValidSubstring(word string, forbidden []string) (ans int) {
 
 ```ts
 function longestValidSubstring(word: string, forbidden: string[]): number {
-  const s: Set<string> = new Set(forbidden);
-  const n = word.length;
-  let ans = 0;
-  for (let i = 0, j = 0; j < n; ++j) {
-    for (let k = j; k > Math.max(j - 10, i - 1); --k) {
-      if (s.has(word.substring(k, j + 1))) {
-        i = k + 1;
-        break;
-      }
+    const s: Set<string> = new Set(forbidden);
+    const n = word.length;
+    let ans = 0;
+    for (let i = 0, j = 0; j < n; ++j) {
+        for (let k = j; k > Math.max(j - 10, i - 1); --k) {
+            if (s.has(word.substring(k, j + 1))) {
+                i = k + 1;
+                break;
+            }
+        }
+        ans = Math.max(ans, j - i + 1);
     }
-    ans = Math.max(ans, j - i + 1);
-  }
-  return ans;
+    return ans;
 }
 ```
 

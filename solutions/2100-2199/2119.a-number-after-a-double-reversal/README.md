@@ -1,55 +1,56 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2119.A%20Number%20After%20a%20Double%20Reversal/README.md
 rating: 1187
-source: Weekly Contest 273 Q1
+source: 第 273 场周赛 Q1
 tags:
-  - Math
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2119. A Number After a Double Reversal](https://leetcode.com/problems/a-number-after-a-double-reversal)
+# [2119. 反转两次的数字](https://leetcode.cn/problems/a-number-after-a-double-reversal)
 
-## Description
+[English Version](/solution/2100-2199/2119.A%20Number%20After%20a%20Double%20Reversal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p><strong>Reversing</strong> an integer means to reverse all its digits.</p>
+<p><strong>反转</strong> 一个整数意味着倒置它的所有位。</p>
 
 <ul>
-	<li>For example, reversing <code>2021</code> gives <code>1202</code>. Reversing <code>12300</code> gives <code>321</code> as the <strong>leading zeros are not retained</strong>.</li>
+	<li>例如，反转 <code>2021</code> 得到 <code>1202</code> 。反转 <code>12300</code> 得到 <code>321</code> ，<strong>不保留前导零</strong> 。</li>
 </ul>
 
-<p>Given an integer <code>num</code>, <strong>reverse</strong> <code>num</code> to get <code>reversed1</code>, <strong>then reverse</strong> <code>reversed1</code> to get <code>reversed2</code>. Return <code>true</code> <em>if</em> <code>reversed2</code> <em>equals</em> <code>num</code>. Otherwise return <code>false</code>.</p>
+<p>给你一个整数 <code>num</code> ，<strong>反转</strong> <code>num</code> 得到 <code>reversed1</code> ，<strong>接着反转</strong> <code>reversed1</code> 得到 <code>reversed2</code> 。如果 <code>reversed2</code> 等于 <code>num</code> ，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> num = 526
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Reverse num to get 625, then reverse 625 to get 526, which equals num.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>num = 526
+<strong>输出：</strong>true
+<strong>解释：</strong>反转 num 得到 625 ，接着反转 625 得到 526 ，等于 num 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> num = 1800
-<strong>Output:</strong> false
-<strong>Explanation:</strong> Reverse num to get 81, then reverse 81 to get 18, which does not equal num.
-</pre>
+<pre><strong>输入：</strong>num = 1800
+<strong>输出：</strong>false
+<strong>解释：</strong>反转 num 得到 81 ，接着反转 81 得到 18 ，不等于 num 。 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> num = 0
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Reverse num to get 0, then reverse 0 to get 0, which equals num.
+<pre><strong>输入：</strong>num = 0
+<strong>输出：</strong>true
+<strong>解释：</strong>反转 num 得到 0 ，接着反转 0 得到 0 ，等于 num 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= num &lt;= 10<sup>6</sup></code></li>
@@ -57,11 +58,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：数学
+
+如果数字是 $0$，或者数字的个位不是 $0$，那么反转两次后的数字一定和原数字相等。
+
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -100,6 +105,36 @@ public:
 func isSameAfterReversals(num int) bool {
 	return num == 0 || num%10 != 0
 }
+```
+
+#### TypeScript
+
+```ts
+function isSameAfterReversals(num: number): boolean {
+    return num === 0 || num % 10 !== 0;
+}
+```
+
+#### Rust
+
+```rust
+impl Solution {
+    pub fn is_same_after_reversals(num: i32) -> bool {
+        num == 0 || num % 10 != 0
+    }
+}
+```
+
+#### JavaScript
+
+```js
+/**
+ * @param {number} num
+ * @return {boolean}
+ */
+var isSameAfterReversals = function (num) {
+    return num === 0 || num % 10 !== 0;
+};
 ```
 
 <!-- tabs:end -->

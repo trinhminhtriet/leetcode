@@ -1,67 +1,75 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2124.Check%20if%20All%20A%27s%20Appears%20Before%20All%20B%27s/README.md
 rating: 1201
-source: Weekly Contest 274 Q1
+source: 第 274 场周赛 Q1
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2124. Check if All A's Appears Before All B's](https://leetcode.com/problems/check-if-all-as-appears-before-all-bs)
+# [2124. 检查是否所有 A 都在 B 之前](https://leetcode.cn/problems/check-if-all-as-appears-before-all-bs)
 
-## Description
+[English Version](/solution/2100-2199/2124.Check%20if%20All%20A%27s%20Appears%20Before%20All%20B%27s/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code> consisting of <strong>only</strong> the characters <code>&#39;a&#39;</code> and <code>&#39;b&#39;</code>, return <code>true</code> <em>if <strong>every</strong> </em><code>&#39;a&#39;</code> <em>appears before <strong>every</strong> </em><code>&#39;b&#39;</code><em> in the string</em>. Otherwise, return <code>false</code>.</p>
+<p>给你一个 <strong>仅</strong> 由字符 <code>'a'</code> 和 <code>'b'</code> 组成的字符串&nbsp; <code>s</code> 。如果字符串中 <strong>每个</strong> <em> </em><code>'a'</code> 都出现在 <strong>每个</strong><em> </em><code>'b'</code><em> </em>之前，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;aaabbb&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong>
-The &#39;a&#39;s are at indices 0, 1, and 2, while the &#39;b&#39;s are at indices 3, 4, and 5.
-Hence, every &#39;a&#39; appears before every &#39;b&#39; and we return true.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>s = "aaabbb"
+<strong>输出：</strong>true
+<strong>解释：</strong>
+'a' 位于下标 0、1 和 2 ；而 'b' 位于下标 3、4 和 5 。
+因此，每个 'a' 都出现在每个 'b' 之前，所以返回 true 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;abab&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong>
-There is an &#39;a&#39; at index 2 and a &#39;b&#39; at index 1.
-Hence, not every &#39;a&#39; appears before every &#39;b&#39; and we return false.
+<pre><strong>输入：</strong>s = "abab"
+<strong>输出：</strong>false
+<strong>解释：</strong>
+存在一个 'a' 位于下标 2 ，而一个 'b' 位于下标 1 。
+因此，不能满足每个 'a' 都出现在每个 'b' 之前，所以返回 false 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;bbb&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong>
-There are no &#39;a&#39;s, hence, every &#39;a&#39; appears before every &#39;b&#39; and we return true.
+<pre><strong>输入：</strong>s = "bbb"
+<strong>输出：</strong>true
+<strong>解释：</strong>
+不存在 'a' ，因此可以视作每个 'a' 都出现在每个 'b' 之前，所以返回 true 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s[i]</code> is either <code>&#39;a&#39;</code> or <code>&#39;b&#39;</code>.</li>
+	<li><code>s[i]</code> 为 <code>'a'</code> 或 <code>'b'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+根据题意，字符串 $s$ 仅由字符 `a`, `b` 组成。
+
+要使得所有 `a` 都在 `b` 之前出现，需要满足 `b` 之后不会出现 `a`，也就是说，字符串 "ba" 不是字符串 $s$ 的子串，条件才能成立。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 

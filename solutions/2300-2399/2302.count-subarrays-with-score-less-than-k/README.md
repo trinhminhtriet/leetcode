@@ -1,62 +1,67 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2302.Count%20Subarrays%20With%20Score%20Less%20Than%20K/README.md
 rating: 1808
-source: Biweekly Contest 80 Q4
+source: 第 80 场双周赛 Q4
 tags:
-  - Array
-  - Binary Search
-  - Prefix Sum
-  - Sliding Window
+    - 数组
+    - 二分查找
+    - 前缀和
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2302. Count Subarrays With Score Less Than K](https://leetcode.com/problems/count-subarrays-with-score-less-than-k)
+# [2302. 统计得分小于 K 的子数组数目](https://leetcode.cn/problems/count-subarrays-with-score-less-than-k)
 
-## Description
+[English Version](/solution/2300-2399/2302.Count%20Subarrays%20With%20Score%20Less%20Than%20K/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <strong>score</strong> of an array is defined as the <strong>product</strong> of its sum and its length.</p>
+<p>一个数组的 <strong>分数</strong>&nbsp;定义为数组之和 <strong>乘以</strong>&nbsp;数组的长度。</p>
 
 <ul>
-	<li>For example, the score of <code>[1, 2, 3, 4, 5]</code> is <code>(1 + 2 + 3 + 4 + 5) * 5 = 75</code>.</li>
+	<li>比方说，<code>[1, 2, 3, 4, 5]</code>&nbsp;的分数为&nbsp;<code>(1 + 2 + 3 + 4 + 5) * 5 = 75</code>&nbsp;。</li>
 </ul>
 
-<p>Given a positive integer array <code>nums</code> and an integer <code>k</code>, return <em>the <strong>number of non-empty subarrays</strong> of</em> <code>nums</code> <em>whose score is <strong>strictly less</strong> than</em> <code>k</code>.</p>
+<p>给你一个正整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;，请你返回&nbsp;<code>nums</code>&nbsp;中分数&nbsp;<strong>严格小于&nbsp;</strong><code>k</code>&nbsp;的&nbsp;<strong>非空整数子数组数目</strong>。</p>
 
-<p>A <strong>subarray</strong> is a contiguous sequence of elements within an array.</p>
+<p><strong>子数组</strong> 是数组中的一个连续元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,1,4,3,5], k = 10
-<strong>Output:</strong> 6
-<strong>Explanation:</strong>
-The 6 subarrays having scores less than 10 are:
-- [2] with score 2 * 1 = 2.
-- [1] with score 1 * 1 = 1.
-- [4] with score 4 * 1 = 4.
-- [3] with score 3 * 1 = 3. 
-- [5] with score 5 * 1 = 5.
-- [2,1] with score (2 + 1) * 2 = 6.
-Note that subarrays such as [1,4] and [4,3,5] are not considered because their scores are 10 and 36 respectively, while we need scores strictly less than 10.</pre>
+<b>输入：</b>nums = [2,1,4,3,5], k = 10
+<b>输出：</b>6
+<strong>解释：</strong>
+有 6 个子数组的分数小于 10 ：
+- [2] 分数为 2 * 1 = 2 。
+- [1] 分数为 1 * 1 = 1 。
+- [4] 分数为 4 * 1 = 4 。
+- [3] 分数为 3 * 1 = 3 。 
+- [5] 分数为 5 * 1 = 5 。
+- [2,1] 分数为 (2 + 1) * 2 = 6 。
+注意，子数组 [1,4] 和 [4,3,5] 不符合要求，因为它们的分数分别为 10 和 36，但我们要求子数组的分数严格小于 10 。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,1,1], k = 5
-<strong>Output:</strong> 5
-<strong>Explanation:</strong>
-Every subarray except [1,1,1] has a score less than 5.
-[1,1,1] has a score (1 + 1 + 1) * 3 = 9, which is greater than 5.
-Thus, there are 5 subarrays having scores less than 5.
+<b>输入：</b>nums = [1,1,1], k = 5
+<b>输出：</b>5
+<strong>解释：</strong>
+除了 [1,1,1] 以外每个子数组分数都小于 5 。
+[1,1,1] 分数为 (1 + 1 + 1) * 3 = 9 ，大于 5 。
+所以总共有 5 个子数组得分小于 5 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -66,17 +71,17 @@ Thus, there are 5 subarrays having scores less than 5.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Binary Search
+### 方法一：前缀和 + 二分查找
 
-First, we calculate the prefix sum array $s$ of the array $nums$, where $s[i]$ represents the sum of the first $i$ elements of the array $nums$.
+我们先计算出数组 $nums$ 的前缀和数组 $s$，其中 $s[i]$ 表示数组 $nums$ 前 $i$ 个元素的和。
 
-Next, we enumerate each element of the array $nums$ as the last element of the subarray. For each element, we can find the maximum length $l$ such that $s[i] - s[i - l] \times l < k$ by binary search. The number of subarrays with this element as the last element is $l$, and we add all $l$ to get the answer.
+接下来，我们枚举数组 $nums$ 每个元素作为子数组的最后一个元素，对于每个元素，我们可以通过二分查找的方式找到最大的长度 $l$，使得 $s[i] - s[i - l] \times l < k$。那么以该元素为最后一个元素的子数组个数即为 $l$，我们将所有的 $l$ 相加即为答案。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -188,11 +193,11 @@ func countSubarrays(nums []int, k int64) (ans int64) {
 
 <!-- solution:start -->
 
-### Solution 2: Two Pointers
+### 方法二：双指针
 
-We can use two pointers to maintain a sliding window, so that the sum of the elements in the window is less than $k$. The number of subarrays with the current element as the last element is the length of the window, and we add all window lengths to get the answer.
+我们可以使用双指针的方式，维护一个滑动窗口，使得窗口内的元素和小于 $k$。那么以当前元素为最后一个元素的子数组个数即为窗口的长度，我们将所有的窗口长度相加即为答案。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

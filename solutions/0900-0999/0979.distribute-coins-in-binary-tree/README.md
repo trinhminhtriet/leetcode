@@ -1,68 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0979.Distribute%20Coins%20in%20Binary%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [979. Distribute Coins in Binary Tree](https://leetcode.com/problems/distribute-coins-in-binary-tree)
+# [979. 在二叉树中分配硬币](https://leetcode.cn/problems/distribute-coins-in-binary-tree)
 
-## Description
+[English Version](/solution/0900-0999/0979.Distribute%20Coins%20in%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the <code>root</code> of a binary tree with <code>n</code> nodes where each <code>node</code> in the tree has <code>node.val</code> coins. There are <code>n</code> coins in total throughout the whole tree.</p>
+<p>给你一个有 <code>n</code> 个结点的二叉树的根结点 <code>root</code> ，其中树中每个结点 <code>node</code> 都对应有 <code>node.val</code> 枚硬币。整棵树上一共有 <code>n</code> 枚硬币。</p>
 
-<p>In one move, we may choose two adjacent nodes and move one coin from one node to another. A move may be from parent to child, or from child to parent.</p>
+<p>在一次移动中，我们可以选择两个相邻的结点，然后将一枚硬币从其中一个结点移动到另一个结点。移动可以是从父结点到子结点，或者从子结点移动到父结点。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of moves required to make every node have <strong>exactly</strong> one coin</em>.</p>
+<p>返回使每个结点上 <strong>只有</strong> 一枚硬币所需的 <strong>最少</strong> 移动次数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0979.Distribute%20Coins%20in%20Binary%20Tree/images/tree1.png" style="width: 250px; height: 236px;" />
 <pre>
-<strong>Input:</strong> root = [3,0,0]
-<strong>Output:</strong> 2
-<strong>Explanation: </strong>From the root of the tree, we move one coin to its left child, and one coin to its right child.
+<strong>输入：</strong>root = [3,0,0]
+<strong>输出：</strong>2
+<strong>解释：</strong>一枚硬币从根结点移动到左子结点，一枚硬币从根结点移动到右子结点。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0979.Distribute%20Coins%20in%20Binary%20Tree/images/tree2.png" style="width: 250px; height: 236px;" />
 <pre>
-<strong>Input:</strong> root = [0,3,0]
-<strong>Output:</strong> 3
-<strong>Explanation: </strong>From the left child of the root, we move two coins to the root [taking two moves]. Then, we move one coin from the root of the tree to the right child.
+<strong>输入：</strong>root = [0,3,0]
+<strong>输出：</strong>3
+<strong>解释：</strong>将两枚硬币从根结点的左子结点移动到根结点（两次移动）。然后，将一枚硬币从根结点移动到右子结点。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is <code>n</code>.</li>
+	<li>树中节点的数目为 <code>n</code></li>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
 	<li><code>0 &lt;= Node.val &lt;= n</code></li>
-	<li>The sum of all <code>Node.val</code> is <code>n</code>.</li>
+	<li>所有 <code>Node.val</code> 的值之和是 <code>n</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-We define a function $\textit{dfs(node)}$, which represents the coin overload in the subtree rooted at $\textit{node}$, i.e., the number of coins minus the number of nodes. If $\textit{dfs(node)}$ is positive, it means the subtree has more coins than nodes, and the excess coins need to be moved out of the subtree; if $\textit{dfs(node)}$ is negative, it means the subtree has fewer coins than nodes, and the shortfall needs to be moved into the subtree.
+我们定义一个函数 $\textit{dfs(\textit{node})}$，表示以 $\textit{node}$ 为根节点的子树中，金币的超载量，即金币的数量减去节点数。如果 $\textit{dfs(\textit{node})}$ 为正数，表示该子树中金币的数量多于节点数，需要将多余的金币移出该子树；如果 $\textit{dfs(\textit{node})}$ 为负数，表示该子树中金币的数量少于节点数，需要将不足的金币移入该子树。
 
-In the function $\textit{dfs(node)}$, we first traverse the left and right subtrees to obtain the coin overload $\textit{left}$ and $\textit{right}$ of the left and right subtrees, respectively. Then, the current number of moves needs to be increased by $|\textit{left}| + |\textit{right}|$, which means moving the coins from the left and right subtrees to the current node. After that, we return the coin overload of the entire subtree, which is $\textit{left} + \textit{right} + \textit{node.val} - 1$.
+在函数 $\textit{dfs(\textit{node})}$ 中，我们首先遍历左右子树，获得左右子树的金币超载量 $\textit{left}$ 和 $\textit{right}$。那么当前移动的次数需要加上 $|\textit{left}| + |\textit{right}|$，即将左右子树中的金币移动到当前节点。然后，我们返回整个子树的金币超载量，即 $\textit{left} + \textit{right} + \textit{node.val} - 1$。
 
-Finally, we return the number of moves.
+最后返回移动的次数即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(h)$. Here, $n$ and $h$ respectively represent the number of nodes and the height of the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(h)$。其中 $n$ 和 $h$ 分别是二叉树的节点数和高度。
 
 <!-- tabs:start -->
 
@@ -212,18 +217,18 @@ func abs(x int) int {
  */
 
 function distributeCoins(root: TreeNode | null): number {
-  let ans = 0;
-  const dfs = (root: TreeNode | null) => {
-    if (!root) {
-      return 0;
-    }
-    const left = dfs(root.left);
-    const right = dfs(root.right);
-    ans += Math.abs(left) + Math.abs(right);
-    return left + right + root.val - 1;
-  };
-  dfs(root);
-  return ans;
+    let ans = 0;
+    const dfs = (root: TreeNode | null) => {
+        if (!root) {
+            return 0;
+        }
+        const left = dfs(root.left);
+        const right = dfs(root.right);
+        ans += Math.abs(left) + Math.abs(right);
+        return left + right + root.val - 1;
+    };
+    dfs(root);
+    return ans;
 }
 ```
 

@@ -1,57 +1,67 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0230.Kth%20Smallest%20Element%20in%20a%20BST/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Search Tree
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉搜索树
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [230. Kth Smallest Element in a BST](https://leetcode.com/problems/kth-smallest-element-in-a-bst)
+# [230. 二叉搜索树中第 K 小的元素](https://leetcode.cn/problems/kth-smallest-element-in-a-bst)
 
-## Description
+[English Version](/solution/0200-0299/0230.Kth%20Smallest%20Element%20in%20a%20BST/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary search tree, and an integer <code>k</code>, return <em>the</em> <code>k<sup>th</sup></code> <em>smallest value (<strong>1-indexed</strong>) of all the values of the nodes in the tree</em>.</p>
+<p>给定一个二叉搜索树的根节点 <code>root</code> ，和一个整数 <code>k</code> ，请你设计一个算法查找其中第&nbsp;<code>k</code><strong>&nbsp;</strong>小的元素（从 1 开始计数）。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0230.Kth%20Smallest%20Element%20in%20a%20BST/images/kthtree1.jpg" style="width: 212px; height: 301px;" />
 <pre>
-<strong>Input:</strong> root = [3,1,4,null,2], k = 1
-<strong>Output:</strong> 1
+<strong>输入：</strong>root = [3,1,4,null,2], k = 1
+<strong>输出：</strong>1
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0230.Kth%20Smallest%20Element%20in%20a%20BST/images/kthtree2.jpg" style="width: 382px; height: 302px;" />
 <pre>
-<strong>Input:</strong> root = [5,3,6,2,4,null,null,1], k = 3
-<strong>Output:</strong> 3
+<strong>输入：</strong>root = [5,3,6,2,4,null,null,1], k = 3
+<strong>输出：</strong>3
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is <code>n</code>.</li>
+	<li>树中的节点数为 <code>n</code> 。</li>
 	<li><code>1 &lt;= k &lt;= n &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Follow up:</strong> If the BST is modified often (i.e., we can do insert and delete operations) and you need to find the kth smallest frequently, how would you optimize?</p>
+
+<p><strong>进阶：</strong>如果二叉搜索树经常被修改（插入/删除操作）并且你需要频繁地查找第 <code>k</code> 小的值，你将如何优化算法？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：中序遍历
+
+由于二叉搜索树的性质，中序遍历一定能得到升序序列，因此可以采用中序遍历找出第 k 小的元素。
 
 <!-- tabs:start -->
 
@@ -200,22 +210,22 @@ func kthSmallest(root *TreeNode, k int) int {
  */
 
 function kthSmallest(root: TreeNode | null, k: number): number {
-  const dfs = (root: TreeNode | null) => {
-    if (root == null) {
-      return -1;
-    }
-    const { val, left, right } = root;
-    const l = dfs(left);
-    if (l !== -1) {
-      return l;
-    }
-    k--;
-    if (k === 0) {
-      return val;
-    }
-    return dfs(right);
-  };
-  return dfs(root);
+    const dfs = (root: TreeNode | null) => {
+        if (root == null) {
+            return -1;
+        }
+        const { val, left, right } = root;
+        const l = dfs(left);
+        if (l !== -1) {
+            return l;
+        }
+        k--;
+        if (k === 0) {
+            return val;
+        }
+        return dfs(right);
+    };
+    return dfs(root);
 }
 ```
 
@@ -269,7 +279,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：预处理结点数
+
+预处理每个结点作为根节点的子树的节点数。
+
+这种算法可以用来优化频繁查找第 k 个树、而二叉搜索树本身不被修改的情况。
 
 <!-- tabs:start -->
 

@@ -1,66 +1,71 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2164.Sort%20Even%20and%20Odd%20Indices%20Independently/README.md
 rating: 1252
-source: Weekly Contest 279 Q1
+source: 第 279 场周赛 Q1
 tags:
-  - Array
-  - Sorting
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2164. Sort Even and Odd Indices Independently](https://leetcode.com/problems/sort-even-and-odd-indices-independently)
+# [2164. 对奇偶下标分别排序](https://leetcode.cn/problems/sort-even-and-odd-indices-independently)
 
-## Description
+[English Version](/solution/2100-2199/2164.Sort%20Even%20and%20Odd%20Indices%20Independently/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. Rearrange the values of <code>nums</code> according to the following rules:</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 。根据下述规则重排 <code>nums</code> 中的值：</p>
 
 <ol>
-	<li>Sort the values at <strong>odd indices</strong> of <code>nums</code> in <strong>non-increasing</strong> order.
+	<li>按 <strong>非递增</strong> 顺序排列 <code>nums</code> <strong>奇数下标</strong> 上的所有值。
 
     <ul>
-    	<li>For example, if <code>nums = [4,<strong><u>1</u></strong>,2,<u><strong>3</strong></u>]</code> before this step, it becomes <code>[4,<u><strong>3</strong></u>,2,<strong><u>1</u></strong>]</code> after. The values at odd indices <code>1</code> and <code>3</code> are sorted in non-increasing order.</li>
+    	<li>举个例子，如果排序前 <code>nums = [4,<em><strong>1</strong></em>,2,<em><strong>3</strong></em>]</code> ，对奇数下标的值排序后变为 <code>[4,<em><strong>3</strong></em>,2,<em><strong>1</strong></em>]</code> 。奇数下标 <code>1</code> 和 <code>3</code> 的值按照非递增顺序重排。</li>
     </ul>
     </li>
-    <li>Sort the values at <strong>even indices</strong> of <code>nums</code> in <strong>non-decreasing</strong> order.
+    <li>按 <strong>非递减</strong> 顺序排列 <code>nums</code> <strong>偶数下标</strong> 上的所有值。
     <ul>
-    	<li>For example, if <code>nums = [<u><strong>4</strong></u>,1,<u><strong>2</strong></u>,3]</code> before this step, it becomes <code>[<u><strong>2</strong></u>,1,<u><strong>4</strong></u>,3]</code> after. The values at even indices <code>0</code> and <code>2</code> are sorted in non-decreasing order.</li>
+    	<li>举个例子，如果排序前 <code>nums = [<em><strong>4</strong></em>,1,<em><strong>2</strong></em>,3]</code> ，对偶数下标的值排序后变为 <code>[<em><strong>2</strong></em>,1,<em><strong>4</strong></em>,3]</code> 。偶数下标 <code>0</code> 和 <code>2</code> 的值按照非递减顺序重排。</li>
     </ul>
     </li>
 
 </ol>
 
-<p>Return <em>the array formed after rearranging the values of</em> <code>nums</code>.</p>
+<p>返回重排 <code>nums</code> 的值之后形成的数组。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [4,1,2,3]
-<strong>Output:</strong> [2,3,4,1]
-<strong>Explanation:</strong> 
-First, we sort the values present at odd indices (1 and 3) in non-increasing order.
-So, nums changes from [4,<strong><u>1</u></strong>,2,<strong><u>3</u></strong>] to [4,<u><strong>3</strong></u>,2,<strong><u>1</u></strong>].
-Next, we sort the values present at even indices (0 and 2) in non-decreasing order.
-So, nums changes from [<u><strong>4</strong></u>,1,<strong><u>2</u></strong>,3] to [<u><strong>2</strong></u>,3,<u><strong>4</strong></u>,1].
-Thus, the array formed after rearranging the values is [2,3,4,1].
+<strong>输入：</strong>nums = [4,1,2,3]
+<strong>输出：</strong>[2,3,4,1]
+<strong>解释：</strong>
+首先，按非递增顺序重排奇数下标（1 和 3）的值。
+所以，nums 从 [4,<em><strong>1</strong></em>,2,<em><strong>3</strong></em>] 变为 [4,<em><strong>3</strong></em>,2,<em><strong>1</strong></em>] 。
+然后，按非递减顺序重排偶数下标（0 和 2）的值。
+所以，nums 从 [<em><strong>4</strong></em>,1,<em><strong>2</strong></em>,3] 变为 [<em><strong>2</strong></em>,3,<em><strong>4</strong></em>,1] 。
+因此，重排之后形成的数组是 [2,3,4,1] 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,1]
-<strong>Output:</strong> [2,1]
-<strong>Explanation:</strong> 
-Since there is exactly one odd index and one even index, no rearrangement of values takes place.
-The resultant array formed is [2,1], which is the same as the initial array. 
+<strong>输入：</strong>nums = [2,1]
+<strong>输出：</strong>[2,1]
+<strong>解释：</strong>
+由于只有一个奇数下标和一个偶数下标，所以不会发生重排。
+形成的结果数组是 [2,1] ，和初始数组一样。 
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -69,15 +74,15 @@ The resultant array formed is [2,1], which is the same as the initial array.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-We can extract the elements at odd and even indices separately, then sort the array of odd indices in non-increasing order and the array of even indices in non-decreasing order. Finally, merge the two arrays back together.
+我们可以将奇数下标和偶数下标分别取出来，然后对奇数下标的数组进行非递增排序，对偶数下标的数组进行非递减排序，最后再将两个数组合并即可。
 
-The time complexity is $O(n \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -185,26 +190,26 @@ func sortEvenOdd(nums []int) []int {
 
 ```ts
 function sortEvenOdd(nums: number[]): number[] {
-  const n = nums.length;
-  const a: number[] = [];
-  const b: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    if (i % 2 === 0) {
-      a.push(nums[i]);
-    } else {
-      b.push(nums[i]);
+    const n = nums.length;
+    const a: number[] = [];
+    const b: number[] = [];
+    for (let i = 0; i < n; ++i) {
+        if (i % 2 === 0) {
+            a.push(nums[i]);
+        } else {
+            b.push(nums[i]);
+        }
     }
-  }
-  a.sort((x, y) => x - y);
-  b.sort((x, y) => y - x);
-  const ans: number[] = [];
-  for (let i = 0, j = 0; j < a.length; i += 2, ++j) {
-    ans[i] = a[j];
-  }
-  for (let i = 1, j = 0; j < b.length; i += 2, ++j) {
-    ans[i] = b[j];
-  }
-  return ans;
+    a.sort((x, y) => x - y);
+    b.sort((x, y) => y - x);
+    const ans: number[] = [];
+    for (let i = 0, j = 0; j < a.length; i += 2, ++j) {
+        ans[i] = a[j];
+    }
+    for (let i = 1, j = 0; j < b.length; i += 2, ++j) {
+        ans[i] = b[j];
+    }
+    return ans;
 }
 ```
 

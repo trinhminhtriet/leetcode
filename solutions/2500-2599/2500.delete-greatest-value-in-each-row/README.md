@@ -1,62 +1,71 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2500.Delete%20Greatest%20Value%20in%20Each%20Row/README.md
 rating: 1309
-source: Weekly Contest 323 Q1
+source: 第 323 场周赛 Q1
 tags:
-  - Array
-  - Matrix
-  - Sorting
-  - Simulation
-  - Heap (Priority Queue)
+    - 数组
+    - 矩阵
+    - 排序
+    - 模拟
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2500. Delete Greatest Value in Each Row](https://leetcode.com/problems/delete-greatest-value-in-each-row)
+# [2500. 删除每行中的最大值](https://leetcode.cn/problems/delete-greatest-value-in-each-row)
 
-## Description
+[English Version](/solution/2500-2599/2500.Delete%20Greatest%20Value%20in%20Each%20Row/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> matrix <code>grid</code> consisting of positive integers.</p>
+<p>给你一个 <code>m x n</code> 大小的矩阵 <code>grid</code> ，由若干正整数组成。</p>
 
-<p>Perform the following operation until <code>grid</code> becomes empty:</p>
+<p>执行下述操作，直到 <code>grid</code> 变为空矩阵：</p>
 
 <ul>
-	<li>Delete the element with the greatest value from each row. If multiple such elements exist, delete any of them.</li>
-	<li>Add the maximum of deleted elements to the answer.</li>
+	<li>从每一行删除值最大的元素。如果存在多个这样的值，删除其中任何一个。</li>
+	<li>将删除元素中的最大值与答案相加。</li>
 </ul>
 
-<p><strong>Note</strong> that the number of columns decreases by one after each operation.</p>
+<p><strong>注意</strong> 每执行一次操作，矩阵中列的数据就会减 1 。</p>
 
-<p>Return <em>the answer after performing the operations described above</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2500.Delete%20Greatest%20Value%20in%20Each%20Row/images/q1ex1.jpg" style="width: 600px; height: 135px;" />
-<pre>
-<strong>Input:</strong> grid = [[1,2,4],[3,3,1]]
-<strong>Output:</strong> 8
-<strong>Explanation:</strong> The diagram above shows the removed values in each step.
-- In the first operation, we remove 4 from the first row and 3 from the second row (notice that, there are two cells with value 3 and we can remove any of them). We add 4 to the answer.
-- In the second operation, we remove 2 from the first row and 3 from the second row. We add 3 to the answer.
-- In the third operation, we remove 1 from the first row and 1 from the second row. We add 1 to the answer.
-The final answer = 4 + 3 + 1 = 8.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2500.Delete%20Greatest%20Value%20in%20Each%20Row/images/q1ex2.jpg" style="width: 83px; height: 83px;" />
-<pre>
-<strong>Input:</strong> grid = [[10]]
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> The diagram above shows the removed values in each step.
-- In the first operation, we remove 10 from the first row. We add 10 to the answer.
-The final answer = 10.
-</pre>
+<p>返回执行上述操作后的答案。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2500.Delete%20Greatest%20Value%20in%20Each%20Row/images/q1ex1.jpg" style="width: 600px; height: 135px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = [[1,2,4],[3,3,1]]
+<strong>输出：</strong>8
+<strong>解释：</strong>上图展示在每一步中需要移除的值。
+- 在第一步操作中，从第一行删除 4 ，从第二行删除 3（注意，有两个单元格中的值为 3 ，我们可以删除任一）。在答案上加 4 。
+- 在第二步操作中，从第一行删除 2 ，从第二行删除 3 。在答案上加 3 。
+- 在第三步操作中，从第一行删除 1 ，从第二行删除 1 。在答案上加 1 。
+最终，答案 = 4 + 3 + 1 = 8 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2500.Delete%20Greatest%20Value%20in%20Each%20Row/images/q1ex2.jpg" style="width: 83px; height: 83px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = [[10]]
+<strong>输出：</strong>10
+<strong>解释：</strong>上图展示在每一步中需要移除的值。
+- 在第一步操作中，从第一行删除 10 。在答案上加 10 。
+最终，答案 = 10 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -67,17 +76,17 @@ The final answer = 10.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-Since each operation involves removing the maximum value from each row and then adding the maximum value to the answer, we can first sort each row.
+由于每一次操作都是从每一行中删除最大值，然后取最大值加到答案中，因此我们可以先对每一行进行排序。
 
-Next, we traverse each column, take the maximum value from each column, and add it to the answer.
+接下来遍历每一列，取每一列的最大值，然后将其加到答案中即可。
 
-The time complexity is $O(m \times n \times \log n)$, and the space complexity is $O(\log n)$. Here, $m$ and $n$ are the number of rows and columns of the matrix, respectively.
+时间复杂度 $O(m \times n \times \log n)$，空间复杂度 $O(\log n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -158,20 +167,20 @@ func deleteGreatestValue(grid [][]int) (ans int) {
 
 ```ts
 function deleteGreatestValue(grid: number[][]): number {
-  for (const row of grid) {
-    row.sort((a, b) => a - b);
-  }
-
-  let ans = 0;
-  for (let j = 0; j < grid[0].length; ++j) {
-    let t = 0;
-    for (let i = 0; i < grid.length; ++i) {
-      t = Math.max(t, grid[i][j]);
+    for (const row of grid) {
+        row.sort((a, b) => a - b);
     }
-    ans += t;
-  }
 
-  return ans;
+    let ans = 0;
+    for (let j = 0; j < grid[0].length; ++j) {
+        let t = 0;
+        for (let i = 0; i < grid.length; ++i) {
+            t = Math.max(t, grid[i][j]);
+        }
+        ans += t;
+    }
+
+    return ans;
 }
 ```
 

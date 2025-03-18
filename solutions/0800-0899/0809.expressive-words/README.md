@@ -1,71 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0809.Expressive%20Words/README.md
 tags:
-  - Array
-  - Two Pointers
-  - String
+    - 数组
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [809. Expressive Words](https://leetcode.com/problems/expressive-words)
+# [809. 情感丰富的文字](https://leetcode.cn/problems/expressive-words)
 
-## Description
+[English Version](/solution/0800-0899/0809.Expressive%20Words/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Sometimes people repeat letters to represent extra feeling. For example:</p>
+<p>有时候人们会用重复写一些字母来表示额外的感受，比如 <code>"hello" -&gt; "heeellooo"</code>, <code>"hi" -&gt; "hiii"</code>。我们将相邻字母都相同的一串字符定义为相同字母组，例如："h", "eee", "ll", "ooo"。</p>
 
-<ul>
-	<li><code>&quot;hello&quot; -&gt; &quot;heeellooo&quot;</code></li>
-	<li><code>&quot;hi&quot; -&gt; &quot;hiiii&quot;</code></li>
-</ul>
+<p>对于一个给定的字符串 S ，如果另一个单词能够通过将一些字母组扩张从而使其和 S 相同，我们将这个单词定义为可扩张的（stretchy）。扩张操作定义如下：选择一个字母组（包含字母&nbsp;<code>c</code>&nbsp;），然后往其中添加相同的字母&nbsp;<code>c</code>&nbsp;使其长度达到 3 或以上。</p>
 
-<p>In these strings like <code>&quot;heeellooo&quot;</code>, we have groups of adjacent letters that are all the same: <code>&quot;h&quot;</code>, <code>&quot;eee&quot;</code>, <code>&quot;ll&quot;</code>, <code>&quot;ooo&quot;</code>.</p>
+<p>例如，以&nbsp;"hello" 为例，我们可以对字母组&nbsp;"o" 扩张得到 "hellooo"，但是无法以同样的方法得到 "helloo" 因为字母组 "oo" 长度小于&nbsp;3。此外，我们可以进行另一种扩张 "ll" -&gt; "lllll" 以获得&nbsp;"helllllooo"。如果&nbsp;<code>s = "helllllooo"</code>，那么查询词&nbsp;"hello" 是可扩张的，因为可以对它执行这两种扩张操作使得&nbsp;<code>query = "hello" -&gt; "hellooo" -&gt;&nbsp;"helllllooo" = s</code>。</p>
 
-<p>You are given a string <code>s</code> and an array of query strings <code>words</code>. A query word is <strong>stretchy</strong> if it can be made to be equal to <code>s</code> by any number of applications of the following extension operation: choose a group consisting of characters <code>c</code>, and add some number of characters <code>c</code> to the group so that the size of the group is <strong>three or more</strong>.</p>
-
-<ul>
-	<li>For example, starting with <code>&quot;hello&quot;</code>, we could do an extension on the group <code>&quot;o&quot;</code> to get <code>&quot;hellooo&quot;</code>, but we cannot get <code>&quot;helloo&quot;</code> since the group <code>&quot;oo&quot;</code> has a size less than three. Also, we could do another extension like <code>&quot;ll&quot; -&gt; &quot;lllll&quot;</code> to get <code>&quot;helllllooo&quot;</code>. If <code>s = &quot;helllllooo&quot;</code>, then the query word <code>&quot;hello&quot;</code> would be <strong>stretchy</strong> because of these two extension operations: <code>query = &quot;hello&quot; -&gt; &quot;hellooo&quot; -&gt; &quot;helllllooo&quot; = s</code>.</li>
-</ul>
-
-<p>Return <em>the number of query strings that are <strong>stretchy</strong></em>.</p>
+<p>输入一组查询单词，输出其中可扩张的单词数量。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;heeellooo&quot;, words = [&quot;hello&quot;, &quot;hi&quot;, &quot;helo&quot;]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> 
-We can extend &quot;e&quot; and &quot;o&quot; in the word &quot;hello&quot; to get &quot;heeellooo&quot;.
-We can&#39;t extend &quot;helo&quot; to get &quot;heeellooo&quot; because the group &quot;ll&quot; is not size 3 or more.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;zzzzzyyyyy&quot;, words = [&quot;zzyy&quot;,&quot;zy&quot;,&quot;zyy&quot;]
-<strong>Output:</strong> 3
+<strong>输入：</strong> 
+s = "heeellooo"
+words = ["hello", "hi", "helo"]
+<strong>输出：</strong>1
+<strong>解释</strong>：
+我们能通过扩张 "hello" 的 "e" 和 "o" 来得到 "heeellooo"。
+我们不能通过扩张 "helo" 来得到 "heeellooo" 因为 "ll" 的长度小于 3 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length, words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 100</code></li>
-	<li><code>s</code> and <code>words[i]</code> consist of lowercase letters.</li>
+	<li><font color="#c7254e" face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size: 12.6px; background-color: rgb(249, 242, 244);">s</span></font> 和所有在&nbsp;<code>words</code>&nbsp;中的单词都只由小写字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：遍历计数 + 双指针
+
+我们可以遍历数组 $\textit{words}$，对于数组中的每个单词 $t$，判断 $t$ 是否可以通过扩张得到 $s$，如果可以，那么答案加一。
+
+因此，问题的关键在于判断单词 $t$ 是否可以通过扩张得到 $s$。这里我们通过一个 $\textit{check}(s, t)$ 函数来判断。函数的具体实现逻辑如下：
+
+首先判断 $s$ 和 $t$ 的长度关系，如果 $t$ 的长度大于 $s$，直接返回 $\textit{false}$；否则，我们用双指针 $i$ 和 $j$ 分别指向 $s$ 和 $t$，初始时 $i$ 和 $j$ 的值均为 $0$。
+
+如果 $i$ 和 $j$ 指向的字符不同，那么 $t$ 无法通过扩张得到 $s$，直接返回 $\textit{false}$；否则，我们需要判断 $i$ 指向的字符的连续出现次数 $c_1$ 和 $j$ 指向的字符的连续出现次数 $c_2$ 的关系。如果 $c_1 \lt c_2$ 或者 $c_1 \lt 3$ 并且 $c_1 \neq c_2$，那么 $t$ 无法通过扩张得到 $s$，直接返回 $\textit{false}$；否则，将 $i$ 和 $j$ 分别右移 $c_1$ 和 $c_2$ 次。继续判断。
+
+如果 $i$ 和 $j$ 都到达了字符串的末尾，那么 $t$ 可以通过扩张得到 $s$，返回 $\textit{true}$，否则返回 $\textit{false}$。
+
+时间复杂度 $O(n \times m + \sum_{i=0}^{m-1} w_i)$，其中 $n$ 和 $m$ 分别为字符串 $s$ 和数组 $\textit{words}$ 的长度，而 $w_i$ 为数组 $\textit{words}$ 中第 $i$ 个单词的长度。
 
 <!-- tabs:start -->
 

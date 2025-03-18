@@ -1,68 +1,71 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2462.Total%20Cost%20to%20Hire%20K%20Workers/README.md
 rating: 1763
-source: Weekly Contest 318 Q3
+source: 第 318 场周赛 Q3
 tags:
-  - Array
-  - Two Pointers
-  - Simulation
-  - Heap (Priority Queue)
+    - 数组
+    - 双指针
+    - 模拟
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2462. Total Cost to Hire K Workers](https://leetcode.com/problems/total-cost-to-hire-k-workers)
+# [2462. 雇佣 K 位工人的总代价](https://leetcode.cn/problems/total-cost-to-hire-k-workers)
 
-## Description
+[English Version](/solution/2400-2499/2462.Total%20Cost%20to%20Hire%20K%20Workers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>costs</code> where <code>costs[i]</code> is the cost of hiring the <code>i<sup>th</sup></code> worker.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>costs</code>&nbsp;，其中&nbsp;<code>costs[i]</code>&nbsp;是雇佣第 <code>i</code>&nbsp;位工人的代价。</p>
 
-<p>You are also given two integers <code>k</code> and <code>candidates</code>. We want to hire exactly <code>k</code> workers according to the following rules:</p>
+<p>同时给你两个整数&nbsp;<code>k</code> 和&nbsp;<code>candidates</code>&nbsp;。我们想根据以下规则恰好雇佣&nbsp;<code>k</code>&nbsp;位工人：</p>
 
 <ul>
-	<li>You will run <code>k</code> sessions and hire exactly one worker in each session.</li>
-	<li>In each hiring session, choose the worker with the lowest cost from either the first <code>candidates</code> workers or the last <code>candidates</code> workers. Break the tie by the smallest index.
+	<li>总共进行&nbsp;<code>k</code>&nbsp;轮雇佣，且每一轮恰好雇佣一位工人。</li>
+	<li>在每一轮雇佣中，从最前面 <code>candidates</code>&nbsp;和最后面 <code>candidates</code>&nbsp;人中选出代价最小的一位工人，如果有多位代价相同且最小的工人，选择下标更小的一位工人。
 	<ul>
-		<li>For example, if <code>costs = [3,2,7,7,1,2]</code> and <code>candidates = 2</code>, then in the first hiring session, we will choose the <code>4<sup>th</sup></code> worker because they have the lowest cost <code>[<u>3,2</u>,7,7,<u><strong>1</strong>,2</u>]</code>.</li>
-		<li>In the second hiring session, we will choose <code>1<sup>st</sup></code> worker because they have the same lowest cost as <code>4<sup>th</sup></code> worker but they have the smallest index <code>[<u>3,<strong>2</strong></u>,7,<u>7,2</u>]</code>. Please note that the indexing may be changed in the process.</li>
+		<li>比方说，<code>costs = [3,2,7,7,1,2]</code> 且&nbsp;<code>candidates = 2</code>&nbsp;，第一轮雇佣中，我们选择第&nbsp;<code>4</code>&nbsp;位工人，因为他的代价最小&nbsp;<code>[<em>3,2</em>,7,7,<em><strong>1</strong>,2</em>]</code>&nbsp;。</li>
+		<li>第二轮雇佣，我们选择第&nbsp;<code>1</code>&nbsp;位工人，因为他们的代价与第&nbsp;<code>4</code>&nbsp;位工人一样都是最小代价，而且下标更小，<code>[<em>3,<strong>2</strong></em>,7,<em>7,2</em>]</code>&nbsp;。注意每一轮雇佣后，剩余工人的下标可能会发生变化。</li>
 	</ul>
 	</li>
-	<li>If there are fewer than candidates workers remaining, choose the worker with the lowest cost among them. Break the tie by the smallest index.</li>
-	<li>A worker can only be chosen once.</li>
+	<li>如果剩余员工数目不足 <code>candidates</code>&nbsp;人，那么下一轮雇佣他们中代价最小的一人，如果有多位代价相同且最小的工人，选择下标更小的一位工人。</li>
+	<li>一位工人只能被选择一次。</li>
 </ul>
 
-<p>Return <em>the total cost to hire exactly </em><code>k</code><em> workers.</em></p>
+<p>返回雇佣恰好<em>&nbsp;</em><code>k</code>&nbsp;位工人的总代价。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> costs = [17,12,10,2,7,2,11,20,8], k = 3, candidates = 4
-<strong>Output:</strong> 11
-<strong>Explanation:</strong> We hire 3 workers in total. The total cost is initially 0.
-- In the first hiring round we choose the worker from [<u>17,12,10,2</u>,7,<u>2,11,20,8</u>]. The lowest cost is 2, and we break the tie by the smallest index, which is 3. The total cost = 0 + 2 = 2.
-- In the second hiring round we choose the worker from [<u>17,12,10,7</u>,<u>2,11,20,8</u>]. The lowest cost is 2 (index 4). The total cost = 2 + 2 = 4.
-- In the third hiring round we choose the worker from [<u>17,12,10,7,11,20,8</u>]. The lowest cost is 7 (index 3). The total cost = 4 + 7 = 11. Notice that the worker with index 3 was common in the first and last four workers.
-The total hiring cost is 11.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>costs = [17,12,10,2,7,2,11,20,8], k = 3, candidates = 4
+<b>输出：</b>11
+<b>解释：</b>我们总共雇佣 3 位工人。总代价一开始为 0 。
+- 第一轮雇佣，我们从 [<strong><em>17,12,10,2</em></strong>,7,<strong><em>2,11,20,8</em></strong>] 中选择。最小代价是 2 ，有两位工人，我们选择下标更小的一位工人，即第 3 位工人。总代价是 0 + 2 = 2 。
+- 第二轮雇佣，我们从 [<strong><em>17,12,10,7</em></strong>,<strong><em>2,11,20,8</em></strong>] 中选择。最小代价是 2 ，下标为 4 ，总代价是 2 + 2 = 4 。
+- 第三轮雇佣，我们从 [<strong><em>17,12,10,7,11,20,8</em></strong>] 中选择，最小代价是 7 ，下标为 3 ，总代价是 4 + 7 = 11 。注意下标为 3 的工人同时在最前面和最后面 4 位工人中。
+总雇佣代价是 11 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> costs = [1,2,4,1], k = 3, candidates = 3
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> We hire 3 workers in total. The total cost is initially 0.
-- In the first hiring round we choose the worker from [<u>1,2,4,1</u>]. The lowest cost is 1, and we break the tie by the smallest index, which is 0. The total cost = 0 + 1 = 1. Notice that workers with index 1 and 2 are common in the first and last 3 workers.
-- In the second hiring round we choose the worker from [<u>2,4,1</u>]. The lowest cost is 1 (index 2). The total cost = 1 + 1 = 2.
-- In the third hiring round there are less than three candidates. We choose the worker from the remaining workers [<u>2,4</u>]. The lowest cost is 2 (index 0). The total cost = 2 + 2 = 4.
-The total hiring cost is 4.
+<pre><b>输入：</b>costs = [1,2,4,1], k = 3, candidates = 3
+<b>输出：</b>4
+<b>解释：</b>我们总共雇佣 3 位工人。总代价一开始为 0 。
+- 第一轮雇佣，我们从 [<strong><em>1,2,4,1</em></strong>] 中选择。最小代价为 1 ，有两位工人，我们选择下标更小的一位工人，即第 0 位工人，总代价是 0 + 1 = 1 。注意，下标为 1 和 2 的工人同时在最前面和最后面 3 位工人中。
+- 第二轮雇佣，我们从 [<strong><em>2,4,1</em></strong>] 中选择。最小代价为 1 ，下标为 2 ，总代价是 1 + 1 = 2 。
+- 第三轮雇佣，少于 3 位工人，我们从剩余工人 [<strong><em>2,4</em></strong>] 中选择。最小代价是 2 ，下标为 0 。总代价为 2 + 2 = 4 。
+总雇佣代价是 4 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= costs.length &lt;= 10<sup>5 </sup></code></li>
@@ -72,23 +75,23 @@ The total hiring cost is 4.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Priority Queue (Min Heap)
+### 方法一：优先队列（小根堆）
 
-First, we check if $candidates \times 2$ is greater than or equal to $n$. If it is, we directly return the sum of the costs of the first $k$ smallest workers.
+我们首先判断 $candidates \times 2$ 是否大于等于 $n$，如果是，我们直接返回前 $k$ 个最小的工人的代价之和。
 
-Otherwise, we use a min heap $pq$ to maintain the costs of the first $candidates$ workers and the last $candidates$ workers.
+否则，我们使用一个小根堆 $pq$ 来维护前 $candidates$ 个工人和后 $candidates$ 个工人的代价。
 
-We first add the costs and corresponding indices of the first $candidates$ workers to the min heap $pq$, and then add the costs and corresponding indices of the last $candidates$ workers to the min heap $pq$. We use two pointers $l$ and $r$ to point to the indices of the front and back candidates, initially $l = candidates$, $r = n - candidates - 1$.
+我们首先将前 $candidates$ 个工人的代价以及对应的下标加入小根堆 $pq$ 中，然后将后 $candidates$ 个工人的代价以及对应的下标加入小根堆 $pq$ 中。用两个指针 $l$ 和 $r$ 分别指向前后待选工人的下标，初始时 $l = candidates$, $r = n - candidates - 1$。
 
-Then we perform $k$ iterations, each time taking the worker with the smallest cost from the min heap $pq$ and adding its cost to the answer. If $l > r$, it means that all the front and back candidates have been selected, and we skip directly. Otherwise, if the index of the current worker is less than $l$, it means it is a worker from the front, we add the cost and index of the $l$-th worker to the min heap $pq$, and then increment $l$; otherwise, we add the cost and index of the $r$-th worker to the min heap $pq$, and then decrement $r$.
+然后我们进行 $k$ 次循环，每次从小根堆 $pq$ 中取出代价最小的工人，将其代价加入答案，如果 $l > r$，说明前后待选工人已经全部被选完，直接跳过。否则，如果当前工人的下标小于 $l$，说明是前面的工人，我们将第 $l$ 个工人的代价以及下标加入小根堆 $pq$ 中，然后 $l$ 加一；否则，我们将第 $r$ 个工人的代价以及下标加入小根堆 $pq$ 中，然后 $r$ 减一。
 
-After the loop ends, we return the answer.
+循环结束后，返回答案即可。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $costs$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $costs$ 的长度。
 
 <!-- tabs:start -->
 
@@ -248,33 +251,33 @@ func (h *hp) Pop() any     { a := *h; v := a[len(a)-1]; *h = a[:len(a)-1]; retur
 
 ```ts
 function totalCost(costs: number[], k: number, candidates: number): number {
-  const n = costs.length;
-  if (candidates * 2 >= n) {
-    costs.sort((a, b) => a - b);
-    return costs.slice(0, k).reduce((acc, x) => acc + x, 0);
-  }
-  const pq = new PriorityQueue({
-    compare: (a, b) => (a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]),
-  });
-  for (let i = 0; i < candidates; ++i) {
-    pq.enqueue([costs[i], i]);
-    pq.enqueue([costs[n - i - 1], n - i - 1]);
-  }
-  let [l, r] = [candidates, n - candidates - 1];
-  let ans = 0;
-  while (k--) {
-    const [cost, i] = pq.dequeue()!;
-    ans += cost;
-    if (l > r) {
-      continue;
+    const n = costs.length;
+    if (candidates * 2 >= n) {
+        costs.sort((a, b) => a - b);
+        return costs.slice(0, k).reduce((acc, x) => acc + x, 0);
     }
-    if (i < l) {
-      pq.enqueue([costs[l], l++]);
-    } else {
-      pq.enqueue([costs[r], r--]);
+    const pq = new PriorityQueue({
+        compare: (a, b) => (a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]),
+    });
+    for (let i = 0; i < candidates; ++i) {
+        pq.enqueue([costs[i], i]);
+        pq.enqueue([costs[n - i - 1], n - i - 1]);
     }
-  }
-  return ans;
+    let [l, r] = [candidates, n - candidates - 1];
+    let ans = 0;
+    while (k--) {
+        const [cost, i] = pq.dequeue()!;
+        ans += cost;
+        if (l > r) {
+            continue;
+        }
+        if (i < l) {
+            pq.enqueue([costs[l], l++]);
+        } else {
+            pq.enqueue([costs[r], r--]);
+        }
+    }
+    return ans;
 }
 ```
 

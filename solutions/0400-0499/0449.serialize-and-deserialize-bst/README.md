@@ -1,54 +1,72 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0449.Serialize%20and%20Deserialize%20BST/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Design
-  - Binary Search Tree
-  - String
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 设计
+    - 二叉搜索树
+    - 字符串
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [449. Serialize and Deserialize BST](https://leetcode.com/problems/serialize-and-deserialize-bst)
+# [449. 序列化和反序列化二叉搜索树](https://leetcode.cn/problems/serialize-and-deserialize-bst)
 
-## Description
+[English Version](/solution/0400-0499/0449.Serialize%20and%20Deserialize%20BST/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Serialization is converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.</p>
+<p>序列化是将数据结构或对象转换为一系列位的过程，以便它可以存储在文件或内存缓冲区中，或通过网络连接链路传输，以便稍后在同一个或另一个计算机环境中重建。</p>
 
-<p>Design an algorithm to serialize and deserialize a <b>binary search tree</b>. There is no restriction on how your serialization/deserialization algorithm should work. You need to ensure that a binary search tree can be serialized to a string, and this string can be deserialized to the original tree structure.</p>
+<p>设计一个算法来序列化和反序列化<strong> 二叉搜索树</strong> 。 对序列化/反序列化算法的工作方式没有限制。 您只需确保二叉搜索树可以序列化为字符串，并且可以将该字符串反序列化为最初的二叉搜索树。</p>
 
-<p><b>The encoded string should be as compact as possible.</b></p>
+<p><strong>编码的字符串应尽可能紧凑。</strong></p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> root = [2,1,3]
-<strong>Output:</strong> [2,1,3]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> root = []
-<strong>Output:</strong> []
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>root = [2,1,3]
+<strong>输出：</strong>[2,1,3]
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>root = []
+<strong>输出：</strong>[]
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
+	<li>树中节点数范围是 <code>[0, 10<sup>4</sup>]</code></li>
 	<li><code>0 &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
-	<li>The input tree is <strong>guaranteed</strong> to be a binary search tree.</li>
+	<li>题目数据 <strong>保证</strong> 输入的树是一棵二叉搜索树。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：先序遍历
+
+题目给定的是二叉搜索树，我们知道二叉搜索树的中序遍历是有序的，而通过“先序遍历”和“中序遍历”可以唯一确定一棵二叉树，所以我们可以通过先序遍历的结果和中序遍历的结果来唯一确定一棵二叉搜索树。
+
+在 `serialize` 方法中，我们使用先序遍历的方式将二叉搜索树序列化为空格分隔的字符串，然后在 `deserialize` 方法中，我们将字符串按空格分割为数组，然后使用递归的方式来构建二叉搜索树。递归函数为 $dfs(mi, mx)$，表示当前节点的值必须在 $[mi, mx]$ 之间，如果当前节点的值不在 $[mi, mx]$ 之间，则说明这个节点不是当前递归树的节点，返回 `None`。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉搜索树的节点数。
 
 <!-- tabs:start -->
 

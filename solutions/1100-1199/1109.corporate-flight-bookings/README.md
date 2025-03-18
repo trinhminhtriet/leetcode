@@ -1,58 +1,62 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1109.Corporate%20Flight%20Bookings/README.md
 rating: 1569
-source: Weekly Contest 144 Q2
+source: 第 144 场周赛 Q2
 tags:
-  - Array
-  - Prefix Sum
+    - 数组
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1109. Corporate Flight Bookings](https://leetcode.com/problems/corporate-flight-bookings)
+# [1109. 航班预订统计](https://leetcode.cn/problems/corporate-flight-bookings)
 
-## Description
+[English Version](/solution/1100-1199/1109.Corporate%20Flight%20Bookings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> flights that are labeled from <code>1</code> to <code>n</code>.</p>
+<p>这里有&nbsp;<code>n</code>&nbsp;个航班，它们分别从 <code>1</code> 到 <code>n</code> 进行编号。</p>
 
-<p>You are given an array of flight bookings <code>bookings</code>, where <code>bookings[i] = [first<sub>i</sub>, last<sub>i</sub>, seats<sub>i</sub>]</code> represents a booking for flights <code>first<sub>i</sub></code> through <code>last<sub>i</sub></code> (<strong>inclusive</strong>) with <code>seats<sub>i</sub></code> seats reserved for <strong>each flight</strong> in the range.</p>
+<p>有一份航班预订表&nbsp;<code>bookings</code> ，表中第&nbsp;<code>i</code>&nbsp;条预订记录&nbsp;<code>bookings[i] = [first<sub>i</sub>, last<sub>i</sub>, seats<sub>i</sub>]</code>&nbsp;意味着在从 <code>first<sub>i</sub></code>&nbsp;到 <code>last<sub>i</sub></code> （<strong>包含</strong> <code>first<sub>i</sub></code> 和 <code>last<sub>i</sub></code> ）的 <strong>每个航班</strong> 上预订了 <code>seats<sub>i</sub></code>&nbsp;个座位。</p>
 
-<p>Return <em>an array </em><code>answer</code><em> of length </em><code>n</code><em>, where </em><code>answer[i]</code><em> is the total number of seats reserved for flight </em><code>i</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
-<strong>Output:</strong> [10,55,45,25,25]
-<strong>Explanation:</strong>
-Flight labels:        1   2   3   4   5
-Booking 1 reserved:  10  10
-Booking 2 reserved:      20  20
-Booking 3 reserved:      25  25  25  25
-Total seats:         10  55  45  25  25
-Hence, answer = [10,55,45,25,25]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> bookings = [[1,2,10],[2,2,15]], n = 2
-<strong>Output:</strong> [10,25]
-<strong>Explanation:</strong>
-Flight labels:        1   2
-Booking 1 reserved:  10  10
-Booking 2 reserved:      15
-Total seats:         10  25
-Hence, answer = [10,25]
-
-</pre>
+<p>请你返回一个长度为 <code>n</code> 的数组&nbsp;<code>answer</code>，里面的元素是每个航班预定的座位总数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
+<strong>输出：</strong>[10,55,45,25,25]
+<strong>解释：</strong>
+航班编号        1   2   3   4   5
+预订记录 1 ：   10  10
+预订记录 2 ：       20  20
+预订记录 3 ：       25  25  25  25
+总座位数：      10  55  45  25  25
+因此，answer = [10,55,45,25,25]
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>bookings = [[1,2,10],[2,2,15]], n = 2
+<strong>输出：</strong>[10,25]
+<strong>解释：</strong>
+航班编号        1   2
+预订记录 1 ：   10  10
+预订记录 2 ：       15
+总座位数：      10  25
+因此，answer = [10,25]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2 * 10<sup>4</sup></code></li>
@@ -64,15 +68,15 @@ Hence, answer = [10,25]
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Difference Array
+### 方法一：差分数组
 
-We notice that each booking is for `seats` seats on all flights within a certain interval `[first, last]`. Therefore, we can use the idea of a difference array. For each booking, we add `seats` to the number at the `first` position and subtract `seats` from the number at the `last + 1` position. Finally, we calculate the prefix sum of the difference array to get the total number of seats booked for each flight.
+我们注意到，每一次预订都是在某个区间 `[first, last]` 内的所有航班上预订了 `seats` 个座位。因此，我们可以利用差分数组的思想，对于每一次预订，将 `first` 位置的数加上 `seats`，将 `last + 1` 位置的数减去 `seats`。最后，对差分数组求前缀和，即可得到每个航班预定的座位总数。
 
-The time complexity is $O(n)$, where $n$ is the number of flights. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为航班数。忽略答案的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -187,17 +191,17 @@ impl Solution {
  * @return {number[]}
  */
 var corpFlightBookings = function (bookings, n) {
-  const ans = new Array(n).fill(0);
-  for (const [first, last, seats] of bookings) {
-    ans[first - 1] += seats;
-    if (last < n) {
-      ans[last] -= seats;
+    const ans = new Array(n).fill(0);
+    for (const [first, last, seats] of bookings) {
+        ans[first - 1] += seats;
+        if (last < n) {
+            ans[last] -= seats;
+        }
     }
-  }
-  for (let i = 1; i < n; ++i) {
-    ans[i] += ans[i - 1];
-  }
-  return ans;
+    for (let i = 1; i < n; ++i) {
+        ans[i] += ans[i - 1];
+    }
+    return ans;
 };
 ```
 
@@ -207,20 +211,20 @@ var corpFlightBookings = function (bookings, n) {
 
 <!-- solution:start -->
 
-### Solution 2: Binary Indexed Tree + Difference Idea
+### 方法二：树状数组 + 差分思想
 
-We can also use a binary indexed tree, combined with the idea of difference, to implement the above operations. We can consider each booking as booking `seats` seats on all flights within a certain interval `[first, last]`. Therefore, for each booking, we add `seats` to the `first` position of the binary indexed tree and subtract `seats` from the `last + 1` position of the binary indexed tree. Finally, we calculate the prefix sum for each position in the binary indexed tree to get the total number of seats booked for each flight.
+我们也可以利用树状数组，结合差分的思想，来实现上述操作。我们可以将每一次预订看作是在某个区间 `[first, last]` 内的所有航班上预订了 `seats` 个座位。因此，我们可以对每一次预订，对树状数组的 `first` 位置加上 `seats`，对树状数组的 `last + 1` 位置减去 `seats`。最后，对树状数组每个位置求前缀和，即可得到每个航班预定的座位总数。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of flights.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为航班数。
 
-Here is a basic introduction to the binary indexed tree:
+以下是树状数组的基本介绍：
 
-A binary indexed tree, also known as a "Binary Indexed Tree" or Fenwick tree. It can efficiently implement the following two operations:
+树状数组，也称作“二叉索引树”（Binary Indexed Tree）或 Fenwick 树。 它可以高效地实现如下两个操作：
 
-1. **Single Point Update** `update(x, delta)`: Add a value delta to the number at position x in the sequence;
-1. **Prefix Sum Query** `query(x)`: Query the interval sum of the sequence `[1,...x]`, that is, the prefix sum of position x.
+1. **单点更新** `update(x, delta)`： 把序列 x 位置的数加上一个值 delta；
+1. **前缀和查询** `query(x)`：查询序列 `[1,...x]` 区间的区间和，即位置 x 的前缀和。
 
-The time complexity of these two operations is $O(\log n)$.
+这两个操作的时间复杂度均为 $O(\log n)$。
 
 <!-- tabs:start -->
 

@@ -1,82 +1,84 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1816.Truncate%20Sentence/README.md
 rating: 1235
-source: Weekly Contest 235 Q1
+source: 第 235 场周赛 Q1
 tags:
-  - Array
-  - String
+    - 数组
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1816. Truncate Sentence](https://leetcode.com/problems/truncate-sentence)
+# [1816. 截断句子](https://leetcode.cn/problems/truncate-sentence)
 
-## Description
+[English Version](/solution/1800-1899/1816.Truncate%20Sentence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <strong>sentence</strong> is a list of words that are separated by a single space with no leading or trailing spaces. Each of the words consists of <strong>only</strong> uppercase and lowercase English letters (no punctuation).</p>
+<p><strong>句子</strong> 是一个单词列表，列表中的单词之间用单个空格隔开，且不存在前导或尾随空格。每个单词仅由大小写英文字母组成（不含标点符号）。</p>
 
 <ul>
-	<li>For example, <code>&quot;Hello World&quot;</code>, <code>&quot;HELLO&quot;</code>, and <code>&quot;hello world hello world&quot;</code> are all sentences.</li>
+	<li>例如，<code>"Hello World"</code>、<code>"HELLO"</code> 和 <code>"hello world hello world"</code> 都是句子。</li>
 </ul>
 
-<p>You are given a sentence <code>s</code>​​​​​​ and an integer <code>k</code>​​​​​​. You want to <strong>truncate</strong> <code>s</code>​​​​​​ such that it contains only the <strong>first</strong> <code>k</code>​​​​​​ words. Return <code>s</code>​​​​<em>​​ after <strong>truncating</strong> it.</em></p>
+<p>给你一个句子 <code>s</code>​​​​​​ 和一个整数 <code>k</code>​​​​​​ ，请你将 <code>s</code>​​ <strong>截断</strong> ​，​​​使截断后的句子仅含 <strong>前</strong> <code>k</code>​​​​​​ 个单词。返回 <strong>截断</strong> <code>s</code>​​​​<em>​​ </em>后得到的句子<em>。</em></p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s = &quot;Hello how are you Contestant&quot;, k = 4
-<strong>Output:</strong> &quot;Hello how are you&quot;
-<strong>Explanation:</strong>
-The words in s are [&quot;Hello&quot;, &quot;how&quot; &quot;are&quot;, &quot;you&quot;, &quot;Contestant&quot;].
-The first 4 words are [&quot;Hello&quot;, &quot;how&quot;, &quot;are&quot;, &quot;you&quot;].
-Hence, you should return &quot;Hello how are you&quot;.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>s = "Hello how are you Contestant", k = 4
+<strong>输出：</strong>"Hello how are you"
+<strong>解释：</strong>
+s 中的单词为 ["Hello", "how" "are", "you", "Contestant"]
+前 4 个单词为 ["Hello", "how", "are", "you"]
+因此，应当返回 "Hello how are you"
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;What is the solution to this problem&quot;, k = 4
-<strong>Output:</strong> &quot;What is the solution&quot;
-<strong>Explanation:</strong>
-The words in s are [&quot;What&quot;, &quot;is&quot; &quot;the&quot;, &quot;solution&quot;, &quot;to&quot;, &quot;this&quot;, &quot;problem&quot;].
-The first 4 words are [&quot;What&quot;, &quot;is&quot;, &quot;the&quot;, &quot;solution&quot;].
-Hence, you should return &quot;What is the solution&quot;.</pre>
+<pre><strong>输入：</strong>s = "What is the solution to this problem", k = 4
+<strong>输出：</strong>"What is the solution"
+<strong>解释：</strong>
+s 中的单词为 ["What", "is" "the", "solution", "to", "this", "problem"]
+前 4 个单词为 ["What", "is", "the", "solution"]
+因此，应当返回 "What is the solution"</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;chopper is not a tanuki&quot;, k = 5
-<strong>Output:</strong> &quot;chopper is not a tanuki&quot;
+<pre><strong>输入：</strong>s = "chopper is not a tanuki", k = 5
+<strong>输出：</strong>"chopper is not a tanuki"
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 500</code></li>
-	<li><code>k</code> is in the range <code>[1, the number of words in s]</code>.</li>
-	<li><code>s</code> consist of only lowercase and uppercase English letters and spaces.</li>
-	<li>The words in <code>s</code> are separated by a single space.</li>
-	<li>There are no leading or trailing spaces.</li>
+	<li><code>k</code> 的取值范围是 <code>[1,  s 中单词的数目]</code></li>
+	<li><code>s</code> 仅由大小写英文字母和空格组成</li>
+	<li><code>s</code> 中的单词之间由单个空格隔开</li>
+	<li>不存在前导或尾随空格</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We traverse the string $s$ from the beginning. For the current character $s[i]$, if it is a space, we decrement $k$. When $k$ becomes $0$, it means that we have extracted $k$ words, so we return the substring $s[0..i)$.
+我们从前往后遍历字符串 $s$，对于当前遍历到的字符 $s[i]$，如果 $s[i]$ 是空格，那么 $k$ 自减 $1$，当 $k$ 为 $0$ 时，说明已经截取了 $k$ 个单词，截取字符串 $s[0..i)$ 返回即可。
 
-After the traversal, we return $s$.
+遍历结束，返回 $s$ 即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. Ignoring the space complexity of the answer, the space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -139,12 +141,12 @@ func truncateSentence(s string, k int) string {
 
 ```ts
 function truncateSentence(s: string, k: number): string {
-  for (let i = 0; i < s.length; ++i) {
-    if (s[i] === " " && --k === 0) {
-      return s.slice(0, i);
+    for (let i = 0; i < s.length; ++i) {
+        if (s[i] === ' ' && --k === 0) {
+            return s.slice(0, i);
+        }
     }
-  }
-  return s;
+    return s;
 }
 ```
 
@@ -157,12 +159,12 @@ function truncateSentence(s: string, k: number): string {
  * @return {string}
  */
 var truncateSentence = function (s, k) {
-  for (let i = 0; i < s.length; ++i) {
-    if (s[i] === " " && --k === 0) {
-      return s.slice(0, i);
+    for (let i = 0; i < s.length; ++i) {
+        if (s[i] === ' ' && --k === 0) {
+            return s.slice(0, i);
+        }
     }
-  }
-  return s;
+    return s;
 };
 ```
 
@@ -172,7 +174,7 @@ var truncateSentence = function (s, k) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

@@ -1,53 +1,57 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0793.Preimage%20Size%20of%20Factorial%20Zeroes%20Function/README.md
 tags:
-  - Math
-  - Binary Search
+    - 数学
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [793. Preimage Size of Factorial Zeroes Function](https://leetcode.com/problems/preimage-size-of-factorial-zeroes-function)
+# [793. 阶乘函数后 K 个零](https://leetcode.cn/problems/preimage-size-of-factorial-zeroes-function)
 
-## Description
+[English Version](/solution/0700-0799/0793.Preimage%20Size%20of%20Factorial%20Zeroes%20Function/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Let <code>f(x)</code> be the number of zeroes at the end of <code>x!</code>. Recall that <code>x! = 1 * 2 * 3 * ... * x</code> and by convention, <code>0! = 1</code>.</p>
+<p>&nbsp;<code>f(x)</code>&nbsp;是&nbsp;<code>x!</code>&nbsp;末尾是 0 的数量。回想一下&nbsp;<code>x! = 1 * 2 * 3 * ... * x</code>，且 <code>0! = 1</code>&nbsp;。</p>
 
 <ul>
-	<li>For example, <code>f(3) = 0</code> because <code>3! = 6</code> has no zeroes at the end, while <code>f(11) = 2</code> because <code>11! = 39916800</code> has two zeroes at the end.</li>
+	<li>例如，&nbsp;<code>f(3) = 0</code>&nbsp;，因为 <code>3! = 6</code> 的末尾没有 0 ；而 <code>f(11) = 2</code>&nbsp;，因为 <code>11!= 39916800</code> 末端有 2 个 0 。</li>
 </ul>
 
-<p>Given an integer <code>k</code>, return the number of non-negative integers <code>x</code> have the property that <code>f(x) = k</code>.</p>
+<p>给定&nbsp;<code>k</code>，找出返回能满足 <code>f(x) = k</code>&nbsp;的非负整数 <code>x</code>&nbsp;的数量。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong><strong> </strong></p>
 
 <pre>
-<strong>Input:</strong> k = 0
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> 0!, 1!, 2!, 3!, and 4! end with k = 0 zeroes.
+<strong>输入：</strong>k = 0<strong>
+输出：</strong>5<strong>
+解释：</strong>0!, 1!, 2!, 3!, 和 4!&nbsp;均符合 k = 0 的条件。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> k = 5
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There is no x such that x! ends in k = 5 zeroes.
-</pre>
+<strong>输入：</strong>k = 5
+<strong>输出：</strong>0
+<strong>解释：</strong>没有匹配到这样的 x!，符合 k = 5 的条件。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3:</strong></p>
 
 <pre>
-<strong>Input:</strong> k = 3
-<strong>Output:</strong> 5
+<strong>输入:</strong> k = 3
+<strong>输出:</strong> 5
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= k &lt;= 10<sup>9</sup></code></li>
@@ -55,11 +59,29 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：二分查找
+
+定义 $f(x)$ 为 $x!$ 末尾零的个数，那么
+
+$$
+f(x)=
+\begin{cases}
+0, x=0\\
+x/5+f(x/5), x>0
+\end{cases}
+$$
+
+定义 $g(k)$ 表示 $x!$ 末尾为零的个数为 $k$ 的最小的 $x$ 值，那么题目等价于求解 $g(k+1)-g(k)$。
+
+由于 $g(k)$ 是单调递增的，因此可以使用二分查找求解 $g(k)$。
+
+同时，由于 $f(x)=x/5+f(x/5) \ge x/5$，因此 $f(5k)\ge k$。所以，求解 $g(k)$ 时，二分的右边界可以取 $5k$。
+
+时间复杂度 $O(log^2k)$，其中 $k$ 为题目给定的整数。二分查找 $g(k)$ 的时间复杂度为 $O(logk)$，计算 $f(x)$ 的时间复杂度为 $O(logx)$，因此总时间复杂度为 $O(log^2k)$。
 
 <!-- tabs:start -->
 

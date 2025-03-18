@@ -1,58 +1,71 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1081.Smallest%20Subsequence%20of%20Distinct%20Characters/README.md
 rating: 2184
-source: Weekly Contest 140 Q4
+source: 第 140 场周赛 Q4
 tags:
-  - Stack
-  - Greedy
-  - String
-  - Monotonic Stack
+    - 栈
+    - 贪心
+    - 字符串
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [1081. Smallest Subsequence of Distinct Characters](https://leetcode.com/problems/smallest-subsequence-of-distinct-characters)
+# [1081. 不同字符的最小子序列](https://leetcode.cn/problems/smallest-subsequence-of-distinct-characters)
 
-## Description
+[English Version](/solution/1000-1099/1081.Smallest%20Subsequence%20of%20Distinct%20Characters/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, return <em>the </em><span data-keyword="lexicographically-smaller-string"><em>lexicographically smallest</em></span> <span data-keyword="subsequence-string"><em>subsequence</em></span><em> of</em> <code>s</code> <em>that contains all the distinct characters of</em> <code>s</code> <em>exactly once</em>.</p>
+<p>返回 <code>s</code> 字典序最小的<span data-keyword="subsequence-array">子序列</span>，该子序列包含 <code>s</code> 的所有不同字符，且只包含一次。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;bcabc&quot;
-<strong>Output:</strong> &quot;abc&quot;
+<strong>输入：</strong><code>s = "bcabc"</code>
+<strong>输出<code>：</code></strong><code>"abc"</code>
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;cbacdcbc&quot;
-<strong>Output:</strong> &quot;acdb&quot;
-</pre>
+<strong>输入：</strong><code>s = "cbacdcbc"</code>
+<strong>输出：</strong><code>"acdb"</code></pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code> 由小写英文字母组成</li>
 </ul>
 
 <p>&nbsp;</p>
-<strong>Note:</strong> This question is the same as 316: <a href="https://leetcode.com/problems/remove-duplicate-letters/" target="_blank">https://leetcode.com/problems/remove-duplicate-letters/</a>
+
+<p><strong>注意：</strong>该题与 316 <a href="https://leetcode.cn/problems/remove-duplicate-letters/">https://leetcode.cn/problems/remove-duplicate-letters/</a> 相同</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：栈
+
+我们用一个数组 $last$ 记录字符串 $s$ 每个字符最后一次出现的位置，用栈来保存结果字符串，用一个数组 $vis$ 或者一个整型变量 $mask$ 记录当前字符是否在栈中。
+
+遍历字符串 $s$，对于每个字符 $c$，如果 $c$ 不在栈中，我们就需要判断栈顶元素是否大于 $c$，如果大于 $c$，且栈顶元素在后面还会出现，我们就将栈顶元素弹出，将 $c$ 压入栈中。
+
+最后将栈中元素拼接成字符串作为结果返回。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -160,29 +173,25 @@ func smallestSubsequence(s string) string {
 
 ```ts
 function smallestSubsequence(s: string): string {
-  const f = (c: string): number => c.charCodeAt(0) - "a".charCodeAt(0);
-  const last: number[] = new Array(26).fill(0);
-  for (const [i, c] of [...s].entries()) {
-    last[f(c)] = i;
-  }
-  const stk: string[] = [];
-  let mask = 0;
-  for (const [i, c] of [...s].entries()) {
-    const x = f(c);
-    if ((mask >> x) & 1) {
-      continue;
+    const f = (c: string): number => c.charCodeAt(0) - 'a'.charCodeAt(0);
+    const last: number[] = new Array(26).fill(0);
+    for (const [i, c] of [...s].entries()) {
+        last[f(c)] = i;
     }
-    while (
-      stk.length &&
-      stk[stk.length - 1] > c &&
-      last[f(stk[stk.length - 1])] > i
-    ) {
-      mask ^= 1 << f(stk.pop()!);
+    const stk: string[] = [];
+    let mask = 0;
+    for (const [i, c] of [...s].entries()) {
+        const x = f(c);
+        if ((mask >> x) & 1) {
+            continue;
+        }
+        while (stk.length && stk[stk.length - 1] > c && last[f(stk[stk.length - 1])] > i) {
+            mask ^= 1 << f(stk.pop()!);
+        }
+        stk.push(c);
+        mask |= 1 << x;
     }
-    stk.push(c);
-    mask |= 1 << x;
-  }
-  return stk.join("");
+    return stk.join('');
 }
 ```
 
@@ -192,7 +201,7 @@ function smallestSubsequence(s: string): string {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

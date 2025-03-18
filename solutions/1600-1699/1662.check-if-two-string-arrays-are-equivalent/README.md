@@ -1,71 +1,76 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1662.Check%20If%20Two%20String%20Arrays%20are%20Equivalent/README.md
 rating: 1217
-source: Weekly Contest 216 Q1
+source: 第 216 场周赛 Q1
 tags:
-  - Array
-  - String
+    - 数组
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1662. Check If Two String Arrays are Equivalent](https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent)
+# [1662. 检查两个字符串数组是否相等](https://leetcode.cn/problems/check-if-two-string-arrays-are-equivalent)
 
-## Description
+[English Version](/solution/1600-1699/1662.Check%20If%20Two%20String%20Arrays%20are%20Equivalent/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two string arrays <code>word1</code> and <code>word2</code>, return<em> </em><code>true</code><em> if the two arrays <strong>represent</strong> the same string, and </em><code>false</code><em> otherwise.</em></p>
+<p>给你两个字符串数组 <code>word1</code> 和 <code>word2</code> 。如果两个数组表示的字符串相同，返回<em> </em><code>true</code><em> </em>；否则，返回 <code>false</code><em> 。</em></p>
 
-<p>A string is <strong>represented</strong> by an array if the array elements concatenated <strong>in order</strong> forms the string.</p>
+<p><strong>数组表示的字符串</strong> 是由数组中的所有元素 <strong>按顺序</strong> 连接形成的字符串。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> word1 = [&quot;ab&quot;, &quot;c&quot;], word2 = [&quot;a&quot;, &quot;bc&quot;]
-<strong>Output:</strong> true
-<strong>Explanation:</strong>
-word1 represents string &quot;ab&quot; + &quot;c&quot; -&gt; &quot;abc&quot;
-word2 represents string &quot;a&quot; + &quot;bc&quot; -&gt; &quot;abc&quot;
-The strings are the same, so return true.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> word1 = [&quot;a&quot;, &quot;cb&quot;], word2 = [&quot;ab&quot;, &quot;c&quot;]
-<strong>Output:</strong> false
+<strong>输入：</strong>word1 = ["ab", "c"], word2 = ["a", "bc"]
+<strong>输出：</strong>true
+<strong>解释：</strong>
+word1 表示的字符串为 "ab" + "c" -> "abc"
+word2 表示的字符串为 "a" + "bc" -> "abc"
+两个字符串相同，返回 true</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>word1 = ["a", "cb"], word2 = ["ab", "c"]
+<strong>输出：</strong>false
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> word1  = [&quot;abc&quot;, &quot;d&quot;, &quot;defg&quot;], word2 = [&quot;abcddefg&quot;]
-<strong>Output:</strong> true
+<strong>输入：</strong>word1  = ["abc", "d", "defg"], word2 = ["abcddefg"]
+<strong>输出：</strong>true
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= word1.length, word2.length &lt;= 10<sup>3</sup></code></li>
-	<li><code>1 &lt;= word1[i].length, word2[i].length &lt;= 10<sup>3</sup></code></li>
-	<li><code>1 &lt;= sum(word1[i].length), sum(word2[i].length) &lt;= 10<sup>3</sup></code></li>
-	<li><code>word1[i]</code> and <code>word2[i]</code> consist of lowercase letters.</li>
+	<li><code>1 <= word1.length, word2.length <= 10<sup>3</sup></code></li>
+	<li><code>1 <= word1[i].length, word2[i].length <= 10<sup>3</sup></code></li>
+	<li><code>1 <= sum(word1[i].length), sum(word2[i].length) <= 10<sup>3</sup></code></li>
+	<li><code>word1[i]</code> 和 <code>word2[i]</code> 由小写字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: String Concatenation
+### 方法一：字符串拼接
 
-Concatenate the strings in the two arrays into two strings, then compare whether the two strings are equal.
+将两个数组中的字符串拼接成两个字符串，然后比较两个字符串是否相等。
 
-The time complexity is $O(m)$, and the space complexity is $O(m)$. Here, $m$ is the total length of the strings in the arrays.
+时间复杂度 $O(m)$，空间复杂度 $O(m)$。其中 $m$ 为数组中字符串的总长度。
 
 <!-- tabs:start -->
 
@@ -110,7 +115,7 @@ func arrayStringsAreEqual(word1 []string, word2 []string) bool {
 
 ```ts
 function arrayStringsAreEqual(word1: string[], word2: string[]): boolean {
-  return word1.join("") === word2.join("");
+    return word1.join('') === word2.join('');
 }
 ```
 
@@ -156,17 +161,17 @@ bool arrayStringsAreEqual(char** word1, int word1Size, char** word2, int word2Si
 
 <!-- solution:start -->
 
-### Solution 2: Direct Traversal
+### 方法二：直接遍历
 
-In Solution 1, we concatenated the strings in the two arrays into two new strings, which has additional space overhead. We can also directly traverse the two arrays and compare the characters one by one.
+方法一中，我们是将两个数组中的字符串拼接成两个新的字符串，有额外的空间开销。我们也可以直接遍历两个数组，逐个字符比较。
 
-We use two pointers $i$ and $j$ to point to the two string arrays, and another two pointers $x$ and $y$ to point to the corresponding characters in the strings. Initially, $i = j = x = y = 0$.
+我们使用两个指针 $i$ 和 $j$ 分别指向两个字符串数组，用另外两个指针 $x$ 和 $y$ 分别指向字符串对应的字符。初始时 $i = j = x = y = 0$。
 
-Each time we compare $word1[i][x]$ and $word2[j][y]$. If they are not equal, we directly return `false`. Otherwise, we increment $x$ and $y$ by $1$. If $x$ or $y$ exceeds the length of the corresponding string, we increment the corresponding string pointer $i$ or $j$ by $1$, and then reset $x$ and $y$ to $0$.
+每次比较 $word1[i][x]$ 和 $word2[j][y]$，如果不相等，直接返回 `false`。否则，将 $x$ 和 $y$ 分别加 $1$，如果 $x$ 或 $y$ 超出了对应的字符串的长度，将对应的字符串指针 $i$ 或 $j$ 加 $1$，然后将 $x$ 和 $y$ 重置为 $0$。
 
-If both string arrays are traversed, we return `true`, otherwise, we return `false`.
+如果两个字符串数组遍历完毕，返回 `true`，否则返回 `false`。
 
-The time complexity is $O(m)$, and the space complexity is $O(1)$. Here, $m$ is the total length of the strings in the arrays.
+时间复杂度 $O(m)$，空间复杂度 $O(1)$。其中 $m$ 为数组中字符串的总长度。
 
 <!-- tabs:start -->
 
@@ -254,21 +259,21 @@ func arrayStringsAreEqual(word1 []string, word2 []string) bool {
 
 ```ts
 function arrayStringsAreEqual(word1: string[], word2: string[]): boolean {
-  let [i, j, x, y] = [0, 0, 0, 0];
-  while (i < word1.length && j < word2.length) {
-    if (word1[i][x++] !== word2[j][y++]) {
-      return false;
+    let [i, j, x, y] = [0, 0, 0, 0];
+    while (i < word1.length && j < word2.length) {
+        if (word1[i][x++] !== word2[j][y++]) {
+            return false;
+        }
+        if (x === word1[i].length) {
+            x = 0;
+            ++i;
+        }
+        if (y === word2[j].length) {
+            y = 0;
+            ++j;
+        }
     }
-    if (x === word1[i].length) {
-      x = 0;
-      ++i;
-    }
-    if (y === word2[j].length) {
-      y = 0;
-      ++j;
-    }
-  }
-  return i === word1.length && j === word2.length;
+    return i === word1.length && j === word2.length;
 }
 ```
 

@@ -1,73 +1,97 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1410.HTML%20Entity%20Parser/README.md
 rating: 1405
-source: Weekly Contest 184 Q3
+source: 第 184 场周赛 Q3
 tags:
-  - Hash Table
-  - String
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1410. HTML Entity Parser](https://leetcode.com/problems/html-entity-parser)
+# [1410. HTML 实体解析器](https://leetcode.cn/problems/html-entity-parser)
 
-## Description
+[English Version](/solution/1400-1499/1410.HTML%20Entity%20Parser/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p><strong>HTML entity parser</strong> is the parser that takes HTML code as input and replace all the entities of the special characters by the characters itself.</p>
+<p>「HTML&nbsp;实体解析器」 是一种特殊的解析器，它将 HTML 代码作为输入，并用字符本身替换掉所有这些特殊的字符实体。</p>
 
-<p>The special characters and their entities for HTML are:</p>
+<p>HTML 里这些特殊字符和它们对应的字符实体包括：</p>
 
 <ul>
-	<li><strong>Quotation Mark:</strong> the entity is <code>&amp;quot;</code> and symbol character is <code>&quot;</code>.</li>
-	<li><strong>Single Quote Mark:</strong> the entity is <code>&amp;apos;</code> and symbol character is <code>&#39;</code>.</li>
-	<li><strong>Ampersand:</strong> the entity is <code>&amp;amp;</code> and symbol character is <code>&amp;</code>.</li>
-	<li><strong>Greater Than Sign:</strong> the entity is <code>&amp;gt;</code> and symbol character is <code>&gt;</code>.</li>
-	<li><strong>Less Than Sign:</strong> the entity is <code>&amp;lt;</code> and symbol character is <code>&lt;</code>.</li>
-	<li><strong>Slash:</strong> the entity is <code>&amp;frasl;</code> and symbol character is <code>/</code>.</li>
+	<li><strong>双引号：</strong>字符实体为&nbsp;<code>&amp;quot;</code>&nbsp;，对应的字符是&nbsp;<code>&quot;</code>&nbsp;。</li>
+	<li><strong>单引号：</strong>字符实体为&nbsp;<code>&amp;apos;</code>&nbsp;，对应的字符是&nbsp;<code>&#39;</code>&nbsp;。</li>
+	<li><strong>与符号：</strong>字符实体为&nbsp;<code>&amp;amp;</code>&nbsp;，对应对的字符是&nbsp;<code>&amp;</code>&nbsp;。</li>
+	<li><strong>大于号：</strong>字符实体为&nbsp;<code>&amp;gt;</code>&nbsp;，对应的字符是&nbsp;<code>&gt;</code>&nbsp;。</li>
+	<li><strong>小于号：</strong>字符实体为&nbsp;<code>&amp;lt;</code>&nbsp;，对应的字符是&nbsp;<code>&lt;</code>&nbsp;。</li>
+	<li><strong>斜线号：</strong>字符实体为&nbsp;<code>&amp;frasl;</code>&nbsp;，对应的字符是&nbsp;<code>/</code>&nbsp;。</li>
 </ul>
 
-<p>Given the input <code>text</code> string to the HTML parser, you have to implement the entity parser.</p>
-
-<p>Return <em>the text after replacing the entities by the special characters</em>.</p>
+<p>给你输入字符串&nbsp;<code>text</code>&nbsp;，请你实现一个 HTML&nbsp;实体解析器，返回解析器解析后的结果。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> text = &quot;&amp;amp; is an HTML entity but &amp;ambassador; is not.&quot;
-<strong>Output:</strong> &quot;&amp; is an HTML entity but &amp;ambassador; is not.&quot;
-<strong>Explanation:</strong> The parser will replace the &amp;amp; entity by &amp;
+<strong>输入：</strong>text = &quot;&amp;amp; is an HTML entity but &amp;ambassador; is not.&quot;
+<strong>输出：</strong>&quot;&amp; is an HTML entity but &amp;ambassador; is not.&quot;
+<strong>解释：</strong>解析器把字符实体 &amp;amp; 用 &amp; 替换
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例&nbsp;2：</strong></p>
 
 <pre>
-<strong>Input:</strong> text = &quot;and I quote: &amp;quot;...&amp;quot;&quot;
-<strong>Output:</strong> &quot;and I quote: \&quot;...\&quot;&quot;
+<strong>输入：</strong>text = &quot;and I quote: &amp;quot;...&amp;quot;&quot;
+<strong>输出：</strong>&quot;and I quote: \&quot;...\&quot;&quot;
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>text = &quot;Stay home! Practice on Leetcode :)&quot;
+<strong>输出：</strong>&quot;Stay home! Practice on Leetcode :)&quot;
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>text = &quot;x &amp;gt; y &amp;amp;&amp;amp; x &amp;lt; y is always false&quot;
+<strong>输出：</strong>&quot;x &gt; y &amp;&amp; x &lt; y is always false&quot;
+</pre>
+
+<p><strong>示例 5：</strong></p>
+
+<pre>
+<strong>输入：</strong>text = &quot;leetcode.com&amp;frasl;problemset&amp;frasl;all&quot;
+<strong>输出：</strong>&quot;leetcode.com/problemset/all&quot;
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= text.length &lt;= 10<sup>5</sup></code></li>
-	<li>The string may contain any possible characters out of all the 256 ASCII characters.</li>
+	<li><code>1 &lt;= text.length &lt;= 10^5</code></li>
+	<li>字符串可能包含 256 个ASCII 字符中的任意字符。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Simulation
+### 方法一：哈希表 + 模拟
 
-We can use a hash table to store the corresponding character for each character entity. Then, we traverse the string, and when we encounter a character entity, we replace it with the corresponding character.
+我们可以使用哈希表来存储每个字符实体对应的字符，然后遍历字符串，当遇到字符实体时，我们就将其替换为对应的字符。
 
-The time complexity is $O(n \times l)$, and the space complexity is $O(l)$. Here, $n$ is the length of the string, and $l$ is the total length of the character entities.
+时间复杂度 $O(n \times l)$，空间复杂度 $O(l)$。其中 $n$ 是字符串的长度，而 $l$ 是字符实体的总长度。
 
 <!-- tabs:start -->
 
@@ -217,40 +241,40 @@ func entityParser(text string) string {
 
 ```ts
 function entityParser(text: string): string {
-  const d: Record<string, string> = {
-    "&quot;": '"',
-    "&apos;": "'",
-    "&amp;": "&",
-    "&gt;": ">",
-    "&lt;": "<",
-    "&frasl;": "/",
-  };
+    const d: Record<string, string> = {
+        '&quot;': '"',
+        '&apos;': "'",
+        '&amp;': '&',
+        '&gt;': '>',
+        '&lt;': '<',
+        '&frasl;': '/',
+    };
 
-  let ans: string = "";
-  let i: number = 0;
-  const n: number = text.length;
+    let ans: string = '';
+    let i: number = 0;
+    const n: number = text.length;
 
-  while (i < n) {
-    let found: boolean = false;
-    for (let l: number = 1; l < 8; ++l) {
-      const j: number = i + l;
-      if (j <= n) {
-        const t: string = text.substring(i, j);
-        if (d.hasOwnProperty(t)) {
-          ans += d[t];
-          i = j;
-          found = true;
-          break;
+    while (i < n) {
+        let found: boolean = false;
+        for (let l: number = 1; l < 8; ++l) {
+            const j: number = i + l;
+            if (j <= n) {
+                const t: string = text.substring(i, j);
+                if (d.hasOwnProperty(t)) {
+                    ans += d[t];
+                    i = j;
+                    found = true;
+                    break;
+                }
+            }
         }
-      }
+
+        if (!found) {
+            ans += text[i++];
+        }
     }
 
-    if (!found) {
-      ans += text[i++];
-    }
-  }
-
-  return ans;
+    return ans;
 }
 ```
 
@@ -260,7 +284,7 @@ function entityParser(text: string): string {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -268,17 +292,17 @@ function entityParser(text: string): string {
 
 ```ts
 function entityParser(text: string): string {
-  const d: { [key: string]: string } = {
-    "&quot;": '"',
-    "&apos;": "'",
-    "&amp;": "&",
-    "&gt;": ">",
-    "&lt;": "<",
-    "&frasl;": "/",
-  };
+    const d: { [key: string]: string } = {
+        '&quot;': '"',
+        '&apos;': "'",
+        '&amp;': '&',
+        '&gt;': '>',
+        '&lt;': '<',
+        '&frasl;': '/',
+    };
 
-  const pattern = new RegExp(Object.keys(d).join("|"), "g");
-  return text.replace(pattern, (match) => d[match]);
+    const pattern = new RegExp(Object.keys(d).join('|'), 'g');
+    return text.replace(pattern, match => d[match]);
 }
 ```
 

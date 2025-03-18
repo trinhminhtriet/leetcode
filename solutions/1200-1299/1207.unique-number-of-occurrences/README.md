@@ -1,64 +1,69 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1207.Unique%20Number%20of%20Occurrences/README.md
 rating: 1195
-source: Weekly Contest 156 Q1
+source: 第 156 场周赛 Q1
 tags:
-  - Array
-  - Hash Table
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [1207. Unique Number of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences)
+# [1207. 独一无二的出现次数](https://leetcode.cn/problems/unique-number-of-occurrences)
 
-## Description
+[English Version](/solution/1200-1299/1207.Unique%20Number%20of%20Occurrences/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of integers <code>arr</code>, return <code>true</code> <em>if the number of occurrences of each value in the array is <strong>unique</strong> or </em><code>false</code><em> otherwise</em>.</p>
+<p>给你一个整数数组&nbsp;<code>arr</code>，如果每个数的出现次数都是独一无二的，就返回&nbsp;<code>true</code>；否则返回 <code>false</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> arr = [1,2,2,1,1,3]
-<strong>Output:</strong> true
-<strong>Explanation:</strong>&nbsp;The value 1 has 3 occurrences, 2 has 2 and 3 has 1. No two values have the same number of occurrences.</pre>
+<strong>输入：</strong>arr = [1,2,2,1,1,3]
+<strong>输出：</strong>true
+<strong>解释：</strong>在该数组中，1 出现了 3 次，2 出现了 2 次，3 只出现了 1 次。没有两个数的出现次数相同。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> arr = [1,2]
-<strong>Output:</strong> false
+<strong>输入：</strong>arr = [1,2]
+<strong>输出：</strong>false
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> arr = [-3,0,1,-3,1,1,1,-3,10,0]
-<strong>Output:</strong> true
+<strong>输入：</strong>arr = [-3,0,1,-3,1,1,1,-3,10,0]
+<strong>输出：</strong>true
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= arr.length &lt;= 1000</code></li>
+	<li><code>1 &lt;= arr.length&nbsp;&lt;= 1000</code></li>
 	<li><code>-1000 &lt;= arr[i] &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We use a hash table $cnt$ to count the frequency of each number in the array $arr$, and then use another hash table $vis$ to count the types of frequencies. Finally, we check whether the sizes of $cnt$ and $vis$ are equal.
+我们用哈希表 $cnt$ 统计数组 $arr$ 中每个数的出现次数，然后用哈希表 $vis$ 统计出现次数的种类，最后判断 $cnt$ 和 $vis$ 的大小是否相等即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $arr$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $arr$ 的长度。
 
 <!-- tabs:start -->
 
@@ -130,11 +135,11 @@ func uniqueOccurrences(arr []int) bool {
 
 ```ts
 function uniqueOccurrences(arr: number[]): boolean {
-  const cnt: Map<number, number> = new Map();
-  for (const x of arr) {
-    cnt.set(x, (cnt.get(x) || 0) + 1);
-  }
-  return cnt.size === new Set(cnt.values()).size;
+    const cnt: Map<number, number> = new Map();
+    for (const x of arr) {
+        cnt.set(x, (cnt.get(x) || 0) + 1);
+    }
+    return cnt.size === new Set(cnt.values()).size;
 }
 ```
 

@@ -1,80 +1,83 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2552.Count%20Increasing%20Quadruplets/README.md
 rating: 2432
-source: Weekly Contest 330 Q4
+source: 第 330 场周赛 Q4
 tags:
-  - Binary Indexed Tree
-  - Array
-  - Dynamic Programming
-  - Enumeration
-  - Prefix Sum
+    - 树状数组
+    - 数组
+    - 动态规划
+    - 枚举
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2552. Count Increasing Quadruplets](https://leetcode.com/problems/count-increasing-quadruplets)
+# [2552. 统计上升四元组](https://leetcode.cn/problems/count-increasing-quadruplets)
 
-## Description
+[English Version](/solution/2500-2599/2552.Count%20Increasing%20Quadruplets/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <strong>0-indexed</strong> integer array <code>nums</code> of size <code>n</code> containing all numbers from <code>1</code> to <code>n</code>, return <em>the number of increasing quadruplets</em>.</p>
+<p>给你一个长度为 <code>n</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，它包含&nbsp;<code>1</code>&nbsp;到&nbsp;<code>n</code>&nbsp;的所有数字，请你返回上升四元组的数目。</p>
 
-<p>A quadruplet <code>(i, j, k, l)</code> is increasing if:</p>
+<p>如果一个四元组&nbsp;<code>(i, j, k, l)</code>&nbsp;满足以下条件，我们称它是上升的：</p>
 
 <ul>
-	<li><code>0 &lt;= i &lt; j &lt; k &lt; l &lt; n</code>, and</li>
-	<li><code>nums[i] &lt; nums[k] &lt; nums[j] &lt; nums[l]</code>.</li>
+	<li><code>0 &lt;= i &lt; j &lt; k &lt; l &lt; n</code>&nbsp;且</li>
+	<li><code>nums[i] &lt; nums[k] &lt; nums[j] &lt; nums[l]</code>&nbsp;。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,3,2,4,5]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> 
-- When i = 0, j = 1, k = 2, and l = 3, nums[i] &lt; nums[k] &lt; nums[j] &lt; nums[l].
-- When i = 0, j = 1, k = 2, and l = 4, nums[i] &lt; nums[k] &lt; nums[j] &lt; nums[l]. 
-There are no other quadruplets, so we return 2.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums = [1,3,2,4,5]
+<b>输出：</b>2
+<b>解释：</b>
+- 当 i = 0 ，j = 1 ，k = 2 且 l = 3 时，有 nums[i] &lt; nums[k] &lt; nums[j] &lt; nums[l] 。
+- 当 i = 0 ，j = 1 ，k = 2 且 l = 4 时，有 nums[i] &lt; nums[k] &lt; nums[j] &lt; nums[l] 。
+没有其他的四元组，所以我们返回 2 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There exists only one quadruplet with i = 0, j = 1, k = 2, l = 3, but since nums[j] &lt; nums[k], we return 0.
+<pre><b>输入：</b>nums = [1,2,3,4]
+<b>输出：</b>0
+<b>解释：</b>只存在一个四元组 i = 0 ，j = 1 ，k = 2 ，l = 3 ，但是 nums[j] &lt; nums[k] ，所以我们返回 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>4 &lt;= nums.length &lt;= 4000</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= nums.length</code></li>
-	<li>All the integers of <code>nums</code> are <strong>unique</strong>. <code>nums</code> is a permutation.</li>
+	<li><code>nums</code>&nbsp;中所有数字 <strong>互不相同</strong>&nbsp;，<code>nums</code>&nbsp;是一个排列。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration + Preprocessing
+### 方法一：枚举 + 预处理
 
-We can enumerate $j$ and $k$ in the quadruplet, then the problem is transformed into, for the current $j$ and $k$:
+我们可以枚举四元组中的 $j$ 和 $k$，那么问题转化为，对于当前的 $j$ 和 $k$：
 
-- Count how many $l$ satisfy $l > k$ and $nums[l] > nums[j]$;
-- Count how many $i$ satisfy $i < j$ and $nums[i] < nums[k]$.
+-   统计有多少个 $l$ 满足 $l \gt k$ 且 $nums[l] \gt nums[j]$；
+-   统计有多少个 $i$ 满足 $i \lt j$ 且 $nums[i] \lt nums[k]$。
 
-We can use two two-dimensional arrays $f$ and $g$ to record these two pieces of information. Where $f[j][k]$ represents how many $l$ satisfy $l > k$ and $nums[l] > nums[j]$, and $g[j][k]$ represents how many $i$ satisfy $i < j$ and $nums[i] < nums[k]$.
+我们可以使用两个二维数组 $f$ 和 $g$ 分别记录这两个信息。其中 $f[j][k]$ 表示有多少个 $l$ 满足 $l \gt k$ 且 $nums[l] \gt nums[j]$，而 $g[j][k]$ 表示有多少个 $i$ 满足 $i \lt j$ 且 $nums[i] \lt nums[k]$。
 
-Therefore, the answer is the sum of all $f[j][k] \times g[j][k]$.
+那么答案就是所有的 $f[j][k] \times g[j][k]$ 的和。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Where $n$ is the length of the array.
+时间复杂度为 $O(n^2)$，空间复杂度为 $O(n^2)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 

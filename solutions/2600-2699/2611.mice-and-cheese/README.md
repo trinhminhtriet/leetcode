@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2611.Mice%20and%20Cheese/README.md
 rating: 1663
-source: Weekly Contest 339 Q3
+source: 第 339 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Sorting
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2611. Mice and Cheese](https://leetcode.com/problems/mice-and-cheese)
+# [2611. 老鼠和奶酪](https://leetcode.cn/problems/mice-and-cheese)
 
-## Description
+[English Version](/solution/2600-2699/2611.Mice%20and%20Cheese/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are two mice and <code>n</code> different types of cheese, each type of cheese should be eaten by exactly one mouse.</p>
+<p>有两只老鼠和&nbsp;<code>n</code>&nbsp;块不同类型的奶酪，每块奶酪都只能被其中一只老鼠吃掉。</p>
 
-<p>A point of the cheese with index <code>i</code> (<strong>0-indexed</strong>) is:</p>
+<p>下标为 <code>i</code>&nbsp;处的奶酪被吃掉的得分为：</p>
 
 <ul>
-	<li><code>reward1[i]</code> if the first mouse eats it.</li>
-	<li><code>reward2[i]</code> if the second mouse eats it.</li>
+	<li>如果第一只老鼠吃掉，则得分为&nbsp;<code>reward1[i]</code>&nbsp;。</li>
+	<li>如果第二只老鼠吃掉，则得分为&nbsp;<code>reward2[i]</code>&nbsp;。</li>
 </ul>
 
-<p>You are given a positive integer array <code>reward1</code>, a positive integer array <code>reward2</code>, and a non-negative integer <code>k</code>.</p>
+<p>给你一个正整数数组&nbsp;<code>reward1</code>&nbsp;，一个正整数数组&nbsp;<code>reward2</code>&nbsp;，和一个非负整数&nbsp;<code>k</code>&nbsp;。</p>
 
-<p>Return <em><strong>the maximum</strong> points the mice can achieve if the first mouse eats exactly </em><code>k</code><em> types of cheese.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> reward1 = [1,1,3,4], reward2 = [4,4,1,1], k = 2
-<strong>Output:</strong> 15
-<strong>Explanation:</strong> In this example, the first mouse eats the 2<sup>nd</sup>&nbsp;(0-indexed) and the 3<sup>rd</sup>&nbsp;types of cheese, and the second mouse eats the 0<sup>th</sup>&nbsp;and the 1<sup>st</sup> types of cheese.
-The total points are 4 + 4 + 3 + 4 = 15.
-It can be proven that 15 is the maximum total points that the mice can achieve.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> reward1 = [1,1], reward2 = [1,1], k = 2
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> In this example, the first mouse eats the 0<sup>th</sup>&nbsp;(0-indexed) and 1<sup>st</sup>&nbsp;types of cheese, and the second mouse does not eat any cheese.
-The total points are 1 + 1 = 2.
-It can be proven that 2 is the maximum total points that the mice can achieve.
-</pre>
+<p>请你返回第一只老鼠恰好吃掉 <code>k</code>&nbsp;块奶酪的情况下，<strong>最大</strong>&nbsp;得分为多少。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>reward1 = [1,1,3,4], reward2 = [4,4,1,1], k = 2
+<b>输出：</b>15
+<b>解释：</b>这个例子中，第一只老鼠吃掉第 2&nbsp;和 3 块奶酪（下标从 0 开始），第二只老鼠吃掉第 0 和 1 块奶酪。
+总得分为 4 + 4 + 3 + 4 = 15 。
+15 是最高得分。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>reward1 = [1,1], reward2 = [1,1], k = 2
+<b>输出：</b>2
+<b>解释：</b>这个例子中，第一只老鼠吃掉第 0 和 1 块奶酪（下标从 0 开始），第二只老鼠不吃任何奶酪。
+总得分为 1 + 1 = 2 。
+2 是最高得分。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == reward1.length == reward2.length &lt;= 10<sup>5</sup></code></li>
@@ -63,17 +68,23 @@ It can be proven that 2 is the maximum total points that the mice can achieve.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Sort
+### 方法一：贪心 + 排序
 
-We can first give all the cheese to the second mouse. Next, consider giving $k$ pieces of cheese to the first mouse. How should we choose these $k$ pieces of cheese? Obviously, if we give the $i$-th piece of cheese from the second mouse to the first mouse, the change in the score is $reward1[i] - reward2[i]$. We hope that this change is as large as possible, so that the total score is maximized.
+我们可以先将所有奶酪分给第二只老鼠，因此初始得分为 $\sum_{i=0}^{n-1} reward2[i]$。
 
-Therefore, we sort the cheese in decreasing order of `reward1[i] - reward2[i]`. The first $k$ pieces of cheese are eaten by the first mouse, and the remaining cheese is eaten by the second mouse to obtain the maximum score.
+接下来，考虑将其中 $k$ 块奶酪分给第一只老鼠，那么我们应该如何选择这 $k$ 块奶酪呢？显然，将第 $i$ 块奶酪从第二只老鼠分给第一只老鼠，得分的变化量为 $reward1[i] - reward2[i]$，我们希望这个变化量尽可能大，这样才能使得总得分最大。
 
-Time complexity $O(n \times \log n)$, space complexity $O(n)$. Where $n$ is the number of cheeses.
+因此，我们将奶酪按照 $reward1[i] - reward2[i]$ 从大到小排序，前 $k$ 块奶酪由第一只老鼠吃掉，剩下的奶酪由第二只老鼠吃掉，即可得到最大得分。也即是说，我们将初始得分加上 $\sum_{i=0}^{k-1} (reward1[i] - reward2[i])$ 即可。
+
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为奶酪的数量。
+
+相似题目：
+
+-   [1029. 两地调度](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1029.Two%20City%20Scheduling/README.md)
 
 <!-- tabs:start -->
 
@@ -158,22 +169,18 @@ func miceAndCheese(reward1 []int, reward2 []int, k int) (ans int) {
 #### TypeScript
 
 ```ts
-function miceAndCheese(
-  reward1: number[],
-  reward2: number[],
-  k: number
-): number {
-  const n = reward1.length;
-  const idx = Array.from({ length: n }, (_, i) => i);
-  idx.sort((i, j) => reward1[j] - reward2[j] - (reward1[i] - reward2[i]));
-  let ans = 0;
-  for (let i = 0; i < k; ++i) {
-    ans += reward1[idx[i]];
-  }
-  for (let i = k; i < n; ++i) {
-    ans += reward2[idx[i]];
-  }
-  return ans;
+function miceAndCheese(reward1: number[], reward2: number[], k: number): number {
+    const n = reward1.length;
+    const idx = Array.from({ length: n }, (_, i) => i);
+    idx.sort((i, j) => reward1[j] - reward2[j] - (reward1[i] - reward2[i]));
+    let ans = 0;
+    for (let i = 0; i < k; ++i) {
+        ans += reward1[idx[i]];
+    }
+    for (let i = k; i < n; ++i) {
+        ans += reward2[idx[i]];
+    }
+    return ans;
 }
 ```
 
@@ -183,7 +190,7 @@ function miceAndCheese(
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -257,22 +264,18 @@ func miceAndCheese(reward1 []int, reward2 []int, k int) (ans int) {
 #### TypeScript
 
 ```ts
-function miceAndCheese(
-  reward1: number[],
-  reward2: number[],
-  k: number
-): number {
-  const n = reward1.length;
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    ans += reward2[i];
-    reward1[i] -= reward2[i];
-  }
-  reward1.sort((a, b) => b - a);
-  for (let i = 0; i < k; ++i) {
-    ans += reward1[i];
-  }
-  return ans;
+function miceAndCheese(reward1: number[], reward2: number[], k: number): number {
+    const n = reward1.length;
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        ans += reward2[i];
+        reward1[i] -= reward2[i];
+    }
+    reward1.sort((a, b) => b - a);
+    for (let i = 0; i < k; ++i) {
+        ans += reward1[i];
+    }
+    return ans;
 }
 ```
 

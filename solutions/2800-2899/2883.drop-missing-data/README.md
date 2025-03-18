@@ -1,15 +1,18 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2883.Drop%20Missing%20Data/README.md
 tags:
-  - Pandas
+    - Pandas
 ---
 
 <!-- problem:start -->
 
-# [2883. Drop Missing Data](https://leetcode.com/problems/drop-missing-data)
+# [2883. 删去丢失的数据](https://leetcode.cn/problems/drop-missing-data)
 
-## Description
+[English Version](/solution/2800-2899/2883.Drop%20Missing%20Data/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
@@ -24,17 +27,18 @@ DataFrame students
 +-------------+--------+
 </pre>
 
-<p>There are some rows having missing values in the <code>name</code> column.</p>
+<p>在 <code>name</code> 列里有一些具有缺失值的行。</p>
 
-<p>Write a solution to remove the rows with missing values.</p>
+<p>编写一个解决方案，删除具有缺失值的行。</p>
 
-<p>The result format is in the following example.</p>
+<p>返回结果格式如下示例所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><b>示例 1:</b></p>
 
 <pre>
-<strong>Input:
+<strong>输入：
 </strong>+------------+---------+-----+
 | student_id | name    | age |
 +------------+---------+-----+
@@ -43,7 +47,7 @@ DataFrame students
 | 779        | Georgia | 20  |
 | 849        | Willow  | 14  |
 +------------+---------+-----+
-<strong>Output:
+<strong>输出：
 </strong>+------------+---------+-----+
 | student_id | name    | age |
 +------------+---------+-----+
@@ -51,16 +55,16 @@ DataFrame students
 | 779        | Georgia | 20  | 
 | 849        | Willow  | 14  | 
 +------------+---------+-----+
-<strong>Explanation:</strong> 
-Student with id 217 havs empty value in the name column, so it will be removed.</pre>
+<b>解释：
+</b>学号为 217 的学生所在行在 name 列中有空值，因此这一行将被删除。</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

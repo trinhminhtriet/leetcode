@@ -1,82 +1,89 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1537.Get%20the%20Maximum%20Score/README.md
 rating: 1961
-source: Weekly Contest 200 Q4
+source: 第 200 场周赛 Q4
 tags:
-  - Greedy
-  - Array
-  - Two Pointers
-  - Dynamic Programming
+    - 贪心
+    - 数组
+    - 双指针
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1537. Get the Maximum Score](https://leetcode.com/problems/get-the-maximum-score)
+# [1537. 最大得分](https://leetcode.cn/problems/get-the-maximum-score)
 
-## Description
+[English Version](/solution/1500-1599/1537.Get%20the%20Maximum%20Score/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>sorted</strong> arrays of distinct integers <code>nums1</code> and <code>nums2</code>.</p>
+<p>你有两个 <strong>有序</strong>&nbsp;且数组内元素互不相同的数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;。</p>
 
-<p>A <strong>valid<strong><em> </em></strong>path</strong> is defined as follows:</p>
+<p>一条&nbsp;<strong>合法路径</strong>&nbsp;定义如下：</p>
 
 <ul>
-	<li>Choose array <code>nums1</code> or <code>nums2</code> to traverse (from index-0).</li>
-	<li>Traverse the current array from left to right.</li>
-	<li>If you are reading any value that is present in <code>nums1</code> and <code>nums2</code> you are allowed to change your path to the other array. (Only one repeated value is considered in the valid path).</li>
+	<li>选择数组 <code>nums1</code> 或者 <code>nums2</code> 开始遍历（从下标 0 处开始）。</li>
+	<li>从左到右遍历当前数组。</li>
+	<li>如果你遇到了 <code>nums1</code>&nbsp;和 <code>nums2</code>&nbsp;中都存在的值，那么你可以切换路径到另一个数组对应数字处继续遍历（但在合法路径中重复数字只会被统计一次）。</li>
 </ul>
 
-<p>The <strong>score</strong> is defined as the sum of unique values in a valid path.</p>
+<p><strong>得分</strong> 定义为合法路径中不同数字的和。</p>
 
-<p>Return <em>the maximum score you can obtain of all possible <strong>valid paths</strong></em>. Since the answer may be too large, return it modulo <code>10<sup>9</sup> + 7</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1537.Get%20the%20Maximum%20Score/images/sample_1_1893.png" style="width: 500px; height: 151px;" />
-<pre>
-<strong>Input:</strong> nums1 = [2,4,5,8,10], nums2 = [4,6,8,9]
-<strong>Output:</strong> 30
-<strong>Explanation:</strong> Valid paths:
-[2,4,5,8,10], [2,4,5,8,9], [2,4,6,8,9], [2,4,6,8,10],  (starting from nums1)
-[4,6,8,9], [4,5,8,10], [4,5,8,9], [4,6,8,10]    (starting from nums2)
-The maximum is obtained with the path in green <strong>[2,4,6,8,10]</strong>.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [1,3,5,7,9], nums2 = [3,5,100]
-<strong>Output:</strong> 109
-<strong>Explanation:</strong> Maximum sum is obtained with the path <strong>[1,3,5,100]</strong>.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [1,2,3,4,5], nums2 = [6,7,8,9,10]
-<strong>Output:</strong> 40
-<strong>Explanation:</strong> There are no common elements between nums1 and nums2.
-Maximum sum is obtained with the path [6,7,8,9,10].
-</pre>
+<p>请你返回 <em>所有可能 <strong>合法路径</strong> 中的最大得分。</em>由于答案可能很大，请你将它对 10^9 + 7 取余后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1537.Get%20the%20Maximum%20Score/images/sample_1_1893.png" style="height: 163px; width: 538px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [2,4,5,8,10], nums2 = [4,6,8,9]
+<strong>输出：</strong>30
+<strong>解释：</strong>合法路径包括：
+[2,4,5,8,10], [2,4,5,8,9], [2,4,6,8,9], [2,4,6,8,10],（从 nums1 开始遍历）
+[4,6,8,9], [4,5,8,10], [4,5,8,9], [4,6,8,10]  （从 nums2 开始遍历）
+最大得分为上图中的绿色路径 <strong>[2,4,6,8,10]</strong>&nbsp;。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [1,3,5,7,9], nums2 = [3,5,100]
+<strong>输出：</strong>109
+<strong>解释：</strong>最大得分由路径 <strong>[1,3,5,100]</strong> 得到。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [1,2,3,4,5], nums2 = [6,7,8,9,10]
+<strong>输出：</strong>40
+<strong>解释：</strong>nums1 和 nums2 之间无相同数字。
+最大得分由路径[6,7,8,9,10]得到。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums1[i], nums2[i] &lt;= 10<sup>7</sup></code></li>
-	<li><code>nums1</code> and <code>nums2</code> are strictly increasing.</li>
+	<li><code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;都是严格递增的数组。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -204,27 +211,27 @@ func maxSum(nums1 []int, nums2 []int) int {
 
 ```ts
 function maxSum(nums1: number[], nums2: number[]): number {
-  const mod = 1e9 + 7;
-  const m = nums1.length;
-  const n = nums2.length;
-  let [f, g] = [0, 0];
-  let [i, j] = [0, 0];
-  while (i < m || j < n) {
-    if (i === m) {
-      g += nums2[j++];
-    } else if (j === n) {
-      f += nums1[i++];
-    } else if (nums1[i] < nums2[j]) {
-      f += nums1[i++];
-    } else if (nums1[i] > nums2[j]) {
-      g += nums2[j++];
-    } else {
-      f = g = Math.max(f, g) + nums1[i];
-      i++;
-      j++;
+    const mod = 1e9 + 7;
+    const m = nums1.length;
+    const n = nums2.length;
+    let [f, g] = [0, 0];
+    let [i, j] = [0, 0];
+    while (i < m || j < n) {
+        if (i === m) {
+            g += nums2[j++];
+        } else if (j === n) {
+            f += nums1[i++];
+        } else if (nums1[i] < nums2[j]) {
+            f += nums1[i++];
+        } else if (nums1[i] > nums2[j]) {
+            g += nums2[j++];
+        } else {
+            f = g = Math.max(f, g) + nums1[i];
+            i++;
+            j++;
+        }
     }
-  }
-  return Math.max(f, g) % mod;
+    return Math.max(f, g) % mod;
 }
 ```
 

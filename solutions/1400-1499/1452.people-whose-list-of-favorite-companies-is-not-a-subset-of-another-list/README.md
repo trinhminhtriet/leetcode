@@ -1,76 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1452.People%20Whose%20List%20of%20Favorite%20Companies%20Is%20Not%20a%20Subset%20of%20Another%20List/README.md
 rating: 1562
-source: Weekly Contest 189 Q3
+source: 第 189 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - String
+    - 数组
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1452. People Whose List of Favorite Companies Is Not a Subset of Another List](https://leetcode.com/problems/people-whose-list-of-favorite-companies-is-not-a-subset-of-another-list)
+# [1452. 收藏清单](https://leetcode.cn/problems/people-whose-list-of-favorite-companies-is-not-a-subset-of-another-list)
 
-## Description
+[English Version](/solution/1400-1499/1452.People%20Whose%20List%20of%20Favorite%20Companies%20Is%20Not%20a%20Subset%20of%20Another%20List/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the array <code>favoriteCompanies</code> where <code>favoriteCompanies[i]</code> is the list of favorites companies for the <code>ith</code> person (<strong>indexed from 0</strong>).</p>
+<p>给你一个数组 <code>favoriteCompanies</code> ，其中 <code>favoriteCompanies[i]</code> 是第 <code>i</code> 名用户收藏的公司清单（<strong>下标从 0 开始</strong>）。</p>
 
-<p><em>Return the indices of people whose list of favorite companies is not a <strong>subset</strong> of any other list of favorites companies</em>. You must return the indices in increasing order.</p>
+<p>请找出不是其他任何人收藏的公司清单的子集的收藏清单，并返回该清单下标<em>。</em>下标需要按升序排列<em>。</em></p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> favoriteCompanies = [[&quot;leetcode&quot;,&quot;google&quot;,&quot;facebook&quot;],[&quot;google&quot;,&quot;microsoft&quot;],[&quot;google&quot;,&quot;facebook&quot;],[&quot;google&quot;],[&quot;amazon&quot;]]
-<strong>Output:</strong> [0,1,4] 
-<strong>Explanation:</strong> 
-Person with index=2 has favoriteCompanies[2]=[&quot;google&quot;,&quot;facebook&quot;] which is a subset of favoriteCompanies[0]=[&quot;leetcode&quot;,&quot;google&quot;,&quot;facebook&quot;] corresponding to the person with index 0. 
-Person with index=3 has favoriteCompanies[3]=[&quot;google&quot;] which is a subset of favoriteCompanies[0]=[&quot;leetcode&quot;,&quot;google&quot;,&quot;facebook&quot;] and favoriteCompanies[1]=[&quot;google&quot;,&quot;microsoft&quot;]. 
-Other lists of favorite companies are not a subset of another list, therefore, the answer is [0,1,4].
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>favoriteCompanies = [[&quot;leetcode&quot;,&quot;google&quot;,&quot;facebook&quot;],[&quot;google&quot;,&quot;microsoft&quot;],[&quot;google&quot;,&quot;facebook&quot;],[&quot;google&quot;],[&quot;amazon&quot;]]
+<strong>输出：</strong>[0,1,4] 
+<strong>解释：</strong>
+favoriteCompanies[2]=[&quot;google&quot;,&quot;facebook&quot;] 是 favoriteCompanies[0]=[&quot;leetcode&quot;,&quot;google&quot;,&quot;facebook&quot;] 的子集。
+favoriteCompanies[3]=[&quot;google&quot;] 是 favoriteCompanies[0]=[&quot;leetcode&quot;,&quot;google&quot;,&quot;facebook&quot;] 和 favoriteCompanies[1]=[&quot;google&quot;,&quot;microsoft&quot;] 的子集。
+其余的收藏清单均不是其他任何人收藏的公司清单的子集，因此，答案为 [0,1,4] 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> favoriteCompanies = [[&quot;leetcode&quot;,&quot;google&quot;,&quot;facebook&quot;],[&quot;leetcode&quot;,&quot;amazon&quot;],[&quot;facebook&quot;,&quot;google&quot;]]
-<strong>Output:</strong> [0,1] 
-<strong>Explanation:</strong> In this case favoriteCompanies[2]=[&quot;facebook&quot;,&quot;google&quot;] is a subset of favoriteCompanies[0]=[&quot;leetcode&quot;,&quot;google&quot;,&quot;facebook&quot;], therefore, the answer is [0,1].
+<pre><strong>输入：</strong>favoriteCompanies = [[&quot;leetcode&quot;,&quot;google&quot;,&quot;facebook&quot;],[&quot;leetcode&quot;,&quot;amazon&quot;],[&quot;facebook&quot;,&quot;google&quot;]]
+<strong>输出：</strong>[0,1] 
+<strong>解释：</strong>favoriteCompanies[2]=[&quot;facebook&quot;,&quot;google&quot;] 是 favoriteCompanies[0]=[&quot;leetcode&quot;,&quot;google&quot;,&quot;facebook&quot;] 的子集，因此，答案为 [0,1] 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> favoriteCompanies = [[&quot;leetcode&quot;],[&quot;google&quot;],[&quot;facebook&quot;],[&quot;amazon&quot;]]
-<strong>Output:</strong> [0,1,2,3]
+<pre><strong>输入：</strong>favoriteCompanies = [[&quot;leetcode&quot;],[&quot;google&quot;],[&quot;facebook&quot;],[&quot;amazon&quot;]]
+<strong>输出：</strong>[0,1,2,3]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= favoriteCompanies.length &lt;= 100</code></li>
-	<li><code>1 &lt;= favoriteCompanies[i].length &lt;= 500</code></li>
-	<li><code>1 &lt;= favoriteCompanies[i][j].length &lt;= 20</code></li>
-	<li>All strings in <code>favoriteCompanies[i]</code> are <strong>distinct</strong>.</li>
-	<li>All lists of favorite companies are <strong>distinct</strong>, that is, If we sort alphabetically each list then <code>favoriteCompanies[i] != favoriteCompanies[j].</code></li>
-	<li>All strings consist of lowercase English letters only.</li>
+	<li><code>1 &lt;=&nbsp;favoriteCompanies.length &lt;= 100</code></li>
+	<li><code>1 &lt;=&nbsp;favoriteCompanies[i].length &lt;= 500</code></li>
+	<li><code>1 &lt;=&nbsp;favoriteCompanies[i][j].length &lt;= 20</code></li>
+	<li><code>favoriteCompanies[i]</code> 中的所有字符串 <strong>各不相同</strong> 。</li>
+	<li>用户收藏的公司清单也 <strong>各不相同</strong> ，也就是说，即便我们按字母顺序排序每个清单， <code>favoriteCompanies[i] != favoriteCompanies[j] </code>仍然成立。</li>
+	<li>所有字符串仅包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We can map each company to a unique integer. Then, for each person, we convert their favorite companies into a set of integers. Finally, we check if the favorite companies of one person are a subset of another person's favorite companies.
+我们可以将每个公司映射到一个唯一的整数，然后对于每个人，我们将他们收藏的公司转换为整数集合，最后判断是否存在一个人的收藏公司是另一个人的子集。
 
-The time complexity is $(n \times m \times k + n^2 \times m)$, and the space complexity is $O(n \times m)$. Here, $n$ and $m$ are the lengths of `favoriteCompanies` and the average length of each company's list, respectively, and $k$ is the average length of each company.
+时间复杂度 $(n \times m \times k + n^2 \times m)$，空间复杂度 $O(n \times m)$。其中 $n$ 和 $m$ 分别是 `favoriteCompanies` 的长度和每个公司清单的平均长度，而 $k$ 是每个公司的平均长度。
 
 <!-- tabs:start -->
 
@@ -227,46 +229,43 @@ func peopleIndexes(favoriteCompanies [][]string) (ans []int) {
 
 ```ts
 function peopleIndexes(favoriteCompanies: string[][]): number[] {
-  const n = favoriteCompanies.length;
-  const d: Map<string, number> = new Map();
-  let idx = 0;
-  const nums: Set<number>[] = Array.from(
-    { length: n },
-    () => new Set<number>()
-  );
+    const n = favoriteCompanies.length;
+    const d: Map<string, number> = new Map();
+    let idx = 0;
+    const nums: Set<number>[] = Array.from({ length: n }, () => new Set<number>());
 
-  for (let i = 0; i < n; i++) {
-    for (const s of favoriteCompanies[i]) {
-      if (!d.has(s)) {
-        d.set(s, idx++);
-      }
-      nums[i].add(d.get(s)!);
+    for (let i = 0; i < n; i++) {
+        for (const s of favoriteCompanies[i]) {
+            if (!d.has(s)) {
+                d.set(s, idx++);
+            }
+            nums[i].add(d.get(s)!);
+        }
     }
-  }
 
-  const check = (a: Set<number>, b: Set<number>): boolean => {
-    for (const x of a) {
-      if (!b.has(x)) {
-        return false;
-      }
-    }
-    return true;
-  };
+    const check = (a: Set<number>, b: Set<number>): boolean => {
+        for (const x of a) {
+            if (!b.has(x)) {
+                return false;
+            }
+        }
+        return true;
+    };
 
-  const ans: number[] = [];
-  for (let i = 0; i < n; i++) {
-    let ok = true;
-    for (let j = 0; j < n && ok; j++) {
-      if (i !== j && check(nums[i], nums[j])) {
-        ok = false;
-      }
+    const ans: number[] = [];
+    for (let i = 0; i < n; i++) {
+        let ok = true;
+        for (let j = 0; j < n && ok; j++) {
+            if (i !== j && check(nums[i], nums[j])) {
+                ok = false;
+            }
+        }
+        if (ok) {
+            ans.push(i);
+        }
     }
-    if (ok) {
-      ans.push(i);
-    }
-  }
 
-  return ans;
+    return ans;
 }
 ```
 

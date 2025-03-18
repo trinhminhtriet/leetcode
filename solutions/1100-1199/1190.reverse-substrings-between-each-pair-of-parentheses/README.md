@@ -1,71 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1190.Reverse%20Substrings%20Between%20Each%20Pair%20of%20Parentheses/README.md
 rating: 1485
-source: Weekly Contest 154 Q2
+source: 第 154 场周赛 Q2
 tags:
-  - Stack
-  - String
+    - 栈
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1190. Reverse Substrings Between Each Pair of Parentheses](https://leetcode.com/problems/reverse-substrings-between-each-pair-of-parentheses)
+# [1190. 反转每对括号间的子串](https://leetcode.cn/problems/reverse-substrings-between-each-pair-of-parentheses)
 
-## Description
+[English Version](/solution/1100-1199/1190.Reverse%20Substrings%20Between%20Each%20Pair%20of%20Parentheses/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> that consists of lower case English letters and brackets.</p>
+<p>给出一个字符串&nbsp;<code>s</code>（仅含有小写英文字母和括号）。</p>
 
-<p>Reverse the strings in each pair of matching parentheses, starting from the innermost one.</p>
+<p>请你按照从括号内到外的顺序，逐层反转每对匹配括号中的字符串，并返回最终的结果。</p>
 
-<p>Your result should <strong>not</strong> contain any brackets.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;(abcd)&quot;
-<strong>Output:</strong> &quot;dcba&quot;
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;(u(love)i)&quot;
-<strong>Output:</strong> &quot;iloveu&quot;
-<strong>Explanation:</strong> The substring &quot;love&quot; is reversed first, then the whole string is reversed.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;(ed(et(oc))el)&quot;
-<strong>Output:</strong> &quot;leetcode&quot;
-<strong>Explanation:</strong> First, we reverse the substring &quot;oc&quot;, then &quot;etco&quot;, and finally, the whole string.
-</pre>
+<p>注意，您的结果中 <strong>不应</strong> 包含任何括号。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "(abcd)"
+<strong>输出：</strong>"dcba"
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "(u(love)i)"
+<strong>输出：</strong>"iloveu"
+<strong>解释：</strong>先反转子字符串 "love" ，然后反转整个字符串。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "(ed(et(oc))el)"
+<strong>输出：</strong>"leetcode"
+<strong>解释：</strong>先反转子字符串 "oc" ，接着反转 "etco" ，然后反转整个字符串。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 2000</code></li>
-	<li><code>s</code> only contains lower case English characters and parentheses.</li>
-	<li>It is guaranteed that all parentheses are balanced.</li>
+	<li><code>s</code> 中只有小写英文字母和括号</li>
+	<li>题目测试用例确保所有括号都是成对出现的</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can directly use a stack to simulate the reversal process.
+我们可以直接用栈来模拟反转的过程。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$, where $n$ is the length of the string $s$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -162,20 +165,20 @@ func reverseParentheses(s string) string {
 
 ```ts
 function reverseParentheses(s: string): string {
-  const stk: string[] = [];
-  for (const c of s) {
-    if (c === ")") {
-      const t: string[] = [];
-      while (stk.at(-1)! !== "(") {
-        t.push(stk.pop()!);
-      }
-      stk.pop();
-      stk.push(...t);
-    } else {
-      stk.push(c);
+    const stk: string[] = [];
+    for (const c of s) {
+        if (c === ')') {
+            const t: string[] = [];
+            while (stk.at(-1)! !== '(') {
+                t.push(stk.pop()!);
+            }
+            stk.pop();
+            stk.push(...t);
+        } else {
+            stk.push(c);
+        }
     }
-  }
-  return stk.join("");
+    return stk.join('');
 }
 ```
 
@@ -187,20 +190,20 @@ function reverseParentheses(s: string): string {
  * @return {string}
  */
 var reverseParentheses = function (s) {
-  const stk = [];
-  for (const c of s) {
-    if (c === ")") {
-      const t = [];
-      while (stk.at(-1) !== "(") {
-        t.push(stk.pop());
-      }
-      stk.pop();
-      stk.push(...t);
-    } else {
-      stk.push(c);
+    const stk = [];
+    for (const c of s) {
+        if (c === ')') {
+            const t = [];
+            while (stk.at(-1) !== '(') {
+                t.push(stk.pop());
+            }
+            stk.pop();
+            stk.push(...t);
+        } else {
+            stk.push(c);
+        }
     }
-  }
-  return stk.join("");
+    return stk.join('');
 };
 ```
 
@@ -210,15 +213,15 @@ var reverseParentheses = function (s) {
 
 <!-- solution:start -->
 
-### Solution 2: Brain Teaser
+### 方法二：脑筋急转弯
 
-We observe that, when traversing the string, each time we encounter `(` or `)`, we jump to the corresponding `)` or `(` and then reverse the direction of traversal to continue.
+我们观察发现，遍历字符串时，每一次遇到 `(` 或者 `)`，都是跳到对应的 `)` 或者 `(`，然后反转遍历的方向，继续遍历。
 
-Therefore, we can use an array $d$ to record the position of the corresponding other bracket for each `(` or `)`, i.e., $d[i]$ represents the position of the other bracket corresponding to the bracket at position $i$. We can directly use a stack to compute the array $d$.
+因此，我们可以用一个数组 $d$ 来记录每个 `(` 或者 `)` 对应的另一个括号的位置，即 $d[i]$ 表示 $i$ 处的括号对应的另一个括号的位置。直接用栈就可以求出 $d$ 数组。
 
-Then, we traverse the string from left to right. When encountering `(` or `)`, we jump to the corresponding position according to the array $d$, then reverse the direction and continue traversing until the entire string is traversed.
+然后，我们从左到右遍历字符串，遇到 `(` 或者 `)` 时，根据 $d$ 数组跳到对应的位置，然后反转方向，继续遍历，直到遍历完整个字符串。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -351,32 +354,32 @@ func reverseParentheses(s string) string {
 
 ```ts
 function reverseParentheses(s: string): string {
-  const n = s.length;
-  const d: number[] = Array(n).fill(0);
-  const stk: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    if (s[i] === "(") {
-      stk.push(i);
-    } else if (s[i] === ")") {
-      const j = stk.pop()!;
-      d[i] = j;
-      d[j] = i;
+    const n = s.length;
+    const d: number[] = Array(n).fill(0);
+    const stk: number[] = [];
+    for (let i = 0; i < n; ++i) {
+        if (s[i] === '(') {
+            stk.push(i);
+        } else if (s[i] === ')') {
+            const j = stk.pop()!;
+            d[i] = j;
+            d[j] = i;
+        }
     }
-  }
-  let i = 0;
-  let x = 1;
-  const ans: string[] = [];
-  while (i < n) {
-    const c = s.charAt(i);
-    if ("()".includes(c)) {
-      i = d[i];
-      x = -x;
-    } else {
-      ans.push(c);
+    let i = 0;
+    let x = 1;
+    const ans: string[] = [];
+    while (i < n) {
+        const c = s.charAt(i);
+        if ('()'.includes(c)) {
+            i = d[i];
+            x = -x;
+        } else {
+            ans.push(c);
+        }
+        i += x;
     }
-    i += x;
-  }
-  return ans.join("");
+    return ans.join('');
 }
 ```
 
@@ -388,32 +391,32 @@ function reverseParentheses(s: string): string {
  * @return {string}
  */
 var reverseParentheses = function (s) {
-  const n = s.length;
-  const d = Array(n).fill(0);
-  const stk = [];
-  for (let i = 0; i < n; ++i) {
-    if (s[i] === "(") {
-      stk.push(i);
-    } else if (s[i] === ")") {
-      const j = stk.pop();
-      d[i] = j;
-      d[j] = i;
+    const n = s.length;
+    const d = Array(n).fill(0);
+    const stk = [];
+    for (let i = 0; i < n; ++i) {
+        if (s[i] === '(') {
+            stk.push(i);
+        } else if (s[i] === ')') {
+            const j = stk.pop();
+            d[i] = j;
+            d[j] = i;
+        }
     }
-  }
-  let i = 0;
-  let x = 1;
-  const ans = [];
-  while (i < n) {
-    const c = s.charAt(i);
-    if ("()".includes(c)) {
-      i = d[i];
-      x = -x;
-    } else {
-      ans.push(c);
+    let i = 0;
+    let x = 1;
+    const ans = [];
+    while (i < n) {
+        const c = s.charAt(i);
+        if ('()'.includes(c)) {
+            i = d[i];
+            x = -x;
+        } else {
+            ans.push(c);
+        }
+        i += x;
     }
-    i += x;
-  }
-  return ans.join("");
+    return ans.join('');
 };
 ```
 

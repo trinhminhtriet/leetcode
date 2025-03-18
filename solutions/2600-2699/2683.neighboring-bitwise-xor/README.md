@@ -1,86 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2683.Neighboring%20Bitwise%20XOR/README.md
 rating: 1517
-source: Weekly Contest 345 Q2
+source: 第 345 场周赛 Q2
 tags:
-  - Bit Manipulation
-  - Array
+    - 位运算
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [2683. Neighboring Bitwise XOR](https://leetcode.com/problems/neighboring-bitwise-xor)
+# [2683. 相邻值的按位异或](https://leetcode.cn/problems/neighboring-bitwise-xor)
 
-## Description
+[English Version](/solution/2600-2699/2683.Neighboring%20Bitwise%20XOR/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <strong>0-indexed</strong> array <code>derived</code> with length <code>n</code> is derived by computing the <strong>bitwise XOR</strong>&nbsp;(&oplus;) of adjacent values in a <strong>binary array</strong> <code>original</code> of length <code>n</code>.</p>
+<p>下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的数组 <code>derived</code> 是由同样长度为 <code>n</code> 的原始 <strong>二进制数组</strong> <code>original</code> 通过计算相邻值的 <strong>按位异或（⊕）</strong>派生而来。</p>
 
-<p>Specifically, for each index <code>i</code> in the range <code>[0, n - 1]</code>:</p>
+<p>特别地，对于范围&nbsp;<code>[0, n - 1]</code> 内的每个下标 <code>i</code> ：</p>
 
 <ul>
-	<li>If <code>i = n - 1</code>, then <code>derived[i] = original[i] &oplus; original[0]</code>.</li>
-	<li>Otherwise, <code>derived[i] = original[i] &oplus; original[i + 1]</code>.</li>
+	<li>如果 <code>i = n - 1</code> ，那么 <code>derived[i] = original[i] ⊕ original[0]</code></li>
+	<li>否则 <code>derived[i] = original[i] ⊕ original[i + 1]</code></li>
 </ul>
 
-<p>Given an array <code>derived</code>, your task is to determine whether there exists a <strong>valid binary array</strong> <code>original</code> that could have formed <code>derived</code>.</p>
+<p>给你一个数组 <code>derived</code> ，请判断是否存在一个能够派生得到 <code>derived</code> 的 <strong>有效原始二进制数组</strong> <code>original</code> 。</p>
 
-<p>Return <em><strong>true</strong> if such an array exists or <strong>false</strong> otherwise.</em></p>
+<p>如果存在满足要求的原始二进制数组，返回 <em><strong>true</strong> </em>；否则，返回<em> <strong>false</strong> </em>。</p>
 
 <ul>
-	<li>A binary array is an array containing only <strong>0&#39;s</strong> and <strong>1&#39;s</strong></li>
+	<li>二进制数组是仅由 <strong>0</strong> 和 <strong>1</strong> 组成的数组。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> derived = [1,1,0]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> A valid original array that gives derived is [0,1,0].
-derived[0] = original[0] &oplus; original[1] = 0 &oplus; 1 = 1 
-derived[1] = original[1] &oplus; original[2] = 1 &oplus; 0 = 1
-derived[2] = original[2] &oplus; original[0] = 0 &oplus; 0 = 0
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>derived = [1,1,0]
+<strong>输出：</strong>true
+<strong>解释：</strong>能够派生得到 [1,1,0] 的有效原始二进制数组是 [0,1,0] ：
+derived[0] = original[0] ⊕ original[1] = 0 ⊕ 1 = 1 
+derived[1] = original[1] ⊕ original[2] = 1 ⊕ 0 = 1
+derived[2] = original[2] ⊕ original[0] = 0 ⊕ 0 = 0
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> derived = [1,1]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> A valid original array that gives derived is [0,1].
-derived[0] = original[0] &oplus; original[1] = 1
-derived[1] = original[1] &oplus; original[0] = 1
+<pre><strong>输入：</strong>derived = [1,1]
+<strong>输出：</strong>true
+<strong>解释：</strong>能够派生得到 [1,1] 的有效原始二进制数组是 [0,1] ：
+derived[0] = original[0] ⊕ original[1] = 1
+derived[1] = original[1] ⊕ original[0] = 1
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> derived = [1,0]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> There is no valid original array that gives derived.
+<pre><strong>输入：</strong>derived = [1,0]
+<strong>输出：</strong>false
+<strong>解释：</strong>不存在能够派生得到 [1,0] 的有效原始二进制数组。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == derived.length</code></li>
 	<li><code>1 &lt;= n&nbsp;&lt;= 10<sup>5</sup></code></li>
-	<li>The values in <code>derived</code>&nbsp;are either <strong>0&#39;s</strong> or <strong>1&#39;s</strong></li>
+	<li><code>derived</code> 中的值不是 <strong>0</strong> 就是 <strong>1</strong> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Bit Manipulation
+### 方法一：位运算
 
-Let's assume the original binary array is $a$, and the derived array is $b$. Then, we have:
+我们不妨假设原始二进制数组为 $a$，派生数组为 $b$，那么有：
 
 $$
 b_0 = a_0 \oplus a_1 \\
@@ -89,15 +91,15 @@ b_1 = a_1 \oplus a_2 \\
 b_{n-1} = a_{n-1} \oplus a_0
 $$
 
-Since the XOR operation is commutative and associative, we get:
+由于异或运算满足交换律和结合律，因此有：
 
 $$
 b_0 \oplus b_1 \oplus \cdots \oplus b_{n-1} = (a_0 \oplus a_1) \oplus (a_1 \oplus a_2) \oplus \cdots \oplus (a_{n-1} \oplus a_0) = 0
 $$
 
-Therefore, as long as the XOR sum of all elements in the derived array is $0$, there must exist an original binary array that meets the requirements.
+因此，只要派生数组的所有元素的异或和为 $0$，就一定存在一个满足要求的原始二进制数组。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -154,7 +156,7 @@ func doesValidArrayExist(derived []int) bool {
 
 ```ts
 function doesValidArrayExist(derived: number[]): boolean {
-  return derived.reduce((acc, x) => acc ^ x) === 0;
+    return derived.reduce((acc, x) => acc ^ x) === 0;
 }
 ```
 

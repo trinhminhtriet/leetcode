@@ -1,85 +1,75 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1725.Number%20Of%20Rectangles%20That%20Can%20Form%20The%20Largest%20Square/README.md
 rating: 1229
-source: Weekly Contest 224 Q1
+source: 第 224 场周赛 Q1
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [1725. Number Of Rectangles That Can Form The Largest Square](https://leetcode.com/problems/number-of-rectangles-that-can-form-the-largest-square)
+# [1725. 可以形成最大正方形的矩形数目](https://leetcode.cn/problems/number-of-rectangles-that-can-form-the-largest-square)
 
-## Description
+[English Version](/solution/1700-1799/1725.Number%20Of%20Rectangles%20That%20Can%20Form%20The%20Largest%20Square/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>rectangles</code> where <code>rectangles[i] = [l<sub>i</sub>, w<sub>i</sub>]</code> represents the <code>i<sup>th</sup></code> rectangle of length <code>l<sub>i</sub></code> and width <code>w<sub>i</sub></code>.</p>
+<p>给你一个数组 <code>rectangles</code> ，其中 <code>rectangles[i] = [l<sub>i</sub>, w<sub>i</sub>]</code> 表示第 <code>i</code> 个矩形的长度为 <code>l<sub>i</sub></code> 、宽度为 <code>w<sub>i</sub></code> 。</p>
 
-<p>You can cut the <code>i<sup>th</sup></code> rectangle to form a square with a side length of <code>k</code> if both <code>k &lt;= l<sub>i</sub></code> and <code>k &lt;= w<sub>i</sub></code>. For example, if you have a rectangle <code>[4,6]</code>, you can cut it to get a square with a side length of at most <code>4</code>.</p>
+<p>如果存在 <code>k</code> 同时满足 <code>k <= l<sub>i</sub></code> 和 <code>k <= w<sub>i</sub></code> ，就可以将第 <code>i</code> 个矩形切成边长为 <code>k</code> 的正方形。例如，矩形 <code>[4,6]</code> 可以切成边长最大为 <code>4</code> 的正方形。</p>
 
-<p>Let <code>maxLen</code> be the side length of the <strong>largest</strong> square you can obtain from any of the given rectangles.</p>
+<p>设 <code>maxLen</code> 为可以从矩形数组 <code>rectangles</code> 切分得到的 <strong>最大正方形</strong> 的边长。</p>
 
-<p>Return <em>the <strong>number</strong> of rectangles that can make a square with a side length of </em><code>maxLen</code>.</p>
+<p>请你统计有多少个矩形能够切出边长为<em> </em><code>maxLen</code> 的正方形，并返回矩形 <strong>数目</strong> 。</p>
 
-<p>&nbsp;</p>
+<p> </p>
 
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-
-<strong>Input:</strong> rectangles = [[5,8],[3,9],[5,12],[16,5]]
-
-<strong>Output:</strong> 3
-
-<strong>Explanation:</strong> The largest squares you can get from each rectangle are of lengths [5,3,5,5].
-
-The largest possible square is of length 5, and you can get it out of 3 rectangles.
-
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-
-<strong>Input:</strong> rectangles = [[2,3],[3,7],[4,3],[3,7]]
-
-<strong>Output:</strong> 3
-
+<strong>输入：</strong>rectangles = [[5,8],[3,9],[5,12],[16,5]]
+<strong>输出：</strong>3
+<strong>解释：</strong>能从每个矩形中切出的最大正方形边长分别是 [5,3,5,5] 。
+最大正方形的边长为 5 ，可以由 3 个矩形切分得到。
 </pre>
 
-<p>&nbsp;</p>
+<p><strong>示例 2：</strong></p>
 
-<p><strong>Constraints:</strong></p>
+<pre>
+<strong>输入：</strong>rectangles = [[2,3],[3,7],[4,3],[3,7]]
+<strong>输出：</strong>3
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>1 &lt;= rectangles.length &lt;= 1000</code></li>
-
-    <li><code>rectangles[i].length == 2</code></li>
-
-    <li><code>1 &lt;= l<sub>i</sub>, w<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
-
-    <li><code>l<sub>i</sub> != w<sub>i</sub></code></li>
-
+	<li><code>1 <= rectangles.length <= 1000</code></li>
+	<li><code>rectangles[i].length == 2</code></li>
+	<li><code>1 <= l<sub>i</sub>, w<sub>i</sub> <= 10<sup>9</sup></code></li>
+	<li><code>l<sub>i</sub> != w<sub>i</sub></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Single Pass
+### 方法一：一次遍历
 
-We define a variable $ans$ to record the count of squares with the current maximum side length, and another variable $mx$ to record the current maximum side length.
+我们定义一个变量 $ans$ 来记录当前最大边长的正方形的个数，定义另一个变量 $mx$ 来记录当前最大的边长。
 
-We traverse the array $rectangles$. For each rectangle $[l, w]$, we take $x = \min(l, w)$. If $mx < x$, it means we have found a larger side length, so we update $mx$ to $x$ and update $ans$ to $1$. If $mx = x$, it means we have found a side length equal to the current maximum side length, so we increase $ans$ by $1$.
+遍历数组 $rectangles$，对于每个矩形 $[l, w]$，我们取 $x = \min(l, w)$，如果 $mx < x$，说明我们找到了一个更大的边长，此时我们将 $mx$ 更新为 $x$，并将 $ans$ 更新为 $1$；如果 $mx = x$，说明我们找到了一个和当前最大边长相同的边长，此时我们将 $ans$ 增加 $1$。
 
-Finally, we return $ans$.
+最后返回 $ans$ 即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $rectangles$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $rectangles$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -162,17 +152,17 @@ func countGoodRectangles(rectangles [][]int) (ans int) {
 
 ```ts
 function countGoodRectangles(rectangles: number[][]): number {
-  let [ans, mx] = [0, 0];
-  for (const [l, w] of rectangles) {
-    const x = Math.min(l, w);
-    if (mx < x) {
-      mx = x;
-      ans = 1;
-    } else if (mx === x) {
-      ++ans;
+    let [ans, mx] = [0, 0];
+    for (const [l, w] of rectangles) {
+        const x = Math.min(l, w);
+        if (mx < x) {
+            mx = x;
+            ans = 1;
+        } else if (mx === x) {
+            ++ans;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

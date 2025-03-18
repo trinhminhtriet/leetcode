@@ -1,68 +1,70 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1689.Partitioning%20Into%20Minimum%20Number%20Of%20Deci-Binary%20Numbers/README.md
 rating: 1355
-source: Weekly Contest 219 Q2
+source: 第 219 场周赛 Q2
 tags:
-  - Greedy
-  - String
+    - 贪心
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1689. Partitioning Into Minimum Number Of Deci-Binary Numbers](https://leetcode.com/problems/partitioning-into-minimum-number-of-deci-binary-numbers)
+# [1689. 十-二进制数的最少数目](https://leetcode.cn/problems/partitioning-into-minimum-number-of-deci-binary-numbers)
 
-## Description
+[English Version](/solution/1600-1699/1689.Partitioning%20Into%20Minimum%20Number%20Of%20Deci-Binary%20Numbers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A decimal number is called <strong>deci-binary</strong> if each of its digits is either <code>0</code> or <code>1</code> without any leading zeros. For example, <code>101</code> and <code>1100</code> are <strong>deci-binary</strong>, while <code>112</code> and <code>3001</code> are not.</p>
+<p>如果一个十进制数字不含任何前导零，且每一位上的数字不是 <code>0</code> 就是 <code>1</code> ，那么该数字就是一个 <strong>十-二进制数</strong> 。例如，<code>101</code> 和 <code>1100</code> 都是 <strong>十-二进制数</strong>，而 <code>112</code> 和 <code>3001</code> 不是。</p>
 
-<p>Given a string <code>n</code> that represents a positive decimal integer, return <em>the <strong>minimum</strong> number of positive <strong>deci-binary</strong> numbers needed so that they sum up to </em><code>n</code><em>.</em></p>
+<p>给你一个表示十进制整数的字符串 <code>n</code> ，返回和为 <code>n</code> 的 <strong>十-二进制数 </strong>的最少数目。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> n = &quot;32&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 10 + 11 + 11 = 32
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>n = "32"
+<strong>输出：</strong>3
+<strong>解释：</strong>10 + 11 + 11 = 32
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = &quot;82734&quot;
-<strong>Output:</strong> 8
+<pre><strong>输入：</strong>n = "82734"
+<strong>输出：</strong>8
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = &quot;27346209830709182346&quot;
-<strong>Output:</strong> 9
+<pre><strong>输入：</strong>n = "27346209830709182346"
+<strong>输出：</strong>9
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>n</code> consists of only digits.</li>
-	<li><code>n</code> does not contain any leading zeros and represents a positive integer.</li>
+	<li><code>n</code> 仅由数字组成</li>
+	<li><code>n</code> 不含任何前导零并总是表示正整数</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Quick Thinking
+### 方法一：脑筋急转弯
 
-The problem is equivalent to finding the maximum number in the string.
+题目等价于找字符串中的最大数。
 
-The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -120,7 +122,7 @@ func minPartitions(n string) (ans int) {
 
 ```ts
 function minPartitions(n: string): number {
-  return Math.max(...n.split("").map((d) => parseInt(d)));
+    return Math.max(...n.split('').map(d => parseInt(d)));
 }
 ```
 

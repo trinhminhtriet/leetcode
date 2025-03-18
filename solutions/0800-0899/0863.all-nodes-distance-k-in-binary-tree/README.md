@@ -1,60 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0863.All%20Nodes%20Distance%20K%20in%20Binary%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Hash Table
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 哈希表
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [863. All Nodes Distance K in Binary Tree](https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree)
+# [863. 二叉树中所有距离为 K 的结点](https://leetcode.cn/problems/all-nodes-distance-k-in-binary-tree)
 
-## Description
+[English Version](/solution/0800-0899/0863.All%20Nodes%20Distance%20K%20in%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, the value of a target node <code>target</code>, and an integer <code>k</code>, return <em>an array of the values of all nodes that have a distance </em><code>k</code><em> from the target node.</em></p>
+<p>给定一个二叉树（具有根结点&nbsp;<code>root</code>），&nbsp;一个目标结点&nbsp;<code>target</code>&nbsp;，和一个整数值 <code>k</code>&nbsp;，返回到目标结点 <code>target</code> 距离为 <code>k</code> 的所有结点的值的数组。</p>
 
-<p>You can return the answer in <strong>any order</strong>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0863.All%20Nodes%20Distance%20K%20in%20Binary%20Tree/images/sketch0.png" style="width: 500px; height: 429px;" />
-<pre>
-<strong>Input:</strong> root = [3,5,1,6,2,0,8,null,null,7,4], target = 5, k = 2
-<strong>Output:</strong> [7,4,1]
-Explanation: The nodes that are a distance 2 from the target node (with value 5) have values 7, 4, and 1.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> root = [1], target = 1, k = 3
-<strong>Output:</strong> []
-</pre>
+<p>答案可以以 <strong>任何顺序</strong> 返回。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<ol>
+</ol>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0863.All%20Nodes%20Distance%20K%20in%20Binary%20Tree/images/sketch0.png" style="height: 429px; width: 500px;" /></p>
+
+<pre>
+<strong>输入：</strong>root = [3,5,1,6,2,0,8,null,null,7,4], target = 5, k = 2
+<strong>输出：</strong>[7,4,1]
+<strong>解释：</strong>所求结点为与目标结点（值为 5）距离为 2 的结点，值分别为 7，4，以及 1
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> root = [1], target = 1, k = 3
+<strong>输出:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 500]</code>.</li>
+	<li>节点数在&nbsp;<code>[1, 500]</code>&nbsp;范围内</li>
 	<li><code>0 &lt;= Node.val &lt;= 500</code></li>
-	<li>All the values <code>Node.val</code> are <strong>unique</strong>.</li>
-	<li><code>target</code> is the value of one of the nodes in the tree.</li>
+	<li><code>Node.val</code>&nbsp;中所有值 <strong>不同</strong></li>
+	<li>目标结点&nbsp;<code>target</code>&nbsp;是树上的结点。</li>
 	<li><code>0 &lt;= k &lt;= 1000</code></li>
 </ul>
 
+<p>&nbsp;</p>
+
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS + 哈希表
+
+我们先用 DFS 遍历整棵树，将每个节点的父节点保存到哈希表 $\textit{g}$ 中。
+
+接下来，我们再次用 DFS，从 $\textit{target}$ 出发，向上向下搜索距离为 $k$ 的节点，添加到结果数组中。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -71,31 +89,27 @@ Explanation: The nodes that are a distance 2 from the target node (with value 5)
 
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
-        def parents(root, prev):
-            nonlocal p
+        def dfs(root, fa):
             if root is None:
                 return
-            p[root] = prev
-            parents(root.left, root)
-            parents(root.right, root)
+            g[root] = fa
+            dfs(root.left, root)
+            dfs(root.right, root)
 
-        def dfs(root, k):
-            nonlocal ans, vis
-            if root is None or root.val in vis:
+        def dfs2(root, fa, k):
+            if root is None:
                 return
-            vis.add(root.val)
             if k == 0:
                 ans.append(root.val)
                 return
-            dfs(root.left, k - 1)
-            dfs(root.right, k - 1)
-            dfs(p[root], k - 1)
+            for nxt in (root.left, root.right, g[root]):
+                if nxt != fa:
+                    dfs2(nxt, root, k - 1)
 
-        p = {}
-        parents(root, None)
+        g = {}
+        dfs(root, None)
         ans = []
-        vis = set()
-        dfs(target, k)
+        dfs2(target, None, k)
         return ans
 ```
 
@@ -112,40 +126,37 @@ class Solution:
  * }
  */
 class Solution {
-    private Map<TreeNode, TreeNode> p;
-    private Set<Integer> vis;
-    private List<Integer> ans;
+    private Map<TreeNode, TreeNode> g = new HashMap<>();
+    private List<Integer> ans = new ArrayList<>();
 
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        p = new HashMap<>();
-        vis = new HashSet<>();
-        ans = new ArrayList<>();
-        parents(root, null);
-        dfs(target, k);
+        dfs(root, null);
+        dfs2(target, null, k);
         return ans;
     }
 
-    private void parents(TreeNode root, TreeNode prev) {
+    private void dfs(TreeNode root, TreeNode fa) {
         if (root == null) {
             return;
         }
-        p.put(root, prev);
-        parents(root.left, root);
-        parents(root.right, root);
+        g.put(root, fa);
+        dfs(root.left, root);
+        dfs(root.right, root);
     }
 
-    private void dfs(TreeNode root, int k) {
-        if (root == null || vis.contains(root.val)) {
+    private void dfs2(TreeNode root, TreeNode fa, int k) {
+        if (root == null) {
             return;
         }
-        vis.add(root.val);
         if (k == 0) {
             ans.add(root.val);
             return;
         }
-        dfs(root.left, k - 1);
-        dfs(root.right, k - 1);
-        dfs(p.get(root), k - 1);
+        for (TreeNode nxt : new TreeNode[] {root.left, root.right, g.get(root)}) {
+            if (nxt != fa) {
+                dfs2(nxt, root, k - 1);
+            }
+        }
     }
 }
 ```
@@ -164,33 +175,33 @@ class Solution {
  */
 class Solution {
 public:
-    unordered_map<TreeNode*, TreeNode*> p;
-    unordered_set<int> vis;
-    vector<int> ans;
-
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        parents(root, nullptr);
-        dfs(target, k);
+        unordered_map<TreeNode*, TreeNode*> g;
+        vector<int> ans;
+
+        auto dfs = [&](this auto&& dfs, TreeNode* node, TreeNode* fa) {
+            if (!node) return;
+            g[node] = fa;
+            dfs(node->left, node);
+            dfs(node->right, node);
+        };
+
+        auto dfs2 = [&](this auto&& dfs2, TreeNode* node, TreeNode* fa, int k) {
+            if (!node) return;
+            if (k == 0) {
+                ans.push_back(node->val);
+                return;
+            }
+            for (auto&& nxt : {node->left, node->right, g[node]}) {
+                if (nxt != fa) {
+                    dfs2(nxt, node, k - 1);
+                }
+            }
+        };
+
+        dfs(root, nullptr);
+        dfs2(target, nullptr, k);
         return ans;
-    }
-
-    void parents(TreeNode* root, TreeNode* prev) {
-        if (!root) return;
-        p[root] = prev;
-        parents(root->left, root);
-        parents(root->right, root);
-    }
-
-    void dfs(TreeNode* root, int k) {
-        if (!root || vis.count(root->val)) return;
-        vis.insert(root->val);
-        if (k == 0) {
-            ans.push_back(root->val);
-            return;
-        }
-        dfs(root->left, k - 1);
-        dfs(root->right, k - 1);
-        dfs(p[root], k - 1);
     }
 };
 ```
@@ -198,43 +209,39 @@ public:
 #### Go
 
 ```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
 func distanceK(root *TreeNode, target *TreeNode, k int) []int {
-	p := make(map[*TreeNode]*TreeNode)
-	vis := make(map[int]bool)
-	var ans []int
-	var parents func(root, prev *TreeNode)
-	parents = func(root, prev *TreeNode) {
-		if root == nil {
+	g := make(map[*TreeNode]*TreeNode)
+	ans := []int{}
+
+	var dfs func(node, fa *TreeNode)
+	dfs = func(node, fa *TreeNode) {
+		if node == nil {
 			return
 		}
-		p[root] = prev
-		parents(root.Left, root)
-		parents(root.Right, root)
+		g[node] = fa
+		dfs(node.Left, node)
+		dfs(node.Right, node)
 	}
-	parents(root, nil)
-	var dfs func(root *TreeNode, k int)
-	dfs = func(root *TreeNode, k int) {
-		if root == nil || vis[root.Val] {
+
+	var dfs2 func(node, fa *TreeNode, k int)
+	dfs2 = func(node, fa *TreeNode, k int) {
+		if node == nil {
 			return
 		}
-		vis[root.Val] = true
 		if k == 0 {
-			ans = append(ans, root.Val)
+			ans = append(ans, node.Val)
 			return
 		}
-		dfs(root.Left, k-1)
-		dfs(root.Right, k-1)
-		dfs(p[root], k-1)
+		for _, nxt := range []*TreeNode{node.Left, node.Right, g[node]} {
+			if nxt != fa {
+				dfs2(nxt, node, k-1)
+			}
+		}
 	}
-	dfs(target, k)
+
+	dfs(root, nil)
+	dfs2(target, nil, k)
+
 	return ans
 }
 ```
@@ -256,96 +263,38 @@ func distanceK(root *TreeNode, target *TreeNode, k int) []int {
  * }
  */
 
-function distanceK(
-  root: TreeNode | null,
-  target: TreeNode | null,
-  k: number
-): number[] {
-  if (!root) return [0];
+function distanceK(root: TreeNode | null, target: TreeNode | null, k: number): number[] {
+    const g = new Map<TreeNode, TreeNode | null>();
+    const ans: number[] = [];
 
-  const g: Record<number, number[]> = {};
+    const dfs = (node: TreeNode | null, fa: TreeNode | null) => {
+        if (!node) {
+            return;
+        }
+        g.set(node, fa);
+        dfs(node.left, node);
+        dfs(node.right, node);
+    };
 
-  const dfs = (node: TreeNode | null, parent: TreeNode | null = null) => {
-    if (!node) return;
+    const dfs2 = (node: TreeNode | null, fa: TreeNode | null, k: number) => {
+        if (!node) {
+            return;
+        }
+        if (k === 0) {
+            ans.push(node.val);
+            return;
+        }
+        for (const nxt of [node.left, node.right, g.get(node) || null]) {
+            if (nxt !== fa) {
+                dfs2(nxt, node, k - 1);
+            }
+        }
+    };
 
-    g[node.val] ??= [];
-    if (parent) g[node.val].push(parent.val);
-    if (node.left) g[node.val].push(node.left.val);
-    if (node.right) g[node.val].push(node.right.val);
-
-    dfs(node.left, node);
-    dfs(node.right, node);
-  };
-
-  dfs(root);
-
-  const vis = new Set<number>();
-  let q = [target!.val];
-
-  while (q.length) {
-    if (!k--) return q;
-
-    const nextQ: number[] = [];
-
-    for (const x of q) {
-      if (vis.has(x)) continue;
-
-      vis.add(x);
-      nextQ.push(...g[x].filter((x) => !vis.has(x)));
-    }
-
-    q = nextQ;
-  }
-
-  return [];
+    dfs(root, null);
+    dfs2(target, null, k);
+    return ans;
 }
-```
-
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### Solution 2
-
-<!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-
-class Solution:
-    def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
-        def dfs1(root, fa):
-            if root is None:
-                return
-            p[root] = fa
-            dfs1(root.left, root)
-            dfs1(root.right, root)
-
-        def dfs2(root, fa, k):
-            if root is None:
-                return
-            if k == 0:
-                ans.append(root.val)
-                return
-            for nxt in (root.left, root.right, p[root]):
-                if nxt != fa:
-                    dfs2(nxt, root, k - 1)
-
-        p = {}
-        dfs1(root, None)
-        ans = []
-        dfs2(target, None, k)
-        return ans
 ```
 
 <!-- tabs:end -->

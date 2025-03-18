@@ -1,55 +1,58 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2126.Destroying%20Asteroids/README.md
 rating: 1334
-source: Weekly Contest 274 Q3
+source: 第 274 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2126. Destroying Asteroids](https://leetcode.com/problems/destroying-asteroids)
+# [2126. 摧毁小行星](https://leetcode.cn/problems/destroying-asteroids)
 
-## Description
+[English Version](/solution/2100-2199/2126.Destroying%20Asteroids/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer <code>mass</code>, which represents the original mass of a planet. You are further given an integer array <code>asteroids</code>, where <code>asteroids[i]</code> is the mass of the <code>i<sup>th</sup></code> asteroid.</p>
+<p>给你一个整数&nbsp;<code>mass</code>&nbsp;，它表示一颗行星的初始质量。再给你一个整数数组&nbsp;<code>asteroids</code>&nbsp;，其中&nbsp;<code>asteroids[i]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;颗小行星的质量。</p>
 
-<p>You can arrange for the planet to collide with the asteroids in <strong>any arbitrary order</strong>. If the mass of the planet is <b>greater than or equal to</b> the mass of the asteroid, the asteroid is <strong>destroyed</strong> and the planet <strong>gains</strong> the mass of the asteroid. Otherwise, the planet is destroyed.</p>
+<p>你可以按 <strong>任意顺序</strong>&nbsp;重新安排小行星的顺序，然后让行星跟它们发生碰撞。如果行星碰撞时的质量 <strong>大于等于</strong>&nbsp;小行星的质量，那么小行星被 <strong>摧毁</strong>&nbsp;，并且行星会 <strong>获得</strong>&nbsp;这颗小行星的质量。否则，行星将被摧毁。</p>
 
-<p>Return <code>true</code><em> if <strong>all</strong> asteroids can be destroyed. Otherwise, return </em><code>false</code><em>.</em></p>
+<p>如果所有小行星 <strong>都</strong>&nbsp;能被摧毁，请返回 <code>true</code>&nbsp;，否则返回 <code>false</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> mass = 10, asteroids = [3,9,19,5,21]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> One way to order the asteroids is [9,19,5,3,21]:
-- The planet collides with the asteroid with a mass of 9. New planet mass: 10 + 9 = 19
-- The planet collides with the asteroid with a mass of 19. New planet mass: 19 + 19 = 38
-- The planet collides with the asteroid with a mass of 5. New planet mass: 38 + 5 = 43
-- The planet collides with the asteroid with a mass of 3. New planet mass: 43 + 3 = 46
-- The planet collides with the asteroid with a mass of 21. New planet mass: 46 + 21 = 67
-All asteroids are destroyed.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>mass = 10, asteroids = [3,9,19,5,21]
+<b>输出：</b>true
+<b>解释：</b>一种安排小行星的方式为 [9,19,5,3,21] ：
+- 行星与质量为 9 的小行星碰撞。新的行星质量为：10 + 9 = 19
+- 行星与质量为 19 的小行星碰撞。新的行星质量为：19 + 19 = 38
+- 行星与质量为 5 的小行星碰撞。新的行星质量为：38 + 5 = 43
+- 行星与质量为 3 的小行星碰撞。新的行星质量为：43 + 3 = 46
+- 行星与质量为 21 的小行星碰撞。新的行星质量为：46 + 21 = 67
+所有小行星都被摧毁。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> mass = 5, asteroids = [4,9,23,4]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> 
-The planet cannot ever gain enough mass to destroy the asteroid with a mass of 23.
-After the planet destroys the other asteroids, it will have a mass of 5 + 4 + 9 + 4 = 22.
-This is less than 23, so a collision would not destroy the last asteroid.</pre>
+<pre><b>输入：</b>mass = 5, asteroids = [4,9,23,4]
+<b>输出：</b>false
+<b>解释：</b>
+行星无论如何没法获得足够质量去摧毁质量为 23 的小行星。
+行星把别的小行星摧毁后，质量为 5 + 4 + 9 + 4 = 22 。
+它比 23 小，所以无法摧毁最后一颗小行星。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= mass &lt;= 10<sup>5</sup></code></li>
@@ -59,11 +62,11 @@ This is less than 23, so a collision would not destroy the last asteroid.</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：排序 + 贪心
 
 <!-- tabs:start -->
 
@@ -135,14 +138,14 @@ func asteroidsDestroyed(mass int, asteroids []int) bool {
 
 ```ts
 function asteroidsDestroyed(mass: number, asteroids: number[]): boolean {
-  asteroids.sort((a, b) => a - b);
+    asteroids.sort((a, b) => a - b);
 
-  for (const x of asteroids) {
-    if (mass < x) return false;
-    mass += x;
-  }
+    for (const x of asteroids) {
+        if (mass < x) return false;
+        mass += x;
+    }
 
-  return true;
+    return true;
 }
 ```
 

@@ -1,62 +1,69 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0700.Search%20in%20a%20Binary%20Search%20Tree/README.md
 tags:
-  - Tree
-  - Binary Search Tree
-  - Binary Tree
+    - 树
+    - 二叉搜索树
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [700. Search in a Binary Search Tree](https://leetcode.com/problems/search-in-a-binary-search-tree)
+# [700. 二叉搜索树中的搜索](https://leetcode.cn/problems/search-in-a-binary-search-tree)
 
-## Description
+[English Version](/solution/0700-0799/0700.Search%20in%20a%20Binary%20Search%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the <code>root</code> of a binary search tree (BST) and an integer <code>val</code>.</p>
+<p>给定二叉搜索树（BST）的根节点<meta charset="UTF-8" />&nbsp;<code>root</code>&nbsp;和一个整数值<meta charset="UTF-8" />&nbsp;<code>val</code>。</p>
 
-<p>Find the node in the BST that the node&#39;s value equals <code>val</code> and return the subtree rooted with that node. If such a node does not exist, return <code>null</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0700.Search%20in%20a%20Binary%20Search%20Tree/images/tree1.jpg" style="width: 422px; height: 302px;" />
-<pre>
-<strong>Input:</strong> root = [4,2,7,1,3], val = 2
-<strong>Output:</strong> [2,1,3]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0700.Search%20in%20a%20Binary%20Search%20Tree/images/tree2.jpg" style="width: 422px; height: 302px;" />
-<pre>
-<strong>Input:</strong> root = [4,2,7,1,3], val = 5
-<strong>Output:</strong> []
-</pre>
+<p>你需要在 BST 中找到节点值等于&nbsp;<code>val</code>&nbsp;的节点。 返回以该节点为根的子树。 如果节点不存在，则返回<meta charset="UTF-8" />&nbsp;<code>null</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0700.Search%20in%20a%20Binary%20Search%20Tree/images/tree1.jpg" style="height: 179px; width: 250px;" /><meta charset="UTF-8" /></p>
+
+<pre>
+<b>输入：</b>root = [4,2,7,1,3], val = 2
+<b>输出：</b>[2,1,3]
+</pre>
+
+<p><strong>示例 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0700.Search%20in%20a%20Binary%20Search%20Tree/images/tree2.jpg" style="height: 179px; width: 250px;" />
+<pre>
+<b>输入：</b>root = [4,2,7,1,3], val = 5
+<b>输出：</b>[]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 5000]</code>.</li>
+	<li>树中节点数在&nbsp;<code>[1, 5000]</code>&nbsp;范围内</li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>7</sup></code></li>
-	<li><code>root</code> is a binary search tree.</li>
+	<li><code>root</code>&nbsp;是二叉搜索树</li>
 	<li><code>1 &lt;= val &lt;= 10<sup>7</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Recursion
+### 方法一：递归
 
-We check if the current node is null or if the current node's value equals the target value. If so, we return the current node.
+我们判断当前节点是否为空或者当前节点的值是否等于目标值，如果是则返回当前节点。
 
-Otherwise, if the current node's value is greater than the target value, we recursively search the left subtree; otherwise, we recursively search the right subtree.
+否则，如果当前节点的值大于目标值，则递归搜索左子树，否则递归搜索右子树。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -173,12 +180,10 @@ public:
  */
 
 function searchBST(root: TreeNode | null, val: number): TreeNode | null {
-  if (root === null || root.val === val) {
-    return root;
-  }
-  return root.val > val
-    ? searchBST(root.left, val)
-    : searchBST(root.right, val);
+    if (root === null || root.val === val) {
+        return root;
+    }
+    return root.val > val ? searchBST(root.left, val) : searchBST(root.right, val);
 }
 ```
 

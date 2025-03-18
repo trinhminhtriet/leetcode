@@ -1,78 +1,82 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2712.Minimum%20Cost%20to%20Make%20All%20Characters%20Equal/README.md
 rating: 1791
-source: Weekly Contest 347 Q3
+source: 第 347 场周赛 Q3
 tags:
-  - Greedy
-  - String
-  - Dynamic Programming
+    - 贪心
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2712. Minimum Cost to Make All Characters Equal](https://leetcode.com/problems/minimum-cost-to-make-all-characters-equal)
+# [2712. 使所有字符相等的最小成本](https://leetcode.cn/problems/minimum-cost-to-make-all-characters-equal)
 
-## Description
+[English Version](/solution/2700-2799/2712.Minimum%20Cost%20to%20Make%20All%20Characters%20Equal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> binary string <code>s</code> of length <code>n</code> on which you can apply two types of operations:</p>
+<p>给你一个下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的二进制字符串 <code>s</code> ，你可以对其执行两种操作：</p>
 
 <ul>
-	<li>Choose an index <code>i</code> and invert all characters from&nbsp;index <code>0</code> to index <code>i</code>&nbsp;(both inclusive), with a cost of <code>i + 1</code></li>
-	<li>Choose an index <code>i</code> and invert all characters&nbsp;from&nbsp;index <code>i</code> to index <code>n - 1</code>&nbsp;(both inclusive), with a cost of <code>n - i</code></li>
+	<li>选中一个下标 <code>i</code> 并且反转从下标 <code>0</code> 到下标 <code>i</code>（包括下标 <code>0</code> 和下标 <code>i</code> ）的所有字符，成本为 <code>i + 1</code> 。</li>
+	<li>选中一个下标 <code>i</code> 并且反转从下标 <code>i</code> 到下标 <code>n - 1</code>（包括下标 <code>i</code> 和下标 <code>n - 1</code> ）的所有字符，成本为 <code>n - i</code> 。</li>
 </ul>
 
-<p>Return <em>the <strong>minimum cost </strong>to make all characters of the string <strong>equal</strong></em>.</p>
+<p>返回使字符串内所有字符 <strong>相等</strong> 需要的 <strong>最小成本</strong> 。</p>
 
-<p><strong>Invert</strong> a character means&nbsp;if its value is &#39;0&#39; it becomes &#39;1&#39; and vice-versa.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;0011&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Apply the second operation with <code>i = 2</code> to obtain <code>s = &quot;0000&quot; for a cost of 2</code>. It can be shown that 2 is the minimum cost to make all characters equal.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;010101&quot;
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> Apply the first operation with i = 2 to obtain s = &quot;101101&quot; for a cost of 3.
-Apply the first operation with i = 1 to obtain s = &quot;011101&quot; for a cost of 2. 
-Apply the first operation with i = 0 to obtain s = &quot;111101&quot; for a cost of 1. 
-Apply the second operation with i = 4 to obtain s = &quot;111110&quot; for a cost of 2.
-Apply the second operation with i = 5 to obtain s = &quot;111111&quot; for a cost of 1. 
-The total cost to make all characters equal is 9. It can be shown that 9 is the minimum cost to make all characters equal.
-</pre>
+<p><strong>反转</strong> 字符意味着：如果原来的值是 '0' ，则反转后值变为 '1' ，反之亦然。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "0011"
+<strong>输出：</strong>2
+<strong>解释：</strong>执行第二种操作，选中下标 <code>i = 2</code> ，可以得到 <code>s = "0000" ，成本为 2</code> 。可以证明 2 是使所有字符相等的最小成本。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "010101"
+<strong>输出：</strong>9
+<strong>解释：</strong>执行第一种操作，选中下标 i = 2 ，可以得到 s = "101101" ，成本为 3 。
+执行第一种操作，选中下标 i = 1 ，可以得到 s = "011101" ，成本为 2 。
+执行第一种操作，选中下标 i = 0 ，可以得到 s = "111101" ，成本为 1 。
+执行第二种操作，选中下标 i = 4 ，可以得到 s = "111110" ，成本为 2 。
+执行第二种操作，选中下标 i = 5 ，可以得到 s = "111111" ，成本为 1 。
+使所有字符相等的总成本等于 9 。可以证明 9 是使所有字符相等的最小成本。 </pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length == n &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code></li>
+	<li><code>s[i]</code> 为 <code>'0'</code> 或 <code>'1'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy Algorithm
+### 方法一：贪心
 
-According to the problem description, if $s[i] \neq s[i - 1]$, an operation must be performed; otherwise, it's impossible to make all characters equal.
+根据题目描述，如果 $s[i] \neq s[i - 1]$，那么一定要执行操作，否则无法使所有字符相等。
 
-We can either choose to reverse all characters from $s[0..i-1]$, with a cost of $i$, or reverse all characters from $s[i..n-1]$, with a cost of $n - i$. We take the minimum of the two.
+我们要么选择将 $s[0..i-1]$ 的字符全部反转，反转的成本为 $i$；要么选择将 $s[i..n-1]$ 的字符全部反转，反转的成本为 $n - i$。取两者中的最小值即可。
 
-By iterating through the string $s$ and summing up the costs of all characters that need to be reversed, we can obtain the minimum cost.
+我们遍历字符串 $s$，将所有需要反转的字符的成本相加，即可得到最小成本。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -141,14 +145,14 @@ func minimumCost(s string) (ans int64) {
 
 ```ts
 function minimumCost(s: string): number {
-  let ans = 0;
-  const n = s.length;
-  for (let i = 1; i < n; ++i) {
-    if (s[i] !== s[i - 1]) {
-      ans += Math.min(i, n - i);
+    let ans = 0;
+    const n = s.length;
+    for (let i = 1; i < n; ++i) {
+        if (s[i] !== s[i - 1]) {
+            ans += Math.min(i, n - i);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

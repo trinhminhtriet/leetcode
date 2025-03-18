@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1042.Flower%20Planting%20With%20No%20Adjacent/README.md
 rating: 1712
-source: Weekly Contest 136 Q2
+source: 第 136 场周赛 Q2
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [1042. Flower Planting With No Adjacent](https://leetcode.com/problems/flower-planting-with-no-adjacent)
+# [1042. 不邻接植花](https://leetcode.cn/problems/flower-planting-with-no-adjacent)
 
-## Description
+[English Version](/solution/1000-1099/1042.Flower%20Planting%20With%20No%20Adjacent/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have <code>n</code> gardens, labeled from <code>1</code> to <code>n</code>, and an array <code>paths</code> where <code>paths[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> describes a bidirectional path between garden <code>x<sub>i</sub></code> to garden <code>y<sub>i</sub></code>. In each garden, you want to plant one of 4 types of flowers.</p>
+<p>有 <code>n</code> 个花园，按从&nbsp;<code>1</code>&nbsp;到 <code>n</code> 标记。另有数组 <code>paths</code> ，其中 <code>paths[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>&nbsp;描述了花园&nbsp;<code>x<sub>i</sub></code> 到花园&nbsp;<code>y<sub>i</sub></code> 的双向路径。在每个花园中，你打算种下四种花之一。</p>
 
-<p>All gardens have <strong>at most 3</strong> paths coming into or leaving it.</p>
+<p>另外，所有花园 <strong>最多</strong> 有 <strong>3</strong> 条路径可以进入或离开.</p>
 
-<p>Your task is to choose a flower type for each garden such that, for any two gardens connected by a path, they have different types of flowers.</p>
+<p>你需要为每个花园选择一种花，使得通过路径相连的任何两个花园中的花的种类互不相同。</p>
 
-<p>Return <em><strong>any</strong> such a choice as an array </em><code>answer</code><em>, where </em><code>answer[i]</code><em> is the type of flower planted in the </em><code>(i+1)<sup>th</sup></code><em> garden. The flower types are denoted </em><code>1</code><em>, </em><code>2</code><em>, </em><code>3</code><em>, or </em><code>4</code><em>. It is guaranteed an answer exists.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 3, paths = [[1,2],[2,3],[3,1]]
-<strong>Output:</strong> [1,2,3]
-<strong>Explanation:</strong>
-Gardens 1 and 2 have different types.
-Gardens 2 and 3 have different types.
-Gardens 3 and 1 have different types.
-Hence, [1,2,3] is a valid answer. Other valid answers include [1,2,4], [1,4,2], and [3,2,1].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 4, paths = [[1,2],[3,4]]
-<strong>Output:</strong> [1,2,1,2]
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 4, paths = [[1,2],[2,3],[3,4],[4,1],[1,3],[2,4]]
-<strong>Output:</strong> [1,2,3,4]
-</pre>
+<p><em>以数组形式返回 <strong>任一</strong> 可行的方案作为答案&nbsp;<code>answer</code>，其中&nbsp;<code>answer[i]</code>&nbsp;为在第&nbsp;<code>(i+1)</code>&nbsp;个花园中种植的花的种类。花的种类用 &nbsp;1、2、3、4 表示。保证存在答案。</em></p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 3, paths = [[1,2],[2,3],[3,1]]
+<strong>输出：</strong>[1,2,3]
+<strong>解释：</strong>
+花园 1 和 2 花的种类不同。
+花园 2 和 3 花的种类不同。
+花园 3 和 1 花的种类不同。
+因此，[1,2,3] 是一个满足题意的答案。其他满足题意的答案有 [1,2,4]、[1,4,2] 和 [3,2,1]
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 4, paths = [[1,2],[3,4]]
+<strong>输出：</strong>[1,2,1,2]
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 4, paths = [[1,2],[2,3],[3,4],[4,1],[1,3],[2,4]]
+<strong>输出：</strong>[1,2,3,4]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -61,16 +66,24 @@ Hence, [1,2,3] is a valid answer. Other valid answers include [1,2,4], [1,4,2], 
 	<li><code>paths[i].length == 2</code></li>
 	<li><code>1 &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= n</code></li>
 	<li><code>x<sub>i</sub> != y<sub>i</sub></code></li>
-	<li>Every garden has <strong>at most 3</strong> paths coming into or leaving it.</li>
+	<li>每个花园 <strong>最多</strong> 有 <strong>3</strong> 条路径可以进入或离开</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：枚举
+
+我们先根据数组 $paths$ 构建图 $g$，其中 $g[x]$ 表示与花园 $x$ 相邻的花园列表。
+
+接下来，对于每个花园 $x$，我们先找出与 $x$ 相邻的花园 $y$，并将 $y$ 花园中种植的花的种类标记为已使用。然后我们从花的种类 $1$ 开始枚举，直到找到一个未被使用的花的种类 $c$，将 $c$ 标记为 $x$ 花园中种植的花的种类，然后继续枚举下一个花园。
+
+枚举结束后，返回答案即可。
+
+时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是花园的数量和路径的数量。
 
 <!-- tabs:start -->
 
@@ -187,25 +200,25 @@ func gardenNoAdj(n int, paths [][]int) []int {
 
 ```ts
 function gardenNoAdj(n: number, paths: number[][]): number[] {
-  const g: number[][] = new Array(n).fill(0).map(() => []);
-  for (const [x, y] of paths) {
-    g[x - 1].push(y - 1);
-    g[y - 1].push(x - 1);
-  }
-  const ans: number[] = new Array(n).fill(0);
-  for (let x = 0; x < n; ++x) {
-    const used: boolean[] = new Array(5).fill(false);
-    for (const y of g[x]) {
-      used[ans[y]] = true;
+    const g: number[][] = new Array(n).fill(0).map(() => []);
+    for (const [x, y] of paths) {
+        g[x - 1].push(y - 1);
+        g[y - 1].push(x - 1);
     }
-    for (let c = 1; c < 5; ++c) {
-      if (!used[c]) {
-        ans[x] = c;
-        break;
-      }
+    const ans: number[] = new Array(n).fill(0);
+    for (let x = 0; x < n; ++x) {
+        const used: boolean[] = new Array(5).fill(false);
+        for (const y of g[x]) {
+            used[ans[y]] = true;
+        }
+        for (let c = 1; c < 5; ++c) {
+            if (!used[c]) {
+                ans[x] = c;
+                break;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

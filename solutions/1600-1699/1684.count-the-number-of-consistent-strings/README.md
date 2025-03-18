@@ -1,75 +1,80 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1684.Count%20the%20Number%20of%20Consistent%20Strings/README.md
 rating: 1288
-source: Biweekly Contest 41 Q1
+source: 第 41 场双周赛 Q1
 tags:
-  - Bit Manipulation
-  - Array
-  - Hash Table
-  - String
-  - Counting
+    - 位运算
+    - 数组
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1684. Count the Number of Consistent Strings](https://leetcode.com/problems/count-the-number-of-consistent-strings)
+# [1684. 统计一致字符串的数目](https://leetcode.cn/problems/count-the-number-of-consistent-strings)
 
-## Description
+[English Version](/solution/1600-1699/1684.Count%20the%20Number%20of%20Consistent%20Strings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>allowed</code> consisting of <strong>distinct</strong> characters and an array of strings <code>words</code>. A string is <strong>consistent </strong>if all characters in the string appear in the string <code>allowed</code>.</p>
+<p>给你一个由不同字符组成的字符串 <code>allowed</code> 和一个字符串数组 <code>words</code> 。如果一个字符串的每一个字符都在 <code>allowed</code> 中，就称这个字符串是 <strong>一致字符串 </strong>。</p>
 
-<p>Return<em> the number of <strong>consistent</strong> strings in the array </em><code>words</code>.</p>
+<p>请你返回 <code>words</code> 数组中 <strong>一致字符串</strong> 的数目。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> allowed = &quot;ab&quot;, words = [&quot;ad&quot;,&quot;bd&quot;,&quot;aaab&quot;,&quot;baa&quot;,&quot;badab&quot;]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Strings &quot;aaab&quot; and &quot;baa&quot; are consistent since they only contain characters &#39;a&#39; and &#39;b&#39;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> allowed = &quot;abc&quot;, words = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;ab&quot;,&quot;ac&quot;,&quot;bc&quot;,&quot;abc&quot;]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> All strings are consistent.
+<b>输入：</b>allowed = "ab", words = ["ad","bd","aaab","baa","badab"]
+<b>输出：</b>2
+<b>解释：</b>字符串 "aaab" 和 "baa" 都是一致字符串，因为它们只包含字符 'a' 和 'b' 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> allowed = &quot;cad&quot;, words = [&quot;cc&quot;,&quot;acd&quot;,&quot;b&quot;,&quot;ba&quot;,&quot;bac&quot;,&quot;bad&quot;,&quot;ac&quot;,&quot;d&quot;]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> Strings &quot;cc&quot;, &quot;acd&quot;, &quot;ac&quot;, and &quot;d&quot; are consistent.
+<b>输入：</b>allowed = "abc", words = ["a","b","c","ab","ac","bc","abc"]
+<b>输出：</b>7
+<b>解释：</b>所有字符串都是一致的。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>allowed = "cad", words = ["cc","acd","b","ba","bac","bad","ac","d"]
+<b>输出：</b>4
+<b>解释：</b>字符串 "cc"，"acd"，"ac" 和 "d" 是一致字符串。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= words.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>1 &lt;= allowed.length &lt;=<sup> </sup>26</code></li>
-	<li><code>1 &lt;= words[i].length &lt;= 10</code></li>
-	<li>The characters in <code>allowed</code> are <strong>distinct</strong>.</li>
-	<li><code>words[i]</code> and <code>allowed</code> contain only lowercase English letters.</li>
+	<li><code>1 <= words.length <= 10<sup>4</sup></code></li>
+	<li><code>1 <= allowed.length <=<sup> </sup>26</code></li>
+	<li><code>1 <= words[i].length <= 10</code></li>
+	<li><code>allowed</code> 中的字符 <strong>互不相同</strong> 。</li>
+	<li><code>words[i]</code> 和 <code>allowed</code> 只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table or Array
+### 方法一：哈希表或数组
 
-A straightforward approach is to use a hash table or array $s$ to record the characters in `allowed`. Then iterate over the `words` array, for each string $w$, determine whether it is composed of characters in `allowed`. If so, increment the answer.
+一种比较直接的思路是，用哈希表或数组 $s$ 记录 `allowed` 中的字符。然后遍历 `words` 数组，对于每个字符串 $w$，判断其是否由 `allowed` 中的字符组成。若是，答案加一。
 
-The time complexity is $O(m)$, and the space complexity is $O(C)$. Here, $m$ is the total length of all strings, and $C$ is the size of the character set `allowed`. In this problem, $C \leq 26$.
+时间复杂度 $O(m)$，空间复杂度 $O(C)$。其中 $m$ 为所有字符串的总长度，而 $C$ 为 `allowed` 字符集的大小。本题中 $C \leq 26$。
 
 <!-- tabs:start -->
 
@@ -160,18 +165,18 @@ func countConsistentStrings(allowed string, words []string) (ans int) {
 
 ```ts
 function countConsistentStrings(allowed: string, words: string[]): number {
-  const set = new Set([...allowed]);
-  const n = words.length;
-  let ans = n;
-  for (const word of words) {
-    for (const c of word) {
-      if (!set.has(c)) {
-        ans--;
-        break;
-      }
+    const set = new Set([...allowed]);
+    const n = words.length;
+    let ans = n;
+    for (const word of words) {
+        for (const c of word) {
+            if (!set.has(c)) {
+                ans--;
+                break;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -228,15 +233,15 @@ int countConsistentStrings(char* allowed, char** words, int wordsSize) {
 
 <!-- solution:start -->
 
-### Solution 2: Bit Manipulation
+### 方法二：位运算
 
-We can also use a single integer to represent the occurrence of characters in each string. In this integer, each bit in the binary representation indicates whether a character appears.
+我们也可以仅用一个整数来表示每个字符串中字符的出现情况。其中，整数的二进制表示中的每一位表示一个字符是否出现。
 
-We simply define a function $f(w)$ that can convert a string $w$ into an integer. Each bit in the binary representation of the integer indicates whether a character appears. For example, the string `ab` can be converted into the integer $3$, which is represented in binary as $11$. The string `abd` can be converted into the integer $11$, which is represented in binary as $1011$.
+我们简单地定义一个函数 $f(w)$，这个函数可以将一个字符串 $w$ 转换为一个整数。整数的二进制表示中的每一位表示一个字符是否出现。例如，字符串 `ab` 可以转换为整数 $3$，即二进制表示为 $11$。字符串 `abd` 可以转换为整数 $11$，即二进制表示为 $1011$。
 
-Back to the problem, to determine whether a string $w$ is composed of characters in `allowed`, we can check whether the result of the bitwise OR operation between $f(allowed)$ and $f(w)$ is equal to $f(allowed)$. If so, increment the answer.
+回到题目上，判断一个字符串 $w$ 是否由 `allowed` 中的字符组成，就可以转换为：判断 $f(allowed)$ 和 $f(w)$ 进行按位或运算后的结果是否等于 $f(allowed)$。若是，答案加一。
 
-The time complexity is $O(m)$, where $m$ is the total length of all strings. The space complexity is $O(1)$.
+时间复杂度 $O(m)$，其中 $m$ 为所有字符串的总长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -321,21 +326,21 @@ func countConsistentStrings(allowed string, words []string) (ans int) {
 
 ```ts
 function countConsistentStrings(allowed: string, words: string[]): number {
-  const helper = (s: string) => {
-    let res = 0;
-    for (const c of s) {
-      res |= 1 << (c.charCodeAt(0) - "a".charCodeAt(0));
+    const helper = (s: string) => {
+        let res = 0;
+        for (const c of s) {
+            res |= 1 << (c.charCodeAt(0) - 'a'.charCodeAt(0));
+        }
+        return res;
+    };
+    const mask = helper(allowed);
+    let ans = 0;
+    for (const word of words) {
+        if ((mask | helper(word)) === mask) {
+            ans++;
+        }
     }
-    return res;
-  };
-  const mask = helper(allowed);
-  let ans = 0;
-  for (const word of words) {
-    if ((mask | helper(word)) === mask) {
-      ans++;
-    }
-  }
-  return ans;
+    return ans;
 }
 ```
 

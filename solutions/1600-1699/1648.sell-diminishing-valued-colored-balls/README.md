@@ -1,68 +1,94 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1648.Sell%20Diminishing-Valued%20Colored%20Balls/README.md
 rating: 2050
-source: Weekly Contest 214 Q3
+source: 第 214 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Math
-  - Binary Search
-  - Sorting
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 数学
+    - 二分查找
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1648. Sell Diminishing-Valued Colored Balls](https://leetcode.com/problems/sell-diminishing-valued-colored-balls)
+# [1648. 销售价值减少的颜色球](https://leetcode.cn/problems/sell-diminishing-valued-colored-balls)
 
-## Description
+[English Version](/solution/1600-1699/1648.Sell%20Diminishing-Valued%20Colored%20Balls/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have an <code>inventory</code> of different colored balls, and there is a customer that wants <code>orders</code> balls of <strong>any</strong> color.</p>
+<p>你有一些球的库存 <code>inventory</code> ，里面包含着不同颜色的球。一个顾客想要 <strong>任意颜色</strong> 总数为 <code>orders</code> 的球。</p>
 
-<p>The customer weirdly values the colored balls. Each colored ball&#39;s value is the number of balls <strong>of that color&nbsp;</strong>you currently have in your <code>inventory</code>. For example, if you own <code>6</code> yellow balls, the customer would pay <code>6</code> for the first yellow ball. After the transaction, there are only <code>5</code> yellow balls left, so the next yellow ball is then valued at <code>5</code> (i.e., the value of the balls decreases as you sell more to the customer).</p>
+<p>这位顾客有一种特殊的方式衡量球的价值：每个球的价值是目前剩下的 <strong>同色球</strong> 的数目。比方说还剩下 <code>6</code> 个黄球，那么顾客买第一个黄球的时候该黄球的价值为 <code>6</code> 。这笔交易以后，只剩下 <code>5</code> 个黄球了，所以下一个黄球的价值为 <code>5</code> （也就是球的价值随着顾客购买同色球是递减的）</p>
 
-<p>You are given an integer array, <code>inventory</code>, where <code>inventory[i]</code> represents the number of balls of the <code>i<sup>th</sup></code> color that you initially own. You are also given an integer <code>orders</code>, which represents the total number of balls that the customer wants. You can sell the balls <strong>in any order</strong>.</p>
+<p>给你整数数组 <code>inventory</code> ，其中 <code>inventory[i]</code> 表示第 <code>i</code> 种颜色球一开始的数目。同时给你整数 <code>orders</code> ，表示顾客总共想买的球数目。你可以按照 <strong>任意顺序</strong> 卖球。</p>
 
-<p>Return <em>the <strong>maximum</strong> total value that you can attain after selling </em><code>orders</code><em> colored balls</em>. As the answer may be too large, return it <strong>modulo </strong><code>10<sup>9 </sup>+ 7</code>.</p>
+<p>请你返回卖了 <code>orders</code> 个球以后 <strong>最大</strong> 总价值之和。由于答案可能会很大，请你返回答案对 <code>10<sup>9</sup> + 7</code> <strong>取余数</strong> 的结果。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1648.Sell%20Diminishing-Valued%20Colored%20Balls/images/jj.gif" style="width: 480px; height: 270px;" />
 <pre>
-<strong>Input:</strong> inventory = [2,5], orders = 4
-<strong>Output:</strong> 14
-<strong>Explanation:</strong> Sell the 1st color 1 time (2) and the 2nd color 3 times (5 + 4 + 3).
-The maximum total value is 2 + 5 + 4 + 3 = 14.
+<b>输入：</b>inventory = [2,5], orders = 4
+<b>输出：</b>14
+<b>解释：</b>卖 1 个第一种颜色的球（价值为 2 )，卖 3 个第二种颜色的球（价值为 5 + 4 + 3）。
+最大总和为 2 + 5 + 4 + 3 = 14 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> inventory = [3,5], orders = 6
-<strong>Output:</strong> 19
-<strong>Explanation: </strong>Sell the 1st color 2 times (3 + 2) and the 2nd color 4 times (5 + 4 + 3 + 2).
-The maximum total value is 3 + 2 + 5 + 4 + 3 + 2 = 19.
+<b>输入：</b>inventory = [3,5], orders = 6
+<b>输出：</b>19
+<strong>解释：</strong>卖 2 个第一种颜色的球（价值为 3 + 2），卖 4 个第二种颜色的球（价值为 5 + 4 + 3 + 2）。
+最大总和为 3 + 2 + 5 + 4 + 3 + 2 = 19 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>inventory = [2,8,4,10,6], orders = 20
+<b>输出：</b>110
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<b>输入：</b>inventory = [1000000000], orders = 1000000000
+<b>输出：</b>21
+<strong>解释：</strong>卖 1000000000 次第一种颜色的球，总价值为 500000000500000000 。 500000000500000000 对 10<sup>9 </sup>+ 7 取余为 21 。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= inventory.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= inventory[i] &lt;= 10<sup>9</sup></code></li>
-	<li><code>1 &lt;= orders &lt;= min(sum(inventory[i]), 10<sup>9</sup>)</code></li>
+	<li><code>1 <= inventory.length <= 10<sup>5</sup></code></li>
+	<li><code>1 <= inventory[i] <= 10<sup>9</sup></code></li>
+	<li><code>1 <= orders <= min(sum(inventory[i]), 10<sup>9</sup>)</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心 + 优化模拟
+
+要使得总价值最大，我们可以贪心地每次卖出数量最多的一种颜色的球。由于 `orders` 值域较大，如果直接简单地模拟，会超时。因此，我们需要优化模拟的过程。
+
+实际上，我们不需要一次次进行模拟，我们可以跟踪数量最多的同色球的种类数 `cnt`，每一次可以卖出一批球，从而达到加速模拟的目的。
+
+时间复杂度 $O(n\log n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 `inventory` 的长度。
 
 <!-- tabs:start -->
 

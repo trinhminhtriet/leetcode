@@ -1,52 +1,57 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2745.Construct%20the%20Longest%20New%20String/README.md
 rating: 1607
-source: Biweekly Contest 107 Q2
+source: 第 107 场双周赛 Q2
 tags:
-  - Greedy
-  - Brainteaser
-  - Math
-  - Dynamic Programming
+    - 贪心
+    - 脑筋急转弯
+    - 数学
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2745. Construct the Longest New String](https://leetcode.com/problems/construct-the-longest-new-string)
+# [2745. 构造最长的新字符串](https://leetcode.cn/problems/construct-the-longest-new-string)
 
-## Description
+[English Version](/solution/2700-2799/2745.Construct%20the%20Longest%20New%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given three integers <code>x</code>, <code>y</code>, and <code>z</code>.</p>
+<p>给你三个整数&nbsp;<code>x</code>&nbsp;，<code>y</code>&nbsp;和&nbsp;<code>z</code>&nbsp;。</p>
 
-<p>You have <code>x</code> strings equal to <code>&quot;AA&quot;</code>, <code>y</code> strings equal to <code>&quot;BB&quot;</code>, and <code>z</code> strings equal to <code>&quot;AB&quot;</code>. You want to choose some (possibly all or none) of these strings and concatenate them in some order to form a new string. This new string must not contain <code>&quot;AAA&quot;</code> or <code>&quot;BBB&quot;</code> as a substring.</p>
+<p>这三个整数表示你有&nbsp;<code>x</code>&nbsp;个&nbsp;<code>"AA"</code>&nbsp;字符串，<code>y</code>&nbsp;个&nbsp;<code>"BB"</code>&nbsp;字符串，和&nbsp;<code>z</code>&nbsp;个&nbsp;<code>"AB"</code>&nbsp;字符串。你需要选择这些字符串中的部分字符串（可以全部选择也可以一个都不选择），将它们按顺序连接得到一个新的字符串。新字符串不能包含子字符串&nbsp;<code>"AAA"</code>&nbsp;或者&nbsp;<code>"BBB"</code>&nbsp;。</p>
 
-<p>Return <em>the maximum possible length of the new string</em>.</p>
+<p>请你返回 <em>新字符串的最大可能长度。</em></p>
 
-<p>A <b>substring</b> is a contiguous <strong>non-empty</strong> sequence of characters within a string.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> x = 2, y = 5, z = 1
-<strong>Output:</strong> 12
-<strong>Explanation: </strong>We can concactenate the strings &quot;BB&quot;, &quot;AA&quot;, &quot;BB&quot;, &quot;AA&quot;, &quot;BB&quot;, and &quot;AB&quot; in that order. Then, our new string is &quot;BBAABBAABBAB&quot;. 
-That string has length 12, and we can show that it is impossible to construct a string of longer length.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> x = 3, y = 2, z = 2
-<strong>Output:</strong> 14
-<strong>Explanation:</strong> We can concactenate the strings &quot;AB&quot;, &quot;AB&quot;, &quot;AA&quot;, &quot;BB&quot;, &quot;AA&quot;, &quot;BB&quot;, and &quot;AA&quot; in that order. Then, our new string is &quot;ABABAABBAABBAA&quot;. 
-That string has length 14, and we can show that it is impossible to construct a string of longer length.
-</pre>
+<p><strong>子字符串</strong>&nbsp;是一个字符串中一段连续 <strong>非空</strong>&nbsp;的字符序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>x = 2, y = 5, z = 1
+<b>输出：</b>12
+<strong>解释： </strong>我们可以按顺序连接 "BB" ，"AA" ，"BB" ，"AA" ，"BB" 和 "AB" ，得到新字符串 "BBAABBAABBAB" 。
+字符串长度为 12 ，无法得到一个更长的符合题目要求的字符串。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>x = 3, y = 2, z = 2
+<b>输出：</b>14
+<b>解释：</b>我们可以按顺序连接 "AB" ，"AB" ，"AA" ，"BB" ，"AA" ，"BB" 和 "AA" ，得到新字符串 "ABABAABBAABBAA" 。
+字符串长度为 14 ，无法得到一个更长的符合题目要求的字符串。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= x, y, z &lt;= 50</code></li>
@@ -54,19 +59,19 @@ That string has length 14, and we can show that it is impossible to construct a 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Case Discussion
+### 方法一：分类讨论
 
-We observe that the string 'AA' can only be followed by 'BB', and the string 'AB' can be placed at the beginning or end of the string. Therefore:
+我们观察发现，字符串 `'AA'` 之后只能跟 `'BB'`，而字符串 `'AB'` 可以放在字符串开头或结尾。因此：
 
-- If $x < y$, we can first alternately place 'BBAABBAA..BB', placing a total of $x$ 'AA' and $x+1$ 'BB', then place the remaining $z$ 'AB', with a total length of $(x \times 2 + z + 1) \times 2$;
-- If $x > y$, we can first alternately place 'AABBAABB..AA', placing a total of $y$ 'BB' and $y+1$ 'AA', then place the remaining $z$ 'AB', with a total length of $(y \times 2 + z + 1) \times 2$;
-- If $x = y$, we only need to alternately place 'AABB', placing a total of $x$ 'AA' and $y$ 'BB', then place the remaining $z$ 'AB', with a total length of $(x + y + z) \times 2$.
+-   如果 $x \lt y$，那么我们可以先交替放置 `'BBAABBAA..BB'`，一共放置 $x$ 个 `'AA'` 和 $x+1$ 个 `'BB'`，然后放置剩余的 $z$ 个 `'AB'`，总长度为 $(x \times 2 + z + 1) \times 2$；
+-   如果 $x \gt y$，那么我们可以先交替放置 `'AABBAABB..AA'`，一共放置 $y$ 个 `'BB'` 和 $y+1$ 个 `'AA'`，然后放置剩余的 $z$ 个 `'AB'`，总长度为 $(y \times 2 + z + 1) \times 2$；
+-   如果 $x = y$，我们只需要交替放置 `'AABB'`，一共放置 $x$ 个 `'AA'` 和 $y$ 个 `'BB'`，然后放置剩余的 $z$ 个 `'AB'`，总长度为 $(x + y + z) \times 2$。
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -133,13 +138,13 @@ func longestString(x int, y int, z int) int {
 
 ```ts
 function longestString(x: number, y: number, z: number): number {
-  if (x < y) {
-    return (x * 2 + z + 1) * 2;
-  }
-  if (x > y) {
-    return (y * 2 + z + 1) * 2;
-  }
-  return (x + y + z) * 2;
+    if (x < y) {
+        return (x * 2 + z + 1) * 2;
+    }
+    if (x > y) {
+        return (y * 2 + z + 1) * 2;
+    }
+    return (x + y + z) * 2;
 }
 ```
 

@@ -1,69 +1,74 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0839.Similar%20String%20Groups/README.md
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Array
-  - Hash Table
-  - String
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 数组
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [839. Similar String Groups](https://leetcode.com/problems/similar-string-groups)
+# [839. 相似字符串组](https://leetcode.cn/problems/similar-string-groups)
 
-## Description
+[English Version](/solution/0800-0899/0839.Similar%20String%20Groups/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Two strings, <code>X</code> and <code>Y</code>, are considered similar if either they are identical or we can make them equivalent by swapping at most two letters (in distinct positions) within the string <code>X</code>.</p>
+<p>如果交换字符串&nbsp;<code>X</code> 中的两个不同位置的字母，使得它和字符串&nbsp;<code>Y</code> 相等，那么称 <code>X</code> 和 <code>Y</code> 两个字符串相似。如果这两个字符串本身是相等的，那它们也是相似的。</p>
 
-<p>For example, <code>&quot;tars&quot;</code>&nbsp;and <code>&quot;rats&quot;</code>&nbsp;are similar (swapping at positions <code>0</code> and <code>2</code>), and <code>&quot;rats&quot;</code> and <code>&quot;arts&quot;</code> are similar, but <code>&quot;star&quot;</code> is not similar to <code>&quot;tars&quot;</code>, <code>&quot;rats&quot;</code>, or <code>&quot;arts&quot;</code>.</p>
+<p>例如，<code>"tars"</code> 和 <code>"rats"</code> 是相似的 (交换 <code>0</code> 与 <code>2</code> 的位置)；&nbsp;<code>"rats"</code> 和 <code>"arts"</code> 也是相似的，但是 <code>"star"</code> 不与 <code>"tars"</code>，<code>"rats"</code>，或 <code>"arts"</code> 相似。</p>
 
-<p>Together, these form two connected groups by similarity: <code>{&quot;tars&quot;, &quot;rats&quot;, &quot;arts&quot;}</code> and <code>{&quot;star&quot;}</code>.&nbsp; Notice that <code>&quot;tars&quot;</code> and <code>&quot;arts&quot;</code> are in the same group even though they are not similar.&nbsp; Formally, each group is such that a word is in the group if and only if it is similar to at least one other word in the group.</p>
+<p>总之，它们通过相似性形成了两个关联组：<code>{"tars", "rats", "arts"}</code> 和 <code>{"star"}</code>。注意，<code>"tars"</code> 和 <code>"arts"</code> 是在同一组中，即使它们并不相似。形式上，对每个组而言，要确定一个单词在组中，只需要这个词和该组中至少一个单词相似。</p>
 
-<p>We are given a list <code>strs</code> of strings where every string in <code>strs</code> is an anagram of every other string in <code>strs</code>. How many groups are there?</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> strs = [&quot;tars&quot;,&quot;rats&quot;,&quot;arts&quot;,&quot;star&quot;]
-<strong>Output:</strong> 2
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> strs = [&quot;omv&quot;,&quot;ovm&quot;]
-<strong>Output:</strong> 1
-</pre>
+<p>给你一个字符串列表 <code>strs</code>。列表中的每个字符串都是 <code>strs</code> 中其它所有字符串的一个字母异位词。请问 <code>strs</code> 中有多少个相似字符串组？</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>strs = ["tars","rats","arts","star"]
+<strong>输出：</strong>2
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>strs = ["omv","ovm"]
+<strong>输出：</strong>1
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= strs.length &lt;= 300</code></li>
 	<li><code>1 &lt;= strs[i].length &lt;= 300</code></li>
-	<li><code>strs[i]</code> consists of lowercase letters only.</li>
-	<li>All words in <code>strs</code> have the same length and are anagrams of each other.</li>
+	<li><code>strs[i]</code> 只包含小写字母。</li>
+	<li><code>strs</code> 中的所有单词都具有相同的长度，且是彼此的字母异位词。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Union-Find
+### 方法一：并查集
 
-We can enumerate any two strings $s$ and $t$ in the list of strings. Since $s$ and $t$ are anagrams, if the number of differing characters at corresponding positions between $s$ and $t$ does not exceed $2$, then $s$ and $t$ are similar. We can use the union-find data structure to merge $s$ and $t$. If the merge is successful, the number of similar string groups decreases by $1$.
+我们可以枚举字符串列表中的任意两个字符串 $s$ 和 $t$，由于 $s$ 和 $t$ 是字母异位词，因此如果 $s$ 和 $t$ 的对应位置字符不同的数量不超过 $2$，那么 $s$ 和 $t$ 是相似的，我们就可以使用并查集将 $s$ 和 $t$ 合并，如果合并成功，那么相似字符串组的数量减少 $1$。
 
-The final number of similar string groups is the number of connected components in the union-find structure.
+最终相似字符串组的数量就是并查集中连通分量的数量。
 
-Time complexity is $O(n^2 \times (m + \alpha(n)))$, and space complexity is $O(n)$. Here, $n$ and $m$ are the length of the list of strings and the length of the strings, respectively, and $\alpha(n)$ is the inverse Ackermann function, which can be considered a very small constant.
+时间复杂度 $O(n^2 \times (m + \alpha(n)))$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是字符串列表的长度和字符串的长度，而 $\alpha(n)$ 是 Ackermann 函数的反函数，可以看成是一个很小的常数。
 
 <!-- tabs:start -->
 
@@ -288,57 +293,57 @@ func numSimilarGroups(strs []string) int {
 
 ```ts
 class UnionFind {
-  private p: number[];
-  private size: number[];
+    private p: number[];
+    private size: number[];
 
-  constructor(n: number) {
-    this.p = Array.from({ length: n }, (_, i) => i);
-    this.size = Array(n).fill(1);
-  }
+    constructor(n: number) {
+        this.p = Array.from({ length: n }, (_, i) => i);
+        this.size = Array(n).fill(1);
+    }
 
-  union(a: number, b: number): boolean {
-    const pa = this.find(a);
-    const pb = this.find(b);
-    if (pa === pb) {
-      return false;
+    union(a: number, b: number): boolean {
+        const pa = this.find(a);
+        const pb = this.find(b);
+        if (pa === pb) {
+            return false;
+        }
+        if (this.size[pa] > this.size[pb]) {
+            this.p[pb] = pa;
+            this.size[pa] += this.size[pb];
+        } else {
+            this.p[pa] = pb;
+            this.size[pb] += this.size[pa];
+        }
+        return true;
     }
-    if (this.size[pa] > this.size[pb]) {
-      this.p[pb] = pa;
-      this.size[pa] += this.size[pb];
-    } else {
-      this.p[pa] = pb;
-      this.size[pb] += this.size[pa];
-    }
-    return true;
-  }
 
-  find(x: number): number {
-    if (this.p[x] !== x) {
-      this.p[x] = this.find(this.p[x]);
+    find(x: number): number {
+        if (this.p[x] !== x) {
+            this.p[x] = this.find(this.p[x]);
+        }
+        return this.p[x];
     }
-    return this.p[x];
-  }
 }
 
 function numSimilarGroups(strs: string[]): number {
-  const n = strs.length;
-  const m = strs[0].length;
-  const uf = new UnionFind(n);
-  let cnt = n;
-  for (let i = 0; i < n; ++i) {
-    for (let j = 0; j < i; ++j) {
-      let diff = 0;
-      for (let k = 0; k < m; ++k) {
-        if (strs[i][k] !== strs[j][k]) {
-          diff++;
+    const n = strs.length;
+    const m = strs[0].length;
+    const uf = new UnionFind(n);
+    let cnt = n;
+    for (let i = 0; i < n; ++i) {
+        for (let j = 0; j < i; ++j) {
+            let diff = 0;
+            for (let k = 0; k < m; ++k) {
+                if (strs[i][k] !== strs[j][k]) {
+                    diff++;
+                }
+            }
+            if (diff <= 2 && uf.union(i, j)) {
+                cnt--;
+            }
         }
-      }
-      if (diff <= 2 && uf.union(i, j)) {
-        cnt--;
-      }
     }
-  }
-  return cnt;
+    return cnt;
 }
 ```
 

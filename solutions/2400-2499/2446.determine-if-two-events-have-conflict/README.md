@@ -1,83 +1,88 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2446.Determine%20if%20Two%20Events%20Have%20Conflict/README.md
 rating: 1322
-source: Weekly Contest 316 Q1
+source: 第 316 场周赛 Q1
 tags:
-  - Array
-  - String
+    - 数组
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2446. Determine if Two Events Have Conflict](https://leetcode.com/problems/determine-if-two-events-have-conflict)
+# [2446. 判断两个事件是否存在冲突](https://leetcode.cn/problems/determine-if-two-events-have-conflict)
 
-## Description
+[English Version](/solution/2400-2499/2446.Determine%20if%20Two%20Events%20Have%20Conflict/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two arrays of strings that represent two inclusive events that happened <strong>on the same day</strong>, <code>event1</code> and <code>event2</code>, where:</p>
+<p>给你两个字符串数组 <code>event1</code> 和&nbsp;<code>event2</code>&nbsp;，表示发生在同一天的两个闭区间时间段事件，其中：</p>
 
 <ul>
-	<li><code>event1 = [startTime<sub>1</sub>, endTime<sub>1</sub>]</code> and</li>
-	<li><code>event2 = [startTime<sub>2</sub>, endTime<sub>2</sub>]</code>.</li>
+	<li><code>event1 = [startTime<sub>1</sub>, endTime<sub>1</sub>]</code> 且</li>
+	<li><code>event2 = [startTime<sub>2</sub>, endTime<sub>2</sub>]</code></li>
 </ul>
 
-<p>Event times are valid 24 hours format in the form of <code>HH:MM</code>.</p>
+<p>事件的时间为有效的 24 小时制且按&nbsp;<code>HH:MM</code>&nbsp;格式给出。</p>
 
-<p>A <strong>conflict</strong> happens when two events have some non-empty intersection (i.e., some moment is common to both events).</p>
+<p>当两个事件存在某个非空的交集时（即，某些时刻是两个事件都包含的），则认为出现 <strong>冲突</strong>&nbsp;。</p>
 
-<p>Return <code>true</code><em> if there is a conflict between two events. Otherwise, return </em><code>false</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> event1 = [&quot;01:15&quot;,&quot;02:00&quot;], event2 = [&quot;02:00&quot;,&quot;03:00&quot;]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The two events intersect at time 2:00.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> event1 = [&quot;01:00&quot;,&quot;02:00&quot;], event2 = [&quot;01:20&quot;,&quot;03:00&quot;]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The two events intersect starting from 01:20 to 02:00.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> event1 = [&quot;10:00&quot;,&quot;11:00&quot;], event2 = [&quot;14:00&quot;,&quot;15:00&quot;]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The two events do not intersect.
-</pre>
+<p>如果两个事件之间存在冲突，返回&nbsp;<code>true</code><em>&nbsp;</em>；否则，返回<em>&nbsp;</em><code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><b>示例 1：</b></p>
+
+<pre>
+<b>输入：</b>event1 = ["01:15","02:00"], event2 = ["02:00","03:00"]
+<b>输出：</b>true
+<b>解释：</b>两个事件在 2:00 出现交集。
+</pre>
+
+<p><b>示例 2：</b></p>
+
+<pre>
+<b>输入：</b>event1 = ["01:00","02:00"], event2 = ["01:20","03:00"]
+<b>输出：</b>true
+<b>解释：</b>两个事件的交集从 01:20 开始，到 02:00 结束。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>event1 = ["10:00","11:00"], event2 = ["14:00","15:00"]
+<b>输出：</b>false
+<b>解释：</b>两个事件不存在交集。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><b>提示：</b></p>
 
 <ul>
 	<li><code>event1.length == event2.length == 2</code></li>
 	<li><code>event1[i].length == event2[i].length == 5</code></li>
 	<li><code>startTime<sub>1</sub> &lt;= endTime<sub>1</sub></code></li>
 	<li><code>startTime<sub>2</sub> &lt;= endTime<sub>2</sub></code></li>
-	<li>All the event times follow the <code>HH:MM</code> format.</li>
+	<li>所有事件的时间都按照&nbsp;<code>HH:MM</code>&nbsp;格式给出</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: String Comparison
+### 方法一：字符串比较
 
-If the start time of $event1$ is later than the end time of $event2$, or the end time of $event1$ is earlier than the start time of $event2$, then the two events will not conflict. Otherwise, the two events will conflict.
+如果 $event1$ 的开始时间大于 $event2$ 的结束时间，或者 $event1$ 的结束时间小于 $event2$ 的开始时间，那么两个事件不会有冲突。否则，两个事件存在冲突。
 
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2446.Determine%20if%20Two%20Events%20Have%20Conflict/images/event.png" />
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -122,7 +127,7 @@ func haveConflict(event1 []string, event2 []string) bool {
 
 ```ts
 function haveConflict(event1: string[], event2: string[]): boolean {
-  return !(event1[0] > event2[1] || event1[1] < event2[0]);
+    return !(event1[0] > event2[1] || event1[1] < event2[0]);
 }
 ```
 

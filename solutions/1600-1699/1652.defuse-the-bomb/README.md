@@ -1,95 +1,100 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1652.Defuse%20the%20Bomb/README.md
 rating: 1416
-source: Biweekly Contest 39 Q1
+source: 第 39 场双周赛 Q1
 tags:
-  - Array
-  - Sliding Window
+    - 数组
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1652. Defuse the Bomb](https://leetcode.com/problems/defuse-the-bomb)
+# [1652. 拆炸弹](https://leetcode.cn/problems/defuse-the-bomb)
 
-## Description
+[English Version](/solution/1600-1699/1652.Defuse%20the%20Bomb/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have a bomb to defuse, and your time is running out! Your informer will provide you with a <strong>circular</strong> array <code>code</code>&nbsp;of length of <code>n</code>&nbsp;and a key <code>k</code>.</p>
+<p>你有一个炸弹需要拆除，时间紧迫！你的情报员会给你一个长度为 <code>n</code> 的 <strong>循环</strong> 数组 <code>code</code> 以及一个密钥 <code>k</code> 。</p>
 
-<p>To decrypt the code, you must replace every number. All the numbers are replaced <strong>simultaneously</strong>.</p>
+<p>为了获得正确的密码，你需要替换掉每一个数字。所有数字会 <strong>同时</strong> 被替换。</p>
 
 <ul>
-	<li>If <code>k &gt; 0</code>, replace the <code>i<sup>th</sup></code> number with the sum of the <strong>next</strong> <code>k</code> numbers.</li>
-	<li>If <code>k &lt; 0</code>, replace the <code>i<sup>th</sup></code> number with the sum of the <strong>previous</strong> <code>k</code> numbers.</li>
-	<li>If <code>k == 0</code>, replace the <code>i<sup>th</sup></code> number with <code>0</code>.</li>
+	<li>如果 <code>k > 0</code> ，将第 <code>i</code> 个数字用 <strong>接下来</strong> <code>k</code> 个数字之和替换。</li>
+	<li>如果 <code>k < 0</code> ，将第 <code>i</code> 个数字用 <strong>之前</strong> <code>k</code> 个数字之和替换。</li>
+	<li>如果 <code>k == 0</code> ，将第 <code>i</code> 个数字用 <code>0</code> 替换。</li>
 </ul>
 
-<p>As <code>code</code> is circular, the next element of <code>code[n-1]</code> is <code>code[0]</code>, and the previous element of <code>code[0]</code> is <code>code[n-1]</code>.</p>
+<p>由于 <code>code</code> 是循环的， <code>code[n-1]</code> 下一个元素是 <code>code[0]</code> ，且 <code>code[0]</code> 前一个元素是 <code>code[n-1]</code> 。</p>
 
-<p>Given the <strong>circular</strong> array <code>code</code> and an integer key <code>k</code>, return <em>the decrypted code to defuse the bomb</em>!</p>
+<p>给你 <strong>循环</strong> 数组 <code>code</code> 和整数密钥 <code>k</code> ，请你返回解密后的结果来拆除炸弹！</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> code = [5,7,1,4], k = 3
-<strong>Output:</strong> [12,10,16,13]
-<strong>Explanation:</strong> Each number is replaced by the sum of the next 3 numbers. The decrypted code is [7+1+4, 1+4+5, 4+5+7, 5+7+1]. Notice that the numbers wrap around.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> code = [1,2,3,4], k = 0
-<strong>Output:</strong> [0,0,0,0]
-<strong>Explanation:</strong> When k is zero, the numbers are replaced by 0. 
+<b>输入：</b>code = [5,7,1,4], k = 3
+<b>输出：</b>[12,10,16,13]
+<b>解释：</b>每个数字都被接下来 3 个数字之和替换。解密后的密码为 [7+1+4, 1+4+5, 4+5+7, 5+7+1]。注意到数组是循环连接的。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> code = [2,4,9,3], k = -2
-<strong>Output:</strong> [12,5,6,13]
-<strong>Explanation:</strong> The decrypted code is [3+9, 2+3, 4+2, 9+4]. Notice that the numbers wrap around again. If k is negative, the sum is of the <strong>previous</strong> numbers.
+<b>输入：</b>code = [1,2,3,4], k = 0
+<b>输出：</b>[0,0,0,0]
+<b>解释：</b>当 k 为 0 时，所有数字都被 0 替换。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>code = [2,4,9,3], k = -2
+<b>输出：</b>[12,5,6,13]
+<b>解释：</b>解密后的密码为 [3+9, 2+3, 4+2, 9+4] 。注意到数组是循环连接的。如果 k 是负数，那么和为 <strong>之前</strong> 的数字。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == code.length</code></li>
-	<li><code>1 &lt;= n&nbsp;&lt;= 100</code></li>
-	<li><code>1 &lt;= code[i] &lt;= 100</code></li>
-	<li><code>-(n - 1) &lt;= k &lt;= n - 1</code></li>
+	<li><code>1 <= n <= 100</code></li>
+	<li><code>1 <= code[i] <= 100</code></li>
+	<li><code>-(n - 1) <= k <= n - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We define an answer array `ans` of length `n`, initially all elements are `0`. According to the problem, if `k` is `0`, return `ans` directly.
+我们定义一个长度为 $n$ 的答案数组 $ans$，初始时所有元素都为 $0$。根据题意，若 $k$ 为 $0$，直接返回 $ans$。
 
-Otherwise, we traverse each position `i`:
+否则，遍历每个位置 $i$：
 
-- If `k` is a positive number, then the value at position `i` is the sum of the values at the `k` positions after position `i`, that is:
+若 $k$ 为正数，那么 $i$ 位置的值为 $i$ 位置后 $k$ 个位置的值之和，即：
 
 $$
 ans[i] = \sum_{j=i+1}^{i+k} code[j \bmod n]
 $$
 
-- If `k` is a negative number, then the value at position `i` is the sum of the values at the `|k|` positions before position `i`, that is:
+若 $k$ 为负数，那么 $i$ 位置的值为 $i$ 位置前 $|k|$ 个位置的值之和，即：
 
 $$
 ans[i] = \sum_{j=i+k}^{i-1} code[(j+n) \bmod n]
 $$
 
-The time complexity is $O(n \times |k|)$, ignoring the space consumption of the answer, the space complexity is $O(1)$.
+时间复杂度 $O(n \times |k|)$，忽略答案的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -193,26 +198,26 @@ func decrypt(code []int, k int) []int {
 
 ```ts
 function decrypt(code: number[], k: number): number[] {
-  const n: number = code.length;
-  const ans: number[] = Array(n).fill(0);
+    const n: number = code.length;
+    const ans: number[] = Array(n).fill(0);
 
-  if (k === 0) {
-    return ans;
-  }
-
-  for (let i = 0; i < n; ++i) {
-    if (k > 0) {
-      for (let j = i + 1; j < i + k + 1; ++j) {
-        ans[i] += code[j % n];
-      }
-    } else {
-      for (let j = i + k; j < i; ++j) {
-        ans[i] += code[(j + n) % n];
-      }
+    if (k === 0) {
+        return ans;
     }
-  }
 
-  return ans;
+    for (let i = 0; i < n; ++i) {
+        if (k > 0) {
+            for (let j = i + 1; j < i + k + 1; ++j) {
+                ans[i] += code[j % n];
+            }
+        } else {
+            for (let j = i + k; j < i; ++j) {
+                ans[i] += code[(j + n) % n];
+            }
+        }
+    }
+
+    return ans;
 }
 ```
 
@@ -222,17 +227,17 @@ function decrypt(code: number[], k: number): number[] {
 
 <!-- solution:start -->
 
-### Solution 2: Prefix Sum
+### 方法二：前缀和
 
-In Solution 1, for each position $i$, we need to traverse $k$ positions, which involves a lot of repeated calculations. We can optimize this by using prefix sums.
+在方法一中，对于每个位置 $i$，都需要遍历 $k$ 个位置，有很多重复计算的操作。我们可以利用前缀和来优化。
 
-We duplicate the `code` array (this can be achieved without actually duplicating the array, but by cyclically traversing with modulo operation), resulting in an array of twice the length. We then calculate the prefix sum of this array, resulting in a prefix sum array $s$ of length $2 \times n + 1$.
+我们将 `code` 数组复制一份（可以不用执行复制操作，直接通过循环遍历取模实现），得到两倍长度的数组，对其求前缀和，得到长度为 $2 \times n + 1$ 的前缀和数组 $s$。
 
-If $k$ is a positive number, then the value at position $i$ is the sum of the values at the $k$ positions after position $i$, i.e., $ans[i] = s[i + k + 1] - s[i + 1]$.
+若 $k$ 为正数，那么 $i$ 位置的值为 $i$ 位置后 $k$ 个位置的值之和，即 $ans[i] = s[i + k + 1] - s[i + 1]$。
 
-If $k$ is a negative number, then the value at position $i$ is the sum of the values at the $|k|$ positions before position $i$, i.e., $ans[i] = s[i + n] - s[i + k + n]$.
+若 $k$ 为负数，那么 $i$ 位置的值为 $i$ 位置前 $|k|$ 个位置的值之和，即 $ans[i] = s[i + n] - s[i + k + n]$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the `code` array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为 `code` 数组的长度。
 
 <!-- tabs:start -->
 
@@ -335,27 +340,27 @@ func decrypt(code []int, k int) []int {
 
 ```ts
 function decrypt(code: number[], k: number): number[] {
-  const n: number = code.length;
-  const ans: number[] = Array(n).fill(0);
+    const n: number = code.length;
+    const ans: number[] = Array(n).fill(0);
 
-  if (k === 0) {
-    return ans;
-  }
-
-  const s: number[] = Array((n << 1) | 1).fill(0);
-  for (let i = 0; i < n << 1; ++i) {
-    s[i + 1] = s[i] + code[i % n];
-  }
-
-  for (let i = 0; i < n; ++i) {
-    if (k > 0) {
-      ans[i] = s[i + k + 1] - s[i + 1];
-    } else {
-      ans[i] = s[i + n] - s[i + k + n];
+    if (k === 0) {
+        return ans;
     }
-  }
 
-  return ans;
+    const s: number[] = Array((n << 1) | 1).fill(0);
+    for (let i = 0; i < n << 1; ++i) {
+        s[i + 1] = s[i] + code[i % n];
+    }
+
+    for (let i = 0; i < n; ++i) {
+        if (k > 0) {
+            ans[i] = s[i + k + 1] - s[i + 1];
+        } else {
+            ans[i] = s[i + n] - s[i + k + n];
+        }
+    }
+
+    return ans;
 }
 ```
 

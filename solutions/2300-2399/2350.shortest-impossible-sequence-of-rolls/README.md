@@ -1,60 +1,67 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2350.Shortest%20Impossible%20Sequence%20of%20Rolls/README.md
 rating: 1960
-source: Biweekly Contest 83 Q4
+source: 第 83 场双周赛 Q4
 tags:
-  - Greedy
-  - Array
-  - Hash Table
+    - 贪心
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [2350. Shortest Impossible Sequence of Rolls](https://leetcode.com/problems/shortest-impossible-sequence-of-rolls)
+# [2350. 不可能得到的最短骰子序列](https://leetcode.cn/problems/shortest-impossible-sequence-of-rolls)
 
-## Description
+[English Version](/solution/2300-2399/2350.Shortest%20Impossible%20Sequence%20of%20Rolls/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>rolls</code> of length <code>n</code> and an integer <code>k</code>. You roll a <code>k</code> sided dice numbered from <code>1</code> to <code>k</code>, <code>n</code> times, where the result of the <code>i<sup>th</sup></code> roll is <code>rolls[i]</code>.</p>
+<p>给你一个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>rolls</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。你扔一个&nbsp;<code>k</code>&nbsp;面的骰子 <code>n</code>&nbsp;次，骰子的每个面分别是&nbsp;<code>1</code>&nbsp;到&nbsp;<code>k</code>&nbsp;，其中第&nbsp;<code>i</code>&nbsp;次扔得到的数字是&nbsp;<code>rolls[i]</code>&nbsp;。</p>
 
-<p>Return<em> the length of the <strong>shortest</strong> sequence of rolls so that there&#39;s no such <span data-keyword="subsequence-array">subsequence</span> in </em><code>rolls</code>.</p>
+<p>请你返回 <strong>无法</strong>&nbsp;从 <code>rolls</code>&nbsp;中得到的 <strong>最短</strong>&nbsp;骰子子序列的长度。</p>
 
-<p>A <strong>sequence of rolls</strong> of length <code>len</code> is the result of rolling a <code>k</code> sided dice <code>len</code> times.</p>
+<p>扔一个 <code>k</code>&nbsp;面的骰子 <code>len</code>&nbsp;次得到的是一个长度为 <code>len</code>&nbsp;的 <strong>骰子子序列</strong>&nbsp;。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> rolls = [4,2,1,2,3,3,2,4,1], k = 4
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> Every sequence of rolls of length 1, [1], [2], [3], [4], can be taken from rolls.
-Every sequence of rolls of length 2, [1, 1], [1, 2], ..., [4, 4], can be taken from rolls.
-The sequence [1, 4, 2] cannot be taken from rolls, so we return 3.
-Note that there are other sequences that cannot be taken from rolls.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> rolls = [1,1,2,2], k = 2
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Every sequence of rolls of length 1, [1], [2], can be taken from rolls.
-The sequence [2, 1] cannot be taken from rolls, so we return 2.
-Note that there are other sequences that cannot be taken from rolls but [2, 1] is the shortest.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> rolls = [1,1,3,2,2,2,3,3], k = 4
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The sequence [4] cannot be taken from rolls, so we return 1.
-Note that there are other sequences that cannot be taken from rolls but [4] is the shortest.
-</pre>
+<p><strong>注意</strong>&nbsp;，子序列只需要保持在原数组中的顺序，不需要连续。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>rolls = [4,2,1,2,3,3,2,4,1], k = 4
+<b>输出：</b>3
+<b>解释：</b>所有长度为 1 的骰子子序列 [1] ，[2] ，[3] ，[4] 都可以从原数组中得到。
+所有长度为 2 的骰子子序列 [1, 1] ，[1, 2] ，... ，[4, 4] 都可以从原数组中得到。
+子序列 [1, 4, 2] 无法从原数组中得到，所以我们返回 3 。
+还有别的子序列也无法从原数组中得到。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>rolls = [1,1,2,2], k = 2
+<b>输出：</b>2
+<b>解释：</b>所有长度为 1 的子序列 [1] ，[2] 都可以从原数组中得到。
+子序列 [2, 1] 无法从原数组中得到，所以我们返回 2 。
+还有别的子序列也无法从原数组中得到，但 [2, 1] 是最短的子序列。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>rolls = [1,1,3,2,2,2,3,3], k = 4
+<b>输出：</b>1
+<b>解释：</b>子序列 [4] 无法从原数组中得到，所以我们返回 1 。
+还有别的子序列也无法从原数组中得到，但 [4] 是最短的子序列。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == rolls.length</code></li>
@@ -64,11 +71,13 @@ Note that there are other sequences that cannot be taken from rolls but [4] is t
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：脑筋急转弯
+
+时间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 

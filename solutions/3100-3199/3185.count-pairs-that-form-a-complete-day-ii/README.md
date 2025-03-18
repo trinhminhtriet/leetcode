@@ -1,51 +1,60 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3185.Count%20Pairs%20That%20Form%20a%20Complete%20Day%20II/README.md
 rating: 1385
-source: Weekly Contest 402 Q2
+source: 第 402 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Counting
+    - 数组
+    - 哈希表
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [3185. Count Pairs That Form a Complete Day II](https://leetcode.com/problems/count-pairs-that-form-a-complete-day-ii)
+# [3185. 构成整天的下标对数目 II](https://leetcode.cn/problems/count-pairs-that-form-a-complete-day-ii)
 
-## Description
+[English Version](/solution/3100-3199/3185.Count%20Pairs%20That%20Form%20a%20Complete%20Day%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>hours</code> representing times in <strong>hours</strong>, return an integer denoting the number of pairs <code>i</code>, <code>j</code> where <code>i &lt; j</code> and <code>hours[i] + hours[j]</code> forms a <strong>complete day</strong>.</p>
+<p>给你一个整数数组 <code>hours</code>，表示以 <strong>小时 </strong>为单位的时间，返回一个整数，表示满足 <code>i &lt; j</code> 且 <code>hours[i] + hours[j]</code> 构成 <strong>整天 </strong>的下标对&nbsp;<code>i</code>, <code>j</code> 的数目。</p>
 
-<p>A <strong>complete day</strong> is defined as a time duration that is an <strong>exact</strong> <strong>multiple</strong> of 24 hours.</p>
+<p><strong>整天 </strong>定义为时间持续时间是 24 小时的 <strong>整数倍 </strong>。</p>
 
-<p>For example, 1 day is 24 hours, 2 days is 48 hours, 3 days is 72 hours, and so on.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">hours = [12,12,30,24,24]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
-
-<p><strong>Explanation:</strong> The pairs of indices that form a complete day are <code>(0, 1)</code> and <code>(3, 4)</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">hours = [72,48,24,3]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
-
-<p><strong>Explanation:</strong> The pairs of indices that form a complete day are <code>(0, 1)</code>, <code>(0, 2)</code>, and <code>(1, 2)</code>.</p>
-</div>
+<p>例如，1 天是 24 小时，2 天是 48 小时，3 天是 72 小时，以此类推。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">hours = [12,12,30,24,24]</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">2</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>构成整天的下标对分别是 <code>(0, 1)</code> 和 <code>(3, 4)</code>。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">hours = [72,48,24,3]</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">3</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>构成整天的下标对分别是 <code>(0, 1)</code>、<code>(0, 2)</code> 和 <code>(1, 2)</code>。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= hours.length &lt;= 5 * 10<sup>5</sup></code></li>
@@ -54,19 +63,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We can use a hash table or an array $\textit{cnt}$ of length $24$ to record the occurrence count of each hour modulo $24$.
+我们可以用一个哈希表或者一个长度为 $24$ 的数组 $\textit{cnt}$ 来记录每个小时数模 $24$ 的出现次数。
 
-Iterate through the array $\textit{hours}$. For each hour $x$, we can find the number that, when added to $x$, results in a multiple of $24$, and after modulo $24$, this number is $(24 - x \bmod 24) \bmod 24$. We then accumulate the occurrence count of this number from the hash table or array. After that, we increment the occurrence count of $x$ modulo $24$ by one.
+遍历数组 $\textit{hours}$，对于每个小时数 $x$，我们可以得出与 $x$ 相加为 $24$ 的倍数，且模 $24$ 之后的数为 $(24 - x \bmod 24) \bmod 24$。累加这个数在哈希表或者数组中的出现次数即可。然后我们将 $x$ 的模 $24$ 的出现次数加一。
 
-After iterating through the array $\textit{hours}$, we can obtain the number of index pairs that meet the problem requirements.
+遍历完数组 $\textit{hours}$ 后，我们就可以得到满足题意的下标对数目。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{hours}$. The space complexity is $O(C)$, where $C=24$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{hours}$ 的长度。空间复杂度 $O(C)$，其中 $C=24$。
 
 <!-- tabs:start -->
 
@@ -133,13 +142,13 @@ func countCompleteDayPairs(hours []int) (ans int64) {
 
 ```ts
 function countCompleteDayPairs(hours: number[]): number {
-  const cnt: number[] = Array(24).fill(0);
-  let ans: number = 0;
-  for (const x of hours) {
-    ans += cnt[(24 - (x % 24)) % 24];
-    ++cnt[x % 24];
-  }
-  return ans;
+    const cnt: number[] = Array(24).fill(0);
+    let ans: number = 0;
+    for (const x of hours) {
+        ans += cnt[(24 - (x % 24)) % 24];
+        ++cnt[x % 24];
+    }
+    return ans;
 }
 ```
 

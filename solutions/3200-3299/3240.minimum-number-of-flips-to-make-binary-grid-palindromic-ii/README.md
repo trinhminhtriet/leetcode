@@ -1,69 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3240.Minimum%20Number%20of%20Flips%20to%20Make%20Binary%20Grid%20Palindromic%20II/README.md
 rating: 2080
-source: Biweekly Contest 136 Q3
+source: 第 136 场双周赛 Q3
 tags:
-  - Array
-  - Two Pointers
-  - Matrix
+    - 数组
+    - 双指针
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [3240. Minimum Number of Flips to Make Binary Grid Palindromic II](https://leetcode.com/problems/minimum-number-of-flips-to-make-binary-grid-palindromic-ii)
+# [3240. 最少翻转次数使二进制矩阵回文 II](https://leetcode.cn/problems/minimum-number-of-flips-to-make-binary-grid-palindromic-ii)
 
-## Description
+[English Version](/solution/3200-3299/3240.Minimum%20Number%20of%20Flips%20to%20Make%20Binary%20Grid%20Palindromic%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> binary matrix <code>grid</code>.</p>
+<p>给你一个&nbsp;<code>m x n</code>&nbsp;的二进制矩阵&nbsp;<code>grid</code>&nbsp;。</p>
 
-<p>A row or column is considered <strong>palindromic</strong> if its values read the same forward and backward.</p>
+<p>如果矩阵中一行或者一列从前往后与从后往前读是一样的，那么我们称这一行或者这一列是 <strong>回文</strong>&nbsp;的。</p>
 
-<p>You can <strong>flip</strong> any number of cells in <code>grid</code> from <code>0</code> to <code>1</code>, or from <code>1</code> to <code>0</code>.</p>
+<p>你可以将 <code>grid</code>&nbsp;中任意格子的值 <strong>翻转</strong>&nbsp;，也就是将格子里的值从 <code>0</code>&nbsp;变成 <code>1</code>&nbsp;，或者从 <code>1</code>&nbsp;变成 <code>0</code>&nbsp;。</p>
 
-<p>Return the <strong>minimum</strong> number of cells that need to be flipped to make <strong>all</strong> rows and columns <strong>palindromic</strong>, and the total number of <code>1</code>&#39;s in <code>grid</code> <strong>divisible</strong> by <code>4</code>.</p>
+<p>请你返回 <strong>最少</strong>&nbsp;翻转次数，使得矩阵中 <strong>所有</strong>&nbsp;行和列都是 <strong>回文的</strong>&nbsp;，且矩阵中 <code>1</code>&nbsp;的数目可以被 <code>4</code>&nbsp;<strong>整除</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[1,0,0],[0,1,0],[0,0,1]]</span></p>
+<p><span class="example-io"><b>输入：</b>grid = [[1,0,0],[0,1,0],[0,0,1]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
+<p><span class="example-io"><b>输出：</b>3</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3240.Minimum%20Number%20of%20Flips%20to%20Make%20Binary%20Grid%20Palindromic%20II/images/image.png" style="width: 400px; height: 105px;" /></p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[0,1],[0,1],[0,0]]</span></p>
+<p><span class="example-io"><b>输入：</b>grid = [[0,1],[0,1],[0,0]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><span class="example-io"><b>输出：</b>2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3240.Minimum%20Number%20of%20Flips%20to%20Make%20Binary%20Grid%20Palindromic%20II/images/screenshot-from-2024-07-09-01-37-48.png" style="width: 300px; height: 104px;" /></p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[1],[1]]</span></p>
+<p><span class="example-io"><b>输入：</b>grid = [[1],[1]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><span class="example-io"><b>输出：</b>2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3240.Minimum%20Number%20of%20Flips%20to%20Make%20Binary%20Grid%20Palindromic%20II/images/screenshot-from-2024-08-01-23-05-26.png" style="width: 200px; height: 70px;" /></p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -74,30 +79,30 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Case Analysis
+### 方法一：分类讨论
 
-If both rows and columns are palindromic, then for any $i \in [0, m / 2)$ and $j \in [0, n / 2)$, it must satisfy $\text{grid}[i][j] = \text{grid}[m - i - 1][j] = \text{grid}[i][n - j - 1] = \text{grid}[m - i - 1][n - j - 1]$. They must either all become $0$ or all become $1$. The number of changes to $0$ is $c_0 = \text{grid}[i][j] + \text{grid}[m - i - 1][j] + \text{grid}[i][n - j - 1] + \text{grid}[m - i - 1][n - j - 1]$, and the number of changes to $1$ is $c_1 = 4 - c_0$. We take the minimum of the two and add it to the answer.
+行和列都是回文的，那么对于任意 $i \in [0, m / 2)$ 和 $j \in [0, n / 2)$，都需要满足 $\text{grid}[i][j] = \text{grid}[m - i - 1][j] = \text{grid}[i][n - j - 1] = \text{grid}[m - i - 1][n - j - 1]$，要么都变成 $0$，要么都变成 $1$，变成 $0$ 的次数为 $c_0 = \text{grid}[i][j] + \text{grid}[m - i - 1][j] + \text{grid}[i][n - j - 1] + \text{grid}[m - i - 1][n - j - 1]$，变成 $1$ 的次数为 $c_1 = 4 - c_0$，取两者的较小值，累加到答案中。
 
-Next, we discuss the parity of $m$ and $n$:
+接下来，我们再讨论 $m$ 和 $n$ 的奇偶性：
 
-- If both $m$ and $n$ are even, we directly return the answer.
-- If both $m$ and $n$ are odd, the center cell must be $0$ because the number of $1$s must be divisible by $4$.
-- If $m$ is odd and $n$ is even, we need to consider the middle row.
-- If $m$ is even and $n$ is odd, we need to consider the middle column.
+-   如果 $m$ 和 $n$ 都是偶数，那么直接返回答案；
+-   如果 $m$ 和 $n$ 都是奇数，那么最中间的格子只能是 $0$，因为题目要求 $1$ 的数目可以被 $4$ 整除；
+-   如果 $m$ 是奇数，而 $n$ 是偶数，那么我们需要考虑最中间的一行；
+-   如果 $m$ 是偶数，而 $n$ 是奇数，那么我们需要考虑最中间的一列。
 
-For the latter two cases, we need to count the number of differing pairs of cells $\text{diff}$ in the middle row or column, and the number of cells that are the same and equal to $1$ $\text{cnt1}$. Then we discuss the following cases:
+对于后两种情况，我们需要统计最中间的一行或一列中对应位置不相同的格子对数 $\text{diff}$，以及对应位置相同且为 $1$ 的格子个数 $\text{cnt1}$，然后再分情况讨论：
 
-- If $\text{cnt1} \bmod 4 = 0$, we only need to change the $\text{diff}$ cells to $0$, and the number of operations is $\text{diff}$.
-- Otherwise, if $\text{cnt1} = 2$, if $\text{diff} \lt 0$, we can change one of the cells to $1$ to make $\text{cnt1} = 4$, and then change the remaining $\text{diff} - 1$ cells to $0$. The total number of operations is $\text{diff}$.
-- Otherwise, if $\text{diff} = 0$, we change the $2$ cells to $0$ to make $\text{cnt1} \bmod 4 = 0$, and the number of operations is $2$.
+-   如果 $\text{cnt1} \bmod 4 = 0$，那么我们只需要将 $\text{diff}$ 个格子变成 $0$ 即可，操作次数为 $\text{diff}$；
+-   否则，说明 $\text{cnt1} = 2$，此时如果 $\text{diff} \gt 0$，我们可以将其中一个格子变成 $1$，使得 $\text{cnt1} = 4$，那么剩下的 $\text{diff} - 1$ 个格子变成 $0$ 即可，操作次数一共为 $\text{diff}$。
+-   否则，如果 $\text{diff} = 0$，我们就把 $\text{2}$ 个格子变成 $0$，使得 $\text{cnt1} \bmod 4 = 0$，操作次数为 $\text{2}$。
 
-We add the number of operations to the answer and finally return the answer.
+我们将操作次数累加到答案中，最后返回答案即可。
 
-The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是矩阵的行数和列数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -274,48 +279,48 @@ func minFlips(grid [][]int) int {
 
 ```ts
 function minFlips(grid: number[][]): number {
-  const m = grid.length;
-  const n = grid[0].length;
-  let ans = 0;
+    const m = grid.length;
+    const n = grid[0].length;
+    let ans = 0;
 
-  for (let i = 0; i < Math.floor(m / 2); i++) {
-    for (let j = 0; j < Math.floor(n / 2); j++) {
-      const x = m - i - 1;
-      const y = n - j - 1;
-      const cnt1 = grid[i][j] + grid[x][j] + grid[i][y] + grid[x][y];
-      ans += Math.min(cnt1, 4 - cnt1);
-    }
-  }
-
-  if (m % 2 === 1 && n % 2 === 1) {
-    ans += grid[Math.floor(m / 2)][Math.floor(n / 2)];
-  }
-
-  let diff = 0,
-    cnt1 = 0;
-
-  if (m % 2 === 1) {
-    for (let j = 0; j < Math.floor(n / 2); j++) {
-      if (grid[Math.floor(m / 2)][j] === grid[Math.floor(m / 2)][n - j - 1]) {
-        cnt1 += grid[Math.floor(m / 2)][j] * 2;
-      } else {
-        diff += 1;
-      }
-    }
-  }
-
-  if (n % 2 === 1) {
     for (let i = 0; i < Math.floor(m / 2); i++) {
-      if (grid[i][Math.floor(n / 2)] === grid[m - i - 1][Math.floor(n / 2)]) {
-        cnt1 += grid[i][Math.floor(n / 2)] * 2;
-      } else {
-        diff += 1;
-      }
+        for (let j = 0; j < Math.floor(n / 2); j++) {
+            const x = m - i - 1;
+            const y = n - j - 1;
+            const cnt1 = grid[i][j] + grid[x][j] + grid[i][y] + grid[x][y];
+            ans += Math.min(cnt1, 4 - cnt1);
+        }
     }
-  }
 
-  ans += cnt1 % 4 === 0 || diff > 0 ? diff : 2;
-  return ans;
+    if (m % 2 === 1 && n % 2 === 1) {
+        ans += grid[Math.floor(m / 2)][Math.floor(n / 2)];
+    }
+
+    let diff = 0,
+        cnt1 = 0;
+
+    if (m % 2 === 1) {
+        for (let j = 0; j < Math.floor(n / 2); j++) {
+            if (grid[Math.floor(m / 2)][j] === grid[Math.floor(m / 2)][n - j - 1]) {
+                cnt1 += grid[Math.floor(m / 2)][j] * 2;
+            } else {
+                diff += 1;
+            }
+        }
+    }
+
+    if (n % 2 === 1) {
+        for (let i = 0; i < Math.floor(m / 2); i++) {
+            if (grid[i][Math.floor(n / 2)] === grid[m - i - 1][Math.floor(n / 2)]) {
+                cnt1 += grid[i][Math.floor(n / 2)] * 2;
+            } else {
+                diff += 1;
+            }
+        }
+    }
+
+    ans += cnt1 % 4 === 0 || diff > 0 ? diff : 2;
+    return ans;
 }
 ```
 

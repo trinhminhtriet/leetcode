@@ -1,54 +1,56 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2216.Minimum%20Deletions%20to%20Make%20Array%20Beautiful/README.md
 rating: 1509
-source: Weekly Contest 286 Q2
+source: 第 286 场周赛 Q2
 tags:
-  - Stack
-  - Greedy
-  - Array
+    - 栈
+    - 贪心
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [2216. Minimum Deletions to Make Array Beautiful](https://leetcode.com/problems/minimum-deletions-to-make-array-beautiful)
+# [2216. 美化数组的最少删除数](https://leetcode.cn/problems/minimum-deletions-to-make-array-beautiful)
 
-## Description
+[English Version](/solution/2200-2299/2216.Minimum%20Deletions%20to%20Make%20Array%20Beautiful/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. The array <code>nums</code> is <strong>beautiful</strong> if:</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，如果满足下述条件，则认为数组 <code>nums</code> 是一个 <strong>美丽数组</strong> ：</p>
 
 <ul>
-	<li><code>nums.length</code> is even.</li>
-	<li><code>nums[i] != nums[i + 1]</code> for all <code>i % 2 == 0</code>.</li>
+	<li><code>nums.length</code> 为偶数</li>
+	<li>对所有满足 <code>i % 2 == 0</code> 的下标 <code>i</code> ，<code>nums[i] != nums[i + 1]</code> 均成立</li>
 </ul>
 
-<p>Note that an empty array is considered beautiful.</p>
+<p>注意，空数组同样认为是美丽数组。</p>
 
-<p>You can delete any number of elements from <code>nums</code>. When you delete an element, all the elements to the right of the deleted element will be <strong>shifted one unit to the left</strong> to fill the gap created and all the elements to the left of the deleted element will remain <strong>unchanged</strong>.</p>
+<p>你可以从 <code>nums</code> 中删除任意数量的元素。当你删除一个元素时，被删除元素右侧的所有元素将会向左移动一个单位以填补空缺，而左侧的元素将会保持 <strong>不变</strong> 。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of elements to delete from </em><code>nums</code><em> to make it </em><em>beautiful.</em></p>
+<p>返回使 <code>nums</code> 变为美丽数组所需删除的 <strong>最少</strong> 元素数目<em>。</em></p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,1,2,3,5]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> You can delete either <code>nums[0]</code> or <code>nums[1]</code> to make <code>nums</code> = [1,2,3,5] which is beautiful. It can be proven you need at least 1 deletion to make <code>nums</code> beautiful.
-</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><strong>输入：</strong>nums = [1,1,2,3,5]
+<strong>输出：</strong>1
+<strong>解释：</strong>可以删除 <code>nums[0]</code> 或 <code>nums[1]</code> ，这样得到的 <code>nums</code> = [1,2,3,5] 是一个美丽数组。可以证明，要想使 nums 变为美丽数组，至少需要删除 1 个元素。</pre>
 
-<pre>
-<strong>Input:</strong> nums = [1,1,2,2,3,3]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> You can delete <code>nums[0]</code> and <code>nums[5]</code> to make nums = [1,2,2,3] which is beautiful. It can be proven you need at least 2 deletions to make nums beautiful.
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>nums = [1,1,2,2,3,3]
+<strong>输出：</strong>2
+<strong>解释：</strong>可以删除 <code>nums[0]</code> 和 <code>nums[5]</code> ，这样得到的 nums = [1,2,2,3] 是一个美丽数组。可以证明，要想使 nums 变为美丽数组，至少需要删除 2 个元素。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -57,19 +59,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy
+### 方法一：贪心
 
-According to the problem description, we know that a beautiful array has an even number of elements, and if we divide every two adjacent elements in this array into a group, then the two elements in each group are not equal. This means that the elements within a group cannot be repeated, but the elements between groups can be repeated.
+根据题目描述，我们知道，一个美丽数组有偶数个元素，且如果我们把这个数组中每相邻两个元素划分为一组，那么每一组中的两个元素都不相等。这意味着，组内的元素不能重复，但组与组之间的元素可以重复。
 
-Therefore, we consider traversing the array from left to right. As long as we encounter two adjacent elements that are equal, we delete one of them, that is, the deletion count increases by one; otherwise, we can keep these two elements.
+因此，我们考虑从左到右遍历数组，只要遇到相邻两个元素相等，我们就将其中的一个元素删除，即删除数加一；否则，我们可以保留这两个元素。
 
-Finally, we check whether the length of the array after deletion is even. If not, it means that we need to delete one more element to make the final array length even.
+最后，我们判断删除后的数组长度是否为偶数，如果不是，则说明我们需要再删除一个元素，使得最终的数组长度为偶数。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. We only need to traverse the array once. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组的长度。我们只需要遍历数组一次。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -152,17 +154,17 @@ func minDeletion(nums []int) (ans int) {
 
 ```ts
 function minDeletion(nums: number[]): number {
-  const n = nums.length;
-  let ans = 0;
-  for (let i = 0; i < n - 1; ++i) {
-    if (nums[i] === nums[i + 1]) {
-      ++ans;
-    } else {
-      ++i;
+    const n = nums.length;
+    let ans = 0;
+    for (let i = 0; i < n - 1; ++i) {
+        if (nums[i] === nums[i + 1]) {
+            ++ans;
+        } else {
+            ++i;
+        }
     }
-  }
-  ans += (n - ans) % 2;
-  return ans;
+    ans += (n - ans) % 2;
+    return ans;
 }
 ```
 
@@ -194,7 +196,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -279,17 +281,17 @@ func minDeletion(nums []int) (ans int) {
 
 ```ts
 function minDeletion(nums: number[]): number {
-  const n = nums.length;
-  let ans = 0;
-  for (let i = 0; i < n; ) {
-    let j = i + 1;
-    for (; j < n && nums[j] === nums[i]; ++j) {
-      ++ans;
+    const n = nums.length;
+    let ans = 0;
+    for (let i = 0; i < n; ) {
+        let j = i + 1;
+        for (; j < n && nums[j] === nums[i]; ++j) {
+            ++ans;
+        }
+        i = j + 1;
     }
-    i = j + 1;
-  }
-  ans += (n - ans) % 2;
-  return ans;
+    ans += (n - ans) % 2;
+    return ans;
 }
 ```
 

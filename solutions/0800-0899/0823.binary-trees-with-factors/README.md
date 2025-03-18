@@ -1,58 +1,69 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0823.Binary%20Trees%20With%20Factors/README.md
 tags:
-  - Array
-  - Hash Table
-  - Dynamic Programming
-  - Sorting
+    - 数组
+    - 哈希表
+    - 动态规划
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [823. Binary Trees With Factors](https://leetcode.com/problems/binary-trees-with-factors)
+# [823. 带因子的二叉树](https://leetcode.cn/problems/binary-trees-with-factors)
 
-## Description
+[English Version](/solution/0800-0899/0823.Binary%20Trees%20With%20Factors/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of unique integers, <code>arr</code>, where each integer <code>arr[i]</code> is strictly greater than <code>1</code>.</p>
+<p>给出一个含有不重复整数元素的数组 <code>arr</code> ，每个整数 <code>arr[i]</code> 均大于 1。</p>
 
-<p>We make a binary tree using these integers, and each number may be used for any number of times. Each non-leaf node&#39;s value should be equal to the product of the values of its children.</p>
+<p>用这些整数来构建二叉树，每个整数可以使用任意次数。其中：每个非叶结点的值应等于它的两个子结点的值的乘积。</p>
 
-<p>Return <em>the number of binary trees we can make</em>. The answer may be too large so return the answer <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [2,4]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We can make these trees: <code>[2], [4], [4, 2, 2]</code></pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [2,4,5,10]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> We can make these trees: <code>[2], [4], [5], [10], [4, 2, 2], [10, 2, 5], [10, 5, 2]</code>.</pre>
+<p>满足条件的二叉树一共有多少个？答案可能很大，返回<strong> 对 </strong><code>10<sup>9</sup> + 7</code> <strong>取余</strong> 的结果。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> <code>arr = [2, 4]</code>
+<strong>输出:</strong> 3
+<strong>解释:</strong> 可以得到这些二叉树: <code>[2], [4], [4, 2, 2]</code></pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> <code>arr = [2, 4, 5, 10]</code>
+<strong>输出:</strong> <code>7</code>
+<strong>解释:</strong> 可以得到这些二叉树: <code>[2], [4], [5], [10], [4, 2, 2], [10, 2, 5], [10, 5, 2]</code>.</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 1000</code></li>
 	<li><code>2 &lt;= arr[i] &lt;= 10<sup>9</sup></code></li>
-	<li>All the values of <code>arr</code> are <strong>unique</strong>.</li>
+	<li><code>arr</code> 中的所有值 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：动态规划
+
+我们可以枚举 $arr$ 中的每一个数 $a$ 作为二叉树的根节点（根节点一定最大），然后枚举枚举左子树的值 $b$，若 $a$ 能被 $b$ 整除，则右子树的值为 $a / b$，若 $a / b$ 也在 $arr$ 中，则可以构成一棵二叉树。此时，以 $a$ 为根节点的二叉树的个数为 $f(a) = f(b) \times f(a / b)$，其中 $f(b)$ 和 $f(a / b)$ 分别为左子树和右子树的二叉树个数。
+
+因此，我们先将 $arr$ 排序，然后用 $f[i]$ 表示以 $arr[i]$ 为根节点的二叉树的个数，最终答案即为 $f[0] + f[1] + \cdots + f[n - 1]$。注意答案可能很大，需要对 $10^9 + 7$ 取模。
+
+时间复杂度为 $O(n^2)$，空间复杂度为 $O(n)$。其中 $n$ 为 $arr$ 的长度。
 
 <!-- tabs:start -->
 
@@ -180,28 +191,28 @@ func numFactoredBinaryTrees(arr []int) int {
 
 ```ts
 function numFactoredBinaryTrees(arr: number[]): number {
-  const mod = 10 ** 9 + 7;
-  arr.sort((a, b) => a - b);
-  const idx: Map<number, number> = new Map();
-  const n = arr.length;
-  for (let i = 0; i < n; ++i) {
-    idx.set(arr[i], i);
-  }
-  const f: number[] = new Array(n).fill(1);
-  for (let i = 0; i < n; ++i) {
-    const a = arr[i];
-    for (let j = 0; j < i; ++j) {
-      const b = arr[j];
-      if (a % b === 0) {
-        const c = a / b;
-        if (idx.has(c)) {
-          const k = idx.get(c)!;
-          f[i] = (f[i] + f[j] * f[k]) % mod;
-        }
-      }
+    const mod = 10 ** 9 + 7;
+    arr.sort((a, b) => a - b);
+    const idx: Map<number, number> = new Map();
+    const n = arr.length;
+    for (let i = 0; i < n; ++i) {
+        idx.set(arr[i], i);
     }
-  }
-  return f.reduce((a, b) => a + b) % mod;
+    const f: number[] = new Array(n).fill(1);
+    for (let i = 0; i < n; ++i) {
+        const a = arr[i];
+        for (let j = 0; j < i; ++j) {
+            const b = arr[j];
+            if (a % b === 0) {
+                const c = a / b;
+                if (idx.has(c)) {
+                    const k = idx.get(c)!;
+                    f[i] = (f[i] + f[j] * f[k]) % mod;
+                }
+            }
+        }
+    }
+    return f.reduce((a, b) => a + b) % mod;
 }
 ```
 

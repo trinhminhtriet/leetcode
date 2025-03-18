@@ -1,50 +1,57 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1401.Circle%20and%20Rectangle%20Overlapping/README.md
 rating: 1708
-source: Biweekly Contest 23 Q3
+source: 第 23 场双周赛 Q3
 tags:
-  - Geometry
-  - Math
+    - 几何
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [1401. Circle and Rectangle Overlapping](https://leetcode.com/problems/circle-and-rectangle-overlapping)
+# [1401. 圆和矩形是否有重叠](https://leetcode.cn/problems/circle-and-rectangle-overlapping)
 
-## Description
+[English Version](/solution/1400-1499/1401.Circle%20and%20Rectangle%20Overlapping/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a circle represented as <code>(radius, xCenter, yCenter)</code> and an axis-aligned rectangle represented as <code>(x1, y1, x2, y2)</code>, where <code>(x1, y1)</code> are the coordinates of the bottom-left corner, and <code>(x2, y2)</code> are the coordinates of the top-right corner of the rectangle.</p>
+<p>给你一个以 <code>(radius, xCenter, yCenter)</code> 表示的圆和一个与坐标轴平行的矩形 <code>(x1, y1, x2, y2)</code> ，其中 <code>(x1, y1)</code> 是矩形左下角的坐标，而 <code>(x2, y2)</code> 是右上角的坐标。</p>
 
-<p>Return <code>true</code><em> if the circle and rectangle are overlapped otherwise return </em><code>false</code>. In other words, check if there is <strong>any</strong> point <code>(x<sub>i</sub>, y<sub>i</sub>)</code> that belongs to the circle and the rectangle at the same time.</p>
+<p>如果圆和矩形有重叠的部分，请你返回 <code>true</code> ，否则返回 <code>false</code>&nbsp;。</p>
+
+<p>换句话说，请你检测是否 <strong>存在</strong> 点 <code>(x<sub>i</sub>, y<sub>i</sub>)</code> ，它既在圆上也在矩形上（两者都包括点落在边界上的情况）。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1 ：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1401.Circle%20and%20Rectangle%20Overlapping/images/sample_4_1728.png" style="width: 258px; height: 167px;" />
 <pre>
-<strong>Input:</strong> radius = 1, xCenter = 0, yCenter = 0, x1 = 1, y1 = -1, x2 = 3, y2 = 1
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Circle and rectangle share the point (1,0).
+<strong>输入：</strong>radius = 1, xCenter = 0, yCenter = 0, x1 = 1, y1 = -1, x2 = 3, y2 = 1
+<strong>输出：</strong>true
+<strong>解释：</strong>圆和矩形存在公共点 (1,0) 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2 ：</strong></p>
 
 <pre>
-<strong>Input:</strong> radius = 1, xCenter = 1, yCenter = 1, x1 = 1, y1 = -3, x2 = 2, y2 = -1
-<strong>Output:</strong> false
+<strong>输入：</strong>radius = 1, xCenter = 1, yCenter = 1, x1 = 1, y1 = -3, x2 = 2, y2 = -1
+<strong>输出：</strong>false
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3 ：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1401.Circle%20and%20Rectangle%20Overlapping/images/sample_2_1728.png" style="width: 150px; height: 135px;" />
 <pre>
-<strong>Input:</strong> radius = 1, xCenter = 0, yCenter = 0, x1 = -1, y1 = 0, x2 = 0, y2 = 1
-<strong>Output:</strong> true
+<strong>输入：</strong>radius = 1, xCenter = 0, yCenter = 0, x1 = -1, y1 = 0, x2 = 0, y2 = 1
+<strong>输出：</strong>true
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= radius &lt;= 2000</code></li>
@@ -55,27 +62,27 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Mathematics
+### 方法一：数学
 
-For a point $(x, y)$, its shortest distance to the center of the circle $(xCenter, yCenter)$ is $\sqrt{(x - xCenter)^2 + (y - yCenter)^2}$. If this distance is less than or equal to the radius $radius$, then this point is within the circle (including the boundary).
+对于一个点 $(x, y)$，它到圆心 $(xCenter, yCenter)$ 的最短距离为 $\sqrt{(x - xCenter)^2 + (y - yCenter)^2}$，如果这个距离小于等于半径 $radius$，那么这个点就在圆内（包括边界）。
 
-For points within the rectangle (including the boundary), their x-coordinates $x$ satisfy $x_1 \leq x \leq x_2$, and their y-coordinates $y$ satisfy $y_1 \leq y \leq y_2$. To determine whether the circle and rectangle overlap, we need to find a point $(x, y)$ within the rectangle such that $a = |x - xCenter|$ and $b = |y - yCenter|$ are minimized. If $a^2 + b^2 \leq radius^2$, then the circle and rectangle overlap.
+而对于矩形内（包括边界）的点，它们的横坐标 $x$ 满足 $x_1 \leq x \leq x_2$，纵坐标 $y$ 满足 $y_1 \leq y \leq y_2$。要判断圆和矩形是否有重叠的部分，相当于在矩形内找到一个点 $(x, y)$，使得 $a = |x - xCenter|$ 和 $b = |y - yCenter|$ 都取到最小值，此时若 $a^2 + b^2 \leq radius^2$，则说明圆和矩形有重叠的部分。
 
-Therefore, the problem is transformed into finding the minimum value of $a = |x - xCenter|$ when $x \in [x_1, x_2]$, and the minimum value of $b = |y - yCenter|$ when $y \in [y_1, y_2]$.
+因此，问题转化为求 $x \in [x_1, x_2]$ 时 $a = |x - xCenter|$ 的最小值，以及 $y \in [y_1, y_2]$ 时 $b = |y - yCenter|$ 的最小值。
 
-For $x \in [x_1, x_2]$:
+对于 $x \in [x_1, x_2]$：
 
-- If $x_1 \leq xCenter \leq x_2$, then the minimum value of $|x - xCenter|$ is $0$;
-- If $xCenter < x_1$, then the minimum value of $|x - xCenter|$ is $x_1 - xCenter$;
-- If $xCenter > x_2$, then the minimum value of $|x - xCenter|$ is $xCenter - x_2$.
+-   如果 $x_1 \leq xCenter \leq x_2$，那么 $|x - xCenter|$ 的最小值为 $0$；
+-   如果 $xCenter \lt x_1$，那么 $|x - xCenter|$ 的最小值为 $x_1 - xCenter$；
+-   如果 $xCenter \gt x_2$，那么 $|x - xCenter|$ 的最小值为 $xCenter - x_2$。
 
-Similarly, we can find the minimum value of $|y - yCenter|$ when $y \in [y_1, y_2]$. We can use a function $f(i, j, k)$ to handle the above situations.
+同理，我们可以求出 $y \in [y_1, y_2]$ 时 $|y - yCenter|$ 的最小值。以上我们可以统一用函数 $f(i, j, k)$ 来处理。
 
-That is, $a = f(x_1, x_2, xCenter)$, $b = f(y_1, y_2, yCenter)$. If $a^2 + b^2 \leq radius^2$, then the circle and rectangle overlap.
+即 $a = f(x_1, x_2, xCenter)$, $b = f(y_1, y_2, yCenter)$，如果 $a^2 + b^2 \leq radius^2$，则说明圆和矩形有重叠的部分。
 
 <!-- tabs:start -->
 
@@ -165,23 +172,23 @@ func checkOverlap(radius int, xCenter int, yCenter int, x1 int, y1 int, x2 int, 
 
 ```ts
 function checkOverlap(
-  radius: number,
-  xCenter: number,
-  yCenter: number,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number
+    radius: number,
+    xCenter: number,
+    yCenter: number,
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
 ): boolean {
-  const f = (i: number, j: number, k: number) => {
-    if (i <= k && k <= j) {
-      return 0;
-    }
-    return k < i ? i - k : k - j;
-  };
-  const a = f(x1, x2, xCenter);
-  const b = f(y1, y2, yCenter);
-  return a * a + b * b <= radius * radius;
+    const f = (i: number, j: number, k: number) => {
+        if (i <= k && k <= j) {
+            return 0;
+        }
+        return k < i ? i - k : k - j;
+    };
+    const a = f(x1, x2, xCenter);
+    const b = f(y1, y2, yCenter);
+    return a * a + b * b <= radius * radius;
 }
 ```
 

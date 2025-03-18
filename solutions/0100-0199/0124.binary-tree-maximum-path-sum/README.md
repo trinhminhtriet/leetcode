@@ -1,79 +1,83 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0124.Binary%20Tree%20Maximum%20Path%20Sum/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Dynamic Programming
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 动态规划
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [124. Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum)
+# [124. 二叉树中的最大路径和](https://leetcode.cn/problems/binary-tree-maximum-path-sum)
 
-## Description
+[English Version](/solution/0100-0199/0124.Binary%20Tree%20Maximum%20Path%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <strong>path</strong> in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence <strong>at most once</strong>. Note that the path does not need to pass through the root.</p>
+<p>二叉树中的<strong> 路径</strong> 被定义为一条节点序列，序列中每对相邻节点之间都存在一条边。同一个节点在一条路径序列中 <strong>至多出现一次</strong> 。该路径<strong> 至少包含一个 </strong>节点，且不一定经过根节点。</p>
 
-<p>The <strong>path sum</strong> of a path is the sum of the node&#39;s values in the path.</p>
+<p><strong>路径和</strong> 是路径中各节点值的总和。</p>
 
-<p>Given the <code>root</code> of a binary tree, return <em>the maximum <strong>path sum</strong> of any <strong>non-empty</strong> path</em>.</p>
+<p>给你一个二叉树的根节点 <code>root</code> ，返回其 <strong>最大路径和</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0124.Binary%20Tree%20Maximum%20Path%20Sum/images/exx1.jpg" style="width: 322px; height: 182px;" />
 <pre>
-<strong>Input:</strong> root = [1,2,3]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The optimal path is 2 -&gt; 1 -&gt; 3 with a path sum of 2 + 1 + 3 = 6.
-</pre>
+<strong>输入：</strong>root = [1,2,3]
+<strong>输出：</strong>6
+<strong>解释：</strong>最优路径是 2 -&gt; 1 -&gt; 3 ，路径和为 2 + 1 + 3 = 6</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0124.Binary%20Tree%20Maximum%20Path%20Sum/images/exx2.jpg" />
 <pre>
-<strong>Input:</strong> root = [-10,9,20,null,null,15,7]
-<strong>Output:</strong> 42
-<strong>Explanation:</strong> The optimal path is 15 -&gt; 20 -&gt; 7 with a path sum of 15 + 20 + 7 = 42.
+<strong>输入：</strong>root = [-10,9,20,null,null,15,7]
+<strong>输出：</strong>42
+<strong>解释：</strong>最优路径是 15 -&gt; 20 -&gt; 7 ，路径和为 15 + 20 + 7 = 42
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 3 * 10<sup>4</sup>]</code>.</li>
+	<li>树中节点数目范围是 <code>[1, 3 * 10<sup>4</sup>]</code></li>
 	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Recursion
+### 方法一：递归
 
-When thinking about the classic routine of recursion problems in binary trees, we consider:
+我们思考二叉树递归问题的经典套路：
 
-1. Termination condition (when to terminate recursion)
-2. Recursively process the left and right subtrees
-3. Merge the calculation results of the left and right subtrees
+1. 终止条件（何时终止递归）
+2. 递归处理左右子树
+3. 合并左右子树的计算结果
 
-For this problem, we design a function $dfs(root)$, which returns the maximum path sum of the binary tree with $root$ as the root node.
+对于本题，我们设计一个函数 $dfs(root)$，它返回以 $root$ 为根节点的二叉树的最大路径和。
 
-The execution logic of the function $dfs(root)$ is as follows:
+函数 $dfs(root)$ 的执行逻辑如下：
 
-If $root$ does not exist, then $dfs(root)$ returns $0$;
+如果 $root$ 不存在，那么 $dfs(root)$ 返回 $0$；
 
-Otherwise, we recursively calculate the maximum path sum of the left and right subtrees of $root$, denoted as $left$ and $right$. If $left$ is less than $0$, then we set it to $0$, similarly, if $right$ is less than $0$, then we set it to $0$.
+否则，我们递归计算 $root$ 的左子树和右子树的最大路径和，分别记为 $left$ 和 $right$。如果 $left$ 小于 $0$，那么我们将其置为 $0$，同理，如果 $right$ 小于 $0$，那么我们将其置为 $0$。
 
-Then, we update the answer with $root.val + left + right$. Finally, the function returns $root.val + \max(left, right)$.
+然后，我们用 $root.val + left + right$ 更新答案。最后，函数返回 $root.val + \max(left, right)$。
 
-In the main function, we call $dfs(root)$ to get the maximum path sum of each node, and the maximum value among them is the answer.
+在主函数中，我们调用 $dfs(root)$，即可得到每个节点的最大路径和，其中的最大值即为答案。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -219,18 +223,18 @@ func maxPathSum(root *TreeNode) int {
  */
 
 function maxPathSum(root: TreeNode | null): number {
-  let ans = -1001;
-  const dfs = (root: TreeNode | null): number => {
-    if (!root) {
-      return 0;
-    }
-    const left = Math.max(0, dfs(root.left));
-    const right = Math.max(0, dfs(root.right));
-    ans = Math.max(ans, left + right + root.val);
-    return Math.max(left, right) + root.val;
-  };
-  dfs(root);
-  return ans;
+    let ans = -1001;
+    const dfs = (root: TreeNode | null): number => {
+        if (!root) {
+            return 0;
+        }
+        const left = Math.max(0, dfs(root.left));
+        const right = Math.max(0, dfs(root.right));
+        ans = Math.max(ans, left + right + root.val);
+        return Math.max(left, right) + root.val;
+    };
+    dfs(root);
+    return ans;
 }
 ```
 
@@ -293,18 +297,18 @@ impl Solution {
  * @return {number}
  */
 var maxPathSum = function (root) {
-  let ans = -1001;
-  const dfs = (root) => {
-    if (!root) {
-      return 0;
-    }
-    const left = Math.max(0, dfs(root.left));
-    const right = Math.max(0, dfs(root.right));
-    ans = Math.max(ans, left + right + root.val);
-    return Math.max(left, right) + root.val;
-  };
-  dfs(root);
-  return ans;
+    let ans = -1001;
+    const dfs = root => {
+        if (!root) {
+            return 0;
+        }
+        const left = Math.max(0, dfs(root.left));
+        const right = Math.max(0, dfs(root.right));
+        ans = Math.max(ans, left + right + root.val);
+        return Math.max(left, right) + root.val;
+    };
+    dfs(root);
+    return ans;
 };
 ```
 

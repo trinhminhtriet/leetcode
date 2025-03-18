@@ -1,82 +1,86 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1823.Find%20the%20Winner%20of%20the%20Circular%20Game/README.md
 rating: 1412
-source: Weekly Contest 236 Q2
+source: 第 236 场周赛 Q2
 tags:
-  - Recursion
-  - Queue
-  - Array
-  - Math
-  - Simulation
+    - 递归
+    - 队列
+    - 数组
+    - 数学
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1823. Find the Winner of the Circular Game](https://leetcode.com/problems/find-the-winner-of-the-circular-game)
+# [1823. 找出游戏的获胜者](https://leetcode.cn/problems/find-the-winner-of-the-circular-game)
 
-## Description
+[English Version](/solution/1800-1899/1823.Find%20the%20Winner%20of%20the%20Circular%20Game/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> friends that are playing a game. The friends are sitting in a circle and are numbered from <code>1</code> to <code>n</code> in <strong>clockwise order</strong>. More formally, moving clockwise from the <code>i<sup>th</sup></code> friend brings you to the <code>(i+1)<sup>th</sup></code> friend for <code>1 &lt;= i &lt; n</code>, and moving clockwise from the <code>n<sup>th</sup></code> friend brings you to the <code>1<sup>st</sup></code> friend.</p>
+<p>共有 <code>n</code> 名小伙伴一起做游戏。小伙伴们围成一圈，按 <strong>顺时针顺序</strong> 从 <code>1</code> 到 <code>n</code> 编号。确切地说，从第 <code>i</code> 名小伙伴顺时针移动一位会到达第 <code>(i+1)</code> 名小伙伴的位置，其中 <code>1 &lt;= i &lt; n</code> ，从第 <code>n</code> 名小伙伴顺时针移动一位会回到第 <code>1</code> 名小伙伴的位置。</p>
 
-<p>The rules of the game are as follows:</p>
+<p>游戏遵循如下规则：</p>
 
 <ol>
-	<li><strong>Start</strong> at the <code>1<sup>st</sup></code> friend.</li>
-	<li>Count the next <code>k</code> friends in the clockwise direction <strong>including</strong> the friend you started at. The counting wraps around the circle and may count some friends more than once.</li>
-	<li>The last friend you counted leaves the circle and loses the game.</li>
-	<li>If there is still more than one friend in the circle, go back to step <code>2</code> <strong>starting</strong> from the friend <strong>immediately clockwise</strong> of the friend who just lost and repeat.</li>
-	<li>Else, the last friend in the circle wins the game.</li>
+	<li>从第 <code>1</code> 名小伙伴所在位置 <strong>开始</strong> 。</li>
+	<li>沿着顺时针方向数 <code>k</code> 名小伙伴，计数时需要 <strong>包含</strong> 起始时的那位小伙伴。逐个绕圈进行计数，一些小伙伴可能会被数过不止一次。</li>
+	<li>你数到的最后一名小伙伴需要离开圈子，并视作输掉游戏。</li>
+	<li>如果圈子中仍然有不止一名小伙伴，从刚刚输掉的小伙伴的 <strong>顺时针下一位</strong> 小伙伴 <strong>开始</strong>，回到步骤 <code>2</code> 继续执行。</li>
+	<li>否则，圈子中最后一名小伙伴赢得游戏。</li>
 </ol>
 
-<p>Given the number of friends, <code>n</code>, and an integer <code>k</code>, return <em>the winner of the game</em>.</p>
+<p>给你参与游戏的小伙伴总数 <code>n</code> ，和一个整数 <code>k</code> ，返回游戏的获胜者。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1823.Find%20the%20Winner%20of%20the%20Circular%20Game/images/ic234-q2-ex11.png" style="width: 500px; height: 345px;" />
 <pre>
-<strong>Input:</strong> n = 5, k = 2
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> Here are the steps of the game:
-1) Start at friend 1.
-2) Count 2 friends clockwise, which are friends 1 and 2.
-3) Friend 2 leaves the circle. Next start is friend 3.
-4) Count 2 friends clockwise, which are friends 3 and 4.
-5) Friend 4 leaves the circle. Next start is friend 5.
-6) Count 2 friends clockwise, which are friends 5 and 1.
-7) Friend 1 leaves the circle. Next start is friend 3.
-8) Count 2 friends clockwise, which are friends 3 and 5.
-9) Friend 5 leaves the circle. Only friend 3 is left, so they are the winner.</pre>
+<strong>输入：</strong>n = 5, k = 2
+<strong>输出：</strong>3
+<strong>解释：</strong>游戏运行步骤如下：
+1) 从小伙伴 1 开始。
+2) 顺时针数 2 名小伙伴，也就是小伙伴 1 和 2 。
+3) 小伙伴 2 离开圈子。下一次从小伙伴 3 开始。
+4) 顺时针数 2 名小伙伴，也就是小伙伴 3 和 4 。
+5) 小伙伴 4 离开圈子。下一次从小伙伴 5 开始。
+6) 顺时针数 2 名小伙伴，也就是小伙伴 5 和 1 。
+7) 小伙伴 1 离开圈子。下一次从小伙伴 3 开始。
+8) 顺时针数 2 名小伙伴，也就是小伙伴 3 和 5 。
+9) 小伙伴 5 离开圈子。只剩下小伙伴 3 。所以小伙伴 3 是游戏的获胜者。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 6, k = 5
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The friends leave in this order: 5, 4, 6, 2, 3. The winner is friend 1.
+<strong>输入：</strong>n = 6, k = 5
+<strong>输出：</strong>1
+<strong>解释：</strong>小伙伴离开圈子的顺序：5、4、6、2、3 。小伙伴 1 是游戏的获胜者。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= n &lt;= 500</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Follow up:</strong></p>
 
-<p>Could you solve this problem in linear time with constant space?</p>
+<p><strong>进阶：</strong>你能否使用线性时间复杂度和常数空间复杂度解决此问题？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -137,11 +141,11 @@ func findTheWinner(n int, k int) int {
 
 ```ts
 function findTheWinner(n: number, k: number): number {
-  if (n === 1) {
-    return 1;
-  }
-  const ans = (k + findTheWinner(n - 1, k)) % n;
-  return ans ? ans : n;
+    if (n === 1) {
+        return 1;
+    }
+    const ans = (k + findTheWinner(n - 1, k)) % n;
+    return ans ? ans : n;
 }
 ```
 
@@ -168,11 +172,11 @@ impl Solution {
  * @return {number}
  */
 var findTheWinner = function (n, k) {
-  if (n === 1) {
-    return 1;
-  }
-  const ans = (k + findTheWinner(n - 1, k)) % n;
-  return ans ? ans : n;
+    if (n === 1) {
+        return 1;
+    }
+    const ans = (k + findTheWinner(n - 1, k)) % n;
+    return ans ? ans : n;
 };
 ```
 
@@ -182,7 +186,7 @@ var findTheWinner = function (n, k) {
 
 <!-- solution:start -->
 
-### Solution 2: Simulation
+### 方法二：模拟
 
 <!-- tabs:start -->
 
@@ -190,15 +194,15 @@ var findTheWinner = function (n, k) {
 
 ```ts
 function findTheWinner(n: number, k: number): number {
-  const arr = Array.from({ length: n }, (_, i) => i + 1);
-  let i = 0;
+    const arr = Array.from({ length: n }, (_, i) => i + 1);
+    let i = 0;
 
-  while (arr.length > 1) {
-    i = (i + k - 1) % arr.length;
-    arr.splice(i, 1);
-  }
+    while (arr.length > 1) {
+        i = (i + k - 1) % arr.length;
+        arr.splice(i, 1);
+    }
 
-  return arr[0];
+    return arr[0];
 }
 ```
 
@@ -206,15 +210,15 @@ function findTheWinner(n: number, k: number): number {
 
 ```js
 function findTheWinner(n, k) {
-  const arr = Array.from({ length: n }, (_, i) => i + 1);
-  let i = 0;
+    const arr = Array.from({ length: n }, (_, i) => i + 1);
+    let i = 0;
 
-  while (arr.length > 1) {
-    i = (i + k - 1) % arr.length;
-    arr.splice(i, 1);
-  }
+    while (arr.length > 1) {
+        i = (i + k - 1) % arr.length;
+        arr.splice(i, 1);
+    }
 
-  return arr[0];
+    return arr[0];
 }
 ```
 

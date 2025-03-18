@@ -1,65 +1,68 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2763.Sum%20of%20Imbalance%20Numbers%20of%20All%20Subarrays/README.md
 rating: 2277
-source: Weekly Contest 352 Q4
+source: 第 352 场周赛 Q4
 tags:
-  - Array
-  - Hash Table
-  - Ordered Set
+    - 数组
+    - 哈希表
+    - 有序集合
 ---
 
 <!-- problem:start -->
 
-# [2763. Sum of Imbalance Numbers of All Subarrays](https://leetcode.com/problems/sum-of-imbalance-numbers-of-all-subarrays)
+# [2763. 所有子数组中不平衡数字之和](https://leetcode.cn/problems/sum-of-imbalance-numbers-of-all-subarrays)
 
-## Description
+[English Version](/solution/2700-2799/2763.Sum%20of%20Imbalance%20Numbers%20of%20All%20Subarrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <strong>imbalance number</strong> of a <strong>0-indexed</strong> integer array <code>arr</code> of length <code>n</code> is defined as the number of indices in <code>sarr = sorted(arr)</code> such that:</p>
+<p>一个长度为 <code>n</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的整数数组 <code>arr</code>&nbsp;的 <strong>不平衡数字</strong>&nbsp;定义为，在&nbsp;<code>sarr = sorted(arr)</code>&nbsp;数组中，满足以下条件的下标数目：</p>
 
 <ul>
-	<li><code>0 &lt;= i &lt; n - 1</code>, and</li>
+	<li><code>0 &lt;= i &lt; n - 1</code>&nbsp;，和</li>
 	<li><code>sarr[i+1] - sarr[i] &gt; 1</code></li>
 </ul>
 
-<p>Here, <code>sorted(arr)</code> is the function that returns the sorted version of <code>arr</code>.</p>
+<p>这里，<code>sorted(arr)</code>&nbsp;表示将数组 <code>arr</code>&nbsp;排序后得到的数组。</p>
 
-<p>Given a <strong>0-indexed</strong> integer array <code>nums</code>, return <em>the <strong>sum of imbalance numbers</strong> of all its <strong>subarrays</strong></em>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，请你返回它所有&nbsp;<strong>子数组</strong>&nbsp;的&nbsp;<strong>不平衡数字</strong>&nbsp;之和。</p>
 
-<p>A <strong>subarray</strong> is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
+<p>子数组指的是一个数组中连续一段 <strong>非空</strong>&nbsp;的元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [2,3,1,4]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> There are 3 subarrays with non-zero<strong> </strong>imbalance numbers:
-- Subarray [3, 1] with an imbalance number of 1.
-- Subarray [3, 1, 4] with an imbalance number of 1.
-- Subarray [1, 4] with an imbalance number of 1.
-The imbalance number of all other subarrays is 0. Hence, the sum of imbalance numbers of all the subarrays of nums is 3. 
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [2,3,1,4]
+<b>输出：</b>3
+<b>解释：</b>总共有 3 个子数组有非 0 不平衡数字：
+- 子数组 [3, 1] ，不平衡数字为 1 。
+- 子数组 [3, 1, 4] ，不平衡数字为 1 。
+- 子数组 [1, 4] ，不平衡数字为 1 。
+其他所有子数组的不平衡数字都是 0 ，所以所有子数组的不平衡数字之和为 3 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,3,3,3,5]
-<strong>Output:</strong> 8
-<strong>Explanation:</strong> There are 7 subarrays with non-zero imbalance numbers:
-- Subarray [1, 3] with an imbalance number of 1.
-- Subarray [1, 3, 3] with an imbalance number of 1.
-- Subarray [1, 3, 3, 3] with an imbalance number of 1.
-- Subarray [1, 3, 3, 3, 5] with an imbalance number of 2. 
-- Subarray [3, 3, 3, 5] with an imbalance number of 1. 
-- Subarray [3, 3, 5] with an imbalance number of 1.
-- Subarray [3, 5] with an imbalance number of 1.
-The imbalance number of all other subarrays is 0. Hence, the sum of imbalance numbers of all the subarrays of nums is 8. </pre>
+<pre><b>输入：</b>nums = [1,3,3,3,5]
+<b>输出：</b>8
+<b>解释：</b>总共有 7 个子数组有非 0 不平衡数字：
+- 子数组 [1, 3] ，不平衡数字为 1 。
+- 子数组 [1, 3, 3] ，不平衡数字为 1 。
+- 子数组 [1, 3, 3, 3] ，不平衡数字为 1 。
+- 子数组 [1, 3, 3, 3, 5] ，不平衡数字为 2 。
+- 子数组 [3, 3, 3, 5] ，不平衡数字为 1 。
+- 子数组 [3, 3, 5] ，不平衡数字为 1 。
+- 子数组 [3, 5] ，不平衡数字为 1 。
+其他所有子数组的不平衡数字都是 0 ，所以所有子数组的不平衡数字之和为 8 。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -68,32 +71,29 @@ The imbalance number of all other subarrays is 0. Hence, the sum of imbalance nu
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration + Ordered Set
+### 方法一：枚举 + 有序集合
 
-We can first enumerate the left endpoint $i$ of the subarray. For each $i$, we enumerate the right endpoint $j$ of the subarray from small to large, and maintain all the elements in the current subarray with an ordered list. We also use a variable $cnt$ to maintain the unbalanced number of the current subarray.
+我们可以先枚举子数组的左端点 $i$，对于每个 $i$，我们从小到大枚举子数组的右端点 $j$，并且用一个有序列表维护当前子数组中的所有元素，用一个变量 $cnt$ 维护当前子数组的不平衡数字。
 
-For each number $nums[j]$, we find the first element $nums[k]$ in the ordered list that is greater than or equal to $nums[j]$, and the last element $nums[h]$ that is less than $nums[j]$:
+对于每个数字 $nums[j]$，我们在有序列表中找到第一个大于等于 $nums[j]$ 的元素 $nums[k]$，以及最后一个小于 $nums[j]$ 的元素 $nums[h]$：
 
-- If $nums[k]$ exists, and the difference between $nums[k]$ and $nums[j]$ is more than $1$, the unbalanced number increases by $1$;
-- If $nums[h]$ exists, and the difference between $nums[j]$ and $nums[h]$ is more than $1$, the unbalanced number increases by $1$;
-- If both $nums[k]$ and $nums[h]$ exist, then inserting the element $nums[j]$ between $nums[h]$ and $nums[k]$ will reduce the unbalanced number by $1$.
+-   如果 $nums[k]$ 存在，并且 $nums[k]$ 与 $nums[j]$ 的差值大于 $1$，那么不平衡数字加 $1$；
+-   如果 $nums[h]$ 存在，并且 $nums[j]$ 与 $nums[h]$ 的差值大于 $1$，那么不平衡数字加 $1$；
+-   如果 $nums[k]$ 存在，并且 $nums[h]$ 存在，那么将元素 $nums[j]$ 插入 $nums[h]$ 和 $nums[k]$ 的中间，会使得平衡数字减 $1$。
 
-Then, we add the unbalanced number of the current subarray to the answer, and continue the iteration until we finish iterating over all subarrays.
+然后，我们将当前子数组的平衡数字累加到答案中，继续遍历，直到遍历完所有子数组。
 
-The time complexity is $O(n^2 \times \log n)$ and the space complexity is $O(n)$, where $n$ is the length of the array $nums$.
+时间复杂度 $O(n^2 \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
 #### Python3
 
 ```python
-from sortedcontainers import SortedList
-
-
 class Solution:
     def sumImbalanceNumbers(self, nums: List[int]) -> int:
         n = len(nums)

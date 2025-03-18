@@ -1,74 +1,76 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2145.Count%20the%20Hidden%20Sequences/README.md
 rating: 1614
-source: Biweekly Contest 70 Q2
+source: 第 70 场双周赛 Q2
 tags:
-  - Array
-  - Prefix Sum
+    - 数组
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2145. Count the Hidden Sequences](https://leetcode.com/problems/count-the-hidden-sequences)
+# [2145. 统计隐藏数组数目](https://leetcode.cn/problems/count-the-hidden-sequences)
 
-## Description
+[English Version](/solution/2100-2199/2145.Count%20the%20Hidden%20Sequences/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array of <code>n</code> integers <code>differences</code>, which describes the <strong>differences </strong>between each pair of <strong>consecutive </strong>integers of a <strong>hidden</strong> sequence of length <code>(n + 1)</code>. More formally, call the hidden sequence <code>hidden</code>, then we have that <code>differences[i] = hidden[i + 1] - hidden[i]</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始且长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>differences</code>&nbsp;，它表示一个长度为&nbsp;<code>n + 1</code>&nbsp;的&nbsp;<strong>隐藏</strong>&nbsp;数组&nbsp;<strong>相邻</strong>&nbsp;元素之间的&nbsp;<strong>差值</strong>&nbsp;。更正式的表述为：我们将隐藏数组记作&nbsp;<code>hidden</code>&nbsp;，那么&nbsp;<code>differences[i] = hidden[i + 1] - hidden[i]</code>&nbsp;。</p>
 
-<p>You are further given two integers <code>lower</code> and <code>upper</code> that describe the <strong>inclusive</strong> range of values <code>[lower, upper]</code> that the hidden sequence can contain.</p>
+<p>同时给你两个整数&nbsp;<code>lower</code> 和&nbsp;<code>upper</code>&nbsp;，它们表示隐藏数组中所有数字的值都在 <strong>闭</strong>&nbsp;区间&nbsp;<code>[lower, upper]</code>&nbsp;之间。</p>
 
 <ul>
-	<li>For example, given <code>differences = [1, -3, 4]</code>, <code>lower = 1</code>, <code>upper = 6</code>, the hidden sequence is a sequence of length <code>4</code> whose elements are in between <code>1</code> and <code>6</code> (<strong>inclusive</strong>).
+	<li>比方说，<code>differences = [1, -3, 4]</code>&nbsp;，<code>lower = 1</code>&nbsp;，<code>upper = 6</code>&nbsp;，那么隐藏数组是一个长度为 <code>4</code>&nbsp;且所有值都在&nbsp;<code>1</code>&nbsp;和&nbsp;<code>6</code>&nbsp;（包含两者）之间的数组。
 
     <ul>
-    	<li><code>[3, 4, 1, 5]</code> and <code>[4, 5, 2, 6]</code> are possible hidden sequences.</li>
-    	<li><code>[5, 6, 3, 7]</code> is not possible since it contains an element greater than <code>6</code>.</li>
-    	<li><code>[1, 2, 3, 4]</code> is not possible since the differences are not correct.</li>
+    	<li><code>[3, 4, 1, 5]</code> 和&nbsp;<code>[4, 5, 2, 6]</code>&nbsp;都是符合要求的隐藏数组。</li>
+    	<li><code>[5, 6, 3, 7]</code>&nbsp;不符合要求，因为它包含大于 <code>6</code>&nbsp;的元素。</li>
+    	<li><code>[1, 2, 3, 4]</code>&nbsp;不符合要求，因为相邻元素的差值不符合给定数据。</li>
     </ul>
     </li>
 
 </ul>
 
-<p>Return <em>the number of <strong>possible</strong> hidden sequences there are.</em> If there are no possible sequences, return <code>0</code>.</p>
+<p>请你返回 <strong>符合</strong>&nbsp;要求的隐藏数组的数目。如果没有符合要求的隐藏数组，请返回 <code>0</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> differences = [1,-3,4], lower = 1, upper = 6
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The possible hidden sequences are:
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>differences = [1,-3,4], lower = 1, upper = 6
+<b>输出：</b>2
+<b>解释：</b>符合要求的隐藏数组为：
 - [3, 4, 1, 5]
 - [4, 5, 2, 6]
-Thus, we return 2.
+所以返回 2 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> differences = [3,-4,5,1,-2], lower = -4, upper = 5
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The possible hidden sequences are:
+<pre><b>输入：</b>differences = [3,-4,5,1,-2], lower = -4, upper = 5
+<b>输出：</b>4
+<b>解释：</b>符合要求的隐藏数组为：
 - [-3, 0, -4, 1, 2, 0]
 - [-2, 1, -3, 2, 3, 1]
 - [-1, 2, -2, 3, 4, 2]
 - [0, 3, -1, 4, 5, 3]
-Thus, we return 4.
+所以返回 4 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> differences = [4,-7,2], lower = 3, upper = 6
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are no possible hidden sequences. Thus, we return 0.
+<pre><b>输入：</b>differences = [4,-7,2], lower = 3, upper = 6
+<b>输出：</b>0
+<b>解释：</b>没有符合要求的隐藏数组，所以返回 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == differences.length</code></li>
@@ -79,17 +81,17 @@ Thus, we return 4.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum
+### 方法一：前缀和
 
-Since the array $\textit{differences}$ is already determined, the difference between the maximum and minimum values of the elements in the array $\textit{hidden}$ is also fixed. We just need to ensure that this difference does not exceed $\textit{upper} - \textit{lower}$.
+由于数组 $\textit{differences}$ 已经确定，那么数组 $\textit{hidden}$ 的元素最大值与最小值之差也是固定的，我们只要确保差值不超过 $\textit{upper} - \textit{lower}$ 即可。
 
-Let's assume the first element of the array $\textit{hidden}$ is $0$. Then, $\textit{hidden}[i] = \textit{hidden}[i - 1] + \textit{differences}[i - 1]$, where $1 \leq i \leq n$. Let the maximum value of the array $\textit{hidden}$ be $mx$ and the minimum value be $mi$. If $mx - mi \leq \textit{upper} - \textit{lower}$, then we can construct a valid $\textit{hidden}$ array. The number of possible constructions is $\textit{upper} - \textit{lower} - (mx - mi) + 1$. Otherwise, it is impossible to construct a valid $\textit{hidden}$ array, and we return $0$.
+我们不妨假设数组 $\textit{hidden}$ 的第一个元素为 $0$，那么 $\textit{hidden}[i] = \textit{hidden}[i - 1] + \textit{differences}[i - 1]$，其中 $1 \leq i \leq n$。记数组 $\textit{hidden}$ 的最大值为 $mx$，最小值为 $mi$，如果 $mx - mi \leq \textit{upper} - \textit{lower}$，那么我们就可以构造出一个合法的 $\textit{hidden}$ 数组，可以构造的个数为 $\textit{upper} - \textit{lower} - (mx - mi) + 1$。否则，无法构造出合法的 $\textit{hidden}$ 数组，返回 $0$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{differences}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{differences}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -156,18 +158,14 @@ func numberOfArrays(differences []int, lower int, upper int) int {
 #### TypeScript
 
 ```ts
-function numberOfArrays(
-  differences: number[],
-  lower: number,
-  upper: number
-): number {
-  let [x, mi, mx] = [0, 0, 0];
-  for (const d of differences) {
-    x += d;
-    mi = Math.min(mi, x);
-    mx = Math.max(mx, x);
-  }
-  return Math.max(0, upper - lower - (mx - mi) + 1);
+function numberOfArrays(differences: number[], lower: number, upper: number): number {
+    let [x, mi, mx] = [0, 0, 0];
+    for (const d of differences) {
+        x += d;
+        mi = Math.min(mi, x);
+        mx = Math.max(mx, x);
+    }
+    return Math.max(0, upper - lower - (mx - mi) + 1);
 }
 ```
 

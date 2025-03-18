@@ -1,57 +1,62 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2876.Count%20Visited%20Nodes%20in%20a%20Directed%20Graph/README.md
 rating: 2209
-source: Weekly Contest 365 Q4
+source: 第 365 场周赛 Q4
 tags:
-  - Graph
-  - Memoization
-  - Dynamic Programming
+    - 图
+    - 记忆化搜索
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2876. Count Visited Nodes in a Directed Graph](https://leetcode.com/problems/count-visited-nodes-in-a-directed-graph)
+# [2876. 有向图访问计数](https://leetcode.cn/problems/count-visited-nodes-in-a-directed-graph)
 
-## Description
+[English Version](/solution/2800-2899/2876.Count%20Visited%20Nodes%20in%20a%20Directed%20Graph/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a <strong>directed</strong> graph consisting of <code>n</code> nodes numbered from <code>0</code> to <code>n - 1</code> and <code>n</code> directed edges.</p>
+<p>现有一个有向图，其中包含 <code>n</code> 个节点，节点编号从 <code>0</code> 到 <code>n - 1</code> 。此外，该图还包含了 <code>n</code> 条有向边。</p>
 
-<p>You are given a <strong>0-indexed</strong> array <code>edges</code> where <code>edges[i]</code> indicates that there is an edge from node <code>i</code> to node <code>edges[i]</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的数组 <code>edges</code> ，其中 <code>edges[i]</code> 表示存在一条从节点 <code>i</code> 到节点 <code>edges[i]</code> 的边。</p>
 
-<p>Consider the following process on the graph:</p>
+<p>想象在图上发生以下过程：</p>
 
 <ul>
-	<li>You start from a node <code>x</code> and keep visiting other nodes through edges until you reach a node that you have already visited before on this <strong>same</strong> process.</li>
+	<li>你从节点 <code>x</code> 开始，通过边访问其他节点，直到你在<strong> 此过程 </strong>中再次访问到之前已经访问过的节点。</li>
 </ul>
 
-<p>Return <em>an array </em><code>answer</code><em> where </em><code>answer[i]</code><em> is the number of <strong>different</strong> nodes that you will visit if you perform the process starting from node </em><code>i</code>.</p>
+<p>返回数组 <code>answer</code> 作为答案，其中 <code>answer[i]</code> 表示如果从节点 <code>i</code> 开始执行该过程，你可以访问到的不同节点数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2876.Count%20Visited%20Nodes%20in%20a%20Directed%20Graph/images/graaphdrawio-1.png" />
 <pre>
-<strong>Input:</strong> edges = [1,2,0,0]
-<strong>Output:</strong> [3,3,3,4]
-<strong>Explanation:</strong> We perform the process starting from each node in the following way:
-- Starting from node 0, we visit the nodes 0 -&gt; 1 -&gt; 2 -&gt; 0. The number of different nodes we visit is 3.
-- Starting from node 1, we visit the nodes 1 -&gt; 2 -&gt; 0 -&gt; 1. The number of different nodes we visit is 3.
-- Starting from node 2, we visit the nodes 2 -&gt; 0 -&gt; 1 -&gt; 2. The number of different nodes we visit is 3.
-- Starting from node 3, we visit the nodes 3 -&gt; 0 -&gt; 1 -&gt; 2 -&gt; 0. The number of different nodes we visit is 4.
+<strong>输入：</strong>edges = [1,2,0,0]
+<strong>输出：</strong>[3,3,3,4]
+<strong>解释：</strong>从每个节点开始执行该过程，记录如下：
+- 从节点 0 开始，访问节点 0 -&gt; 1 -&gt; 2 -&gt; 0 。访问的不同节点数是 3 。
+- 从节点 1 开始，访问节点 1 -&gt; 2 -&gt; 0 -&gt; 1 。访问的不同节点数是 3 。
+- 从节点 2 开始，访问节点 2 -&gt; 0 -&gt; 1 -&gt; 2 。访问的不同节点数是 3 。
+- 从节点 3 开始，访问节点 3 -&gt; 0 -&gt; 1 -&gt; 2 -&gt; 0 。访问的不同节点数是 4 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2876.Count%20Visited%20Nodes%20in%20a%20Directed%20Graph/images/graaph2drawio.png" style="width: 191px; height: 251px;" />
 <pre>
-<strong>Input:</strong> edges = [1,2,3,4,0]
-<strong>Output:</strong> [5,5,5,5,5]
-<strong>Explanation:</strong> Starting from any node we can visit every node in the graph in the process.
+<strong>输入：</strong>edges = [1,2,3,4,0]
+<strong>输出：</strong>[5,5,5,5,5]
+<strong>解释：</strong>无论从哪个节点开始，在这个过程中，都可以访问到图中的每一个节点。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == edges.length</code></li>
@@ -62,20 +67,20 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Basic Tree + Traversal
+### 方法一：基环树 + 遍历搜索
 
-We can use an array $ans$ to record the answer for each node, and an array $vis$ to record the visit order for each node.
+我们可以用一个数组 $ans$ 记录每个节点的答案，用一个数组 $vis$ 记录每个节点的访问次序。
 
-For each node $i$, if it has not been visited yet, we start traversing from node $i$. There are two cases:
+遍历每个节点 $i$，如果当前节点 $i$ 未被访问，我们就从节点 $i$ 开始遍历，此时有两种情况：
 
-- If we encounter a node that has been visited before during the traversal, then we must have first entered the cycle and then walked around the cycle. For nodes outside the cycle, their answer is the length of the cycle plus the distance from the node to the cycle; for nodes inside the cycle, their answer is the length of the cycle.
-- If we encounter a node that has been visited before during the traversal, then for each visited node, its answer is the distance from the current node to this node plus the answer of this node.
+1. 如果遍历过程中，遇到了当前节点出发时走过的节点，那么此次遍历，一定是先走到了环内，然后沿着环走了一圈。对于环外的节点，其答案就是环的长度加上节点到环的距离；对于环内的节点，其答案就是环的长度。
+1. 如果遍历过程中，遇到了此前节点出发时走过的节点，那么对于每个走过的节点，其答案就是当前节点到此节点的距离，加上此节点的答案。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array edges.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $edges$ 的长度。
 
 <!-- tabs:start -->
 
@@ -203,28 +208,28 @@ func countVisitedNodes(edges []int) []int {
 
 ```ts
 function countVisitedNodes(edges: number[]): number[] {
-  const n = edges.length;
-  const ans: number[] = Array(n).fill(0);
-  const vis: number[] = Array(n).fill(0);
-  for (let i = 0; i < n; ++i) {
-    if (ans[i] === 0) {
-      let [cnt, j] = [0, i];
-      while (vis[j] === 0) {
-        vis[j] = ++cnt;
-        j = edges[j];
-      }
-      let [cycle, total] = [0, cnt + ans[j]];
-      if (ans[j] === 0) {
-        cycle = cnt - vis[j] + 1;
-      }
-      j = i;
-      while (ans[j] === 0) {
-        ans[j] = Math.max(total--, cycle);
-        j = edges[j];
-      }
+    const n = edges.length;
+    const ans: number[] = Array(n).fill(0);
+    const vis: number[] = Array(n).fill(0);
+    for (let i = 0; i < n; ++i) {
+        if (ans[i] === 0) {
+            let [cnt, j] = [0, i];
+            while (vis[j] === 0) {
+                vis[j] = ++cnt;
+                j = edges[j];
+            }
+            let [cycle, total] = [0, cnt + ans[j]];
+            if (ans[j] === 0) {
+                cycle = cnt - vis[j] + 1;
+            }
+            j = i;
+            while (ans[j] === 0) {
+                ans[j] = Math.max(total--, cycle);
+                j = edges[j];
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

@@ -1,79 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0130.Surrounded%20Regions/README.md
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Array
-  - Matrix
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [130. Surrounded Regions](https://leetcode.com/problems/surrounded-regions)
+# [130. 被围绕的区域](https://leetcode.cn/problems/surrounded-regions)
 
-## Description
+[English Version](/solution/0100-0199/0130.Surrounded%20Regions/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> matrix <code>board</code> containing <strong>letters</strong> <code>&#39;X&#39;</code> and <code>&#39;O&#39;</code>, <strong>capture regions</strong> that are <strong>surrounded</strong>:</p>
+<p>给你一个 <code>m x n</code> 的矩阵 <code>board</code> ，由若干字符 <code>'X'</code> 和 <code>'O'</code>&nbsp;组成，<strong>捕获</strong> 所有 <strong>被围绕的区域</strong>：</p>
 
 <ul>
-	<li><strong>Connect</strong>: A cell is connected to adjacent cells horizontally or vertically.</li>
-	<li><strong>Region</strong>: To form a region <strong>connect every</strong> <code>&#39;O&#39;</code> cell.</li>
-	<li><strong>Surround</strong>: The region is surrounded with <code>&#39;X&#39;</code> cells if you can <strong>connect the region </strong>with <code>&#39;X&#39;</code> cells and none of the region cells are on the edge of the <code>board</code>.</li>
+	<li><strong>连接：</strong>一个单元格与水平或垂直方向上相邻的单元格连接。</li>
+	<li><strong>区域：连接所有&nbsp;</strong><code>'O'</code>&nbsp;的单元格来形成一个区域。</li>
+	<li><strong>围绕：</strong>如果您可以用&nbsp;<code>'X'</code>&nbsp;单元格 <strong>连接这个区域</strong>，并且区域中没有任何单元格位于&nbsp;<code>board</code> 边缘，则该区域被 <code>'X'</code>&nbsp;单元格围绕。</li>
 </ul>
 
-<p>A <strong>surrounded region is captured</strong> by replacing all <code>&#39;O&#39;</code>s with <code>&#39;X&#39;</code>s in the input matrix <code>board</code>.</p>
+<p>通过 <strong>原地</strong>&nbsp;将输入矩阵中的所有 <code>'O'</code>&nbsp;替换为 <code>'X'</code> 来 <strong>捕获被围绕的区域</strong>。你不需要返回任何值。</p>
 
+<div class="original__bRMd">
+<div>
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">board = [[&quot;X&quot;,&quot;X&quot;,&quot;X&quot;,&quot;X&quot;],[&quot;X&quot;,&quot;O&quot;,&quot;O&quot;,&quot;X&quot;],[&quot;X&quot;,&quot;X&quot;,&quot;O&quot;,&quot;X&quot;],[&quot;X&quot;,&quot;O&quot;,&quot;X&quot;,&quot;X&quot;]]</span></p>
+<p><strong>输入：</strong><span class="example-io">board = [["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[[&quot;X&quot;,&quot;X&quot;,&quot;X&quot;,&quot;X&quot;],[&quot;X&quot;,&quot;X&quot;,&quot;X&quot;,&quot;X&quot;],[&quot;X&quot;,&quot;X&quot;,&quot;X&quot;,&quot;X&quot;],[&quot;X&quot;,&quot;O&quot;,&quot;X&quot;,&quot;X&quot;]]</span></p>
+<p><b>输出：</b><span class="example-io">[["X","X","X","X"],["X","X","X","X"],["X","X","X","X"],["X","O","X","X"]]</span></p>
 
-<p><strong>Explanation:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0130.Surrounded%20Regions/images/xogrid.jpg" style="width: 367px; height: 158px;" />
-<p>In the above diagram, the bottom region is not captured because it is on the edge of the board and cannot be surrounded.</p>
+<p><strong>解释：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0130.Surrounded%20Regions/images/1718167191-XNjUTG-image.png" style="width: 367px; height: 158px;" />
+<p>在上图中，底部的区域没有被捕获，因为它在 board 的边缘并且不能被围绕。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">board = [[&quot;X&quot;]]</span></p>
+<p><strong>输入：</strong><span class="example-io">board = [["X"]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[[&quot;X&quot;]]</span></p>
+<p><strong>输出：</strong><span class="example-io">[["X"]]</span></p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == board.length</code></li>
 	<li><code>n == board[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 200</code></li>
-	<li><code>board[i][j]</code> is <code>&#39;X&#39;</code> or <code>&#39;O&#39;</code>.</li>
+	<li><code>board[i][j]</code> 为 <code>'X'</code> 或 <code>'O'</code></li>
 </ul>
+</div>
+</div>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Depth-First Search (DFS)
+### 方法一：DFS
 
-We can start from the boundary of the matrix, taking each 'O' on the matrix boundary as a starting point, and perform depth-first search. All 'O's found in the search are replaced with '.'.
+我们可以从矩阵的边界开始，将矩阵边界上的每个 `O` 作为起始点，开始进行深度优先搜索。将搜索到的 `O` 全部替换成 `.`。
 
-Then we traverse the matrix again, for each position:
+然后我们再遍历这个矩阵，对于每个位置：
 
-- If it is '.', replace it with 'O';
-- Otherwise, if it is 'O', replace it with 'X'.
+-   如果是 `.`，则替换成 `O`；
+-   否则如果是 `O`，则替换成 `X`。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns in the matrix, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -226,35 +235,35 @@ func solve(board [][]byte) {
 
 ```ts
 function solve(board: string[][]): void {
-  const m = board.length;
-  const n = board[0].length;
-  const dirs: number[] = [-1, 0, 1, 0, -1];
-  const dfs = (i: number, j: number): void => {
-    if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] !== "O") {
-      return;
+    const m = board.length;
+    const n = board[0].length;
+    const dirs: number[] = [-1, 0, 1, 0, -1];
+    const dfs = (i: number, j: number): void => {
+        if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] !== 'O') {
+            return;
+        }
+        board[i][j] = '.';
+        for (let k = 0; k < 4; ++k) {
+            dfs(i + dirs[k], j + dirs[k + 1]);
+        }
+    };
+    for (let i = 0; i < m; ++i) {
+        dfs(i, 0);
+        dfs(i, n - 1);
     }
-    board[i][j] = ".";
-    for (let k = 0; k < 4; ++k) {
-      dfs(i + dirs[k], j + dirs[k + 1]);
-    }
-  };
-  for (let i = 0; i < m; ++i) {
-    dfs(i, 0);
-    dfs(i, n - 1);
-  }
-  for (let j = 0; j < n; ++j) {
-    dfs(0, j);
-    dfs(m - 1, j);
-  }
-  for (let i = 0; i < m; ++i) {
     for (let j = 0; j < n; ++j) {
-      if (board[i][j] === ".") {
-        board[i][j] = "O";
-      } else if (board[i][j] === "O") {
-        board[i][j] = "X";
-      }
+        dfs(0, j);
+        dfs(m - 1, j);
     }
-  }
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (board[i][j] === '.') {
+                board[i][j] = 'O';
+            } else if (board[i][j] === 'O') {
+                board[i][j] = 'X';
+            }
+        }
+    }
 }
 ```
 
@@ -364,13 +373,13 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Union-Find Set
+### 方法二：并查集
 
-We can also use a union-find set, connecting each 'O' on the matrix boundary with a super node $m \times n$, and connecting each 'O' in the matrix with the 'O's above, below, left, and right of it.
+我们也可以使用并查集，将矩阵边界上的每个 `O` 与一个超级节点 $m \times n$ 相连，将矩阵中的每个 `O` 与其上下左右的 `O` 相连。
 
-Then we traverse this matrix, for each position, if it is 'O' and it is not connected to the super node, then we replace it with 'X'.
+然后我们遍历这个矩阵，对于每个位置，如果是 `O`，并且其与超级节点不相连，则将其替换成 `X`。
 
-The time complexity is $O(m \times n \times \alpha(m \times n))$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns in the matrix, respectively, and $\alpha$ is the inverse Ackermann function.
+时间复杂度 $O(m \times n \times \alpha(m \times n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数，$\alpha$ 是阿克曼函数的反函数。
 
 <!-- tabs:start -->
 
@@ -539,41 +548,41 @@ func solve(board [][]byte) {
 
 ```ts
 function solve(board: string[][]): void {
-  const m = board.length;
-  const n = board[0].length;
-  const p: number[] = Array(m * n + 1)
-    .fill(0)
-    .map((_, i) => i);
-  const dirs: number[] = [-1, 0, 1, 0, -1];
-  const find = (x: number): number => {
-    if (p[x] !== x) {
-      p[x] = find(p[x]);
-    }
-    return p[x];
-  };
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (board[i][j] === "O") {
-        if (i === 0 || i === m - 1 || j === 0 || j === n - 1) {
-          p[find(i * n + j)] = find(m * n);
-        } else {
-          for (let k = 0; k < 4; ++k) {
-            const [x, y] = [i + dirs[k], j + dirs[k + 1]];
-            if (board[x][y] === "O") {
-              p[find(x * n + y)] = find(i * n + j);
-            }
-          }
+    const m = board.length;
+    const n = board[0].length;
+    const p: number[] = Array(m * n + 1)
+        .fill(0)
+        .map((_, i) => i);
+    const dirs: number[] = [-1, 0, 1, 0, -1];
+    const find = (x: number): number => {
+        if (p[x] !== x) {
+            p[x] = find(p[x]);
         }
-      }
+        return p[x];
+    };
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (board[i][j] === 'O') {
+                if (i === 0 || i === m - 1 || j === 0 || j === n - 1) {
+                    p[find(i * n + j)] = find(m * n);
+                } else {
+                    for (let k = 0; k < 4; ++k) {
+                        const [x, y] = [i + dirs[k], j + dirs[k + 1]];
+                        if (board[x][y] === 'O') {
+                            p[find(x * n + y)] = find(i * n + j);
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (board[i][j] === "O" && find(i * n + j) !== find(m * n)) {
-        board[i][j] = "X";
-      }
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (board[i][j] === 'O' && find(i * n + j) !== find(m * n)) {
+                board[i][j] = 'X';
+            }
+        }
     }
-  }
 }
 ```
 

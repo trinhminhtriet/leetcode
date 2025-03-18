@@ -1,60 +1,64 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1782.Count%20Pairs%20Of%20Nodes/README.md
 rating: 2457
-source: Biweekly Contest 47 Q4
+source: 第 47 场双周赛 Q4
 tags:
-  - Graph
-  - Array
-  - Two Pointers
-  - Binary Search
-  - Sorting
+    - 图
+    - 数组
+    - 双指针
+    - 二分查找
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1782. Count Pairs Of Nodes](https://leetcode.com/problems/count-pairs-of-nodes)
+# [1782. 统计点对的数目](https://leetcode.cn/problems/count-pairs-of-nodes)
 
-## Description
+[English Version](/solution/1700-1799/1782.Count%20Pairs%20Of%20Nodes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an undirected graph defined by an integer <code>n</code>, the number of nodes, and a 2D integer array <code>edges</code>, the edges in the graph, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> indicates that there is an <strong>undirected</strong> edge between <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code>. You are also given an integer array <code>queries</code>.</p>
+<p>给你一个无向图，无向图由整数&nbsp;<code>n</code>&nbsp;&nbsp;，表示图中节点的数目，和&nbsp;<code>edges</code>&nbsp;组成，其中&nbsp;<code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code>&nbsp;表示&nbsp;<code>u<sub>i</sub></code> 和&nbsp;<code>v<sub>i</sub></code><sub>&nbsp;</sub>之间有一条无向边。同时给你一个代表查询的整数数组&nbsp;<code>queries</code>&nbsp;。</p>
 
-<p>Let <code>incident(a, b)</code> be defined as the <strong>number of edges</strong> that are connected to <strong>either</strong> node <code>a</code> or <code>b</code>.</p>
-
-<p>The answer to the <code>j<sup>th</sup></code> query is the <strong>number of pairs</strong> of nodes <code>(a, b)</code> that satisfy <strong>both</strong> of the following conditions:</p>
+<p>第 <code>j</code> 个查询的答案是满足如下条件的点对 <code>(a, b)</code> 的数目：</p>
 
 <ul>
 	<li><code>a &lt; b</code></li>
-	<li><code>incident(a, b) &gt; queries[j]</code></li>
+	<li><code>cnt</code>&nbsp;是与 <code>a</code>&nbsp;<strong>或者&nbsp;</strong><code>b</code>&nbsp;相连的边的数目，且 <code>cnt</code>&nbsp;<strong>严格大于&nbsp;</strong><code>queries[j]</code>&nbsp;。</li>
 </ul>
 
-<p>Return <em>an array </em><code>answers</code><em> such that </em><code>answers.length == queries.length</code><em> and </em><code>answers[j]</code><em> is the answer of the </em><code>j<sup>th</sup></code><em> query</em>.</p>
+<p>请你返回一个数组&nbsp;<code>answers</code>&nbsp;，其中&nbsp;<code>answers.length == queries.length</code> 且&nbsp;<code>answers[j]</code>&nbsp;是第 <code>j</code>&nbsp;个查询的答案。</p>
 
-<p>Note that there can be <strong>multiple edges</strong> between the same two nodes.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1782.Count%20Pairs%20Of%20Nodes/images/winword_2021-06-08_00-58-39.png" style="width: 529px; height: 305px;" />
-<pre>
-<strong>Input:</strong> n = 4, edges = [[1,2],[2,4],[1,3],[2,3],[2,1]], queries = [2,3]
-<strong>Output:</strong> [6,5]
-<strong>Explanation:</strong> The calculations for incident(a, b) are shown in the table above.
-The answers for each of the queries are as follows:
-- answers[0] = 6. All the pairs have an incident(a, b) value greater than 2.
-- answers[1] = 5. All the pairs except (3, 4) have an incident(a, b) value greater than 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 5, edges = [[1,5],[1,5],[3,4],[2,5],[1,3],[5,1],[2,3],[2,5]], queries = [1,2,3,4,5]
-<strong>Output:</strong> [10,10,9,8,6]
-</pre>
+<p>请注意，图中可能会有 <strong>多重边</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1782.Count%20Pairs%20Of%20Nodes/images/1692844033-Kvxjvr-image.png" style="width: 600px; height: 338px;" /></p>
+
+<pre>
+<b>输入：</b>n = 4, edges = [[1,2],[2,4],[1,3],[2,3],[2,1]], queries = [2,3]
+<b>输出：</b>[6,5]
+<b>解释：</b>每个点对中，与至少一个点相连的边的数目如上图所示。
+answers[0] = 6。所有的点对(a, b)中边数和都大于2，故有6个；
+answers[1] = 5。所有的点对(a, b)中除了(3,4)边数等于3，其它点对边数和都大于3，故有5个。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>n = 5, edges = [[1,5],[1,5],[3,4],[2,5],[1,3],[5,1],[2,3],[2,5]], queries = [1,2,3,4,5]
+<b>输出：</b>[10,10,9,8,6]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 2 * 10<sup>4</sup></code></li>
@@ -67,19 +71,19 @@ The answers for each of the queries are as follows:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Sorting + Binary Search
+### 方法一：哈希表 + 排序 + 二分查找
 
-From the problem, we know that the number of edges connected to the point pair $(a, b)$ is equal to the "number of edges connected to $a$" plus the "number of edges connected to $b$", minus the number of edges connected to both $a$ and $b$.
+根据题目，我们可以知道，与点对 $(a, b)$ 相连的边数等于“与 $a$ 相连的边数”加上“与 $b$ 相连的边数”，再减去同时与 $a$ 和 $b$ 相连的边数。
 
-Therefore, we can first use the array $cnt$ to count the number of edges connected to each point, and use the hash table $g$ to count the number of each point pair.
+因此，我们可以先用数组 $cnt$ 统计与每个点相连的边数，用哈希表 $g$ 统计每个点对的数量。
 
-Then, for each query $q$, we can enumerate $a$. For each $a$, we can find the first $b$ that satisfies $cnt[a] + cnt[b] > q$ through binary search, add the number to the current query answer, and then subtract some duplicate edges.
+然后，对于每个查询 $q$，我们可以枚举 $a$，对于每个 $a$，我们可以通过二分查找找到第一个满足 $cnt[a] + cnt[b] > q$ 的 $b$，先将数量累加到当前查询的答案中，然后减去一部分重复的边。
 
-The time complexity is $O(q \times (n \times \log n + m))$, and the space complexity is $O(n + m)$. Where $n$ and $m$ are the number of points and edges respectively, and $q$ is the number of queries.
+时间复杂度 $O(q \times (n \times \log n + m))$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是点数和边数，而 $q$ 是查询数。
 
 <!-- tabs:start -->
 
@@ -237,44 +241,44 @@ func countPairs(n int, edges [][]int, queries []int) []int {
 
 ```ts
 function countPairs(n: number, edges: number[][], queries: number[]): number[] {
-  const cnt: number[] = new Array(n).fill(0);
-  const g: Map<number, number> = new Map();
-  for (const [a, b] of edges) {
-    ++cnt[a - 1];
-    ++cnt[b - 1];
-    const k = Math.min(a - 1, b - 1) * n + Math.max(a - 1, b - 1);
-    g.set(k, (g.get(k) || 0) + 1);
-  }
-  const s = cnt.slice().sort((a, b) => a - b);
-  const search = (nums: number[], x: number, l: number): number => {
-    let r = nums.length;
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (nums[mid] > x) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
+    const cnt: number[] = new Array(n).fill(0);
+    const g: Map<number, number> = new Map();
+    for (const [a, b] of edges) {
+        ++cnt[a - 1];
+        ++cnt[b - 1];
+        const k = Math.min(a - 1, b - 1) * n + Math.max(a - 1, b - 1);
+        g.set(k, (g.get(k) || 0) + 1);
     }
-    return l;
-  };
-  const ans: number[] = [];
-  for (const t of queries) {
-    let res = 0;
-    for (let j = 0; j < s.length; ++j) {
-      const k = search(s, t - s[j], j + 1);
-      res += n - k;
+    const s = cnt.slice().sort((a, b) => a - b);
+    const search = (nums: number[], x: number, l: number): number => {
+        let r = nums.length;
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (nums[mid] > x) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l;
+    };
+    const ans: number[] = [];
+    for (const t of queries) {
+        let res = 0;
+        for (let j = 0; j < s.length; ++j) {
+            const k = search(s, t - s[j], j + 1);
+            res += n - k;
+        }
+        for (const [k, v] of g) {
+            const a = Math.floor(k / n);
+            const b = k % n;
+            if (cnt[a] + cnt[b] > t && cnt[a] + cnt[b] - v <= t) {
+                --res;
+            }
+        }
+        ans.push(res);
     }
-    for (const [k, v] of g) {
-      const a = Math.floor(k / n);
-      const b = k % n;
-      if (cnt[a] + cnt[b] > t && cnt[a] + cnt[b] - v <= t) {
-        --res;
-      }
-    }
-    ans.push(res);
-  }
-  return ans;
+    return ans;
 }
 ```
 

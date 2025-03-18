@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0028.Find%20the%20Index%20of%20the%20First%20Occurrence%20in%20a%20String/README.md
 tags:
-  - Two Pointers
-  - String
-  - String Matching
+    - 双指针
+    - 字符串
+    - 字符串匹配
 ---
 
 <!-- problem:start -->
 
-# [28. Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string)
+# [28. 找出字符串中第一个匹配项的下标](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string)
 
-## Description
+[English Version](/solution/0000-0099/0028.Find%20the%20Index%20of%20the%20First%20Occurrence%20in%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two strings <code>needle</code> and <code>haystack</code>, return the index of the first occurrence of <code>needle</code> in <code>haystack</code>, or <code>-1</code> if <code>needle</code> is not part of <code>haystack</code>.</p>
+<p>给你两个字符串&nbsp;<code>haystack</code> 和 <code>needle</code> ，请你在 <code>haystack</code> 字符串中找出 <code>needle</code> 字符串的第一个匹配项的下标（下标从 0 开始）。如果&nbsp;<code>needle</code> 不是 <code>haystack</code> 的一部分，则返回&nbsp; <code>-1</code><strong> </strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> haystack = &quot;sadbutsad&quot;, needle = &quot;sad&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> &quot;sad&quot; occurs at index 0 and 6.
-The first occurrence is at index 0, so we return 0.
+<strong>输入：</strong>haystack = "sadbutsad", needle = "sad"
+<strong>输出：</strong>0
+<strong>解释：</strong>"sad" 在下标 0 和 6 处匹配。
+第一个匹配项的下标是 0 ，所以返回 0 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> haystack = &quot;leetcode&quot;, needle = &quot;leeto&quot;
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> &quot;leeto&quot; did not occur in &quot;leetcode&quot;, so we return -1.
+<strong>输入：</strong>haystack = "leetcode", needle = "leeto"
+<strong>输出：</strong>-1
+<strong>解释：</strong>"leeto" 没有在 "leetcode" 中出现，所以返回 -1 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= haystack.length, needle.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>haystack</code> and <code>needle</code> consist of only lowercase English characters.</li>
+	<li><code>haystack</code> 和 <code>needle</code> 仅由小写英文字符组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal
+### 方法一：遍历
 
-We compare the string `needle` with each character of the string `haystack` as the starting point. If we find a matching index, we return it directly.
+以字符串 `haystack` 的每一个字符为起点与字符串 `needle` 进行比较，若发现能够匹配的索引，直接返回即可。
 
-Assuming the length of the string `haystack` is $n$ and the length of the string `needle` is $m$, the time complexity is $O((n-m) \times m)$, and the space complexity is $O(1)$.
+假设字符串 `haystack` 长度为 $n$，字符串 `needle` 长度为 $m$，则时间复杂度为 $O((n-m) \times m)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -174,21 +179,21 @@ func strStr(haystack string, needle string) int {
 
 ```ts
 function strStr(haystack: string, needle: string): number {
-  const m = haystack.length;
-  const n = needle.length;
-  for (let i = 0; i <= m - n; i++) {
-    let isEqual = true;
-    for (let j = 0; j < n; j++) {
-      if (haystack[i + j] !== needle[j]) {
-        isEqual = false;
-        break;
-      }
+    const m = haystack.length;
+    const n = needle.length;
+    for (let i = 0; i <= m - n; i++) {
+        let isEqual = true;
+        for (let j = 0; j < n; j++) {
+            if (haystack[i + j] !== needle[j]) {
+                isEqual = false;
+                break;
+            }
+        }
+        if (isEqual) {
+            return i;
+        }
     }
-    if (isEqual) {
-      return i;
-    }
-  }
-  return -1;
+    return -1;
 }
 ```
 
@@ -238,21 +243,21 @@ impl Solution {
  * @return {number}
  */
 var strStr = function (haystack, needle) {
-  const slen = haystack.length;
-  const plen = needle.length;
-  if (slen == plen) {
-    return haystack == needle ? 0 : -1;
-  }
-  for (let i = 0; i <= slen - plen; i++) {
-    let j;
-    for (j = 0; j < plen; j++) {
-      if (haystack[i + j] != needle[j]) {
-        break;
-      }
+    const slen = haystack.length;
+    const plen = needle.length;
+    if (slen == plen) {
+        return haystack == needle ? 0 : -1;
     }
-    if (j == plen) return i;
-  }
-  return -1;
+    for (let i = 0; i <= slen - plen; i++) {
+        let j;
+        for (j = 0; j < plen; j++) {
+            if (haystack[i + j] != needle[j]) {
+                break;
+            }
+        }
+        if (j == plen) return i;
+    }
+    return -1;
 };
 ```
 
@@ -306,11 +311,11 @@ class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Rabin-Karp String Matching Algorithm
+### 方法二：Rabin-Karp 字符串匹配算法
 
-The [Rabin-Karp algorithm](https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm) essentially uses a sliding window combined with a hash function to compare the hashes of fixed-length strings, which can reduce the time complexity of comparing whether two strings are the same to $O(1)$.
+[Rabin-Karp 算法](https://zh.wikipedia.org/zh-hans/%E6%8B%89%E5%AE%BE-%E5%8D%A1%E6%99%AE%E7%AE%97%E6%B3%95)本质上是利用滑动窗口配合哈希函数对固定长度的字符串哈希之后进行比较，可以将比较两个字符串是否相同的时间复杂度降为 $O(1)$。
 
-Assuming the length of the string `haystack` is $n$ and the length of the string `needle` is $m$, the time complexity is $O(n+m)$, and the space complexity is $O(1)$.
+假设字符串 `haystack` 长度为 $n$，字符串 `needle` 长度为 $m$，则时间复杂度为 $O(n+m)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -350,32 +355,32 @@ func strStr(haystack string, needle string) int {
 
 ```ts
 function strStr(haystack: string, needle: string): number {
-  const m = haystack.length;
-  const n = needle.length;
-  const next = new Array(n).fill(0);
-  let j = 0;
-  for (let i = 1; i < n; i++) {
-    while (j > 0 && needle[i] !== needle[j]) {
-      j = next[j - 1];
+    const m = haystack.length;
+    const n = needle.length;
+    const next = new Array(n).fill(0);
+    let j = 0;
+    for (let i = 1; i < n; i++) {
+        while (j > 0 && needle[i] !== needle[j]) {
+            j = next[j - 1];
+        }
+        if (needle[i] === needle[j]) {
+            j++;
+        }
+        next[i] = j;
     }
-    if (needle[i] === needle[j]) {
-      j++;
+    j = 0;
+    for (let i = 0; i < m; i++) {
+        while (j > 0 && haystack[i] !== needle[j]) {
+            j = next[j - 1];
+        }
+        if (haystack[i] === needle[j]) {
+            j++;
+        }
+        if (j === n) {
+            return i - n + 1;
+        }
     }
-    next[i] = j;
-  }
-  j = 0;
-  for (let i = 0; i < m; i++) {
-    while (j > 0 && haystack[i] !== needle[j]) {
-      j = next[j - 1];
-    }
-    if (haystack[i] === needle[j]) {
-      j++;
-    }
-    if (j === n) {
-      return i - n + 1;
-    }
-  }
-  return -1;
+    return -1;
 }
 ```
 
@@ -385,9 +390,9 @@ function strStr(haystack: string, needle: string): number {
 
 <!-- solution:start -->
 
-### Solution 3: KMP String Matching Algorithm
+### 方法三：KMP 字符串匹配算法
 
-Assuming the length of the string `haystack` is $n$ and the length of the string `needle` is $m$, the time complexity is $O(n+m)$, and the space complexity is $O(m)$.
+假设字符串 `haystack` 长度为 $n$，字符串 `needle` 长度为 $m$，则时间复杂度为 $O(n+m)$，空间复杂度 $O(m)$。
 
 <!-- solution:end -->
 

@@ -1,50 +1,54 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1464.Maximum%20Product%20of%20Two%20Elements%20in%20an%20Array/README.md
 rating: 1121
-source: Weekly Contest 191 Q1
+source: 第 191 场周赛 Q1
 tags:
-  - Array
-  - Sorting
-  - Heap (Priority Queue)
+    - 数组
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1464. Maximum Product of Two Elements in an Array](https://leetcode.com/problems/maximum-product-of-two-elements-in-an-array)
+# [1464. 数组中两元素的最大乘积](https://leetcode.cn/problems/maximum-product-of-two-elements-in-an-array)
 
-## Description
+[English Version](/solution/1400-1499/1464.Maximum%20Product%20of%20Two%20Elements%20in%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-Given the array of integers <code>nums</code>, you will choose two different indices <code>i</code> and <code>j</code> of that array. <em>Return the maximum value of</em> <code>(nums[i]-1)\*(nums[j]-1)</code>.
+<p>给你一个整数数组 <code>nums</code>，请你选择数组的两个不同下标 <code>i</code> 和 <code>j</code><em>，</em>使 <code>(nums[i]-1)*(nums[j]-1)</code> 取得最大值。</p>
+
+<p>请你计算并返回该式的最大值。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [3,4,5,2]
-<strong>Output:</strong> 12 
-<strong>Explanation:</strong> If you choose the indices i=1 and j=2 (indexed from 0), you will get the maximum value, that is, (nums[1]-1)*(nums[2]-1) = (4-1)*(5-1) = 3*4 = 12. 
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [3,4,5,2]
+<strong>输出：</strong>12 
+<strong>解释：</strong>如果选择下标 i=1 和 j=2（下标从 0 开始），则可以获得最大值，(nums[1]-1)*(nums[2]-1) = (4-1)*(5-1) = 3*4 = 12 。 
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,5,4,5]
-<strong>Output:</strong> 16
-<strong>Explanation:</strong> Choosing the indices i=1 and j=3 (indexed from 0), you will get the maximum value of (5-1)*(5-1) = 16.
+<pre><strong>输入：</strong>nums = [1,5,4,5]
+<strong>输出：</strong>16
+<strong>解释：</strong>选择下标 i=1 和 j=3（下标从 0 开始），则可以获得最大值 (5-1)*(5-1) = 16 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [3,7]
-<strong>Output:</strong> 12
+<pre><strong>输入：</strong>nums = [3,7]
+<strong>输出：</strong>12
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 500</code></li>
@@ -53,11 +57,15 @@ Given the array of integers <code>nums</code>, you will choose two different ind
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：暴力枚举
+
+双重循环，枚举所有的下标对，求出 $(nums[i]-1) \times (nums[j]-1)$ 的最大值。其中 $i \neq j$。
+
+时间复杂度 $O(n^2)$。
 
 <!-- tabs:start -->
 
@@ -129,17 +137,17 @@ func maxProduct(nums []int) int {
 
 ```ts
 function maxProduct(nums: number[]): number {
-  const n = nums.length;
-  for (let i = 0; i < 2; i++) {
-    let maxIdx = i;
-    for (let j = i + 1; j < n; j++) {
-      if (nums[j] > nums[maxIdx]) {
-        maxIdx = j;
-      }
+    const n = nums.length;
+    for (let i = 0; i < 2; i++) {
+        let maxIdx = i;
+        for (let j = i + 1; j < n; j++) {
+            if (nums[j] > nums[maxIdx]) {
+                maxIdx = j;
+            }
+        }
+        [nums[i], nums[maxIdx]] = [nums[maxIdx], nums[i]];
     }
-    [nums[i], nums[maxIdx]] = [nums[maxIdx], nums[i]];
-  }
-  return (nums[0] - 1) * (nums[1] - 1);
+    return (nums[0] - 1) * (nums[1] - 1);
 }
 ```
 
@@ -212,7 +220,11 @@ int maxProduct(int* nums, int numsSize) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：排序
+
+对 $nums$ 进行排序，取最后两个元素，计算乘积 $(nums[n-1]-1) \times (nums[n-2]-1)$ 即可。
+
+时间复杂度 $O(nlogn)$。
 
 <!-- tabs:start -->
 
@@ -263,17 +275,17 @@ func maxProduct(nums []int) int {
 
 ```ts
 function maxProduct(nums: number[]): number {
-  let max = 0;
-  let submax = 0;
-  for (const num of nums) {
-    if (num > max) {
-      submax = max;
-      max = num;
-    } else if (num > submax) {
-      submax = num;
+    let max = 0;
+    let submax = 0;
+    for (const num of nums) {
+        if (num > max) {
+            submax = max;
+            max = num;
+        } else if (num > submax) {
+            submax = num;
+        }
     }
-  }
-  return (max - 1) * (submax - 1);
+    return (max - 1) * (submax - 1);
 }
 ```
 
@@ -283,7 +295,9 @@ function maxProduct(nums: number[]): number {
 
 <!-- solution:start -->
 
-### Solution 3
+### 方法三：一次遍历
+
+遍历 $nums$，维护最大值 $a$ 和次大值 $b$。遍历结束，返回 $(a-1) \times (b-1)$。
 
 <!-- tabs:start -->
 

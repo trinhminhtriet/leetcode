@@ -1,55 +1,66 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0215.Kth%20Largest%20Element%20in%20an%20Array/README.md
 tags:
-  - Array
-  - Divide and Conquer
-  - Quickselect
-  - Sorting
-  - Heap (Priority Queue)
+    - 数组
+    - 分治
+    - 快速选择
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [215. Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array)
+# [215. 数组中的第K个最大元素](https://leetcode.cn/problems/kth-largest-element-in-an-array)
 
-## Description
+[English Version](/solution/0200-0299/0215.Kth%20Largest%20Element%20in%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the</em> <code>k<sup>th</sup></code> <em>largest element in the array</em>.</p>
+<p>给定整数数组 <code>nums</code> 和整数 <code>k</code>，请返回数组中第 <code><strong>k</strong></code> 个最大的元素。</p>
 
-<p>Note that it is the <code>k<sup>th</sup></code> largest element in the sorted order, not the <code>k<sup>th</sup></code> distinct element.</p>
+<p>请注意，你需要找的是数组排序后的第 <code>k</code> 个最大的元素，而不是第 <code>k</code> 个不同的元素。</p>
 
-<p>Can you solve it without sorting?</p>
+<p>你必须设计并实现时间复杂度为 <code>O(n)</code> 的算法解决此问题。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> nums = [3,2,1,5,6,4], k = 2
-<strong>Output:</strong> 5
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> nums = [3,2,3,1,2,4,5,5,6], k = 4
-<strong>Output:</strong> 4
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> <code>[3,2,1,5,6,4],</code> k = 2
+<strong>输出:</strong> 5
 </pre>
+
+<p><strong>示例&nbsp;2:</strong></p>
+
+<pre>
+<strong>输入:</strong> <code>[3,2,3,1,2,4,5,5,6], </code>k = 4
+<strong>输出:</strong> 4</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示： </strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>4</sup>&nbsp;&lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Quick Select
+### 方法一：快速选择
 
-Quick Select is an algorithm for finding the $k^{th}$ largest or smallest element in an unsorted array. Its basic idea is to select a pivot element each time, dividing the array into two parts: one part contains elements smaller than the pivot, and the other part contains elements larger than the pivot. Then, based on the position of the pivot, it decides whether to continue the search on the left or right side until the $k^{th}$ largest element is found.
+快速选择算法是一种在未排序的数组中查找第 `k` 个最大元素或最小元素的算法。它的基本思想是每次选择一个基准元素，将数组分为两部分，一部分的元素都比基准元素小，另一部分的元素都比基准元素大，然后根据基准元素的位置，决定继续在左边还是右边查找，直到找到第 `k` 个最大元素。
 
-The time complexity is $O(n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{nums}$.
+时间复杂度 $O(n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -196,27 +207,27 @@ func findKthLargest(nums []int, k int) int {
 
 ```ts
 function findKthLargest(nums: number[], k: number): number {
-  const n = nums.length;
-  k = n - k;
-  const quickSort = (l: number, r: number): number => {
-    if (l === r) {
-      return nums[l];
-    }
-    let [i, j] = [l - 1, r + 1];
-    const x = nums[(l + r) >> 1];
-    while (i < j) {
-      while (nums[++i] < x);
-      while (nums[--j] > x);
-      if (i < j) {
-        [nums[i], nums[j]] = [nums[j], nums[i]];
-      }
-    }
-    if (j < k) {
-      return quickSort(j + 1, r);
-    }
-    return quickSort(l, j);
-  };
-  return quickSort(0, n - 1);
+    const n = nums.length;
+    k = n - k;
+    const quickSort = (l: number, r: number): number => {
+        if (l === r) {
+            return nums[l];
+        }
+        let [i, j] = [l - 1, r + 1];
+        const x = nums[(l + r) >> 1];
+        while (i < j) {
+            while (nums[++i] < x);
+            while (nums[--j] > x);
+            if (i < j) {
+                [nums[i], nums[j]] = [nums[j], nums[i]];
+            }
+        }
+        if (j < k) {
+            return quickSort(j + 1, r);
+        }
+        return quickSort(l, j);
+    };
+    return quickSort(0, n - 1);
 }
 ```
 
@@ -270,11 +281,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Priority Queue (Min Heap)
+### 方法二：优先队列（小根堆）
 
-We can maintain a min heap $\textit{minQ}$ of size $k$, and then iterate through the array $\textit{nums}$, adding each element to the min heap. When the size of the min heap exceeds $k$, we pop the top element of the heap. This way, the final $k$ elements in the min heap are the $k$ largest elements in the array, and the top element of the heap is the $k^{th}$ largest element.
+我们可以维护一个大小为 $k$ 的小根堆 $\textit{minQ}$，然后遍历数组 $\textit{nums}$，将数组中的元素依次加入到小根堆中，当小根堆的大小超过 $k$ 时，我们将堆顶元素弹出，这样最终小根堆中的 $k$ 个元素就是数组中的 $k$ 个最大元素，堆顶元素就是第 $k$ 个最大元素。
 
-The time complexity is $O(n\log k)$, and the space complexity is $O(k)$. Here, $n$ is the length of the array $\textit{nums}$.
+时间复杂度 $O(n\log k)$，空间复杂度 $O(k)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -351,14 +362,14 @@ func (h *hp) Pop() any {
 
 ```ts
 function findKthLargest(nums: number[], k: number): number {
-  const minQ = new MinPriorityQueue();
-  for (const x of nums) {
-    minQ.enqueue(x);
-    if (minQ.size() > k) {
-      minQ.dequeue();
+    const minQ = new MinPriorityQueue();
+    for (const x of nums) {
+        minQ.enqueue(x);
+        if (minQ.size() > k) {
+            minQ.dequeue();
+        }
     }
-  }
-  return minQ.front().element;
+    return minQ.front().element;
 }
 ```
 
@@ -387,11 +398,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 3: Counting Sort
+### 方法三：计数排序
 
-We can use the idea of counting sort, counting the occurrence of each element in the array $\textit{nums}$ and recording it in a hash table $\textit{cnt}$. Then, we iterate over the elements $i$ from largest to smallest, subtracting the occurrence count $\textit{cnt}[i]$ each time, until $k$ is less than or equal to $0$. At this point, the element $i$ is the $k^{th}$ largest element in the array.
+我们可以使用计数排序的思想，统计数组 $\textit{nums}$ 中每个元素出现的次数，记录在哈希表 $\textit{cnt}$ 中，然后从大到小遍历元素 $i$，每次减去出现的次数 $\textit{cnt}[i]$，直到 $k$ 小于等于 $0$，此时的元素 $i$ 就是数组中的第 $k$ 个最大元素。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$, and $m$ is the maximum value among the elements in $\textit{nums}$.
+时间复杂度 $O(n + m)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度，而 $m$ 为数组 $\textit{nums}$ 中元素的最大值。
 
 <!-- tabs:start -->
 
@@ -474,17 +485,17 @@ func findKthLargest(nums []int, k int) int {
 
 ```ts
 function findKthLargest(nums: number[], k: number): number {
-  const cnt: Record<number, number> = {};
-  for (const x of nums) {
-    cnt[x] = (cnt[x] || 0) + 1;
-  }
-  const m = Math.max(...nums);
-  for (let i = m; ; --i) {
-    k -= cnt[i] || 0;
-    if (k <= 0) {
-      return i;
+    const cnt: Record<number, number> = {};
+    for (const x of nums) {
+        cnt[x] = (cnt[x] || 0) + 1;
     }
-  }
+    const m = Math.max(...nums);
+    for (let i = m; ; --i) {
+        k -= cnt[i] || 0;
+        if (k <= 0) {
+            return i;
+        }
+    }
 }
 ```
 

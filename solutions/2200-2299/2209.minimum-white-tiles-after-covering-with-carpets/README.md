@@ -1,83 +1,91 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2209.Minimum%20White%20Tiles%20After%20Covering%20With%20Carpets/README.md
 rating: 2105
-source: Biweekly Contest 74 Q4
+source: 第 74 场双周赛 Q4
 tags:
-  - String
-  - Dynamic Programming
-  - Prefix Sum
+    - 字符串
+    - 动态规划
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2209. Minimum White Tiles After Covering With Carpets](https://leetcode.com/problems/minimum-white-tiles-after-covering-with-carpets)
+# [2209. 用地毯覆盖后的最少白色砖块](https://leetcode.cn/problems/minimum-white-tiles-after-covering-with-carpets)
 
-## Description
+[English Version](/solution/2200-2299/2209.Minimum%20White%20Tiles%20After%20Covering%20With%20Carpets/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed binary</strong> string <code>floor</code>, which represents the colors of tiles on a floor:</p>
+<p>给你一个下标从<strong>&nbsp;0</strong>&nbsp;开始的 <strong>二进制</strong>&nbsp;字符串&nbsp;<code>floor</code>&nbsp;，它表示地板上砖块的颜色。</p>
 
 <ul>
-	<li><code>floor[i] = &#39;0&#39;</code> denotes that the <code>i<sup>th</sup></code> tile of the floor is colored <strong>black</strong>.</li>
-	<li>On the other hand, <code>floor[i] = &#39;1&#39;</code> denotes that the <code>i<sup>th</sup></code> tile of the floor is colored <strong>white</strong>.</li>
+	<li><code>floor[i] = '0'</code>&nbsp;表示地板上第&nbsp;<code>i</code>&nbsp;块砖块的颜色是 <strong>黑色</strong>&nbsp;。</li>
+	<li><code>floor[i] = '1'</code>&nbsp;表示地板上第&nbsp;<code>i</code>&nbsp;块砖块的颜色是 <strong>白色</strong>&nbsp;。</li>
 </ul>
 
-<p>You are also given <code>numCarpets</code> and <code>carpetLen</code>. You have <code>numCarpets</code> <strong>black</strong> carpets, each of length <code>carpetLen</code> tiles. Cover the tiles with the given carpets such that the number of <strong>white</strong> tiles still visible is <strong>minimum</strong>. Carpets may overlap one another.</p>
+<p>同时给你&nbsp;<code>numCarpets</code> 和&nbsp;<code>carpetLen</code>&nbsp;。你有&nbsp;<code>numCarpets</code>&nbsp;条&nbsp;<strong>黑色</strong>&nbsp;的地毯，每一条&nbsp;<strong>黑色</strong>&nbsp;的地毯长度都为&nbsp;<code>carpetLen</code>&nbsp;块砖块。请你使用这些地毯去覆盖砖块，使得未被覆盖的剩余 <strong>白色</strong>&nbsp;砖块的数目 <strong>最小</strong>&nbsp;。地毯相互之间可以覆盖。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of white tiles still visible.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2209.Minimum%20White%20Tiles%20After%20Covering%20With%20Carpets/images/ex1-1.png" style="width: 400px; height: 73px;" />
-<pre>
-<strong>Input:</strong> floor = &quot;10110101&quot;, numCarpets = 2, carpetLen = 2
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> 
-The figure above shows one way of covering the tiles with the carpets such that only 2 white tiles are visible.
-No other way of covering the tiles with the carpets can leave less than 2 white tiles visible.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2209.Minimum%20White%20Tiles%20After%20Covering%20With%20Carpets/images/ex2.png" style="width: 353px; height: 123px;" />
-<pre>
-<strong>Input:</strong> floor = &quot;11111&quot;, numCarpets = 2, carpetLen = 3
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> 
-The figure above shows one way of covering the tiles with the carpets such that no white tiles are visible.
-Note that the carpets are able to overlap one another.
-</pre>
+<p>请你返回没被覆盖的白色砖块的 <strong>最少</strong>&nbsp;数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2209.Minimum%20White%20Tiles%20After%20Covering%20With%20Carpets/images/ex1-1.png" style="width: 400px; height: 73px;"></p>
+
+<pre><b>输入：</b>floor = "10110101", numCarpets = 2, carpetLen = 2
+<b>输出：</b>2
+<b>解释：</b>
+上图展示了剩余 2 块白色砖块的方案。
+没有其他方案可以使未被覆盖的白色砖块少于 2 块。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2209.Minimum%20White%20Tiles%20After%20Covering%20With%20Carpets/images/ex2.png" style="width: 353px; height: 123px;"></p>
+
+<pre><b>输入：</b>floor = "11111", numCarpets = 2, carpetLen = 3
+<b>输出：</b>0
+<b>解释：</b>
+上图展示了所有白色砖块都被覆盖的一种方案。
+注意，地毯相互之间可以覆盖。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= carpetLen &lt;= floor.length &lt;= 1000</code></li>
-	<li><code>floor[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>floor[i]</code> 要么是&nbsp;<code>'0'</code>&nbsp;，要么是&nbsp;<code>'1'</code>&nbsp;。</li>
 	<li><code>1 &lt;= numCarpets &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-Design a function $dfs(i, j)$ to represent the minimum number of white bricks that are not covered starting from index $i$ using $j$ carpets. The answer is $dfs(0, numCarpets)$.
+我们设计一个函数 $\textit{dfs}(i, j)$ 表示从下标 $i$ 开始，使用 $j$ 条地毯，最少有多少个白色砖块没有被覆盖。答案即为 $\textit{dfs}(0, \textit{numCarpets})$。
 
-For index $i$, we discuss different cases:
+对于下标 $i$，我们分情况讨论：
 
-- If $i \ge n$, it means that all bricks have been covered, return $0$;
-- If $floor[i] = 0$, there is no need to use a carpet, just skip it, that is, $dfs(i, j) = dfs(i + 1, j)$;
-- If $j = 0$, we can directly calculate the number of remaining white bricks that have not been covered using the prefix sum array $s$, that is, $dfs(i, j) = s[n] - s[i]$;
-- If $floor[i] = 1$, we can choose to use a carpet to cover it, or choose not to use a carpet to cover it, and take the minimum of the two, that is, $dfs(i, j) = min(dfs(i + 1, j), dfs(i + carpetLen, j - 1))$.
+-   如果 $i \ge n$，说明已经覆盖完所有砖块，返回 $0$；
+-   如果 $\textit{floor}[i] = 0$，则不需要使用地毯，直接跳过即可，即 $\textit{dfs}(i, j) = \textit{dfs}(i + 1, j)$；
+-   如果 $j = 0$，那么我们可以直接利用前缀和数组 $s$ 计算出剩余未被覆盖的白色砖块的数目，即 $\textit{dfs}(i, j) = s[n] - s[i]$；
+-   如果 $\textit{floor}[i] = 1$，那么我们可以选择使用地毯覆盖，也可以选择不使用地毯覆盖，取两者的最小值即可，即 $\textit{dfs}(i, j) = \min(\textit{dfs}(i + 1,
+    j), \textit{dfs}(i + \textit{carpetLen}, j - 1))$。
 
-Use memoization search.
+记忆化搜索即可。
 
-The time complexity is $O(n\times m)$, and the space complexity is $O(n\times m)$. Where $n$ and $m$ are the lengths of the string $floor$ and the value of $numCarpets$ respectively.
+时间复杂度 $O(n\times m)$，空间复杂度 $O(n\times m)$。其中 $n$ 和 $m$ 分别为字符串 $\textit{floor}$ 的长度和 $\textit{numCarpets}$ 的值。
 
 <!-- tabs:start -->
 
@@ -87,10 +95,10 @@ The time complexity is $O(n\times m)$, and the space complexity is $O(n\times m)
 class Solution:
     def minimumWhiteTiles(self, floor: str, numCarpets: int, carpetLen: int) -> int:
         @cache
-        def dfs(i, j):
+        def dfs(i: int, j: int) -> int:
             if i >= n:
                 return 0
-            if floor[i] == '0':
+            if floor[i] == "0":
                 return dfs(i + 1, j)
             if j == 0:
                 return s[-1] - s[i]
@@ -99,7 +107,7 @@ class Solution:
         n = len(floor)
         s = [0] * (n + 1)
         for i, c in enumerate(floor):
-            s[i + 1] = s[i] + int(c == '1')
+            s[i + 1] = s[i] + int(c == "1")
         ans = dfs(0, numCarpets)
         dfs.cache_clear()
         return ans
@@ -109,17 +117,14 @@ class Solution:
 
 ```java
 class Solution {
-    private int[][] f;
+    private Integer[][] f;
     private int[] s;
     private int n;
     private int k;
 
     public int minimumWhiteTiles(String floor, int numCarpets, int carpetLen) {
         n = floor.length();
-        f = new int[n][numCarpets + 1];
-        for (var e : f) {
-            Arrays.fill(e, -1);
-        }
+        f = new Integer[n][numCarpets + 1];
         s = new int[n + 1];
         for (int i = 0; i < n; ++i) {
             s[i + 1] = s[i] + (floor.charAt(i) == '1' ? 1 : 0);
@@ -135,7 +140,7 @@ class Solution {
         if (j == 0) {
             return s[n] - s[i];
         }
-        if (f[i][j] != -1) {
+        if (f[i][j] != null) {
             return f[i][j];
         }
         if (s[i + 1] == s[i]) {
@@ -160,12 +165,19 @@ public:
         for (int i = 0; i < n; ++i) {
             s[i + 1] = s[i] + (floor[i] == '1');
         }
-        function<int(int, int)> dfs;
-        dfs = [&](int i, int j) {
-            if (i >= n) return 0;
-            if (j == 0) return s[n] - s[i];
-            if (f[i][j] != -1) return f[i][j];
-            if (s[i + 1] == s[i]) return dfs(i + 1, j);
+        auto dfs = [&](this auto&& dfs, int i, int j) -> int {
+            if (i >= n) {
+                return 0;
+            }
+            if (j == 0) {
+                return s[n] - s[i];
+            }
+            if (f[i][j] != -1) {
+                return f[i][j];
+            }
+            if (s[i + 1] == s[i]) {
+                return dfs(i + 1, j);
+            }
             int ans = min(1 + dfs(i + 1, j), dfs(i + carpetLen, j - 1));
             f[i][j] = ans;
             return ans;
@@ -210,6 +222,37 @@ func minimumWhiteTiles(floor string, numCarpets int, carpetLen int) int {
 		return ans
 	}
 	return dfs(0, numCarpets)
+}
+```
+
+#### TypeScript
+
+```ts
+function minimumWhiteTiles(floor: string, numCarpets: number, carpetLen: number): number {
+    const n = floor.length;
+    const f: number[][] = Array.from({ length: n }, () => Array(numCarpets + 1).fill(-1));
+    const s: number[] = Array(n + 1).fill(0);
+    for (let i = 0; i < n; ++i) {
+        s[i + 1] = s[i] + (floor[i] === '1' ? 1 : 0);
+    }
+    const dfs = (i: number, j: number): number => {
+        if (i >= n) {
+            return 0;
+        }
+        if (j === 0) {
+            return s[n] - s[i];
+        }
+        if (f[i][j] !== -1) {
+            return f[i][j];
+        }
+        if (s[i + 1] === s[i]) {
+            return dfs(i + 1, j);
+        }
+        const ans = Math.min(1 + dfs(i + 1, j), dfs(i + carpetLen, j - 1));
+        f[i][j] = ans;
+        return ans;
+    };
+    return dfs(0, numCarpets);
 }
 ```
 

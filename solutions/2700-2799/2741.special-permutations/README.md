@@ -1,50 +1,53 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2741.Special%20Permutations/README.md
 rating: 2020
-source: Weekly Contest 350 Q3
+source: 第 350 场周赛 Q3
 tags:
-  - Bit Manipulation
-  - Array
-  - Dynamic Programming
-  - Bitmask
+    - 位运算
+    - 数组
+    - 动态规划
+    - 状态压缩
 ---
 
 <!-- problem:start -->
 
-# [2741. Special Permutations](https://leetcode.com/problems/special-permutations)
+# [2741. 特别的排列](https://leetcode.cn/problems/special-permutations)
 
-## Description
+[English Version](/solution/2700-2799/2741.Special%20Permutations/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a&nbsp;<strong>0-indexed</strong>&nbsp;integer array&nbsp;<code>nums</code>&nbsp;containing&nbsp;<code>n</code>&nbsp;<strong>distinct</strong> positive integers. A permutation of&nbsp;<code>nums</code>&nbsp;is called special if:</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，它包含 <code>n</code>&nbsp;个 <strong>互不相同</strong>&nbsp;的正整数。如果&nbsp;<code>nums</code>&nbsp;的一个排列满足以下条件，我们称它是一个特别的排列：</p>
 
 <ul>
-	<li>For all indexes&nbsp;<code>0 &lt;= i &lt; n - 1</code>, either&nbsp;<code>nums[i] % nums[i+1] == 0</code>&nbsp;or&nbsp;<code>nums[i+1] % nums[i] == 0</code>.</li>
+	<li>对于&nbsp;<code>0 &lt;= i &lt; n - 1</code>&nbsp;的下标 <code>i</code>&nbsp;，要么&nbsp;<code>nums[i] % nums[i+1] == 0</code>&nbsp;，要么&nbsp;<code>nums[i+1] % nums[i] == 0</code>&nbsp;。</li>
 </ul>
 
-<p>Return&nbsp;<em>the total number of special permutations.&nbsp;</em>As the answer could be large, return it&nbsp;<strong>modulo&nbsp;</strong><code>10<sup>9&nbsp;</sup>+ 7</code>.</p>
+<p>请你返回特别排列的总数目，由于答案可能很大，请将它对<strong>&nbsp;</strong><code>10<sup>9&nbsp;</sup>+ 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [2,3,6]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> [3,6,2] and [2,6,3] are the two special permutations of nums.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [2,3,6]
+<b>输出：</b>2
+<b>解释：</b>[3,6,2] 和 [2,6,3] 是 nums 两个特别的排列。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,4,3]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> [3,1,4] and [4,1,3] are the two special permutations of nums.
+<pre><b>输入：</b>nums = [1,4,3]
+<b>输出：</b>2
+<b>解释：</b>[3,1,4] 和 [4,1,3] 是 nums 两个特别的排列。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 14</code></li>
@@ -53,29 +56,29 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: State Compression Dynamic Programming
+### 方法一：状态压缩动态规划
 
-We notice that the maximum length of the array in the problem does not exceed $14$. Therefore, we can use an integer to represent the current state, where the $i$-th bit is $1$ if the $i$-th number in the array has been selected, and $0$ if it has not been selected.
+我们注意到题目中数组的长度最大不超过 $14$，因此，我们可以用一个二进制整数来表示当前的状态，其中第 $i$ 位为 $1$ 表示数组中的第 $i$ 个数已经被选取，为 $0$ 表示数组中的第 $i$ 个数还未被选取。
 
-We define $f[i][j]$ as the number of schemes where the current selected integer state is $i$, and the index of the last selected integer is $j$. Initially, $f[0][0]=0$, and the answer is $\sum_{j=0}^{n-1}f[2^n-1][j]$.
+我们定义 $f[i][j]$ 表示当前选取的整数状态为 $i$，且最后一个选取的整数下标为 $j$ 的方案数。初始时 $f[0][0]=0$，答案为 $\sum_{j=0}^{n-1}f[2^n-1][j]$。
 
-Considering $f[i][j]$, if only one number is currently selected, then $f[i][j]=1$. Otherwise, we can enumerate the index $k$ of the last selected number. If the numbers corresponding to $k$ and $j$ meet the requirements of the problem, then $f[i][j]$ can be transferred from $f[i \oplus 2^j][k]$. That is:
+考虑 $f[i][j]$，如果当前只有一个数被选取，那么 $f[i][j]=1$。否则，我们可以枚举上一个选择的数的下标 $k$，如果 $k$ 与 $j$ 对应的数满足题目要求，那么 $f[i][j]$ 可以从 $f[i \oplus 2^j][k]$ 转移而来。即：
 
 $$
 f[i][j]=
 \begin{cases}
 1, & i=2^j\\
-\sum_{k=0}^{n-1}f[i \oplus 2^j][k], & i \neq 2^j \textit{ and nums}[j] \textit{ and nums}[k] \textit{ meet the requirements of the problem}\\
+\sum_{k=0}^{n-1}f[i \oplus 2^j][k], & i \neq 2^j \textit{且} \textit{nums}[j] \textit{与} \textit{nums}[k] \textit{满足题目要求}\\
 \end{cases}
 $$
 
-The final answer is $\sum_{j=0}^{n-1}f[2^n-1][j]$. Note that the answer may be very large, so we need to take the modulus of $10^9+7$.
+最终答案即为 $\sum_{j=0}^{n-1}f[2^n-1][j]$。注意答案可能很大，需要对 $10^9+7$ 取模。
 
-The time complexity is $O(n^2 \times 2^n)$, and the space complexity is $O(n \times 2^n)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n^2 \times 2^n)$，空间复杂度 $O(n \times 2^n)$。其中 $n$ 为数组的长度。
 
 <!-- tabs:start -->
 
@@ -209,29 +212,29 @@ func specialPerm(nums []int) (ans int) {
 
 ```ts
 function specialPerm(nums: number[]): number {
-  const mod = 1e9 + 7;
-  const n = nums.length;
-  const m = 1 << n;
-  const f = Array.from({ length: m }, () => Array(n).fill(0));
+    const mod = 1e9 + 7;
+    const n = nums.length;
+    const m = 1 << n;
+    const f = Array.from({ length: m }, () => Array(n).fill(0));
 
-  for (let i = 1; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (((i >> j) & 1) === 1) {
-        const ii = i ^ (1 << j);
-        if (ii === 0) {
-          f[i][j] = 1;
-          continue;
+    for (let i = 1; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (((i >> j) & 1) === 1) {
+                const ii = i ^ (1 << j);
+                if (ii === 0) {
+                    f[i][j] = 1;
+                    continue;
+                }
+                for (let k = 0; k < n; ++k) {
+                    if (nums[j] % nums[k] === 0 || nums[k] % nums[j] === 0) {
+                        f[i][j] = (f[i][j] + f[ii][k]) % mod;
+                    }
+                }
+            }
         }
-        for (let k = 0; k < n; ++k) {
-          if (nums[j] % nums[k] === 0 || nums[k] % nums[j] === 0) {
-            f[i][j] = (f[i][j] + f[ii][k]) % mod;
-          }
-        }
-      }
     }
-  }
 
-  return f[m - 1].reduce((acc, x) => (acc + x) % mod);
+    return f[m - 1].reduce((acc, x) => (acc + x) % mod);
 }
 ```
 

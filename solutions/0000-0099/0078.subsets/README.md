@@ -1,64 +1,69 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0078.Subsets/README.md
 tags:
-  - Bit Manipulation
-  - Array
-  - Backtracking
+    - 位运算
+    - 数组
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [78. Subsets](https://leetcode.com/problems/subsets)
+# [78. 子集](https://leetcode.cn/problems/subsets)
 
-## Description
+[English Version](/solution/0000-0099/0078.Subsets/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> of <strong>unique</strong> elements, return <em>all possible</em> <span data-keyword="subset"><em>subsets</em></span> <em>(the power set)</em>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code> ，数组中的元素 <strong>互不相同</strong> 。返回该数组所有可能的<span data-keyword="subset">子集</span>（幂集）。</p>
 
-<p>The solution set <strong>must not</strong> contain duplicate subsets. Return the solution in <strong>any order</strong>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3]
-<strong>Output:</strong> [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [0]
-<strong>Output:</strong> [[],[0]]
-</pre>
+<p>解集 <strong>不能</strong> 包含重复的子集。你可以按 <strong>任意顺序</strong> 返回解集。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,3]
+<strong>输出：</strong>[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [0]
+<strong>输出：</strong>[[],[0]]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10</code></li>
 	<li><code>-10 &lt;= nums[i] &lt;= 10</code></li>
-	<li>All the numbers of&nbsp;<code>nums</code> are <strong>unique</strong>.</li>
+	<li><code>nums</code> 中的所有元素 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS (Backtracking)
+### 方法一：DFS(回溯)
 
-We design a function $dfs(i)$, which represents starting the search from the $i$th element of the array for all subsets. The execution logic of the function $dfs(i)$ is as follows:
+我们设计一个函数 $dfs(i)$，表示从数组的第 $i$ 个元素开始搜索所有子集。函数 $dfs(i)$ 的执行逻辑如下：
 
-- If $i = n$, it means the current search has ended. Add the current subset $t$ to the answer array $ans$, and then return.
-- Otherwise, we can choose not to select the current element and directly execute $dfs(i + 1)$; or we can choose the current element, i.e., add the current element $nums[i]$ to the subset $t$, and then execute $dfs(i + 1)$. Note that we need to remove $nums[i]$ from the subset $t$ after executing $dfs(i + 1)$ (backtracking).
+-   如果 $i=n$，表示当前已经搜索结束，将当前得到的子集 $t$ 加入答案数组 $ans$ 中，然后返回；
+-   否则，我们可以选择不选择当前元素，直接执行 $dfs(i+1)$；也可以选择当前元素，即把当前元素 $nums[i]$ 加入子集 $t$，然后执行 $dfs(i+1)$，注意要在执行 $dfs(i+1)$ 以后再将 $nums[i]$ 从子集 $t$ 中移除（回溯）。
 
-In the main function, we call $dfs(0)$, i.e., start searching all subsets from the first element of the array. Finally, return the answer array $ans$.
+在主函数中，我们调用 $dfs(0)$，即从数组的第一个元素开始搜索所有子集。最后返回答案数组 $ans$ 即可。
 
-The time complexity is $O(n \times 2^n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array. There are a total of $2^n$ subsets, and each subset takes $O(n)$ time to construct.
+时间复杂度 $O(n\times 2^n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。一共有 $2^n$ 个子集，每个子集需要 $O(n)$ 的时间来构造。
 
 <!-- tabs:start -->
 
@@ -158,20 +163,20 @@ func subsets(nums []int) (ans [][]int) {
 
 ```ts
 function subsets(nums: number[]): number[][] {
-  const ans: number[][] = [];
-  const t: number[] = [];
-  const dfs = (i: number) => {
-    if (i === nums.length) {
-      ans.push(t.slice());
-      return;
-    }
-    dfs(i + 1);
-    t.push(nums[i]);
-    dfs(i + 1);
-    t.pop();
-  };
-  dfs(0);
-  return ans;
+    const ans: number[][] = [];
+    const t: number[] = [];
+    const dfs = (i: number) => {
+        if (i === nums.length) {
+            ans.push(t.slice());
+            return;
+        }
+        dfs(i + 1);
+        t.push(nums[i]);
+        dfs(i + 1);
+        t.pop();
+    };
+    dfs(0);
+    return ans;
 }
 ```
 
@@ -179,21 +184,21 @@ function subsets(nums: number[]): number[][] {
 
 ```rust
 impl Solution {
-    fn dfs(i: usize, t: &mut Vec<i32>, res: &mut Vec<Vec<i32>>, nums: &Vec<i32>) {
+    fn dfs(i: usize, t: &mut Vec<i32>, ans: &mut Vec<Vec<i32>>, nums: &Vec<i32>) {
         if i == nums.len() {
-            res.push(t.clone());
+            ans.push(t.clone());
             return;
         }
-        Self::dfs(i + 1, t, res, nums);
+        Self::dfs(i + 1, t, ans, nums);
         t.push(nums[i]);
-        Self::dfs(i + 1, t, res, nums);
+        Self::dfs(i + 1, t, ans, nums);
         t.pop();
     }
 
     pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {
-        let mut res = Vec::new();
-        Self::dfs(0, &mut Vec::new(), &mut res, &nums);
-        res
+        let mut ans = Vec::new();
+        Self::dfs(0, &mut Vec::new(), &mut ans, &nums);
+        ans
     }
 }
 ```
@@ -204,13 +209,13 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Binary Enumeration
+### 方法二：二进制枚举
 
-We can also use the method of binary enumeration to get all subsets.
+我们也可以使用二进制枚举的方法得到所有的子集。
 
-We can use $2^n$ binary numbers to represent all subsets of $n$ elements. For the current binary number $mask$, if the $i$th bit is $1$, it means that the $i$th element is selected, otherwise it means that the $i$th element is not selected.
+我们可以使用 $2^n$ 个二进制数来表示 $n$ 个元素的所有子集，对于当前二进制数 $mask$，如果第 $i$ 位为 $1$，表示选择了第 $i$ 个元素，否则表示不选择第 $i$ 个元素。
 
-The time complexity is $O(n \times 2^n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array. There are a total of $2^n$ subsets, and each subset takes $O(n)$ time to construct.
+时间复杂度 $O(n\times 2^n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。一共有 $2^n$ 个子集，每个子集需要 $O(n)$ 的时间来构造。
 
 <!-- tabs:start -->
 
@@ -291,41 +296,39 @@ func subsets(nums []int) (ans [][]int) {
 
 ```ts
 function subsets(nums: number[]): number[][] {
-  const n = nums.length;
-  const ans: number[][] = [];
-  for (let mask = 0; mask < 1 << n; ++mask) {
-    const t: number[] = [];
-    for (let i = 0; i < n; ++i) {
-      if (((mask >> i) & 1) === 1) {
-        t.push(nums[i]);
-      }
+    const n = nums.length;
+    const ans: number[][] = [];
+    for (let mask = 0; mask < 1 << n; ++mask) {
+        const t: number[] = [];
+        for (let i = 0; i < n; ++i) {
+            if (((mask >> i) & 1) === 1) {
+                t.push(nums[i]);
+            }
+        }
+        ans.push(t);
     }
-    ans.push(t);
-  }
-  return ans;
+    return ans;
 }
 ```
 
-<!-- tabs:end -->
+#### Rust
 
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### Solution 3
-
-<!-- tabs:start -->
-
-#### TypeScript
-
-```ts
-function subsets(nums: number[]): number[][] {
-  const res: number[][] = [[]];
-  for (const x of nums) {
-    res.push(...res.map((arr) => [...arr, x]));
-  }
-
-  return res;
+```rust
+impl Solution {
+    pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {
+        let n = nums.len();
+        let mut ans = Vec::new();
+        for mask in 0..(1 << n) {
+            let mut t = Vec::new();
+            for i in 0..n {
+                if (mask >> i) & 1 == 1 {
+                    t.push(nums[i]);
+                }
+            }
+            ans.push(t);
+        }
+        ans
+    }
 }
 ```
 

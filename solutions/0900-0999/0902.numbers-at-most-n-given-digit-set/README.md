@@ -1,118 +1,123 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0902.Numbers%20At%20Most%20N%20Given%20Digit%20Set/README.md
 tags:
-  - Array
-  - Math
-  - String
-  - Binary Search
-  - Dynamic Programming
+    - 数组
+    - 数学
+    - 字符串
+    - 二分查找
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [902. Numbers At Most N Given Digit Set](https://leetcode.com/problems/numbers-at-most-n-given-digit-set)
+# [902. 最大为 N 的数字组合](https://leetcode.cn/problems/numbers-at-most-n-given-digit-set)
 
-## Description
+[English Version](/solution/0900-0999/0902.Numbers%20At%20Most%20N%20Given%20Digit%20Set/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of <code>digits</code> which is sorted in <strong>non-decreasing</strong> order. You can write numbers using each <code>digits[i]</code> as many times as we want. For example, if <code>digits = [&#39;1&#39;,&#39;3&#39;,&#39;5&#39;]</code>, we may write numbers such as <code>&#39;13&#39;</code>, <code>&#39;551&#39;</code>, and <code>&#39;1351315&#39;</code>.</p>
+<p>给定一个按&nbsp;<strong>非递减顺序</strong>&nbsp;排列的数字数组<meta charset="UTF-8" />&nbsp;<code>digits</code>&nbsp;。你可以用任意次数&nbsp;<code>digits[i]</code>&nbsp;来写的数字。例如，如果<meta charset="UTF-8" />&nbsp;<code>digits = ['1','3','5']</code>，我们可以写数字，如<meta charset="UTF-8" />&nbsp;<code>'13'</code>,&nbsp;<code>'551'</code>, 和&nbsp;<code>'1351315'</code>。</p>
 
-<p>Return <em>the number of positive integers that can be generated </em>that are less than or equal to a given integer <code>n</code>.</p>
+<p>返回 <em>可以生成的小于或等于给定整数 <code>n</code> 的正整数的个数</em>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> digits = [&quot;1&quot;,&quot;3&quot;,&quot;5&quot;,&quot;7&quot;], n = 100
-<strong>Output:</strong> 20
-<strong>Explanation: </strong>
-The 20 numbers that can be written are:
+<strong>输入：</strong>digits = ["1","3","5","7"], n = 100
+<strong>输出：</strong>20
+<strong>解释：</strong>
+可写出的 20 个数字是：
 1, 3, 5, 7, 11, 13, 15, 17, 31, 33, 35, 37, 51, 53, 55, 57, 71, 73, 75, 77.
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> digits = [&quot;1&quot;,&quot;4&quot;,&quot;9&quot;], n = 1000000000
-<strong>Output:</strong> 29523
-<strong>Explanation: </strong>
-We can write 3 one digit numbers, 9 two digit numbers, 27 three digit numbers,
-81 four digit numbers, 243 five digit numbers, 729 six digit numbers,
-2187 seven digit numbers, 6561 eight digit numbers, and 19683 nine digit numbers.
-In total, this is 29523 integers that can be written using the digits array.
-</pre>
+<strong>输入：</strong>digits = ["1","4","9"], n = 1000000000
+<strong>输出：</strong>29523
+<strong>解释：</strong>
+我们可以写 3 个一位数字，9 个两位数字，27 个三位数字，
+81 个四位数字，243 个五位数字，729 个六位数字，
+2187 个七位数字，6561 个八位数字和 19683 个九位数字。
+总共，可以使用D中的数字写出 29523 个整数。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3:</strong></p>
 
 <pre>
-<strong>Input:</strong> digits = [&quot;7&quot;], n = 8
-<strong>Output:</strong> 1
+<strong>输入：</strong>digits = ["7"], n = 8
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
+<meta charset="UTF-8" />
 
 <ul>
 	<li><code>1 &lt;= digits.length &lt;= 9</code></li>
 	<li><code>digits[i].length == 1</code></li>
-	<li><code>digits[i]</code> is a digit from&nbsp;<code>&#39;1&#39;</code>&nbsp;to <code>&#39;9&#39;</code>.</li>
-	<li>All the values in&nbsp;<code>digits</code> are <strong>unique</strong>.</li>
-	<li><code>digits</code> is sorted in&nbsp;<strong>non-decreasing</strong> order.</li>
+	<li><code>digits[i]</code>&nbsp;是从&nbsp;<code>'1'</code>&nbsp;到&nbsp;<code>'9'</code> 的数</li>
+	<li><code>digits</code>&nbsp;中的所有值都 <strong>不同</strong>&nbsp;</li>
+	<li><code>digits</code>&nbsp;按&nbsp;<strong>非递减顺序</strong>&nbsp;排列</li>
 	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Digit DP
+### 方法一：数位 DP
 
-This problem essentially asks for the number of positive integers that can be generated from the digits in digits within the given range $[l, .., r]$. The count depends on the number of digits and the value of each digit. We can solve this problem using the Digit DP approach. In Digit DP, the size of the number has little impact on the complexity.
+这道题实际上是求在给定区间 $[l,..r]$ 中，由 `digits` 中的数字生成的正整数的个数。个数与数的位数以及每一位上的数字有关。我们可以用数位 DP 的思路来解决这道题。数位 DP 中，数的大小对复杂度的影响很小。
 
-For the range $[l, .., r]$ problem, we generally convert it to the problem of $[1, .., r]$ and then subtract the result of $[1, .., l - 1]$, i.e.,
+对于区间 $[l,..r]$ 问题，我们一般会将其转化为 $[1,..r]$ 然后再减去 $[1,..l - 1]$ 的问题，即：
 
 $$
 ans = \sum_{i=1}^{r} ans_i -  \sum_{i=1}^{l-1} ans_i
 $$
 
-However, for this problem, we only need to find the value for the range $[1, .., r]$.
+不过对于本题而言，我们只需要求出区间 $[1,..r]$ 的值即可。
 
-Here, we use memoization to implement Digit DP. We start searching from the top, get the number of solutions at the bottom, and return the answers layer by layer until we get the final answer from the starting point.
+这里我们用记忆化搜索来实现数位 DP。从起点向下搜索，到最底层得到方案数，一层层向上返回答案并累加，最后从搜索起点得到最终的答案。
 
-The basic steps are as follows:
+基本步骤如下：
 
-We convert the number $n$ into a string $s$ and denote the length of the string $s$ as $m$.
+我们将数字 $n$ 转化为字符串 $s$，记字符串 $s$ 的长度为 $m$。
 
-Next, we design a function $\textit{dfs}(i, \textit{lead}, \textit{limit})$ to represent the number of solutions from the current $i$-th digit to the last digit of the string. Here:
+接下来，我们设计一个函数 $\textit{dfs}(i, \textit{lead}, \textit{limit})$，表示当前处理到字符串的第 $i$ 位，到最后一位的方案数。其中：
 
-- The integer $i$ represents the current position in the string $s$.
-- The boolean $\textit{lead}$ indicates whether the current number contains only leading zeros.
-- The boolean $\textit{limit}$ indicates whether the current position is restricted by the upper bound.
+-   数字 $i$ 表示当前处理到字符串 $s$ 的第 $i$ 位；
+-   布尔值 $\textit{lead}$ 表示是否只包含前导零；
+-   布尔值 $\textit{limit}$ 表示当前位置是否受到上界的限制。
 
-The function executes as follows:
+函数的执行过程如下：
 
-If $i$ is greater than or equal to $m$, it means we have processed all digits. If $\textit{lead}$ is true, it means the current number is a leading zero, and we should return $0$. Otherwise, we should return $1$.
+如果 $i$ 大于等于 $m$，说明我们已经处理完了所有的位数，此时如果 $\textit{lead}$ 为真，说明当前的数字是前导零，我们应当返回 $0$；否则，我们应当返回 $1$。
 
-Otherwise, we calculate the upper bound $\textit{up}$. If $\textit{limit}$ is true, then $\textit{up}$ is the digit corresponding to $s[i]$. Otherwise, $\textit{up}$ is $9$.
+否则，我们计算当前位置的上界 $\textit{up}$，如果 $\textit{limit}$ 为真，则 $up$ 为 $s[i]$ 对应的数字，否则 $up$ 为 $9$。
 
-Then, we enumerate the current digit $j$ in the range $[0, \textit{up}]$. If $j$ is $0$ and $\textit{lead}$ is true, we recursively calculate $\textit{dfs}(i + 1, \text{true}, \textit{limit} \wedge j = \textit{up})$. Otherwise, if $j$ is in $\textit{digits}$, we recursively calculate $\textit{dfs}(i + 1, \text{false}, \textit{limit} \wedge j = \textit{up})$. We accumulate all the results as the answer.
+然后，我们在 $[0, \textit{up}]$ 的范围内枚举当前位置的数字 $j$，如果 $j$ 为 $0$ 且 $\textit{lead}$ 为真，我们递归计算 $\textit{dfs}(i + 1, \text{true}, \textit{limit} \wedge j = \textit{up})$；否则，如果 $j$ 在 $\textit{digits}$ 中，我们递归计算 $\textit{dfs}(i + 1, \text{false}, \textit{limit} \wedge j = \textit{up})$。累加所有的结果即为答案。
 
-Finally, we return $\textit{dfs}(0, \text{true}, \text{true})$.
+最后，我们返回 $\textit{dfs}(0, \text{true}, \text{true})$ 即可。
 
-The time complexity is $O(\log n \times D)$, and the space complexity is $O(\log n)$. Here, $D = 10$.
+时间复杂度 $O(\log n \times D)$，空间复杂度 $O(\log n)$。其中 $D = 10$。
 
-Similar problems:
+相似题目：
 
-- [233. Number of Digit One](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0233.Number%20of%20Digit%20One/README_EN.md)
-- [357. Count Numbers with Unique Digits](https://github.com/doocs/leetcode/blob/main/solution/0300-0399/0357.Count%20Numbers%20with%20Unique%20Digits/README_EN.md)
-- [600. Non-negative Integers without Consecutive Ones](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0600.Non-negative%20Integers%20without%20Consecutive%20Ones/README_EN.md)
-- [788. Rotated Digits](https://github.com/doocs/leetcode/blob/main/solution/0700-0799/0788.Rotated%20Digits/README_EN.md)
-- [1012. Numbers With Repeated Digits](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1012.Numbers%20With%20Repeated%20Digits/README_EN.md)
-- [2376. Count Special Integers](https://github.com/doocs/leetcode/blob/main/solution/2300-2399/2376.Count%20Special%20Integers/README_EN.md)
+-   [233. 数字 1 的个数](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0233.Number%20of%20Digit%20One/README.md)
+-   [357. 统计各位数字都不同的数字个数](https://github.com/doocs/leetcode/blob/main/solution/0300-0399/0357.Count%20Numbers%20with%20Unique%20Digits/README.md)
+-   [600. 不含连续 1 的非负整数](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0600.Non-negative%20Integers%20without%20Consecutive%20Ones/README.md)
+-   [788. 旋转数字](https://github.com/doocs/leetcode/blob/main/solution/0700-0799/0788.Rotated%20Digits/README.md)
+-   [1012. 至少有 1 位重复的数字](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1012.Numbers%20With%20Repeated%20Digits/README.md)
+-   [2376. 统计特殊整数](https://github.com/doocs/leetcode/blob/main/solution/2300-2399/2376.Count%20Special%20Integers/README.md)
 
 <!-- tabs:start -->
 
@@ -195,7 +200,7 @@ public:
         int m = s.size();
         int f[m];
         memset(f, -1, sizeof(f));
-        auto dfs = [&](auto&& dfs, int i, bool lead, bool limit) -> int {
+        auto dfs = [&](this auto&& dfs, int i, bool lead, bool limit) -> int {
             if (i >= m) {
                 return lead ? 0 : 1;
             }
@@ -206,9 +211,9 @@ public:
             int ans = 0;
             for (int j = 0; j <= up; ++j) {
                 if (j == 0 && lead) {
-                    ans += dfs(dfs, i + 1, true, limit && j == up);
+                    ans += dfs(i + 1, true, limit && j == up);
                 } else if (nums.count(j)) {
-                    ans += dfs(dfs, i + 1, false, limit && j == up);
+                    ans += dfs(i + 1, false, limit && j == up);
                 }
             }
             if (!lead && !limit) {
@@ -216,7 +221,7 @@ public:
             }
             return ans;
         };
-        return dfs(dfs, 0, true, true);
+        return dfs(0, true, true);
     }
 };
 ```
@@ -272,32 +277,32 @@ func atMostNGivenDigitSet(digits []string, n int) int {
 
 ```ts
 function atMostNGivenDigitSet(digits: string[], n: number): number {
-  const s = n.toString();
-  const m = s.length;
-  const f: number[] = Array(m).fill(-1);
-  const nums = new Set<number>(digits.map((d) => parseInt(d)));
-  const dfs = (i: number, lead: boolean, limit: boolean): number => {
-    if (i >= m) {
-      return lead ? 0 : 1;
-    }
-    if (!lead && !limit && f[i] !== -1) {
-      return f[i];
-    }
-    const up = limit ? +s[i] : 9;
-    let ans = 0;
-    for (let j = 0; j <= up; ++j) {
-      if (!j && lead) {
-        ans += dfs(i + 1, true, limit && j === up);
-      } else if (nums.has(j)) {
-        ans += dfs(i + 1, false, limit && j === up);
-      }
-    }
-    if (!lead && !limit) {
-      f[i] = ans;
-    }
-    return ans;
-  };
-  return dfs(0, true, true);
+    const s = n.toString();
+    const m = s.length;
+    const f: number[] = Array(m).fill(-1);
+    const nums = new Set<number>(digits.map(d => parseInt(d)));
+    const dfs = (i: number, lead: boolean, limit: boolean): number => {
+        if (i >= m) {
+            return lead ? 0 : 1;
+        }
+        if (!lead && !limit && f[i] !== -1) {
+            return f[i];
+        }
+        const up = limit ? +s[i] : 9;
+        let ans = 0;
+        for (let j = 0; j <= up; ++j) {
+            if (!j && lead) {
+                ans += dfs(i + 1, true, limit && j === up);
+            } else if (nums.has(j)) {
+                ans += dfs(i + 1, false, limit && j === up);
+            }
+        }
+        if (!lead && !limit) {
+            f[i] = ans;
+        }
+        return ans;
+    };
+    return dfs(0, true, true);
 }
 ```
 

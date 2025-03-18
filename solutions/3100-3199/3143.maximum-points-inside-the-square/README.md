@@ -1,103 +1,108 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3143.Maximum%20Points%20Inside%20the%20Square/README.md
 rating: 1696
-source: Biweekly Contest 130 Q2
+source: 第 130 场双周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - String
-  - Binary Search
-  - Sorting
+    - 数组
+    - 哈希表
+    - 字符串
+    - 二分查找
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3143. Maximum Points Inside the Square](https://leetcode.com/problems/maximum-points-inside-the-square)
+# [3143. 正方形中的最多点数](https://leetcode.cn/problems/maximum-points-inside-the-square)
 
-## Description
+[English Version](/solution/3100-3199/3143.Maximum%20Points%20Inside%20the%20Square/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D<strong> </strong>array <code>points</code> and a string <code>s</code> where, <code>points[i]</code> represents the coordinates of point <code>i</code>, and <code>s[i]</code> represents the <strong>tag</strong> of point <code>i</code>.</p>
+<p>给你一个二维数组&nbsp;<code>points</code>&nbsp;和一个字符串&nbsp;<code>s</code>&nbsp;，其中&nbsp;<code>points[i]</code>&nbsp;表示第 <code>i</code>&nbsp;个点的坐标，<code>s[i]</code>&nbsp;表示第 <code>i</code>&nbsp;个点的 <strong>标签</strong>&nbsp;。</p>
 
-<p>A <strong>valid</strong> square is a square centered at the origin <code>(0, 0)</code>, has edges parallel to the axes, and <strong>does not</strong> contain two points with the same tag.</p>
+<p>如果一个正方形的中心在&nbsp;<code>(0, 0)</code>&nbsp;，所有边都平行于坐标轴，且正方形内&nbsp;<strong>不</strong>&nbsp;存在标签相同的两个点，那么我们称这个正方形是&nbsp;<strong>合法</strong>&nbsp;的。</p>
 
-<p>Return the <strong>maximum</strong> number of points contained in a <strong>valid</strong> square.</p>
+<p>请你返回 <strong>合法</strong>&nbsp;正方形中可以包含的 <strong>最多</strong>&nbsp;点数。</p>
 
-<p>Note:</p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li>A point is considered to be inside the square if it lies on or within the square&#39;s boundaries.</li>
-	<li>The side length of the square can be zero.</li>
+	<li>如果一个点位于正方形的边上或者在边以内，则认为该点位于正方形内。</li>
+	<li>正方形的边长可以为零。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3143.Maximum%20Points%20Inside%20the%20Square/images/3708-tc1.png" style="width: 303px; height: 303px;" /></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">points = [[2,2],[-1,-2],[-4,4],[-3,1],[3,-3]], s = &quot;abdca&quot;</span></p>
+<p><span class="example-io"><b>输入：</b>points = [[2,2],[-1,-2],[-4,4],[-3,1],[3,-3]], s = "abdca"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><span class="example-io"><b>输出：</b>2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The square of side length 4 covers two points <code>points[0]</code> and <code>points[1]</code>.</p>
+<p>边长为 4 的正方形包含两个点&nbsp;<code>points[0]</code> 和&nbsp;<code>points[1]</code>&nbsp;。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3143.Maximum%20Points%20Inside%20the%20Square/images/3708-tc2.png" style="width: 302px; height: 302px;" /></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">points = [[1,1],[-2,-2],[-2,2]], s = &quot;abb&quot;</span></p>
+<p><span class="example-io"><b>输入：</b>points = [[1,1],[-2,-2],[-2,2]], s = "abb"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
+<p><span class="example-io"><b>输出：</b>1</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The square of side length 2 covers one point, which is <code>points[0]</code>.</p>
+<p>边长为 2 的正方形包含 1 个点&nbsp;<code>points[0]</code>&nbsp;。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">points = [[1,1],[-1,-1],[2,-2]], s = &quot;ccd&quot;</span></p>
+<p><span class="example-io"><b>输入：</b>points = [[1,1],[-1,-1],[2,-2]], s = "ccd"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><span class="example-io"><b>输出：</b>0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>It&#39;s impossible to make any valid squares centered at the origin such that it covers only one point among <code>points[0]</code> and <code>points[1]</code>.</p>
+<p>任何正方形都无法只包含&nbsp;<code>points[0]</code> 和&nbsp;<code>points[1]</code>&nbsp;中的一个点，所以合法正方形中都不包含任何点。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length, points.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>points[i].length == 2</code></li>
 	<li><code>-10<sup>9</sup> &lt;= points[i][0], points[i][1] &lt;= 10<sup>9</sup></code></li>
 	<li><code>s.length == points.length</code></li>
-	<li><code>points</code> consists of distinct coordinates.</li>
-	<li><code>s</code> consists only of lowercase English letters.</li>
+	<li><code>points</code>&nbsp;中的点坐标互不相同。</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Sorting
+### 方法一：哈希表 + 排序
 
-For a point $(x, y)$, we can map it to the first quadrant with the origin as the center, i.e., $(\max(|x|, |y|), \max(|x|, |y|))$. In this way, we can map all points to the first quadrant and then sort them according to the distance from the point to the origin.
+对于一个点 $(x, y)$，我们可以将其映射到以原点为中心的第一象限，即 $(\max(|x|, |y|), \max(|x|, |y|))$。这样，我们就可以将所有的点映射到第一象限，然后按照点到原点的距离进行排序。
 
-We can use a hash table $g$ to store the distance from all points to the origin, and then sort them according to the distance. For each distance $d$, we put all points with a distance of $d$ together, and then traverse these points. If there are two points with the same label, then this square is illegal, and we directly return the answer. Otherwise, we add these points to the answer.
+我们可以使用哈希表 $g$ 来存储所有点到原点的距离，然后按照距离进行排序。对于每个距离 $d$，我们将所有距离为 $d$ 的点放在一起，然后遍历这些点，如果有两个点的标签相同，那么这个正方形是不合法的，直接返回答案。否则，我们将这些点加入到答案中。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$, where $n$ is the number of points.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是点的数量。
 
 <!-- tabs:start -->
 
@@ -212,31 +217,31 @@ func maxPointsInsideSquare(points [][]int, s string) (ans int) {
 
 ```ts
 function maxPointsInsideSquare(points: number[][], s: string): number {
-  const n = points.length;
-  const g: Map<number, number[]> = new Map();
-  for (let i = 0; i < n; ++i) {
-    const [x, y] = points[i];
-    const key = Math.max(Math.abs(x), Math.abs(y));
-    if (!g.has(key)) {
-      g.set(key, []);
+    const n = points.length;
+    const g: Map<number, number[]> = new Map();
+    for (let i = 0; i < n; ++i) {
+        const [x, y] = points[i];
+        const key = Math.max(Math.abs(x), Math.abs(y));
+        if (!g.has(key)) {
+            g.set(key, []);
+        }
+        g.get(key)!.push(i);
     }
-    g.get(key)!.push(i);
-  }
-  const keys = Array.from(g.keys()).sort((a, b) => a - b);
-  const vis: boolean[] = Array(26).fill(false);
-  let ans = 0;
-  for (const key of keys) {
-    const idx = g.get(key)!;
-    for (const i of idx) {
-      const j = s.charCodeAt(i) - "a".charCodeAt(0);
-      if (vis[j]) {
-        return ans;
-      }
-      vis[j] = true;
+    const keys = Array.from(g.keys()).sort((a, b) => a - b);
+    const vis: boolean[] = Array(26).fill(false);
+    let ans = 0;
+    for (const key of keys) {
+        const idx = g.get(key)!;
+        for (const i of idx) {
+            const j = s.charCodeAt(i) - 'a'.charCodeAt(0);
+            if (vis[j]) {
+                return ans;
+            }
+            vis[j] = true;
+        }
+        ans += idx.length;
     }
-    ans += idx.length;
-  }
-  return ans;
+    return ans;
 }
 ```
 

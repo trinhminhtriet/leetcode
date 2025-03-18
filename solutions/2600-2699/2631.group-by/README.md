@@ -1,57 +1,61 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2631.Group%20By/README.md
 tags:
-  - JavaScript
+    - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2631. Group By](https://leetcode.com/problems/group-by)
+# [2631. 分组](https://leetcode.cn/problems/group-by)
 
-## Description
+[English Version](/solution/2600-2699/2631.Group%20By/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Write code that enhances all arrays such that you can call the&nbsp;<code>array.groupBy(fn)</code>&nbsp;method on any array and it will return a <strong>grouped</strong>&nbsp;version of the array.</p>
+<p>请你编写一段可应用于所有数组的代码，使任何数组调用 <code>array. groupBy(fn)</code> 方法时，它返回对该数组 <strong>分组后</strong> 的结果。</p>
 
-<p>A <strong>grouped</strong> array is an object where each&nbsp;key&nbsp;is&nbsp;the output of <code>fn(arr[i])</code> and each value is an array containing all items in the original array which generate that key.</p>
+<p>数组 <strong>分组</strong> 是一个对象，其中的每个键都是 <code>fn(arr[i])</code> 的输出的一个数组，该数组中含有原数组中具有该键的所有项。</p>
 
-<p>The provided callback&nbsp;<code>fn</code>&nbsp;will accept an item in the array and return a string key.</p>
+<p>提供的回调函数 <code>fn</code> 将接受数组中的项并返回一个字符串类型的键。</p>
 
-<p>The order of each value list should be the order the items appear in the array. Any order of keys is acceptable.</p>
+<p>每个值列表的顺序应该与元素在数组中出现的顺序相同。任何顺序的键都是可以接受的。</p>
 
-<p>Please solve it without lodash&#39;s&nbsp;<code>_.groupBy</code> function.</p>
+<p>请在不使用 lodash 的&nbsp;<code>_.groupBy</code> 函数的前提下解决这个问题。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
+<b>输入：</b>
 array = [
-&nbsp; {&quot;id&quot;:&quot;1&quot;},
-&nbsp; {&quot;id&quot;:&quot;1&quot;},
-&nbsp; {&quot;id&quot;:&quot;2&quot;}
+&nbsp; {"id":"1"},
+&nbsp; {"id":"1"},
+&nbsp; {"id":"2"}
 ], 
 fn = function (item) { 
 &nbsp; return item.id; 
 }
-<strong>Output:</strong> 
+<b>输出：</b>
 { 
-&nbsp; &quot;1&quot;: [{&quot;id&quot;: &quot;1&quot;}, {&quot;id&quot;: &quot;1&quot;}], &nbsp; 
-&nbsp; &quot;2&quot;: [{&quot;id&quot;: &quot;2&quot;}] 
+&nbsp; "1": [{"id": "1"}, {"id": "1"}], &nbsp; 
+&nbsp; "2": [{"id": "2"}] 
 }
-<strong>Explanation:</strong>
-Output is from array.groupBy(fn).
-The selector function gets the &quot;id&quot; out of each item in the array.
-There are two objects with an &quot;id&quot; of 1. Both of those objects are put in the first array.
-There is one object with an &quot;id&quot; of 2. That object is put in the second array.
+<strong>解释：</strong>
+输出来自函数 array.groupBy(fn)。
+分组选择方法是从数组中的每个项中获取 "id" 。
+有两个 "id" 为 1 的对象。所以将这两个对象都放在第一个数组中。
+有一个 "id" 为 2 的对象。所以该对象被放到第二个数组中。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
+<b>输入：</b>
 array = [
 &nbsp; [1, 2, 3],
 &nbsp; [1, 3, 5],
@@ -60,50 +64,51 @@ array = [
 fn = function (list) { 
 &nbsp; return String(list[0]); 
 }
-<strong>Output:</strong> 
+<b>输出：</b>
 { 
-&nbsp; &quot;1&quot;: [[1, 2, 3], [1, 3, 5], [1, 5, 9]] 
+&nbsp; "1": [[1, 2, 3], [1, 3, 5], [1, 5, 9]] 
 }
-<strong>Explanation:</strong>
-The array can be of any type. In this case, the selector function defines the key as being the first element in the array. 
-All the arrays have 1 as their first element so they are grouped together.
+<strong>解释：</strong>
+数组可以是任何类型的。在本例中，分组选择方法是将键定义为数组中的第一个元素。
+所有数组的第一个元素都是1，所以它们被组合在一起。
 {
-  &quot;1&quot;: [[1, 2, 3], [1, 3, 5], [1, 5, 9]]
+  "1": [[1, 2, 3], [1, 3, 5], [1, 5, 9]]
 }
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
+<b>输出：</b>
 array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 fn = function (n) { 
 &nbsp; return String(n &gt; 5);
 }
-<strong>Output:</strong>
+<strong>输入：</strong>
 {
-&nbsp; &quot;true&quot;: [6, 7, 8, 9, 10],
-&nbsp; &quot;false&quot;: [1, 2, 3, 4, 5]
+&nbsp; "true": [6, 7, 8, 9, 10],
+&nbsp; "false": [1, 2, 3, 4, 5]
 }
-<strong>Explanation:</strong>
-The selector function splits the array by whether each number is greater than 5.
+<strong>解释：</strong>
+分组选择方法是根据每个数字是否大于 5 来分割数组。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= array.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>fn</code> returns a string</li>
+	<li><code>fn 返回一个字符串</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -111,21 +116,21 @@ The selector function splits the array by whether each number is greater than 5.
 
 ```ts
 declare global {
-  interface Array<T> {
-    groupBy(fn: (item: T) => string): Record<string, T[]>;
-  }
+    interface Array<T> {
+        groupBy(fn: (item: T) => string): Record<string, T[]>;
+    }
 }
 
 Array.prototype.groupBy = function (fn) {
-  return this.reduce((acc, item) => {
-    const key = fn(item);
-    if (acc[key]) {
-      acc[key].push(item);
-    } else {
-      acc[key] = [item];
-    }
-    return acc;
-  }, {});
+    return this.reduce((acc, item) => {
+        const key = fn(item);
+        if (acc[key]) {
+            acc[key].push(item);
+        } else {
+            acc[key] = [item];
+        }
+        return acc;
+    }, {});
 };
 
 /**

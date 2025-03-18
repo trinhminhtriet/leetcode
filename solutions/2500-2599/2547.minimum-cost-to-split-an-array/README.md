@@ -1,78 +1,83 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2547.Minimum%20Cost%20to%20Split%20an%20Array/README.md
 rating: 2019
-source: Weekly Contest 329 Q4
+source: 第 329 场周赛 Q4
 tags:
-  - Array
-  - Hash Table
-  - Dynamic Programming
-  - Counting
+    - 数组
+    - 哈希表
+    - 动态规划
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2547. Minimum Cost to Split an Array](https://leetcode.com/problems/minimum-cost-to-split-an-array)
+# [2547. 拆分数组的最小代价](https://leetcode.cn/problems/minimum-cost-to-split-an-array)
 
-## Description
+[English Version](/solution/2500-2599/2547.Minimum%20Cost%20to%20Split%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> and an integer <code>k</code>.</p>
+<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> 。</p>
 
-<p>Split the array into some number of non-empty subarrays. The <strong>cost</strong> of a split is the sum of the <strong>importance value</strong> of each subarray in the split.</p>
+<p>将数组拆分成一些非空子数组。拆分的 <strong>代价</strong> 是每个子数组中的 <strong>重要性</strong> 之和。</p>
 
-<p>Let <code>trimmed(subarray)</code> be the version of the subarray where all numbers which appear only once are removed.</p>
-
-<ul>
-	<li>For example, <code>trimmed([3,1,2,4,3,4]) = [3,4,3,4].</code></li>
-</ul>
-
-<p>The <strong>importance value</strong> of a subarray is <code>k + trimmed(subarray).length</code>.</p>
+<p>令 <code>trimmed(subarray)</code> 作为子数组的一个特征，其中所有仅出现一次的数字将会被移除。</p>
 
 <ul>
-	<li>For example, if a subarray is <code>[1,2,3,3,3,4,4]</code>, then <font face="monospace">trimmed(</font><code>[1,2,3,3,3,4,4]) = [3,3,3,4,4].</code>The importance value of this subarray will be <code>k + 5</code>.</li>
+	<li>例如，<code>trimmed([3,1,2,4,3,4]) = [3,4,3,4]</code> 。</li>
 </ul>
 
-<p>Return <em>the minimum possible cost of a split of </em><code>nums</code>.</p>
+<p>子数组的 <strong>重要性</strong> 定义为 <code>k + trimmed(subarray).length</code> 。</p>
 
-<p>A <strong>subarray</strong> is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
+<ul>
+	<li>例如，如果一个子数组是 <code>[1,2,3,3,3,4,4]</code> ，<code>trimmed([1,2,3,3,3,4,4]) = [3,3,3,4,4]</code> 。这个子数组的重要性就是 <code>k + 5</code> 。</li>
+</ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>找出并返回拆分 <code>nums</code> 的所有可行方案中的最小代价。</p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2,1,2,1,3,3], k = 2
-<strong>Output:</strong> 8
-<strong>Explanation:</strong> We split nums to have two subarrays: [1,2], [1,2,1,3,3].
-The importance value of [1,2] is 2 + (0) = 2.
-The importance value of [1,2,1,3,3] is 2 + (2 + 2) = 6.
-The cost of the split is 2 + 6 = 8. It can be shown that this is the minimum possible cost among all the possible splits.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,1,2,1], k = 2
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> We split nums to have two subarrays: [1,2], [1,2,1].
-The importance value of [1,2] is 2 + (0) = 2.
-The importance value of [1,2,1] is 2 + (2) = 4.
-The cost of the split is 2 + 4 = 6. It can be shown that this is the minimum possible cost among all the possible splits.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,1,2,1], k = 5
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> We split nums to have one subarray: [1,2,1,2,1].
-The importance value of [1,2,1,2,1] is 5 + (3 + 2) = 10.
-The cost of the split is 10. It can be shown that this is the minimum possible cost among all the possible splits.
-</pre>
+<p><strong>子数组</strong> 是数组的一个连续 <strong>非空</strong> 元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,1,2,1,3,3], k = 2
+<strong>输出：</strong>8
+<strong>解释：</strong>将 nums 拆分成两个子数组：[1,2], [1,2,1,3,3]
+[1,2] 的重要性是 2 + (0) = 2 。
+[1,2,1,3,3] 的重要性是 2 + (2 + 2) = 6 。
+拆分的代价是 2 + 6 = 8 ，可以证明这是所有可行的拆分方案中的最小代价。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,1,2,1], k = 2
+<strong>输出：</strong>6
+<strong>解释：</strong>将 nums 拆分成两个子数组：[1,2], [1,2,1] 。
+[1,2] 的重要性是 2 + (0) = 2 。
+[1,2,1] 的重要性是 2 + (2) = 4 。
+拆分的代价是 2 + 4 = 6 ，可以证明这是所有可行的拆分方案中的最小代价。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,1,2,1], k = 5
+<strong>输出：</strong>10
+<strong>解释：</strong>将 nums 拆分成一个子数组：[1,2,1,2,1].
+[1,2,1,2,1] 的重要性是 5 + (3 + 2) = 10 。
+拆分的代价是 10 ，可以证明这是所有可行的拆分方案中的最小代价。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -81,31 +86,25 @@ The cost of the split is 10. It can be shown that this is the minimum possible c
 </ul>
 
 <p>&nbsp;</p>
-<style type="text/css">.spoilerbutton {display:block; border:dashed; padding: 0px 0px; margin:10px 0px; font-size:150%; font-weight: bold; color:#000000; background-color:cyan; outline:0; 
-}
-.spoiler {overflow:hidden;}
-.spoiler > div {-webkit-transition: all 0s ease;-moz-transition: margin 0s ease;-o-transition: all 0s ease;transition: margin 0s ease;}
-.spoilerbutton[value="Show Message"] + .spoiler > div {margin-top:-500%;}
-.spoilerbutton[value="Hide Message"] + .spoiler {padding:5px;}
-</style>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-We design a function $dfs(i)$, which represents the minimum cost of splitting from index $i$. So the answer is $dfs(0)$.
+我们设计一个函数 $dfs(i)$，表示从下标 $i$ 开始拆分的最小代价。那么答案就是 $dfs(0)$。
 
-The calculation process of the function $dfs(i)$ is as follows:
+函数 $dfs(i)$ 的计算过程如下：
 
-If $i \ge n$, it means that the splitting has reached the end of the array, and $0$ is returned at this time.
-Otherwise, we enumerate the end $j$ of the subarray. During the process, we use an array or hash table cnt to count the number of times each number appears in the subarray, and use a variable one to count the number of numbers in the subarray that appear once. So the importance of the subarray is $k + j - i + 1 - one$, and the cost of splitting is $k + j - i + 1 - one + dfs(j + 1)$. We enumerate all $j$ and take the minimum value as the return value of $dfs(i)$.
-During the process, we can use memoization search, that is, use an array $f$ to memorize the return value of the function $dfs(i)$ to avoid repeated calculations.
+-   如果 $i \ge n$，说明已经拆分到了数组末尾，此时返回 $0$。
+-   否则，我们枚举子数组的末尾 $j$，过程中用一个数组或哈希表 `cnt` 统计子数组中每个数字出现的次数，用一个变量 `one` 统计子数组中出现次数为 $1$ 的数字的个数。那么子数组的重要性就是 $k + j - i + 1 - one$，拆分的代价就是 $k + j - i + 1 - one + dfs(j + 1)$。我们枚举所有的 $j$，取其中的最小值作为 $dfs(i)$ 的返回值。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
+过程中，我们可以使用记忆化搜索，即使用一个数组 $f$ 记忆化函数 $dfs(i)$ 的返回值，避免重复计算。
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -247,31 +246,31 @@ func minCost(nums []int, k int) int {
 
 ```ts
 function minCost(nums: number[], k: number): number {
-  const n = nums.length;
-  const f = new Array(n).fill(0);
-  const dfs = (i: number) => {
-    if (i >= n) {
-      return 0;
-    }
-    if (f[i]) {
-      return f[i];
-    }
-    const cnt = new Array(n).fill(0);
-    let one = 0;
-    let ans = 1 << 30;
-    for (let j = i; j < n; ++j) {
-      const x = ++cnt[nums[j]];
-      if (x == 1) {
-        ++one;
-      } else if (x == 2) {
-        --one;
-      }
-      ans = Math.min(ans, k + j - i + 1 - one + dfs(j + 1));
-    }
-    f[i] = ans;
-    return f[i];
-  };
-  return dfs(0);
+    const n = nums.length;
+    const f = new Array(n).fill(0);
+    const dfs = (i: number) => {
+        if (i >= n) {
+            return 0;
+        }
+        if (f[i]) {
+            return f[i];
+        }
+        const cnt = new Array(n).fill(0);
+        let one = 0;
+        let ans = 1 << 30;
+        for (let j = i; j < n; ++j) {
+            const x = ++cnt[nums[j]];
+            if (x == 1) {
+                ++one;
+            } else if (x == 2) {
+                --one;
+            }
+            ans = Math.min(ans, k + j - i + 1 - one + dfs(j + 1));
+        }
+        f[i] = ans;
+        return f[i];
+    };
+    return dfs(0);
 }
 ```
 

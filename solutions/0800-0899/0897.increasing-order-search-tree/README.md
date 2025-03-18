@@ -1,62 +1,67 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0897.Increasing%20Order%20Search%20Tree/README.md
 tags:
-  - Stack
-  - Tree
-  - Depth-First Search
-  - Binary Search Tree
-  - Binary Tree
+    - 栈
+    - 树
+    - 深度优先搜索
+    - 二叉搜索树
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [897. Increasing Order Search Tree](https://leetcode.com/problems/increasing-order-search-tree)
+# [897. 递增顺序搜索树](https://leetcode.cn/problems/increasing-order-search-tree)
 
-## Description
+[English Version](/solution/0800-0899/0897.Increasing%20Order%20Search%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary search tree, rearrange the tree in <strong>in-order</strong> so that the leftmost node in the tree is now the root of the tree, and every node has no left child and only one right child.</p>
+<p>给你一棵二叉搜索树的<meta charset="UTF-8" />&nbsp;<code>root</code>&nbsp;，请你 <strong>按中序遍历</strong> 将其重新排列为一棵递增顺序搜索树，使树中最左边的节点成为树的根节点，并且每个节点没有左子节点，只有一个右子节点。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0897.Increasing%20Order%20Search%20Tree/images/ex1.jpg" style="width: 600px; height: 350px;" />
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0897.Increasing%20Order%20Search%20Tree/images/ex1.jpg" style="height: 350px; width: 600px;" />
 <pre>
-<strong>Input:</strong> root = [5,3,6,2,4,null,8,1,null,null,null,7,9]
-<strong>Output:</strong> [1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9]
+<strong>输入：</strong>root = [5,3,6,2,4,null,8,1,null,null,null,7,9]
+<strong>输出：</strong>[1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0897.Increasing%20Order%20Search%20Tree/images/ex2.jpg" style="width: 300px; height: 114px;" />
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0897.Increasing%20Order%20Search%20Tree/images/ex2.jpg" style="height: 114px; width: 300px;" />
 <pre>
-<strong>Input:</strong> root = [5,1,7]
-<strong>Output:</strong> [1,null,5,null,7]
+<strong>输入：</strong>root = [5,1,7]
+<strong>输出：</strong>[1,null,5,null,7]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the given tree will be in the range <code>[1, 100]</code>.</li>
+	<li>树中节点数的取值范围是 <code>[1, 100]</code></li>
 	<li><code>0 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS In-order Traversal
+### 方法一：DFS 中序遍历
 
-We define a virtual node $dummy$, initially the right child of $dummy$ points to the root node $root$, and a pointer $prev$ points to $dummy$.
+我们定义一个虚拟节点 $dummy$，初始时 $dummy$ 的右子节点指向根节点 $root$，定义一个指针 $prev$ 指向 $dummy$。
 
-We perform an in-order traversal on the binary search tree. During the traversal, each time we visit a node, we point the right child of $prev$ to it, then set the left child of the current node to null, and assign the current node to $prev$ for the next traversal.
+我们对二叉搜索树进行中序遍历，遍历过程中，每遍历到一个节点，就将 $prev$ 的右子节点指向它，然后将当前节点的左子节点置为空，再将当前节点赋值给 $prev$，以便于下一次遍历。
 
-After the traversal ends, the original binary search tree is modified into a singly linked list with only right child nodes. We then return the right child of the virtual node $dummy$.
+遍历结束后，原二叉搜索树被修改成只有右子节点的单链表，我们再将虚拟节点 $dummy$ 的右子节点返回即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary search tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉搜索树的节点个数。
 
 <!-- tabs:start -->
 
@@ -209,20 +214,20 @@ func increasingBST(root *TreeNode) *TreeNode {
  */
 
 function increasingBST(root: TreeNode | null): TreeNode | null {
-  const dummy = new TreeNode((right = root));
-  let prev = dummy;
-  const dfs = (root: TreeNode | null) => {
-    if (!root) {
-      return;
-    }
-    dfs(root.left);
-    prev.right = root;
-    root.left = null;
-    prev = root;
-    dfs(root.right);
-  };
-  dfs(root);
-  return dummy.right;
+    const dummy = new TreeNode((right = root));
+    let prev = dummy;
+    const dfs = (root: TreeNode | null) => {
+        if (!root) {
+            return;
+        }
+        dfs(root.left);
+        prev.right = root;
+        root.left = null;
+        prev = root;
+        dfs(root.right);
+    };
+    dfs(root);
+    return dummy.right;
 }
 ```
 

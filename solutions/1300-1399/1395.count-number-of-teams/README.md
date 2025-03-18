@@ -1,79 +1,84 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1395.Count%20Number%20of%20Teams/README.md
 rating: 1343
-source: Weekly Contest 182 Q2
+source: 第 182 场周赛 Q2
 tags:
-  - Binary Indexed Tree
-  - Segment Tree
-  - Array
-  - Dynamic Programming
+    - 树状数组
+    - 线段树
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1395. Count Number of Teams](https://leetcode.com/problems/count-number-of-teams)
+# [1395. 统计作战单位数](https://leetcode.cn/problems/count-number-of-teams)
 
-## Description
+[English Version](/solution/1300-1399/1395.Count%20Number%20of%20Teams/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> soldiers standing in a line. Each soldier is assigned a <strong>unique</strong> <code>rating</code> value.</p>
+<p>&nbsp;<code>n</code> 名士兵站成一排。每个士兵都有一个 <strong>独一无二</strong> 的评分 <code>rating</code> 。</p>
 
-<p>You have to form a team of 3 soldiers amongst them under the following rules:</p>
+<p>从中选出 <strong>3</strong> 个士兵组成一个作战单位，规则如下：</p>
 
 <ul>
-	<li>Choose 3 soldiers with index (<code>i</code>, <code>j</code>, <code>k</code>) with rating (<code>rating[i]</code>, <code>rating[j]</code>, <code>rating[k]</code>).</li>
-	<li>A team is valid if: (<code>rating[i] &lt; rating[j] &lt; rating[k]</code>) or (<code>rating[i] &gt; rating[j] &gt; rating[k]</code>) where (<code>0 &lt;= i &lt; j &lt; k &lt; n</code>).</li>
+	<li>从队伍中选出下标分别为 <code>i</code>、<code>j</code>、<code>k</code> 的 3 名士兵，他们的评分分别为 <code>rating[i]</code>、<code>rating[j]</code>、<code>rating[k]</code></li>
+	<li>作战单位需满足： <code>rating[i] &lt; rating[j] &lt; rating[k]</code> 或者 <code>rating[i] &gt; rating[j] &gt; rating[k]</code> ，其中&nbsp; <code>0&nbsp;&lt;= i &lt;&nbsp;j &lt;&nbsp;k &lt;&nbsp;n</code></li>
 </ul>
 
-<p>Return the number of teams you can form given the conditions. (soldiers can be part of multiple teams).</p>
+<p>请你返回按上述条件组建的作战单位的方案数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> rating = [2,5,3,4,1]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We can form three teams given the conditions. (2,3,4), (5,4,1), (5,3,1). 
+<strong>输入：</strong>rating = [2,5,3,4,1]
+<strong>输出：</strong>3
+<strong>解释：</strong>我们可以组建三个作战单位 (2,3,4)、(5,4,1)、(5,3,1) 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> rating = [2,1,3]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> We can&#39;t form any team given the conditions.
+<strong>输入：</strong>rating = [2,1,3]
+<strong>输出：</strong>0
+<strong>解释：</strong>根据题目条件，我们无法组建作战单位。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> rating = [1,2,3,4]
-<strong>Output:</strong> 4
+<strong>输入：</strong>rating = [1,2,3,4]
+<strong>输出：</strong>4
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == rating.length</code></li>
 	<li><code>3 &lt;= n &lt;= 1000</code></li>
-	<li><code>1 &lt;= rating[i] &lt;= 10<sup>5</sup></code></li>
-	<li>All the integers in <code>rating</code> are <strong>unique</strong>.</li>
+	<li><code>1 &lt;= rating[i] &lt;= 10^5</code></li>
+	<li><code>rating</code>&nbsp;中的元素都是唯一的</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumerate Middle Element
+### 方法一：枚举中间元素
 
-We can enumerate each element $rating[i]$ in the array $rating$ as the middle element, then count the number of elements $l$ that are smaller than it on the left, and the number of elements $r$ that are larger than it on the right. The number of combat units with this element as the middle element is $l \times r + (i - l) \times (n - i - 1 - r)$. We can add this to the answer.
+我们可以枚举数组 $rating$ 中每个元素 $rating[i]$ 作为中间元素，然后统计左边比它小的元素的个数 $l$，右边比它大的元素的个数 $r$，那么以该元素为中间元素的作战单位的个数为 $l \times r + (i - l) \times (n - i - 1 - r)$，累加到答案中即可。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(1)$. Where $n$ is the length of the array $rating$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $rating$ 的长度。
 
 <!-- tabs:start -->
 
@@ -174,25 +179,25 @@ func numTeams(rating []int) (ans int) {
 
 ```ts
 function numTeams(rating: number[]): number {
-  let ans = 0;
-  const n = rating.length;
-  for (let i = 0; i < n; ++i) {
-    let l = 0;
-    let r = 0;
-    for (let j = 0; j < i; ++j) {
-      if (rating[j] < rating[i]) {
-        ++l;
-      }
+    let ans = 0;
+    const n = rating.length;
+    for (let i = 0; i < n; ++i) {
+        let l = 0;
+        let r = 0;
+        for (let j = 0; j < i; ++j) {
+            if (rating[j] < rating[i]) {
+                ++l;
+            }
+        }
+        for (let j = i + 1; j < n; ++j) {
+            if (rating[j] > rating[i]) {
+                ++r;
+            }
+        }
+        ans += l * r;
+        ans += (i - l) * (n - i - 1 - r);
     }
-    for (let j = i + 1; j < n; ++j) {
-      if (rating[j] > rating[i]) {
-        ++r;
-      }
-    }
-    ans += l * r;
-    ans += (i - l) * (n - i - 1 - r);
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -202,11 +207,11 @@ function numTeams(rating: number[]): number {
 
 <!-- solution:start -->
 
-### Solution 2: Binary Indexed Tree
+### 方法二：树状数组
 
-We can use two binary indexed trees to maintain the number of elements $l$ that are smaller than each element on the left in the array $rating$, and the number of elements $r$ that are larger than it on the right. Then count the number of combat units with this element as the middle element as $l \times r + (i - l) \times (n - i - 1 - r)$, and add this to the answer.
+我们可以用两个树状数组分别维护数组 $rating$ 中每个元素的左边比它小的元素的个数 $l$，右边比它大的元素的个数 $r$，然后统计以该元素为中间元素的作战单位的个数为 $l \times r + (i - l) \times (n - i - 1 - r)$，累加到答案中即可。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $rating$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $rating$ 的长度。
 
 <!-- tabs:start -->
 
@@ -451,71 +456,71 @@ func numTeams(rating []int) (ans int) {
 
 ```ts
 class BinaryIndexedTree {
-  private n: number;
-  private c: number[];
+    private n: number;
+    private c: number[];
 
-  constructor(n: number) {
-    this.n = n;
-    this.c = new Array(n + 1).fill(0);
-  }
-
-  public update(x: number, v: number): void {
-    while (x <= this.n) {
-      this.c[x] += v;
-      x += x & -x;
+    constructor(n: number) {
+        this.n = n;
+        this.c = new Array(n + 1).fill(0);
     }
-  }
 
-  public query(x: number): number {
-    let s = 0;
-    while (x > 0) {
-      s += this.c[x];
-      x -= x & -x;
+    public update(x: number, v: number): void {
+        while (x <= this.n) {
+            this.c[x] += v;
+            x += x & -x;
+        }
     }
-    return s;
-  }
+
+    public query(x: number): number {
+        let s = 0;
+        while (x > 0) {
+            s += this.c[x];
+            x -= x & -x;
+        }
+        return s;
+    }
 }
 
 function numTeams(rating: number[]): number {
-  let nums = [...rating];
-  nums.sort((a, b) => a - b);
-  const n = rating.length;
-  let m = 0;
-  for (let i = 0; i < n; ++i) {
-    if (i === 0 || nums[i] !== nums[i - 1]) {
-      nums[m++] = nums[i];
+    let nums = [...rating];
+    nums.sort((a, b) => a - b);
+    const n = rating.length;
+    let m = 0;
+    for (let i = 0; i < n; ++i) {
+        if (i === 0 || nums[i] !== nums[i - 1]) {
+            nums[m++] = nums[i];
+        }
     }
-  }
-  nums = nums.slice(0, m);
-  const search = (x: number): number => {
-    let l = 0;
-    let r = m;
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (nums[mid] >= x) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
+    nums = nums.slice(0, m);
+    const search = (x: number): number => {
+        let l = 0;
+        let r = m;
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (nums[mid] >= x) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l + 1;
+    };
+    let ans = 0;
+    const tree1 = new BinaryIndexedTree(m);
+    const tree2 = new BinaryIndexedTree(m);
+    for (const x of rating) {
+        tree2.update(search(x), 1);
     }
-    return l + 1;
-  };
-  let ans = 0;
-  const tree1 = new BinaryIndexedTree(m);
-  const tree2 = new BinaryIndexedTree(m);
-  for (const x of rating) {
-    tree2.update(search(x), 1);
-  }
-  for (let i = 0; i < n; ++i) {
-    const x = search(rating[i]);
-    tree1.update(x, 1);
-    tree2.update(x, -1);
-    const l = tree1.query(x - 1);
-    const r = n - i - 1 - tree2.query(x);
-    ans += l * r;
-    ans += (i - l) * (n - i - 1 - r);
-  }
-  return ans;
+    for (let i = 0; i < n; ++i) {
+        const x = search(rating[i]);
+        tree1.update(x, 1);
+        tree2.update(x, -1);
+        const l = tree1.query(x - 1);
+        const r = n - i - 1 - tree2.query(x);
+        ans += l * r;
+        ans += (i - l) * (n - i - 1 - r);
+    }
+    return ans;
 }
 ```
 
@@ -525,7 +530,7 @@ function numTeams(rating: number[]): number {
 
 <!-- solution:start -->
 
-### Solution 3: Recursion + Memoization
+### 方法三：记忆化搜索
 
 <!-- tabs:start -->
 
@@ -533,46 +538,46 @@ function numTeams(rating: number[]): number {
 
 ```ts
 function numTeams(rating: number[]): number {
-  const n = rating.length;
-  const f: Record<Type, number[][]> = {
-    asc: Array.from({ length: n }, () => Array(3).fill(-1)),
-    desc: Array.from({ length: n }, () => Array(3).fill(-1)),
-  };
+    const n = rating.length;
+    const f: Record<Type, number[][]> = {
+        asc: Array.from({ length: n }, () => Array(3).fill(-1)),
+        desc: Array.from({ length: n }, () => Array(3).fill(-1)),
+    };
 
-  const fn = (i: number, available: number, type: Type) => {
-    if (!available) {
-      return 1;
-    }
-    if (f[type][i][available] !== -1) {
-      return f[type][i][available];
-    }
+    const fn = (i: number, available: number, type: Type) => {
+        if (!available) {
+            return 1;
+        }
+        if (f[type][i][available] !== -1) {
+            return f[type][i][available];
+        }
+
+        let ans = 0;
+        for (let j = i + 1; j < n; j++) {
+            if (rating[j] > rating[i]) {
+                if (type === 'asc') {
+                    ans += fn(j, available - 1, 'asc');
+                }
+            } else {
+                if (type === 'desc') {
+                    ans += fn(j, available - 1, 'desc');
+                }
+            }
+        }
+        f[type][i][available] = ans;
+
+        return ans;
+    };
 
     let ans = 0;
-    for (let j = i + 1; j < n; j++) {
-      if (rating[j] > rating[i]) {
-        if (type === "asc") {
-          ans += fn(j, available - 1, "asc");
-        }
-      } else {
-        if (type === "desc") {
-          ans += fn(j, available - 1, "desc");
-        }
-      }
+    for (let i = 0; i < n; i++) {
+        ans += fn(i, 2, 'asc') + fn(i, 2, 'desc');
     }
-    f[type][i][available] = ans;
 
     return ans;
-  };
-
-  let ans = 0;
-  for (let i = 0; i < n; i++) {
-    ans += fn(i, 2, "asc") + fn(i, 2, "desc");
-  }
-
-  return ans;
 }
 
-type Type = "asc" | "desc";
+type Type = 'asc' | 'desc';
 ```
 
 #### JavaScript
@@ -583,43 +588,43 @@ type Type = "asc" | "desc";
  * @return {number}
  */
 var numTeams = function (rating) {
-  const n = rating.length;
-  const f = {
-    asc: Array.from({ length: n }, () => Array(3).fill(-1)),
-    desc: Array.from({ length: n }, () => Array(3).fill(-1)),
-  };
+    const n = rating.length;
+    const f = {
+        asc: Array.from({ length: n }, () => Array(3).fill(-1)),
+        desc: Array.from({ length: n }, () => Array(3).fill(-1)),
+    };
 
-  const fn = (i, available, type) => {
-    if (!available) {
-      return 1;
-    }
-    if (f[type][i][available] !== -1) {
-      return f[type][i][available];
-    }
+    const fn = (i, available, type) => {
+        if (!available) {
+            return 1;
+        }
+        if (f[type][i][available] !== -1) {
+            return f[type][i][available];
+        }
+
+        let ans = 0;
+        for (let j = i + 1; j < n; j++) {
+            if (rating[j] > rating[i]) {
+                if (type === 'asc') {
+                    ans += fn(j, available - 1, 'asc');
+                }
+            } else {
+                if (type === 'desc') {
+                    ans += fn(j, available - 1, 'desc');
+                }
+            }
+        }
+        f[type][i][available] = ans;
+
+        return ans;
+    };
 
     let ans = 0;
-    for (let j = i + 1; j < n; j++) {
-      if (rating[j] > rating[i]) {
-        if (type === "asc") {
-          ans += fn(j, available - 1, "asc");
-        }
-      } else {
-        if (type === "desc") {
-          ans += fn(j, available - 1, "desc");
-        }
-      }
+    for (let i = 0; i < n; i++) {
+        ans += fn(i, 2, 'asc') + fn(i, 2, 'desc');
     }
-    f[type][i][available] = ans;
 
     return ans;
-  };
-
-  let ans = 0;
-  for (let i = 0; i < n; i++) {
-    ans += fn(i, 2, "asc") + fn(i, 2, "desc");
-  }
-
-  return ans;
 };
 ```
 

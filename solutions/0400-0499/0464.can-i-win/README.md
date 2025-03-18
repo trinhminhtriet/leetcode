@@ -1,61 +1,66 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0464.Can%20I%20Win/README.md
 tags:
-  - Bit Manipulation
-  - Memoization
-  - Math
-  - Dynamic Programming
-  - Bitmask
-  - Game Theory
+    - 位运算
+    - 记忆化搜索
+    - 数学
+    - 动态规划
+    - 状态压缩
+    - 博弈
 ---
 
 <!-- problem:start -->
 
-# [464. Can I Win](https://leetcode.com/problems/can-i-win)
+# [464. 我能赢吗](https://leetcode.cn/problems/can-i-win)
 
-## Description
+[English Version](/solution/0400-0499/0464.Can%20I%20Win/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>In the &quot;100 game&quot; two players take turns adding, to a running total, any integer from <code>1</code> to <code>10</code>. The player who first causes the running total to <strong>reach or exceed</strong> 100 wins.</p>
+<p>在 "100 game" 这个游戏中，两名玩家轮流选择从 <code>1</code> 到 <code>10</code> 的任意整数，累计整数和，先使得累计整数和 <strong>达到或超过</strong>&nbsp; 100 的玩家，即为胜者。</p>
 
-<p>What if we change the game so that players <strong>cannot</strong> re-use integers?</p>
+<p>如果我们将游戏规则改为 “玩家 <strong>不能</strong> 重复使用整数” 呢？</p>
 
-<p>For example, two players might take turns drawing from a common pool of numbers from 1 to 15 without replacement until they reach a total &gt;= 100.</p>
+<p>例如，两个玩家可以轮流从公共整数池中抽取从 1 到 15 的整数（不放回），直到累计整数和 &gt;= 100。</p>
 
-<p>Given two integers <code>maxChoosableInteger</code> and <code>desiredTotal</code>, return <code>true</code> if the first player to move can force a win, otherwise, return <code>false</code>. Assume both players play <strong>optimally</strong>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> maxChoosableInteger = 10, desiredTotal = 11
-<strong>Output:</strong> false
-<strong>Explanation:</strong>
-No matter which integer the first player choose, the first player will lose.
-The first player can choose an integer from 1 up to 10.
-If the first player choose 1, the second player can only choose integers from 2 up to 10.
-The second player will win by choosing 10 and get a total = 11, which is &gt;= desiredTotal.
-Same with other integers chosen by the first player, the second player will always win.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> maxChoosableInteger = 10, desiredTotal = 0
-<strong>Output:</strong> true
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> maxChoosableInteger = 10, desiredTotal = 1
-<strong>Output:</strong> true
-</pre>
+<p>给定两个整数&nbsp;<code>maxChoosableInteger</code>&nbsp;（整数池中可选择的最大数）和&nbsp;<code>desiredTotal</code>（累计和），若先出手的玩家能稳赢则返回 <code>true</code>&nbsp;，否则返回 <code>false</code> 。假设两位玩家游戏时都表现 <strong>最佳</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>maxChoosableInteger = 10, desiredTotal = 11
+<strong>输出：</strong>false
+<strong>解释：
+</strong>无论第一个玩家选择哪个整数，他都会失败。
+第一个玩家可以选择从 1 到 10 的整数。
+如果第一个玩家选择 1，那么第二个玩家只能选择从 2 到 10 的整数。
+第二个玩家可以通过选择整数 10（那么累积和为 11 &gt;= desiredTotal），从而取得胜利.
+同样地，第一个玩家选择任意其他整数，第二个玩家都会赢。
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<b>输入：</b>maxChoosableInteger = 10, desiredTotal = 0
+<b>输出：</b>true
+</pre>
+
+<p><strong>示例 3:</strong></p>
+
+<pre>
+<strong>输入：</strong>maxChoosableInteger = 10, desiredTotal = 1
+<strong>输出：</strong>true
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= maxChoosableInteger &lt;= 20</code></li>
@@ -64,25 +69,25 @@ Same with other integers chosen by the first player, the second player will alwa
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: State Compression + Memoization
+### 方法一：状态压缩 + 记忆化搜索
 
-First, we check if the sum of all selectable integers is less than the target value. If so, it means that we cannot win no matter what, so we directly return `false`.
+我们首先判断可以选择的所有整数的和是否小于目标值，如果是，说明无论如何都无法赢，直接返回 `false`。
 
-Then, we design a function `dfs(mask, s)`, where `mask` represents the current state of the selected integers, and `s` represents the current cumulative sum. The return value of the function is whether the current player can win.
+然后，我们设计一个函数 $\textit{dfs}(mask, s)$，其中 `mask` 表示当前已选择的整数的状态，`s` 表示当前的累计和。函数返回值为当前玩家是否能赢。
 
-The execution process of the function `dfs(mask, s)` is as follows:
+函数 $\textit{dfs}(mask, s)$ 的执行过程如下：
 
-We iterate through each integer `i` from `1` to `maxChoosableInteger`. If `i` has not been selected, we can choose `i`. If the cumulative sum `s + i` after choosing `i` is greater than or equal to the target value `desiredTotal`, or if the result of the opponent choosing `i` is losing, then the current player is winning, return `true`.
+我们遍历 $1$ 到 $maxChoosableInteger$ 中的每个整数 $i$，如果 $i$ 还没有被选择，我们可以选择 $i$，如果选择 $i$ 后的累计和 $s + i$ 大于等于目标值 `desiredTotal`，或者对手选择 $i$ 后的结果是输的，那么当前玩家就是赢的，返回 `true`。
 
-If no choice can make the current player win, then the current player is losing, return `false`.
+如果没有任何一个选择能让当前玩家赢，那么当前玩家就是输的，返回 `false`。
 
-To avoid repeated calculations, we use a hash table `f` to record the calculated states, where the key is `mask`, and the value is whether the current player can win.
+为了避免重复计算，我们使用一个哈希表 `f` 记录已经计算过的状态，键为 `mask`，值为当前玩家是否能赢。
 
-The time complexity is $O(2^n)$, and the space complexity is $O(2^n)$. Where $n$ is `maxChoosableInteger`.
+时间复杂度 $O(2^n)$，空间复杂度 $O(2^n)$。其中 $n$ 是 `maxChoosableInteger`。
 
 <!-- tabs:start -->
 
@@ -199,24 +204,24 @@ func canIWin(maxChoosableInteger int, desiredTotal int) bool {
 
 ```ts
 function canIWin(maxChoosableInteger: number, desiredTotal: number): boolean {
-  if (((1 + maxChoosableInteger) * maxChoosableInteger) / 2 < desiredTotal) {
-    return false;
-  }
-  const f: Record<string, boolean> = {};
-  const dfs = (mask: number, s: number): boolean => {
-    if (f.hasOwnProperty(mask)) {
-      return f[mask];
+    if (((1 + maxChoosableInteger) * maxChoosableInteger) / 2 < desiredTotal) {
+        return false;
     }
-    for (let i = 1; i <= maxChoosableInteger; ++i) {
-      if (((mask >> i) & 1) ^ 1) {
-        if (s + i >= desiredTotal || !dfs(mask ^ (1 << i), s + i)) {
-          return (f[mask] = true);
+    const f: Record<string, boolean> = {};
+    const dfs = (mask: number, s: number): boolean => {
+        if (f.hasOwnProperty(mask)) {
+            return f[mask];
         }
-      }
-    }
-    return (f[mask] = false);
-  };
-  return dfs(0, 0);
+        for (let i = 1; i <= maxChoosableInteger; ++i) {
+            if (((mask >> i) & 1) ^ 1) {
+                if (s + i >= desiredTotal || !dfs(mask ^ (1 << i), s + i)) {
+                    return (f[mask] = true);
+                }
+            }
+        }
+        return (f[mask] = false);
+    };
+    return dfs(0, 0);
 }
 ```
 

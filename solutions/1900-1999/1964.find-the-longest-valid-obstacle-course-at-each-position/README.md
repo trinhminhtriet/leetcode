@@ -1,75 +1,80 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1964.Find%20the%20Longest%20Valid%20Obstacle%20Course%20at%20Each%20Position/README.md
 rating: 1933
-source: Weekly Contest 253 Q4
+source: 第 253 场周赛 Q4
 tags:
-  - Binary Indexed Tree
-  - Array
-  - Binary Search
+    - 树状数组
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [1964. Find the Longest Valid Obstacle Course at Each Position](https://leetcode.com/problems/find-the-longest-valid-obstacle-course-at-each-position)
+# [1964. 找出到每个位置为止最长的有效障碍赛跑路线](https://leetcode.cn/problems/find-the-longest-valid-obstacle-course-at-each-position)
 
-## Description
+[English Version](/solution/1900-1999/1964.Find%20the%20Longest%20Valid%20Obstacle%20Course%20at%20Each%20Position/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You want to build some obstacle courses. You are given a <strong>0-indexed</strong> integer array <code>obstacles</code> of length <code>n</code>, where <code>obstacles[i]</code> describes the height of the <code>i<sup>th</sup></code> obstacle.</p>
+<p>你打算构建一些障碍赛跑路线。给你一个 <strong>下标从 0 开始</strong> 的整数数组 <code>obstacles</code> ，数组长度为 <code>n</code> ，其中 <code>obstacles[i]</code> 表示第 <code>i</code> 个障碍的高度。</p>
 
-<p>For every index <code>i</code> between <code>0</code> and <code>n - 1</code> (<strong>inclusive</strong>), find the length of the <strong>longest obstacle course</strong> in <code>obstacles</code> such that:</p>
+<p>对于每个介于 <code>0</code> 和 <code>n - 1</code> 之间（包含 <code>0</code> 和 <code>n - 1</code>）的下标&nbsp; <code>i</code> ，在满足下述条件的前提下，请你找出&nbsp;<code>obstacles</code> 能构成的最长障碍路线的长度：</p>
 
 <ul>
-	<li>You choose any number of obstacles between <code>0</code> and <code>i</code> <strong>inclusive</strong>.</li>
-	<li>You must include the <code>i<sup>th</sup></code> obstacle in the course.</li>
-	<li>You must put the chosen obstacles in the <strong>same order</strong> as they appear in <code>obstacles</code>.</li>
-	<li>Every obstacle (except the first) is <strong>taller</strong> than or the <strong>same height</strong> as the obstacle immediately before it.</li>
+	<li>你可以选择下标介于 <code>0</code> 到 <code>i</code> 之间（包含 <code>0</code> 和 <code>i</code>）的任意个障碍。</li>
+	<li>在这条路线中，必须包含第 <code>i</code> 个障碍。</li>
+	<li>你必须按障碍在&nbsp;<code>obstacles</code>&nbsp;中的<strong> </strong><strong>出现顺序</strong> 布置这些障碍。</li>
+	<li>除第一个障碍外，路线中每个障碍的高度都必须和前一个障碍 <strong>相同</strong> 或者 <strong>更高</strong> 。</li>
 </ul>
 
-<p>Return <em>an array</em> <code>ans</code> <em>of length</em> <code>n</code>, <em>where</em> <code>ans[i]</code> <em>is the length of the <strong>longest obstacle course</strong> for index</em> <code>i</code><em> as described above</em>.</p>
+<p>返回长度为 <code>n</code> 的答案数组 <code>ans</code> ，其中 <code>ans[i]</code> 是上面所述的下标 <code>i</code> 对应的最长障碍赛跑路线的长度。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> obstacles = [1,2,3,2]
-<strong>Output:</strong> [1,2,3,3]
-<strong>Explanation:</strong> The longest valid obstacle course at each position is:
-- i = 0: [<u>1</u>], [1] has length 1.
-- i = 1: [<u>1</u>,<u>2</u>], [1,2] has length 2.
-- i = 2: [<u>1</u>,<u>2</u>,<u>3</u>], [1,2,3] has length 3.
-- i = 3: [<u>1</u>,<u>2</u>,3,<u>2</u>], [1,2,2] has length 3.
+<strong>输入：</strong>obstacles = [1,2,3,2]
+<strong>输出：</strong>[1,2,3,3]
+<strong>解释：</strong>每个位置的最长有效障碍路线是：
+- i = 0: [<em><strong>1</strong></em>], [1] 长度为 1
+- i = 1: [<em><strong>1</strong></em>,<em><strong>2</strong></em>], [1,2] 长度为 2
+- i = 2: [<em><strong>1</strong></em>,<em><strong>2</strong></em>,<em><strong>3</strong></em>], [1,2,3] 长度为 3
+- i = 3: [<em><strong>1</strong></em>,<em><strong>2</strong></em>,3,<em><strong>2</strong></em>], [1,2,2] 长度为 3
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> obstacles = [2,2,1]
-<strong>Output:</strong> [1,2,1]
-<strong>Explanation: </strong>The longest valid obstacle course at each position is:
-- i = 0: [<u>2</u>], [2] has length 1.
-- i = 1: [<u>2</u>,<u>2</u>], [2,2] has length 2.
-- i = 2: [2,2,<u>1</u>], [1] has length 1.
+<strong>输入：</strong>obstacles = [2,2,1]
+<strong>输出：</strong>[1,2,1]
+<strong>解释：</strong>每个位置的最长有效障碍路线是：
+- i = 0: [<em><strong>2</strong></em>], [2] 长度为 1
+- i = 1: [<em><strong>2</strong></em>,<em><strong>2</strong></em>], [2,2] 长度为 2
+- i = 2: [2,2,<em><strong>1</strong></em>], [1] 长度为 1
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> obstacles = [3,1,5,6,4,2]
-<strong>Output:</strong> [1,1,2,3,2,2]
-<strong>Explanation:</strong> The longest valid obstacle course at each position is:
-- i = 0: [<u>3</u>], [3] has length 1.
-- i = 1: [3,<u>1</u>], [1] has length 1.
-- i = 2: [<u>3</u>,1,<u>5</u>], [3,5] has length 2. [1,5] is also valid.
-- i = 3: [<u>3</u>,1,<u>5</u>,<u>6</u>], [3,5,6] has length 3. [1,5,6] is also valid.
-- i = 4: [<u>3</u>,1,5,6,<u>4</u>], [3,4] has length 2. [1,4] is also valid.
-- i = 5: [3,<u>1</u>,5,6,4,<u>2</u>], [1,2] has length 2.
+<strong>输入：</strong>obstacles = [3,1,5,6,4,2]
+<strong>输出：</strong>[1,1,2,3,2,2]
+<strong>解释：</strong>每个位置的最长有效障碍路线是：
+- i = 0: [<em><strong>3</strong></em>], [3] 长度为 1
+- i = 1: [3,<em><strong>1</strong></em>], [1] 长度为 1
+- i = 2: [<em><strong>3</strong></em>,1,<em><strong>5</strong></em>], [3,5] 长度为 2, [1,5] 也是有效的障碍赛跑路线
+- i = 3: [<em><strong>3</strong></em>,1,<em><strong>5</strong></em>,<em><strong>6</strong></em>], [3,5,6] 长度为 3, [1,5,6] 也是有效的障碍赛跑路线
+- i = 4: [<em><strong>3</strong></em>,1,5,6,<em><strong>4</strong></em>], [3,4] 长度为 2, [1,4] 也是有效的障碍赛跑路线
+- i = 5: [3,<em><strong>1</strong></em>,5,6,4,<em><strong>2</strong></em>], [1,2] 长度为 2
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == obstacles.length</code></li>
@@ -79,17 +84,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Indexed Tree (Fenwick Tree)
+### 方法一：树状数组
 
-We can use a Binary Indexed Tree to maintain an array of the lengths of the longest increasing subsequences.
+我们可以用树状数组维护一个最长递增子序列的长度数组。
 
-Then for each obstacle, we query in the Binary Indexed Tree for the length of the longest increasing subsequence that is less than or equal to the current obstacle, suppose it is $l$. Then the length of the longest increasing subsequence of the current obstacle is $l+1$. We add $l+1$ to the answer array, and update $l+1$ in the Binary Indexed Tree.
+然后对于每个障碍，我们在树状数组中查询小于等于当前障碍的最长递增子序列的长度，假设为 $l$，那么当前障碍的最长递增子序列的长度为 $l+1$，我们将 $l+1$ 添加到答案数组中，并将 $l+1$ 更新到树状数组。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the number of obstacles.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为障碍的数量。
 
 <!-- tabs:start -->
 
@@ -272,55 +277,55 @@ func longestObstacleCourseAtEachPosition(obstacles []int) (ans []int) {
 
 ```ts
 class BinaryIndexedTree {
-  private n: number;
-  private c: number[];
+    private n: number;
+    private c: number[];
 
-  constructor(n: number) {
-    this.n = n;
-    this.c = Array(n + 1).fill(0);
-  }
-
-  update(x: number, v: number): void {
-    while (x <= this.n) {
-      this.c[x] = Math.max(this.c[x], v);
-      x += x & -x;
+    constructor(n: number) {
+        this.n = n;
+        this.c = Array(n + 1).fill(0);
     }
-  }
 
-  query(x: number): number {
-    let s = 0;
-    while (x > 0) {
-      s = Math.max(s, this.c[x]);
-      x -= x & -x;
+    update(x: number, v: number): void {
+        while (x <= this.n) {
+            this.c[x] = Math.max(this.c[x], v);
+            x += x & -x;
+        }
     }
-    return s;
-  }
+
+    query(x: number): number {
+        let s = 0;
+        while (x > 0) {
+            s = Math.max(s, this.c[x]);
+            x -= x & -x;
+        }
+        return s;
+    }
 }
 
 function longestObstacleCourseAtEachPosition(obstacles: number[]): number[] {
-  const nums: number[] = [...obstacles];
-  nums.sort((a, b) => a - b);
-  const n: number = nums.length;
-  const ans: number[] = [];
-  const tree: BinaryIndexedTree = new BinaryIndexedTree(n);
-  const search = (x: number): number => {
-    let [l, r] = [0, n];
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (nums[mid] >= x) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
+    const nums: number[] = [...obstacles];
+    nums.sort((a, b) => a - b);
+    const n: number = nums.length;
+    const ans: number[] = [];
+    const tree: BinaryIndexedTree = new BinaryIndexedTree(n);
+    const search = (x: number): number => {
+        let [l, r] = [0, n];
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (nums[mid] >= x) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l;
+    };
+    for (let k = 0; k < n; ++k) {
+        const i: number = search(obstacles[k]) + 1;
+        ans[k] = tree.query(i) + 1;
+        tree.update(i, ans[k]);
     }
-    return l;
-  };
-  for (let k = 0; k < n; ++k) {
-    const i: number = search(obstacles[k]) + 1;
-    ans[k] = tree.query(i) + 1;
-    tree.update(i, ans[k]);
-  }
-  return ans;
+    return ans;
 }
 ```
 

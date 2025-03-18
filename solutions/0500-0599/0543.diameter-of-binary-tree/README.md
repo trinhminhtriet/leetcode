@@ -1,57 +1,66 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0543.Diameter%20of%20Binary%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [543. Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree)
+# [543. 二叉树的直径](https://leetcode.cn/problems/diameter-of-binary-tree)
 
-## Description
+[English Version](/solution/0500-0599/0543.Diameter%20of%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, return <em>the length of the <strong>diameter</strong> of the tree</em>.</p>
+<p>给你一棵二叉树的根节点，返回该树的 <strong>直径</strong> 。</p>
 
-<p>The <strong>diameter</strong> of a binary tree is the <strong>length</strong> of the longest path between any two nodes in a tree. This path may or may not pass through the <code>root</code>.</p>
+<p>二叉树的 <strong>直径</strong> 是指树中任意两个节点之间最长路径的 <strong>长度</strong> 。这条路径可能经过也可能不经过根节点 <code>root</code> 。</p>
 
-<p>The <strong>length</strong> of a path between two nodes is represented by the number of edges between them.</p>
+<p>两节点之间路径的 <strong>长度</strong> 由它们之间边数表示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0543.Diameter%20of%20Binary%20Tree/images/diamtree.jpg" style="width: 292px; height: 302px;" />
 <pre>
-<strong>Input:</strong> root = [1,2,3,4,5]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 3 is the length of the path [4,2,1,3] or [5,2,1,3].
+<strong>输入：</strong>root = [1,2,3,4,5]
+<strong>输出：</strong>3
+<strong>解释：</strong>3 ，取路径 [4,2,1,3] 或 [5,2,1,3] 的长度。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> root = [1,2]
-<strong>Output:</strong> 1
+<strong>输入：</strong>root = [1,2]
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li>树中节点数目在范围 <code>[1, 10<sup>4</sup>]</code> 内</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：枚举 + DFS
+
+我们可以枚举二叉树的每个节点，以该节点为根节点，计算其左右子树的最大深度 $\textit{l}$ 和 $\textit{r}$，则该节点的直径为 $\textit{l} + \textit{r}$。取所有节点的直径的最大值即为二叉树的直径。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -101,7 +110,6 @@ class Solution {
     private int ans;
 
     public int diameterOfBinaryTree(TreeNode root) {
-        ans = 0;
         dfs(root);
         return ans;
     }
@@ -110,10 +118,10 @@ class Solution {
         if (root == null) {
             return 0;
         }
-        int left = dfs(root.left);
-        int right = dfs(root.right);
-        ans = Math.max(ans, left + right);
-        return 1 + Math.max(left, right);
+        int l = dfs(root.left);
+        int r = dfs(root.right);
+        ans = Math.max(ans, l + r);
+        return 1 + Math.max(l, r);
     }
 }
 ```
@@ -134,20 +142,19 @@ class Solution {
  */
 class Solution {
 public:
-    int ans;
-
     int diameterOfBinaryTree(TreeNode* root) {
-        ans = 0;
+        int ans = 0;
+        auto dfs = [&](this auto&& dfs, TreeNode* root) -> int {
+            if (!root) {
+                return 0;
+            }
+            int l = dfs(root->left);
+            int r = dfs(root->right);
+            ans = max(ans, l + r);
+            return 1 + max(l, r);
+        };
         dfs(root);
         return ans;
-    }
-
-    int dfs(TreeNode* root) {
-        if (!root) return 0;
-        int left = dfs(root->left);
-        int right = dfs(root->right);
-        ans = max(ans, left + right);
-        return 1 + max(left, right);
     }
 };
 ```
@@ -163,19 +170,18 @@ public:
  *     Right *TreeNode
  * }
  */
-func diameterOfBinaryTree(root *TreeNode) int {
-	ans := 0
+func diameterOfBinaryTree(root *TreeNode) (ans int) {
 	var dfs func(root *TreeNode) int
 	dfs = func(root *TreeNode) int {
 		if root == nil {
 			return 0
 		}
-		left, right := dfs(root.Left), dfs(root.Right)
-		ans = max(ans, left+right)
-		return 1 + max(left, right)
+		l, r := dfs(root.Left), dfs(root.Right)
+		ans = max(ans, l+r)
+		return 1 + max(l, r)
 	}
 	dfs(root)
-	return ans
+	return
 }
 ```
 
@@ -197,19 +203,17 @@ func diameterOfBinaryTree(root *TreeNode) int {
  */
 
 function diameterOfBinaryTree(root: TreeNode | null): number {
-  let res = 0;
-  const dfs = (root: TreeNode | null) => {
-    if (root == null) {
-      return 0;
-    }
-    const { left, right } = root;
-    const l = dfs(left);
-    const r = dfs(right);
-    res = Math.max(res, l + r);
-    return Math.max(l, r) + 1;
-  };
-  dfs(root);
-  return res;
+    let ans = 0;
+    const dfs = (root: TreeNode | null): number => {
+        if (!root) {
+            return 0;
+        }
+        const [l, r] = [dfs(root.left), dfs(root.right)];
+        ans = Math.max(ans, l + r);
+        return 1 + Math.max(l, r);
+    };
+    dfs(root);
+    return ans;
 }
 ```
 
@@ -237,21 +241,90 @@ function diameterOfBinaryTree(root: TreeNode | null): number {
 use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
-    fn dfs(root: &Option<Rc<RefCell<TreeNode>>>, res: &mut i32) -> i32 {
-        if root.is_none() {
+    pub fn diameter_of_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        let mut ans = 0;
+        fn dfs(root: Option<Rc<RefCell<TreeNode>>>, ans: &mut i32) -> i32 {
+            match root {
+                Some(node) => {
+                    let node = node.borrow();
+                    let l = dfs(node.left.clone(), ans);
+                    let r = dfs(node.right.clone(), ans);
+
+                    *ans = (*ans).max(l + r);
+
+                    1 + l.max(r)
+                }
+                None => 0,
+            }
+        }
+        dfs(root, &mut ans);
+        ans
+    }
+}
+```
+
+#### JavaScript
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var diameterOfBinaryTree = function (root) {
+    let ans = 0;
+    const dfs = root => {
+        if (!root) {
             return 0;
         }
-        let root = root.as_ref().unwrap().as_ref().borrow();
-        let left = Self::dfs(&root.left, res);
-        let right = Self::dfs(&root.right, res);
-        *res = (*res).max(left + right);
-        left.max(right) + 1
+        const [l, r] = [dfs(root.left), dfs(root.right)];
+        ans = Math.max(ans, l + r);
+        return 1 + Math.max(l, r);
+    };
+    dfs(root);
+    return ans;
+};
+```
+
+#### C#
+
+```cs
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    private int ans;
+
+    public int DiameterOfBinaryTree(TreeNode root) {
+        dfs(root);
+        return ans;
     }
 
-    pub fn diameter_of_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        let mut res = 0;
-        Self::dfs(&root, &mut res);
-        res
+    private int dfs(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int l = dfs(root.left);
+        int r = dfs(root.right);
+        ans = Math.Max(ans, l + r);
+        return 1 + Math.Max(l, r);
     }
 }
 ```
@@ -267,80 +340,23 @@ impl Solution {
  *     struct TreeNode *right;
  * };
  */
-
-#define max(a, b) (((a) > (b)) ? (a) : (b))
-
-int dfs(struct TreeNode* root, int* res) {
-    if (!root) {
+int dfs(struct TreeNode* root, int* ans) {
+    if (root == NULL) {
         return 0;
     }
-    int left = dfs(root->left, res);
-    int right = dfs(root->right, res);
-    *res = max(*res, left + right);
-    return max(left, right) + 1;
+    int l = dfs(root->left, ans);
+    int r = dfs(root->right, ans);
+    if (l + r > *ans) {
+        *ans = l + r;
+    }
+    return 1 + (l > r ? l : r);
 }
 
 int diameterOfBinaryTree(struct TreeNode* root) {
-    int res = 0;
-    dfs(root, &res);
-    return res;
+    int ans = 0;
+    dfs(root, &ans);
+    return ans;
 }
-```
-
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### Solution 2
-
-<!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def diameterOfBinaryTree(self, root: TreeNode) -> int:
-        def build(root):
-            if root is None:
-                return
-            nonlocal d
-            if root.left:
-                d[root].add(root.left)
-                d[root.left].add(root)
-            if root.right:
-                d[root].add(root.right)
-                d[root.right].add(root)
-            build(root.left)
-            build(root.right)
-
-        def dfs(u, t):
-            nonlocal ans, vis, d, next
-            if u in vis:
-                return
-            vis.add(u)
-            if t > ans:
-                ans = t
-                next = u
-            for v in d[u]:
-                dfs(v, t + 1)
-
-        d = defaultdict(set)
-        ans = 0
-        next = root
-        build(root)
-        vis = set()
-        dfs(next, 0)
-        vis.clear()
-        dfs(next, 0)
-        return ans
 ```
 
 <!-- tabs:end -->

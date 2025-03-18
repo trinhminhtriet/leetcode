@@ -1,52 +1,59 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3162.Find%20the%20Number%20of%20Good%20Pairs%20I/README.md
 rating: 1168
-source: Weekly Contest 399 Q1
+source: 第 399 场周赛 Q1
 tags:
-  - Array
-  - Hash Table
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [3162. Find the Number of Good Pairs I](https://leetcode.com/problems/find-the-number-of-good-pairs-i)
+# [3162. 优质数对的总数 I](https://leetcode.cn/problems/find-the-number-of-good-pairs-i)
 
-## Description
+[English Version](/solution/3100-3199/3162.Find%20the%20Number%20of%20Good%20Pairs%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given 2 integer arrays <code>nums1</code> and <code>nums2</code> of lengths <code>n</code> and <code>m</code> respectively. You are also given a <strong>positive</strong> integer <code>k</code>.</p>
+<p>给你两个整数数组 <code>nums1</code> 和 <code>nums2</code>，长度分别为 <code>n</code> 和 <code>m</code>。同时给你一个<strong>正整数</strong> <code>k</code>。</p>
 
-<p>A pair <code>(i, j)</code> is called <strong>good</strong> if <code>nums1[i]</code> is divisible by <code>nums2[j] * k</code> (<code>0 &lt;= i &lt;= n - 1</code>, <code>0 &lt;= j &lt;= m - 1</code>).</p>
+<p>如果 <code>nums1[i]</code> 可以除尽&nbsp;<code>nums2[j] * k</code>，则称数对 <code>(i, j)</code> 为 <strong>优质数对</strong>（<code>0 &lt;= i &lt;= n - 1</code>, <code>0 &lt;= j &lt;= m - 1</code>）。</p>
 
-<p>Return the total number of <strong>good</strong> pairs.</p>
+<p>返回<strong> 优质数对 </strong>的总数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums1 = [1,3,4], nums2 = [1,3,4], k = 1</span></p>
+<p><strong>输入：</strong><span class="example-io">nums1 = [1,3,4], nums2 = [1,3,4], k = 1</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">5</span></p>
+<p><strong>输出：</strong><span class="example-io">5</span></p>
 
-<p><strong>Explanation:</strong></p>
-The 5 good pairs are <code>(0, 0)</code>, <code>(1, 0)</code>, <code>(1, 1)</code>, <code>(2, 0)</code>, and <code>(2, 2)</code>.</div>
+<p><strong>解释：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<p>5个优质数对分别是 <code>(0, 0)</code>, <code>(1, 0)</code>, <code>(1, 1)</code>, <code>(2, 0)</code>, 和 <code>(2, 2)</code>。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums1 = [1,2,4,12], nums2 = [2,4], k = 3</span></p>
+<p><strong>输入：</strong><span class="example-io">nums1 = [1,2,4,12], nums2 = [2,4], k = 3</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><strong>输出：</strong><span class="example-io">2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The 2 good pairs are <code>(3, 0)</code> and <code>(3, 1)</code>.</p>
+<p>2个优质数对分别是 <code>(3, 0)</code> 和 <code>(3, 1)</code>。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, m &lt;= 50</code></li>
@@ -56,17 +63,17 @@ The 5 good pairs are <code>(0, 0)</code>, <code>(1, 0)</code>, <code>(1, 1)</cod
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Brute Force Enumeration
+### 方法一：暴力枚举
 
-We directly enumerate all digit pairs $(x, y)$ and check whether $x \bmod (y \times k) = 0$. If it satisfies the condition, increment the answer by one.
+我们直接枚举所有的数位 $(x, y)$，判断是否满足 $x \bmod (y \times k) = 0$，如果满足则答案加一。
 
-After the enumeration is complete, return the answer.
+枚举结束后，返回答案即可。
 
-The time complexity is $O(m \times n)$, where $m$ and $n$ are the lengths of arrays $\textit{nums1}$ and $\textit{nums2}$, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是数组 $\textit{nums1}$ 和 $\textit{nums2}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -134,15 +141,15 @@ func numberOfPairs(nums1 []int, nums2 []int, k int) (ans int) {
 
 ```ts
 function numberOfPairs(nums1: number[], nums2: number[], k: number): number {
-  let ans = 0;
-  for (const x of nums1) {
-    for (const y of nums2) {
-      if (x % (y * k) === 0) {
-        ++ans;
-      }
+    let ans = 0;
+    for (const x of nums1) {
+        for (const y of nums2) {
+            if (x % (y * k) === 0) {
+                ++ans;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -152,13 +159,13 @@ function numberOfPairs(nums1: number[], nums2: number[], k: number): number {
 
 <!-- solution:start -->
 
-### Solution 2: Hash Table + Enumerate Multiples
+### 方法二：哈希表 + 枚举倍数
 
-We use a hash table `cnt1` to record the occurrence times of each number divided by $k$ in array `nums1`, and a hash table `cnt2` to record the occurrence times of each number in array `nums2`.
+我们用一个哈希表 $\textit{cnt1}$ 记录数组 $\textit{nums1}$ 中每个数除以 $k$ 的商的出现次数，用一个哈希表 $\textit{cnt2}$ 记录数组 $\textit{nums2}$ 中每个数的出现次数。
 
-Next, we enumerate each number $x$ in array `nums2`. For each number $x$, we enumerate its multiples $y$, where the range of $y$ is $[x, \textit{mx}]$, where `mx` is the maximum key value in `cnt1`. Then we count the sum of `cnt1[y]`, denoted as $s$. Finally, we add $s \times v$ to the answer, where $v$ is `cnt2[x]`.
+接下来，我们枚举数组 $\textit{nums2}$ 中的每个数 $x$，对于每个数 $x$，我们枚举 $x$ 的倍数 $y$，其中 $y$ 的范围是 $[x, \textit{mx}]$，其中 $\textit{mx}$ 是 $\textit{cnt1}$ 中的最大键值，然后我们统计 $\textit{cnt1}[y]$ 的和，记为 $s$，最后我们将 $s \times v$ 累加到答案中，其中 $v$ 是 $\textit{cnt2}[x]$。
 
-The time complexity is $O(n + m + (M / k) \times \log m)$, and the space complexity is $O(n + m)$. Where $n$ and $m$ are the lengths of arrays `nums1` and `nums2` respectively, and $M$ is the maximum value in array `nums1`.
+时间复杂度 $O(n + m + (M / k) \times \log m)$，空间复杂度 $O(n + m)$，其中 $n$ 和 $m$ 分别是数组 $\textit{nums1}$ 和 $\textit{nums2}$ 的长度，而 $M$ 是数组 $\textit{nums1}$ 中的最大值。
 
 <!-- tabs:start -->
 
@@ -284,29 +291,29 @@ func numberOfPairs(nums1 []int, nums2 []int, k int) (ans int) {
 
 ```ts
 function numberOfPairs(nums1: number[], nums2: number[], k: number): number {
-  const cnt1: Map<number, number> = new Map();
-  for (const x of nums1) {
-    if (x % k === 0) {
-      cnt1.set((x / k) | 0, (cnt1.get((x / k) | 0) || 0) + 1);
+    const cnt1: Map<number, number> = new Map();
+    for (const x of nums1) {
+        if (x % k === 0) {
+            cnt1.set((x / k) | 0, (cnt1.get((x / k) | 0) || 0) + 1);
+        }
     }
-  }
-  if (cnt1.size === 0) {
-    return 0;
-  }
-  const cnt2: Map<number, number> = new Map();
-  for (const x of nums2) {
-    cnt2.set(x, (cnt2.get(x) || 0) + 1);
-  }
-  const mx = Math.max(...cnt1.keys());
-  let ans = 0;
-  for (const [x, v] of cnt2) {
-    let s = 0;
-    for (let y = x; y <= mx; y += x) {
-      s += cnt1.get(y) || 0;
+    if (cnt1.size === 0) {
+        return 0;
     }
-    ans += s * v;
-  }
-  return ans;
+    const cnt2: Map<number, number> = new Map();
+    for (const x of nums2) {
+        cnt2.set(x, (cnt2.get(x) || 0) + 1);
+    }
+    const mx = Math.max(...cnt1.keys());
+    let ans = 0;
+    for (const [x, v] of cnt2) {
+        let s = 0;
+        for (let y = x; y <= mx; y += x) {
+            s += cnt1.get(y) || 0;
+        }
+        ans += s * v;
+    }
+    return ans;
 }
 ```
 

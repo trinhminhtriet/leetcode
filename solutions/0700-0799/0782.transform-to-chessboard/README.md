@@ -1,71 +1,99 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0782.Transform%20to%20Chessboard/README.md
 tags:
-  - Bit Manipulation
-  - Array
-  - Math
-  - Matrix
+    - 位运算
+    - 数组
+    - 数学
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [782. Transform to Chessboard](https://leetcode.com/problems/transform-to-chessboard)
+# [782. 变为棋盘](https://leetcode.cn/problems/transform-to-chessboard)
 
-## Description
+[English Version](/solution/0700-0799/0782.Transform%20to%20Chessboard/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>n x n</code> binary grid <code>board</code>. In each move, you can swap any two rows with each other, or any two columns with each other.</p>
+<p>一个&nbsp;<code>n x n</code>&nbsp;的二维网络&nbsp;<code>board</code>&nbsp;仅由&nbsp;<code>0</code>&nbsp;和&nbsp;<code>1</code>&nbsp;组成&nbsp;。每次移动，你能交换任意两列或是两行的位置。</p>
 
-<p>Return <em>the minimum number of moves to transform the board into a <strong>chessboard board</strong></em>. If the task is impossible, return <code>-1</code>.</p>
+<p>返回 <em>将这个矩阵变为<strong>&nbsp; “棋盘”&nbsp;&nbsp;</strong>所需的最小移动次数&nbsp;</em>。如果不存在可行的变换，输出 <code>-1</code>。</p>
 
-<p>A <strong>chessboard board</strong> is a board where no <code>0</code>&#39;s and no <code>1</code>&#39;s are 4-directionally adjacent.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0782.Transform%20to%20Chessboard/images/chessboard1-grid.jpg" style="width: 500px; height: 145px;" />
-<pre>
-<strong>Input:</strong> board = [[0,1,1,0],[0,1,1,0],[1,0,0,1],[1,0,0,1]]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> One potential sequence of moves is shown.
-The first move swaps the first and second column.
-The second move swaps the second and third row.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0782.Transform%20to%20Chessboard/images/chessboard2-grid.jpg" style="width: 164px; height: 165px;" />
-<pre>
-<strong>Input:</strong> board = [[0,1],[1,0]]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Also note that the board with 0 in the top left corner, is also a valid chessboard.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0782.Transform%20to%20Chessboard/images/chessboard3-grid.jpg" style="width: 164px; height: 165px;" />
-<pre>
-<strong>Input:</strong> board = [[1,0],[1,0]]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> No matter what sequence of moves you make, you cannot end with a valid chessboard.
-</pre>
+<p><strong>“棋盘”</strong> 是指任意一格的上下左右四个方向的值均与本身不同的矩阵。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0782.Transform%20to%20Chessboard/images/chessboard1-grid.jpg" style="height: 145px; width: 500px;" /></p>
+
+<pre>
+<strong>输入:</strong> board = [[0,1,1,0],[0,1,1,0],[1,0,0,1],[1,0,0,1]]
+<strong>输出:</strong> 2
+<strong>解释:</strong>一种可行的变换方式如下，从左到右：
+第一次移动交换了第一列和第二列。
+第二次移动交换了第二行和第三行。
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0782.Transform%20to%20Chessboard/images/chessboard2-grid.jpg" /></p>
+
+<pre>
+<strong>输入:</strong> board = [[0, 1], [1, 0]]
+<strong>输出:</strong> 0
+<strong>解释: </strong>注意左上角的格值为0时也是合法的棋盘，也是合法的棋盘.
+</pre>
+
+<p><strong>示例 3:</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0782.Transform%20to%20Chessboard/images/chessboard3-grid.jpg" /></p>
+
+<pre>
+<strong>输入:</strong> board = [[1, 0], [1, 0]]
+<strong>输出:</strong> -1
+<strong>解释: </strong>任意的变换都不能使这个输入变为合法的棋盘。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == board.length</code></li>
 	<li><code>n == board[i].length</code></li>
 	<li><code>2 &lt;= n &lt;= 30</code></li>
-	<li><code>board[i][j]</code> is either&nbsp;<code>0</code> or <code>1</code>.</li>
+	<li><code>board[i][j]</code>&nbsp;将只包含&nbsp;<code>0</code>或&nbsp;<code>1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：规律观察 + 状态压缩
+
+在一个有效的棋盘中，有且仅有两种“行”。
+
+例如，如果棋盘中有一行为“01010011”，那么任何其它行只能为“01010011”或者“10101100”。列也满足这种性质。
+
+另外，每一行和每一列都有一半 $0$ 和一半 $1$。假设棋盘为 $n \times n$：
+
+-   若 $n = 2 \times k$，则每一行和每一列都有 $k$ 个 $1$ 和 $k$ 个 $0$。
+-   若 $n = 2 \times k + 1$，则每一行都有 $k$ 个 $1$ 和 $k + 1$ 个 $0$，或者 $k + 1$ 个 $1$ 和 $k$ 个 $0$。
+
+基于以上的结论，我们可以判断一个棋盘是否有效。若有效，可以计算出最小的移动次数。
+
+若 $n$ 为偶数，最终的合法棋盘有两种可能，即第一行的元素为“010101...”，或者“101010...”。我们计算出这两种可能所需要交换的次数的较小值作为答案。
+
+若 $n$ 为奇数，那么最终的合法棋盘只有一种可能。如果第一行中 $0$ 的数目大于 $1$，那么最终一盘的第一行只能是“01010...”，否则就是“10101...”。同样算出次数作为答案。
+
+时间复杂度 $O(n^2)$，其中 $n$ 是棋盘的大小。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

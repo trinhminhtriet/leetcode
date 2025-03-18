@@ -1,75 +1,80 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1871.Jump%20Game%20VII/README.md
 rating: 1896
-source: Weekly Contest 242 Q3
+source: 第 242 场周赛 Q3
 tags:
-  - String
-  - Dynamic Programming
-  - Prefix Sum
-  - Sliding Window
+    - 字符串
+    - 动态规划
+    - 前缀和
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1871. Jump Game VII](https://leetcode.com/problems/jump-game-vii)
+# [1871. 跳跃游戏 VII](https://leetcode.cn/problems/jump-game-vii)
 
-## Description
+[English Version](/solution/1800-1899/1871.Jump%20Game%20VII/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> binary string <code>s</code> and two integers <code>minJump</code> and <code>maxJump</code>. In the beginning, you are standing at index <code>0</code>, which is equal to <code>&#39;0&#39;</code>. You can move from index <code>i</code> to index <code>j</code> if the following conditions are fulfilled:</p>
+<p>给你一个下标从 <strong>0 </strong>开始的二进制字符串 <code>s</code> 和两个整数 <code>minJump</code> 和 <code>maxJump</code> 。一开始，你在下标 <code>0</code> 处，且该位置的值一定为 <code>'0'</code> 。当同时满足如下条件时，你可以从下标 <code>i</code> 移动到下标 <code>j</code> 处：</p>
 
 <ul>
-	<li><code>i + minJump &lt;= j &lt;= min(i + maxJump, s.length - 1)</code>, and</li>
-	<li><code>s[j] == &#39;0&#39;</code>.</li>
+	<li><code>i + minJump <= j <= min(i + maxJump, s.length - 1)</code> 且</li>
+	<li><code>s[j] == '0'</code>.</li>
 </ul>
 
-<p>Return <code>true</code><i> if you can reach index </i><code>s.length - 1</code><i> in </i><code>s</code><em>, or </em><code>false</code><em> otherwise.</em></p>
+<p>如果你可以到达 <code>s</code> 的下标<i> </i><code>s.length - 1</code> 处，请你返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s = &quot;<u>0</u>11<u>0</u>1<u>0</u>&quot;, minJump = 2, maxJump = 3
-<strong>Output:</strong> true
-<strong>Explanation:</strong>
-In the first step, move from index 0 to index 3. 
-In the second step, move from index 3 to index 5.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;01101110&quot;, minJump = 2, maxJump = 3
-<strong>Output:</strong> false
+<b>输入：</b>s = "<strong>0</strong>11<strong>0</strong>1<strong>0</strong>", minJump = 2, maxJump = 3
+<b>输出：</b>true
+<strong>解释：</strong>
+第一步，从下标 0 移动到下标 3 。
+第二步，从下标 3 移动到下标 5 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>s = "01101110", minJump = 2, maxJump = 3
+<b>输出：</b>false
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>2 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
-	<li><code>s[0] == &#39;0&#39;</code></li>
-	<li><code>1 &lt;= minJump &lt;= maxJump &lt; s.length</code></li>
+	<li><code>2 <= s.length <= 10<sup>5</sup></code></li>
+	<li><code>s[i]</code> 要么是 <code>'0'</code> ，要么是 <code>'1'</code></li>
+	<li><code>s[0] == '0'</code></li>
+	<li><code>1 <= minJump <= maxJump < s.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Dynamic Programming
+### 方法一：前缀和 + 动态规划
 
-We define a prefix sum array $pre$ of length $n+1$, where $pre[i]$ represents the number of reachable positions in the first $i$ positions of $s$. We define a boolean array $f$ of length $n$, where $f[i]$ indicates whether $s[i]$ is reachable. Initially, $pre[1] = 1$ and $f[0] = true$.
+我们定义一个长度为 $n+1$ 的前缀和数组 $pre$，其中 $pre[i]$ 表示 $s$ 的前 $i$ 个位置中能够到达的个数。定义一个长度为 $n$ 的布尔数组 $f$，其中 $f[i]$ 表示 $s[i]$ 是否能够到达。初始时 $pre[1] = 1$，而 $f[0] = true$。
 
-Consider $i \in [1, n)$, if $s[i] = 0$, then we need to determine whether there exists a position $j$ in the first $i$ positions of $s$, such that $j$ is reachable and the distance from $j$ to $i$ is within $[minJump, maxJump]$. If such a position $j$ exists, then we have $f[i] = true$, otherwise $f[i] = false$. When determining whether $j$ exists, we can use the prefix sum array $pre$ to determine whether such a position $j$ exists in $O(1)$ time.
+考虑 $i \in [1, n)$，如果 $s[i] = 0$，那么我们需要判断 $s$ 的前 $i$ 个位置中是否存在一个位置 $j$，满足 $j$ 能够到达且 $j$ 到 $i$ 的距离在 $[minJump, maxJump]$ 之间。如果存在这样的位置 $j$，那么我们就有 $f[i] = true$，否则 $f[i] = false$。在判断 $j$ 是否存在时，我们可以通过前缀和数组 $pre$ 在 $O(1)$ 的时间内判断是否存在这样的位置 $j$。
 
-The final answer is $f[n-1]$.
+最终答案即为 $f[n-1]$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -166,19 +171,19 @@ func canReach(s string, minJump int, maxJump int) bool {
 
 ```ts
 function canReach(s: string, minJump: number, maxJump: number): boolean {
-  const n = s.length;
-  const pre: number[] = Array(n + 1).fill(0);
-  pre[1] = 1;
-  const f: boolean[] = Array(n).fill(false);
-  f[0] = true;
-  for (let i = 1; i < n; ++i) {
-    if (s[i] === "0") {
-      const [l, r] = [Math.max(0, i - maxJump), i - minJump];
-      f[i] = l <= r && pre[r + 1] - pre[l] > 0;
+    const n = s.length;
+    const pre: number[] = Array(n + 1).fill(0);
+    pre[1] = 1;
+    const f: boolean[] = Array(n).fill(false);
+    f[0] = true;
+    for (let i = 1; i < n; ++i) {
+        if (s[i] === '0') {
+            const [l, r] = [Math.max(0, i - maxJump), i - minJump];
+            f[i] = l <= r && pre[r + 1] - pre[l] > 0;
+        }
+        pre[i + 1] = pre[i] + (f[i] ? 1 : 0);
     }
-    pre[i + 1] = pre[i] + (f[i] ? 1 : 0);
-  }
-  return f[n - 1];
+    return f[n - 1];
 }
 ```
 
@@ -192,19 +197,19 @@ function canReach(s: string, minJump: number, maxJump: number): boolean {
  * @return {boolean}
  */
 var canReach = function (s, minJump, maxJump) {
-  const n = s.length;
-  const pre = Array(n + 1).fill(0);
-  pre[1] = 1;
-  const f = Array(n).fill(false);
-  f[0] = true;
-  for (let i = 1; i < n; ++i) {
-    if (s[i] === "0") {
-      const [l, r] = [Math.max(0, i - maxJump), i - minJump];
-      f[i] = l <= r && pre[r + 1] - pre[l] > 0;
+    const n = s.length;
+    const pre = Array(n + 1).fill(0);
+    pre[1] = 1;
+    const f = Array(n).fill(false);
+    f[0] = true;
+    for (let i = 1; i < n; ++i) {
+        if (s[i] === '0') {
+            const [l, r] = [Math.max(0, i - maxJump), i - minJump];
+            f[i] = l <= r && pre[r + 1] - pre[l] > 0;
+        }
+        pre[i + 1] = pre[i] + (f[i] ? 1 : 0);
     }
-    pre[i + 1] = pre[i] + (f[i] ? 1 : 0);
-  }
-  return f[n - 1];
+    return f[n - 1];
 };
 ```
 

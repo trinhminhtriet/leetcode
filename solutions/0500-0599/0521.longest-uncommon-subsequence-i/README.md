@@ -1,67 +1,76 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0521.Longest%20Uncommon%20Subsequence%20I/README.md
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [521. Longest Uncommon Subsequence I](https://leetcode.com/problems/longest-uncommon-subsequence-i)
+# [521. 最长特殊序列 Ⅰ](https://leetcode.cn/problems/longest-uncommon-subsequence-i)
 
-## Description
+[English Version](/solution/0500-0599/0521.Longest%20Uncommon%20Subsequence%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two strings <code>a</code> and <code>b</code>, return <em>the length of the <strong>longest uncommon subsequence</strong> between </em><code>a</code> <em>and</em> <code>b</code>. <em>If no such uncommon subsequence exists, return</em> <code>-1</code><em>.</em></p>
+<p>给你两个字符串&nbsp;<code>a</code>&nbsp;和&nbsp;<code>b</code>，请返回 <em>这两个字符串中 <strong>最长的特殊序列</strong>&nbsp;</em> 的长度。如果不存在，则返回 <code>-1</code>&nbsp;。</p>
 
-<p>An <strong>uncommon subsequence</strong> between two strings is a string that is a <strong><span data-keyword="subsequence-string">subsequence</span> of exactly one of them</strong>.</p>
+<p><strong>「最长特殊序列」</strong>&nbsp;定义如下：该序列为&nbsp;<strong>某字符串独有的最长<span data-keyword="subsequence-array">子序列</span>（即不能是其他字符串的子序列）</strong>&nbsp;。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>字符串&nbsp;<code>s</code>&nbsp;的子序列是在从&nbsp;<code>s</code>&nbsp;中删除任意数量的字符后可以获得的字符串。</p>
 
-<pre>
-<strong>Input:</strong> a = &quot;aba&quot;, b = &quot;cdc&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> One longest uncommon subsequence is &quot;aba&quot; because &quot;aba&quot; is a subsequence of &quot;aba&quot; but not &quot;cdc&quot;.
-Note that &quot;cdc&quot; is also a longest uncommon subsequence.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> a = &quot;aaa&quot;, b = &quot;bbb&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>&nbsp;The longest uncommon subsequences are &quot;aaa&quot; and &quot;bbb&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> a = &quot;aaa&quot;, b = &quot;aaa&quot;
-<strong>Output:</strong> -1
-<strong>Explanation:</strong>&nbsp;Every subsequence of string a is also a subsequence of string b. Similarly, every subsequence of string b is also a subsequence of string a. So the answer would be <code>-1</code>.
-</pre>
+<ul>
+	<li>例如，<code>"abc"</code> 是 <code>"aebdc"</code> 的子序列，因为删除 <code>"a<em><strong>e</strong></em>b<strong><em>d</em></strong>c"</code> 中斜体加粗的字符可以得到 <code>"abc"</code> 。 <code>"aebdc"</code> 的子序列还包括 <code>"aebdc"</code> 、 <code>"aeb"</code> 和 <code>""</code> (空字符串)。</li>
+</ul>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入:</strong> a = "aba", b = "cdc"
+<strong>输出:</strong> 3
+<strong>解释:</strong> 最长特殊序列可为 "aba" (或 "cdc")，两者均为自身的子序列且不是对方的子序列。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>a = "aaa", b = "bbb"
+<strong>输出：</strong>3
+<strong>解释:</strong> 最长特殊序列是 "aaa" 和 "bbb" 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>a = "aaa", b = "aaa"
+<strong>输出：</strong>-1
+<strong>解释:</strong> 字符串 a 的每个子序列也是字符串 b 的每个子序列。同样，字符串 b 的每个子序列也是字符串 a 的子序列。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= a.length, b.length &lt;= 100</code></li>
-	<li><code>a</code> and <code>b</code> consist of lower-case English letters.</li>
+	<li><code>a</code>&nbsp;和&nbsp;<code>b</code>&nbsp;由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Quick Thinking
+### 方法一：脑筋急转弯
 
-If strings `a` and `b` are equal, then they have no special sequences, return `-1`; otherwise, return the length of the longer string.
+如果字符串 `a` 和 `b` 相等，那么它们没有特殊序列，返回 `-1`；否则，返回长度较长的字符串的长度。
 
-The time complexity is $O(n)$, where $n$ is the length of the longer string among `a` and `b`. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 `a` 和 `b` 中较长的字符串的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -112,7 +121,7 @@ func findLUSlength(a string, b string) int {
 
 ```ts
 function findLUSlength(a: string, b: string): number {
-  return a === b ? -1 : Math.max(a.length, b.length);
+    return a === b ? -1 : Math.max(a.length, b.length);
 }
 ```
 

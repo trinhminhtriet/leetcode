@@ -1,76 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2487.Remove%20Nodes%20From%20Linked%20List/README.md
 rating: 1454
-source: Weekly Contest 321 Q3
+source: 第 321 场周赛 Q3
 tags:
-  - Stack
-  - Recursion
-  - Linked List
-  - Monotonic Stack
+    - 栈
+    - 递归
+    - 链表
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [2487. Remove Nodes From Linked List](https://leetcode.com/problems/remove-nodes-from-linked-list)
+# [2487. 从链表中移除节点](https://leetcode.cn/problems/remove-nodes-from-linked-list)
 
-## Description
+[English Version](/solution/2400-2499/2487.Remove%20Nodes%20From%20Linked%20List/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the <code>head</code> of a linked list.</p>
+<p>给你一个链表的头节点 <code>head</code> 。</p>
 
-<p>Remove every node which has a node with a greater value anywhere to the right side of it.</p>
+<p>移除每个右侧有一个更大数值的节点。</p>
 
-<p>Return <em>the </em><code>head</code><em> of the modified linked list.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2487.Remove%20Nodes%20From%20Linked%20List/images/drawio.png" style="width: 631px; height: 51px;" />
-<pre>
-<strong>Input:</strong> head = [5,2,13,3,8]
-<strong>Output:</strong> [13,8]
-<strong>Explanation:</strong> The nodes that should be removed are 5, 2 and 3.
-- Node 13 is to the right of node 5.
-- Node 13 is to the right of node 2.
-- Node 8 is to the right of node 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> head = [1,1,1,1]
-<strong>Output:</strong> [1,1,1,1]
-<strong>Explanation:</strong> Every node has value 1, so no nodes are removed.
-</pre>
+<p>返回修改后链表的头节点<em> </em><code>head</code><em> </em>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2487.Remove%20Nodes%20From%20Linked%20List/images/drawio.png" style="width: 631px; height: 51px;" /></p>
+
+<pre>
+<strong>输入：</strong>head = [5,2,13,3,8]
+<strong>输出：</strong>[13,8]
+<strong>解释：</strong>需要移除的节点是 5 ，2 和 3 。
+- 节点 13 在节点 5 右侧。
+- 节点 13 在节点 2 右侧。
+- 节点 8 在节点 3 右侧。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>head = [1,1,1,1]
+<strong>输出：</strong>[1,1,1,1]
+<strong>解释：</strong>每个节点的值都是 1 ，所以没有需要移除的节点。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of the nodes in the given list is in the range <code>[1, 10<sup>5</sup>]</code>.</li>
+	<li>给定列表中的节点数目在范围 <code>[1, 10<sup>5</sup>]</code> 内</li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Monotonic Stack Simulation
+### 方法一：单调栈模拟
 
-We can first store the node values of the linked list into an array $nums$. Then, we traverse the array $nums$, maintaining a stack $stk$ that is monotonically decreasing from the bottom to the top. If the current element is larger than the top element of the stack, we pop the top element of the stack until the current element is less than or equal to the top element, and then we push the current element into the stack.
+我们可以先将链表中的节点值存入数组 $nums$，然后遍历数组 $nums$，维护一个从栈底到栈顶单调递减的栈 $stk$，如果当前元素比栈顶元素大，则将栈顶元素出栈，直到当前元素小于等于栈顶元素，将当前元素入栈。
 
-Finally, we construct the resulting linked list from the bottom to the top of the stack, which is the answer.
+最后，我们从栈底到栈顶构造出结果链表，即为答案。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the linked list.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是链表的长度。
 
-We can also directly traverse the linked list without using the array $nums$, maintaining a stack $stk$ that is monotonically decreasing from the bottom to the top. If the current element is larger than the top element of the stack, we pop the top element of the stack until the current element is less than or equal to the top element. Then, if the stack is not empty, we set the $next$ pointer of the top element of the stack to the current element. Otherwise, we set the $next$ pointer of the dummy head node of the answer linked list to the current element. Finally, we push the current element into the stack and continue to traverse the linked list.
+我们也可以不使用数组 $nums$，直接遍历链表，维护一个从栈底到栈顶单调递减的栈 $stk$，如果当前元素比栈顶元素大，则将栈顶元素出栈，直到当前元素小于等于栈顶元素。然后，如果栈不为空，则将栈顶元素的 $next$ 指针指向当前元素，否则将答案链表的虚拟头节点的 $next$ 指针指向当前元素。最后，将当前元素入栈，继续遍历链表。
 
-After the traversal, we return the $next$ pointer of the dummy head node as the answer.
+遍历结束后，将虚拟头节点的 $next$ 指针作为答案返回。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the linked list.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是链表的长度。
 
 <!-- tabs:start -->
 
@@ -227,24 +234,24 @@ func removeNodes(head *ListNode) *ListNode {
  */
 
 function removeNodes(head: ListNode | null): ListNode | null {
-  const nums = [];
-  for (; head; head = head.next) {
-    nums.push(head.val);
-  }
-  const stk: number[] = [];
-  for (const v of nums) {
-    while (stk.length && stk.at(-1)! < v) {
-      stk.pop();
+    const nums = [];
+    for (; head; head = head.next) {
+        nums.push(head.val);
     }
-    stk.push(v);
-  }
-  const dummy = new ListNode();
-  head = dummy;
-  for (const v of stk) {
-    head.next = new ListNode(v);
-    head = head.next;
-  }
-  return dummy.next;
+    const stk: number[] = [];
+    for (const v of nums) {
+        while (stk.length && stk.at(-1)! < v) {
+            stk.pop();
+        }
+        stk.push(v);
+    }
+    const dummy = new ListNode();
+    head = dummy;
+    for (const v of stk) {
+        head.next = new ListNode(v);
+        head = head.next;
+    }
+    return dummy.next;
 }
 ```
 
@@ -254,7 +261,7 @@ function removeNodes(head: ListNode | null): ListNode | null {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -381,16 +388,16 @@ func removeNodes(head *ListNode) *ListNode {
  */
 
 function removeNodes(head: ListNode | null): ListNode | null {
-  const dummy = new ListNode(Infinity, head);
-  const stk: ListNode[] = [dummy];
-  for (let cur = head; cur; cur = cur.next) {
-    while (stk.at(-1)!.val < cur.val) {
-      stk.pop();
+    const dummy = new ListNode(Infinity, head);
+    const stk: ListNode[] = [dummy];
+    for (let cur = head; cur; cur = cur.next) {
+        while (stk.at(-1)!.val < cur.val) {
+            stk.pop();
+        }
+        stk.at(-1)!.next = cur;
+        stk.push(cur);
     }
-    stk.at(-1)!.next = cur;
-    stk.push(cur);
-  }
-  return dummy.next;
+    return dummy.next;
 }
 ```
 

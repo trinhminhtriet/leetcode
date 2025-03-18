@@ -1,61 +1,73 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0327.Count%20of%20Range%20Sum/README.md
 tags:
-  - Binary Indexed Tree
-  - Segment Tree
-  - Array
-  - Binary Search
-  - Divide and Conquer
-  - Ordered Set
-  - Merge Sort
+    - 树状数组
+    - 线段树
+    - 数组
+    - 二分查找
+    - 分治
+    - 有序集合
+    - 归并排序
 ---
 
 <!-- problem:start -->
 
-# [327. Count of Range Sum](https://leetcode.com/problems/count-of-range-sum)
+# [327. 区间和的个数](https://leetcode.cn/problems/count-of-range-sum)
 
-## Description
+[English Version](/solution/0300-0399/0327.Count%20of%20Range%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> and two integers <code>lower</code> and <code>upper</code>, return <em>the number of range sums that lie in</em> <code>[lower, upper]</code> <em>inclusive</em>.</p>
+<p>给你一个整数数组 <code>nums</code> 以及两个整数 <code>lower</code> 和 <code>upper</code> 。求数组中，值位于范围 <code>[lower, upper]</code> （包含 <code>lower</code> 和 <code>upper</code>）之内的 <strong>区间和的个数</strong> 。</p>
 
-<p>Range sum <code>S(i, j)</code> is defined as the sum of the elements in <code>nums</code> between indices <code>i</code> and <code>j</code> inclusive, where <code>i &lt;= j</code>.</p>
+<p><strong>区间和</strong> <code>S(i, j)</code> 表示在 <code>nums</code> 中，位置从 <code>i</code> 到 <code>j</code> 的元素之和，包含 <code>i</code> 和 <code>j</code> (<code>i</code> ≤ <code>j</code>)。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [-2,5,-1], lower = -2, upper = 2
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The three ranges are: [0,0], [2,2], and [0,2] and their respective sums are: -2, -1, 2.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p> </p>
+<strong>示例 1：</strong>
 
 <pre>
-<strong>Input:</strong> nums = [0], lower = 0, upper = 0
-<strong>Output:</strong> 1
+<strong>输入：</strong>nums = [-2,5,-1], lower = -2, upper = 2
+<strong>输出：</strong>3
+<strong>解释：</strong>存在三个区间：[0,0]、[2,2] 和 [0,2] ，对应的区间和分别是：-2 、-1 、2 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [0], lower = 0, upper = 0
+<strong>输出：</strong>1
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
-	<li><code>-10<sup>5</sup> &lt;= lower &lt;= upper &lt;= 10<sup>5</sup></code></li>
-	<li>The answer is <strong>guaranteed</strong> to fit in a <strong>32-bit</strong> integer.</li>
+	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
+	<li><code>-2<sup>31</sup> <= nums[i] <= 2<sup>31</sup> - 1</code></li>
+	<li><code>-10<sup>5</sup> <= lower <= upper <= 10<sup>5</sup></code></li>
+	<li>题目数据保证答案是一个 <strong>32 位</strong> 的整数</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：前缀和 + 树状数组
+
+题目要求区间和，因此我们可以先求出前缀和数组 $s$，其中 $s[i]$ 表示 $nums$ 中前 $i$ 个元素的和。那么对于任意的 $i \lt j$，$s[j+1] - s[i]$ 就是 $nums$ 中下标在 $[i, j]$ 的元素之和。
+
+而 $lower \leq s[j+1] - s[i] \leq upper$，可以转换为 $s[j+1] - upper \leq s[i] \leq s[j+1] - lower$，也就是说，对于当前前缀和 $s[j+1]$，我们需要统计 $s$ 中有多少个下标 $i$ 满足 $s[j+1] - upper \leq s[i] \leq s[j+1] - lower$。
+
+我们可以用树状数组来维护每个前缀和出现的次数，这样对于每个前缀和 $s[j+1]$，我们只需要查询树状数组中有多少个前缀和 $s[i]$ 满足 $s[j+1] - upper \leq s[i] \leq s[j+1] - lower$ 即可。
+
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
 
 <!-- tabs:start -->
 
@@ -295,73 +307,73 @@ func countRangeSum(nums []int, lower int, upper int) (ans int) {
 
 ```ts
 class BinaryIndexedTree {
-  private n: number;
-  private c: number[];
+    private n: number;
+    private c: number[];
 
-  constructor(n: number) {
-    this.n = n;
-    this.c = Array(n + 1).fill(0);
-  }
-
-  update(x: number, v: number) {
-    while (x <= this.n) {
-      this.c[x] += v;
-      x += x & -x;
+    constructor(n: number) {
+        this.n = n;
+        this.c = Array(n + 1).fill(0);
     }
-  }
 
-  query(x: number): number {
-    let s = 0;
-    while (x > 0) {
-      s += this.c[x];
-      x -= x & -x;
+    update(x: number, v: number) {
+        while (x <= this.n) {
+            this.c[x] += v;
+            x += x & -x;
+        }
     }
-    return s;
-  }
+
+    query(x: number): number {
+        let s = 0;
+        while (x > 0) {
+            s += this.c[x];
+            x -= x & -x;
+        }
+        return s;
+    }
 }
 
 function countRangeSum(nums: number[], lower: number, upper: number): number {
-  const n = nums.length;
-  const s = Array(n + 1).fill(0);
-  for (let i = 0; i < n; ++i) {
-    s[i + 1] = s[i] + nums[i];
-  }
-  let arr: number[] = Array((n + 1) * 3);
-  for (let i = 0, j = 0; i <= n; ++i, j += 3) {
-    arr[j] = s[i];
-    arr[j + 1] = s[i] - lower;
-    arr[j + 2] = s[i] - upper;
-  }
-  arr.sort((a, b) => a - b);
-  let m = 0;
-  for (let i = 0; i < arr.length; ++i) {
-    if (i === 0 || arr[i] !== arr[i - 1]) {
-      arr[m++] = arr[i];
+    const n = nums.length;
+    const s = Array(n + 1).fill(0);
+    for (let i = 0; i < n; ++i) {
+        s[i + 1] = s[i] + nums[i];
     }
-  }
-  arr = arr.slice(0, m);
-  const tree = new BinaryIndexedTree(m);
-  let ans = 0;
-  for (const x of s) {
-    const l = search(arr, m, x - upper);
-    const r = search(arr, m, x - lower);
-    ans += tree.query(r) - tree.query(l - 1);
-    tree.update(search(arr, m, x), 1);
-  }
-  return ans;
+    let arr: number[] = Array((n + 1) * 3);
+    for (let i = 0, j = 0; i <= n; ++i, j += 3) {
+        arr[j] = s[i];
+        arr[j + 1] = s[i] - lower;
+        arr[j + 2] = s[i] - upper;
+    }
+    arr.sort((a, b) => a - b);
+    let m = 0;
+    for (let i = 0; i < arr.length; ++i) {
+        if (i === 0 || arr[i] !== arr[i - 1]) {
+            arr[m++] = arr[i];
+        }
+    }
+    arr = arr.slice(0, m);
+    const tree = new BinaryIndexedTree(m);
+    let ans = 0;
+    for (const x of s) {
+        const l = search(arr, m, x - upper);
+        const r = search(arr, m, x - lower);
+        ans += tree.query(r) - tree.query(l - 1);
+        tree.update(search(arr, m, x), 1);
+    }
+    return ans;
 }
 
 function search(nums: number[], r: number, x: number): number {
-  let l = 0;
-  while (l < r) {
-    const mid = (l + r) >> 1;
-    if (nums[mid] >= x) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    let l = 0;
+    while (l < r) {
+        const mid = (l + r) >> 1;
+        if (nums[mid] >= x) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return l + 1;
+    return l + 1;
 }
 ```
 

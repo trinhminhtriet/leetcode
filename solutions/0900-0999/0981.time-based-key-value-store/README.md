@@ -1,69 +1,79 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0981.Time%20Based%20Key-Value%20Store/README.md
 tags:
-  - Design
-  - Hash Table
-  - String
-  - Binary Search
+    - 设计
+    - 哈希表
+    - 字符串
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [981. Time Based Key-Value Store](https://leetcode.com/problems/time-based-key-value-store)
+# [981. 基于时间的键值存储](https://leetcode.cn/problems/time-based-key-value-store)
 
-## Description
+[English Version](/solution/0900-0999/0981.Time%20Based%20Key-Value%20Store/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Design a time-based key-value data structure that can store multiple values for the same key at different time stamps and retrieve the key&#39;s value at a certain timestamp.</p>
+<p>设计一个基于时间的键值数据结构，该结构可以在不同时间戳存储对应同一个键的多个值，并针对特定时间戳检索键对应的值。</p>
 
-<p>Implement the <code>TimeMap</code> class:</p>
+<p>实现 <code>TimeMap</code> 类：</p>
 
 <ul>
-	<li><code>TimeMap()</code> Initializes the object of the data structure.</li>
-	<li><code>void set(String key, String value, int timestamp)</code> Stores the key <code>key</code> with the value <code>value</code> at the given time <code>timestamp</code>.</li>
-	<li><code>String get(String key, int timestamp)</code> Returns a value such that <code>set</code> was called previously, with <code>timestamp_prev &lt;= timestamp</code>. If there are multiple such values, it returns the value associated with the largest <code>timestamp_prev</code>. If there are no values, it returns <code>&quot;&quot;</code>.</li>
+	<li><code>TimeMap()</code> 初始化数据结构对象</li>
+	<li><code>void set(String key, String value, int timestamp)</code> 存储给定时间戳&nbsp;<code>timestamp</code>&nbsp;时的键&nbsp;<code>key</code>&nbsp;和值&nbsp;<code>value</code>。</li>
+	<li><code>String get(String key, int timestamp)</code>&nbsp;返回一个值，该值在之前调用了 <code>set</code>，其中&nbsp;<code>timestamp_prev &lt;= timestamp</code>&nbsp;。如果有多个这样的值，它将返回与最大 &nbsp;<code>timestamp_prev</code>&nbsp;关联的值。如果没有值，则返回空字符串（<code>""</code>）。</li>
 </ul>
+&nbsp;
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;TimeMap&quot;, &quot;set&quot;, &quot;get&quot;, &quot;get&quot;, &quot;set&quot;, &quot;get&quot;, &quot;get&quot;]
-[[], [&quot;foo&quot;, &quot;bar&quot;, 1], [&quot;foo&quot;, 1], [&quot;foo&quot;, 3], [&quot;foo&quot;, &quot;bar2&quot;, 4], [&quot;foo&quot;, 4], [&quot;foo&quot;, 5]]
-<strong>Output</strong>
-[null, null, &quot;bar&quot;, &quot;bar&quot;, null, &quot;bar2&quot;, &quot;bar2&quot;]
+<strong>输入：</strong>
+["TimeMap", "set", "get", "get", "set", "get", "get"]
+[[], ["foo", "bar", 1], ["foo", 1], ["foo", 3], ["foo", "bar2", 4], ["foo", 4], ["foo", 5]]
+<strong>输出：</strong>
+[null, null, "bar", "bar", null, "bar2", "bar2"]
 
-<strong>Explanation</strong>
+<strong>解释：</strong>
 TimeMap timeMap = new TimeMap();
-timeMap.set(&quot;foo&quot;, &quot;bar&quot;, 1);  // store the key &quot;foo&quot; and value &quot;bar&quot; along with timestamp = 1.
-timeMap.get(&quot;foo&quot;, 1);         // return &quot;bar&quot;
-timeMap.get(&quot;foo&quot;, 3);         // return &quot;bar&quot;, since there is no value corresponding to foo at timestamp 3 and timestamp 2, then the only value is at timestamp 1 is &quot;bar&quot;.
-timeMap.set(&quot;foo&quot;, &quot;bar2&quot;, 4); // store the key &quot;foo&quot; and value &quot;bar2&quot; along with timestamp = 4.
-timeMap.get(&quot;foo&quot;, 4);         // return &quot;bar2&quot;
-timeMap.get(&quot;foo&quot;, 5);         // return &quot;bar2&quot;
+timeMap.set("foo", "bar", 1);  // 存储键 "foo" 和值 "bar" ，时间戳 timestamp = 1 &nbsp; 
+timeMap.get("foo", 1);         // 返回 "bar"
+timeMap.get("foo", 3);         // 返回 "bar", 因为在时间戳 3 和时间戳 2 处没有对应 "foo" 的值，所以唯一的值位于时间戳 1 处（即 "bar"） 。
+timeMap.set("foo", "bar2", 4); // 存储键 "foo" 和值 "bar2" ，时间戳 timestamp = 4&nbsp; 
+timeMap.get("foo", 4);         // 返回 "bar2"
+timeMap.get("foo", 5);         // 返回 "bar2"
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= key.length, value.length &lt;= 100</code></li>
-	<li><code>key</code> and <code>value</code> consist of lowercase English letters and digits.</li>
+	<li><code>key</code> 和 <code>value</code> 由小写英文字母和数字组成</li>
 	<li><code>1 &lt;= timestamp &lt;= 10<sup>7</sup></code></li>
-	<li>All the timestamps <code>timestamp</code> of <code>set</code> are strictly increasing.</li>
-	<li>At most <code>2 * 10<sup>5</sup></code> calls will be made to <code>set</code> and <code>get</code>.</li>
+	<li><code>set</code> 操作中的时间戳 <code>timestamp</code> 都是严格递增的</li>
+	<li>最多调用&nbsp;<code>set</code> 和 <code>get</code> 操作 <code>2 * 10<sup>5</sup></code> 次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表 + 有序集合（或二分查找）
+
+我们可以用哈希表 $\textit{kvt}$ 记录键值对，其中键为字符串 $\textit{key}$，值为一个有序集合，集合中的每个元素为一个二元组 $(\textit{timestamp}, \textit{value})$，表示键 $\textit{key}$ 在时间戳 $\textit{timestamp}$ 时对应的值为 $\textit{value}$。
+
+当我们需要查询键 $\textit{key}$ 在时间戳 $\textit{timestamp}$ 时对应的值时，我们可以通过有序集合的方法找到最大的时间戳 $\textit{timestamp}'$，使得 $\textit{timestamp}' \leq \textit{timestamp}$，然后返回对应的值即可。
+
+时间复杂度方面，对于 $\textit{set}$ 操作，由于哈希表的插入操作的时间复杂度为 $O(1)$，因此时间复杂度为 $O(1)$。对于 $\textit{get}$ 操作，由于哈希表的查找操作的时间复杂度为 $O(1)$，而有序集合的查找操作的时间复杂度为 $O(\log n)$，因此时间复杂度为 $O(\log n)$。空间复杂度为 $O(n)$，其中 $n$ 为 $\textit{set}$ 操作的次数。
 
 <!-- tabs:start -->
 

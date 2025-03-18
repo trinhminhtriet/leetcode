@@ -1,50 +1,52 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1374.Generate%20a%20String%20With%20Characters%20That%20Have%20Odd%20Counts/README.md
 rating: 1164
-source: Weekly Contest 179 Q1
+source: 第 179 场周赛 Q1
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1374. Generate a String With Characters That Have Odd Counts](https://leetcode.com/problems/generate-a-string-with-characters-that-have-odd-counts)
+# [1374. 生成每种字符都是奇数个的字符串](https://leetcode.cn/problems/generate-a-string-with-characters-that-have-odd-counts)
 
-## Description
+[English Version](/solution/1300-1399/1374.Generate%20a%20String%20With%20Characters%20That%20Have%20Odd%20Counts/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an&nbsp;integer <code>n</code>, <em>return a string with <code>n</code>&nbsp;characters such that each character in such string occurs <strong>an odd number of times</strong></em>.</p>
+<p>给你一个整数 <code>n</code>，请你返回一个含<em> <code>n</code> </em>个字符的字符串，其中每种字符在该字符串中都恰好出现 <strong>奇数次</strong> <em><strong>。</strong></em></p>
 
-<p>The returned string must contain only lowercase English letters. If there are multiples valid strings, return <strong>any</strong> of them. &nbsp;</p>
+<p>返回的字符串必须只含小写英文字母。如果存在多个满足题目要求的字符串，则返回其中任意一个即可。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 4
-<strong>Output:</strong> &quot;pppz&quot;
-<strong>Explanation:</strong> &quot;pppz&quot; is a valid string since the character &#39;p&#39; occurs three times and the character &#39;z&#39; occurs once. Note that there are many other valid strings such as &quot;ohhh&quot; and &quot;love&quot;.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>n = 4
+<strong>输出：</strong>&quot;pppz&quot;
+<strong>解释：</strong>&quot;pppz&quot; 是一个满足题目要求的字符串，因为 &#39;p&#39; 出现 3 次，且 &#39;z&#39; 出现 1 次。当然，还有很多其他字符串也满足题目要求，比如：&quot;ohhh&quot; 和 &quot;love&quot;。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 2
-<strong>Output:</strong> &quot;xy&quot;
-<strong>Explanation:</strong> &quot;xy&quot; is a valid string since the characters &#39;x&#39; and &#39;y&#39; occur once. Note that there are many other valid strings such as &quot;ag&quot; and &quot;ur&quot;.
+<pre><strong>输入：</strong>n = 2
+<strong>输出：</strong>&quot;xy&quot;
+<strong>解释：</strong>&quot;xy&quot; 是一个满足题目要求的字符串，因为 &#39;x&#39; 和 &#39;y&#39; 各出现 1 次。当然，还有很多其他字符串也满足题目要求，比如：&quot;ag&quot; 和 &quot;ur&quot;。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 7
-<strong>Output:</strong> &quot;holasss&quot;
+<pre><strong>输入：</strong>n = 7
+<strong>输出：</strong>&quot;holasss&quot;
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 500</code></li>
@@ -52,17 +54,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Construction
+### 方法一：构造
 
-If $n$ is odd, then we can directly construct a string with $n$ `'a'` characters.
+如果 $n$ 为奇数，那么直接构造 $n$ 个 `'a'` 即可。
 
-If $n$ is even, then we can construct a string with $n-1$ `'a'` characters and $1$ `'b'` character.
+如果 $n$ 为偶数，那么构造 $n-1$ 个 `'a'` 和 $1$ 个 `'b'` 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串长度。
 
 <!-- tabs:start -->
 
@@ -117,11 +119,11 @@ func generateTheString(n int) string {
 
 ```ts
 function generateTheString(n: number): string {
-  const ans = Array(n).fill("a");
-  if (n % 2 === 0) {
-    ans[0] = "b";
-  }
-  return ans.join("");
+    const ans = Array(n).fill('a');
+    if (n % 2 === 0) {
+        ans[0] = 'b';
+    }
+    return ans.join('');
 }
 ```
 

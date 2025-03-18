@@ -1,49 +1,56 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1362.Closest%20Divisors/README.md
 rating: 1533
-source: Weekly Contest 177 Q3
+source: 第 177 场周赛 Q3
 tags:
-  - Math
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [1362. Closest Divisors](https://leetcode.com/problems/closest-divisors)
+# [1362. 最接近的因数](https://leetcode.cn/problems/closest-divisors)
 
-## Description
+[English Version](/solution/1300-1399/1362.Closest%20Divisors/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer <code>num</code>, find the closest two integers in absolute difference whose product equals&nbsp;<code>num + 1</code>&nbsp;or <code>num + 2</code>.</p>
+<p>给你一个整数&nbsp;<code>num</code>，请你找出同时满足下面全部要求的两个整数：</p>
 
-<p>Return the two integers in any order.</p>
+<ul>
+	<li>两数乘积等于 &nbsp;<code>num + 1</code>&nbsp;或&nbsp;<code>num + 2</code></li>
+	<li>以绝对差进行度量，两数大小最接近</li>
+</ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = 8
-<strong>Output:</strong> [3,3]
-<strong>Explanation:</strong> For num + 1 = 9, the closest divisors are 3 &amp; 3, for num + 2 = 10, the closest divisors are 2 &amp; 5, hence 3 &amp; 3 is chosen.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = 123
-<strong>Output:</strong> [5,25]
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = 999
-<strong>Output:</strong> [40,25]
-</pre>
+<p>你可以按任意顺序返回这两个整数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>num = 8
+<strong>输出：</strong>[3,3]
+<strong>解释：</strong>对于 num + 1 = 9，最接近的两个因数是 3 &amp; 3；对于 num + 2 = 10, 最接近的两个因数是 2 &amp; 5，因此返回 3 &amp; 3 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>num = 123
+<strong>输出：</strong>[5,25]
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>num = 999
+<strong>输出：</strong>[40,25]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num &lt;= 10^9</code></li>
@@ -51,17 +58,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We design a function $f(x)$ that returns two numbers whose product equals $x$ and the absolute difference between these two numbers is the smallest. We can start enumerating $i$ from $\sqrt{x}$. If $x$ can be divided by $i$, then $\frac{x}{i}$ is another factor. At this point, we have found two factors whose product equals $x$. We can return them directly. Otherwise, we decrease the value of $i$ and continue to enumerate.
+我们设计一个函数 $f(x)$，该函数返回乘积等于 $x$ 的两个数，且这两个数的差的绝对值最小。我们可以从 $\sqrt{x}$ 开始枚举 $i$，如果 $x$ 能被 $i$ 整除，那么 $\frac{x}{i}$ 就是另一个因数，此时我们就找到了一个乘积等于 $x$ 的两个因数，我们将其返回即可。否则我们减小 $i$ 的值，继续枚举。
 
-Next, we only need to calculate $f(num + 1)$ and $f(num + 2)$ respectively, and then compare the return values of the two functions. We return the one with the smaller absolute difference.
+接下来，我们只需要分别计算 $f(num + 1)$ 和 $f(num + 2)$，然后比较两个函数的返回值，返回差的绝对值更小的那个即可。
 
-The time complexity is $O(\sqrt{num})$, and the space complexity is $O(1)$. Where $num$ is the given integer.
+时间复杂度 $O(\sqrt{num})$，空间复杂度 $O(1)$。其中 $num$ 是给定的整数。
 
 <!-- tabs:start -->
 

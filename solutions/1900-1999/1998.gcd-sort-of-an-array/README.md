@@ -1,64 +1,70 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1998.GCD%20Sort%20of%20an%20Array/README.md
 rating: 2429
-source: Weekly Contest 257 Q4
+source: 第 257 场周赛 Q4
 tags:
-  - Union Find
-  - Array
-  - Math
-  - Number Theory
-  - Sorting
+    - 并查集
+    - 数组
+    - 数学
+    - 数论
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1998. GCD Sort of an Array](https://leetcode.com/problems/gcd-sort-of-an-array)
+# [1998. 数组的最大公因数排序](https://leetcode.cn/problems/gcd-sort-of-an-array)
 
-## Description
+[English Version](/solution/1900-1999/1998.GCD%20Sort%20of%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code>, and you can perform the following operation <strong>any</strong> number of times on <code>nums</code>:</p>
+<p>给你一个整数数组 <code>nums</code> ，你可以在 <code>nums</code> 上执行下述操作 <strong>任意次</strong> ：</p>
 
 <ul>
-	<li>Swap the positions of two elements <code>nums[i]</code> and <code>nums[j]</code> if <code>gcd(nums[i], nums[j]) &gt; 1</code> where <code>gcd(nums[i], nums[j])</code> is the <strong>greatest common divisor</strong> of <code>nums[i]</code> and <code>nums[j]</code>.</li>
+	<li>如果 <code>gcd(nums[i], nums[j]) &gt; 1</code> ，交换 <code>nums[i]</code> 和 <code>nums[j]</code> 的位置。其中 <code>gcd(nums[i], nums[j])</code> 是&nbsp;<code>nums[i]</code> 和 <code>nums[j]</code> 的最大公因数。</li>
 </ul>
 
-<p>Return <code>true</code> <em>if it is possible to sort </em><code>nums</code><em> in <strong>non-decreasing</strong> order using the above swap method, or </em><code>false</code><em> otherwise.</em></p>
+<p>如果能使用上述交换方式将 <code>nums</code> 按 <strong>非递减顺序</strong> 排列，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [7,21,3]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> We can sort [7,21,3] by performing the following operations:
-- Swap 7 and 21 because gcd(7,21) = 7. nums = [<u><strong>21</strong></u>,<u><strong>7</strong></u>,3]
-- Swap 21 and 3 because gcd(21,3) = 3. nums = [<u><strong>3</strong></u>,7,<u><strong>21</strong></u>]
+<strong>输入：</strong>nums = [7,21,3]
+<strong>输出：</strong>true
+<strong>解释：</strong>可以执行下述操作完成对 [7,21,3] 的排序：
+- 交换 7 和 21 因为 gcd(7,21) = 7 。nums = [<u><strong>21</strong></u>,<u><strong>7</strong></u>,3]
+- 交换 21 和 3 因为 gcd(21,3) = 3 。nums = [<u><strong>3</strong></u>,7,<u><strong>21</strong></u>]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [5,2,6,2]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> It is impossible to sort the array because 5 cannot be swapped with any other element.
+<strong>输入：</strong>nums = [5,2,6,2]
+<strong>输出：</strong>false
+<strong>解释：</strong>无法完成排序，因为 5 不能与其他元素交换。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [10,5,9,3,15]
-<strong>Output:</strong> true
-We can sort [10,5,9,3,15] by performing the following operations:
-- Swap 10 and 15 because gcd(10,15) = 5. nums = [<u><strong>15</strong></u>,5,9,3,<u><strong>10</strong></u>]
-- Swap 15 and 3 because gcd(15,3) = 3. nums = [<u><strong>3</strong></u>,5,9,<u><strong>15</strong></u>,10]
-- Swap 10 and 15 because gcd(10,15) = 5. nums = [3,5,9,<u><strong>10</strong></u>,<u><strong>15</strong></u>]
+<strong>输入：</strong>nums = [10,5,9,3,15]
+<strong>输出：</strong>true
+<strong>解释：</strong>
+可以执行下述操作完成对 [10,5,9,3,15] 的排序：
+- 交换 10 和 15 因为 gcd(10,15) = 5 。nums = [<u><strong>15</strong></u>,5,9,3,<u><strong>10</strong></u>]
+- 交换 15 和 3 因为 gcd(15,3) = 3 。nums = [<u><strong>3</strong></u>,5,9,<u><strong>15</strong></u>,10]
+- 交换 10 和 15 因为 gcd(10,15) = 5 。nums = [3,5,9,<u><strong>10</strong></u>,<u><strong>15</strong></u>]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li>
@@ -67,11 +73,11 @@ We can sort [10,5,9,3,15] by performing the following operations:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

@@ -1,63 +1,66 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2256.Minimum%20Average%20Difference/README.md
 rating: 1394
-source: Biweekly Contest 77 Q2
+source: 第 77 场双周赛 Q2
 tags:
-  - Array
-  - Prefix Sum
+    - 数组
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2256. Minimum Average Difference](https://leetcode.com/problems/minimum-average-difference)
+# [2256. 最小平均差](https://leetcode.cn/problems/minimum-average-difference)
 
-## Description
+[English Version](/solution/2200-2299/2256.Minimum%20Average%20Difference/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;。</p>
 
-<p>The <strong>average difference</strong> of the index <code>i</code> is the <strong>absolute</strong> <strong>difference</strong> between the average of the <strong>first</strong> <code>i + 1</code> elements of <code>nums</code> and the average of the <strong>last</strong> <code>n - i - 1</code> elements. Both averages should be <strong>rounded down</strong> to the nearest integer.</p>
+<p>下标 <code>i</code>&nbsp;处的 <strong>平均差</strong>&nbsp;指的是 <code>nums</code>&nbsp;中 <strong>前</strong>&nbsp;<code>i + 1</code>&nbsp;个元素平均值和 <strong>后</strong>&nbsp;<code>n - i - 1</code>&nbsp;个元素平均值的 <strong>绝对差</strong>&nbsp;。两个平均值都需要 <strong>向下取整</strong>&nbsp;到最近的整数。</p>
 
-<p>Return<em> the index with the <strong>minimum average difference</strong></em>. If there are multiple such indices, return the <strong>smallest</strong> one.</p>
+<p>请你返回产生 <strong>最小平均差</strong>&nbsp;的下标。如果有多个下标最小平均差相等，请你返回 <strong>最小</strong>&nbsp;的一个下标。</p>
 
-<p><strong>Note:</strong></p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li>The <strong>absolute difference</strong> of two numbers is the absolute value of their difference.</li>
-	<li>The <strong>average</strong> of <code>n</code> elements is the <strong>sum</strong> of the <code>n</code> elements divided (<strong>integer division</strong>) by <code>n</code>.</li>
-	<li>The average of <code>0</code> elements is considered to be <code>0</code>.</li>
+	<li>两个数的<strong>&nbsp;绝对差</strong>&nbsp;是两者差的绝对值。</li>
+	<li>&nbsp;<code>n</code>&nbsp;个元素的平均值是 <code>n</code>&nbsp;个元素之 <strong>和</strong>&nbsp;除以（整数除法）&nbsp;<code>n</code>&nbsp;。</li>
+	<li><code>0</code>&nbsp;个元素的平均值视为&nbsp;<code>0</code>&nbsp;。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [2,5,3,9,5,3]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-- The average difference of index 0 is: |2 / 1 - (5 + 3 + 9 + 5 + 3) / 5| = |2 / 1 - 25 / 5| = |2 - 5| = 3.
-- The average difference of index 1 is: |(2 + 5) / 2 - (3 + 9 + 5 + 3) / 4| = |7 / 2 - 20 / 4| = |3 - 5| = 2.
-- The average difference of index 2 is: |(2 + 5 + 3) / 3 - (9 + 5 + 3) / 3| = |10 / 3 - 17 / 3| = |3 - 5| = 2.
-- The average difference of index 3 is: |(2 + 5 + 3 + 9) / 4 - (5 + 3) / 2| = |19 / 4 - 8 / 2| = |4 - 4| = 0.
-- The average difference of index 4 is: |(2 + 5 + 3 + 9 + 5) / 5 - 3 / 1| = |24 / 5 - 3 / 1| = |4 - 3| = 1.
-- The average difference of index 5 is: |(2 + 5 + 3 + 9 + 5 + 3) / 6 - 0| = |27 / 6 - 0| = |4 - 0| = 4.
-The average difference of index 3 is the minimum average difference so return 3.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums = [2,5,3,9,5,3]
+<b>输出：</b>3
+<strong>解释：</strong>
+- 下标 0 处的平均差为：|2 / 1 - (5 + 3 + 9 + 5 + 3) / 5| = |2 / 1 - 25 / 5| = |2 - 5| = 3 。
+- 下标 1 处的平均差为：|(2 + 5) / 2 - (3 + 9 + 5 + 3) / 4| = |7 / 2 - 20 / 4| = |3 - 5| = 2 。
+- 下标 2 处的平均差为：|(2 + 5 + 3) / 3 - (9 + 5 + 3) / 3| = |10 / 3 - 17 / 3| = |3 - 5| = 2 。
+- 下标 3 处的平均差为：|(2 + 5 + 3 + 9) / 4 - (5 + 3) / 2| = |19 / 4 - 8 / 2| = |4 - 4| = 0 。 
+- 下标 4 处的平均差为：|(2 + 5 + 3 + 9 + 5) / 5 - 3 / 1| = |24 / 5 - 3 / 1| = |4 - 3| = 1 。
+- 下标 5 处的平均差为：|(2 + 5 + 3 + 9 + 5 + 3) / 6 - 0| = |27 / 6 - 0| = |4 - 0| = 4 。
+下标 3 处的平均差为最小平均差，所以返回 3 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [0]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong>
-The only index is 0 so return 0.
-The average difference of index 0 is: |0 / 1 - 0| = |0 - 0| = 0.
+<pre><b>输入：</b>nums = [0]
+<b>输出：</b>0
+<strong>解释：</strong>
+唯一的下标是 0 ，所以我们返回 0 。
+下标 0 处的平均差为：|0 / 1 - 0| = |0 - 0| = 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -66,17 +69,17 @@ The average difference of index 0 is: |0 / 1 - 0| = |0 - 0| = 0.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traverse
+### 方法一：遍历
 
-We directly traverse the array $nums$. For each index $i$, we maintain the sum of the first $i+1$ elements $pre$ and the sum of the last $n-i-1$ elements $suf$. We calculate the absolute difference of the average of the first $i+1$ elements and the average of the last $n-i-1$ elements, denoted as $t$. If $t$ is less than the current minimum value $mi$, we update the answer $ans=i$ and the minimum value $mi=t$.
+我们直接遍历数组 $nums$，对于每个下标 $i$，维护前 $i + 1$ 个元素的和 $pre$ 和后 $n - i - 1$ 个元素的和 $suf$，计算平均差的绝对值 $t$，如果 $t$ 小于当前最小值 $mi$，则更新答案 $ans = i$ 和最小值 $mi = t$。
 
-After the traversal, we return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -193,23 +196,23 @@ func abs(x int) int {
 
 ```ts
 function minimumAverageDifference(nums: number[]): number {
-  const n = nums.length;
-  let pre = 0;
-  let suf = nums.reduce((a, b) => a + b);
-  let ans = 0;
-  let mi = suf;
-  for (let i = 0; i < n; ++i) {
-    pre += nums[i];
-    suf -= nums[i];
-    const a = Math.floor(pre / (i + 1));
-    const b = n - i - 1 === 0 ? 0 : Math.floor(suf / (n - i - 1));
-    const t = Math.abs(a - b);
-    if (t < mi) {
-      ans = i;
-      mi = t;
+    const n = nums.length;
+    let pre = 0;
+    let suf = nums.reduce((a, b) => a + b);
+    let ans = 0;
+    let mi = suf;
+    for (let i = 0; i < n; ++i) {
+        pre += nums[i];
+        suf -= nums[i];
+        const a = Math.floor(pre / (i + 1));
+        const b = n - i - 1 === 0 ? 0 : Math.floor(suf / (n - i - 1));
+        const t = Math.abs(a - b);
+        if (t < mi) {
+            ans = i;
+            mi = t;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

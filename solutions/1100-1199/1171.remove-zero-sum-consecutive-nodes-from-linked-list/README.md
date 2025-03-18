@@ -1,75 +1,79 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1171.Remove%20Zero%20Sum%20Consecutive%20Nodes%20from%20Linked%20List/README.md
 rating: 1782
-source: Weekly Contest 151 Q3
+source: 第 151 场周赛 Q3
 tags:
-  - Hash Table
-  - Linked List
+    - 哈希表
+    - 链表
 ---
 
 <!-- problem:start -->
 
-# [1171. Remove Zero Sum Consecutive Nodes from Linked List](https://leetcode.com/problems/remove-zero-sum-consecutive-nodes-from-linked-list)
+# [1171. 从链表中删去总和值为零的连续节点](https://leetcode.cn/problems/remove-zero-sum-consecutive-nodes-from-linked-list)
 
-## Description
+[English Version](/solution/1100-1199/1171.Remove%20Zero%20Sum%20Consecutive%20Nodes%20from%20Linked%20List/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>head</code> of a linked list, we repeatedly delete consecutive sequences of nodes that sum to <code>0</code> until there are no such sequences.</p>
+<p>给你一个链表的头节点&nbsp;<code>head</code>，请你编写代码，反复删去链表中由 <strong>总和</strong>&nbsp;值为 <code>0</code> 的连续节点组成的序列，直到不存在这样的序列为止。</p>
 
-<p>After doing so, return the head of the final linked list.&nbsp; You may return any such answer.</p>
-
-<p>&nbsp;</p>
-<p>(Note that in the examples below, all sequences are serializations of <code>ListNode</code> objects.)</p>
-
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> head = [1,2,-3,3,1]
-<strong>Output:</strong> [3,1]
-<strong>Note:</strong> The answer [1,2,1] would also be accepted.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> head = [1,2,3,-3,4]
-<strong>Output:</strong> [1,2,4]
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> head = [1,2,3,-3,-2]
-<strong>Output:</strong> [1]
-</pre>
+<p>删除完毕后，请你返回最终结果链表的头节点。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p>你可以返回任何满足题目要求的答案。</p>
+
+<p>（注意，下面示例中的所有序列，都是对&nbsp;<code>ListNode</code>&nbsp;对象序列化的表示。）</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>head = [1,2,-3,3,1]
+<strong>输出：</strong>[3,1]
+<strong>提示：</strong>答案 [1,2,1] 也是正确的。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>head = [1,2,3,-3,4]
+<strong>输出：</strong>[1,2,4]
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>head = [1,2,3,-3,-2]
+<strong>输出：</strong>[1]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The given linked list will contain between <code>1</code> and <code>1000</code> nodes.</li>
-	<li>Each node in the linked list has <code>-1000 &lt;= node.val &lt;= 1000</code>.</li>
+	<li>给你的链表中可能有 <code>1</code> 到&nbsp;<code>1000</code>&nbsp;个节点。</li>
+	<li>对于链表中的每个节点，节点的值：<code>-1000 &lt;= node.val &lt;= 1000</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Hash Table
+### 方法一：前缀和 + 哈希表
 
-If two prefix sums of the linked list are equal, it means that the sum of the continuous node sequence between the two prefix sums is $0$, so we can remove this part of the continuous nodes.
+若链表节点的两个前缀和相等，说明两个前缀和之间的连续节点序列的和为 $0$，那么可以消去这部分连续节点。
 
-We first traverse the linked list and use a hash table $last$ to record the prefix sum and the corresponding linked list node. For the same prefix sum $s$, the later node overwrites the previous node.
+我们第一次遍历链表，用哈希表 $last$ 记录前缀和以及对应的链表节点，对于同一前缀和 $s$，后面出现的节点覆盖前面的节点。
 
-Next, we traverse the linked list again. If the current node $cur$ has a prefix sum $s$ that appears in $last$, it means that the sum of all nodes between $cur$ and $last[s]$ is $0$, so we directly modify the pointer of $cur$ to $last[s].next$, which removes this part of the continuous nodes with a sum of $0$. We continue to traverse and delete all continuous nodes with a sum of $0$.
+接下来，我们再次遍历链表，若当前节点 $cur$ 的前缀和 $s$ 在 $last$ 出现，说明 $cur$ 与 $last[s]$ 之间的所有节点和为 $0$，我们直接修改 $cur$ 的指向，即 $cur.next = last[s].next$，这样就删去了这部分和为 $0$ 的连续节点。继续往后遍历，删除所有和为 $0$ 的连续节点。
 
-Finally, we return the head node of the linked list $dummy.next$.
+最后返回链表的头节点 $dummy.next$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the linked list.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为链表的长度。
 
 <!-- tabs:start -->
 
@@ -218,19 +222,19 @@ func removeZeroSumSublists(head *ListNode) *ListNode {
  */
 
 function removeZeroSumSublists(head: ListNode | null): ListNode | null {
-  const dummy = new ListNode(0, head);
-  const last = new Map<number, ListNode>();
-  let s = 0;
-  for (let cur = dummy; cur; cur = cur.next) {
-    s += cur.val;
-    last.set(s, cur);
-  }
-  s = 0;
-  for (let cur = dummy; cur; cur = cur.next) {
-    s += cur.val;
-    cur.next = last.get(s)!.next;
-  }
-  return dummy.next;
+    const dummy = new ListNode(0, head);
+    const last = new Map<number, ListNode>();
+    let s = 0;
+    for (let cur = dummy; cur; cur = cur.next) {
+        s += cur.val;
+        last.set(s, cur);
+    }
+    s = 0;
+    for (let cur = dummy; cur; cur = cur.next) {
+        s += cur.val;
+        cur.next = last.get(s)!.next;
+    }
+    return dummy.next;
 }
 ```
 

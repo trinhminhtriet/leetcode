@@ -1,55 +1,58 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1984.Minimum%20Difference%20Between%20Highest%20and%20Lowest%20of%20K%20Scores/README.md
 rating: 1306
-source: Weekly Contest 256 Q1
+source: 第 256 场周赛 Q1
 tags:
-  - Array
-  - Sorting
-  - Sliding Window
+    - 数组
+    - 排序
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1984. Minimum Difference Between Highest and Lowest of K Scores](https://leetcode.com/problems/minimum-difference-between-highest-and-lowest-of-k-scores)
+# [1984. 学生分数的最小差值](https://leetcode.cn/problems/minimum-difference-between-highest-and-lowest-of-k-scores)
 
-## Description
+[English Version](/solution/1900-1999/1984.Minimum%20Difference%20Between%20Highest%20and%20Lowest%20of%20K%20Scores/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>, where <code>nums[i]</code> represents the score of the <code>i<sup>th</sup></code> student. You are also given an integer <code>k</code>.</p>
+<p>给你一个 <strong>下标从 0 开始</strong> 的整数数组 <code>nums</code> ，其中 <code>nums[i]</code> 表示第 <code>i</code> 名学生的分数。另给你一个整数 <code>k</code> 。</p>
 
-<p>Pick the scores of any <code>k</code> students from the array so that the <strong>difference</strong> between the <strong>highest</strong> and the <strong>lowest</strong> of the <code>k</code> scores is <strong>minimized</strong>.</p>
+<p>从数组中选出任意 <code>k</code> 名学生的分数，使这 <code>k</code> 个分数间 <strong>最高分</strong> 和 <strong>最低分</strong> 的 <strong>差值</strong> 达到<strong> 最小化</strong> 。</p>
 
-<p>Return <em>the <strong>minimum</strong> possible difference</em>.</p>
+<p>返回可能的 <strong>最小差值</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [90], k = 1
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There is one way to pick score(s) of one student:
-- [<strong><u>90</u></strong>]. The difference between the highest and lowest score is 90 - 90 = 0.
-The minimum possible difference is 0.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [90], k = 1
+<strong>输出：</strong>0
+<strong>解释：</strong>选出 1 名学生的分数，仅有 1 种方法：
+- [<em><strong>90</strong></em>] 最高分和最低分之间的差值是 90 - 90 = 0
+可能的最小差值是 0
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [9,4,1,7], k = 2
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> There are six ways to pick score(s) of two students:
-- [<strong><u>9</u></strong>,<strong><u>4</u></strong>,1,7]. The difference between the highest and lowest score is 9 - 4 = 5.
-- [<strong><u>9</u></strong>,4,<strong><u>1</u></strong>,7]. The difference between the highest and lowest score is 9 - 1 = 8.
-- [<strong><u>9</u></strong>,4,1,<strong><u>7</u></strong>]. The difference between the highest and lowest score is 9 - 7 = 2.
-- [9,<strong><u>4</u></strong>,<strong><u>1</u></strong>,7]. The difference between the highest and lowest score is 4 - 1 = 3.
-- [9,<strong><u>4</u></strong>,1,<strong><u>7</u></strong>]. The difference between the highest and lowest score is 7 - 4 = 3.
-- [9,4,<strong><u>1</u></strong>,<strong><u>7</u></strong>]. The difference between the highest and lowest score is 7 - 1 = 6.
-The minimum possible difference is 2.</pre>
+<pre><strong>输入：</strong>nums = [9,4,1,7], k = 2
+<strong>输出：</strong>2
+<strong>解释：</strong>选出 2 名学生的分数，有 6 种方法：
+- [<em><strong>9</strong></em>,<em><strong>4</strong></em>,1,7] 最高分和最低分之间的差值是 9 - 4 = 5
+- [<em><strong>9</strong></em>,4,<em><strong>1</strong></em>,7] 最高分和最低分之间的差值是 9 - 1 = 8
+- [<em><strong>9</strong></em>,4,1,<em><strong>7</strong></em>] 最高分和最低分之间的差值是 9 - 7 = 2
+- [9,<em><strong>4</strong></em>,<em><strong>1</strong></em>,7] 最高分和最低分之间的差值是 4 - 1 = 3
+- [9,<em><strong>4</strong></em>,1,<em><strong>7</strong></em>] 最高分和最低分之间的差值是 7 - 4 = 3
+- [9,4,<em><strong>1</strong></em>,<em><strong>7</strong></em>] 最高分和最低分之间的差值是 7 - 1 = 6
+可能的最小差值是 2</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= nums.length &lt;= 1000</code></li>
@@ -58,17 +61,17 @@ The minimum possible difference is 2.</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting + Sliding Window
+### 方法一：排序 + 滑动窗口
 
-We can sort the students' scores in ascending order, then use a sliding window of size $k$ to calculate the difference between the maximum and minimum values in the window, and finally take the minimum of the differences of all windows.
+我们可以将学生的分数按照升序排序，然后使用滑动窗口的方法，每次取大小为 $k$ 的窗口，计算窗口内的最大值和最小值的差值，最后取所有窗口的差值的最小值。
 
-Why do we take the scores of $k$ consecutive students? Because if they are not consecutive, the difference between the maximum and minimum values may remain the same or increase, but it will definitely not decrease. Therefore, we only need to consider the scores of $k$ consecutive students after sorting.
+为什么是取连续的 $k$ 个学生的分数呢？因为如果不连续，那么最大值和最小值的的差值可能不变，或者变大，但一定不会变小。因此，我们只需要考虑排序后的连续的 $k$ 个学生的分数。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the number of students.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是学生的数量。
 
 <!-- tabs:start -->
 
@@ -129,13 +132,13 @@ func minimumDifference(nums []int, k int) int {
 
 ```ts
 function minimumDifference(nums: number[], k: number): number {
-  nums.sort((a, b) => a - b);
-  const n = nums.length;
-  let ans = nums[n - 1] - nums[0];
-  for (let i = 0; i + k - 1 < n; i++) {
-    ans = Math.min(nums[i + k - 1] - nums[i], ans);
-  }
-  return ans;
+    nums.sort((a, b) => a - b);
+    const n = nums.length;
+    let ans = nums[n - 1] - nums[0];
+    for (let i = 0; i + k - 1 < n; i++) {
+        ans = Math.min(nums[i + k - 1] - nums[i], ans);
+    }
+    return ans;
 }
 ```
 

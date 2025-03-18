@@ -1,78 +1,95 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0749.Contain%20Virus/README.md
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Array
-  - Matrix
-  - Simulation
+    - 深度优先搜索
+    - 广度优先搜索
+    - 数组
+    - 矩阵
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [749. Contain Virus](https://leetcode.com/problems/contain-virus)
+# [749. 隔离病毒](https://leetcode.cn/problems/contain-virus)
 
-## Description
+[English Version](/solution/0700-0799/0749.Contain%20Virus/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A virus is spreading rapidly, and your task is to quarantine the infected area by installing walls.</p>
+<p>病毒扩散得很快，现在你的任务是尽可能地通过安装防火墙来隔离病毒。</p>
 
-<p>The world is modeled as an <code>m x n</code> binary grid <code>isInfected</code>, where <code>isInfected[i][j] == 0</code> represents uninfected cells, and <code>isInfected[i][j] == 1</code> represents cells contaminated with the virus. A wall (and only one wall) can be installed between any two <strong>4-directionally</strong> adjacent cells, on the shared boundary.</p>
+<p>假设世界由&nbsp;<code>m x n</code>&nbsp;的二维矩阵&nbsp;<code>isInfected</code>&nbsp;组成，&nbsp;<code>isInfected[i][j] == 0</code>&nbsp;表示该区域未感染病毒，而 &nbsp;<code>isInfected[i][j] == 1</code>&nbsp;表示该区域已感染病毒。可以在任意 2 个相邻单元之间的共享边界上安装一个防火墙（并且只有一个防火墙）。</p>
 
-<p>Every night, the virus spreads to all neighboring cells in all four directions unless blocked by a wall. Resources are limited. Each day, you can install walls around only one region (i.e., the affected area (continuous block of infected cells) that threatens the most uninfected cells the following night). There <strong>will never be a tie</strong>.</p>
+<p>每天晚上，病毒会从被感染区域向相邻未感染区域扩散，除非被防火墙隔离。现由于资源有限，每天你只能安装一系列防火墙来隔离其中一个被病毒感染的区域（一个区域或连续的一片区域），且该感染区域对未感染区域的威胁最大且 <strong>保证唯一&nbsp;</strong>。</p>
 
-<p>Return <em>the number of walls used to quarantine all the infected regions</em>. If the world will become fully infected, return the number of walls used.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0749.Contain%20Virus/images/virus11-grid.jpg" style="width: 500px; height: 255px;" />
-<pre>
-<strong>Input:</strong> isInfected = [[0,1,0,0,0,0,0,1],[0,1,0,0,0,0,0,1],[0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0]]
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> There are 2 contaminated regions.
-On the first day, add 5 walls to quarantine the viral region on the left. The board after the virus spreads is:
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0749.Contain%20Virus/images/virus12edited-grid.jpg" style="width: 500px; height: 257px;" />
-On the second day, add 5 walls to quarantine the viral region on the right. The virus is fully contained.
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0749.Contain%20Virus/images/virus13edited-grid.jpg" style="width: 500px; height: 261px;" />
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0749.Contain%20Virus/images/virus2-grid.jpg" style="width: 653px; height: 253px;" />
-<pre>
-<strong>Input:</strong> isInfected = [[1,1,1],[1,0,1],[1,1,1]]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> Even though there is only one cell saved, there are 4 walls built.
-Notice that walls are only built on the shared boundary of two different cells.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> isInfected = [[1,1,1,0,0,0,0,0,0],[1,0,1,0,1,1,1,1,1],[1,1,1,0,0,0,0,0,0]]
-<strong>Output:</strong> 13
-<strong>Explanation:</strong> The region on the left only builds two new walls.
-</pre>
+<p>你需要努力使得最后有部分区域不被病毒感染，如果可以成功，那么返回需要使用的防火墙个数; 如果无法实现，则返回在世界被病毒全部感染时已安装的防火墙个数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0749.Contain%20Virus/images/virus11-grid.jpg" style="height: 255px; width: 500px;" /></p>
+
+<pre>
+<strong>输入:</strong> isInfected = [[0,1,0,0,0,0,0,1],[0,1,0,0,0,0,0,1],[0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0]]
+<strong>输出:</strong> 10
+<strong>解释:</strong>一共有两块被病毒感染的区域。
+在第一天，添加 5 墙隔离病毒区域的左侧。病毒传播后的状态是:
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0749.Contain%20Virus/images/virus12edited-grid.jpg" style="height: 261px; width: 500px;" />
+第二天，在右侧添加 5 个墙来隔离病毒区域。此时病毒已经被完全控制住了。
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0749.Contain%20Virus/images/virus13edited-grid.jpg" style="height: 261px; width: 500px;" />
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0749.Contain%20Virus/images/virus2-grid.jpg" style="height: 253px; width: 653px;" /></p>
+
+<pre>
+<strong>输入:</strong> isInfected = [[1,1,1],[1,0,1],[1,1,1]]
+<strong>输出:</strong> 4
+<strong>解释:</strong> 虽然只保存了一个小区域，但却有四面墙。
+注意，防火墙只建立在两个不同区域的共享边界上。
+</pre>
+
+<p><strong>示例&nbsp;3:</strong></p>
+
+<pre>
+<strong>输入:</strong> isInfected = [[1,1,1,0,0,0,0,0,0],[1,0,1,0,1,1,1,1,1],[1,1,1,0,0,0,0,0,0]]
+<strong>输出:</strong> 13
+<strong>解释:</strong> 在隔离右边感染区域后，隔离左边病毒区域只需要 2 个防火墙。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>m ==&nbsp;isInfected.length</code></li>
 	<li><code>n ==&nbsp;isInfected[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 50</code></li>
-	<li><code>isInfected[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
-	<li>There is always a contiguous viral region throughout the described process that will <strong>infect strictly more uncontaminated squares</strong> in the next round.</li>
+	<li><code>isInfected[i][j]</code>&nbsp;is either&nbsp;<code>0</code>&nbsp;or&nbsp;<code>1</code></li>
+	<li>在整个描述的过程中，总有一个相邻的病毒区域，它将在下一轮 <strong>严格地感染更多未受污染的方块</strong>&nbsp;</li>
 </ul>
+
+<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS 暴力模拟
+
+DFS 找到每个病毒区域 `areas[i]`，同时记录每个区域边界节点 `boundaries[i]` 以及周长 `c[i]`。
+
+接着对威胁最大的病毒区域进行隔离，累加所需的防火墙数量。
+
+剩余的病毒区域向外感染一个区域。
 
 <!-- tabs:start -->
 

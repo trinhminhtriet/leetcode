@@ -1,91 +1,96 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2449.Minimum%20Number%20of%20Operations%20to%20Make%20Arrays%20Similar/README.md
 rating: 2076
-source: Weekly Contest 316 Q4
+source: 第 316 场周赛 Q4
 tags:
-  - Greedy
-  - Array
-  - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2449. Minimum Number of Operations to Make Arrays Similar](https://leetcode.com/problems/minimum-number-of-operations-to-make-arrays-similar)
+# [2449. 使数组相似的最少操作次数](https://leetcode.cn/problems/minimum-number-of-operations-to-make-arrays-similar)
 
-## Description
+[English Version](/solution/2400-2499/2449.Minimum%20Number%20of%20Operations%20to%20Make%20Arrays%20Similar/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two positive integer arrays <code>nums</code> and <code>target</code>, of the same length.</p>
+<p>给你两个正整数数组&nbsp;<code>nums</code> 和&nbsp;<code>target</code>&nbsp;，两个数组长度相等。</p>
 
-<p>In one operation, you can choose any two <strong>distinct</strong> indices <code>i</code> and <code>j</code> where <code>0 &lt;= i, j &lt; nums.length</code> and:</p>
+<p>在一次操作中，你可以选择两个 <strong>不同</strong>&nbsp;的下标&nbsp;<code>i</code> 和&nbsp;<code>j</code>&nbsp;，其中&nbsp;<code>0 &lt;= i, j &lt; nums.length</code>&nbsp;，并且：</p>
 
 <ul>
-	<li>set <code>nums[i] = nums[i] + 2</code> and</li>
-	<li>set <code>nums[j] = nums[j] - 2</code>.</li>
+	<li>令&nbsp;<code>nums[i] = nums[i] + 2</code>&nbsp;且</li>
+	<li>令&nbsp;<code>nums[j] = nums[j] - 2</code>&nbsp;。</li>
 </ul>
 
-<p>Two arrays are considered to be <strong>similar</strong> if the frequency of each element is the same.</p>
+<p>如果两个数组中每个元素出现的频率相等，我们称两个数组是 <strong>相似</strong>&nbsp;的。</p>
 
-<p>Return <em>the minimum number of operations required to make </em><code>nums</code><em> similar to </em><code>target</code>. The test cases are generated such that <code>nums</code> can always be similar to <code>target</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [8,12,6], target = [2,14,10]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> It is possible to make nums similar to target in two operations:
-- Choose i = 0 and j = 2, nums = [10,12,4].
-- Choose i = 1 and j = 2, nums = [10,14,2].
-It can be shown that 2 is the minimum number of operations needed.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,5], target = [4,1,3]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> We can make nums similar to target in one operation:
-- Choose i = 1 and j = 2, nums = [1,4,3].
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,1,1,1,1], target = [1,1,1,1,1]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The array nums is already similiar to target.
-</pre>
+<p>请你返回将 <code>nums</code>&nbsp;变得与 <code>target</code>&nbsp;相似的最少操作次数。测试数据保证 <code>nums</code>&nbsp;一定能变得与 <code>target</code>&nbsp;相似。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [8,12,6], target = [2,14,10]
+<b>输出：</b>2
+<b>解释：</b>可以用两步操作将 nums 变得与 target 相似：
+- 选择 i = 0 和 j = 2 ，nums = [10,12,4] 。
+- 选择 i = 1 和 j = 2 ，nums = [10,14,2] 。
+2 次操作是最少需要的操作次数。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,2,5], target = [4,1,3]
+<b>输出：</b>1
+<b>解释：</b>一步操作可以使 nums 变得与 target 相似：
+- 选择 i = 1 和 j = 2 ，nums = [1,4,3] 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,1,1,1,1], target = [1,1,1,1,1]
+<b>输出：</b>0
+<b>解释：</b>数组 nums 已经与 target 相似。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length == target.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i], target[i] &lt;= 10<sup>6</sup></code></li>
-	<li>It is possible to make <code>nums</code> similar to <code>target</code>.</li>
+	<li><code>nums</code>&nbsp;一定可以变得与&nbsp;<code>target</code> 相似。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Odd-Even Classification + Sorting
+### 方法一：奇偶分类 + 排序
 
-Notice that, because each operation will only increase or decrease the value of an element by $2$, the parity of the element will not change.
+注意到，由于每次操作，元素的值只会增加 $2$ 或减少 $2$，因此，元素的奇偶性不会改变。
 
-Therefore, we can divide the arrays $nums$ and $target$ into two groups according to their parity, denoted as $a_1$ and $a_2$, and $b_1$ and $b_2$ respectively.
+因此，我们可以将数组 $nums$ 和 $target$ 分别按奇偶性分为两组，分别记为 $a_1$ 和 $a_2$，以及 $b_1$ 和 $b_2$。
 
-Then, we just need to pair the elements in $a_1$ with the elements in $b_1$, and pair the elements in $a_2$ with the elements in $b_2$, and then perform operations. During the pairing process, we can use a greedy strategy, pairing the smaller elements in $a_i$ with the smaller elements in $b_i$ each time, which can ensure the minimum number of operations. This can be directly implemented through sorting.
+那么，我们只需要将 $a_1$ 中的元素与 $b_1$ 中的元素配对，将 $a_2$ 中的元素与 $b_2$ 中的元素配对，然后进行操作。配对的过程中，我们可以使用贪心的策略，每次将 $a_i$ 中较小的元素与 $b_i$ 中较小的元素配对，这样可以保证操作的次数最少。这里可以直接通过排序来实现。
 
-Since each operation can reduce the difference of the corresponding elements by $4$, we accumulate the difference of each corresponding position, and finally divide by $4$ to get the answer.
+由于每次操作，都可以将对应位置的元素差值减少 $4$，因此，我们累计每个对应位置的差值，最后除以 $4$ 即可得到答案。
 
-The time complexity is $O(n \times \log n)$, where $n$ is the length of the array $nums$.
+时间复杂度 $O(n \times \log n)$，其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -211,40 +216,40 @@ func abs(x int) int {
 
 ```ts
 function makeSimilar(nums: number[], target: number[]): number {
-  nums.sort((a, b) => a - b);
-  target.sort((a, b) => a - b);
+    nums.sort((a, b) => a - b);
+    target.sort((a, b) => a - b);
 
-  const a1: number[] = [];
-  const a2: number[] = [];
-  const b1: number[] = [];
-  const b2: number[] = [];
+    const a1: number[] = [];
+    const a2: number[] = [];
+    const b1: number[] = [];
+    const b2: number[] = [];
 
-  for (const v of nums) {
-    if (v % 2 === 0) {
-      a1.push(v);
-    } else {
-      a2.push(v);
+    for (const v of nums) {
+        if (v % 2 === 0) {
+            a1.push(v);
+        } else {
+            a2.push(v);
+        }
     }
-  }
 
-  for (const v of target) {
-    if (v % 2 === 0) {
-      b1.push(v);
-    } else {
-      b2.push(v);
+    for (const v of target) {
+        if (v % 2 === 0) {
+            b1.push(v);
+        } else {
+            b2.push(v);
+        }
     }
-  }
 
-  let ans = 0;
-  for (let i = 0; i < a1.length; ++i) {
-    ans += Math.abs(a1[i] - b1[i]);
-  }
+    let ans = 0;
+    for (let i = 0; i < a1.length; ++i) {
+        ans += Math.abs(a1[i] - b1[i]);
+    }
 
-  for (let i = 0; i < a2.length; ++i) {
-    ans += Math.abs(a2[i] - b2[i]);
-  }
+    for (let i = 0; i < a2.length; ++i) {
+        ans += Math.abs(a2[i] - b2[i]);
+    }
 
-  return ans / 4;
+    return ans / 4;
 }
 ```
 

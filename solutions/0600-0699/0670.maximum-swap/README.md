@@ -1,62 +1,61 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0670.Maximum%20Swap/README.md
 tags:
-  - Greedy
-  - Math
+    - 贪心
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [670. Maximum Swap](https://leetcode.com/problems/maximum-swap)
+# [670. 最大交换](https://leetcode.cn/problems/maximum-swap)
 
-## Description
+[English Version](/solution/0600-0699/0670.Maximum%20Swap/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer <code>num</code>. You can swap two digits at most once to get the maximum valued number.</p>
+<p>给定一个非负整数，你<strong>至多</strong>可以交换一次数字中的任意两位。返回你能得到的最大值。</p>
 
-<p>Return <em>the maximum valued number you can get</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1 :</strong></p>
 
 <pre>
-<strong>Input:</strong> num = 2736
-<strong>Output:</strong> 7236
-<strong>Explanation:</strong> Swap the number 2 and the number 7.
+<strong>输入:</strong> 2736
+<strong>输出:</strong> 7236
+<strong>解释:</strong> 交换数字2和数字7。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2 :</strong></p>
 
 <pre>
-<strong>Input:</strong> num = 9973
-<strong>Output:</strong> 9973
-<strong>Explanation:</strong> No swap.
+<strong>输入:</strong> 9973
+<strong>输出:</strong> 9973
+<strong>解释:</strong> 不需要交换。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>注意:</strong></p>
 
-<ul>
-	<li><code>0 &lt;= num &lt;= 10<sup>8</sup></code></li>
-</ul>
+<ol>
+	<li>给定数字的范围是&nbsp;[0, 10<sup>8</sup>]</li>
+</ol>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy Algorithm
+### 方法一：贪心
 
-First, we convert the number into a string $s$. Then, we traverse the string $s$ from right to left, using an array or hash table $d$ to record the position of the maximum number to the right of each number (it can be the position of the number itself).
+我们先将数字转为字符串 $s$，然后从右往左遍历字符串 $s$，用数组或哈希表 $d$ 记录每个数字右侧的最大数字的位置（可以是数字本身的位置）。
 
-Next, we traverse $d$ from left to right. If $s[i] < s[d[i]]$, we swap them and exit the traversal process.
+接着从左到右遍历 $d$，如果 $s[i] \lt s[d[i]]$，则进行交换，并退出遍历的过程。
 
-Finally, we convert the string $s$ back into a number, which is the answer.
+最后将字符串 $s$ 转为数字，即为答案。
 
-The time complexity is $O(\log M)$, and the space complexity is $O(\log M)$. Here, $M$ is the range of the number $num$.
+时间复杂度 $O(\log M)$，空间复杂度 $O(\log M)$。其中 $M$ 是数字 $num$ 的取值范围。
 
 <!-- tabs:start -->
 
@@ -165,30 +164,30 @@ func maximumSwap(num int) int {
 
 ```ts
 function maximumSwap(num: number): number {
-  const list = new Array();
-  while (num !== 0) {
-    list.push(num % 10);
-    num = Math.floor(num / 10);
-  }
-  const n = list.length;
-  const idx = new Array();
-  for (let i = 0, j = 0; i < n; i++) {
-    if (list[i] > list[j]) {
-      j = i;
+    const list = new Array();
+    while (num !== 0) {
+        list.push(num % 10);
+        num = Math.floor(num / 10);
     }
-    idx.push(j);
-  }
-  for (let i = n - 1; i >= 0; i--) {
-    if (list[idx[i]] !== list[i]) {
-      [list[idx[i]], list[i]] = [list[i], list[idx[i]]];
-      break;
+    const n = list.length;
+    const idx = new Array();
+    for (let i = 0, j = 0; i < n; i++) {
+        if (list[i] > list[j]) {
+            j = i;
+        }
+        idx.push(j);
     }
-  }
-  let res = 0;
-  for (let i = n - 1; i >= 0; i--) {
-    res = res * 10 + list[i];
-  }
-  return res;
+    for (let i = n - 1; i >= 0; i--) {
+        if (list[idx[i]] !== list[i]) {
+            [list[idx[i]], list[i]] = [list[i], list[idx[i]]];
+            break;
+        }
+    }
+    let res = 0;
+    for (let i = n - 1; i >= 0; i--) {
+        res = res * 10 + list[i];
+    }
+    return res;
 }
 ```
 
@@ -238,7 +237,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Space Optimized Greedy
+### 方法二：贪心 + 空间优化
 
 <!-- tabs:start -->
 
@@ -246,21 +245,21 @@ impl Solution {
 
 ```ts
 function maximumSwap(num: number): number {
-  const ans = [...String(num)];
-  let [min, max, maybeMax, n] = [-1, -1, -1, ans.length];
+    const ans = [...String(num)];
+    let [min, max, maybeMax, n] = [-1, -1, -1, ans.length];
 
-  for (let i = n - 1; i >= 0; i--) {
-    if (ans[i] > (ans[maybeMax] ?? -1)) maybeMax = i;
-    if (i < maybeMax && ans[i] < ans[maybeMax]) {
-      [min, max] = [i, maybeMax];
+    for (let i = n - 1; i >= 0; i--) {
+        if (ans[i] > (ans[maybeMax] ?? -1)) maybeMax = i;
+        if (i < maybeMax && ans[i] < ans[maybeMax]) {
+            [min, max] = [i, maybeMax];
+        }
     }
-  }
 
-  if (~min && ~max && min < max) {
-    [ans[min], ans[max]] = [ans[max], ans[min]];
-  }
+    if (~min && ~max && min < max) {
+        [ans[min], ans[max]] = [ans[max], ans[min]];
+    }
 
-  return +ans.join("");
+    return +ans.join('');
 }
 ```
 
@@ -268,21 +267,21 @@ function maximumSwap(num: number): number {
 
 ```js
 function maximumSwap(num) {
-  const ans = [...String(num)];
-  let [min, max, maybeMax, n] = [-1, -1, -1, ans.length];
+    const ans = [...String(num)];
+    let [min, max, maybeMax, n] = [-1, -1, -1, ans.length];
 
-  for (let i = n - 1; i >= 0; i--) {
-    if (ans[i] > (ans[maybeMax] ?? -1)) maybeMax = i;
-    if (i < maybeMax && ans[i] < ans[maybeMax]) {
-      [min, max] = [i, maybeMax];
+    for (let i = n - 1; i >= 0; i--) {
+        if (ans[i] > (ans[maybeMax] ?? -1)) maybeMax = i;
+        if (i < maybeMax && ans[i] < ans[maybeMax]) {
+            [min, max] = [i, maybeMax];
+        }
     }
-  }
 
-  if (~min && ~max && min < max) {
-    [ans[min], ans[max]] = [ans[max], ans[min]];
-  }
+    if (~min && ~max && min < max) {
+        [ans[min], ans[max]] = [ans[max], ans[min]];
+    }
 
-  return +ans.join("");
+    return +ans.join('');
 }
 ```
 

@@ -1,50 +1,57 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0840.Magic%20Squares%20In%20Grid/README.md
 tags:
-  - Array
-  - Hash Table
-  - Math
-  - Matrix
+    - 数组
+    - 哈希表
+    - 数学
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [840. Magic Squares In Grid](https://leetcode.com/problems/magic-squares-in-grid)
+# [840. 矩阵中的幻方](https://leetcode.cn/problems/magic-squares-in-grid)
 
-## Description
+[English Version](/solution/0800-0899/0840.Magic%20Squares%20In%20Grid/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <code>3 x 3</code> <strong>magic square</strong> is a <code>3 x 3</code> grid filled with distinct numbers <strong>from </strong>1<strong> to </strong>9 such that each row, column, and both diagonals all have the same sum.</p>
+<p><code>3 x 3</code> 的幻方是一个填充有&nbsp;<strong>从 <code>1</code> 到 <code>9</code>&nbsp;</strong> 的不同数字的 <code>3 x 3</code> 矩阵，其中每行，每列以及两条对角线上的各数之和都相等。</p>
 
-<p>Given a <code>row x col</code> <code>grid</code> of integers, how many <code>3 x 3</code> magic square subgrids are there?</p>
+<p>给定一个由整数组成的<code>row x col</code>&nbsp;的 <code>grid</code>，其中有多少个&nbsp;<code>3 × 3</code> 的 “幻方” 子矩阵？</p>
 
-<p>Note: while a magic square can only contain numbers from 1 to 9, <code>grid</code> may contain numbers up to 15.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0840.Magic%20Squares%20In%20Grid/images/magic_main.jpg" style="width: 322px; height: 242px;" />
-<pre>
-<strong>Input:</strong> grid = [[4,3,8,4],[9,5,1,9],[2,7,6,2]]
-<strong>Output:</strong> 1
-<strong>Explanation: </strong>
-The following subgrid is a 3 x 3 magic square:
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0840.Magic%20Squares%20In%20Grid/images/magic_valid.jpg" style="width: 242px; height: 242px;" />
-while this one is not:
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0840.Magic%20Squares%20In%20Grid/images/magic_invalid.jpg" style="width: 242px; height: 242px;" />
-In total, there is only one magic square inside the given grid.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> grid = [[8]]
-<strong>Output:</strong> 0
-</pre>
+<p>注意：虽然幻方只能包含 1 到 9 的数字，但&nbsp;<code>grid</code> 可以包含最多15的数字。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0840.Magic%20Squares%20In%20Grid/images/magic_main.jpg" /></p>
+
+<pre>
+<strong>输入: </strong>grid = [[4,3,8,4],[9,5,1,9],[2,7,6,2]
+<strong>输出: </strong>1
+<strong>解释: </strong>
+下面的子矩阵是一个 3 x 3 的幻方：
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0840.Magic%20Squares%20In%20Grid/images/magic_valid.jpg" />
+而这一个不是：
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0840.Magic%20Squares%20In%20Grid/images/magic_invalid.jpg" />
+总的来说，在本示例所给定的矩阵中只有一个 3 x 3 的幻方子矩阵。
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> grid = [[8]]
+<strong>输出:</strong> 0
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>row == grid.length</code></li>
@@ -55,15 +62,15 @@ In total, there is only one magic square inside the given grid.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We directly enumerate the top-left coordinates $(i, j)$ of each $3 \times 3$ sub-matrix, then check whether the sub-matrix satisfies the "magic square" condition. If it does, increment the answer by one. After enumeration, return the answer.
+我们直接枚举每个 $3 \times 3$ 子矩阵的左上角坐标 $(i, j)$，然后判断该子矩阵是否满足“幻方矩阵”，若是，答案加一。枚举结束后，返回答案即可。
 
-Time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. Space complexity is $O(1)$.
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是矩阵的行数和列数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -265,49 +272,49 @@ func numMagicSquaresInside(grid [][]int) (ans int) {
 
 ```ts
 function numMagicSquaresInside(grid: number[][]): number {
-  const m = grid.length;
-  const n = grid[0].length;
-  const check = (i: number, j: number): number => {
-    if (i + 3 > m || j + 3 > n) {
-      return 0;
-    }
-    const cnt: number[] = Array(16).fill(0);
-    const row: number[] = Array(3).fill(0);
-    const col: number[] = Array(3).fill(0);
-    let [a, b] = [0, 0];
-    for (let x = i; x < i + 3; ++x) {
-      for (let y = j; y < j + 3; ++y) {
-        const v = grid[x][y];
-        if (v < 1 || v > 9 || ++cnt[v] > 1) {
-          return 0;
+    const m = grid.length;
+    const n = grid[0].length;
+    const check = (i: number, j: number): number => {
+        if (i + 3 > m || j + 3 > n) {
+            return 0;
         }
-        row[x - i] += v;
-        col[y - j] += v;
-        if (x - i === y - j) {
-          a += v;
+        const cnt: number[] = Array(16).fill(0);
+        const row: number[] = Array(3).fill(0);
+        const col: number[] = Array(3).fill(0);
+        let [a, b] = [0, 0];
+        for (let x = i; x < i + 3; ++x) {
+            for (let y = j; y < j + 3; ++y) {
+                const v = grid[x][y];
+                if (v < 1 || v > 9 || ++cnt[v] > 1) {
+                    return 0;
+                }
+                row[x - i] += v;
+                col[y - j] += v;
+                if (x - i === y - j) {
+                    a += v;
+                }
+                if (x - i === 2 - (y - j)) {
+                    b += v;
+                }
+            }
         }
-        if (x - i === 2 - (y - j)) {
-          b += v;
+        if (a !== b) {
+            return 0;
         }
-      }
+        for (let k = 0; k < 3; ++k) {
+            if (row[k] !== a || col[k] !== a) {
+                return 0;
+            }
+        }
+        return 1;
+    };
+    let ans = 0;
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            ans += check(i, j);
+        }
     }
-    if (a !== b) {
-      return 0;
-    }
-    for (let k = 0; k < 3; ++k) {
-      if (row[k] !== a || col[k] !== a) {
-        return 0;
-      }
-    }
-    return 1;
-  };
-  let ans = 0;
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      ans += check(i, j);
-    }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -315,49 +322,49 @@ function numMagicSquaresInside(grid: number[][]): number {
 
 ```js
 function numMagicSquaresInside(grid) {
-  const m = grid.length;
-  const n = grid[0].length;
-  const check = (i, j) => {
-    if (i + 3 > m || j + 3 > n) {
-      return 0;
-    }
-    const cnt = Array(16).fill(0);
-    const row = Array(3).fill(0);
-    const col = Array(3).fill(0);
-    let [a, b] = [0, 0];
-    for (let x = i; x < i + 3; ++x) {
-      for (let y = j; y < j + 3; ++y) {
-        const v = grid[x][y];
-        if (v < 1 || v > 9 || ++cnt[v] > 1) {
-          return 0;
+    const m = grid.length;
+    const n = grid[0].length;
+    const check = (i, j) => {
+        if (i + 3 > m || j + 3 > n) {
+            return 0;
         }
-        row[x - i] += v;
-        col[y - j] += v;
-        if (x - i === y - j) {
-          a += v;
+        const cnt = Array(16).fill(0);
+        const row = Array(3).fill(0);
+        const col = Array(3).fill(0);
+        let [a, b] = [0, 0];
+        for (let x = i; x < i + 3; ++x) {
+            for (let y = j; y < j + 3; ++y) {
+                const v = grid[x][y];
+                if (v < 1 || v > 9 || ++cnt[v] > 1) {
+                    return 0;
+                }
+                row[x - i] += v;
+                col[y - j] += v;
+                if (x - i === y - j) {
+                    a += v;
+                }
+                if (x - i === 2 - (y - j)) {
+                    b += v;
+                }
+            }
         }
-        if (x - i === 2 - (y - j)) {
-          b += v;
+        if (a !== b) {
+            return 0;
         }
-      }
+        for (let k = 0; k < 3; ++k) {
+            if (row[k] !== a || col[k] !== a) {
+                return 0;
+            }
+        }
+        return 1;
+    };
+    let ans = 0;
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            ans += check(i, j);
+        }
     }
-    if (a !== b) {
-      return 0;
-    }
-    for (let k = 0; k < 3; ++k) {
-      if (row[k] !== a || col[k] !== a) {
-        return 0;
-      }
-    }
-    return 1;
-  };
-  let ans = 0;
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      ans += check(i, j);
-    }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -375,45 +382,45 @@ function numMagicSquaresInside(grid) {
 
 ```ts
 export function numMagicSquaresInside(grid: number[][]): number {
-  const [m, n] = [grid.length, grid[0].length];
-  if (m < 3 || n < 3) return 0;
+    const [m, n] = [grid.length, grid[0].length];
+    if (m < 3 || n < 3) return 0;
 
-  const check = (y: number, x: number) => {
-    const g = grid;
-    if (g[y + 1][x + 1] !== 5) return 0;
+    const check = (y: number, x: number) => {
+        const g = grid;
+        if (g[y + 1][x + 1] !== 5) return 0;
 
-    const cells = [
-      g[y][x],
-      g[y][x + 1],
-      g[y][x + 2],
-      g[y + 1][x + 2],
-      g[y + 2][x + 2],
-      g[y + 2][x + 1],
-      g[y + 2][x],
-      g[y + 1][x],
-    ];
+        const cells = [
+            g[y][x],
+            g[y][x + 1],
+            g[y][x + 2],
+            g[y + 1][x + 2],
+            g[y + 2][x + 2],
+            g[y + 2][x + 1],
+            g[y + 2][x],
+            g[y + 1][x],
+        ];
 
-    const i = cells.indexOf(2);
-    if (i === -1) return 0;
-    cells.push(...cells.splice(0, i));
+        const i = cells.indexOf(2);
+        if (i === -1) return 0;
+        cells.push(...cells.splice(0, i));
 
-    const circle = [2, 9, 4, 3, 8, 1, 6, 7];
-    const reverseCircle = [2, 7, 6, 1, 8, 3, 4, 9];
+        const circle = [2, 9, 4, 3, 8, 1, 6, 7];
+        const reverseCircle = [2, 7, 6, 1, 8, 3, 4, 9];
 
-    if (cells.every((x, i) => x === circle[i])) return 1;
-    if (cells.every((x, i) => x === reverseCircle[i])) return 1;
+        if (cells.every((x, i) => x === circle[i])) return 1;
+        if (cells.every((x, i) => x === reverseCircle[i])) return 1;
 
-    return 0;
-  };
+        return 0;
+    };
 
-  let res = 0;
-  for (let i = 0; i < m - 2; i++) {
-    for (let j = 0; j < n - 2; j++) {
-      res += check(i, j);
+    let res = 0;
+    for (let i = 0; i < m - 2; i++) {
+        for (let j = 0; j < n - 2; j++) {
+            res += check(i, j);
+        }
     }
-  }
 
-  return res;
+    return res;
 }
 ```
 
@@ -421,45 +428,45 @@ export function numMagicSquaresInside(grid: number[][]): number {
 
 ```js
 function numMagicSquaresInside(grid) {
-  const [m, n] = [grid.length, grid[0].length];
-  if (m < 3 || n < 3) return 0;
+    const [m, n] = [grid.length, grid[0].length];
+    if (m < 3 || n < 3) return 0;
 
-  const check = (y, x) => {
-    const g = grid;
-    if (g[y + 1][x + 1] !== 5) return false;
+    const check = (y, x) => {
+        const g = grid;
+        if (g[y + 1][x + 1] !== 5) return false;
 
-    const cells = [
-      g[y][x],
-      g[y][x + 1],
-      g[y][x + 2],
-      g[y + 1][x + 2],
-      g[y + 2][x + 2],
-      g[y + 2][x + 1],
-      g[y + 2][x],
-      g[y + 1][x],
-    ];
+        const cells = [
+            g[y][x],
+            g[y][x + 1],
+            g[y][x + 2],
+            g[y + 1][x + 2],
+            g[y + 2][x + 2],
+            g[y + 2][x + 1],
+            g[y + 2][x],
+            g[y + 1][x],
+        ];
 
-    const i = cells.indexOf(2);
-    if (i === -1) return false;
-    cells.push(...cells.splice(0, i));
+        const i = cells.indexOf(2);
+        if (i === -1) return false;
+        cells.push(...cells.splice(0, i));
 
-    const circle = [2, 9, 4, 3, 8, 1, 6, 7];
-    const reverseCircle = [2, 7, 6, 1, 8, 3, 4, 9];
+        const circle = [2, 9, 4, 3, 8, 1, 6, 7];
+        const reverseCircle = [2, 7, 6, 1, 8, 3, 4, 9];
 
-    if (cells.every((x, i) => x === circle[i])) return true;
-    if (cells.every((x, i) => x === reverseCircle[i])) return true;
+        if (cells.every((x, i) => x === circle[i])) return true;
+        if (cells.every((x, i) => x === reverseCircle[i])) return true;
 
-    return false;
-  };
+        return false;
+    };
 
-  let res = 0;
-  for (let i = 0; i < m - 2; i++) {
-    for (let j = 0; j < n - 2; j++) {
-      res += +check(i, j);
+    let res = 0;
+    for (let i = 0; i < m - 2; i++) {
+        for (let j = 0; j < n - 2; j++) {
+            res += +check(i, j);
+        }
     }
-  }
 
-  return res;
+    return res;
 }
 ```
 

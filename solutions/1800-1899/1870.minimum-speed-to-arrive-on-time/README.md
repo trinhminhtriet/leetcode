@@ -1,96 +1,99 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1870.Minimum%20Speed%20to%20Arrive%20on%20Time/README.md
 rating: 1675
-source: Weekly Contest 242 Q2
+source: 第 242 场周赛 Q2
 tags:
-  - Array
-  - Binary Search
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [1870. Minimum Speed to Arrive on Time](https://leetcode.com/problems/minimum-speed-to-arrive-on-time)
+# [1870. 准时到达的列车最小时速](https://leetcode.cn/problems/minimum-speed-to-arrive-on-time)
 
-## Description
+[English Version](/solution/1800-1899/1870.Minimum%20Speed%20to%20Arrive%20on%20Time/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a floating-point number <code>hour</code>, representing the amount of time you have to reach the office. To commute to the office, you must take <code>n</code> trains in sequential order. You are also given an integer array <code>dist</code> of length <code>n</code>, where <code>dist[i]</code> describes the distance (in kilometers) of the <code>i<sup>th</sup></code> train ride.</p>
+<p>给你一个浮点数 <code>hour</code> ，表示你到达办公室可用的总通勤时间。要到达办公室，你必须按给定次序乘坐 <code>n</code> 趟列车。另给你一个长度为 <code>n</code> 的整数数组 <code>dist</code> ，其中 <code>dist[i]</code> 表示第 <code>i</code> 趟列车的行驶距离（单位是千米）。</p>
 
-<p>Each train can only depart at an integer hour, so you may need to wait in between each train ride.</p>
+<p>每趟列车均只能在整点发车，所以你可能需要在两趟列车之间等待一段时间。</p>
 
 <ul>
-	<li>For example, if the <code>1<sup>st</sup></code> train ride takes <code>1.5</code> hours, you must wait for an additional <code>0.5</code> hours before you can depart on the <code>2<sup>nd</sup></code> train ride at the 2 hour mark.</li>
+	<li>例如，第 <code>1</code> 趟列车需要 <code>1.5</code> 小时，那你必须再等待 <code>0.5</code> 小时，搭乘在第 2 小时发车的第 <code>2</code> 趟列车。</li>
 </ul>
 
-<p>Return <em>the <strong>minimum positive integer</strong> speed <strong>(in kilometers per hour)</strong> that all the trains must travel at for you to reach the office on time, or </em><code>-1</code><em> if it is impossible to be on time</em>.</p>
+<p>返回能满足你在时限前到达办公室所要求全部列车的<strong> 最小正整数 </strong>时速（单位：千米每小时），如果无法准时到达，则返回 <code>-1</code> 。</p>
 
-<p>Tests are generated such that the answer will not exceed <code>10<sup>7</sup></code> and <code>hour</code> will have <strong>at most two digits after the decimal point</strong>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> dist = [1,3,2], hour = 6
-<strong>Output:</strong> 1
-<strong>Explanation: </strong>At speed 1:
-- The first train ride takes 1/1 = 1 hour.
-- Since we are already at an integer hour, we depart immediately at the 1 hour mark. The second train takes 3/1 = 3 hours.
-- Since we are already at an integer hour, we depart immediately at the 4 hour mark. The third train takes 2/1 = 2 hours.
-- You will arrive at exactly the 6 hour mark.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> dist = [1,3,2], hour = 2.7
-<strong>Output:</strong> 3
-<strong>Explanation: </strong>At speed 3:
-- The first train ride takes 1/3 = 0.33333 hours.
-- Since we are not at an integer hour, we wait until the 1 hour mark to depart. The second train ride takes 3/3 = 1 hour.
-- Since we are already at an integer hour, we depart immediately at the 2 hour mark. The third train takes 2/3 = 0.66667 hours.
-- You will arrive at the 2.66667 hour mark.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> dist = [1,3,2], hour = 1.9
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It is impossible because the earliest the third train can depart is at the 2 hour mark.
-</pre>
+<p>生成的测试用例保证答案不超过 <code>10<sup>7</sup></code> ，且 <code>hour</code> 的 <strong>小数点后最多存在两位数字</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>dist = [1,3,2], hour = 6
+<strong>输出：</strong>1
+<strong>解释：</strong>速度为 1 时：
+- 第 1 趟列车运行需要 1/1 = 1 小时。
+- 由于是在整数时间到达，可以立即换乘在第 1 小时发车的列车。第 2 趟列车运行需要 3/1 = 3 小时。
+- 由于是在整数时间到达，可以立即换乘在第 4 小时发车的列车。第 3 趟列车运行需要 2/1 = 2 小时。
+- 你将会恰好在第 6 小时到达。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>dist = [1,3,2], hour = 2.7
+<strong>输出：</strong>3
+<strong>解释：</strong>速度为 3 时：
+- 第 1 趟列车运行需要 1/3 = 0.33333 小时。
+- 由于不是在整数时间到达，故需要等待至第 1 小时才能搭乘列车。第 2 趟列车运行需要 3/3 = 1 小时。
+- 由于是在整数时间到达，可以立即换乘在第 2 小时发车的列车。第 3 趟列车运行需要 2/3 = 0.66667 小时。
+- 你将会在第 2.66667 小时到达。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>dist = [1,3,2], hour = 1.9
+<strong>输出：</strong>-1
+<strong>解释：</strong>不可能准时到达，因为第 3 趟列车最早是在第 2 小时发车。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == dist.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= dist[i] &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= hour &lt;= 10<sup>9</sup></code></li>
-	<li>There will be at most two digits after the decimal point in <code>hour</code>.</li>
+	<li><code>hours</code> 中，小数点后最多存在两位数字</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-We notice that if a speed value $v$ allows us to arrive within the stipulated time, then for any $v' > v$, we can also definitely arrive within the stipulated time. This exhibits monotonicity, hence we can use binary search to find the smallest speed value that meets the condition.
+我们注意到，如果一个速度值 $v$ 能够使得我们在规定时间内到达，那么对于任意 $v' > v$，我们也一定能在规定时间内到达。这存在着单调性，因此我们可以使用二分查找，找到最小的满足条件的速度值。
 
-Before conducting the binary search, we need to first determine if it is possible to arrive within the stipulated time. If the number of trains is greater than the ceiling of the stipulated time, then it is definitely impossible to arrive within the stipulated time, and we should directly return $-1$.
+在二分查找之前，我们需要先判断是否有可能在规定时间内到达。如果列车数量大于向上取整的规定时间，那么一定无法在规定时间内到达，直接返回 $-1$。
 
-Next, we define the left and right boundaries for the binary search as $l = 1$, $r = 10^7 + 1$, and then we take the middle value $\textit{mid} = \frac{l + r}{2}$ each time to check if it meets the condition. If it does, we move the right boundary to $\textit{mid}$; otherwise, we move the left boundary to $\textit{mid} + 1$.
+接下来，我们定义二分的左右边界为 $l = 1$, $r = 10^7 + 1$，然后我们每次取中间值 $\textit{mid} = \frac{l + r}{2}$，判断是否满足条件。如果满足条件，我们将右边界移动到 $\textit{mid}$，否则将左边界移动到 $\textit{mid} + 1$。
 
-The problem is transformed into determining whether a speed value $v$ can allow us to arrive within the stipulated time. We can traverse each train trip, calculate the running time of each trip $t = \frac{d}{v}$, if it is the last trip, we directly add $t$; otherwise, we round up and add $t$. Finally, we check if the total time is less than or equal to the stipulated time, if so, it means the condition is met.
+问题转化为判断一个速度值 $v$ 是否能够在规定时间内到达。我们可以遍历每一趟列车，计算每一趟列车的运行时间 $t = \frac{d}{v}$，如果是最后一趟列车，我们直接加上 $t$，否则我们向上取整加上 $t$。最后判断总时间是否小于等于规定时间，如果是则说明满足条件。
 
-After the binary search ends, if the left boundary exceeds $10^7$, it means we cannot arrive within the stipulated time, and we return $-1$; otherwise, we return the left boundary.
+二分结束后，如果左边界超过了 $10^7$，说明无法在规定时间内到达，返回 $-1$，否则返回左边界。
 
-The time complexity is $O(n \times \log M)$, where $n$ and $M$ are the number of train trips and the upper bound of the speed, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(n \times \log M)$，其中 $n$ 和 $M$ 分别为列车数量和速度的上界。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -212,29 +215,29 @@ func minSpeedOnTime(dist []int, hour float64) int {
 
 ```ts
 function minSpeedOnTime(dist: number[], hour: number): number {
-  if (dist.length > Math.ceil(hour)) {
-    return -1;
-  }
-  const n = dist.length;
-  const m = 10 ** 7;
-  const check = (v: number): boolean => {
-    let s = 0;
-    for (let i = 0; i < n; ++i) {
-      const t = dist[i] / v;
-      s += i === n - 1 ? t : Math.ceil(t);
+    if (dist.length > Math.ceil(hour)) {
+        return -1;
     }
-    return s <= hour;
-  };
-  let [l, r] = [1, m + 1];
-  while (l < r) {
-    const mid = (l + r) >> 1;
-    if (check(mid)) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    const n = dist.length;
+    const m = 10 ** 7;
+    const check = (v: number): boolean => {
+        let s = 0;
+        for (let i = 0; i < n; ++i) {
+            const t = dist[i] / v;
+            s += i === n - 1 ? t : Math.ceil(t);
+        }
+        return s <= hour;
+    };
+    let [l, r] = [1, m + 1];
+    while (l < r) {
+        const mid = (l + r) >> 1;
+        if (check(mid)) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return l > m ? -1 : l;
+    return l > m ? -1 : l;
 }
 ```
 
@@ -283,29 +286,29 @@ impl Solution {
  * @return {number}
  */
 var minSpeedOnTime = function (dist, hour) {
-  if (dist.length > Math.ceil(hour)) {
-    return -1;
-  }
-  const n = dist.length;
-  const m = 10 ** 7;
-  const check = (v) => {
-    let s = 0;
-    for (let i = 0; i < n; ++i) {
-      const t = dist[i] / v;
-      s += i === n - 1 ? t : Math.ceil(t);
+    if (dist.length > Math.ceil(hour)) {
+        return -1;
     }
-    return s <= hour;
-  };
-  let [l, r] = [1, m + 1];
-  while (l < r) {
-    const mid = (l + r) >> 1;
-    if (check(mid)) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    const n = dist.length;
+    const m = 10 ** 7;
+    const check = v => {
+        let s = 0;
+        for (let i = 0; i < n; ++i) {
+            const t = dist[i] / v;
+            s += i === n - 1 ? t : Math.ceil(t);
+        }
+        return s <= hour;
+    };
+    let [l, r] = [1, m + 1];
+    while (l < r) {
+        const mid = (l + r) >> 1;
+        if (check(mid)) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return l > m ? -1 : l;
+    return l > m ? -1 : l;
 };
 ```
 

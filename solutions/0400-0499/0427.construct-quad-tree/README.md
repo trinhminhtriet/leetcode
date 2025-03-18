@@ -1,100 +1,111 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0427.Construct%20Quad%20Tree/README.md
 tags:
-  - Tree
-  - Array
-  - Divide and Conquer
-  - Matrix
+    - 树
+    - 数组
+    - 分治
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [427. Construct Quad Tree](https://leetcode.com/problems/construct-quad-tree)
+# [427. 建立四叉树](https://leetcode.cn/problems/construct-quad-tree)
 
-## Description
+[English Version](/solution/0400-0499/0427.Construct%20Quad%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <code>n * n</code> matrix <code>grid</code> of <code>0&#39;s</code> and <code>1&#39;s</code> only. We want to represent <code>grid</code> with a Quad-Tree.</p>
+<p>给你一个 <code>n * n</code> 矩阵 <code>grid</code> ，矩阵由若干 <code>0</code> 和 <code>1</code> 组成。请你用四叉树表示该矩阵 <code>grid</code> 。</p>
 
-<p>Return <em>the root of the Quad-Tree representing </em><code>grid</code>.</p>
+<p>你需要返回能表示矩阵 <code>grid</code> 的 四叉树 的根结点。</p>
 
-<p>A Quad-Tree is a tree data structure in which each internal node has exactly four children. Besides, each node has two attributes:</p>
+<p>四叉树数据结构中，每个内部节点只有四个子节点。此外，每个节点都有两个属性：</p>
 
 <ul>
-	<li><code>val</code>: True if the node represents a grid of 1&#39;s or False if the node represents a grid of 0&#39;s. Notice that you can assign the <code>val</code> to True or False when <code>isLeaf</code> is False, and both are accepted in the answer.</li>
-	<li><code>isLeaf</code>: True if the node is a leaf node on the tree or False if the node has four children.</li>
+	<li><code>val</code>：储存叶子结点所代表的区域的值。1 对应 <strong>True</strong>，0 对应 <strong>False</strong>。注意，当 <code>isLeaf</code> 为 <strong>False </strong>时，你可以把 <strong>True</strong> 或者 <strong>False</strong> 赋值给节点，两种值都会被判题机制 <strong>接受</strong> 。</li>
+	<li><code>isLeaf</code>: 当这个节点是一个叶子结点时为 <strong>True</strong>，如果它有 4 个子节点则为 <strong>False</strong> 。</li>
 </ul>
 
 <pre>
 class Node {
     public boolean val;
-    public boolean isLeaf;
-    public Node topLeft;
-    public Node topRight;
-    public Node bottomLeft;
-    public Node bottomRight;
+&nbsp; &nbsp; public boolean isLeaf;
+&nbsp; &nbsp; public Node topLeft;
+&nbsp; &nbsp; public Node topRight;
+&nbsp; &nbsp; public Node bottomLeft;
+&nbsp; &nbsp; public Node bottomRight;
 }</pre>
 
-<p>We can construct a Quad-Tree from a two-dimensional area using the following steps:</p>
+<p>我们可以按以下步骤为二维区域构建四叉树：</p>
 
 <ol>
-	<li>If the current grid has the same value (i.e all <code>1&#39;s</code> or all <code>0&#39;s</code>) set <code>isLeaf</code> True and set <code>val</code> to the value of the grid and set the four children to Null and stop.</li>
-	<li>If the current grid has different values, set <code>isLeaf</code> to False and set <code>val</code> to any value and divide the current grid into four sub-grids as shown in the photo.</li>
-	<li>Recurse for each of the children with the proper sub-grid.</li>
+	<li>如果当前网格的值相同（即，全为 <code>0</code> 或者全为 <code>1</code>），将 <code>isLeaf</code> 设为 True ，将 <code>val</code> 设为网格相应的值，并将四个子节点都设为 Null 然后停止。</li>
+	<li>如果当前网格的值不同，将 <code>isLeaf</code> 设为 False， 将 <code>val</code> 设为任意值，然后如下图所示，将当前网格划分为四个子网格。</li>
+	<li>使用适当的子网格递归每个子节点。</li>
 </ol>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0427.Construct%20Quad%20Tree/images/new_top.png" style="width: 777px; height: 181px;" />
-<p>If you want to know more about the Quad-Tree, you can refer to the <a href="https://en.wikipedia.org/wiki/Quadtree">wiki</a>.</p>
 
-<p><strong>Quad-Tree format:</strong></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0427.Construct%20Quad%20Tree/images/new_top.png" style="height: 181px; width: 777px;" /></p>
 
-<p>You don&#39;t need to read this section for solving the problem. This is only if you want to understand the output format here. The output represents the serialized format of a Quad-Tree using level order traversal, where <code>null</code> signifies a path terminator where no node exists below.</p>
+<p>如果你想了解更多关于四叉树的内容，可以参考 <a href="https://en.wikipedia.org/wiki/Quadtree">wiki</a> 。</p>
 
-<p>It is very similar to the serialization of the binary tree. The only difference is that the node is represented as a list <code>[isLeaf, val]</code>.</p>
+<p><strong>四叉树格式：</strong></p>
 
-<p>If the value of <code>isLeaf</code> or <code>val</code> is True we represent it as <strong>1</strong> in the list <code>[isLeaf, val]</code> and if the value of <code>isLeaf</code> or <code>val</code> is False we represent it as <strong>0</strong>.</p>
+<p>你不需要阅读本节来解决这个问题。只有当你想了解输出格式时才会这样做。输出为使用层序遍历后四叉树的序列化形式，其中 <code>null</code> 表示路径终止符，其下面不存在节点。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0427.Construct%20Quad%20Tree/images/grid1.png" style="width: 777px; height: 99px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,1],[1,0]]
-<strong>Output:</strong> [[0,1],[1,0],[1,1],[1,1],[1,0]]
-<strong>Explanation:</strong> The explanation of this example is shown below:
-Notice that 0 represents False and 1 represents True in the photo representing the Quad-Tree.
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0427.Construct%20Quad%20Tree/images/e1tree.png" style="width: 777px; height: 186px;" />
-</pre>
+<p>它与二叉树的序列化非常相似。唯一的区别是节点以列表形式表示 <code>[isLeaf, val]</code> 。</p>
 
-<p><strong class="example">Example 2:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0427.Construct%20Quad%20Tree/images/e2mat.png" style="width: 777px; height: 343px;" /></p>
-
-<pre>
-<strong>Input:</strong> grid = [[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0]]
-<strong>Output:</strong> [[0,1],[1,1],[0,1],[1,1],[1,0],null,null,null,null,[1,0],[1,0],[1,1],[1,1]]
-<strong>Explanation:</strong> All values in the grid are not the same. We divide the grid into four sub-grids.
-The topLeft, bottomLeft and bottomRight each has the same value.
-The topRight have different values so we divide it into 4 sub-grids where each has the same value.
-Explanation is shown in the photo below:
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0427.Construct%20Quad%20Tree/images/e2tree.png" style="width: 777px; height: 328px;" />
-</pre>
+<p>如果 <code>isLeaf</code> 或者 <code>val</code> 的值为 True ，则表示它在列表&nbsp;<code>[isLeaf, val]</code> 中的值为 <strong>1</strong> ；如果 <code>isLeaf</code> 或者 <code>val</code> 的值为 False ，则表示值为 <strong>0 </strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
 
-<ul>
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0427.Construct%20Quad%20Tree/images/grid1.png" style="height: 99px; width: 777px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = [[0,1],[1,0]]
+<strong>输出：</strong>[[0,1],[1,0],[1,1],[1,1],[1,0]]
+<strong>解释：</strong>此示例的解释如下：
+请注意，在下面四叉树的图示中，0 表示 false，1 表示 True 。
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0427.Construct%20Quad%20Tree/images/e1tree.png" style="height: 186px; width: 777px;" />
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0427.Construct%20Quad%20Tree/images/e2mat.png" style="height: 343px; width: 777px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = [[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0]]
+<strong>输出：</strong>[[0,1],[1,1],[0,1],[1,1],[1,0],null,null,null,null,[1,0],[1,0],[1,1],[1,1]]
+<strong>解释：</strong>网格中的所有值都不相同。我们将网格划分为四个子网格。
+topLeft，bottomLeft 和 bottomRight 均具有相同的值。
+topRight 具有不同的值，因此我们将其再分为 4 个子网格，这样每个子网格都具有相同的值。
+解释如下图所示：
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0427.Construct%20Quad%20Tree/images/e2tree.png" style="height: 328px; width: 777px;" />
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
+
+<ol>
 	<li><code>n == grid.length == grid[i].length</code></li>
-	<li><code>n == 2<sup>x</sup></code> where <code>0 &lt;= x &lt;= 6</code></li>
-</ul>
+	<li><code>n == 2<sup>x</sup></code> 其中 <code>0 &lt;= x &lt;= 6</code></li>
+</ol>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS
+
+DFS 递归遍历 grid，先判断 grid 是否为叶子节点，是则返回叶子节点相关信息；否则递归 grid 4 个子节点。
 
 <!-- tabs:start -->
 

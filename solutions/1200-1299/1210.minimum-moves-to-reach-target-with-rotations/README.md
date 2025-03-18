@@ -1,99 +1,104 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1210.Minimum%20Moves%20to%20Reach%20Target%20with%20Rotations/README.md
 rating: 2022
-source: Weekly Contest 156 Q4
+source: 第 156 场周赛 Q4
 tags:
-  - Breadth-First Search
-  - Array
-  - Matrix
+    - 广度优先搜索
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [1210. Minimum Moves to Reach Target with Rotations](https://leetcode.com/problems/minimum-moves-to-reach-target-with-rotations)
+# [1210. 穿过迷宫的最少移动次数](https://leetcode.cn/problems/minimum-moves-to-reach-target-with-rotations)
 
-## Description
+[English Version](/solution/1200-1299/1210.Minimum%20Moves%20to%20Reach%20Target%20with%20Rotations/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>In an&nbsp;<code>n*n</code>&nbsp;grid, there is a snake that spans 2 cells and starts moving from the top left corner at <code>(0, 0)</code> and <code>(0, 1)</code>. The grid has empty cells represented by zeros and blocked cells represented by ones. The snake wants to reach the lower right corner at&nbsp;<code>(n-1, n-2)</code>&nbsp;and&nbsp;<code>(n-1, n-1)</code>.</p>
+<p>你还记得那条风靡全球的贪吃蛇吗？</p>
 
-<p>In one move the snake can:</p>
+<p>我们在一个&nbsp;<code>n*n</code>&nbsp;的网格上构建了新的迷宫地图，蛇的长度为 2，也就是说它会占去两个单元格。蛇会从左上角（<code>(0, 0)</code>&nbsp;和&nbsp;<code>(0, 1)</code>）开始移动。我们用 <code>0</code> 表示空单元格，用 1 表示障碍物。蛇需要移动到迷宫的右下角（<code>(n-1, n-2)</code>&nbsp;和&nbsp;<code>(n-1, n-1)</code>）。</p>
+
+<p>每次移动，蛇可以这样走：</p>
 
 <ul>
-	<li>Move one cell to the right&nbsp;if there are no blocked cells there. This move keeps the horizontal/vertical position of the snake as it is.</li>
-	<li>Move down one cell&nbsp;if there are no blocked cells there. This move keeps the horizontal/vertical position of the snake as it is.</li>
-	<li>Rotate clockwise if it&#39;s in a horizontal position and the two cells under it are both empty. In that case the snake moves from&nbsp;<code>(r, c)</code>&nbsp;and&nbsp;<code>(r, c+1)</code>&nbsp;to&nbsp;<code>(r, c)</code>&nbsp;and&nbsp;<code>(r+1, c)</code>.<br />
-	<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1210.Minimum%20Moves%20to%20Reach%20Target%20with%20Rotations/images/image-2.png" style="width: 300px; height: 134px;" /></li>
-	<li>Rotate counterclockwise&nbsp;if it&#39;s in a vertical position and the two cells to its right are both empty. In that case the snake moves from&nbsp;<code>(r, c)</code>&nbsp;and&nbsp;<code>(r+1, c)</code>&nbsp;to&nbsp;<code>(r, c)</code>&nbsp;and&nbsp;<code>(r, c+1)</code>.<br />
-	<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1210.Minimum%20Moves%20to%20Reach%20Target%20with%20Rotations/images/image-1.png" style="width: 300px; height: 121px;" /></li>
+	<li>如果没有障碍，则向右移动一个单元格。并仍然保持身体的水平／竖直状态。</li>
+	<li>如果没有障碍，则向下移动一个单元格。并仍然保持身体的水平／竖直状态。</li>
+	<li>如果它处于水平状态并且其下面的两个单元都是空的，就顺时针旋转 90 度。蛇从（<code>(r, c)</code>、<code>(r, c+1)</code>）移动到 （<code>(r, c)</code>、<code>(r+1, c)</code>）。<br>
+	<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1210.Minimum%20Moves%20to%20Reach%20Target%20with%20Rotations/images/image-2.png" style="height: 134px; width: 300px;"></li>
+	<li>如果它处于竖直状态并且其右面的两个单元都是空的，就逆时针旋转 90 度。蛇从（<code>(r, c)</code>、<code>(r+1, c)</code>）移动到（<code>(r, c)</code>、<code>(r, c+1)</code>）。<br>
+	<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1210.Minimum%20Moves%20to%20Reach%20Target%20with%20Rotations/images/image-1.png" style="height: 121px; width: 300px;"></li>
 </ul>
 
-<p>Return the minimum number of moves to reach the target.</p>
+<p>返回蛇抵达目的地所需的最少移动次数。</p>
 
-<p>If there is no way to reach the target, return&nbsp;<code>-1</code>.</p>
+<p>如果无法到达目的地，请返回&nbsp;<code>-1</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1210.Minimum%20Moves%20to%20Reach%20Target%20with%20Rotations/images/image.png" style="width: 400px; height: 439px;" /></strong></p>
+<p><strong>示例 1：</strong></p>
 
-<pre>
-<strong>Input:</strong> grid = [[0,0,0,0,0,1],
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1210.Minimum%20Moves%20to%20Reach%20Target%20with%20Rotations/images/image.png" style="height: 439px; width: 400px;"></strong></p>
+
+<pre><strong>输入：</strong>grid = [[0,0,0,0,0,1],
                [1,1,0,0,1,0],
 &nbsp;              [0,0,0,0,1,1],
 &nbsp;              [0,0,1,0,1,0],
 &nbsp;              [0,1,1,0,0,0],
 &nbsp;              [0,1,1,0,0,0]]
-<strong>Output:</strong> 11
-<strong>Explanation:
-</strong>One possible solution is [right, right, rotate clockwise, right, down, down, down, down, rotate counterclockwise, right, down].
+<strong>输出：</strong>11
+<strong>解释：
+</strong>一种可能的解决方案是 [右, 右, 顺时针旋转, 右, 下, 下, 下, 下, 逆时针旋转, 右, 下]。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> grid = [[0,0,1,1,1,1],
+<pre><strong>输入：</strong>grid = [[0,0,1,1,1,1],
 &nbsp;              [0,0,0,0,1,1],
 &nbsp;              [1,1,0,0,0,1],
 &nbsp;              [1,1,1,0,0,1],
 &nbsp;              [1,1,1,0,0,1],
 &nbsp;              [1,1,1,0,0,0]]
-<strong>Output:</strong> 9
+<strong>输出：</strong>9
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 100</code></li>
 	<li><code>0 &lt;= grid[i][j] &lt;= 1</code></li>
-	<li>It is guaranteed that the snake starts at empty cells.</li>
+	<li>蛇保证从空单元格开始出发。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-The problem asks for the minimum number of moves for the snake to reach the target position from the starting position. We consider using Breadth-First Search (BFS) to solve it.
+题目求的是蛇从起始位置到达目标位置的最少移动次数，我们考虑使用广度优先搜索 $BFS$ 来求解。
 
-We define the following data structures or variables:
+我们定义以下数据结构或变量：
 
-- Queue $q$: Stores the current position of the snake. Each position is a tuple $(a, b)$, where $a$ represents the tail position of the snake, and $b$ represents the head position of the snake. Initially, we add the position $(0, 1)$ to the queue $q$. If we flatten the 2D maze into a 1D array, then the position $(0, 1)$ represents the two cells with indices $0$ and $1$ in the 1D array.
-- Target position $target$: The value is fixed at $(n^2 - 2, n^2 - 1)$, which is the last two cells of the last row of the 2D maze.
-- Array or set $vis$: Stores whether the current position state of the snake has been visited. Each state is a tuple $(a, status)$, where $a$ represents the tail position of the snake, and $status$ represents the current state of the snake, with values of $0$ or $1$, representing the horizontal and vertical states of the snake, respectively. Initially, add the state of the starting position $(0, 1)$ to the set $vis$.
-- Answer variable $ans$: Stores the number of moves for the snake to reach the target position from the starting position. Initially, it is $0$.
+-   队列 $q$：存储蛇的当前位置，每个位置是一个二元组 $(a, b)$，其中 $a$ 表示蛇的尾部位置，而 $b$ 表示蛇的头部位置。初始时，我们将位置 $(0, 1)$ 加入队列 $q$ 中。如果我们将二维迷宫扁平化成一个一维数组，那么位置 $(0, 1)$ 就表示一维数组下标为 $0$ 和 $1$ 的两个单元格。
+-   目标位置 $target$：值固定为 $(n^2 - 2, n^2 - 1)$，即二维迷宫的最后一行的最后两个单元格。
+-   数组或集合 $vis$：存储蛇的当前位置状态是否已经被访问过，每个状态是一个二元组 $(a, status)$，其中 $a$ 表示蛇的尾部位置；而 $status$ 表示蛇当前所处的状态，取值为 $0$ 或 $1$，分别表示蛇的水平状态和垂直状态。初始时将起始位置 $(0, 1)$ 的状态加入集合 $vis$ 中。
+-   答案变量 $ans$：存储蛇从起始位置到达目标位置的移动次数，初始时为 $0$。
 
-We use BFS to solve it. Each time we take a position from the queue $q$, we check whether the position is the target position $target$. If it is, we directly return the answer variable $ans$. If not, we add the next possible position of this position to the queue $q$ and add this position to $vis$. Note that the next position could be the horizontal or vertical state of the snake, and we need to judge them separately (see the following code comments). At the end of each round of search, the answer variable $ans$ increments by $1$.
+我们使用广度优先搜索来求解，每次从队列 $q$ 中取出一个位置，判断该位置是否为目标位置 $target$，如果是，则直接返回答案变量 $ans$。如果不是，则将该位置的下一个可能的位置加入队列 $q$ 中，并将该位置加入 $vis$ 中。注意，这里的下一个位置可能是蛇的水平状态或垂直状态，我们需要分别判断（具体见以下代码注释）。在每一轮搜索结束后，答案变量 $ans$ 自增 $1$。
 
-Finally, if the queue $q$ is empty, it means that it is impossible to reach the target position from the starting position, so return $-1$.
+最后，如果队列 $q$ 为空，说明无法从起始位置到达目标位置，返回 $-1$。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the number of rows or columns of the 2D maze.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是二维迷宫的行数或列数。
 
 <!-- tabs:start -->
 
@@ -307,58 +312,49 @@ func minimumMoves(grid [][]int) int {
 
 ```ts
 function minimumMoves(grid: number[][]): number {
-  const n = grid.length;
-  const target: number[] = [n * n - 2, n * n - 1];
-  const q: number[][] = [[0, 1]];
-  const vis = Array.from({ length: n * n }, () => Array(2).fill(false));
-  vis[0][0] = true;
+    const n = grid.length;
+    const target: number[] = [n * n - 2, n * n - 1];
+    const q: number[][] = [[0, 1]];
+    const vis = Array.from({ length: n * n }, () => Array(2).fill(false));
+    vis[0][0] = true;
 
-  const move = (i1: number, j1: number, i2: number, j2: number) => {
-    if (
-      i1 >= 0 &&
-      i1 < n &&
-      j1 >= 0 &&
-      j1 < n &&
-      i2 >= 0 &&
-      i2 < n &&
-      j2 >= 0 &&
-      j2 < n
-    ) {
-      const a = i1 * n + j1;
-      const b = i2 * n + j2;
-      const status = i1 === i2 ? 0 : 1;
-      if (!vis[a][status] && grid[i1][j1] == 0 && grid[i2][j2] == 0) {
-        q.push([a, b]);
-        vis[a][status] = true;
-      }
-    }
-  };
+    const move = (i1: number, j1: number, i2: number, j2: number) => {
+        if (i1 >= 0 && i1 < n && j1 >= 0 && j1 < n && i2 >= 0 && i2 < n && j2 >= 0 && j2 < n) {
+            const a = i1 * n + j1;
+            const b = i2 * n + j2;
+            const status = i1 === i2 ? 0 : 1;
+            if (!vis[a][status] && grid[i1][j1] == 0 && grid[i2][j2] == 0) {
+                q.push([a, b]);
+                vis[a][status] = true;
+            }
+        }
+    };
 
-  let ans = 0;
-  while (q.length) {
-    for (let k = q.length; k; --k) {
-      const p: number[] = q.shift();
-      if (p[0] === target[0] && p[1] === target[1]) {
-        return ans;
-      }
-      const [i1, j1] = [~~(p[0] / n), p[0] % n];
-      const [i2, j2] = [~~(p[1] / n), p[1] % n];
-      // 尝试向右平移（保持身体水平/垂直状态）
-      move(i1, j1 + 1, i2, j2 + 1);
-      // 尝试向下平移（保持身体水平/垂直状态）
-      move(i1 + 1, j1, i2 + 1, j2);
-      // 当前处于水平状态，且 grid[i1 + 1][j2] 无障碍，尝试顺时针旋转90°
-      if (i1 == i2 && i1 + 1 < n && grid[i1 + 1][j2] == 0) {
-        move(i1, j1, i1 + 1, j1);
-      }
-      // 当前处于垂直状态，且 grid[i2][j1 + 1] 无障碍，尝试逆时针旋转90°
-      if (j1 == j2 && j1 + 1 < n && grid[i2][j1 + 1] == 0) {
-        move(i1, j1, i1, j1 + 1);
-      }
+    let ans = 0;
+    while (q.length) {
+        for (let k = q.length; k; --k) {
+            const p: number[] = q.shift();
+            if (p[0] === target[0] && p[1] === target[1]) {
+                return ans;
+            }
+            const [i1, j1] = [~~(p[0] / n), p[0] % n];
+            const [i2, j2] = [~~(p[1] / n), p[1] % n];
+            // 尝试向右平移（保持身体水平/垂直状态）
+            move(i1, j1 + 1, i2, j2 + 1);
+            // 尝试向下平移（保持身体水平/垂直状态）
+            move(i1 + 1, j1, i2 + 1, j2);
+            // 当前处于水平状态，且 grid[i1 + 1][j2] 无障碍，尝试顺时针旋转90°
+            if (i1 == i2 && i1 + 1 < n && grid[i1 + 1][j2] == 0) {
+                move(i1, j1, i1 + 1, j1);
+            }
+            // 当前处于垂直状态，且 grid[i2][j1 + 1] 无障碍，尝试逆时针旋转90°
+            if (j1 == j2 && j1 + 1 < n && grid[i2][j1 + 1] == 0) {
+                move(i1, j1, i1, j1 + 1);
+            }
+        }
+        ++ans;
     }
-    ++ans;
-  }
-  return -1;
+    return -1;
 }
 ```
 
@@ -370,58 +366,49 @@ function minimumMoves(grid: number[][]): number {
  * @return {number}
  */
 var minimumMoves = function (grid) {
-  const n = grid.length;
-  const target = [n * n - 2, n * n - 1];
-  const q = [[0, 1]];
-  const vis = Array.from({ length: n * n }, () => Array(2).fill(false));
-  vis[0][0] = true;
+    const n = grid.length;
+    const target = [n * n - 2, n * n - 1];
+    const q = [[0, 1]];
+    const vis = Array.from({ length: n * n }, () => Array(2).fill(false));
+    vis[0][0] = true;
 
-  const move = (i1, j1, i2, j2) => {
-    if (
-      i1 >= 0 &&
-      i1 < n &&
-      j1 >= 0 &&
-      j1 < n &&
-      i2 >= 0 &&
-      i2 < n &&
-      j2 >= 0 &&
-      j2 < n
-    ) {
-      const a = i1 * n + j1;
-      const b = i2 * n + j2;
-      const status = i1 === i2 ? 0 : 1;
-      if (!vis[a][status] && grid[i1][j1] == 0 && grid[i2][j2] == 0) {
-        q.push([a, b]);
-        vis[a][status] = true;
-      }
-    }
-  };
+    const move = (i1, j1, i2, j2) => {
+        if (i1 >= 0 && i1 < n && j1 >= 0 && j1 < n && i2 >= 0 && i2 < n && j2 >= 0 && j2 < n) {
+            const a = i1 * n + j1;
+            const b = i2 * n + j2;
+            const status = i1 === i2 ? 0 : 1;
+            if (!vis[a][status] && grid[i1][j1] == 0 && grid[i2][j2] == 0) {
+                q.push([a, b]);
+                vis[a][status] = true;
+            }
+        }
+    };
 
-  let ans = 0;
-  while (q.length) {
-    for (let k = q.length; k; --k) {
-      const p = q.shift();
-      if (p[0] === target[0] && p[1] === target[1]) {
-        return ans;
-      }
-      const [i1, j1] = [~~(p[0] / n), p[0] % n];
-      const [i2, j2] = [~~(p[1] / n), p[1] % n];
-      // 尝试向右平移（保持身体水平/垂直状态）
-      move(i1, j1 + 1, i2, j2 + 1);
-      // 尝试向下平移（保持身体水平/垂直状态）
-      move(i1 + 1, j1, i2 + 1, j2);
-      // 当前处于水平状态，且 grid[i1 + 1][j2] 无障碍，尝试顺时针旋转90°
-      if (i1 == i2 && i1 + 1 < n && grid[i1 + 1][j2] == 0) {
-        move(i1, j1, i1 + 1, j1);
-      }
-      // 当前处于垂直状态，且 grid[i2][j1 + 1] 无障碍，尝试逆时针旋转90°
-      if (j1 == j2 && j1 + 1 < n && grid[i2][j1 + 1] == 0) {
-        move(i1, j1, i1, j1 + 1);
-      }
+    let ans = 0;
+    while (q.length) {
+        for (let k = q.length; k; --k) {
+            const p = q.shift();
+            if (p[0] === target[0] && p[1] === target[1]) {
+                return ans;
+            }
+            const [i1, j1] = [~~(p[0] / n), p[0] % n];
+            const [i2, j2] = [~~(p[1] / n), p[1] % n];
+            // 尝试向右平移（保持身体水平/垂直状态）
+            move(i1, j1 + 1, i2, j2 + 1);
+            // 尝试向下平移（保持身体水平/垂直状态）
+            move(i1 + 1, j1, i2 + 1, j2);
+            // 当前处于水平状态，且 grid[i1 + 1][j2] 无障碍，尝试顺时针旋转90°
+            if (i1 == i2 && i1 + 1 < n && grid[i1 + 1][j2] == 0) {
+                move(i1, j1, i1 + 1, j1);
+            }
+            // 当前处于垂直状态，且 grid[i2][j1 + 1] 无障碍，尝试逆时针旋转90°
+            if (j1 == j2 && j1 + 1 < n && grid[i2][j1 + 1] == 0) {
+                move(i1, j1, i1, j1 + 1);
+            }
+        }
+        ++ans;
     }
-    ++ans;
-  }
-  return -1;
+    return -1;
 };
 ```
 

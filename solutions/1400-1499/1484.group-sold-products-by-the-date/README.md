@@ -1,59 +1,60 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1484.Group%20Sold%20Products%20By%20The%20Date/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1484. Group Sold Products By The Date](https://leetcode.com/problems/group-sold-products-by-the-date)
+# [1484. 按日期分组销售产品](https://leetcode.cn/problems/group-sold-products-by-the-date)
 
-## Description
+[English Version](/solution/1400-1499/1484.Group%20Sold%20Products%20By%20The%20Date/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table <code>Activities</code>:</p>
+<p>表&nbsp;<code>Activities</code>：</p>
 
 <pre>
 +-------------+---------+
-| Column Name | Type    |
+| 列名         | 类型    |
 +-------------+---------+
 | sell_date   | date    |
 | product     | varchar |
 +-------------+---------+
-There is no primary key (column with unique values) for this table. It may contain duplicates.
-Each row of this table contains the product name and the date it was sold in a market.
+该表没有主键(具有唯一值的列)。它可能包含重复项。
+此表的每一行都包含产品名称和在市场上销售的日期。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to find for each date the number of different products sold and their names.</p>
-
-<p>The sold products names for each date should be sorted lexicographically.</p>
-
-<p>Return the result table ordered by <code>sell_date</code>.</p>
-
-<p>The&nbsp;result format is in the following example.</p>
+<p>编写解决方案找出每个日期、销售的不同产品的数量及其名称。<br />
+每个日期的销售产品名称应按词典序排列。<br />
+返回按&nbsp;<code>sell_date</code> 排序的结果表。<br />
+结果表结果格式如下例所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Activities table:
-+------------+------------+
+<code><strong>输入：</strong>
+Activities</code> 表：
++------------+-------------+
 | sell_date  | product     |
-+------------+------------+
-| 2020-05-30 | Headphone  |
-| 2020-06-01 | Pencil     |
-| 2020-06-02 | Mask       |
-| 2020-05-30 | Basketball |
-| 2020-06-01 | Bible      |
-| 2020-06-02 | Mask       |
-| 2020-05-30 | T-Shirt    |
-+------------+------------+
-<strong>Output:</strong> 
++------------+-------------+
+| 2020-05-30 | Headphone   |
+| 2020-06-01 | Pencil      |
+| 2020-06-02 | Mask        |
+| 2020-05-30 | Basketball  |
+| 2020-06-01 | Bible       |
+| 2020-06-02 | Mask        |
+| 2020-05-30 | T-Shirt     |
++------------+-------------+
+<strong>输出：</strong>
 +------------+----------+------------------------------+
 | sell_date  | num_sold | products                     |
 +------------+----------+------------------------------+
@@ -61,19 +62,19 @@ Activities table:
 | 2020-06-01 | 2        | Bible,Pencil                 |
 | 2020-06-02 | 1        | Mask                         |
 +------------+----------+------------------------------+
-<strong>Explanation:</strong> 
-For 2020-05-30, Sold items were (Headphone, Basketball, T-shirt), we sort them lexicographically and separate them by a comma.
-For 2020-06-01, Sold items were (Pencil, Bible), we sort them lexicographically and separate them by a comma.
-For 2020-06-02, the Sold item is (Mask), we just return it.
+<strong>解释：</strong>
+对于2020-05-30，出售的物品是 (Headphone, Basketball, T-shirt)，按词典序排列，并用逗号 ',' 分隔。
+对于2020-06-01，出售的物品是 (Pencil, Bible)，按词典序排列，并用逗号分隔。
+对于2020-06-02，出售的物品是 (Mask)，只需返回该物品名。
 </pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

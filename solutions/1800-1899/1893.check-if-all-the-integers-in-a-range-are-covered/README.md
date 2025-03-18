@@ -1,74 +1,79 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1893.Check%20if%20All%20the%20Integers%20in%20a%20Range%20Are%20Covered/README.md
 rating: 1307
-source: Biweekly Contest 54 Q1
+source: 第 54 场双周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - Prefix Sum
+    - 数组
+    - 哈希表
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1893. Check if All the Integers in a Range Are Covered](https://leetcode.com/problems/check-if-all-the-integers-in-a-range-are-covered)
+# [1893. 检查是否区域内所有整数都被覆盖](https://leetcode.cn/problems/check-if-all-the-integers-in-a-range-are-covered)
 
-## Description
+[English Version](/solution/1800-1899/1893.Check%20if%20All%20the%20Integers%20in%20a%20Range%20Are%20Covered/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D integer array <code>ranges</code> and two integers <code>left</code> and <code>right</code>. Each <code>ranges[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> represents an <strong>inclusive</strong> interval between <code>start<sub>i</sub></code> and <code>end<sub>i</sub></code>.</p>
+<p>给你一个二维整数数组 <code>ranges</code> 和两个整数 <code>left</code> 和 <code>right</code> 。每个 <code>ranges[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> 表示一个从 <code>start<sub>i</sub></code> 到 <code>end<sub>i</sub></code> 的 <strong>闭区间</strong> 。</p>
 
-<p>Return <code>true</code> <em>if each integer in the inclusive range</em> <code>[left, right]</code> <em>is covered by <strong>at least one</strong> interval in</em> <code>ranges</code>. Return <code>false</code> <em>otherwise</em>.</p>
+<p>如果闭区间 <code>[left, right]</code> 内每个整数都被 <code>ranges</code> 中 <strong>至少一个</strong> 区间覆盖，那么请你返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
 
-<p>An integer <code>x</code> is covered by an interval <code>ranges[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> if <code>start<sub>i</sub> &lt;= x &lt;= end<sub>i</sub></code>.</p>
+<p>已知区间 <code>ranges[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> ，如果整数 <code>x</code> 满足 <code>start<sub>i</sub> <= x <= end<sub>i</sub></code> ，那么我们称整数<code>x</code> 被覆盖了。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> ranges = [[1,2],[3,4],[5,6]], left = 2, right = 5
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Every integer between 2 and 5 is covered:
-- 2 is covered by the first range.
-- 3 and 4 are covered by the second range.
-- 5 is covered by the third range.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> ranges = [[1,10],[10,20]], left = 21, right = 21
-<strong>Output:</strong> false
-<strong>Explanation:</strong> 21 is not covered by any range.
+<b>输入：</b>ranges = [[1,2],[3,4],[5,6]], left = 2, right = 5
+<b>输出：</b>true
+<b>解释：</b>2 到 5 的每个整数都被覆盖了：
+- 2 被第一个区间覆盖。
+- 3 和 4 被第二个区间覆盖。
+- 5 被第三个区间覆盖。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>ranges = [[1,10],[10,20]], left = 21, right = 21
+<b>输出：</b>false
+<b>解释：</b>21 没有被任何一个区间覆盖。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= ranges.length &lt;= 50</code></li>
-	<li><code>1 &lt;= start<sub>i</sub> &lt;= end<sub>i</sub> &lt;= 50</code></li>
-	<li><code>1 &lt;= left &lt;= right &lt;= 50</code></li>
+	<li><code>1 <= ranges.length <= 50</code></li>
+	<li><code>1 <= start<sub>i</sub> <= end<sub>i</sub> <= 50</code></li>
+	<li><code>1 <= left <= right <= 50</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Difference Array
+### 方法一：差分数组
 
-We can use the idea of a difference array to create a difference array $\textit{diff}$ of length $52$.
+我们可以使用差分数组的思想，创建一个长度为 $52$ 的差分数组 $\textit{diff}$。
 
-Next, we iterate through the array $\textit{ranges}$. For each interval $[l, r]$, we increment $\textit{diff}[l]$ by $1$ and decrement $\textit{diff}[r + 1]$ by $1$.
+接下来，我们遍历数组 $\textit{ranges}$，对于每个区间 $[l, r]$，我们令 $\textit{diff}[l]$ 自增 $1$，而 $\textit{diff}[r + 1]$ 自减 $1$。
 
-Then, we iterate through the difference array $\textit{diff}$, maintaining a prefix sum $s$. For each position $i$, we increment $s$ by $\textit{diff}[i]$. If $s \le 0$ and $left \le i \le right$, it indicates that an integer $i$ within the interval $[left, right]$ is not covered, and we return $\textit{false}$.
+接着，我们遍历差分数组 $\textit{diff}$，维护一个前缀和 $s$，对于每个位置 $i$，我们令 $s$ 自增 $\textit{diff}[i]$，如果 $s \le 0$ 且 $left \le i \le right$，则说明区间 $[left, right]$ 中有一个整数 $i$ 没有被覆盖，返回 $\textit{false}$。
 
-If we finish iterating through the difference array $\textit{diff}$ without returning $\textit{false}$, it means that every integer within the interval $[left, right]$ is covered by at least one interval in $\textit{ranges}$, and we return $\textit{true}$.
+如果遍历完差分数组 $\textit{diff}$ 后都没有返回 $\textit{false}$，则说明区间 $[left, right]$ 中的每个整数都被 $\textit{ranges}$ 中至少一个区间覆盖，返回 $\textit{true}$。
 
-The time complexity is $O(n + M)$, and the space complexity is $O(M)$. Here, $n$ is the length of the array $\textit{ranges}$, and $M$ is the maximum value of the interval, which in this case is $M \le 50$.
+时间复杂度 $O(n + M)$，空间复杂度 $O(M)$。其中 $n$ 是数组 $\textit{ranges}$ 的长度，而 $M$ 是区间的最大值，本题中 $M \le 50$。
 
 <!-- tabs:start -->
 
@@ -161,19 +166,19 @@ func isCovered(ranges [][]int, left int, right int) bool {
 
 ```ts
 function isCovered(ranges: number[][], left: number, right: number): boolean {
-  const diff: number[] = Array(52).fill(0);
-  for (const [l, r] of ranges) {
-    ++diff[l];
-    --diff[r + 1];
-  }
-  let s = 0;
-  for (let i = 0; i < diff.length; ++i) {
-    s += diff[i];
-    if (s <= 0 && left <= i && i <= right) {
-      return false;
+    const diff: number[] = Array(52).fill(0);
+    for (const [l, r] of ranges) {
+        ++diff[l];
+        --diff[r + 1];
     }
-  }
-  return true;
+    let s = 0;
+    for (let i = 0; i < diff.length; ++i) {
+        s += diff[i];
+        if (s <= 0 && left <= i && i <= right) {
+            return false;
+        }
+    }
+    return true;
 }
 ```
 
@@ -187,19 +192,19 @@ function isCovered(ranges: number[][], left: number, right: number): boolean {
  * @return {boolean}
  */
 var isCovered = function (ranges, left, right) {
-  const diff = Array(52).fill(0);
-  for (const [l, r] of ranges) {
-    ++diff[l];
-    --diff[r + 1];
-  }
-  let s = 0;
-  for (let i = 0; i < diff.length; ++i) {
-    s += diff[i];
-    if (s <= 0 && left <= i && i <= right) {
-      return false;
+    const diff = Array(52).fill(0);
+    for (const [l, r] of ranges) {
+        ++diff[l];
+        --diff[r + 1];
     }
-  }
-  return true;
+    let s = 0;
+    for (let i = 0; i < diff.length; ++i) {
+        s += diff[i];
+        if (s <= 0 && left <= i && i <= right) {
+            return false;
+        }
+    }
+    return true;
 };
 ```
 

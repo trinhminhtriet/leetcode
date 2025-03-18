@@ -1,51 +1,57 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0857.Minimum%20Cost%20to%20Hire%20K%20Workers/README.md
 tags:
-  - Greedy
-  - Array
-  - Sorting
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [857. Minimum Cost to Hire K Workers](https://leetcode.com/problems/minimum-cost-to-hire-k-workers)
+# [857. 雇佣 K 名工人的最低成本](https://leetcode.cn/problems/minimum-cost-to-hire-k-workers)
 
-## Description
+[English Version](/solution/0800-0899/0857.Minimum%20Cost%20to%20Hire%20K%20Workers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> workers. You are given two integer arrays <code>quality</code> and <code>wage</code> where <code>quality[i]</code> is the quality of the <code>i<sup>th</sup></code> worker and <code>wage[i]</code> is the minimum wage expectation for the <code>i<sup>th</sup></code> worker.</p>
+<p>有 <code>n</code>&nbsp;名工人。&nbsp;给定两个数组&nbsp;<code>quality</code>&nbsp;和&nbsp;<code>wage</code>&nbsp;，其中，<code>quality[i]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;名工人的工作质量，其最低期望工资为&nbsp;<code>wage[i]</code>&nbsp;。</p>
 
-<p>We want to hire exactly <code>k</code> workers to form a <strong>paid group</strong>. To hire a group of <code>k</code> workers, we must pay them according to the following rules:</p>
+<p>现在我们想雇佣&nbsp;<code>k</code>&nbsp;名工人组成一个&nbsp;<strong>工资组</strong><em>。</em>在雇佣&nbsp;一组 <code>k</code>&nbsp;名工人时，我们必须按照下述规则向他们支付工资：</p>
 
 <ol>
-	<li>Every worker in the paid group must be paid at least their minimum wage expectation.</li>
-	<li>In the group, each worker&#39;s pay must be directly proportional to their quality. This means if a worker&rsquo;s quality is double that of another worker in the group, then they must be paid twice as much as the other worker.</li>
+	<li>对工资组中的每名工人，应当按其工作质量与同组其他工人的工作质量的比例来支付工资。</li>
+	<li>工资组中的每名工人至少应当得到他们的最低期望工资。</li>
 </ol>
 
-<p>Given the integer <code>k</code>, return <em>the least amount of money needed to form a paid group satisfying the above conditions</em>. Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</p>
+<p>给定整数 <code>k</code> ，返回 <em>组成满足上述条件的付费群体所需的最小金额&nbsp;</em>。与实际答案误差相差在&nbsp;<code>10<sup>-5</sup></code>&nbsp;以内的答案将被接受。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<ol>
+</ol>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> quality = [10,20,5], wage = [70,50,30], k = 2
-<strong>Output:</strong> 105.00000
-<strong>Explanation:</strong> We pay 70 to 0<sup>th</sup> worker and 35 to 2<sup>nd</sup> worker.
-</pre>
+<strong>输入： </strong>quality = [10,20,5], wage = [70,50,30], k = 2
+<strong>输出： </strong>105.00000
+<strong>解释：</strong> 我们向 0 号工人支付 70，向 2 号工人支付 35。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> quality = [3,1,10,10,1], wage = [4,8,2,2,7], k = 3
-<strong>Output:</strong> 30.66667
-<strong>Explanation:</strong> We pay 4 to 0<sup>th</sup> worker, 13.33333 to 2<sup>nd</sup> and 3<sup>rd</sup> workers separately.
-</pre>
+<strong>输入： </strong>quality = [3,1,10,10,1], wage = [4,8,2,2,7], k = 3
+<strong>输出： </strong>30.66667
+<strong>解释： </strong>我们向 0 号工人支付 4，向 2 号和 3 号分别支付 13.33333。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == quality.length == wage.length</code></li>
@@ -55,11 +61,23 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心 + 优先队列（大根堆）
+
+我们假设选取了某一个工资组，总工作质量为 `tot`，总支付金额为 `c`。每个工人的工作质量为 $q_i$，工资为 $w_i$。那么，对于此工资组的每个工人，均满足 $c\times \frac{q_i}{tot} \ge w_i$。即 $c\ge tot\times \frac{w_i}{q_i}$。
+
+在总工作质量 `tot` 固定的情况下，支付的金额取决于权重 $\frac{w_i}{q_i}$ 的最大值。
+
+我们可以从小到大枚举权重 $\frac{w_i}{q_i}$ 作为工资组的最大值，此时工资组其他人员只需要在权重小于等于这个值的集合中，选取工作质量最小的 $k-1$ 名工人来组成工资组即可。因此，可以用优先队列（最大堆）维护工作质量最小的 $k-1$ 名工人。
+
+时间复杂度 $O(n\log n)$，空间复杂度 $O(n)$。其中 $n$ 是工人数。
+
+相似题目：
+
+-   [1383. 最大的团队表现值](https://github.com/doocs/leetcode/blob/main/solution/1300-1399/1383.Maximum%20Performance%20of%20a%20Team/README.md)
 
 <!-- tabs:start -->
 

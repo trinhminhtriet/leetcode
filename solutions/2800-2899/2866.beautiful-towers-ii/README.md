@@ -1,92 +1,97 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2866.Beautiful%20Towers%20II/README.md
 rating: 2071
-source: Weekly Contest 364 Q3
+source: 第 364 场周赛 Q3
 tags:
-  - Stack
-  - Array
-  - Monotonic Stack
+    - 栈
+    - 数组
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [2866. Beautiful Towers II](https://leetcode.com/problems/beautiful-towers-ii)
+# [2866. 美丽塔 II](https://leetcode.cn/problems/beautiful-towers-ii)
 
-## Description
+[English Version](/solution/2800-2899/2866.Beautiful%20Towers%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array <code>maxHeights</code> of <code>n</code> integers.</p>
+<p>给你一个长度为 <code>n</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>maxHeights</code>&nbsp;。</p>
 
-<p>You are tasked with building <code>n</code> towers in the coordinate line. The <code>i<sup>th</sup></code> tower is built at coordinate <code>i</code> and has a height of <code>heights[i]</code>.</p>
+<p>你的任务是在坐标轴上建 <code>n</code>&nbsp;座塔。第&nbsp;<code>i</code>&nbsp;座塔的下标为 <code>i</code>&nbsp;，高度为&nbsp;<code>heights[i]</code>&nbsp;。</p>
 
-<p>A configuration of towers is <strong>beautiful</strong> if the following conditions hold:</p>
+<p>如果以下条件满足，我们称这些塔是 <strong>美丽</strong>&nbsp;的：</p>
 
 <ol>
 	<li><code>1 &lt;= heights[i] &lt;= maxHeights[i]</code></li>
-	<li><code>heights</code> is a <strong>mountain</strong> array.</li>
+	<li><code>heights</code>&nbsp;是一个 <strong>山脉</strong> 数组。</li>
 </ol>
 
-<p>Array <code>heights</code> is a <strong>mountain</strong> if there exists an index <code>i</code> such that:</p>
+<p>如果存在下标 <code>i</code>&nbsp;满足以下条件，那么我们称数组&nbsp;<code>heights</code>&nbsp;是一个 <strong>山脉</strong> 数组：</p>
 
 <ul>
-	<li>For all <code>0 &lt; j &lt;= i</code>, <code>heights[j - 1] &lt;= heights[j]</code></li>
-	<li>For all <code>i &lt;= k &lt; n - 1</code>, <code>heights[k + 1] &lt;= heights[k]</code></li>
+	<li>对于所有&nbsp;<code>0 &lt; j &lt;= i</code>&nbsp;，都有&nbsp;<code>heights[j - 1] &lt;= heights[j]</code></li>
+	<li>对于所有&nbsp;<code>i &lt;= k &lt; n - 1</code>&nbsp;，都有&nbsp;<code>heights[k + 1] &lt;= heights[k]</code></li>
 </ul>
 
-<p>Return <em>the <strong>maximum possible sum of heights</strong> of a beautiful configuration of towers</em>.</p>
+<p>请你返回满足 <b>美丽塔</b>&nbsp;要求的方案中，<strong>高度和的最大值</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> maxHeights = [5,3,4,1,1]
-<strong>Output:</strong> 13
-<strong>Explanation:</strong> One beautiful configuration with a maximum sum is heights = [5,3,3,1,1]. This configuration is beautiful since:
+<b>输入：</b>maxHeights = [5,3,4,1,1]
+<b>输出：</b>13
+<b>解释：</b>和最大的美丽塔方案为 heights = [5,3,3,1,1] ，这是一个美丽塔方案，因为：
 - 1 &lt;= heights[i] &lt;= maxHeights[i]  
-- heights is a mountain of peak i = 0.
-It can be shown that there exists no other beautiful configuration with a sum of heights greater than 13.</pre>
+- heights 是个山脉数组，峰值在 i = 0 处。
+13 是所有美丽塔方案中的最大高度和。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> maxHeights = [6,5,3,9,2,7]
-<strong>Output:</strong> 22
-<strong>Explanation:</strong> One beautiful configuration with a maximum sum is heights = [3,3,3,9,2,2]. This configuration is beautiful since:
-- 1 &lt;= heights[i] &lt;= maxHeights[i]
-- heights is a mountain of peak i = 3.
-It can be shown that there exists no other beautiful configuration with a sum of heights greater than 22.</pre>
-
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> maxHeights = [3,2,5,5,2,3]
-<strong>Output:</strong> 18
-<strong>Explanation:</strong> One beautiful configuration with a maximum sum is heights = [2,2,5,5,2,2]. This configuration is beautiful since:
+<b>输入：</b>maxHeights = [6,5,3,9,2,7]
+<b>输出：</b>22
+<strong>解释：</strong> 和最大的美丽塔方案为 heights = [3,3,3,9,2,2] ，这是一个美丽塔方案，因为：
 - 1 &lt;= heights[i] &lt;= maxHeights[i]
-- heights is a mountain of peak i = 2. 
-Note that, for this configuration, i = 3 can also be considered a peak.
-It can be shown that there exists no other beautiful configuration with a sum of heights greater than 18.
+- heights 是个山脉数组，峰值在 i = 3 处。
+22 是所有美丽塔方案中的最大高度和。</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>maxHeights = [3,2,5,5,2,3]
+<b>输出：</b>18
+<strong>解释：</strong>和最大的美丽塔方案为 heights = [2,2,5,5,2,2] ，这是一个美丽塔方案，因为：
+- 1 &lt;= heights[i] &lt;= maxHeights[i]
+- heights 是个山脉数组，最大值在 i = 2 处。
+注意，在这个方案中，i = 3 也是一个峰值。
+18 是所有美丽塔方案中的最大高度和。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n == maxHeights.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= n == maxHeights&nbsp;&lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= maxHeights[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming + Monotonic Stack
+### 方法一：动态规划 + 单调栈
 
-We define $f[i]$ to represent the height sum of the beautiful tower scheme with the last tower as the tallest tower among the first $i+1$ towers. We can get the following state transition equation:
+我们定义 $f[i]$ 表示前 $i+1$ 座塔中，以最后一座塔作为最高塔的美丽塔方案的高度和。我们可以得到如下的状态转移方程：
 
 $$
 f[i]=
@@ -96,11 +101,11 @@ heights[i]\times(i-j)+f[j],&\textit{if } heights[i]<heights[i-1]
 \end{cases}
 $$
 
-Where $j$ is the index of the first tower to the left of the last tower with a height less than or equal to $heights[i]$. We can use a monotonic stack to maintain this index.
+其中 $j$ 是最后一座塔左边第一个高度小于等于 $heights[i]$ 的塔的下标。我们可以使用单调栈来维护这个下标。
 
-We can use a similar method to find $g[i]$, which represents the height sum of the beautiful tower scheme from right to left with the $i$th tower as the tallest tower. The final answer is the maximum value of $f[i]+g[i]-heights[i]$.
+我们可以使用类似的方法求出 $g[i]$，表示从右往左，以第 $i$ 座塔作为最高塔的美丽塔方案的高度和。最终答案即为 $f[i]+g[i]-heights[i]$ 的最大值。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $maxHeights$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $maxHeights$ 的长度。
 
 <!-- tabs:start -->
 
@@ -332,56 +337,56 @@ func maximumSumOfHeights(maxHeights []int) (ans int64) {
 
 ```ts
 function maximumSumOfHeights(maxHeights: number[]): number {
-  const n = maxHeights.length;
-  const stk: number[] = [];
-  const left: number[] = Array(n).fill(-1);
-  const right: number[] = Array(n).fill(n);
-  for (let i = 0; i < n; ++i) {
-    const x = maxHeights[i];
-    while (stk.length && maxHeights[stk.at(-1)] > x) {
-      stk.pop();
+    const n = maxHeights.length;
+    const stk: number[] = [];
+    const left: number[] = Array(n).fill(-1);
+    const right: number[] = Array(n).fill(n);
+    for (let i = 0; i < n; ++i) {
+        const x = maxHeights[i];
+        while (stk.length && maxHeights[stk.at(-1)] > x) {
+            stk.pop();
+        }
+        if (stk.length) {
+            left[i] = stk.at(-1);
+        }
+        stk.push(i);
     }
-    if (stk.length) {
-      left[i] = stk.at(-1);
+    stk.length = 0;
+    for (let i = n - 1; ~i; --i) {
+        const x = maxHeights[i];
+        while (stk.length && maxHeights[stk.at(-1)] >= x) {
+            stk.pop();
+        }
+        if (stk.length) {
+            right[i] = stk.at(-1);
+        }
+        stk.push(i);
     }
-    stk.push(i);
-  }
-  stk.length = 0;
-  for (let i = n - 1; ~i; --i) {
-    const x = maxHeights[i];
-    while (stk.length && maxHeights[stk.at(-1)] >= x) {
-      stk.pop();
+    const f: number[] = Array(n).fill(0);
+    const g: number[] = Array(n).fill(0);
+    for (let i = 0; i < n; ++i) {
+        const x = maxHeights[i];
+        if (i && x >= maxHeights[i - 1]) {
+            f[i] = f[i - 1] + x;
+        } else {
+            const j = left[i];
+            f[i] = x * (i - j) + (j >= 0 ? f[j] : 0);
+        }
     }
-    if (stk.length) {
-      right[i] = stk.at(-1);
+    for (let i = n - 1; ~i; --i) {
+        const x = maxHeights[i];
+        if (i + 1 < n && x >= maxHeights[i + 1]) {
+            g[i] = g[i + 1] + x;
+        } else {
+            const j = right[i];
+            g[i] = x * (j - i) + (j < n ? g[j] : 0);
+        }
     }
-    stk.push(i);
-  }
-  const f: number[] = Array(n).fill(0);
-  const g: number[] = Array(n).fill(0);
-  for (let i = 0; i < n; ++i) {
-    const x = maxHeights[i];
-    if (i && x >= maxHeights[i - 1]) {
-      f[i] = f[i - 1] + x;
-    } else {
-      const j = left[i];
-      f[i] = x * (i - j) + (j >= 0 ? f[j] : 0);
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        ans = Math.max(ans, f[i] + g[i] - maxHeights[i]);
     }
-  }
-  for (let i = n - 1; ~i; --i) {
-    const x = maxHeights[i];
-    if (i + 1 < n && x >= maxHeights[i + 1]) {
-      g[i] = g[i + 1] + x;
-    } else {
-      const j = right[i];
-      g[i] = x * (j - i) + (j < n ? g[j] : 0);
-    }
-  }
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    ans = Math.max(ans, f[i] + g[i] - maxHeights[i]);
-  }
-  return ans;
+    return ans;
 }
 ```
 

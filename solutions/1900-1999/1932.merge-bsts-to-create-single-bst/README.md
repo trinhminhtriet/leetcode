@@ -1,98 +1,103 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/README.md
 rating: 2483
-source: Weekly Contest 249 Q4
+source: 第 249 场周赛 Q4
 tags:
-  - Tree
-  - Depth-First Search
-  - Hash Table
-  - Binary Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 哈希表
+    - 二分查找
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [1932. Merge BSTs to Create Single BST](https://leetcode.com/problems/merge-bsts-to-create-single-bst)
+# [1932. 合并多棵二叉搜索树](https://leetcode.cn/problems/merge-bsts-to-create-single-bst)
 
-## Description
+[English Version](/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given <code>n</code> <strong>BST (binary search tree) root nodes</strong> for <code>n</code> separate BSTs stored in an array <code>trees</code> (<strong>0-indexed</strong>). Each BST in <code>trees</code> has <strong>at most 3 nodes</strong>, and no two roots have the same value. In one operation, you can:</p>
+<p>给你 <code>n</code> 个 <strong>二叉搜索树的根节点</strong> ，存储在数组 <code>trees</code> 中（<strong>下标从 0 开始</strong>），对应 <code>n</code> 棵不同的二叉搜索树。<code>trees</code> 中的每棵二叉搜索树 <strong>最多有 3 个节点</strong> ，且不存在值相同的两个根节点。在一步操作中，将会完成下述步骤：</p>
 
 <ul>
-	<li>Select two <strong>distinct</strong> indices <code>i</code> and <code>j</code> such that the value stored at one of the <strong>leaves </strong>of <code>trees[i]</code> is equal to the <strong>root value</strong> of <code>trees[j]</code>.</li>
-	<li>Replace the leaf node in <code>trees[i]</code> with <code>trees[j]</code>.</li>
-	<li>Remove <code>trees[j]</code> from <code>trees</code>.</li>
+	<li>选择两个 <strong>不同的</strong> 下标 <code>i</code> 和 <code>j</code> ，要求满足在&nbsp;<code>trees[i]</code> 中的某个 <strong>叶节点</strong> 的值等于&nbsp;<code>trees[j]</code> 的 <strong>根节点的值</strong> 。</li>
+	<li>用&nbsp;<code>trees[j]</code> 替换 <code>trees[i]</code> 中的那个叶节点。</li>
+	<li>从 <code>trees</code> 中移除 <code>trees[j]</code> 。</li>
 </ul>
 
-<p>Return<em> the <strong>root</strong> of the resulting BST if it is possible to form a valid BST after performing </em><code>n - 1</code><em> operations, or</em><em> </em><code>null</code> <i>if it is impossible to create a valid BST</i>.</p>
+<p>如果在执行 <code>n - 1</code> 次操作后，能形成一棵有效的二叉搜索树，则返回结果二叉树的 <strong>根节点</strong> ；如果无法构造一棵有效的二叉搜索树<em>，</em>返回<em> </em><code>null</code> 。</p>
 
-<p>A BST (binary search tree) is a binary tree where each node satisfies the following property:</p>
+<p>二叉搜索树是一种二叉树，且树中每个节点均满足下述属性：</p>
 
 <ul>
-	<li>Every node in the node&#39;s left subtree has a value&nbsp;<strong>strictly less</strong>&nbsp;than the node&#39;s value.</li>
-	<li>Every node in the node&#39;s right subtree has a value&nbsp;<strong>strictly greater</strong>&nbsp;than the node&#39;s value.</li>
+	<li>任意节点的左子树中的值都 <strong>严格小于</strong>&nbsp;此节点的值。</li>
+	<li>任意节点的右子树中的值都 <strong>严格大于</strong>&nbsp;此节点的值。</li>
 </ul>
 
-<p>A leaf is a node that has no children.</p>
+<p>叶节点是不含子节点的节点。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/d1.png" style="width: 450px; height: 163px;" />
-<pre>
-<strong>Input:</strong> trees = [[2,1],[3,2,5],[5,4]]
-<strong>Output:</strong> [3,2,5,1,null,4]
-<strong>Explanation:</strong>
-In the first operation, pick i=1 and j=0, and merge trees[0] into trees[1].
-Delete trees[0], so trees = [[3,2,5,1],[5,4]].
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/diagram.png" style="width: 450px; height: 181px;" />
-In the second operation, pick i=0 and j=1, and merge trees[1] into trees[0].
-Delete trees[1], so trees = [[3,2,5,1,null,4]].
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/diagram-2.png" style="width: 220px; height: 165px;" />
-The resulting tree, shown above, is a valid BST, so return its root.</pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/d2.png" style="width: 450px; height: 171px;" />
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/d1.png" />
 <pre>
-<strong>Input:</strong> trees = [[5,3,8],[3,2,6]]
-<strong>Output:</strong> []
-<strong>Explanation:</strong>
-Pick i=0 and j=1 and merge trees[1] into trees[0].
-Delete trees[1], so trees = [[5,3,8,2,6]].
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/diagram-3.png" style="width: 240px; height: 196px;" />
-The resulting tree is shown above. This is the only valid operation that can be performed, but the resulting tree is not a valid BST, so return null.
+<strong>输入：</strong>trees = [[2,1],[3,2,5],[5,4]]
+<strong>输出：</strong>[3,2,5,1,null,4]
+<strong>解释：</strong>
+第一步操作中，选出 i=1 和 j=0 ，并将 trees[0] 合并到 trees[1] 中。
+删除 trees[0] ，trees = [[3,2,5,1],[5,4]] 。
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/diagram.png" />
+在第二步操作中，选出 i=0 和 j=1 ，将 trees[1] 合并到 trees[0] 中。
+删除 trees[1] ，trees = [[3,2,5,1,null,4]] 。
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/diagram-2.png" />
+结果树如上图所示，为一棵有效的二叉搜索树，所以返回该树的根节点。</pre>
+
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/d2.png" />
+<pre>
+<strong>输入：</strong>trees = [[5,3,8],[3,2,6]]
+<strong>输出：</strong>[]
+<strong>解释：</strong>
+选出 i=0 和 j=1 ，然后将 trees[1] 合并到 trees[0] 中。
+删除 trees[1] ，trees = [[5,3,8,2,6]] 。
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/diagram-3.png" />
+结果树如上图所示。仅能执行一次有效的操作，但结果树不是一棵有效的二叉搜索树，所以返回 null 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/d3.png" style="width: 430px; height: 168px;" />
+<p><strong>示例 3：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1932.Merge%20BSTs%20to%20Create%20Single%20BST/images/d3.png" />
 <pre>
-<strong>Input:</strong> trees = [[5,4],[3]]
-<strong>Output:</strong> []
-<strong>Explanation:</strong> It is impossible to perform any operations.
+<strong>输入：</strong>trees = [[5,4],[3]]
+<strong>输出：</strong>[]
+<strong>解释：</strong>无法执行任何操作。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == trees.length</code></li>
 	<li><code>1 &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
-	<li>The number of nodes in each tree is in the range <code>[1, 3]</code>.</li>
-	<li>Each node in the input may have children but no grandchildren.</li>
-	<li>No two roots of <code>trees</code> have the same value.</li>
-	<li>All the trees in the input are <strong>valid BSTs</strong>.</li>
+	<li>每棵树中节点数目在范围 <code>[1, 3]</code> 内。</li>
+	<li>输入数据的每个节点可能有子节点但不存在子节点的子节点</li>
+	<li><code>trees</code> 中不存在两棵树根节点值相同的情况。</li>
+	<li>输入中的所有树都是 <strong>有效的二叉树搜索树</strong> 。</li>
 	<li><code>1 &lt;= TreeNode.val &lt;= 5 * 10<sup>4</sup></code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

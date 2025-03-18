@@ -1,56 +1,61 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1359.Count%20All%20Valid%20Pickup%20and%20Delivery%20Options/README.md
 rating: 1722
-source: Biweekly Contest 20 Q4
+source: 第 20 场双周赛 Q4
 tags:
-  - Math
-  - Dynamic Programming
-  - Combinatorics
+    - 数学
+    - 动态规划
+    - 组合数学
 ---
 
 <!-- problem:start -->
 
-# [1359. Count All Valid Pickup and Delivery Options](https://leetcode.com/problems/count-all-valid-pickup-and-delivery-options)
+# [1359. 有效的快递序列数目](https://leetcode.cn/problems/count-all-valid-pickup-and-delivery-options)
 
-## Description
+[English Version](/solution/1300-1399/1359.Count%20All%20Valid%20Pickup%20and%20Delivery%20Options/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given <code>n</code> orders, each order consists of a pickup and a delivery service.</p>
+<p>给你&nbsp;<code>n</code>&nbsp;笔订单，每笔订单都需要快递服务。</p>
 
-<p>Count all valid pickup/delivery possible sequences such that delivery(i) is always after of&nbsp;pickup(i).&nbsp;</p>
+<p>计算所有有效的 取货 / 交付 可能的顺序，使 delivery(i) 总是在 pickup(i) 之后。</p>
 
-<p>Since the answer&nbsp;may be too large,&nbsp;return it modulo&nbsp;10^9 + 7.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 1
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> Unique order (P1, D1), Delivery 1 always is after of Pickup 1.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 2
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> All possible orders: 
-(P1,P2,D1,D2), (P1,P2,D2,D1), (P1,D1,P2,D2), (P2,P1,D1,D2), (P2,P1,D2,D1) and (P2,D2,P1,D1).
-This is an invalid order (P1,D2,P2,D1) because Pickup 2 is after of Delivery 2.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 3
-<strong>Output:</strong> 90
-</pre>
+<p>由于答案可能很大，请返回答案对 10^9 + 7 取余的结果。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 1
+<strong>输出：</strong>1
+<strong>解释：</strong>只有一种序列 (P1, D1)，物品 1 的配送服务（D1）在物品 1 的收件服务（P1）后。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 2
+<strong>输出：</strong>6
+<strong>解释：</strong>所有可能的序列包括：
+(P1,P2,D1,D2)，(P1,P2,D2,D1)，(P1,D1,P2,D2)，(P2,P1,D1,D2)，(P2,P1,D2,D1) 和 (P2,D2,P1,D1)。
+(P1,D2,P2,D1) 是一个无效的序列，因为物品 2 的收件服务（P2）不应在物品 2 的配送服务（D2）之后。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 3
+<strong>输出：</strong>90
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 500</code></li>
@@ -58,25 +63,25 @@ This is an invalid order (P1,D2,P2,D1) because Pickup 2 is after of Delivery 2.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i]$ as the number of all valid pickup/delivery sequences for $i$ orders. Initially, $f[1] = 1$.
+我们定义 $f[i]$ 表示 $i$ 个订单的所有有效的收件/配送序列的数目。初始时 $f[1] = 1$。
 
-We can choose any of these $i$ orders as the last delivery order $D_i$, then its pickup order $P_i$ can be at any position in the previous $2 \times i - 1$, and the number of pickup/delivery sequences for the remaining $i - 1$ orders is $f[i - 1]$, so $f[i]$ can be expressed as:
+我们可以选择这 $i$ 个订单中的任意一个作为最后一个配送的订单 $D_i$，那么它的收件订单 $P_i$ 可以在之前 $2 \times i - 1$ 的任意一个位置，剩下的 $i - 1$ 个订单的配送/收件序列数目为 $f[i - 1]$，所以 $f[i]$ 可以表示为：
 
 $$
 f[i] = i \times (2 \times i - 1) \times f[i - 1]
 $$
 
-The final answer is $f[n]$.
+最终的答案即为 $f[n]$。
 
-We notice that the value of $f[i]$ is only related to $f[i - 1]$, so we can use a variable instead of an array to reduce the space complexity.
+我们注意到 $f[i]$ 的值只与 $f[i - 1]$ 有关，所以可以用一个变量代替数组，降低空间复杂度。
 
-The time complexity is $O(n)$, where $n$ is the number of orders. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为订单数目。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

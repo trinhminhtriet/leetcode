@@ -1,67 +1,77 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1929.Concatenation%20of%20Array/README.md
 rating: 1132
-source: Weekly Contest 249 Q1
+source: 第 249 场周赛 Q1
 tags:
-  - Array
-  - Simulation
+    - 数组
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1929. Concatenation of Array](https://leetcode.com/problems/concatenation-of-array)
+# [1929. 数组串联](https://leetcode.cn/problems/concatenation-of-array)
 
-## Description
+[English Version](/solution/1900-1999/1929.Concatenation%20of%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> of length <code>n</code>, you want to create an array <code>ans</code> of length <code>2n</code> where <code>ans[i] == nums[i]</code> and <code>ans[i + n] == nums[i]</code> for <code>0 &lt;= i &lt; n</code> (<strong>0-indexed</strong>).</p>
+<p>给你一个长度为 <code>n</code> 的整数数组 <code>nums</code> 。请你构建一个长度为 <code>2n</code> 的答案数组 <code>ans</code> ，数组下标<strong> 从 0 开始计数 </strong>，对于所有 <code>0 <= i < n</code> 的 <code>i</code> ，满足下述所有要求：</p>
 
-<p>Specifically, <code>ans</code> is the <strong>concatenation</strong> of two <code>nums</code> arrays.</p>
+<ul>
+	<li><code>ans[i] == nums[i]</code></li>
+	<li><code>ans[i + n] == nums[i]</code></li>
+</ul>
 
-<p>Return <em>the array </em><code>ans</code>.</p>
+<p>具体而言，<code>ans</code> 由两个 <code>nums</code> 数组 <strong>串联</strong> 形成。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>返回数组<em> </em><code>ans</code> 。</p>
+
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,1]
-<strong>Output:</strong> [1,2,1,1,2,1]
-<strong>Explanation:</strong> The array ans is formed as follows:
+<strong>输入：</strong>nums = [1,2,1]
+<strong>输出：</strong>[1,2,1,1,2,1]
+<strong>解释：</strong>数组 ans 按下述方式形成：
 - ans = [nums[0],nums[1],nums[2],nums[0],nums[1],nums[2]]
 - ans = [1,2,1,1,2,1]</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,3,2,1]
-<strong>Output:</strong> [1,3,2,1,1,3,2,1]
-<strong>Explanation:</strong> The array ans is formed as follows:
+<strong>输入：</strong>nums = [1,3,2,1]
+<strong>输出：</strong>[1,3,2,1,1,3,2,1]
+<strong>解释：</strong>数组 ans 按下述方式形成：
 - ans = [nums[0],nums[1],nums[2],nums[3],nums[0],nums[1],nums[2],nums[3]]
 - ans = [1,3,2,1,1,3,2,1]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
-	<li><code>1 &lt;= n &lt;= 1000</code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 1000</code></li>
+	<li><code>1 <= n <= 1000</code></li>
+	<li><code>1 <= nums[i] <= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We directly simulate according to the problem description by adding the elements of $\textit{nums}$ to the answer array one by one, and then adding the elements of $\textit{nums}$ to the answer array again.
+我们直接根据题目描述模拟，将 $\textit{nums}$ 中的元素依次添加到答案数组中，然后再将 $\textit{nums}$ 中的元素再次添加到答案数组中。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -114,7 +124,7 @@ func getConcatenation(nums []int) []int {
 
 ```ts
 function getConcatenation(nums: number[]): number[] {
-  return [...nums, ...nums];
+    return [...nums, ...nums];
 }
 ```
 
@@ -136,7 +146,7 @@ impl Solution {
  * @return {number[]}
  */
 var getConcatenation = function (nums) {
-  return [...nums, ...nums];
+    return [...nums, ...nums];
 };
 ```
 

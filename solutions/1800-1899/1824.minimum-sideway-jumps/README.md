@@ -1,93 +1,98 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1824.Minimum%20Sideway%20Jumps/README.md
 rating: 1778
-source: Weekly Contest 236 Q3
+source: 第 236 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Dynamic Programming
+    - 贪心
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1824. Minimum Sideway Jumps](https://leetcode.com/problems/minimum-sideway-jumps)
+# [1824. 最少侧跳次数](https://leetcode.cn/problems/minimum-sideway-jumps)
 
-## Description
+[English Version](/solution/1800-1899/1824.Minimum%20Sideway%20Jumps/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a <strong>3 lane road</strong> of length <code>n</code> that consists of <code>n + 1</code> <strong>points</strong> labeled from <code>0</code> to <code>n</code>. A frog <strong>starts</strong> at point <code>0</code> in the <strong>second </strong>lane<strong> </strong>and wants to jump to point <code>n</code>. However, there could be obstacles along the way.</p>
+<p>给你一个长度为 <code>n</code> 的 <strong>3 跑道道路</strong> ，它总共包含 <code>n + 1</code> 个 <strong>点</strong> ，编号为 <code>0</code> 到 <code>n</code> 。一只青蛙从 <code>0</code> 号点第二条跑道 <strong>出发</strong> ，它想要跳到点 <code>n</code> 处。然而道路上可能有一些障碍。</p>
 
-<p>You are given an array <code>obstacles</code> of length <code>n + 1</code> where each <code>obstacles[i]</code> (<strong>ranging from 0 to 3</strong>) describes an obstacle on the lane <code>obstacles[i]</code> at point <code>i</code>. If <code>obstacles[i] == 0</code>, there are no obstacles at point <code>i</code>. There will be <strong>at most one</strong> obstacle in the 3 lanes at each point.</p>
-
-<ul>
-	<li>For example, if <code>obstacles[2] == 1</code>, then there is an obstacle on lane 1 at point 2.</li>
-</ul>
-
-<p>The frog can only travel from point <code>i</code> to point <code>i + 1</code> on the same lane if there is not an obstacle on the lane at point <code>i + 1</code>. To avoid obstacles, the frog can also perform a <strong>side jump</strong> to jump to <strong>another</strong> lane (even if they are not adjacent) at the <strong>same</strong> point if there is no obstacle on the new lane.</p>
+<p>给你一个长度为 <code>n + 1</code> 的数组 <code>obstacles</code> ，其中 <code>obstacles[i]</code> （<b>取值范围从 0 到 3</b>）表示在点 <code>i</code> 处的 <code>obstacles[i]</code> 跑道上有一个障碍。如果 <code>obstacles[i] == 0</code> ，那么点 <code>i</code> 处没有障碍。任何一个点的三条跑道中 <strong>最多有一个</strong> 障碍。</p>
 
 <ul>
-	<li>For example, the frog can jump from lane 3 at point 3 to lane 1 at point 3.</li>
+	<li>比方说，如果 <code>obstacles[2] == 1</code> ，那么说明在点 2 处跑道 1 有障碍。</li>
 </ul>
 
-<p>Return<em> the <strong>minimum number of side jumps</strong> the frog needs to reach <strong>any lane</strong> at point n starting from lane <code>2</code> at point 0.</em></p>
+<p>这只青蛙从点 <code>i</code> 跳到点 <code>i + 1</code> 且跑道不变的前提是点 <code>i + 1</code> 的同一跑道上没有障碍。为了躲避障碍，这只青蛙也可以在 <strong>同一个</strong> 点处 <strong>侧跳</strong> 到 <strong>另外一条</strong> 跑道（这两条跑道可以不相邻），但前提是跳过去的跑道该点处没有障碍。</p>
 
-<p><strong>Note:</strong> There will be no obstacles on points <code>0</code> and <code>n</code>.</p>
+<ul>
+	<li>比方说，这只青蛙可以从点 3 处的跑道 3 跳到点 3 处的跑道 1 。</li>
+</ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>这只青蛙从点 0 处跑道 <code>2</code> 出发，并想到达点 <code>n</code> 处的 <strong>任一跑道</strong> ，请你返回 <strong>最少侧跳次数</strong> 。</p>
+
+<p><strong>注意</strong>：点 <code>0</code> 处和点 <code>n</code> 处的任一跑道都不会有障碍。</p>
+
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1824.Minimum%20Sideway%20Jumps/images/ic234-q3-ex1.png" style="width: 500px; height: 244px;" />
 <pre>
-<strong>Input:</strong> obstacles = [0,1,2,3,0]
-<strong>Output:</strong> 2 
-<strong>Explanation:</strong> The optimal solution is shown by the arrows above. There are 2 side jumps (red arrows).
-Note that the frog can jump over obstacles only when making side jumps (as shown at point 2).
+<b>输入：</b>obstacles = [0,1,2,3,0]
+<b>输出：</b>2 
+<b>解释：</b>最优方案如上图箭头所示。总共有 2 次侧跳（红色箭头）。
+注意，这只青蛙只有当侧跳时才可以跳过障碍（如上图点 2 处所示）。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1824.Minimum%20Sideway%20Jumps/images/ic234-q3-ex2.png" style="width: 500px; height: 196px;" />
 <pre>
-<strong>Input:</strong> obstacles = [0,1,1,3,3,0]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are no obstacles on lane 2. No side jumps are required.
+<b>输入：</b>obstacles = [0,1,1,3,3,0]
+<b>输出：</b>0
+<b>解释：</b>跑道 2 没有任何障碍，所以不需要任何侧跳。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1824.Minimum%20Sideway%20Jumps/images/ic234-q3-ex3.png" style="width: 500px; height: 196px;" />
 <pre>
-<strong>Input:</strong> obstacles = [0,2,1,0,3,0]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The optimal solution is shown by the arrows above. There are 2 side jumps.
+<b>输入：</b>obstacles = [0,2,1,0,3,0]
+<b>输出：</b>2
+<b>解释：</b>最优方案如上图所示。总共有 2 次侧跳。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>obstacles.length == n + 1</code></li>
-	<li><code>1 &lt;= n &lt;= 5 * 10<sup>5</sup></code></li>
-	<li><code>0 &lt;= obstacles[i] &lt;= 3</code></li>
+	<li><code>1 <= n <= 5 * 10<sup>5</sup></code></li>
+	<li><code>0 <= obstacles[i] <= 3</code></li>
 	<li><code>obstacles[0] == obstacles[n] == 0</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ as the minimum number of sidesteps for the frog to reach the $i$-th point and be on the $j$-th lane (index starts from $0$).
+我们定义 $f[i][j]$ 表示青蛙到达第 $i$ 个点，且处于第 $j$ 条跑道（下标从 $0$ 开始）的最小侧跳次数。
 
-Note that the frog starts on the second lane (the problem index starts from $1$), so the value of $f[0][1]$ is $0$, and the values of $f[0][0]$ and $f[0][2]$ are both $1$. The answer is $min(f[n][0], f[n][1], f[n][2])$.
+注意到青蛙起始位置处于第 $2$ 条跑道（题目这里下标从 $1$ 开始），因此 $f[0][1]$ 的值为 $0$，而 $f[0][0]$ 和 $f[0][2]$ 的值均为 $1$。答案为 $min(f[n][0], f[n][1], f[n][2])$
 
-For each position $i$ from $1$ to $n$, we can enumerate the current lane $j$ of the frog. If $obstacles[i] = j + 1$, it means that there is an obstacle on the $j$-th lane, and the value of $f[i][j]$ is infinity. Otherwise, the frog can choose not to jump, in which case the value of $f[i][j]$ is $f[i - 1][j]$, or the frog can sidestep from other lanes, in which case $f[i][j] = min(f[i][j], min(f[i][0], f[i][1], f[i][2]) + 1)$.
+对于 $i$ 从 $1$ 到 $n$ 的每个位置，我们可以枚举青蛙当前所处的跑道 $j$，如果 $obstacles[i] = j + 1$，说明第 $j$ 条跑道上有障碍，此时 $f[i][j]$ 的值为正无穷；否则，青蛙可以选择不跳跃，此时 $f[i][j]$ 的值为 $f[i - 1][j]$，或者青蛙可以从其它跑道侧跳过来，此时 $f[i][j] = min(f[i][j], min(f[i][0], f[i][1], f[i][2]) + 1)$。
 
-In the code implementation, we can optimize the first dimension of space and only use an array $f$ of length $3$ for maintenance.
+在代码实现上，我们可以将第一维空间优化掉，只用一个长度为 $3$ 的数组 $f$ 来维护。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $obstacles$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $obstacles$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -190,23 +195,23 @@ func minSideJumps(obstacles []int) int {
 
 ```ts
 function minSideJumps(obstacles: number[]): number {
-  const inf = 1 << 30;
-  const f = [1, 0, 1];
-  for (let i = 1; i < obstacles.length; ++i) {
-    for (let j = 0; j < 3; ++j) {
-      if (obstacles[i] == j + 1) {
-        f[j] = inf;
-        break;
-      }
+    const inf = 1 << 30;
+    const f = [1, 0, 1];
+    for (let i = 1; i < obstacles.length; ++i) {
+        for (let j = 0; j < 3; ++j) {
+            if (obstacles[i] == j + 1) {
+                f[j] = inf;
+                break;
+            }
+        }
+        const x = Math.min(...f) + 1;
+        for (let j = 0; j < 3; ++j) {
+            if (obstacles[i] != j + 1) {
+                f[j] = Math.min(f[j], x);
+            }
+        }
     }
-    const x = Math.min(...f) + 1;
-    for (let j = 0; j < 3; ++j) {
-      if (obstacles[i] != j + 1) {
-        f[j] = Math.min(f[j], x);
-      }
-    }
-  }
-  return Math.min(...f);
+    return Math.min(...f);
 }
 ```
 

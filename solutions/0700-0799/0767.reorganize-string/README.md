@@ -1,50 +1,68 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0767.Reorganize%20String/README.md
 tags:
-  - Greedy
-  - Hash Table
-  - String
-  - Counting
-  - Sorting
-  - Heap (Priority Queue)
+    - 贪心
+    - 哈希表
+    - 字符串
+    - 计数
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [767. Reorganize String](https://leetcode.com/problems/reorganize-string)
+# [767. 重构字符串](https://leetcode.cn/problems/reorganize-string)
 
-## Description
+[English Version](/solution/0700-0799/0767.Reorganize%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, rearrange the characters of <code>s</code> so that any two adjacent characters are not the same.</p>
+<p>给定一个字符串&nbsp;<code>s</code>&nbsp;，检查是否能重新排布其中的字母，使得两相邻的字符不同。</p>
 
-<p>Return <em>any possible rearrangement of</em> <code>s</code> <em>or return</em> <code>&quot;&quot;</code> <em>if not possible</em>.</p>
+<p>返回<em> <code>s</code>&nbsp;的任意可能的重新排列。若不可行，返回空字符串&nbsp;<code>""</code></em>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> s = "aab"
-<strong>Output:</strong> "aba"
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> s = "aaab"
-<strong>Output:</strong> ""
+
+<p><strong>示例&nbsp;1:</strong></p>
+
+<pre>
+<strong>输入:</strong> s = "aab"
+<strong>输出:</strong> "aba"
 </pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> s = "aaab"
+<strong>输出:</strong> ""
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 500</code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code> 只包含小写字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表
+
+利用哈希表 cnt 统计字符串 s 中每个字符出现的次数。
+
+若最大的出现次数 mx 大于 `(n + 1) / 2`，说明一定会存在两个相同字符相邻，直接返回 ''。
+
+否则，按字符出现频率从大到小遍历，依次间隔 1 个位置填充字符。若位置大于等于 n，则重置为 1 继续填充。
 
 <!-- tabs:start -->
 
@@ -248,7 +266,20 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：贪心 + 哈希表 + 优先队列（大根堆）
+
+先用哈希表 `cnt` 统计每个字母出现的次数，然后构建一个大根堆 `pq`，其中每个元素是一个 `(v, c)` 的元组，其中 `c` 是字母，`v` 是字母出现的次数。
+
+重排字符串时，我们每次从堆顶弹出一个元素 `(v, c)`，将 `c` 添加到结果字符串中，并将 `(v-1, c)` 放入队列 `q` 中。当队列 `q` 的长度达到 $k$ （本题中 $k$ 为 2）及以上时，弹出队首元素，若此时 `v` 大于 0，则将队首元素放入堆中。循环，直至堆为空。
+
+最后判断结果字符串的长度，若与 `s` 长度相等，则返回结果字符串，否则返回空串。
+
+时间复杂度 $O(n\log n)$，其中 $n$ 是字符串 `s` 的长度。
+
+相似题目：
+
+-   [358. K 距离间隔重排字符串](https://github.com/doocs/leetcode/blob/main/solution/0300-0399/0358.Rearrange%20String%20k%20Distance%20Apart/README.md)
+-   [1054. 距离相等的条形码](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1054.Distant%20Barcodes/README.md)
 
 <!-- tabs:start -->
 

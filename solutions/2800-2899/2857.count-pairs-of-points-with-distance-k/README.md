@@ -1,49 +1,54 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2857.Count%20Pairs%20of%20Points%20With%20Distance%20k/README.md
 rating: 2081
-source: Biweekly Contest 113 Q3
+source: 第 113 场双周赛 Q3
 tags:
-  - Bit Manipulation
-  - Array
-  - Hash Table
+    - 位运算
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [2857. Count Pairs of Points With Distance k](https://leetcode.com/problems/count-pairs-of-points-with-distance-k)
+# [2857. 统计距离为 k 的点对](https://leetcode.cn/problems/count-pairs-of-points-with-distance-k)
 
-## Description
+[English Version](/solution/2800-2899/2857.Count%20Pairs%20of%20Points%20With%20Distance%20k/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>2D</strong> integer array <code>coordinates</code> and an integer <code>k</code>, where <code>coordinates[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> are the coordinates of the <code>i<sup>th</sup></code> point in a 2D plane.</p>
+<p>给你一个 <strong>二维</strong>&nbsp;整数数组&nbsp;<code>coordinates</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;，其中&nbsp;<code>coordinates[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>&nbsp;是第 <code>i</code>&nbsp;个点在二维平面里的坐标。</p>
 
-<p>We define the <strong>distance</strong> between two points <code>(x<sub>1</sub>, y<sub>1</sub>)</code> and <code>(x<sub>2</sub>, y<sub>2</sub>)</code> as <code>(x1 XOR x2) + (y1 XOR y2)</code> where <code>XOR</code> is the bitwise <code>XOR</code> operation.</p>
+<p>我们定义两个点&nbsp;<code>(x<sub>1</sub>, y<sub>1</sub>)</code>&nbsp;和&nbsp;<code>(x<sub>2</sub>, y<sub>2</sub>)</code>&nbsp;的 <strong>距离</strong>&nbsp;为&nbsp;<code>(x1 XOR x2) + (y1 XOR y2)</code> ，<code>XOR</code>&nbsp;指的是按位异或运算。</p>
 
-<p>Return <em>the number of pairs </em><code>(i, j)</code><em> such that </em><code>i &lt; j</code><em> and the distance between points </em><code>i</code><em> and </em><code>j</code><em> is equal to </em><code>k</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> coordinates = [[1,2],[4,2],[1,3],[5,2]], k = 5
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We can choose the following pairs:
-- (0,1): Because we have (1 XOR 4) + (2 XOR 2) = 5.
-- (2,3): Because we have (1 XOR 5) + (3 XOR 2) = 5.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> coordinates = [[1,3],[1,3],[1,3],[1,3],[1,3]], k = 0
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> Any two chosen pairs will have a distance of 0. There are 10 ways to choose two pairs.
-</pre>
+<p>请你返回满足<em>&nbsp;</em><code>i &lt; j</code><em>&nbsp;</em>且点<em>&nbsp;</em><code>i</code><em> </em>和点<em>&nbsp;</em><code>j</code>之间距离为<em>&nbsp;</em><code>k</code>&nbsp;的点对数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>coordinates = [[1,2],[4,2],[1,3],[5,2]], k = 5
+<b>输出：</b>2
+<b>解释：</b>以下点对距离为 k ：
+- (0, 1)：(1 XOR 4) + (2 XOR 2) = 5 。
+- (2, 3)：(1 XOR 5) + (3 XOR 2) = 5 。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>coordinates = [[1,3],[1,3],[1,3],[1,3],[1,3]], k = 0
+<b>输出：</b>10
+<b>解释：</b>任何两个点之间的距离都为 0 ，所以总共有 10 组点对。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= coordinates.length &lt;= 50000</code></li>
@@ -53,17 +58,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Enumeration
+### 方法一：哈希表 + 枚举
 
-We can use a hash table $cnt$ to count the occurrence of each point in the array $coordinates$.
+我们可以用一个哈希表 $cnt$ 统计数组 $coordinates$ 中每个点出现的次数。
 
-Next, we enumerate each point $(x_2, y_2)$ in the array $coordinates$. Since the range of $k$ is $[0, 100]$, and the result of $x_1 \oplus x_2$ or $y_1 \oplus y_2$ is always greater than or equal to $0$, we can enumerate the result $a$ of $x_1 \oplus x_2$ in the range $[0,..k]$. Then, the result of $y_1 \oplus y_2$ is $b = k - a$. In this way, we can calculate the values of $x_1$ and $y_1$, and add the occurrence of $(x_1, y_1)$ to the answer.
+接下来，我们枚举数组 $coordinates$ 中的每个点 $(x_2, y_2)$，由于 $k$ 的取值范围为 $[0, 100]$，而 $x_1 \oplus x_2$ 或 $y_1 \oplus y_2$ 的结果一定大于等于 $0$，因此我们可以在 $[0,..k]$ 范围内枚举 $x_1 \oplus x_2$ 的结果 $a$，那么 $y_1 \oplus y_2$ 的结果就是 $b = k - a$。这样一来，我们就可以计算出 $x_1$ 和 $y_1$ 的值，将 $(x_1, y_1)$ 出现的次数累加到答案中。
 
-The time complexity is $O(n \times k)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $coordinates$.
+时间复杂度 $O(n \times k)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $coordinates$ 的长度。
 
 <!-- tabs:start -->
 
@@ -148,18 +153,18 @@ func countPairs(coordinates [][]int, k int) (ans int) {
 
 ```ts
 function countPairs(coordinates: number[][], k: number): number {
-  const cnt: Map<number, number> = new Map();
-  const f = (x: number, y: number): number => x * 1000000 + y;
-  let ans = 0;
-  for (const [x2, y2] of coordinates) {
-    for (let a = 0; a <= k; ++a) {
-      const b = k - a;
-      const [x1, y1] = [a ^ x2, b ^ y2];
-      ans += cnt.get(f(x1, y1)) ?? 0;
+    const cnt: Map<number, number> = new Map();
+    const f = (x: number, y: number): number => x * 1000000 + y;
+    let ans = 0;
+    for (const [x2, y2] of coordinates) {
+        for (let a = 0; a <= k; ++a) {
+            const b = k - a;
+            const [x1, y1] = [a ^ x2, b ^ y2];
+            ans += cnt.get(f(x1, y1)) ?? 0;
+        }
+        cnt.set(f(x2, y2), (cnt.get(f(x2, y2)) ?? 0) + 1);
     }
-    cnt.set(f(x2, y2), (cnt.get(f(x2, y2)) ?? 0) + 1);
-  }
-  return ans;
+    return ans;
 }
 ```
 

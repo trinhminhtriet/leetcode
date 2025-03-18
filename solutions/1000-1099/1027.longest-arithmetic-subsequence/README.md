@@ -1,59 +1,62 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1027.Longest%20Arithmetic%20Subsequence/README.md
 rating: 1758
-source: Weekly Contest 132 Q3
+source: 第 132 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Binary Search
-  - Dynamic Programming
+    - 数组
+    - 哈希表
+    - 二分查找
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1027. Longest Arithmetic Subsequence](https://leetcode.com/problems/longest-arithmetic-subsequence)
+# [1027. 最长等差数列](https://leetcode.cn/problems/longest-arithmetic-subsequence)
 
-## Description
+[English Version](/solution/1000-1099/1027.Longest%20Arithmetic%20Subsequence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array <code>nums</code> of integers, return <em>the length of the longest arithmetic subsequence in</em> <code>nums</code>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>，返回 <code>nums</code>&nbsp;中最长等差子序列的<strong>长度</strong>。</p>
 
-<p><strong>Note</strong> that:</p>
-
-<ul>
-	<li>A <strong>subsequence</strong> is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.</li>
-	<li>A sequence <code>seq</code> is arithmetic if <code>seq[i + 1] - seq[i]</code> are all the same value (for <code>0 &lt;= i &lt; seq.length - 1</code>).</li>
-</ul>
+<p>回想一下，<code>nums</code> 的子序列是一个列表&nbsp;<code>nums[i<sub>1</sub>], nums[i<sub>2</sub>], ..., nums[i<sub>k</sub>]</code> ，且&nbsp;<code>0 &lt;= i<sub>1</sub> &lt; i<sub>2</sub> &lt; ... &lt; i<sub>k</sub> &lt;= nums.length - 1</code>。并且如果&nbsp;<code>seq[i+1] - seq[i]</code>(&nbsp;<code>0 &lt;= i &lt; seq.length - 1</code>) 的值都相同，那么序列&nbsp;<code>seq</code>&nbsp;是等差的。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,6,9,12]
-<strong>Output:</strong> 4
-<strong>Explanation: </strong> The whole array is an arithmetic sequence with steps of length = 3.
+<strong>输入：</strong>nums = [3,6,9,12]
+<strong>输出：</strong>4
+<strong>解释： </strong>
+整个数组是公差为 3 的等差数列。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [9,4,7,2,10]
-<strong>Output:</strong> 3
-<strong>Explanation: </strong> The longest arithmetic subsequence is [4,7,10].
+<strong>输入：</strong>nums = [9,4,7,2,10]
+<strong>输出：</strong>3
+<strong>解释：</strong>
+最长的等差子序列是 [4,7,10]。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [20,1,15,3,10,5,8]
-<strong>Output:</strong> 4
-<strong>Explanation: </strong> The longest arithmetic subsequence is [20,15,10,5].
+<strong>输入：</strong>nums = [20,1,15,3,10,5,8]
+<strong>输出：</strong>4
+<strong>解释：</strong>
+最长的等差子序列是 [20,15,10,5]。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 1000</code></li>
@@ -62,23 +65,23 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ as the maximum length of the arithmetic sequence ending with $nums[i]$ and having a common difference of $j$. Initially, $f[i][j]=1$, that is, each element itself is an arithmetic sequence of length $1$.
+我们定义 $f[i][j]$ 表示以 $nums[i]$ 结尾且公差为 $j$ 的等差数列的最大长度。初始时 $f[i][j]=1$，即每个元素自身都是一个长度为 $1$ 的等差数列。
 
-> Since the common difference may be negative, and the maximum difference is $500$, we can uniformly add $500$ to the common difference, so the range of the common difference becomes $[0, 1000]$.
+> 由于公差可能为负数，且最大差值为 $500$，因此，我们可以将统一将公差加上 $500$，这样公差的范围就变成了 $[0, 1000]$。
 
-Considering $f[i]$, we can enumerate the previous element $nums[k]$ of $nums[i]$, then the common difference $j=nums[i]-nums[k]+500$, at this time $f[i][j]=\max(f[i][j], f[k][j]+1)$, then we update the answer $ans=\max(ans, f[i][j])$.
+考虑 $f[i]$，我们可以枚举 $nums[i]$ 的前一个元素 $nums[k]$，那么公差 $j=nums[i]-nums[k]+500$，此时有 $f[i][j]=\max(f[i][j], f[k][j]+1)$，然后我们更新答案 $ans=\max(ans, f[i][j])$。
 
-Finally, return the answer.
+最后返回答案即可。
 
-> If initially $f[i][j]=0$, then we need to add $1$ to the answer when returning the answer.
+> 如果初始时 $f[i][j]=0$，那么我们需要在最后返回答案时加上 $1$。
 
-The time complexity is $O(n \times (d + n))$, and the space complexity is $O(n \times d)$. Where $n$ and $d$ are the length of the array $nums$ and the difference between the maximum and minimum values in the array $nums$, respectively.
+时间复杂度 $O(n \times (d + n))$，空间复杂度 $O(n \times d)$。其中 $n$ 和 $d$ 分别是数组 $nums$ 的长度以及数组 $nums$ 中元素的最大值与最小值的差值。
 
 <!-- tabs:start -->
 
@@ -165,19 +168,17 @@ func longestArithSeqLength(nums []int) int {
 
 ```ts
 function longestArithSeqLength(nums: number[]): number {
-  const n = nums.length;
-  let ans = 0;
-  const f: number[][] = Array.from({ length: n }, () =>
-    new Array(1001).fill(0)
-  );
-  for (let i = 1; i < n; ++i) {
-    for (let k = 0; k < i; ++k) {
-      const j = nums[i] - nums[k] + 500;
-      f[i][j] = Math.max(f[i][j], f[k][j] + 1);
-      ans = Math.max(ans, f[i][j]);
+    const n = nums.length;
+    let ans = 0;
+    const f: number[][] = Array.from({ length: n }, () => new Array(1001).fill(0));
+    for (let i = 1; i < n; ++i) {
+        for (let k = 0; k < i; ++k) {
+            const j = nums[i] - nums[k] + 500;
+            f[i][j] = Math.max(f[i][j], f[k][j] + 1);
+            ans = Math.max(ans, f[i][j]);
+        }
     }
-  }
-  return ans + 1;
+    return ans + 1;
 }
 ```
 

@@ -1,92 +1,97 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0972.Equal%20Rational%20Numbers/README.md
 tags:
-  - Math
-  - String
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [972. Equal Rational Numbers](https://leetcode.com/problems/equal-rational-numbers)
+# [972. 相等的有理数](https://leetcode.cn/problems/equal-rational-numbers)
 
-## Description
+[English Version](/solution/0900-0999/0972.Equal%20Rational%20Numbers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two strings <code>s</code> and <code>t</code>, each of which represents a non-negative rational number, return <code>true</code> if and only if they represent the same number. The strings may use parentheses to denote the repeating part of the rational number.</p>
+<p>给定两个字符串&nbsp;<code>s</code>&nbsp;和&nbsp;<code>t</code>&nbsp;，每个字符串代表一个非负有理数，只有当它们表示相同的数字时才返回 <code>true</code>&nbsp;。字符串中可以使用括号来表示有理数的重复部分。</p>
 
-<p>A <strong>rational number</strong> can be represented using up to three parts: <code>&lt;IntegerPart&gt;</code>, <code>&lt;NonRepeatingPart&gt;</code>, and a <code>&lt;RepeatingPart&gt;</code>. The number will be represented in one of the following three ways:</p>
+<p><strong>有理数</strong>&nbsp;最多可以用三个部分来表示：<em>整数部分</em>&nbsp;<code>&lt;IntegerPart&gt;</code>、<em>小数非重复部分</em>&nbsp;<code>&lt;NonRepeatingPart&gt;</code>&nbsp;和<em>小数重复部分</em>&nbsp;<code>&lt;(&gt;&lt;RepeatingPart&gt;&lt;)&gt;</code>。数字可以用以下三种方法之一来表示：</p>
 
 <ul>
-	<li><code>&lt;IntegerPart&gt;</code>
+	<li><code>&lt;IntegerPart&gt;</code>&nbsp;
 
     <ul>
-    	<li>For example, <code>12</code>, <code>0</code>, and <code>123</code>.</li>
+    	<li>例：&nbsp;<code>0</code>&nbsp;,<code>12</code>&nbsp;和&nbsp;<code>123</code>&nbsp;</li>
     </ul>
     </li>
-    <li><code>&lt;IntegerPart&gt;<strong>&lt;.&gt;</strong>&lt;NonRepeatingPart&gt;</code>
+    <li><code>&lt;IntegerPart&gt;&lt;.&gt;&lt;NonRepeatingPart&gt;</code>
     <ul>
-    	<li>For example, <code>0.5</code>, <code>1.</code>, <code>2.12</code>, and <code>123.0001</code>.</li>
+    	<li>例： <code>0.5<font color="#333333"><font face="Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size:14px"><span style="background-color:#ffffff">&nbsp;, </span></span></font></font></code><font color="#333333"><font face="Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size:14px"><span style="background-color:#ffffff"><code>1.</code>&nbsp;,&nbsp;</span></span></font></font><code>2.12</code>&nbsp;和&nbsp;<code>123.0001</code></li>
     </ul>
     </li>
-    <li><code>&lt;IntegerPart&gt;<strong>&lt;.&gt;</strong>&lt;NonRepeatingPart&gt;<strong>&lt;(&gt;</strong>&lt;RepeatingPart&gt;<strong>&lt;)&gt;</strong></code>
+    <li><code>&lt;IntegerPart&gt;&lt;.&gt;&lt;NonRepeatingPart&gt;&lt;(&gt;&lt;RepeatingPart&gt;&lt;)&gt;</code>&nbsp;
     <ul>
-    	<li>For example, <code>0.1(6)</code>, <code>1.(9)</code>, <code>123.00(1212)</code>.</li>
+    	<li>例： <code>0.1(6)</code> ， <code>1.(9)</code>， <code>123.00(1212)</code></li>
     </ul>
     </li>
 
 </ul>
 
-<p>The repeating portion of a decimal expansion is conventionally denoted within a pair of round brackets. For example:</p>
+<p>十进制展开的重复部分通常在一对圆括号内表示。例如：</p>
 
 <ul>
-	<li><code>1/6 = 0.16666666... = 0.1(6) = 0.1666(6) = 0.166(66)</code>.</li>
+	<li><code>1 / 6 = 0.16666666... = 0.1(6) = 0.1666(6) = 0.166(66)</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;0.(52)&quot;, t = &quot;0.5(25)&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Because &quot;0.(52)&quot; represents 0.52525252..., and &quot;0.5(25)&quot; represents 0.52525252525..... , the strings represent the same number.
+<strong>输入：</strong>s = "0.(52)", t = "0.5(25)"
+<strong>输出：</strong>true
+<strong>解释：</strong>因为 "0.(52)" 代表 0.52525252...，而 "0.5(25)" 代表 0.52525252525.....，则这两个字符串表示相同的数字。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;0.1666(6)&quot;, t = &quot;0.166(66)&quot;
-<strong>Output:</strong> true
+<strong>输入：</strong>s = "0.1666(6)", t = "0.166(66)"
+<strong>输出：</strong>true
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;0.9(9)&quot;, t = &quot;1.&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> &quot;0.9(9)&quot; represents 0.999999999... repeated forever, which equals 1.  [<a href="https://en.wikipedia.org/wiki/0.999..." target="_blank">See this link for an explanation.</a>]
-&quot;1.&quot; represents the number 1, which is formed correctly: (IntegerPart) = &quot;1&quot; and (NonRepeatingPart) = &quot;&quot;.
-</pre>
+<strong>输入：</strong>s = "0.9(9)", t = "1."
+<strong>输出：</strong>true
+<strong>解释：</strong>"0.9(9)" 代表 0.999999999... 永远重复，等于 1 。[<a href="https://baike.baidu.com/item/0.999…/5615429?fr=aladdin" target="_blank">有关说明，请参阅此链接</a>]
+"1." 表示数字 1，其格式正确：(IntegerPart) = "1" 且 (NonRepeatingPart) = "" 。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>Each part consists only of digits.</li>
-	<li>The <code>&lt;IntegerPart&gt;</code> does not have leading zeros (except for the zero itself).</li>
-	<li><code>1 &lt;= &lt;IntegerPart&gt;.length &lt;= 4</code></li>
-	<li><code>0 &lt;= &lt;NonRepeatingPart&gt;.length &lt;= 4</code></li>
-	<li><code>1 &lt;= &lt;RepeatingPart&gt;.length &lt;= 4</code></li>
+	<li>每个部分仅由数字组成。</li>
+	<li>整数部分&nbsp;<code>&lt;IntegerPart&gt;</code>&nbsp;不会以零开头。（零本身除外）</li>
+	<li><code>1 &lt;= &lt;IntegerPart&gt;.length &lt;= 4 </code></li>
+	<li><code>0 &lt;= &lt;NonRepeatingPart&gt;.length &lt;= 4 </code></li>
+	<li><code>1 &lt;= &lt;RepeatingPart&gt;.length &lt;= 4 </code></li>
 </ul>
+<span style="display:block"><span style="height:0px"><span style="position:absolute">​​​​​</span></span></span>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

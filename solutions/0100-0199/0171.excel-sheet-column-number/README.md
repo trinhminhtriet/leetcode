@@ -1,22 +1,25 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0171.Excel%20Sheet%20Column%20Number/README.md
 tags:
-  - Math
-  - String
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [171. Excel Sheet Column Number](https://leetcode.com/problems/excel-sheet-column-number)
+# [171. Excel 表列序号](https://leetcode.cn/problems/excel-sheet-column-number)
 
-## Description
+[English Version](/solution/0100-0199/0171.Excel%20Sheet%20Column%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>columnTitle</code> that represents the column title as appears in an Excel sheet, return <em>its corresponding column number</em>.</p>
+<p>给你一个字符串&nbsp;<code>columnTitle</code> ，表示 Excel 表格中的列名称。返回 <em>该列名称对应的列序号</em>&nbsp;。</p>
 
-<p>For example:</p>
+<p>例如：</p>
 
 <pre>
 A -&gt; 1
@@ -26,53 +29,53 @@ C -&gt; 3
 Z -&gt; 26
 AA -&gt; 27
 AB -&gt; 28 
-...
-</pre>
+...</pre>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> columnTitle = &quot;A&quot;
-<strong>Output:</strong> 1
+<strong>输入:</strong> columnTitle = "A"
+<strong>输出:</strong> 1
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例&nbsp;2:</strong></p>
 
 <pre>
-<strong>Input:</strong> columnTitle = &quot;AB&quot;
-<strong>Output:</strong> 28
+<strong>输入: </strong>columnTitle = "AB"
+<strong>输出:</strong> 28
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例&nbsp;3:</strong></p>
 
 <pre>
-<strong>Input:</strong> columnTitle = &quot;ZY&quot;
-<strong>Output:</strong> 701
-</pre>
+<strong>输入: </strong>columnTitle = "ZY"
+<strong>输出:</strong> 701</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= columnTitle.length &lt;= 7</code></li>
-	<li><code>columnTitle</code> consists only of uppercase English letters.</li>
-	<li><code>columnTitle</code> is in the range <code>[&quot;A&quot;, &quot;FXSHRXW&quot;]</code>.</li>
+	<li><code>columnTitle</code> 仅由大写英文组成</li>
+	<li><code>columnTitle</code> 在范围 <code>["A", "FXSHRXW"]</code> 内</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Base Conversion
+### 方法一：进制转换
 
-The column name in Excel is a representation in base 26. For example, "AB" represents the column number $1 \times 26 + 2 = 28$.
+Excel 表格中的列名称是一种 26 进制的表示方法。例如，"AB" 表示的列序号是 $1 \times 26 + 2 = 28$。
 
-Therefore, we can iterate through the string `columnTitle`, convert each character to its corresponding value, and then calculate the result.
+因此，我们可以遍历字符串 `columnTitle`，将每个字符转换为对应的数值，然后计算结果即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the string `columnTitle`. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是字符串 `columnTitle` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -131,11 +134,11 @@ func titleToNumber(columnTitle string) (ans int) {
 
 ```ts
 function titleToNumber(columnTitle: string): number {
-  let ans: number = 0;
-  for (const c of columnTitle) {
-    ans = ans * 26 + (c.charCodeAt(0) - "A".charCodeAt(0) + 1);
-  }
-  return ans;
+    let ans: number = 0;
+    for (const c of columnTitle) {
+        ans = ans * 26 + (c.charCodeAt(0) - 'A'.charCodeAt(0) + 1);
+    }
+    return ans;
 }
 ```
 

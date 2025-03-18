@@ -1,81 +1,86 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3174.Clear%20Digits/README.md
 rating: 1255
-source: Biweekly Contest 132 Q1
+source: 第 132 场双周赛 Q1
 tags:
-  - Stack
-  - String
-  - Simulation
+    - 栈
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [3174. Clear Digits](https://leetcode.com/problems/clear-digits)
+# [3174. 清除数字](https://leetcode.cn/problems/clear-digits)
 
-## Description
+[English Version](/solution/3100-3199/3174.Clear%20Digits/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code>.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;。</p>
 
-<p>Your task is to remove <strong>all</strong> digits by doing this operation repeatedly:</p>
+<p>你的任务是重复以下操作删除 <strong>所有</strong>&nbsp;数字字符：</p>
 
 <ul>
-	<li>Delete the <em>first</em> digit and the <strong>closest</strong> <b>non-digit</b> character to its <em>left</em>.</li>
+	<li>删除 <strong>第一个数字字符</strong>&nbsp;以及它左边 <strong>最近</strong>&nbsp;的 <strong>非数字</strong>&nbsp;字符。</li>
 </ul>
 
-<p>Return the resulting string after removing all digits.</p>
+<p>请你返回删除所有数字字符以后剩下的字符串。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>注意</strong>，该操作不能对左侧没有任何非数字字符的数字执行。</p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;abc&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">&quot;abc&quot;</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>There is no digit in the string.<!-- notionvc: ff07e34f-b1d6-41fb-9f83-5d0ba3c1ecde --></p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;cb34&quot;</span></p>
+<p><span class="example-io"><b>输入：</b>s = "abc"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">&quot;&quot;</span></p>
+<p><span class="example-io"><b>输出：</b>"abc"</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>First, we apply the operation on <code>s[2]</code>, and <code>s</code> becomes <code>&quot;c4&quot;</code>.</p>
+<p>字符串中没有数字。<!-- notionvc: ff07e34f-b1d6-41fb-9f83-5d0ba3c1ecde --></p>
+</div>
 
-<p>Then we apply the operation on <code>s[1]</code>, and <code>s</code> becomes <code>&quot;&quot;</code>.</p>
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>s = "cb34"</span></p>
+
+<p><span class="example-io"><b>输出：</b>""</span></p>
+
+<p><b>解释：</b></p>
+
+<p>一开始，我们对&nbsp;<code>s[2]</code>&nbsp;执行操作，<code>s</code>&nbsp;变为&nbsp;<code>"c4"</code>&nbsp;。</p>
+
+<p>然后对&nbsp;<code>s[1]</code>&nbsp;执行操作，<code>s</code>&nbsp;变为&nbsp;<code>""</code>&nbsp;。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> consists only of lowercase English letters and digits.</li>
-	<li>The input is generated such that it is possible to delete all digits.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母和数字字符。</li>
+	<li>输入保证所有数字都可以按以上操作被删除。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Stack + Simulation
+### 方法一：栈 + 模拟
 
-We use a stack `stk` to simulate this process. We traverse the string `s`. If the current character is a digit, we pop the top element from the stack. Otherwise, we push the current character into the stack.
+我们用一个栈 `stk` 来模拟这个过程，遍历字符串 `s`，如果当前字符是数字，就弹出栈顶元素，否则将当前字符入栈。
 
-Finally, we concatenate the elements in the stack into a string and return it.
+最后将栈中的元素拼接成字符串返回。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string `s`.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 `s` 的长度。
 
 <!-- tabs:start -->
 
@@ -150,15 +155,15 @@ func clearDigits(s string) string {
 
 ```ts
 function clearDigits(s: string): string {
-  const stk: string[] = [];
-  for (const c of s) {
-    if (!isNaN(parseInt(c))) {
-      stk.pop();
-    } else {
-      stk.push(c);
+    const stk: string[] = [];
+    for (const c of s) {
+        if (!isNaN(parseInt(c))) {
+            stk.pop();
+        } else {
+            stk.push(c);
+        }
     }
-  }
-  return stk.join("");
+    return stk.join('');
 }
 ```
 

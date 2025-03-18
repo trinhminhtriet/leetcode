@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0577.Employee%20Bonus/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [577. Employee Bonus](https://leetcode.com/problems/employee-bonus)
+# [577. 员工奖金](https://leetcode.cn/problems/employee-bonus)
 
-## Description
+[English Version](/solution/0500-0599/0577.Employee%20Bonus/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Employee</code></p>
+<p>表：<code>Employee</code>&nbsp;</p>
 
 <pre>
 +-------------+---------+
@@ -24,13 +27,13 @@ tags:
 | supervisor  | int     |
 | salary      | int     |
 +-------------+---------+
-empId is the column with unique values for this table.
-Each row of this table indicates the name and the ID of an employee in addition to their salary and the id of their manager.
+empId 是该表中具有唯一值的列。
+该表的每一行都表示员工的姓名和 id，以及他们的工资和经理的 id。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Table: <code>Bonus</code></p>
+<p>表：<code>Bonus</code></p>
 
 <pre>
 +-------------+------+
@@ -39,24 +42,25 @@ Each row of this table indicates the name and the ID of an employee in addition 
 | empId       | int  |
 | bonus       | int  |
 +-------------+------+
-empId is the column of unique values for this table.
-empId is a foreign key (reference column) to empId from the Employee table.
-Each row of this table contains the id of an employee and their respective bonus.
+empId 是该表具有唯一值的列。
+empId 是 Employee 表中 empId 的外键(reference 列)。
+该表的每一行都包含一个员工的 id 和他们各自的奖金。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to report the name and bonus amount of each employee with a bonus <strong>less than</strong> <code>1000</code>.</p>
+<p>编写解决方案，报告每个奖金 <strong>少于</strong> <code>1000</code> 的员工的姓名和奖金数额。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
+<p>以 <strong>任意顺序</strong> 返回结果表。</p>
 
-<p>The&nbsp;result format is in the following example.</p>
+<p>结果格式如下所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
+<b>输入：</b>
 Employee table:
 +-------+--------+------------+--------+
 | empId | name   | supervisor | salary |
@@ -73,25 +77,24 @@ Bonus table:
 | 2     | 500   |
 | 4     | 2000  |
 +-------+-------+
-<strong>Output:</strong> 
+<b>输出：</b>
 +------+-------+
 | name | bonus |
 +------+-------+
 | Brad | null  |
 | John | null  |
 | Dan  | 500   |
-+------+-------+
-</pre>
++------+-------+</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Left Join
+### 方法一：左连接
 
-We can use a left join to join the `Employee` table and the `Bonus` table on `empId`, and then filter out the employees whose bonus is less than $1000$. Note that the employees with `NULL` bonus values after the join should also be filtered out, so we need to use the `IFNULL` function to convert `NULL` values to $0$.
+我们可以使用左连接，将 `Employee` 表和 `Bonus` 表按照 `empId` 进行连接，然后筛选出奖金小于 $1000$ 的员工。注意，连接后的表中，`bonus` 为 `NULL` 的员工也应该被筛选出来，因此我们需要使用 `IFNULL` 函数将 `NULL` 值转换为 $0$。
 
 <!-- tabs:start -->
 

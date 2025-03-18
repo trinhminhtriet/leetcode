@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2530.Maximal%20Score%20After%20Applying%20K%20Operations/README.md
 rating: 1386
-source: Weekly Contest 327 Q2
+source: 第 327 场周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2530. Maximal Score After Applying K Operations](https://leetcode.com/problems/maximal-score-after-applying-k-operations)
+# [2530. 执行 K 次操作后的最大分数](https://leetcode.cn/problems/maximal-score-after-applying-k-operations)
 
-## Description
+[English Version](/solution/2500-2599/2530.Maximal%20Score%20After%20Applying%20K%20Operations/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>k</code>. You have a <strong>starting score</strong> of <code>0</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 和一个整数 <code>k</code> 。你的 <strong>起始分数</strong> 为 <code>0</code> 。</p>
 
-<p>In one <strong>operation</strong>:</p>
+<p>在一步 <strong>操作</strong> 中：</p>
 
 <ol>
-	<li>choose an index <code>i</code> such that <code>0 &lt;= i &lt; nums.length</code>,</li>
-	<li>increase your <strong>score</strong> by <code>nums[i]</code>, and</li>
-	<li>replace <code>nums[i]</code> with <code>ceil(nums[i] / 3)</code>.</li>
+	<li>选出一个满足 <code>0 &lt;= i &lt; nums.length</code> 的下标 <code>i</code> ，</li>
+	<li>将你的 <strong>分数</strong> 增加 <code>nums[i]</code> ，并且</li>
+	<li>将 <code>nums[i]</code> 替换为 <code>ceil(nums[i] / 3)</code> 。</li>
 </ol>
 
-<p>Return <em>the maximum possible <strong>score</strong> you can attain after applying <strong>exactly</strong></em> <code>k</code> <em>operations</em>.</p>
+<p>返回在 <strong>恰好</strong> 执行 <code>k</code> 次操作后，你可能获得的最大分数。</p>
 
-<p>The ceiling function <code>ceil(val)</code> is the least integer greater than or equal to <code>val</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong>Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [10,10,10,10,10], k = 5
-<strong>Output:</strong> 50
-<strong>Explanation:</strong> Apply the operation to each array element exactly once. The final score is 10 + 10 + 10 + 10 + 10 = 50.
-</pre>
-
-<p><strong>Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,10,3,3,3], k = 3
-<strong>Output:</strong> 17
-<strong>Explanation: </strong>You can do the following operations:
-Operation 1: Select i = 1, so nums becomes [1,<strong><u>4</u></strong>,3,3,3]. Your score increases by 10.
-Operation 2: Select i = 1, so nums becomes [1,<strong><u>2</u></strong>,3,3,3]. Your score increases by 4.
-Operation 3: Select i = 2, so nums becomes [1,2,<u><strong>1</strong></u>,3,3]. Your score increases by 3.
-The final score is 10 + 4 + 3 = 17.
-</pre>
+<p>向上取整函数 <code>ceil(val)</code> 的结果是大于或等于 <code>val</code> 的最小整数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [10,10,10,10,10], k = 5
+<strong>输出：</strong>50
+<strong>解释：</strong>对数组中每个元素执行一次操作。最后分数是 10 + 10 + 10 + 10 + 10 = 50 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,10,3,3,3], k = 3
+<strong>输出：</strong>17
+<strong>解释：</strong>可以执行下述操作：
+第 1 步操作：选中 i = 1 ，nums 变为 [1,<em><strong>4</strong></em>,3,3,3] 。分数增加 10 。
+第 2 步操作：选中 i = 1 ，nums 变为 [1,<em><strong>2</strong></em>,3,3,3] 。分数增加 4 。
+第 3 步操作：选中 i = 2 ，nums 变为 [1,2,<em><strong>1</strong></em>,3,3] 。分数增加 3 。
+最后分数是 10 + 4 + 3 = 17 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length, k &lt;= 10<sup>5</sup></code></li>
@@ -62,17 +67,17 @@ The final score is 10 + 4 + 3 = 17.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Priority Queue (Max Heap)
+### 方法一：优先队列（大根堆）
 
-To maximize the sum of scores, we need to select the element with the maximum value at each step. Therefore, we can use a priority queue (max heap) to maintain the element with the maximum value.
+要使得分数最大化，我们需要在每一步操作中，选择元素值最大的元素进行操作。因此，我们可以使用优先队列（大根堆）来维护当前元素值最大的元素。
 
-At each step, we take out the element with the maximum value $v$ from the priority queue, add $v$ to the answer, and replace $v$ with $\lceil \frac{v}{3} \rceil$, and then add it to the priority queue. After repeating this process $k$ times, we return the answer.
+每次从优先队列中取出元素值最大的元素 $v$，将答案加上 $v$，并将 $v$ 替换为 $\lceil \frac{v}{3} \rceil$，加入优先队列。重复 $k$ 次后，将答案返回即可。
 
-The time complexity is $O(n + k \times \log n)$, and the space complexity is $O(n)$ or $O(1)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n + k \times \log n)$，空间复杂度 $O(n)$ 或 $O(1)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -162,16 +167,16 @@ func (h *hp) pop() int   { return heap.Pop(h).(int) }
 
 ```ts
 function maxKelements(nums: number[], k: number): number {
-  const pq = new MaxPriorityQueue();
-  nums.forEach((num) => pq.enqueue(num));
-  let ans = 0;
-  while (k > 0) {
-    const v = pq.dequeue()!.element;
-    ans += v;
-    pq.enqueue(Math.floor((v + 2) / 3));
-    k--;
-  }
-  return ans;
+    const pq = new MaxPriorityQueue();
+    nums.forEach(num => pq.enqueue(num));
+    let ans = 0;
+    while (k > 0) {
+        const v = pq.dequeue()!.element;
+        ans += v;
+        pq.enqueue(Math.floor((v + 2) / 3));
+        k--;
+    }
+    return ans;
 }
 ```
 
@@ -203,7 +208,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

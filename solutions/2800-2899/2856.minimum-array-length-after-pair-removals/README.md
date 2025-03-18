@@ -1,105 +1,110 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2856.Minimum%20Array%20Length%20After%20Pair%20Removals/README.md
 rating: 1749
-source: Biweekly Contest 113 Q2
+source: 第 113 场双周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Hash Table
-  - Two Pointers
-  - Binary Search
-  - Counting
+    - 贪心
+    - 数组
+    - 哈希表
+    - 双指针
+    - 二分查找
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2856. Minimum Array Length After Pair Removals](https://leetcode.com/problems/minimum-array-length-after-pair-removals)
+# [2856. 删除数对后的最小数组长度](https://leetcode.cn/problems/minimum-array-length-after-pair-removals)
 
-## Description
+[English Version](/solution/2800-2899/2856.Minimum%20Array%20Length%20After%20Pair%20Removals/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>num</code> sorted in non-decreasing order.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的 <strong>非递减</strong> 整数数组&nbsp;<code>nums</code>&nbsp;。</p>
 
-<p>You can perform the following operation any number of times:</p>
+<p>你可以执行以下操作任意次：</p>
 
 <ul>
-	<li>Choose <strong>two</strong> indices, <code>i</code> and <code>j</code>, where <code>nums[i] &lt; nums[j]</code>.</li>
-	<li>Then, remove the elements at indices <code>i</code> and <code>j</code> from <code>nums</code>. The remaining elements retain their original order, and the array is re-indexed.</li>
+	<li>选择 <strong>两个&nbsp;</strong>下标&nbsp;<code>i</code> 和&nbsp;<code>j</code>&nbsp;，满足&nbsp;<code>nums[i] &lt; nums[j]</code>&nbsp;。</li>
+	<li>将 <code>nums</code>&nbsp;中下标在&nbsp;<code>i</code> 和&nbsp;<code>j</code>&nbsp;处的元素删除。剩余元素按照原来的顺序组成新的数组，下标也重新从 <strong>0</strong>&nbsp;开始编号。</li>
 </ul>
 
-<p>Return the <strong>minimum</strong> length of <code>nums</code> after applying the operation zero or more times.</p>
+<p>请你返回一个整数，表示执行以上操作任意次后（可以执行 <strong>0</strong> 次），<code>nums</code>&nbsp;数组的 <strong>最小</strong>&nbsp;数组长度。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4]</span></p>
+<p><strong>输入：</strong><span class="example-io">nums = [1,2,3,4]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong><span class="example-io">0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2856.Minimum%20Array%20Length%20After%20Pair%20Removals/images/tcase1.gif" style="width: 160px; height: 70px;" /></p>
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2856.Minimum%20Array%20Length%20After%20Pair%20Removals/images/1716779983-AHhkVn-tcase1.gif" style="width: 160px; height: 70px;" /></p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,1,2,2,3,3]</span></p>
+<p><strong>输入：</strong><span class="example-io">nums = [1,1,2,2,3,3]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong><span class="example-io">0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2856.Minimum%20Array%20Length%20After%20Pair%20Removals/images/tcase2.gif" style="width: 240px; height: 70px;" /></p>
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2856.Minimum%20Array%20Length%20After%20Pair%20Removals/images/1716779979-GyQhVf-tcase2.gif" style="width: 240px; height: 70px;" /></p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1000000000,1000000000]</span></p>
+<p><strong>输入：</strong><span class="example-io">nums = [1000000000,1000000000]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><strong>输出：</strong><span class="example-io">2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>Since both numbers are equal, they cannot be removed.</p>
+<p>由于两个数字相等，不能删除它们。</p>
 </div>
 
-<p><strong class="example">Example 4:</strong></p>
+<p><strong class="example">示例 4：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [2,3,4,4,4]</span></p>
+<p><strong>输入：</strong><span class="example-io">nums = [2,3,4,4,4]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
+<p><strong>输出：</strong><span class="example-io">1</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2856.Minimum%20Array%20Length%20After%20Pair%20Removals/images/tcase3.gif" style="width: 210px; height: 70px;" /></p>
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2856.Minimum%20Array%20Length%20After%20Pair%20Removals/images/1716779940-qRRlHk-tcase3.gif" style="width: 210px; height: 70px;" /></p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
-	<li><code>nums</code> is sorted in <strong>non-decreasing</strong> order.</li>
+	<li><code>nums</code>&nbsp;是 <strong>非递减</strong>&nbsp;数组。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Priority Queue (Max Heap)
+### 方法一：贪心 + 优先队列（大根堆）
 
-We use a hash table $cnt$ to count the occurrence of each element in the array $nums$, then add each value in $cnt$ to a priority queue (max heap) $pq$. Each time we take out two elements $x$ and $y$ from $pq$, decrease their values by one. If the value after decrement is still greater than $0$, we add the decremented value back to $pq$. Each time we take out two elements from $pq$, it means we delete a pair of numbers from the array, so the length of the array decreases by $2$. When the size of $pq$ is less than $2$, we stop the deletion operation.
+我们用一个哈希表 $cnt$ 统计数组 $nums$ 中每个元素的出现次数，然后将 $cnt$ 中的每个值加入一个优先队列（大根堆） $pq$ 中。每次从 $pq$ 中取出两个元素 $x$ 和 $y$，将它们的值减一，如果减一后的值仍大于 $0$，则将减一后的值重新加入 $pq$。每次从 $pq$ 中取出两个元素，表示将数组中的两个数对删除，因此数组的长度减少 $2$。当 $pq$ 的大小小于 $2$ 时，停止删除操作。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -235,27 +240,27 @@ func (h *hp) pop() int   { return heap.Pop(h).(int) }
 
 ```ts
 function minLengthAfterRemovals(nums: number[]): number {
-  const cnt: Map<number, number> = new Map();
-  for (const x of nums) {
-    cnt.set(x, (cnt.get(x) ?? 0) + 1);
-  }
-  const pq = new MaxPriorityQueue();
-  for (const [_, v] of cnt) {
-    pq.enqueue(v);
-  }
-  let ans = nums.length;
-  while (pq.size() > 1) {
-    let x = pq.dequeue().element;
-    let y = pq.dequeue().element;
-    if (--x > 0) {
-      pq.enqueue(x);
+    const cnt: Map<number, number> = new Map();
+    for (const x of nums) {
+        cnt.set(x, (cnt.get(x) ?? 0) + 1);
     }
-    if (--y > 0) {
-      pq.enqueue(y);
+    const pq = new MaxPriorityQueue();
+    for (const [_, v] of cnt) {
+        pq.enqueue(v);
     }
-    ans -= 2;
-  }
-  return ans;
+    let ans = nums.length;
+    while (pq.size() > 1) {
+        let x = pq.dequeue().element;
+        let y = pq.dequeue().element;
+        if (--x > 0) {
+            pq.enqueue(x);
+        }
+        if (--y > 0) {
+            pq.enqueue(y);
+        }
+        ans -= 2;
+    }
+    return ans;
 }
 ```
 

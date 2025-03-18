@@ -1,60 +1,63 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1277.Count%20Square%20Submatrices%20with%20All%20Ones/README.md
 rating: 1613
-source: Weekly Contest 165 Q3
+source: 第 165 场周赛 Q3
 tags:
-  - Array
-  - Dynamic Programming
-  - Matrix
+    - 数组
+    - 动态规划
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [1277. Count Square Submatrices with All Ones](https://leetcode.com/problems/count-square-submatrices-with-all-ones)
+# [1277. 统计全为 1 的正方形子矩阵](https://leetcode.cn/problems/count-square-submatrices-with-all-ones)
 
-## Description
+[English Version](/solution/1200-1299/1277.Count%20Square%20Submatrices%20with%20All%20Ones/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <code>m * n</code> matrix of ones and zeros, return how many <strong>square</strong> submatrices have all ones.</p>
+<p>给你一个&nbsp;<code>m * n</code>&nbsp;的矩阵，矩阵中的元素不是 <code>0</code> 就是 <code>1</code>，请你统计并返回其中完全由 <code>1</code> 组成的 <strong>正方形</strong> 子矩阵的个数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> matrix =
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>matrix =
 [
 &nbsp; [0,1,1,1],
 &nbsp; [1,1,1,1],
 &nbsp; [0,1,1,1]
 ]
-<strong>Output:</strong> 15
-<strong>Explanation:</strong> 
-There are <strong>10</strong> squares of side 1.
-There are <strong>4</strong> squares of side 2.
-There is  <strong>1</strong> square of side 3.
-Total number of squares = 10 + 4 + 1 = <strong>15</strong>.
+<strong>输出：</strong>15
+<strong>解释：</strong> 
+边长为 1 的正方形有 <strong>10</strong> 个。
+边长为 2 的正方形有 <strong>4</strong> 个。
+边长为 3 的正方形有 <strong>1</strong> 个。
+正方形的总数 = 10 + 4 + 1 = <strong>15</strong>.
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> matrix = 
+<pre><strong>输入：</strong>matrix = 
 [
   [1,0,1],
   [1,1,0],
   [1,1,0]
 ]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> 
-There are <b>6</b> squares of side 1.  
-There is <strong>1</strong> square of side 2. 
-Total number of squares = 6 + 1 = <b>7</b>.
+<strong>输出：</strong>7
+<strong>解释：</strong>
+边长为 1 的正方形有 <strong>6</strong> 个。 
+边长为 2 的正方形有 <strong>1</strong> 个。
+正方形的总数 = 6 + 1 = <strong>7</strong>.
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length&nbsp;&lt;= 300</code></li>
@@ -64,11 +67,11 @@ Total number of squares = 6 + 1 = <b>7</b>.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -173,22 +176,22 @@ func countSquares(matrix [][]int) int {
 
 ```ts
 function countSquares(matrix: number[][]): number {
-  const [m, n] = [matrix.length, matrix[0].length];
-  const f = Array.from({ length: m }, () => Array(n));
-  const dfs = (i: number, j: number): number => {
-    if (i === m || j === n || !matrix[i][j]) return 0;
-    f[i][j] ??= 1 + Math.min(dfs(i + 1, j), dfs(i, j + 1), dfs(i + 1, j + 1));
-    return f[i][j];
-  };
-  let ans = 0;
+    const [m, n] = [matrix.length, matrix[0].length];
+    const f = Array.from({ length: m }, () => Array(n));
+    const dfs = (i: number, j: number): number => {
+        if (i === m || j === n || !matrix[i][j]) return 0;
+        f[i][j] ??= 1 + Math.min(dfs(i + 1, j), dfs(i, j + 1), dfs(i + 1, j + 1));
+        return f[i][j];
+    };
+    let ans = 0;
 
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      ans += dfs(i, j);
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            ans += dfs(i, j);
+        }
     }
-  }
 
-  return ans;
+    return ans;
 }
 ```
 
@@ -196,22 +199,22 @@ function countSquares(matrix: number[][]): number {
 
 ```js
 function countSquares(matrix) {
-  const [m, n] = [matrix.length, matrix[0].length];
-  const f = Array.from({ length: m }, () => Array(n));
-  const dfs = (i, j) => {
-    if (i === m || j === n || !matrix[i][j]) return 0;
-    f[i][j] ??= 1 + Math.min(dfs(i + 1, j), dfs(i, j + 1), dfs(i + 1, j + 1));
-    return f[i][j];
-  };
-  let ans = 0;
+    const [m, n] = [matrix.length, matrix[0].length];
+    const f = Array.from({ length: m }, () => Array(n));
+    const dfs = (i, j) => {
+        if (i === m || j === n || !matrix[i][j]) return 0;
+        f[i][j] ??= 1 + Math.min(dfs(i + 1, j), dfs(i, j + 1), dfs(i + 1, j + 1));
+        return f[i][j];
+    };
+    let ans = 0;
 
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      ans += dfs(i, j);
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            ans += dfs(i, j);
+        }
     }
-  }
 
-  return ans;
+    return ans;
 }
 ```
 

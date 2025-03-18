@@ -1,95 +1,112 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1945.Sum%20of%20Digits%20of%20String%20After%20Convert/README.md
 rating: 1254
-source: Weekly Contest 251 Q1
+source: 第 251 场周赛 Q1
 tags:
-  - String
-  - Simulation
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1945. Sum of Digits of String After Convert](https://leetcode.com/problems/sum-of-digits-of-string-after-convert)
+# [1945. 字符串转化后的各位数字之和](https://leetcode.cn/problems/sum-of-digits-of-string-after-convert)
 
-## Description
+[English Version](/solution/1900-1999/1945.Sum%20of%20Digits%20of%20String%20After%20Convert/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> consisting of lowercase English letters, and an integer <code>k</code>. Your task is to <em>convert</em> the string into an integer by a special process, and then <em>transform</em> it by summing its digits repeatedly <code>k</code> times. More specifically, perform the following steps:</p>
+<p>给你一个由小写字母组成的字符串 <code>s</code> ，以及一个整数 <code>k</code> 。你的任务是通过一种特殊处理将字符串转为整数，然后通过重复对它的数位求和&nbsp;<code>k</code> 次来进行转换。更具体地说，执行以下步骤：</p>
 
 <ol>
-	<li><strong>Convert</strong> <code>s</code> into an integer by replacing each letter with its position in the alphabet (i.e.&nbsp;replace <code>&#39;a&#39;</code> with <code>1</code>, <code>&#39;b&#39;</code> with <code>2</code>, ..., <code>&#39;z&#39;</code> with <code>26</code>).</li>
-	<li><strong>T</strong><strong>ransform</strong> the integer by replacing it with the <strong>sum of its digits</strong>.</li>
-	<li>Repeat the <strong>transform</strong> operation (step 2) <code>k</code><strong> times</strong> in total.</li>
+	<li>用字母在字母表中的位置&nbsp;<strong>替换&nbsp;</strong>该字母，将 <code>s</code> <strong>转化</strong> 为一个整数（也就是，<code>'a'</code> 用 <code>1</code> 替换，<code>'b'</code> 用 <code>2</code> 替换，... <code>'z'</code> 用 <code>26</code> 替换）。</li>
+	<li>接着，将整数 <strong>转换</strong> 为其 <strong>各位数字之和</strong> 。</li>
+	<li>共重复 <strong>转换</strong> 操作（第 2 步）&nbsp;<code>k</code><strong> 次</strong> 。</li>
 </ol>
 
-<p>For example, if <code>s = &quot;zbax&quot;</code> and <code>k = 2</code>, then the resulting integer would be <code>8</code> by the following operations:</p>
+<p>例如，如果 <code>s = "zbax"</code> 且 <code>k = 2</code> ，那么执行下述步骤后得到的结果是整数 <code>8</code> ：</p>
 
-<ol>
-	<li><strong>Convert</strong>: <code>&quot;zbax&quot; ➝ &quot;(26)(2)(1)(24)&quot; ➝ &quot;262124&quot; ➝ 262124</code></li>
-	<li><strong>Transform #1</strong>: <code>262124 ➝ 2 + 6 + 2 + 1 + 2 + 4 ➝ 17</code></li>
-	<li><strong>Transform #2</strong>: <code>17 ➝ 1 + 7 ➝ 8</code></li>
-</ol>
+<ul>
+	<li><strong>转化：</strong><code>"zbax" ➝ "(26)(2)(1)(24)" ➝ "262124" ➝ 262124</code></li>
+	<li><strong>转换 #1</strong>：<code>262124&nbsp;➝ 2 + 6 + 2 + 1 + 2 + 4&nbsp;➝ 17</code></li>
+	<li><strong>转换 #2</strong>：<code>17 ➝ 1 + 7 ➝ 8</code></li>
+</ul>
 
-<p>Return the <strong>resulting</strong> <strong>integer</strong> after performing the <strong>operations</strong> described above.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;iiii&quot;, k = 1</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">36</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The operations are as follows:<br />
-- Convert: &quot;iiii&quot; ➝ &quot;(9)(9)(9)(9)&quot; ➝ &quot;9999&quot; ➝ 9999<br />
-- Transform #1: 9999 ➝ 9 + 9 + 9 + 9 ➝ 36<br />
-Thus the resulting integer is 36.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;leetcode&quot;, k = 2</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">6</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The operations are as follows:<br />
-- Convert: &quot;leetcode&quot; ➝ &quot;(12)(5)(5)(20)(3)(15)(4)(5)&quot; ➝ &quot;12552031545&quot; ➝ 12552031545<br />
-- Transform #1: 12552031545 ➝ 1 + 2 + 5 + 5 + 2 + 0 + 3 + 1 + 5 + 4 + 5 ➝ 33<br />
-- Transform #2: 33 ➝ 3 + 3 ➝ 6<br />
-Thus the resulting integer is 6.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;zbax&quot;, k = 2</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">8</span></p>
-</div>
+<p>返回执行上述 <strong>操作</strong> 后得到的 <strong>结果整数</strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<div class="example-block"><strong>输入：</strong>s = "iiii", k = 1</div>
+
+<div class="example-block"><strong>输出：</strong>36</div>
+
+<div class="example-block"><strong>解释：</strong></div>
+
+<div class="example-block">操作如下：</div>
+
+<ul>
+	<li class="example-block">转化："iiii" ➝ "(9)(9)(9)(9)" ➝ "9999" ➝ 9999</li>
+	<li class="example-block">转换 #1：9999 ➝ 9 + 9 + 9 + 9 ➝ 36</li>
+</ul>
+
+<div class="example-block">因此，结果整数为 36 。</div>
+
+<div class="example-block">&nbsp;</div>
+
+<p><strong>示例 2：</strong></p>
+
+<div class="example-block"><strong>输入：</strong>s = "leetcode", k = 2</div>
+
+<div class="example-block"><strong>输出：</strong>6</div>
+
+<div class="example-block"><strong>解释：</strong></div>
+
+<div class="example-block">操作如下：</div>
+
+<ul>
+	<li class="example-block">转化："leetcode" ➝ "(12)(5)(5)(20)(3)(15)(4)(5)" ➝ "12552031545" ➝ 12552031545</li>
+	<li class="example-block">转换 #1：12552031545 ➝ 1 + 2 + 5 + 5 + 2 + 0 + 3 + 1 + 5 + 4 + 5 ➝ 33</li>
+	<li class="example-block">转换 #2：33 ➝ 3 + 3 ➝ 6</li>
+</ul>
+
+<p class="example-block">因此，结果整数为 6 。</p>
+
+<p class="example-block">&nbsp;</p>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">s = "zbax", k = 2</span></p>
+
+<p><span class="example-io"><b>输出：</b>8</span></p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
 	<li><code>1 &lt;= k &lt;= 10</code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code> 由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+根据题目描述进行模拟即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -134,11 +151,15 @@ class Solution {
 public:
     int getLucky(string s, int k) {
         string t;
-        for (char c : s) t += to_string(c - 'a' + 1);
+        for (char c : s) {
+            t += to_string(c - 'a' + 1);
+        }
         s = t;
         while (k--) {
             int t = 0;
-            for (char c : s) t += c - '0';
+            for (char c : s) {
+                t += c - '0';
+            }
             s = to_string(t);
         }
         return stoi(s);
@@ -172,18 +193,18 @@ func getLucky(s string, k int) int {
 
 ```ts
 function getLucky(s: string, k: number): number {
-  let ans = "";
-  for (const c of s) {
-    ans += c.charCodeAt(0) - "a".charCodeAt(0) + 1;
-  }
-  for (let i = 0; i < k; i++) {
-    let t = 0;
-    for (const v of ans) {
-      t += Number(v);
+    let ans = '';
+    for (const c of s) {
+        ans += c.charCodeAt(0) - 'a'.charCodeAt(0) + 1;
     }
-    ans = `${t}`;
-  }
-  return Number(ans);
+    for (let i = 0; i < k; i++) {
+        let t = 0;
+        for (const v of ans) {
+            t += Number(v);
+        }
+        ans = `${t}`;
+    }
+    return Number(ans);
 }
 ```
 

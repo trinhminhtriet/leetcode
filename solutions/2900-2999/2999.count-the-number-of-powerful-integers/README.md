@@ -1,75 +1,80 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2999.Count%20the%20Number%20of%20Powerful%20Integers/README.md
 rating: 2351
-source: Biweekly Contest 121 Q4
+source: 第 121 场双周赛 Q4
 tags:
-  - Math
-  - String
-  - Dynamic Programming
+    - 数学
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2999. Count the Number of Powerful Integers](https://leetcode.com/problems/count-the-number-of-powerful-integers)
+# [2999. 统计强大整数的数目](https://leetcode.cn/problems/count-the-number-of-powerful-integers)
 
-## Description
+[English Version](/solution/2900-2999/2999.Count%20the%20Number%20of%20Powerful%20Integers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given three integers <code>start</code>, <code>finish</code>, and <code>limit</code>. You are also given a <strong>0-indexed</strong> string <code>s</code> representing a <strong>positive</strong> integer.</p>
+<p>给你三个整数&nbsp;<code>start</code>&nbsp;，<code>finish</code>&nbsp;和&nbsp;<code>limit</code>&nbsp;。同时给你一个下标从&nbsp;<strong>0</strong>&nbsp;开始的字符串&nbsp;<code>s</code>&nbsp;，表示一个 <strong>正</strong>&nbsp;整数。</p>
 
-<p>A <strong>positive</strong> integer <code>x</code> is called <strong>powerful</strong> if it ends with <code>s</code> (in other words, <code>s</code> is a <strong>suffix</strong> of <code>x</code>) and each digit in <code>x</code> is at most <code>limit</code>.</p>
+<p>如果一个 <strong>正</strong>&nbsp;整数&nbsp;<code>x</code> 末尾部分是&nbsp;<code>s</code>&nbsp;（换句话说，<code>s</code>&nbsp;是 <code>x</code>&nbsp;的 <strong>后缀</strong>），且 <code>x</code>&nbsp;中的每个数位至多是 <code>limit</code>&nbsp;，那么我们称 <code>x</code>&nbsp;是 <strong>强大的</strong>&nbsp;。</p>
 
-<p>Return <em>the <strong>total</strong> number of powerful integers in the range</em> <code>[start..finish]</code>.</p>
+<p>请你返回区间&nbsp;<code>[start..finish]</code>&nbsp;内强大整数的&nbsp;<strong>总数目</strong>&nbsp;。</p>
 
-<p>A string <code>x</code> is a suffix of a string <code>y</code> if and only if <code>x</code> is a substring of <code>y</code> that starts from some index (<strong>including </strong><code>0</code>) in <code>y</code> and extends to the index <code>y.length - 1</code>. For example, <code>25</code> is a suffix of <code>5125</code> whereas <code>512</code> is not.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> start = 1, finish = 6000, limit = 4, s = &quot;124&quot;
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The powerful integers in the range [1..6000] are 124, 1124, 2124, 3124, and, 4124. All these integers have each digit &lt;= 4, and &quot;124&quot; as a suffix. Note that 5124 is not a powerful integer because the first digit is 5 which is greater than 4.
-It can be shown that there are only 5 powerful integers in this range.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> start = 15, finish = 215, limit = 6, s = &quot;10&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The powerful integers in the range [15..215] are 110 and 210. All these integers have each digit &lt;= 6, and &quot;10&quot; as a suffix.
-It can be shown that there are only 2 powerful integers in this range.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> start = 1000, finish = 2000, limit = 4, s = &quot;3000&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> All integers in the range [1000..2000] are smaller than 3000, hence &quot;3000&quot; cannot be a suffix of any integer in this range.
-</pre>
+<p>如果一个字符串 <code>x</code>&nbsp;是 <code>y</code>&nbsp;中某个下标开始（<strong>包括</strong>&nbsp;<code>0</code>&nbsp;），到下标为&nbsp;<code>y.length - 1</code>&nbsp;结束的子字符串，那么我们称&nbsp;<code>x</code>&nbsp;是&nbsp;<code>y</code>&nbsp;的一个后缀。比方说，<code>25</code>&nbsp;是&nbsp;<code>5125</code>&nbsp;的一个后缀，但不是&nbsp;<code>512</code>&nbsp;的后缀。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>start = 1, finish = 6000, limit = 4, s = "124"
+<b>输出：</b>5
+<b>解释：</b>区间 [1..6000] 内的强大数字为 124 ，1124 ，2124 ，3124 和 4124 。这些整数的各个数位都 &lt;= 4 且 "124" 是它们的后缀。注意 5124 不是强大整数，因为第一个数位 5 大于 4 。
+这个区间内总共只有这 5 个强大整数。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>start = 15, finish = 215, limit = 6, s = "10"
+<b>输出：</b>2
+<b>解释：</b>区间 [15..215] 内的强大整数为 110 和 210 。这些整数的各个数位都 &lt;= 6 且 "10" 是它们的后缀。
+这个区间总共只有这 2 个强大整数。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>start = 1000, finish = 2000, limit = 4, s = "3000"
+<b>输出：</b>0
+<b>解释：</b>区间 [1000..2000] 内的整数都小于 3000 ，所以 "3000" 不可能是这个区间内任何整数的后缀。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= start &lt;= finish &lt;= 10<sup>15</sup></code></li>
 	<li><code>1 &lt;= limit &lt;= 9</code></li>
 	<li><code>1 &lt;= s.length &lt;= floor(log<sub>10</sub>(finish)) + 1</code></li>
-	<li><code>s</code> only consists of numeric digits which are at most <code>limit</code>.</li>
-	<li><code>s</code> does not have leading zeros.</li>
+	<li><code>s</code>&nbsp;数位中每个数字都小于等于&nbsp;<code>limit</code>&nbsp;。</li>
+	<li><code>s</code>&nbsp;不包含任何前导 0 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -240,47 +245,42 @@ func numberOfPowerfulInt(start, finish int64, limit int, s string) int64 {
 #### TypeScript
 
 ```ts
-function numberOfPowerfulInt(
-  start: number,
-  finish: number,
-  limit: number,
-  s: string
-): number {
-  let t: string = (start - 1).toString();
-  let f: number[] = Array(20).fill(-1);
+function numberOfPowerfulInt(start: number, finish: number, limit: number, s: string): number {
+    let t: string = (start - 1).toString();
+    let f: number[] = Array(20).fill(-1);
 
-  const dfs = (pos: number, lim: boolean): number => {
-    if (t.length < s.length) {
-      return 0;
-    }
-    if (!lim && f[pos] !== -1) {
-      return f[pos];
-    }
-    if (t.length - pos === s.length) {
-      if (lim) {
-        return s <= t.substring(pos) ? 1 : 0;
-      }
-      return 1;
-    }
+    const dfs = (pos: number, lim: boolean): number => {
+        if (t.length < s.length) {
+            return 0;
+        }
+        if (!lim && f[pos] !== -1) {
+            return f[pos];
+        }
+        if (t.length - pos === s.length) {
+            if (lim) {
+                return s <= t.substring(pos) ? 1 : 0;
+            }
+            return 1;
+        }
 
-    let ans: number = 0;
-    const up: number = Math.min(lim ? +t[pos] : 9, limit);
-    for (let i = 0; i <= up; i++) {
-      ans += dfs(pos + 1, lim && i === +t[pos]);
-    }
+        let ans: number = 0;
+        const up: number = Math.min(lim ? +t[pos] : 9, limit);
+        for (let i = 0; i <= up; i++) {
+            ans += dfs(pos + 1, lim && i === +t[pos]);
+        }
 
-    if (!lim) {
-      f[pos] = ans;
-    }
-    return ans;
-  };
+        if (!lim) {
+            f[pos] = ans;
+        }
+        return ans;
+    };
 
-  const a: number = dfs(0, true);
-  t = finish.toString();
-  f = Array(20).fill(-1);
-  const b: number = dfs(0, true);
+    const a: number = dfs(0, true);
+    t = finish.toString();
+    f = Array(20).fill(-1);
+    const b: number = dfs(0, true);
 
-  return b - a;
+    return b - a;
 }
 ```
 

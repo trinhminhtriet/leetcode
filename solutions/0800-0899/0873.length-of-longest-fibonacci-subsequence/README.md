@@ -1,71 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0873.Length%20of%20Longest%20Fibonacci%20Subsequence/README.md
 tags:
-  - Array
-  - Hash Table
-  - Dynamic Programming
+    - 数组
+    - 哈希表
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [873. Length of Longest Fibonacci Subsequence](https://leetcode.com/problems/length-of-longest-fibonacci-subsequence)
+# [873. 最长的斐波那契子序列的长度](https://leetcode.cn/problems/length-of-longest-fibonacci-subsequence)
 
-## Description
+[English Version](/solution/0800-0899/0873.Length%20of%20Longest%20Fibonacci%20Subsequence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A sequence <code>x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub></code> is <em>Fibonacci-like</em> if:</p>
+<p>如果序列 <code>X_1, X_2, ..., X_n</code> 满足下列条件，就说它是 <em>斐波那契式 </em>的：</p>
 
 <ul>
-	<li><code>n &gt;= 3</code></li>
-	<li><code>x<sub>i</sub> + x<sub>i+1</sub> == x<sub>i+2</sub></code> for all <code>i + 2 &lt;= n</code></li>
+	<li><code>n >= 3</code></li>
+	<li>对于所有 <code>i + 2 <= n</code>，都有 <code>X_i + X_{i+1} = X_{i+2}</code></li>
 </ul>
 
-<p>Given a <b>strictly increasing</b> array <code>arr</code> of positive integers forming a sequence, return <em>the <strong>length</strong> of the longest Fibonacci-like subsequence of</em> <code>arr</code>. If one does not exist, return <code>0</code>.</p>
+<p>给定一个<strong>严格递增</strong>的正整数数组形成序列 arr ，找到 <font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.600000381469727px"><span style="caret-color:#c7254e"><span style="background-color:#f9f2f4">arr</span></span></span></font></font> 中最长的斐波那契式的子序列的长度。如果一个不存在，返回  0 。</p>
 
-<p>A <strong>subsequence</strong> is derived from another sequence <code>arr</code> by deleting any number of elements (including none) from <code>arr</code>, without changing the order of the remaining elements. For example, <code>[3, 5, 8]</code> is a subsequence of <code>[3, 4, 5, 6, 7, 8]</code>.</p>
+<p><em>（回想一下，子序列是从原序列 <font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.600000381469727px"><span style="caret-color:#c7254e"><span style="background-color:#f9f2f4">arr</span></span></span></font></font> 中派生出来的，它从 <font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.600000381469727px"><span style="caret-color:#c7254e"><span style="background-color:#f9f2f4">arr</span></span></span></font></font> 中删掉任意数量的元素（也可以不删），而不改变其余元素的顺序。例如， <code>[3, 5, 8]</code> 是 <code>[3, 4, 5, 6, 7, 8]</code> 的一个子序列）</em></p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1,2,3,4,5,6,7,8]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The longest subsequence that is fibonacci-like: [1,2,3,5,8].</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1,3,7,11,12,14,18]
-<strong>Output:</strong> 3
-<strong>Explanation</strong>:<strong> </strong>The longest subsequence that is fibonacci-like: [1,11,12], [3,11,14] or [7,11,18].</pre>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
 
 <ul>
-	<li><code>3 &lt;= arr.length &lt;= 1000</code></li>
-	<li><code>1 &lt;= arr[i] &lt; arr[i + 1] &lt;= 10<sup>9</sup></code></li>
+</ul>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入: </strong>arr =<strong> </strong>[1,2,3,4,5,6,7,8]
+<strong>输出: </strong>5
+<strong>解释: </strong>最长的斐波那契式子序列为 [1,2,3,5,8] 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入: </strong>arr =<strong> </strong>[1,3,7,11,12,14,18]
+<strong>输出: </strong>3
+<strong>解释</strong>: 最长的斐波那契式子序列有 [1,11,12]、[3,11,14] 以及 [7,11,18] 。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
+
+<ul>
+	<li><code>3 <= arr.length <= 1000</code></li>
+	<li>
+	<p><code>1 <= arr[i] < arr[i + 1] <= 10^9</code></p>
+	</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ as the length of the longest Fibonacci-like subsequence, with $\textit{arr}[i]$ as the last element and $\textit{arr}[j]$ as the second to last element. Initially, for any $i \in [0, n)$ and $j \in [0, i)$, we have $f[i][j] = 2$. All other elements are $0$.
+我们定义 $f[i][j]$ 表示以 $\textit{arr}[i]$ 作为最后一个元素，以 $\textit{arr}[j]$ 作为倒数第二个元素的最长斐波那契子序列的长度。初始时，对于任意的 $i \in [0, n)$ 和 $j \in [0, i)$，都有 $f[i][j] = 2$。其余的元素都是 $0$。
 
-We use a hash table $d$ to record the indices of each element in the array $\textit{arr}$.
+我们用一个哈希表 $d$ 记录数组 $\textit{arr}$ 中每个元素对应的下标。
 
-Then, we can enumerate $\textit{arr}[i]$ and $\textit{arr}[j]$, where $i \in [2, n)$ and $j \in [1, i)$. Suppose the currently enumerated elements are $\textit{arr}[i]$ and $\textit{arr}[j]$, we can obtain $\textit{arr}[i] - \textit{arr}[j]$, denoted as $t$. If $t$ is in the array $\textit{arr}$, and the index $k$ of $t$ satisfies $k < j$, then we can get a Fibonacci-like subsequence with $\textit{arr}[j]$ and $\textit{arr}[i]$ as the last two elements, and its length is $f[i][j] = \max(f[i][j], f[j][k] + 1)$. We can continuously update the value of $f[i][j]$ in this way, and then update the answer.
+然后，我们可以枚举 $\textit{arr}[i]$ 和 $\textit{arr}[j]$，其中 $i \in [2, n)$ 且 $j \in [1, i)$。假设当前枚举到的元素是 $\textit{arr}[i]$ 和 $\textit{arr}[j]$，我们可以得到 $\textit{arr}[i] - \textit{arr}[j]$，记作 $t$。如果 $t$ 在数组 $\textit{arr}$ 中，且 $t$ 的下标 $k$ 满足 $k < j$，那么我们可以得到一个以 $\textit{arr}[j]$ 和 $\textit{arr}[i]$ 作为最后两个元素的斐波那契子序列，其长度为 $f[i][j] = \max(f[i][j], f[j][k] + 1)$。我们可以用这种方法不断更新 $f[i][j]$ 的值，然后更新答案。
 
-After the enumeration ends, return the answer.
+枚举结束后，返回答案即可。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$, where $n$ is the length of the array $\textit{arr}$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是数组 $\textit{arr}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -190,27 +202,27 @@ func lenLongestFibSubseq(arr []int) (ans int) {
 
 ```ts
 function lenLongestFibSubseq(arr: number[]): number {
-  const n = arr.length;
-  const f: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
-  const d: Map<number, number> = new Map();
-  for (let i = 0; i < n; ++i) {
-    d.set(arr[i], i);
-    for (let j = 0; j < i; ++j) {
-      f[i][j] = 2;
+    const n = arr.length;
+    const f: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
+    const d: Map<number, number> = new Map();
+    for (let i = 0; i < n; ++i) {
+        d.set(arr[i], i);
+        for (let j = 0; j < i; ++j) {
+            f[i][j] = 2;
+        }
     }
-  }
-  let ans = 0;
-  for (let i = 2; i < n; ++i) {
-    for (let j = 1; j < i; ++j) {
-      const t = arr[i] - arr[j];
-      const k = d.get(t);
-      if (k !== undefined && k < j) {
-        f[i][j] = Math.max(f[i][j], f[j][k] + 1);
-        ans = Math.max(ans, f[i][j]);
-      }
+    let ans = 0;
+    for (let i = 2; i < n; ++i) {
+        for (let j = 1; j < i; ++j) {
+            const t = arr[i] - arr[j];
+            const k = d.get(t);
+            if (k !== undefined && k < j) {
+                f[i][j] = Math.max(f[i][j], f[j][k] + 1);
+                ans = Math.max(ans, f[i][j]);
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -254,27 +266,27 @@ impl Solution {
  * @return {number}
  */
 var lenLongestFibSubseq = function (arr) {
-  const n = arr.length;
-  const f = Array.from({ length: n }, () => Array(n).fill(0));
-  const d = new Map();
-  for (let i = 0; i < n; ++i) {
-    d.set(arr[i], i);
-    for (let j = 0; j < i; ++j) {
-      f[i][j] = 2;
+    const n = arr.length;
+    const f = Array.from({ length: n }, () => Array(n).fill(0));
+    const d = new Map();
+    for (let i = 0; i < n; ++i) {
+        d.set(arr[i], i);
+        for (let j = 0; j < i; ++j) {
+            f[i][j] = 2;
+        }
     }
-  }
-  let ans = 0;
-  for (let i = 2; i < n; ++i) {
-    for (let j = 1; j < i; ++j) {
-      const t = arr[i] - arr[j];
-      const k = d.get(t);
-      if (k !== undefined && k < j) {
-        f[i][j] = Math.max(f[i][j], f[j][k] + 1);
-        ans = Math.max(ans, f[i][j]);
-      }
+    let ans = 0;
+    for (let i = 2; i < n; ++i) {
+        for (let j = 1; j < i; ++j) {
+            const t = arr[i] - arr[j];
+            const k = d.get(t);
+            if (k !== undefined && k < j) {
+                f[i][j] = Math.max(f[i][j], f[j][k] + 1);
+                ans = Math.max(ans, f[i][j]);
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 

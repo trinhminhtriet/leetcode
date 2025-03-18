@@ -1,52 +1,54 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2469.Convert%20the%20Temperature/README.md
 rating: 1153
-source: Weekly Contest 319 Q1
+source: 第 319 场周赛 Q1
 tags:
-  - Math
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2469. Convert the Temperature](https://leetcode.com/problems/convert-the-temperature)
+# [2469. 温度转换](https://leetcode.cn/problems/convert-the-temperature)
 
-## Description
+[English Version](/solution/2400-2499/2469.Convert%20the%20Temperature/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a non-negative floating point number rounded to two decimal places <code>celsius</code>, that denotes the <strong>temperature in Celsius</strong>.</p>
+<p>给你一个四舍五入到两位小数的非负浮点数 <code>celsius</code> 来表示温度，以 <strong>摄氏度</strong>（<strong>Celsius</strong>）为单位。</p>
 
-<p>You should convert Celsius into <strong>Kelvin</strong> and <strong>Fahrenheit</strong> and return it as an array <code>ans = [kelvin, fahrenheit]</code>.</p>
+<p>你需要将摄氏度转换为 <strong>开氏度</strong>（<strong>Kelvin</strong>）和 <strong>华氏度</strong>（<strong>Fahrenheit</strong>），并以数组 <code>ans = [kelvin, fahrenheit]</code> 的形式返回结果。</p>
 
-<p>Return <em>the array <code>ans</code>. </em>Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</p>
+<p>返回数组<em> <code>ans</code></em> 。与实际答案误差不超过 <code>10<sup>-5</sup></code> 的会视为正确答案<strong>。</strong></p>
 
-<p><strong>Note that:</strong></p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li><code>Kelvin = Celsius + 273.15</code></li>
-	<li><code>Fahrenheit = Celsius * 1.80 + 32.00</code></li>
+	<li><code>开氏度 = 摄氏度 + 273.15</code></li>
+	<li><code>华氏度 = 摄氏度 * 1.80 + 32.00</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> celsius = 36.50
-<strong>Output:</strong> [309.65000,97.70000]
-<strong>Explanation:</strong> Temperature at 36.50 Celsius converted in Kelvin is 309.65 and converted in Fahrenheit is 97.70.
-</pre>
+<p><strong>示例 1 ：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><strong>输入：</strong>celsius = 36.50
+<strong>输出：</strong>[309.65000,97.70000]
+<strong>解释：</strong>36.50 摄氏度：转换为开氏度是 309.65 ，转换为华氏度是 97.70 。</pre>
 
-<pre>
-<strong>Input:</strong> celsius = 122.11
-<strong>Output:</strong> [395.26000,251.79800]
-<strong>Explanation:</strong> Temperature at 122.11 Celsius converted in Kelvin is 395.26 and converted in Fahrenheit is 251.798.
+<p><strong>示例 2 ：</strong></p>
+
+<pre><strong>输入：</strong>celsius = 122.11
+<strong>输出：</strong>[395.26000,251.79800]
+<strong>解释：</strong>122.11 摄氏度：转换为开氏度是 395.26 ，转换为华氏度是 251.798 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= celsius &lt;= 1000</code></li>
@@ -54,15 +56,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can directly simulate according to the problem description.
+直接根据题意模拟即可。
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -107,7 +109,7 @@ func convertTemperature(celsius float64) []float64 {
 
 ```ts
 function convertTemperature(celsius: number): number[] {
-  return [celsius + 273.15, celsius * 1.8 + 32];
+    return [celsius + 273.15, celsius * 1.8 + 32];
 }
 ```
 

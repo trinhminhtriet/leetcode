@@ -1,64 +1,73 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0052.N-Queens%20II/README.md
 tags:
-  - Backtracking
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [52. N-Queens II](https://leetcode.com/problems/n-queens-ii)
+# [52. N 皇后 II](https://leetcode.cn/problems/n-queens-ii)
 
-## Description
+[English Version](/solution/0000-0099/0052.N-Queens%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <strong>n-queens</strong> puzzle is the problem of placing <code>n</code> queens on an <code>n x n</code> chessboard such that no two queens attack each other.</p>
+<p><strong>n&nbsp;皇后问题</strong> 研究的是如何将 <code>n</code>&nbsp;个皇后放置在 <code>n × n</code> 的棋盘上，并且使皇后彼此之间不能相互攻击。</p>
 
-<p>Given an integer <code>n</code>, return <em>the number of distinct solutions to the&nbsp;<strong>n-queens puzzle</strong></em>.</p>
+<p>给你一个整数 <code>n</code> ，返回 <strong>n 皇后问题</strong> 不同的解决方案的数量。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<div class="original__bRMd">
+<div>
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0052.N-Queens%20II/images/queens.jpg" style="width: 600px; height: 268px;" />
 <pre>
-<strong>Input:</strong> n = 4
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> There are two distinct solutions to the 4-queens puzzle as shown.
+<strong>输入：</strong>n = 4
+<strong>输出：</strong>2
+<strong>解释：</strong>如上图所示，4 皇后问题存在两个不同的解法。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 1
-<strong>Output:</strong> 1
+<strong>输入：</strong>n = 1
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 9</code></li>
 </ul>
+</div>
+</div>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Backtracking
+### 方法一：回溯
 
-We design a function $dfs(i)$, which represents starting the search from the $i$th row, and the results of the search are added to the answer.
+我们设计一个函数 $dfs(i)$，表示从第 $i$ 行开始搜索，搜索到的结果累加到答案中。
 
-In the $i$th row, we enumerate each column of the $i$th row. If the current column does not conflict with the queens placed before, then we can place a queen, and then continue to search the next row, that is, call $dfs(i + 1)$.
+在第 $i$ 行，我们枚举第 $i$ 行的每一列，如果当前列不与前面已经放置的皇后发生冲突，那么我们就可以放置一个皇后，然后继续搜索下一行，即调用 $dfs(i + 1)$。
 
-If a conflict occurs, then we skip the current column and continue to enumerate the next column.
+如果发生冲突，那么我们就跳过当前列，继续枚举下一列。
 
-To determine whether a conflict occurs, we need to use three arrays to record whether a queen has been placed in each column, each positive diagonal, and each negative diagonal, respectively.
+判断是否发生冲突，我们需要用三个数组分别记录每一列、每一条正对角线、每一条反对角线是否已经放置了皇后。
 
-Specifically, we use the $cols$ array to record whether a queen has been placed in each column, the $dg$ array to record whether a queen has been placed in each positive diagonal, and the $udg$ array to record whether a queen has been placed in each negative diagonal.
+具体地，我们用 $cols$ 数组记录每一列是否已经放置了皇后，用 $dg$ 数组记录每一条正对角线是否已经放置了皇后，用 $udg$ 数组记录每一条反对角线是否已经放置了皇后。
 
-The time complexity is $O(n!)$, and the space complexity is $O(n)$. Here, $n$ is the number of queens.
+时间复杂度 $O(n!)$，空间复杂度 $O(n)$。其中 $n$ 是皇后的数量。
 
 <!-- tabs:start -->
 
@@ -187,27 +196,27 @@ func totalNQueens(n int) (ans int) {
 
 ```ts
 function totalNQueens(n: number): number {
-  const cols: boolean[] = Array(10).fill(false);
-  const dg: boolean[] = Array(20).fill(false);
-  const udg: boolean[] = Array(20).fill(false);
-  let ans = 0;
-  const dfs = (i: number) => {
-    if (i === n) {
-      ++ans;
-      return;
-    }
-    for (let j = 0; j < n; ++j) {
-      let [a, b] = [i + j, i - j + n];
-      if (cols[j] || dg[a] || udg[b]) {
-        continue;
-      }
-      cols[j] = dg[a] = udg[b] = true;
-      dfs(i + 1);
-      cols[j] = dg[a] = udg[b] = false;
-    }
-  };
-  dfs(0);
-  return ans;
+    const cols: boolean[] = Array(10).fill(false);
+    const dg: boolean[] = Array(20).fill(false);
+    const udg: boolean[] = Array(20).fill(false);
+    let ans = 0;
+    const dfs = (i: number) => {
+        if (i === n) {
+            ++ans;
+            return;
+        }
+        for (let j = 0; j < n; ++j) {
+            let [a, b] = [i + j, i - j + n];
+            if (cols[j] || dg[a] || udg[b]) {
+                continue;
+            }
+            cols[j] = dg[a] = udg[b] = true;
+            dfs(i + 1);
+            cols[j] = dg[a] = udg[b] = false;
+        }
+    };
+    dfs(0);
+    return ans;
 }
 ```
 
@@ -215,27 +224,27 @@ function totalNQueens(n: number): number {
 
 ```js
 function totalNQueens(n) {
-  const cols = Array(10).fill(false);
-  const dg = Array(20).fill(false);
-  const udg = Array(20).fill(false);
-  let ans = 0;
-  const dfs = (i) => {
-    if (i === n) {
-      ++ans;
-      return;
-    }
-    for (let j = 0; j < n; ++j) {
-      let [a, b] = [i + j, i - j + n];
-      if (cols[j] || dg[a] || udg[b]) {
-        continue;
-      }
-      cols[j] = dg[a] = udg[b] = true;
-      dfs(i + 1);
-      cols[j] = dg[a] = udg[b] = false;
-    }
-  };
-  dfs(0);
-  return ans;
+    const cols = Array(10).fill(false);
+    const dg = Array(20).fill(false);
+    const udg = Array(20).fill(false);
+    let ans = 0;
+    const dfs = i => {
+        if (i === n) {
+            ++ans;
+            return;
+        }
+        for (let j = 0; j < n; ++j) {
+            let [a, b] = [i + j, i - j + n];
+            if (cols[j] || dg[a] || udg[b]) {
+                continue;
+            }
+            cols[j] = dg[a] = udg[b] = true;
+            dfs(i + 1);
+            cols[j] = dg[a] = udg[b] = false;
+        }
+    };
+    dfs(0);
+    return ans;
 }
 ```
 

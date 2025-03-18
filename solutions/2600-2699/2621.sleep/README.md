@@ -1,43 +1,49 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2621.Sleep/README.md
 tags:
-  - JavaScript
+    - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2621. Sleep](https://leetcode.com/problems/sleep)
+# [2621. 睡眠函数](https://leetcode.cn/problems/sleep)
 
-## Description
+[English Version](/solution/2600-2699/2621.Sleep/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given&nbsp;a positive integer <code>millis</code>, write an asynchronous function that sleeps for <code>millis</code>&nbsp;milliseconds. It can resolve any value.</p>
+<p>请你编写一个异步函数，它接收一个正整数参数 <code>millis</code>&nbsp;，并休眠 <code>millis</code> 毫秒。要求此函数可以解析任何值。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><b>示例 1：</b></p>
 
 <pre>
-<strong>Input:</strong> millis = 100
-<strong>Output:</strong> 100
-<strong>Explanation:</strong> It should return a promise that resolves after 100ms.
+<b>输入：</b>millis = 100
+<b>输出：</b>100
+<b>解释：</b>
+在 100ms 后此异步函数执行完时返回一个 Promise 对象
 let t = Date.now();
 sleep(100).then(() =&gt; {
   console.log(Date.now() - t); // 100
 });
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><b>示例 2：</b></p>
 
 <pre>
-<strong>Input:</strong> millis = 200
-<strong>Output:</strong> 200
-<strong>Explanation:</strong> It should return a promise that resolves after 200ms.
+<b>输入：</b>millis = 200
+<b>输出：</b>200
+<b>解释：</b>在 200ms 后函数执行完时返回一个 Promise 对象
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><b>提示：</b></p>
 
 <ul>
 	<li><code>1 &lt;= millis &lt;= 1000</code></li>
@@ -45,11 +51,11 @@ sleep(100).then(() =&gt; {
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -57,7 +63,7 @@ sleep(100).then(() =&gt; {
 
 ```ts
 async function sleep(millis: number): Promise<void> {
-  return new Promise((r) => setTimeout(r, millis));
+    return new Promise(r => setTimeout(r, millis));
 }
 
 /**
@@ -74,7 +80,7 @@ async function sleep(millis: number): Promise<void> {
  * @return {Promise}
  */
 async function sleep(millis) {
-  return new Promise((r) => setTimeout(r, millis));
+    return new Promise(r => setTimeout(r, millis));
 }
 
 /**

@@ -1,64 +1,67 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0747.Largest%20Number%20At%20Least%20Twice%20of%20Others/README.md
 tags:
-  - Array
-  - Sorting
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [747. Largest Number At Least Twice of Others](https://leetcode.com/problems/largest-number-at-least-twice-of-others)
+# [747. 至少是其他数字两倍的最大数](https://leetcode.cn/problems/largest-number-at-least-twice-of-others)
 
-## Description
+[English Version](/solution/0700-0799/0747.Largest%20Number%20At%20Least%20Twice%20of%20Others/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> where the largest integer is <strong>unique</strong>.</p>
+<p>给你一个整数数组 <code>nums</code> ，其中总是存在 <strong>唯一的</strong> 一个最大整数 。</p>
 
-<p>Determine whether the largest element in the array is <strong>at least twice</strong> as much as every other number in the array. If it is, return <em>the <strong>index</strong> of the largest element, or return </em><code>-1</code><em> otherwise</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [3,6,1,0]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> 6 is the largest integer.
-For every other number in the array x, 6 is at least twice as big as x.
-The index of value 6 is 1, so we return 1.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> 4 is less than twice the value of 3, so we return -1.
-</pre>
+<p>请你找出数组中的最大元素并检查它是否 <strong>至少是数组中每个其他数字的两倍</strong> 。如果是，则返回 <strong>最大元素的下标</strong> ，否则返回 <code>-1</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [3,6,1,0]
+<strong>输出：</strong>1
+<strong>解释：</strong>6 是最大的整数，对于数组中的其他整数，6 至少是数组中其他元素的两倍。6 的下标是 1 ，所以返回 1 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,3,4]
+<strong>输出：</strong>-1
+<strong>解释：</strong>4 没有超过 3 的两倍大，所以返回 -1 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 50</code></li>
 	<li><code>0 &lt;= nums[i] &lt;= 100</code></li>
-	<li>The largest element in <code>nums</code> is unique.</li>
+	<li><code>nums</code> 中的最大元素是唯一的</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal
+### 方法一：遍历
 
-We can traverse the array $nums$ to find the maximum value $x$ and the second largest value $y$ in the array. If $x \ge 2y$, then return the index of $x$, otherwise return $-1$.
+我们可以遍历数组 $nums$，找到数组中的最大值 $x$ 和第二大的值 $y$，如果 $x \ge 2y$，则返回 $x$ 的下标，否则返回 $-1$。
 
-We can also first find the maximum value $x$ in the array and find the index $k$ of the maximum value $x$ at the same time. Then traverse the array again. If we find an element $y$ outside of $k$ that satisfies $x < 2y$, then return $-1$. Otherwise, return $k$ after the traversal ends.
+我们也可以先找到数组中的最大值 $x$，同时找到最大值 $x$ 的下标 $k$。然后再遍历一次数组，如果发现 $k$ 以外的元素 $y$ 满足 $x < 2y$，则返回 $-1$。否则遍历结束后返回 $k$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -139,18 +142,18 @@ func dominantIndex(nums []int) int {
 
 ```ts
 function dominantIndex(nums: number[]): number {
-  let k = 0;
-  for (let i = 0; i < nums.length; ++i) {
-    if (nums[i] > nums[k]) {
-      k = i;
+    let k = 0;
+    for (let i = 0; i < nums.length; ++i) {
+        if (nums[i] > nums[k]) {
+            k = i;
+        }
     }
-  }
-  for (let i = 0; i < nums.length; ++i) {
-    if (i !== k && nums[k] < nums[i] * 2) {
-      return -1;
+    for (let i = 0; i < nums.length; ++i) {
+        if (i !== k && nums[k] < nums[i] * 2) {
+            return -1;
+        }
     }
-  }
-  return k;
+    return k;
 }
 ```
 
@@ -162,18 +165,18 @@ function dominantIndex(nums: number[]): number {
  * @return {number}
  */
 var dominantIndex = function (nums) {
-  let k = 0;
-  for (let i = 0; i < nums.length; ++i) {
-    if (nums[i] > nums[k]) {
-      k = i;
+    let k = 0;
+    for (let i = 0; i < nums.length; ++i) {
+        if (nums[i] > nums[k]) {
+            k = i;
+        }
     }
-  }
-  for (let i = 0; i < nums.length; ++i) {
-    if (i !== k && nums[k] < nums[i] * 2) {
-      return -1;
+    for (let i = 0; i < nums.length; ++i) {
+        if (i !== k && nums[k] < nums[i] * 2) {
+            return -1;
+        }
     }
-  }
-  return k;
+    return k;
 };
 ```
 

@@ -1,0 +1,435 @@
+---
+comments: true
+difficulty: Hard
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0924.Minimize%20Malware%20Spread/README_EN.md
+tags:
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Graph
+    - Array
+    - Hash Table
+---
+
+<!-- problem:start -->
+
+# [924. Minimize Malware Spread](https://leetcode.com/problems/minimize-malware-spread)
+
+[中文文档](/solution/0900-0999/0924.Minimize%20Malware%20Spread/README.md)
+
+## Description
+
+<!-- description:start -->
+
+<p>You are given a network of <code>n</code> nodes represented as an <code>n x n</code> adjacency matrix <code>graph</code>, where the <code>i<sup>th</sup></code> node is directly connected to the <code>j<sup>th</sup></code> node if <code>graph[i][j] == 1</code>.</p>
+
+<p>Some nodes <code>initial</code> are initially infected by malware. Whenever two nodes are directly connected, and at least one of those two nodes is infected by malware, both nodes will be infected by malware. This spread of malware will continue until no more nodes can be infected in this manner.</p>
+
+<p>Suppose <code>M(initial)</code> is the final number of nodes infected with malware in the entire network after the spread of malware stops. We will remove <strong>exactly one node</strong> from <code>initial</code>.</p>
+
+<p>Return the node that, if removed, would minimize <code>M(initial)</code>. If multiple nodes could be removed to minimize <code>M(initial)</code>, return such a node with <strong>the smallest index</strong>.</p>
+
+<p>Note that if a node was removed from the <code>initial</code> list of infected nodes, it might still be infected later due to the malware spread.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> graph = [[1,1,0],[1,1,0],[0,0,1]], initial = [0,1]
+<strong>Output:</strong> 0
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> graph = [[1,0,0],[0,1,0],[0,0,1]], initial = [0,2]
+<strong>Output:</strong> 0
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> graph = [[1,1,1],[1,1,1],[1,1,1]], initial = [1,2]
+<strong>Output:</strong> 1
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>n == graph.length</code></li>
+	<li><code>n == graph[i].length</code></li>
+	<li><code>2 &lt;= n &lt;= 300</code></li>
+	<li><code>graph[i][j]</code> is <code>0</code> or <code>1</code>.</li>
+	<li><code>graph[i][j] == graph[j][i]</code></li>
+	<li><code>graph[i][i] == 1</code></li>
+	<li><code>1 &lt;= initial.length &lt;= n</code></li>
+	<li><code>0 &lt;= initial[i] &lt;= n - 1</code></li>
+	<li>All the integers in <code>initial</code> are <strong>unique</strong>.</li>
+</ul>
+
+<!-- description:end -->
+
+## Solutions
+
+<!-- solution:start -->
+
+### Solution 1: Union Find
+
+According to the problem description, if there are several nodes in the same connected component initially, there can be three situations:
+
+1. None of these nodes are infected.
+2. Only one node among these nodes is infected.
+3. Multiple nodes among these nodes are infected.
+
+What we need to consider is to minimize the number of infected nodes left after removing a certain infected node.
+
+For situation 1, there are no infected nodes, so we don't need to consider it; for situation 2, only one node is infected, so after removing this node, the other nodes in this connected component will not be infected; for situation 3, multiple nodes are infected, so after removing any infected node, the other nodes in this connected component will still be infected. Therefore, we only need to consider situation 2.
+
+We use a union find set $uf$ to maintain the connectivity of nodes, a variable $ans$ to record the answer, and a variable $mx$ to record the maximum number of infections that can be reduced currently. Initially, $ans = n$, $mx = 0$.
+
+Then we traverse the array $initial$, use a hash table or an array of length $n$ named $cnt$ to count the number of infected nodes in each connected component.
+
+Next, we traverse the array $initial$ again. For each node $x$, we find the root node $root$ of its connected component. If there is only one infected node in this connected component, i.e., $cnt[root] = 1$, we update the answer. The update condition is that the number of nodes $sz$ in this connected component is greater than $mx$ or $sz$ equals $mx$ and the value of $x$ is less than $ans$.
+
+Finally, if $ans$ has not been updated, it means that there are multiple infected nodes in all connected components, so we return the minimum value in $initial$, otherwise, we return $ans$.
+
+The time complexity is $O(n^2 \times \alpha(n))$, and the space complexity is $O(n)$. Where $n$ is the number of nodes, and $\alpha(n)$ is the inverse of the Ackermann function.
+
+<!-- tabs:start -->
+
+#### Python3
+
+```python
+class UnionFind:
+    __slots__ = "p", "size"
+
+    def __init__(self, n: int):
+        self.p = list(range(n))
+        self.size = [1] * n
+
+    def find(self, x: int) -> int:
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+
+    def union(self, a: int, b: int) -> bool:
+        pa, pb = self.find(a), self.find(b)
+        if pa == pb:
+            return False
+        if self.size[pa] > self.size[pb]:
+            self.p[pb] = pa
+            self.size[pa] += self.size[pb]
+        else:
+            self.p[pa] = pb
+            self.size[pb] += self.size[pa]
+        return True
+
+    def get_size(self, root: int) -> int:
+        return self.size[root]
+
+
+class Solution:
+    def minMalwareSpread(self, graph: List[List[int]], initial: List[int]) -> int:
+        n = len(graph)
+        uf = UnionFind(n)
+        for i in range(n):
+            for j in range(i + 1, n):
+                graph[i][j] and uf.union(i, j)
+        cnt = Counter(uf.find(x) for x in initial)
+        ans, mx = n, 0
+        for x in initial:
+            root = uf.find(x)
+            if cnt[root] > 1:
+                continue
+            sz = uf.get_size(root)
+            if sz > mx or (sz == mx and x < ans):
+                ans = x
+                mx = sz
+        return min(initial) if ans == n else ans
+```
+
+#### Java
+
+```java
+class UnionFind {
+    private final int[] p;
+    private final int[] size;
+
+    public UnionFind(int n) {
+        p = new int[n];
+        size = new int[n];
+        for (int i = 0; i < n; ++i) {
+            p[i] = i;
+            size[i] = 1;
+        }
+    }
+
+    public int find(int x) {
+        if (p[x] != x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+
+    public boolean union(int a, int b) {
+        int pa = find(a), pb = find(b);
+        if (pa == pb) {
+            return false;
+        }
+        if (size[pa] > size[pb]) {
+            p[pb] = pa;
+            size[pa] += size[pb];
+        } else {
+            p[pa] = pb;
+            size[pb] += size[pa];
+        }
+        return true;
+    }
+
+    public int size(int root) {
+        return size[root];
+    }
+}
+
+class Solution {
+    public int minMalwareSpread(int[][] graph, int[] initial) {
+        int n = graph.length;
+        UnionFind uf = new UnionFind(n);
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (graph[i][j] == 1) {
+                    uf.union(i, j);
+                }
+            }
+        }
+        int ans = n;
+        int mi = n, mx = 0;
+        int[] cnt = new int[n];
+        for (int x : initial) {
+            ++cnt[uf.find(x)];
+            mi = Math.min(mi, x);
+        }
+
+        for (int x : initial) {
+            int root = uf.find(x);
+            if (cnt[root] == 1) {
+                int sz = uf.size(root);
+                if (sz > mx || (sz == mx && x < ans)) {
+                    ans = x;
+                    mx = sz;
+                }
+            }
+        }
+        return ans == n ? mi : ans;
+    }
+}
+```
+
+#### C++
+
+```cpp
+class UnionFind {
+public:
+    UnionFind(int n) {
+        p = vector<int>(n);
+        size = vector<int>(n, 1);
+        iota(p.begin(), p.end(), 0);
+    }
+
+    bool unite(int a, int b) {
+        int pa = find(a), pb = find(b);
+        if (pa == pb) {
+            return false;
+        }
+        if (size[pa] > size[pb]) {
+            p[pb] = pa;
+            size[pa] += size[pb];
+        } else {
+            p[pa] = pb;
+            size[pb] += size[pa];
+        }
+        return true;
+    }
+
+    int find(int x) {
+        if (p[x] != x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+
+    int getSize(int root) {
+        return size[root];
+    }
+
+private:
+    vector<int> p, size;
+};
+
+class Solution {
+public:
+    int minMalwareSpread(vector<vector<int>>& graph, vector<int>& initial) {
+        int n = graph.size();
+        UnionFind uf(n);
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (graph[i][j]) {
+                    uf.unite(i, j);
+                }
+            }
+        }
+        int ans = n, mx = 0;
+        vector<int> cnt(n);
+        for (int x : initial) {
+            ++cnt[uf.find(x)];
+        }
+        for (int x : initial) {
+            int root = uf.find(x);
+            if (cnt[root] == 1) {
+                int sz = uf.getSize(root);
+                if (sz > mx || (sz == mx && ans > x)) {
+                    ans = x;
+                    mx = sz;
+                }
+            }
+        }
+        return ans == n ? *min_element(initial.begin(), initial.end()) : ans;
+    }
+};
+```
+
+#### Go
+
+```go
+type unionFind struct {
+	p, size []int
+}
+
+func newUnionFind(n int) *unionFind {
+	p := make([]int, n)
+	size := make([]int, n)
+	for i := range p {
+		p[i] = i
+		size[i] = 1
+	}
+	return &unionFind{p, size}
+}
+
+func (uf *unionFind) find(x int) int {
+	if uf.p[x] != x {
+		uf.p[x] = uf.find(uf.p[x])
+	}
+	return uf.p[x]
+}
+
+func (uf *unionFind) union(a, b int) bool {
+	pa, pb := uf.find(a), uf.find(b)
+	if pa == pb {
+		return false
+	}
+	if uf.size[pa] > uf.size[pb] {
+		uf.p[pb] = pa
+		uf.size[pa] += uf.size[pb]
+	} else {
+		uf.p[pa] = pb
+		uf.size[pb] += uf.size[pa]
+	}
+	return true
+}
+
+func (uf *unionFind) getSize(root int) int {
+	return uf.size[root]
+}
+
+func minMalwareSpread(graph [][]int, initial []int) int {
+	n := len(graph)
+	uf := newUnionFind(n)
+	for i := range graph {
+		for j := i + 1; j < n; j++ {
+			if graph[i][j] == 1 {
+				uf.union(i, j)
+			}
+		}
+	}
+	cnt := make([]int, n)
+	ans, mx := n, 0
+	for _, x := range initial {
+		cnt[uf.find(x)]++
+	}
+	for _, x := range initial {
+		root := uf.find(x)
+		if cnt[root] == 1 {
+			sz := uf.getSize(root)
+			if sz > mx || sz == mx && x < ans {
+				ans, mx = x, sz
+			}
+		}
+	}
+	if ans == n {
+		return slices.Min(initial)
+	}
+	return ans
+}
+```
+
+#### TypeScript
+
+```ts
+class UnionFind {
+    p: number[];
+    size: number[];
+    constructor(n: number) {
+        this.p = Array(n)
+            .fill(0)
+            .map((_, i) => i);
+        this.size = Array(n).fill(1);
+    }
+
+    find(x: number): number {
+        if (this.p[x] !== x) {
+            this.p[x] = this.find(this.p[x]);
+        }
+        return this.p[x];
+    }
+
+    union(a: number, b: number): boolean {
+        const [pa, pb] = [this.find(a), this.find(b)];
+        if (pa === pb) {
+            return false;
+        }
+        if (this.size[pa] > this.size[pb]) {
+            this.p[pb] = pa;
+            this.size[pa] += this.size[pb];
+        } else {
+            this.p[pa] = pb;
+            this.size[pb] += this.size[pa];
+        }
+        return true;
+    }
+
+    getSize(root: number): number {
+        return this.size[root];
+    }
+}
+
+function minMalwareSpread(graph: number[][], initial: number[]): number {
+    const n = graph.length;
+    const uf = new UnionFind(n);
+    for (let i = 0; i < n; ++i) {
+        for (let j = i + 1; j < n; ++j) {
+            graph[i][j] && uf.union(i, j);
+        }
+    }
+    let [ans, mx] = [n, 0];
+    const cnt: number[] = Array(n).fill(0);
+    for (const x of initial) {
+        ++cnt[uf.find(x)];
+    }
+    for (const x of initial) {
+        const root = uf.find(x);
+        if (cnt[root] === 1) {
+            const sz = uf.getSize(root);
+            if (sz > mx || (sz === mx && x < ans)) {
+                [ans, mx] = [x, sz];
+            }
+        }
+    }
+    return ans === n ? Math.min(...initial) : ans;
+}
+```
+
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- problem:end -->

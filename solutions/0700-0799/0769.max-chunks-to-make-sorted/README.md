@@ -1,66 +1,76 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0769.Max%20Chunks%20To%20Make%20Sorted/README.md
 tags:
-  - Stack
-  - Greedy
-  - Array
-  - Sorting
-  - Monotonic Stack
+    - 栈
+    - 贪心
+    - 数组
+    - 排序
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [769. Max Chunks To Make Sorted](https://leetcode.com/problems/max-chunks-to-make-sorted)
+# [769. 最多能完成排序的块](https://leetcode.cn/problems/max-chunks-to-make-sorted)
 
-## Description
+[English Version](/solution/0700-0799/0769.Max%20Chunks%20To%20Make%20Sorted/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>arr</code> of length <code>n</code> that represents a permutation of the integers in the range <code>[0, n - 1]</code>.</p>
+<p>给定一个长度为 <code>n</code> 的整数数组 <code>arr</code> ，它表示在 <code>[0, n - 1]</code> 范围内的整数的排列。</p>
 
-<p>We split <code>arr</code> into some number of <strong>chunks</strong> (i.e., partitions), and individually sort each chunk. After concatenating them, the result should equal the sorted array.</p>
+<p>我们将 <code>arr</code> 分割成若干 <strong>块</strong> (即分区)，并对每个块单独排序。将它们连接起来后，使得连接的结果和按升序排序后的原数组相同。</p>
 
-<p>Return <em>the largest number of chunks we can make to sort the array</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [4,3,2,1,0]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong>
-Splitting into two or more chunks will not return the required result.
-For example, splitting into [4, 3], [2, 1, 0] will result in [3, 4, 0, 1, 2], which isn&#39;t sorted.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1,0,2,3,4]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong>
-We can split into two chunks, such as [1, 0], [2, 3, 4].
-However, splitting into [1, 0], [2], [3], [4] is the highest number of chunks possible.
-</pre>
+<p>返回数组能分成的最多块数量。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> arr = [4,3,2,1,0]
+<strong>输出:</strong> 1
+<strong>解释:</strong>
+将数组分成2块或者更多块，都无法得到所需的结果。
+例如，分成 [4, 3], [2, 1, 0] 的结果是 [3, 4, 0, 1, 2]，这不是有序的数组。
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> arr = [1,0,2,3,4]
+<strong>输出:</strong> 4
+<strong>解释:</strong>
+我们可以把它分成两块，例如 [1, 0], [2, 3, 4]。
+然而，分成 [1, 0], [2], [3], [4] 可以得到最多的块数。
+对每个块单独排序后，结果为 [0, 1], [2], [3], [4]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>n == arr.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10</code></li>
 	<li><code>0 &lt;= arr[i] &lt; n</code></li>
-	<li>All the elements of <code>arr</code> are <strong>unique</strong>.</li>
+	<li><code>arr</code>&nbsp;中每个元素都 <strong>不同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心 + 一次遍历
+
+由于 $\textit{arr}$ 是 $[0,..,n-1]$ 的一个排列，若已遍历过的数中的最大值 $\textit{mx}$ 与当前遍历到的下标 $i$ 相等，说明可以进行一次分割，累加答案。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $\textit{arr}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -129,16 +139,16 @@ func maxChunksToSorted(arr []int) int {
 
 ```ts
 function maxChunksToSorted(arr: number[]): number {
-  const n = arr.length;
-  let ans = 0;
-  let max = 0;
-  for (let i = 0; i < n; i++) {
-    max = Math.max(arr[i], max);
-    if (max == i) {
-      ans++;
+    const n = arr.length;
+    let ans = 0;
+    let mx = 0;
+    for (let i = 0; i < n; i++) {
+        mx = Math.max(arr[i], mx);
+        if (mx == i) {
+            ans++;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -147,15 +157,15 @@ function maxChunksToSorted(arr: number[]): number {
 ```rust
 impl Solution {
     pub fn max_chunks_to_sorted(arr: Vec<i32>) -> i32 {
-        let mut res = 0;
-        let mut max = 0;
+        let mut ans = 0;
+        let mut mx = 0;
         for i in 0..arr.len() {
-            max = max.max(arr[i]);
-            if max == (i as i32) {
-                res += 1;
+            mx = mx.max(arr[i]);
+            if mx == (i as i32) {
+                ans += 1;
             }
         }
-        res
+        ans
     }
 }
 ```
@@ -166,15 +176,15 @@ impl Solution {
 #define max(a, b) (((a) > (b)) ? (a) : (b))
 
 int maxChunksToSorted(int* arr, int arrSize) {
-    int res = 0;
+    int ans = 0;
     int mx = -1;
     for (int i = 0; i < arrSize; i++) {
         mx = max(mx, arr[i]);
         if (mx == i) {
-            res++;
+            ans++;
         }
     }
-    return res;
+    return ans;
 }
 ```
 
@@ -184,7 +194,15 @@ int maxChunksToSorted(int* arr, int arrSize) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：单调栈
+
+方法一的解法有一定的局限性，若数组中存在重复元素，就无法得到正确的答案。
+
+根据题目，我们可以发现，从左到右，每个分块都有一个最大值，并且这些分块的最大值呈单调递增。我们可以用一个栈来存储这些分块的最大值。最后得到的栈的大小，也就是题目所求的最多能完成排序的块。
+
+以上这种解法，不仅可以解决本题，也可以解决 [768. 最多能完成排序的块 II](https://github.com/doocs/leetcode/blob/main/solution/0700-0799/0768.Max%20Chunks%20To%20Make%20Sorted%20II/README.md) 这道困难题。大家可以自行尝试。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{arr}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -269,6 +287,42 @@ func maxChunksToSorted(arr []int) int {
 		}
 	}
 	return len(stk)
+}
+```
+
+#### TypeScript
+
+```ts
+function maxChunksToSorted(arr: number[]): number {
+    const stk: number[] = [];
+
+    for (const x of arr) {
+        if (stk.at(-1)! > x) {
+            const top = stk.pop()!;
+            while (stk.length && stk.at(-1)! > x) stk.pop();
+            stk.push(top);
+        } else stk.push(x);
+    }
+
+    return stk.length;
+}
+```
+
+#### JavaScript
+
+```js
+function maxChunksToSorted(arr) {
+    const stk = [];
+
+    for (const x of arr) {
+        if (stk.at(-1) > x) {
+            const top = stk.pop();
+            while (stk.length && stk.at(-1) > x) stk.pop();
+            stk.push(top);
+        } else stk.push(x);
+    }
+
+    return stk.length;
 }
 ```
 

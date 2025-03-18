@@ -1,72 +1,76 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1004.Max%20Consecutive%20Ones%20III/README.md
 rating: 1655
-source: Weekly Contest 126 Q3
+source: 第 126 场周赛 Q3
 tags:
-  - Array
-  - Binary Search
-  - Prefix Sum
-  - Sliding Window
+    - 数组
+    - 二分查找
+    - 前缀和
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1004. Max Consecutive Ones III](https://leetcode.com/problems/max-consecutive-ones-iii)
+# [1004. 最大连续1的个数 III](https://leetcode.cn/problems/max-consecutive-ones-iii)
 
-## Description
+[English Version](/solution/1000-1099/1004.Max%20Consecutive%20Ones%20III/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary array <code>nums</code> and an integer <code>k</code>, return <em>the maximum number of consecutive </em><code>1</code><em>&#39;s in the array if you can flip at most</em> <code>k</code> <code>0</code>&#39;s.</p>
+<p>给定一个二进制数组&nbsp;<code>nums</code>&nbsp;和一个整数 <code>k</code>，假设最多可以翻转 <code>k</code> 个 <code>0</code> ，则返回执行操作后 <em>数组中连续 <code>1</code> 的最大个数</em> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> [1,1,1,0,0,<u><strong>1</strong>,1,1,1,1,<strong>1</strong></u>]
-Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.</pre>
+<strong>输入：</strong>nums = [1,1,1,0,0,0,1,1,1,1,0], K = 2
+<strong>输出：</strong>6
+<strong>解释：</strong>[1,1,1,0,0,<strong>1</strong>,1,1,1,1,<strong>1</strong>]
+粗体数字从 0 翻转到 1，最长的子数组长度为 6。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> [0,0,<u>1,1,<strong>1</strong>,<strong>1</strong>,1,1,1,<strong>1</strong>,1,1</u>,0,0,0,1,1,1,1]
-Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
-</pre>
+<strong>输入：</strong>nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], K = 3
+<strong>输出：</strong>10
+<strong>解释：</strong>[0,0,1,1,<strong>1</strong>,<strong>1</strong>,1,1,1,<strong>1</strong>,1,1,0,0,0,1,1,1,1]
+粗体数字从 0 翻转到 1，最长的子数组长度为 10。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums[i]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>nums[i]</code>&nbsp;不是&nbsp;<code>0</code>&nbsp;就是&nbsp;<code>1</code></li>
 	<li><code>0 &lt;= k &lt;= nums.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sliding Window
+### 方法一：滑动窗口
 
-We can iterate through the array, using a variable $\textit{cnt}$ to record the current number of 0s in the window. When $\textit{cnt} > k$, we move the left boundary of the window to the right by one position.
+我们可以遍历数组，用一个变量 $\textit{cnt}$ 记录当前窗口中 0 的个数，当 $\textit{cnt} > k$ 时，我们将窗口的左边界右移一位。
 
-After the iteration ends, the length of the window is the maximum number of consecutive 1s.
+遍历结束后，窗口的长度即为最大连续 1 的个数。
 
-Note that in the process above, we do not need to loop to move the left boundary of the window to the right. Instead, we directly move the left boundary to the right by one position. This is because the problem asks for the maximum number of consecutive 1s, so the length of the window will only increase, not decrease. Therefore, we do not need to loop to move the left boundary to the right.
+注意，在上述过程中，我们不需要循环将窗口的左边界右移，而是直接将左边界右移一位，这是因为，题目求的是最大连续 1 的个数，因此，窗口的长度只会增加，不会减少，所以我们不需要循环右移左边界。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
 
-Similar problems:
+相似题目：
 
-- [487. Max Consecutive Ones II](https://github.com/doocs/leetcode/blob/main/solution/0400-0499/0487.Max%20Consecutive%20Ones%20II/README_EN.md)
-- [2024. Maximize the Confusion of an Exam](https://github.com/doocs/leetcode/blob/main/solution/2000-2099/2024.Maximize%20the%20Confusion%20of%20an%20Exam/README_EN.md)
+-   [487. 最大连续 1 的个数 II](https://github.com/doocs/leetcode/blob/main/solution/0400-0499/0487.Max%20Consecutive%20Ones%20II/README.md)
+-   [2024. 考试的最大困扰度](https://github.com/doocs/leetcode/blob/main/solution/2000-2099/2024.Maximize%20the%20Confusion%20of%20an%20Exam/README.md)
 
 <!-- tabs:start -->
 
@@ -139,14 +143,14 @@ func longestOnes(nums []int, k int) int {
 
 ```ts
 function longestOnes(nums: number[], k: number): number {
-  let [l, cnt] = [0, 0];
-  for (const x of nums) {
-    cnt += x ^ 1;
-    if (cnt > k) {
-      cnt -= nums[l++] ^ 1;
+    let [l, cnt] = [0, 0];
+    for (const x of nums) {
+        cnt += x ^ 1;
+        if (cnt > k) {
+            cnt -= nums[l++] ^ 1;
+        }
     }
-  }
-  return nums.length - l;
+    return nums.length - l;
 }
 ```
 

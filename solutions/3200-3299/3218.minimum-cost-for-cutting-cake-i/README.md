@@ -1,88 +1,93 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3218.Minimum%20Cost%20for%20Cutting%20Cake%20I/README.md
 rating: 1654
-source: Weekly Contest 406 Q3
+source: 第 406 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Dynamic Programming
-  - Sorting
+    - 贪心
+    - 数组
+    - 动态规划
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3218. Minimum Cost for Cutting Cake I](https://leetcode.com/problems/minimum-cost-for-cutting-cake-i)
+# [3218. 切蛋糕的最小总开销 I](https://leetcode.cn/problems/minimum-cost-for-cutting-cake-i)
 
-## Description
+[English Version](/solution/3200-3299/3218.Minimum%20Cost%20for%20Cutting%20Cake%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an <code>m x n</code> cake that needs to be cut into <code>1 x 1</code> pieces.</p>
+<p>有一个&nbsp;<code>m x n</code>&nbsp;大小的矩形蛋糕，需要切成&nbsp;<code>1 x 1</code>&nbsp;的小块。</p>
 
-<p>You are given integers <code>m</code>, <code>n</code>, and two arrays:</p>
+<p>给你整数&nbsp;<code>m</code>&nbsp;，<code>n</code>&nbsp;和两个数组：</p>
 
 <ul>
-	<li><code>horizontalCut</code> of size <code>m - 1</code>, where <code>horizontalCut[i]</code> represents the cost to cut along the horizontal line <code>i</code>.</li>
-	<li><code>verticalCut</code> of size <code>n - 1</code>, where <code>verticalCut[j]</code> represents the cost to cut along the vertical line <code>j</code>.</li>
+	<li><code>horizontalCut</code> 的大小为&nbsp;<code>m - 1</code>&nbsp;，其中&nbsp;<code>horizontalCut[i]</code>&nbsp;表示沿着水平线 <code>i</code>&nbsp;切蛋糕的开销。</li>
+	<li><code>verticalCut</code> 的大小为&nbsp;<code>n - 1</code>&nbsp;，其中&nbsp;<code>verticalCut[j]</code>&nbsp;表示沿着垂直线&nbsp;<code>j</code>&nbsp;切蛋糕的开销。</li>
 </ul>
 
-<p>In one operation, you can choose any piece of cake that is not yet a <code>1 x 1</code> square and perform one of the following cuts:</p>
+<p>一次操作中，你可以选择任意不是&nbsp;<code>1 x 1</code>&nbsp;大小的矩形蛋糕并执行以下操作之一：</p>
 
 <ol>
-	<li>Cut along a horizontal line <code>i</code> at a cost of <code>horizontalCut[i]</code>.</li>
-	<li>Cut along a vertical line <code>j</code> at a cost of <code>verticalCut[j]</code>.</li>
+	<li>沿着水平线&nbsp;<code>i</code>&nbsp;切开蛋糕，开销为&nbsp;<code>horizontalCut[i]</code>&nbsp;。</li>
+	<li>沿着垂直线&nbsp;<code>j</code>&nbsp;切开蛋糕，开销为&nbsp;<code>verticalCut[j]</code>&nbsp;。</li>
 </ol>
 
-<p>After the cut, the piece of cake is divided into two distinct pieces.</p>
+<p>每次操作后，这块蛋糕都被切成两个独立的小蛋糕。</p>
 
-<p>The cost of a cut depends only on the initial cost of the line and does not change.</p>
+<p>每次操作的开销都为最开始对应切割线的开销，并且不会改变。</p>
 
-<p>Return the <strong>minimum</strong> total cost to cut the entire cake into <code>1 x 1</code> pieces.</p>
+<p>请你返回将蛋糕全部切成&nbsp;<code>1 x 1</code>&nbsp;的蛋糕块的&nbsp;<strong>最小</strong>&nbsp;总开销。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">m = 3, n = 2, horizontalCut = [1,3], verticalCut = [5]</span></p>
+<p><span class="example-io"><b>输入：</b>m = 3, n = 2, horizontalCut = [1,3], verticalCut = [5]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">13</span></p>
+<p><span class="example-io"><b>输出：</b>13</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3218.Minimum%20Cost%20for%20Cutting%20Cake%20I/images/ezgifcom-animated-gif-maker-1.gif" style="width: 280px; height: 320px;" /></p>
 
 <ul>
-	<li>Perform a cut on the vertical line 0 with cost 5, current total cost is 5.</li>
-	<li>Perform a cut on the horizontal line 0 on <code>3 x 1</code> subgrid with cost 1.</li>
-	<li>Perform a cut on the horizontal line 0 on <code>3 x 1</code> subgrid with cost 1.</li>
-	<li>Perform a cut on the horizontal line 1 on <code>2 x 1</code> subgrid with cost 3.</li>
-	<li>Perform a cut on the horizontal line 1 on <code>2 x 1</code> subgrid with cost 3.</li>
+	<li>沿着垂直线 0 切开蛋糕，开销为 5 。</li>
+	<li>沿着水平线 0 切开&nbsp;<code>3 x 1</code>&nbsp;的蛋糕块，开销为 1 。</li>
+	<li>沿着水平线 0 切开 <code>3 x 1</code>&nbsp;的蛋糕块，开销为 1 。</li>
+	<li>沿着水平线 1 切开 <code>2 x 1</code>&nbsp;的蛋糕块，开销为 3 。</li>
+	<li>沿着水平线 1 切开 <code>2 x 1</code>&nbsp;的蛋糕块，开销为 3 。</li>
 </ul>
 
-<p>The total cost is <code>5 + 1 + 1 + 3 + 3 = 13</code>.</p>
+<p>总开销为&nbsp;<code>5 + 1 + 1 + 3 + 3 = 13</code>&nbsp;。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">m = 2, n = 2, horizontalCut = [7], verticalCut = [4]</span></p>
+<p><span class="example-io"><b>输入：</b>m = 2, n = 2, horizontalCut = [7], verticalCut = [4]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">15</span></p>
+<p><span class="example-io"><b>输出：</b>15</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li>Perform a cut on the horizontal line 0 with cost 7.</li>
-	<li>Perform a cut on the vertical line 0 on <code>1 x 2</code> subgrid with cost 4.</li>
-	<li>Perform a cut on the vertical line 0 on <code>1 x 2</code> subgrid with cost 4.</li>
+	<li>沿着水平线 0 切开蛋糕，开销为 7 。</li>
+	<li>沿着垂直线 0 切开&nbsp;<code>1 x 2</code>&nbsp;的蛋糕块，开销为 4 。</li>
+	<li>沿着垂直线 0 切开&nbsp;<code>1 x 2</code>&nbsp;的蛋糕块，开销为 4 。</li>
 </ul>
 
-<p>The total cost is <code>7 + 4 + 4 = 15</code>.</p>
+<p>总开销为&nbsp;<code>7 + 4 + 4 = 15</code>&nbsp;。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m, n &lt;= 20</code></li>
@@ -93,21 +98,21 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Two Pointers
+### 方法一：贪心 + 双指针
 
-For a given position, the earlier you cut, the fewer cuts are needed, so it is clear that positions with higher costs should be cut earlier.
+对于一个位置，越早切，所需要切的次数越少，因此，显然是开销越大的位置越早切。
 
-Therefore, we can sort the arrays $\textit{horizontalCut}$ and $\textit{verticalCut}$ in descending order, and then use two pointers $i$ and $j$ to point to the costs in $\textit{horizontalCut}$ and $\textit{verticalCut}$, respectively. Each time, we choose the position with the larger cost to cut, while updating the corresponding number of rows and columns.
+所以，我们可以对数组 $\textit{horizontalCut}$ 和 $\textit{verticalCut}$ 按照从大到小的顺序排序，然后使用两个指针 $i$ 和 $j$ 分别指向 $\textit{horizontalCut}$ 和 $\textit{verticalCut}$ 的开销，每次选择开销较大的位置进行切割，同时更新对应的行数和列数。
 
-Each time a horizontal cut is made, if the number of columns before the cut was $v$, then the cost of this cut is $\textit{horizontalCut}[i] \times v$, and then the number of rows $h$ is incremented by one; similarly, each time a vertical cut is made, if the number of rows before the cut was $h$, then the cost of this cut is $\textit{verticalCut}[j] \times h$, and then the number of columns $v$ is incremented by one.
+每次在水平方向上切割时，如果此前列数为 $v$，那么此次的开销为 $\textit{horizontalCut}[i] \times v$，然后行数 $h$ 加一；同理，每次在垂直方向上切割时，如果此前行数为 $h$，那么此次的开销为 $\textit{verticalCut}[j] \times h$，然后列数 $v$ 加一。
 
-Finally, when both $i$ and $j$ reach the end, return the total cost.
+最后，当 $i$ 和 $j$ 都到达末尾时，返回总开销即可。
 
-The time complexity is $O(m \times \log m + n \times \log n)$, and the space complexity is $O(\log m + \log n)$. Here, $m$ and $n$ are the lengths of $\textit{horizontalCut}$ and $\textit{verticalCut}$, respectively.
+时间复杂度 $O(m \times \log m + n \times \log n)$，空间复杂度 $O(\log m + \log n)$。其中 $m$ 和 $n$ 分别为 $\textit{horizontalCut}$ 和 $\textit{verticalCut}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -207,29 +212,24 @@ func minimumCost(m int, n int, horizontalCut []int, verticalCut []int) (ans int)
 #### TypeScript
 
 ```ts
-function minimumCost(
-  m: number,
-  n: number,
-  horizontalCut: number[],
-  verticalCut: number[]
-): number {
-  horizontalCut.sort((a, b) => b - a);
-  verticalCut.sort((a, b) => b - a);
-  let ans = 0;
-  let [i, j] = [0, 0];
-  let [h, v] = [1, 1];
-  while (i < m - 1 || j < n - 1) {
-    if (j === n - 1 || (i < m - 1 && horizontalCut[i] > verticalCut[j])) {
-      ans += horizontalCut[i] * v;
-      h++;
-      i++;
-    } else {
-      ans += verticalCut[j] * h;
-      v++;
-      j++;
+function minimumCost(m: number, n: number, horizontalCut: number[], verticalCut: number[]): number {
+    horizontalCut.sort((a, b) => b - a);
+    verticalCut.sort((a, b) => b - a);
+    let ans = 0;
+    let [i, j] = [0, 0];
+    let [h, v] = [1, 1];
+    while (i < m - 1 || j < n - 1) {
+        if (j === n - 1 || (i < m - 1 && horizontalCut[i] > verticalCut[j])) {
+            ans += horizontalCut[i] * v;
+            h++;
+            i++;
+        } else {
+            ans += verticalCut[j] * h;
+            v++;
+            j++;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

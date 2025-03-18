@@ -1,70 +1,91 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1442.Count%20Triplets%20That%20Can%20Form%20Two%20Arrays%20of%20Equal%20XOR/README.md
 rating: 1524
-source: Weekly Contest 188 Q2
+source: 第 188 场周赛 Q2
 tags:
-  - Bit Manipulation
-  - Array
-  - Hash Table
-  - Math
-  - Prefix Sum
+    - 位运算
+    - 数组
+    - 哈希表
+    - 数学
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1442. Count Triplets That Can Form Two Arrays of Equal XOR](https://leetcode.com/problems/count-triplets-that-can-form-two-arrays-of-equal-xor)
+# [1442. 形成两个异或相等数组的三元组数目](https://leetcode.cn/problems/count-triplets-that-can-form-two-arrays-of-equal-xor)
 
-## Description
+[English Version](/solution/1400-1499/1442.Count%20Triplets%20That%20Can%20Form%20Two%20Arrays%20of%20Equal%20XOR/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of integers <code>arr</code>.</p>
+<p>给你一个整数数组 <code>arr</code> 。</p>
 
-<p>We want to select three indices <code>i</code>, <code>j</code> and <code>k</code> where <code>(0 &lt;= i &lt; j &lt;= k &lt; arr.length)</code>.</p>
+<p>现需要从数组中取三个下标 <code>i</code>、<code>j</code> 和 <code>k</code> ，其中 <code>(0 &lt;= i &lt; j &lt;= k &lt; arr.length)</code> 。</p>
 
-<p>Let&#39;s define <code>a</code> and <code>b</code> as follows:</p>
+<p><code>a</code> 和 <code>b</code> 定义如下：</p>
 
 <ul>
 	<li><code>a = arr[i] ^ arr[i + 1] ^ ... ^ arr[j - 1]</code></li>
 	<li><code>b = arr[j] ^ arr[j + 1] ^ ... ^ arr[k]</code></li>
 </ul>
 
-<p>Note that <strong>^</strong> denotes the <strong>bitwise-xor</strong> operation.</p>
+<p>注意：<strong>^</strong> 表示 <strong>按位异或</strong> 操作。</p>
 
-<p>Return <em>the number of triplets</em> (<code>i</code>, <code>j</code> and <code>k</code>) Where <code>a == b</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [2,3,1,6,7]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The triplets are (0,1,2), (0,2,2), (2,3,4) and (2,4,4)
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1,1,1,1,1]
-<strong>Output:</strong> 10
-</pre>
+<p>请返回能够令 <code>a == b</code> 成立的三元组 (<code>i</code>, <code>j</code> , <code>k</code>) 的数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>arr = [2,3,1,6,7]
+<strong>输出：</strong>4
+<strong>解释：</strong>满足题意的三元组分别是 (0,1,2), (0,2,2), (2,3,4) 以及 (2,4,4)
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>arr = [1,1,1,1,1]
+<strong>输出：</strong>10
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>arr = [2,3]
+<strong>输出：</strong>0
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>arr = [1,3,5,7,9]
+<strong>输出：</strong>3
+</pre>
+
+<p><strong>示例 5：</strong></p>
+
+<pre><strong>输入：</strong>arr = [7,11,12,9,5,2,7,17,22]
+<strong>输出：</strong>8
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 300</code></li>
-	<li><code>1 &lt;= arr[i] &lt;= 10<sup>8</sup></code></li>
+	<li><code>1 &lt;= arr[i] &lt;= 10^8</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

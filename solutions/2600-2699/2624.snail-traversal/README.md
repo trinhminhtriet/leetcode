@@ -1,35 +1,39 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2624.Snail%20Traversal/README.md
 tags:
-  - JavaScript
+    - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2624. Snail Traversal](https://leetcode.com/problems/snail-traversal)
+# [2624. 蜗牛排序](https://leetcode.cn/problems/snail-traversal)
 
-## Description
+[English Version](/solution/2600-2699/2624.Snail%20Traversal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Write code that enhances all arrays such that you can call the <code>snail(rowsCount, colsCount)</code> method that transforms the 1D&nbsp;array into&nbsp;a 2D array organised in&nbsp;the pattern known as <strong>snail traversal order</strong>. Invalid input values should output an empty array. If&nbsp;<code>rowsCount * colsCount !== nums.length</code>,&nbsp;the input is considered invalid.</p>
+<p>请你编写一段代码为所有数组实现&nbsp;&nbsp;<code>snail(rowsCount，colsCount)</code> 方法，该方法将 1D 数组转换为以蜗牛排序的模式的 2D 数组。无效的输入值应该输出一个空数组。当 <code>rowsCount * colsCount&nbsp;!==</code><code>nums.length</code>&nbsp;时。这个输入被认为是无效的。</p>
 
-<p><strong>Snail traversal order</strong><em>&nbsp;</em>starts at the top left cell with the first value of the current array. It then moves through the entire first column from top to bottom, followed by moving to the next column on the right and traversing it from bottom to top. This pattern continues, alternating the direction of traversal with each column, until the entire current array is covered. For example, when given the input array&nbsp;<code>[19, 10, 3, 7, 9, 8, 5, 2, 1, 17, 16, 14, 12, 18, 6, 13, 11, 20, 4, 15]</code> with <code>rowsCount = 5</code> and <code>colsCount = 4</code>,&nbsp;the desired output matrix is shown below. Note that iterating the matrix following the arrows corresponds to the order of numbers in the original array.</p>
+<p>蜗牛排序从左上角的单元格开始，从当前数组的第一个值开始。然后，它从上到下遍历第一列，接着移动到右边的下一列，并从下到上遍历它。将这种模式持续下去，每列交替变换遍历方向，直到覆盖整个数组。例如，当给定输入数组&nbsp;&nbsp;<code>[19, 10, 3, 7, 9, 8, 5, 2, 1, 17, 16, 14, 12, 18, 6, 13, 11, 20, 4, 15]</code> ，当 <code>rowsCount = 5</code>&nbsp;且&nbsp;<code>colsCount = 4</code> 时，需要输出矩阵如下图所示。注意，矩阵沿箭头方向对应于原数组中数字的顺序</p>
 
 <p>&nbsp;</p>
 
 <p><img alt="Traversal Diagram" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2624.Snail%20Traversal/images/screen-shot-2023-04-10-at-100006-pm.png" style="width: 275px; height: 343px;" /></p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><b>示例 1：</b></p>
 
 <pre>
-<strong>Input:</strong> 
+<b>输入：</b>
 nums = [19, 10, 3, 7, 9, 8, 5, 2, 1, 17, 16, 14, 12, 18, 6, 13, 11, 20, 4, 15]
 rowsCount = 5
 colsCount = 4
-<strong>Output:</strong> 
+<b>输出：</b>
 [
  [19,17,16,15],
 &nbsp;[10,1,14,4],
@@ -39,29 +43,30 @@ colsCount = 4
 ]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><b>示例 2：</b></p>
 
 <pre>
-<strong>Input:</strong> 
+<b>输入：</b>
 nums = [1,2,3,4]
 rowsCount = 1
 colsCount = 4
-<strong>Output:</strong> [[1, 2, 3, 4]]
+<b>输出：</b>[[1, 2, 3, 4]]
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><b>示例 3：</b></p>
 
 <pre>
-<strong>Input:</strong> 
+<b>输入：</b>
 nums = [1,3]
 rowsCount = 2
 colsCount = 2
-<strong>Output:</strong> []
-<strong>Explanation:</strong> 2 multiplied by 2 is 4, and the original array [1,3] has a length of 2; therefore, the input is invalid.
+<b>输出：</b>[]
+<strong>Explanation:</strong> 2 * 2 = 4, 且原数组 [1,3] 的长度为 2; 所以，输入是无效的。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><b>提示：</b></p>
 
 <ul>
 	<li><code>0 &lt;= nums.length &lt;= 250</code></li>
@@ -70,15 +75,19 @@ colsCount = 2
 	<li><code>1 &lt;= colsCount &lt;= 250</code></li>
 </ul>
 
-<p>&nbsp;</p>
-
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+我们首先判断数组的长度是否等于行数与列数的乘积，如果不等，说明输入是无效的，返回空数组。
+
+接下来，我们可以模拟蜗牛排序的过程，从左上角开始，遍历数组，按照蜗牛排序的顺序，将遍历到的元素依次放入结果数组中。
+
+时间复杂度 $(n)$，其中 $n$ 为数组的长度。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -86,31 +95,26 @@ colsCount = 2
 
 ```ts
 declare global {
-  interface Array<T> {
-    snail(rowsCount: number, colsCount: number): number[][];
-  }
+    interface Array<T> {
+        snail(rowsCount: number, colsCount: number): number[][];
+    }
 }
 
-Array.prototype.snail = function (
-  rowsCount: number,
-  colsCount: number
-): number[][] {
-  if (rowsCount * colsCount !== this.length) {
-    return [];
-  }
-  const ans: number[][] = Array.from({ length: rowsCount }, () =>
-    Array(colsCount)
-  );
-  for (let h = 0, i = 0, j = 0, k = 1; h < this.length; ++h) {
-    ans[i][j] = this[h];
-    i += k;
-    if (i === rowsCount || i === -1) {
-      i -= k;
-      k = -k;
-      ++j;
+Array.prototype.snail = function (rowsCount: number, colsCount: number): number[][] {
+    if (rowsCount * colsCount !== this.length) {
+        return [];
     }
-  }
-  return ans;
+    const ans: number[][] = Array.from({ length: rowsCount }, () => Array(colsCount));
+    for (let h = 0, i = 0, j = 0, k = 1; h < this.length; ++h) {
+        ans[i][j] = this[h];
+        i += k;
+        if (i === rowsCount || i === -1) {
+            i -= k;
+            k = -k;
+            ++j;
+        }
+    }
+    return ans;
 };
 
 /**

@@ -1,72 +1,77 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0108.Convert%20Sorted%20Array%20to%20Binary%20Search%20Tree/README.md
 tags:
-  - Tree
-  - Binary Search Tree
-  - Array
-  - Divide and Conquer
-  - Binary Tree
+    - 树
+    - 二叉搜索树
+    - 数组
+    - 分治
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [108. Convert Sorted Array to Binary Search Tree](https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree)
+# [108. 将有序数组转换为二叉搜索树](https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree)
 
-## Description
+[English Version](/solution/0100-0199/0108.Convert%20Sorted%20Array%20to%20Binary%20Search%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> where the elements are sorted in <strong>ascending order</strong>, convert <em>it to a </em><span data-keyword="height-balanced"><strong><em>height-balanced</em></strong></span> <em>binary search tree</em>.</p>
+<p>给你一个整数数组 <code>nums</code> ，其中元素已经按 <strong>升序</strong> 排列，请你将其转换为一棵 <span data-keyword="height-balanced">平衡</span> 二叉搜索树。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0108.Convert%20Sorted%20Array%20to%20Binary%20Search%20Tree/images/btree1.jpg" style="width: 302px; height: 222px;" />
 <pre>
-<strong>Input:</strong> nums = [-10,-3,0,5,9]
-<strong>Output:</strong> [0,-3,9,-10,null,5]
-<strong>Explanation:</strong> [0,-10,5,null,-3,null,9] is also accepted:
+<strong>输入：</strong>nums = [-10,-3,0,5,9]
+<strong>输出：</strong>[0,-3,9,-10,null,5]
+<strong>解释：</strong>[0,-10,5,null,-3,null,9] 也将被视为正确答案：
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0108.Convert%20Sorted%20Array%20to%20Binary%20Search%20Tree/images/btree2.jpg" style="width: 302px; height: 222px;" />
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0108.Convert%20Sorted%20Array%20to%20Binary%20Search%20Tree/images/btree.jpg" style="width: 342px; height: 142px;" />
 <pre>
-<strong>Input:</strong> nums = [1,3]
-<strong>Output:</strong> [3,1]
-<strong>Explanation:</strong> [1,null,3] and [3,1] are both height-balanced BSTs.
+<strong>输入：</strong>nums = [1,3]
+<strong>输出：</strong>[3,1]
+<strong>解释：</strong>[1,null,3] 和 [3,1] 都是高度平衡二叉搜索树。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>nums</code> is sorted in a <strong>strictly increasing</strong> order.</li>
+	<li><code>nums</code> 按 <strong>严格递增</strong> 顺序排列</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search + Recursion
+### 方法一：二分 + 递归
 
-We design a recursive function $dfs(l, r)$, which indicates that the node values of the current binary search tree to be constructed are all within the index range $[l, r]$ of the array `nums`. This function returns the root node of the constructed binary search tree.
+我们设计一个递归函数 $\textit{dfs}(l, r)$，表示当前待构造的二叉搜索树的节点值都在数组 $\textit{nums}$ 的下标范围 $[l, r]$ 内。该函数返回构造出的二叉搜索树的根节点。
 
-The execution process of the function $dfs(l, r)$ is as follows:
+函数 $\textit{dfs}(l, r)$ 的执行流程如下：
 
-1. If $l > r$, it means the current array is empty, return `null`.
-2. If $l \leq r$, take the element with the index $mid = \lfloor \frac{l + r}{2} \rfloor$ in the array as the root node of the current binary search tree, where $\lfloor x \rfloor$ represents rounding down $x$.
-3. Recursively construct the left subtree of the current binary search tree, whose root node value is the element with the index $mid - 1$ in the array, and the node values of the left subtree are all within the index range $[l, mid - 1]$ of the array.
-4. Recursively construct the right subtree of the current binary search tree, whose root node value is the element with the index $mid + 1$ in the array, and the node values of the right subtree are all within the index range $[mid + 1, r]$ of the array.
-5. Return the root node of the current binary search tree.
+1. 如果 $l > r$，说明当前数组为空，返回 `null`。
+2. 如果 $l \leq r$，取数组中下标为 $\textit{mid} = \lfloor \frac{l + r}{2} \rfloor$ 的元素作为当前二叉搜索树的根节点，其中 $\lfloor x \rfloor$ 表示对 $x$ 向下取整。
+3. 递归地构造当前二叉搜索树的左子树，其根节点的值为数组中下标为 $\textit{mid} - 1$ 的元素，左子树的节点值都在数组的下标范围 $[l, \textit{mid} - 1]$ 内。
+4. 递归地构造当前二叉搜索树的右子树，其根节点的值为数组中下标为 $\textit{mid} + 1$ 的元素，右子树的节点值都在数组的下标范围 $[\textit{mid} + 1, r]$ 内。
+5. 返回当前二叉搜索树的根节点。
 
-The answer is the return value of the function $dfs(0, n - 1)$.
+答案即为函数 $\textit{dfs}(0, n - 1)$ 的返回值。
 
-The time complexity is $O(n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array `nums`.
+时间复杂度 $O(n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -81,13 +86,11 @@ The time complexity is $O(n)$, and the space complexity is $O(\log n)$. Here, $n
 #         self.right = right
 class Solution:
     def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
-        def dfs(l, r):
+        def dfs(l: int, r: int) -> Optional[TreeNode]:
             if l > r:
                 return None
             mid = (l + r) >> 1
-            left = dfs(l, mid - 1)
-            right = dfs(mid + 1, r)
-            return TreeNode(nums[mid], left, right)
+            return TreeNode(nums[mid], dfs(l, mid - 1), dfs(mid + 1, r))
 
         return dfs(0, len(nums) - 1)
 ```
@@ -123,9 +126,7 @@ class Solution {
             return null;
         }
         int mid = (l + r) >> 1;
-        TreeNode left = dfs(l, mid - 1);
-        TreeNode right = dfs(mid + 1, r);
-        return new TreeNode(nums[mid], left, right);
+        return new TreeNode(nums[mid], dfs(l, mid - 1), dfs(mid + 1, r));
     }
 }
 ```
@@ -147,14 +148,12 @@ class Solution {
 class Solution {
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        function<TreeNode*(int, int)> dfs = [&](int l, int r) -> TreeNode* {
+        auto dfs = [&](this auto&& dfs, int l, int r) -> TreeNode* {
             if (l > r) {
                 return nullptr;
             }
             int mid = (l + r) >> 1;
-            auto left = dfs(l, mid - 1);
-            auto right = dfs(mid + 1, r);
-            return new TreeNode(nums[mid], left, right);
+            return new TreeNode(nums[mid], dfs(l, mid - 1), dfs(mid + 1, r));
         };
         return dfs(0, nums.size() - 1);
     }
@@ -179,8 +178,7 @@ func sortedArrayToBST(nums []int) *TreeNode {
 			return nil
 		}
 		mid := (l + r) >> 1
-		left, right := dfs(l, mid-1), dfs(mid+1, r)
-		return &TreeNode{nums[mid], left, right}
+		return &TreeNode{nums[mid], dfs(l, mid-1), dfs(mid+1, r)}
 	}
 	return dfs(0, len(nums)-1)
 }
@@ -204,16 +202,14 @@ func sortedArrayToBST(nums []int) *TreeNode {
  */
 
 function sortedArrayToBST(nums: number[]): TreeNode | null {
-  const n = nums.length;
-  if (n === 0) {
-    return null;
-  }
-  const mid = n >> 1;
-  return new TreeNode(
-    nums[mid],
-    sortedArrayToBST(nums.slice(0, mid)),
-    sortedArrayToBST(nums.slice(mid + 1))
-  );
+    const dfs = (l: number, r: number): TreeNode | null => {
+        if (l > r) {
+            return null;
+        }
+        const mid = (l + r) >> 1;
+        return new TreeNode(nums[mid], dfs(l, mid - 1), dfs(mid + 1, r));
+    };
+    return dfs(0, nums.length - 1);
 }
 ```
 
@@ -238,23 +234,24 @@ function sortedArrayToBST(nums: number[]): TreeNode | null {
 //     }
 //   }
 // }
-use std::cell::RefCell;
 use std::rc::Rc;
+use std::cell::RefCell;
 impl Solution {
-    fn to_bst(nums: &Vec<i32>, start: usize, end: usize) -> Option<Rc<RefCell<TreeNode>>> {
-        if start >= end {
-            return None;
-        }
-        let mid = start + (end - start) / 2;
-        Some(Rc::new(RefCell::new(TreeNode {
-            val: nums[mid],
-            left: Self::to_bst(nums, start, mid),
-            right: Self::to_bst(nums, mid + 1, end),
-        })))
-    }
-
     pub fn sorted_array_to_bst(nums: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
-        Self::to_bst(&nums, 0, nums.len())
+        fn dfs(nums: &Vec<i32>, l: usize, r: usize) -> Option<Rc<RefCell<TreeNode>>> {
+            if l > r {
+                return None;
+            }
+            let mid = (l + r) / 2;
+            if mid >= nums.len() {
+                return None;
+            }
+            let mut node = Rc::new(RefCell::new(TreeNode::new(nums[mid])));
+            node.borrow_mut().left = dfs(nums, l, mid - 1);
+            node.borrow_mut().right = dfs(nums, mid + 1, r);
+            Some(node)
+        }
+        dfs(&nums, 0, nums.len() - 1)
     }
 }
 ```
@@ -275,17 +272,49 @@ impl Solution {
  * @return {TreeNode}
  */
 var sortedArrayToBST = function (nums) {
-  const dfs = (l, r) => {
-    if (l > r) {
-      return null;
-    }
-    const mid = (l + r) >> 1;
-    const left = dfs(l, mid - 1);
-    const right = dfs(mid + 1, r);
-    return new TreeNode(nums[mid], left, right);
-  };
-  return dfs(0, nums.length - 1);
+    const dfs = (l, r) => {
+        if (l > r) {
+            return null;
+        }
+        const mid = (l + r) >> 1;
+        return new TreeNode(nums[mid], dfs(l, mid - 1), dfs(mid + 1, r));
+    };
+    return dfs(0, nums.length - 1);
 };
+```
+
+#### C#
+
+```cs
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    private int[] nums;
+
+    public TreeNode SortedArrayToBST(int[] nums) {
+        this.nums = nums;
+        return dfs(0, nums.Length - 1);
+    }
+
+    private TreeNode dfs(int l, int r) {
+        if (l > r) {
+            return null;
+        }
+        int mid = (l + r) >> 1;
+        return new TreeNode(nums[mid], dfs(l, mid - 1), dfs(mid + 1, r));
+    }
+}
 ```
 
 <!-- tabs:end -->

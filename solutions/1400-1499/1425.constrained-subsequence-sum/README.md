@@ -1,86 +1,88 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1425.Constrained%20Subsequence%20Sum/README.md
 rating: 2032
-source: Weekly Contest 186 Q4
+source: 第 186 场周赛 Q4
 tags:
-  - Queue
-  - Array
-  - Dynamic Programming
-  - Sliding Window
-  - Monotonic Queue
-  - Heap (Priority Queue)
+    - 队列
+    - 数组
+    - 动态规划
+    - 滑动窗口
+    - 单调队列
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1425. Constrained Subsequence Sum](https://leetcode.com/problems/constrained-subsequence-sum)
+# [1425. 带限制的子序列和](https://leetcode.cn/problems/constrained-subsequence-sum)
 
-## Description
+[English Version](/solution/1400-1499/1425.Constrained%20Subsequence%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return the maximum sum of a <strong>non-empty</strong> subsequence of that array such that for every two <strong>consecutive</strong> integers in the subsequence, <code>nums[i]</code> and <code>nums[j]</code>, where <code>i &lt; j</code>, the condition <code>j - i &lt;= k</code> is satisfied.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;，请你返回 <strong>非空</strong>&nbsp;子序列元素和的最大值，子序列需要满足：子序列中每两个 <strong>相邻</strong>&nbsp;的整数&nbsp;<code>nums[i]</code>&nbsp;和&nbsp;<code>nums[j]</code>&nbsp;，它们在原数组中的下标&nbsp;<code>i</code>&nbsp;和&nbsp;<code>j</code>&nbsp;满足&nbsp;<code>i &lt; j</code>&nbsp;且 <code>j - i &lt;= k</code> 。</p>
 
-<p>A <em>subsequence</em> of an array is obtained by deleting some number of elements (can be zero) from the array, leaving the remaining elements in their original order.</p>
+<p>数组的子序列定义为：将数组中的若干个数字删除（可以删除 0 个数字），剩下的数字按照原本的顺序排布。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [10,2,-10,5,20], k = 2
-<strong>Output:</strong> 37
-<b>Explanation:</b> The subsequence is [10, 2, 5, 20].
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [10,2,-10,5,20], k = 2
+<strong>输出：</strong>37
+<strong>解释：</strong>子序列为 [10, 2, 5, 20] 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [-1,-2,-3], k = 1
-<strong>Output:</strong> -1
-<b>Explanation:</b> The subsequence must be non-empty, so we choose the largest number.
+<pre><strong>输入：</strong>nums = [-1,-2,-3], k = 1
+<strong>输出：</strong>-1
+<strong>解释：</strong>子序列必须是非空的，所以我们选择最大的数字。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [10,-2,-10,-5,20], k = 2
-<strong>Output:</strong> 23
-<b>Explanation:</b> The subsequence is [10, -2, -5, 20].
+<pre><strong>输入：</strong>nums = [10,-2,-10,-5,20], k = 2
+<strong>输出：</strong>23
+<strong>解释：</strong>子序列为 [10, -2, -5, 20] 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= k &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= k &lt;= nums.length &lt;= 10^5</code></li>
+	<li><code>-10^4&nbsp;&lt;= nums[i] &lt;= 10^4</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming + Monotonic Queue
+### 方法一：动态规划 + 单调队列
 
-We define $f[i]$ to represent the maximum sum of the subsequence ending at $\textit{nums}[i]$ that meets the conditions. Initially, $f[i] = 0$, and the answer is $\max_{0 \leq i \lt n} f(i)$.
+我们定义 $f[i]$ 表示以 $\textit{nums}[i]$ 结尾的满足条件的子序列的最大和。初始时 $f[i] = 0$，答案为 $\max_{0 \leq i \lt n} f(i)$。
 
-We notice that the problem requires us to maintain the maximum value of a sliding window, which is a typical application scenario for a monotonic queue. We can use a monotonic queue to optimize the dynamic programming transition.
+我们注意到题目需要我们维护滑动窗口的最大值，这就是一个典型的单调队列应用场景。我们可以使用单调队列来优化动态规划的转移。
 
-We maintain a monotonic queue $q$ that is decreasing from the front to the back, storing the indices $i$. Initially, we add a sentinel $0$ to the queue.
+我们维护一个从队首到队尾单调递减的单调队列 $q$，队列中存储的是下标 $i$，初始时，我们将一个哨兵 $0$ 加入队列中。
 
-We traverse $i$ from $0$ to $n - 1$. For each $i$, we perform the following operations:
+我们遍历 $i$ 从 $0$ 到 $n - 1$，对于每个 $i$，我们执行以下操作：
 
-- If the front element $q[0]$ satisfies $i - q[0] > k$, it means the front element is no longer within the sliding window, and we need to remove the front element from the queue;
-- Then, we calculate $f[i] = \max(0, f[q[0]]) + \textit{nums}[i]$, which means we add $\textit{nums}[i]$ to the sliding window to get the maximum subsequence sum;
-- Next, we update the answer $\textit{ans} = \max(\textit{ans}, f[i])$;
-- Finally, we add $i$ to the back of the queue and maintain the monotonicity of the queue. If $f[q[\textit{back}]] \leq f[i]$, we need to remove the back element until the queue is empty or $f[q[\textit{back}]] > f[i]$.
+-   如果队首元素 $q[0]$ 满足 $i - q[0] > k$，说明队首元素已经不在滑动窗口内，我们需要从队首弹出队首元素；
+-   然后，我们计算 $f[i] = \max(0, f[q[0]]) + \textit{nums}[i]$，表示我们将 $\textit{nums}[i]$ 加入滑动窗口后的最大子序列和；
+-   接下来，我们更新答案 $\textit{ans} = \max(\textit{ans}, f[i])$；
+-   最后，我们将 $i$ 加入队列尾部，并且保持队列的单调性，即如果 $f[q[\textit{back}]] \leq f[i]$，我们需要将队尾元素弹出，直到队列为空或者 $f[q[\textit{back}]] > f[i]$。
 
-The final answer is $\textit{ans}$.
+最终答案即为 $\textit{ans}$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -243,119 +245,119 @@ func (q Deque) Get(i int) int {
 
 ```ts
 function constrainedSubsetSum(nums: number[], k: number): number {
-  const q = new Deque<number>();
-  const n = nums.length;
-  q.pushBack(0);
-  let ans = nums[0];
-  const f: number[] = Array(n).fill(0);
-  for (let i = 0; i < n; ++i) {
-    while (i - q.frontValue()! > k) {
-      q.popFront();
+    const q = new Deque<number>();
+    const n = nums.length;
+    q.pushBack(0);
+    let ans = nums[0];
+    const f: number[] = Array(n).fill(0);
+    for (let i = 0; i < n; ++i) {
+        while (i - q.frontValue()! > k) {
+            q.popFront();
+        }
+        f[i] = Math.max(0, f[q.frontValue()!]!) + nums[i];
+        ans = Math.max(ans, f[i]);
+        while (!q.isEmpty() && f[q.backValue()!]! <= f[i]) {
+            q.popBack();
+        }
+        q.pushBack(i);
     }
-    f[i] = Math.max(0, f[q.frontValue()!]!) + nums[i];
-    ans = Math.max(ans, f[i]);
-    while (!q.isEmpty() && f[q.backValue()!]! <= f[i]) {
-      q.popBack();
-    }
-    q.pushBack(i);
-  }
-  return ans;
+    return ans;
 }
 
 class Node<T> {
-  value: T;
-  next: Node<T> | null;
-  prev: Node<T> | null;
+    value: T;
+    next: Node<T> | null;
+    prev: Node<T> | null;
 
-  constructor(value: T) {
-    this.value = value;
-    this.next = null;
-    this.prev = null;
-  }
+    constructor(value: T) {
+        this.value = value;
+        this.next = null;
+        this.prev = null;
+    }
 }
 
 class Deque<T> {
-  private front: Node<T> | null;
-  private back: Node<T> | null;
-  private size: number;
+    private front: Node<T> | null;
+    private back: Node<T> | null;
+    private size: number;
 
-  constructor() {
-    this.front = null;
-    this.back = null;
-    this.size = 0;
-  }
-
-  pushFront(val: T): void {
-    const newNode = new Node(val);
-    if (this.isEmpty()) {
-      this.front = newNode;
-      this.back = newNode;
-    } else {
-      newNode.next = this.front;
-      this.front!.prev = newNode;
-      this.front = newNode;
+    constructor() {
+        this.front = null;
+        this.back = null;
+        this.size = 0;
     }
-    this.size++;
-  }
 
-  pushBack(val: T): void {
-    const newNode = new Node(val);
-    if (this.isEmpty()) {
-      this.front = newNode;
-      this.back = newNode;
-    } else {
-      newNode.prev = this.back;
-      this.back!.next = newNode;
-      this.back = newNode;
+    pushFront(val: T): void {
+        const newNode = new Node(val);
+        if (this.isEmpty()) {
+            this.front = newNode;
+            this.back = newNode;
+        } else {
+            newNode.next = this.front;
+            this.front!.prev = newNode;
+            this.front = newNode;
+        }
+        this.size++;
     }
-    this.size++;
-  }
 
-  popFront(): T | undefined {
-    if (this.isEmpty()) {
-      return undefined;
+    pushBack(val: T): void {
+        const newNode = new Node(val);
+        if (this.isEmpty()) {
+            this.front = newNode;
+            this.back = newNode;
+        } else {
+            newNode.prev = this.back;
+            this.back!.next = newNode;
+            this.back = newNode;
+        }
+        this.size++;
     }
-    const value = this.front!.value;
-    this.front = this.front!.next;
-    if (this.front !== null) {
-      this.front.prev = null;
-    } else {
-      this.back = null;
+
+    popFront(): T | undefined {
+        if (this.isEmpty()) {
+            return undefined;
+        }
+        const value = this.front!.value;
+        this.front = this.front!.next;
+        if (this.front !== null) {
+            this.front.prev = null;
+        } else {
+            this.back = null;
+        }
+        this.size--;
+        return value;
     }
-    this.size--;
-    return value;
-  }
 
-  popBack(): T | undefined {
-    if (this.isEmpty()) {
-      return undefined;
+    popBack(): T | undefined {
+        if (this.isEmpty()) {
+            return undefined;
+        }
+        const value = this.back!.value;
+        this.back = this.back!.prev;
+        if (this.back !== null) {
+            this.back.next = null;
+        } else {
+            this.front = null;
+        }
+        this.size--;
+        return value;
     }
-    const value = this.back!.value;
-    this.back = this.back!.prev;
-    if (this.back !== null) {
-      this.back.next = null;
-    } else {
-      this.front = null;
+
+    frontValue(): T | undefined {
+        return this.front?.value;
     }
-    this.size--;
-    return value;
-  }
 
-  frontValue(): T | undefined {
-    return this.front?.value;
-  }
+    backValue(): T | undefined {
+        return this.back?.value;
+    }
 
-  backValue(): T | undefined {
-    return this.back?.value;
-  }
+    getSize(): number {
+        return this.size;
+    }
 
-  getSize(): number {
-    return this.size;
-  }
-
-  isEmpty(): boolean {
-    return this.size === 0;
-  }
+    isEmpty(): boolean {
+        return this.size === 0;
+    }
 }
 ```
 

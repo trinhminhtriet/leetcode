@@ -1,53 +1,56 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1800.Maximum%20Ascending%20Subarray%20Sum/README.md
 rating: 1229
-source: Weekly Contest 233 Q1
+source: 第 233 场周赛 Q1
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [1800. Maximum Ascending Subarray Sum](https://leetcode.com/problems/maximum-ascending-subarray-sum)
+# [1800. 最大升序子数组和](https://leetcode.cn/problems/maximum-ascending-subarray-sum)
 
-## Description
+[English Version](/solution/1800-1899/1800.Maximum%20Ascending%20Subarray%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of positive integers <code>nums</code>, return the <em>maximum possible sum of an <strong>ascending</strong> subarray in </em><code>nums</code>.</p>
+<p>给你一个正整数组成的数组 <code>nums</code> ，返回 <code>nums</code> 中一个 <span data-keyword="strictly-increasing-array">严格递增子数组</span> 的最大可能元素和。</p>
 
-<p>A subarray is defined as a contiguous sequence of numbers in an array.</p>
-
-<p>A subarray <code>[nums<sub>l</sub>, nums<sub>l+1</sub>, ..., nums<sub>r-1</sub>, nums<sub>r</sub>]</code> is <strong>ascending</strong> if for all <code>i</code> where <code>l &lt;= i &lt; r</code>, <code>nums<sub>i </sub> &lt; nums<sub>i+1</sub></code>. Note that a subarray of size <code>1</code> is <strong>ascending</strong>.</p>
+<p>子数组是数组中的一个连续数字序列。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [10,20,30,5,10,50]
-<strong>Output:</strong> 65
-<strong>Explanation: </strong>[5,10,50] is the ascending subarray with the maximum sum of 65.
+<strong>输入：</strong>nums = [10,20,30,5,10,50]
+<strong>输出：</strong>65
+<strong>解释：</strong>[5,10,50] 是元素和最大的升序子数组，最大元素和为 65 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [10,20,30,40,50]
-<strong>Output:</strong> 150
-<strong>Explanation: </strong>[10,20,30,40,50] is the ascending subarray with the maximum sum of 150.
+<strong>输入：</strong>nums = [10,20,30,40,50]
+<strong>输出：</strong>150
+<strong>解释：</strong>[10,20,30,40,50] 是元素和最大的升序子数组，最大元素和为 150 。 
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [12,17,15,13,10,11,12]
-<strong>Output:</strong> 33
-<strong>Explanation: </strong>[10,11,12] is the ascending subarray with the maximum sum of 33.
+<strong>输入：</strong>nums = [12,17,15,13,10,11,12]
+<strong>输出：</strong>33
+<strong>解释：</strong>[10,11,12] 是元素和最大的升序子数组，最大元素和为 33 。 
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -56,21 +59,21 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Direct Simulation
+### 方法一：直接模拟
 
-We use a variable $t$ to record the current sum of the ascending subarray, and a variable $ans$ to record the maximum sum of the ascending subarray.
+我们用变量 $t$ 记录当前升序子数组的和，用变量 $ans$ 记录最大的升序子数组和。
 
-Traverse the array $nums$:
+遍历数组 $nums$：
 
-If the current element is the first element of the array, or the current element is greater than the previous one, then add the current element to the sum of the current ascending subarray, i.e., $t = t + nums[i]$, and update the maximum sum of the ascending subarray $ans = \max(ans, t)$. Otherwise, the current element does not satisfy the condition of the ascending subarray, so reset the sum $t$ of the current ascending subarray to the current element, i.e., $t = nums[i]$.
+如果当前元素是数组的第一个元素，或者当前元素大于前一个元素，那么将当前元素加入到当前升序子数组的和，即 $t = t + nums[i]$，并且更新最大升序子数组和 $ans = \max(ans, t)$；否则，当前元素不满足升序子数组的条件，那么将当前升序子数组的和 $t$ 重置为当前元素，即 $t = nums[i]$。
 
-After the traversal, return the maximum sum of the ascending subarray $ans$.
+遍历结束，返回最大升序子数组和 $ans$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -151,17 +154,17 @@ func maxAscendingSum(nums []int) int {
 
 ```ts
 function maxAscendingSum(nums: number[]): number {
-  const n = nums.length;
-  let res = nums[0];
-  let sum = nums[0];
-  for (let i = 1; i < n; i++) {
-    if (nums[i] <= nums[i - 1]) {
-      res = Math.max(res, sum);
-      sum = 0;
+    const n = nums.length;
+    let res = nums[0];
+    let sum = nums[0];
+    for (let i = 1; i < n; i++) {
+        if (nums[i] <= nums[i - 1]) {
+            res = Math.max(res, sum);
+            sum = 0;
+        }
+        sum += nums[i];
     }
-    sum += nums[i];
-  }
-  return Math.max(res, sum);
+    return Math.max(res, sum);
 }
 ```
 

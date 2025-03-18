@@ -1,78 +1,83 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2833.Furthest%20Point%20From%20Origin/README.md
 rating: 1294
-source: Weekly Contest 360 Q1
+source: 第 360 场周赛 Q1
 tags:
-  - String
-  - Counting
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2833. Furthest Point From Origin](https://leetcode.com/problems/furthest-point-from-origin)
+# [2833. 距离原点最远的点](https://leetcode.cn/problems/furthest-point-from-origin)
 
-## Description
+[English Version](/solution/2800-2899/2833.Furthest%20Point%20From%20Origin/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>moves</code> of length <code>n</code> consisting only of characters <code>&#39;L&#39;</code>, <code>&#39;R&#39;</code>, and <code>&#39;_&#39;</code>. The string represents your movement on a number line starting from the origin <code>0</code>.</p>
+<p>给你一个长度为 <code>n</code> 的字符串 <code>moves</code> ，该字符串仅由字符 <code>'L'</code>、<code>'R'</code> 和 <code>'_'</code> 组成。字符串表示你在一条原点为 <code>0</code> 的数轴上的若干次移动。</p>
 
-<p>In the <code>i<sup>th</sup></code> move, you can choose one of the following directions:</p>
+<p>你的初始位置就在原点（<code>0</code>），第 <code>i</code> 次移动过程中，你可以根据对应字符选择移动方向：</p>
 
 <ul>
-	<li>move to the left if <code>moves[i] = &#39;L&#39;</code> or <code>moves[i] = &#39;_&#39;</code></li>
-	<li>move to the right if <code>moves[i] = &#39;R&#39;</code> or <code>moves[i] = &#39;_&#39;</code></li>
+	<li>如果 <code>moves[i] = 'L'</code> 或 <code>moves[i] = '_'</code> ，可以选择向左移动一个单位距离</li>
+	<li>如果 <code>moves[i] = 'R'</code> 或 <code>moves[i] = '_'</code> ，可以选择向右移动一个单位距离</li>
 </ul>
 
-<p>Return <em>the <strong>distance from the origin</strong> of the <strong>furthest</strong> point you can get to after </em><code>n</code><em> moves</em>.</p>
+<p>移动 <code>n</code> 次之后，请你找出可以到达的距离原点 <strong>最远</strong> 的点，并返回 <strong>从原点到这一点的距离</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> moves = &quot;L_RL__R&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The furthest point we can reach from the origin 0 is point -3 through the following sequence of moves &quot;LLRLLLR&quot;.
+<strong>输入：</strong>moves = "L_RL__R"
+<strong>输出：</strong>3
+<strong>解释：</strong>可以到达的距离原点 0 最远的点是 -3 ，移动的序列为 "LLRLLLR" 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> moves = &quot;_R__LL_&quot;
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The furthest point we can reach from the origin 0 is point -5 through the following sequence of moves &quot;LRLLLLL&quot;.
+<strong>输入：</strong>moves = "_R__LL_"
+<strong>输出：</strong>5
+<strong>解释：</strong>可以到达的距离原点 0 最远的点是 -5 ，移动的序列为 "LRLLLLL" 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> moves = &quot;_______&quot;
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> The furthest point we can reach from the origin 0 is point 7 through the following sequence of moves &quot;RRRRRRR&quot;.
+<strong>输入：</strong>moves = "_______"
+<strong>输出：</strong>7
+<strong>解释：</strong>可以到达的距离原点 0 最远的点是 7 ，移动的序列为 "RRRRRRR" 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= moves.length == n &lt;= 50</code></li>
-	<li><code>moves</code> consists only of characters <code>&#39;L&#39;</code>, <code>&#39;R&#39;</code> and <code>&#39;_&#39;</code>.</li>
+	<li><code>moves</code> 仅由字符 <code>'L'</code>、<code>'R'</code> 和 <code>'_'</code> 组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy
+### 方法一：贪心
 
-When encountering the character '_', we can choose to move left or right. The problem requires us to find the farthest point from the origin. Therefore, we can first traverse once, greedily move all '_' to the left, and find the farthest point from the origin at this time. Then traverse again, greedily move all '\_' to the right, and find the farthest point from the origin at this time. Finally, take the maximum of the two traversals.
+遇到字符 `'_'` 时，我们可以选择向左或向右移动，而题目需要我们求出离原点最远的点，因此，我们可以先进行一次遍历，贪心地把所有的 `'_'` 都移到左边，求出此时离原点最远的点，再进行一次遍历，贪心地把所有的 `'_'` 都移到右边，求出此时离原点最远的点，最后取两次遍历中的最大值即可。
 
-Further, we only need to calculate the difference between the number of 'L' and 'R' in the string, and then add the number of '\_'.
+进一步地，我们只需要统计出字符串中 `'L'`、`'R'` 的个数之差，再加上 `'_'` 的个数即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -138,8 +143,8 @@ func abs(x int) int {
 
 ```ts
 function furthestDistanceFromOrigin(moves: string): number {
-  const count = (c: string) => moves.split("").filter((x) => x === c).length;
-  return Math.abs(count("L") - count("R")) + count("_");
+    const count = (c: string) => moves.split('').filter(x => x === c).length;
+    return Math.abs(count('L') - count('R')) + count('_');
 }
 ```
 

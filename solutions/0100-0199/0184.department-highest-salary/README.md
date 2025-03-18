@@ -1,63 +1,65 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0184.Department%20Highest%20Salary/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [184. Department Highest Salary](https://leetcode.com/problems/department-highest-salary)
+# [184. 部门工资最高的员工](https://leetcode.cn/problems/department-highest-salary)
 
-## Description
+[English Version](/solution/0100-0199/0184.Department%20Highest%20Salary/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Employee</code></p>
+<p>表：&nbsp;<code>Employee</code></p>
 
 <pre>
 +--------------+---------+
-| Column Name  | Type    |
+| 列名          | 类型    |
 +--------------+---------+
 | id           | int     |
 | name         | varchar |
 | salary       | int     |
 | departmentId | int     |
 +--------------+---------+
-id is the primary key (column with unique values) for this table.
-departmentId is a foreign key (reference columns) of the ID from the <code>Department </code>table.
-Each row of this table indicates the ID, name, and salary of an employee. It also contains the ID of their department.
+在 SQL 中，id是此表的主键。
+departmentId 是 Department 表中 id 的外键（在 Pandas 中称为 join key）。
+此表的每一行都表示员工的 id、姓名和工资。它还包含他们所在部门的 id。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Table: <code>Department</code></p>
+<p>表：&nbsp;<code>Department</code></p>
 
 <pre>
 +-------------+---------+
-| Column Name | Type    |
+| 列名         | 类型    |
 +-------------+---------+
 | id          | int     |
 | name        | varchar |
 +-------------+---------+
-id is the primary key (column with unique values) for this table. It is guaranteed that department name is not <code>NULL.</code>
-Each row of this table indicates the ID of a department and its name.
+在 SQL 中，id 是此表的主键列。
+此表的每一行都表示一个部门的 id 及其名称。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to find employees who have the highest salary in each of the departments.</p>
-
-<p>Return the result table in <strong>any order</strong>.</p>
-
-<p>The result format is in the following example.</p>
+<p>查找出每个部门中薪资最高的员工。<br />
+按 <strong>任意顺序</strong> 返回结果表。<br />
+查询结果格式如下例所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Employee table:
+<b>输入：</b>
+Employee 表:
 +----+-------+--------+--------------+
 | id | name  | salary | departmentId |
 +----+-------+--------+--------------+
@@ -67,14 +69,14 @@ Employee table:
 | 4  | Sam   | 60000  | 2            |
 | 5  | Max   | 90000  | 1            |
 +----+-------+--------+--------------+
-Department table:
+Department 表:
 +----+-------+
 | id | name  |
 +----+-------+
 | 1  | IT    |
 | 2  | Sales |
 +----+-------+
-<strong>Output:</strong> 
+<b>输出：</b>
 +------------+----------+--------+
 | Department | Employee | Salary |
 +------------+----------+--------+
@@ -82,18 +84,17 @@ Department table:
 | Sales      | Henry    | 80000  |
 | IT         | Max      | 90000  |
 +------------+----------+--------+
-<strong>Explanation:</strong> Max and Jim both have the highest salary in the IT department and Henry has the highest salary in the Sales department.
-</pre>
+<strong>解释：</strong>Max 和 Jim 在 IT 部门的工资都是最高的，Henry 在销售部的工资最高。</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Equi-Join + Subquery
+### 方法一：等值连接 + 子查询
 
-We can use an equi-join to join the `Employee` table and the `Department` table based on `Employee.departmentId = Department.id`, and then use a subquery to find the highest salary for each department. Finally, we can use a `WHERE` clause to filter out the employees with the highest salary in each department.
+我们可以使用等值连接，将 `Employee` 表和 `Department` 表连接起来，连接条件为 `Employee.departmentId = Department.id`，然后使用子查询来找到每个部门的最高工资，最后使用 `WHERE` 子句来筛选出每个部门中薪资最高的员工。
 
 <!-- tabs:start -->
 
@@ -119,9 +120,9 @@ WHERE
 
 <!-- solution:start -->
 
-### Solution 2: Equi-Join + Window Function
+### 方法二：等值连接 + 窗口函数
 
-We can use an equi-join to join the `Employee` table and the `Department` table based on `Employee.departmentId = Department.id`, and then use the window function `rank()`, which assigns a rank to each employee in each department based on their salary. Finally, we can select the rows with a rank of $1$ for each department.
+我们可以使用等值连接，将 `Employee` 表和 `Department` 表连接起来，连接条件为 `Employee.departmentId = Department.id`，然后使用窗口函数 `rank()`，它可以为每个部门的每个员工分配一个排名，然后我们可以选择排名为 $1$ 的行即可。
 
 <!-- tabs:start -->
 

@@ -1,52 +1,55 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1814.Count%20Nice%20Pairs%20in%20an%20Array/README.md
 rating: 1737
-source: Biweekly Contest 49 Q3
+source: 第 49 场双周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Math
-  - Counting
+    - 数组
+    - 哈希表
+    - 数学
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1814. Count Nice Pairs in an Array](https://leetcode.com/problems/count-nice-pairs-in-an-array)
+# [1814. 统计一个数组中好对子的数目](https://leetcode.cn/problems/count-nice-pairs-in-an-array)
 
-## Description
+[English Version](/solution/1800-1899/1814.Count%20Nice%20Pairs%20in%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>nums</code> that consists of non-negative integers. Let us define <code>rev(x)</code> as the reverse of the non-negative integer <code>x</code>. For example, <code>rev(123) = 321</code>, and <code>rev(120) = 21</code>. A pair of indices <code>(i, j)</code> is <strong>nice</strong> if it satisfies all of the following conditions:</p>
+<p>给你一个数组 <code>nums</code> ，数组中只包含非负整数。定义 <code>rev(x)</code> 的值为将整数 <code>x</code> 各个数字位反转得到的结果。比方说 <code>rev(123) = 321</code> ， <code>rev(120) = 21</code> 。我们称满足下面条件的下标对 <code>(i, j)</code> 是 <strong>好的</strong> ：</p>
 
 <ul>
 	<li><code>0 &lt;= i &lt; j &lt; nums.length</code></li>
 	<li><code>nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])</code></li>
 </ul>
 
-<p>Return <em>the number of nice pairs of indices</em>. Since that number can be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>请你返回好下标对的数目。由于结果可能会很大，请将结果对 <code>10<sup>9</sup> + 7</code> <b>取余</b> 后返回。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [42,11,1,97]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The two pairs are:
- - (0,3) : 42 + rev(97) = 42 + 79 = 121, 97 + rev(42) = 97 + 24 = 121.
- - (1,2) : 11 + rev(1) = 11 + 1 = 12, 1 + rev(11) = 1 + 11 = 12.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums = [42,11,1,97]
+<b>输出：</b>2
+<b>解释：</b>两个坐标对为：
+ - (0,3)：42 + rev(97) = 42 + 79 = 121, 97 + rev(42) = 97 + 24 = 121 。
+ - (1,2)：11 + rev(1) = 11 + 1 = 12, 1 + rev(11) = 1 + 11 = 12 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [13,10,35,24,76]
-<strong>Output:</strong> 4
+<pre><b>输入：</b>nums = [13,10,35,24,76]
+<b>输出：</b>4
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -55,19 +58,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Equation Transformation + Hash Table
+### 方法一：式子变换 + 哈希表
 
-For the index pair $(i, j)$, if it satisfies the condition, then we have $nums[i] + rev(nums[j]) = nums[j] + rev(nums[i])$, which means $nums[i] - nums[j] = rev(nums[j]) - rev(nums[i])$.
+对于下标对 $(i, j)$，如果满足条件，那么有 $nums[i] + rev(nums[j]) = nums[j] + rev(nums[i])$，即 $nums[i] - nums[j] = rev(nums[j]) - rev(nums[i])$。
 
-Therefore, we can use $nums[i] - rev(nums[i])$ as the key of a hash table and count the number of occurrences of each key. Finally, we calculate the combination of values corresponding to each key, add them up, and get the final answer.
+因此，我们可以将 $nums[i] - rev(nums[i])$ 作为哈希表的键，统计每个键出现的次数。最后计算每个键对应的值的组合数，相加得到最终的答案。
 
-Note that we need to perform modulo operation on the answer.
+注意答案的取模操作。
 
-The time complexity is $O(n \times \log M)$, where $n$ and $M$ are the length of the $nums$ array and the maximum value in the $nums$ array, respectively. The space complexity is $O(n)$.
+时间复杂度 $O(n \times \log M)$，其中 $n$ 和 $M$ 分别是数组 `nums` 的长度和数组 `nums` 中的最大值。空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -171,23 +174,23 @@ func countNicePairs(nums []int) (ans int) {
 
 ```ts
 function countNicePairs(nums: number[]): number {
-  const rev = (x: number): number => {
-    let y = 0;
-    while (x) {
-      y = y * 10 + (x % 10);
-      x = Math.floor(x / 10);
+    const rev = (x: number): number => {
+        let y = 0;
+        while (x) {
+            y = y * 10 + (x % 10);
+            x = Math.floor(x / 10);
+        }
+        return y;
+    };
+    const mod = 10 ** 9 + 7;
+    const cnt = new Map<number, number>();
+    let ans = 0;
+    for (const x of nums) {
+        const y = x - rev(x);
+        ans = (ans + (cnt.get(y) ?? 0)) % mod;
+        cnt.set(y, (cnt.get(y) ?? 0) + 1);
     }
-    return y;
-  };
-  const mod = 10 ** 9 + 7;
-  const cnt = new Map<number, number>();
-  let ans = 0;
-  for (const x of nums) {
-    const y = x - rev(x);
-    ans = (ans + (cnt.get(y) ?? 0)) % mod;
-    cnt.set(y, (cnt.get(y) ?? 0) + 1);
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -199,24 +202,24 @@ function countNicePairs(nums: number[]): number {
  * @return {number}
  */
 var countNicePairs = function (nums) {
-  const rev = (x) => {
-    let y = 0;
-    for (; x > 0; x = Math.floor(x / 10)) {
-      y = y * 10 + (x % 10);
+    const rev = x => {
+        let y = 0;
+        for (; x > 0; x = Math.floor(x / 10)) {
+            y = y * 10 + (x % 10);
+        }
+        return y;
+    };
+    const cnt = new Map();
+    for (const x of nums) {
+        const y = x - rev(x);
+        cnt.set(y, (cnt.get(y) | 0) + 1);
     }
-    return y;
-  };
-  const cnt = new Map();
-  for (const x of nums) {
-    const y = x - rev(x);
-    cnt.set(y, (cnt.get(y) | 0) + 1);
-  }
-  let ans = 0;
-  const mod = 1e9 + 7;
-  for (const [_, v] of cnt) {
-    ans = (ans + Math.floor((v * (v - 1)) / 2)) % mod;
-  }
-  return ans;
+    let ans = 0;
+    const mod = 1e9 + 7;
+    for (const [_, v] of cnt) {
+        ans = (ans + Math.floor((v * (v - 1)) / 2)) % mod;
+    }
+    return ans;
 };
 ```
 
@@ -255,7 +258,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -361,23 +364,23 @@ func countNicePairs(nums []int) (ans int) {
  * @return {number}
  */
 var countNicePairs = function (nums) {
-  const rev = (x) => {
-    let y = 0;
-    for (; x > 0; x = Math.floor(x / 10)) {
-      y = y * 10 + (x % 10);
+    const rev = x => {
+        let y = 0;
+        for (; x > 0; x = Math.floor(x / 10)) {
+            y = y * 10 + (x % 10);
+        }
+        return y;
+    };
+    let ans = 0;
+    const mod = 1e9 + 7;
+    const cnt = new Map();
+    for (const x of nums) {
+        const y = x - rev(x);
+        const v = cnt.get(y) | 0;
+        ans = (ans + v) % mod;
+        cnt.set(y, v + 1);
     }
-    return y;
-  };
-  let ans = 0;
-  const mod = 1e9 + 7;
-  const cnt = new Map();
-  for (const x of nums) {
-    const y = x - rev(x);
-    const v = cnt.get(y) | 0;
-    ans = (ans + v) % mod;
-    cnt.set(y, v + 1);
-  }
-  return ans;
+    return ans;
 };
 ```
 

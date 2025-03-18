@@ -1,65 +1,70 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2525.Categorize%20Box%20According%20to%20Criteria/README.md
 rating: 1301
-source: Biweekly Contest 95 Q1
+source: 第 95 场双周赛 Q1
 tags:
-  - Math
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2525. Categorize Box According to Criteria](https://leetcode.com/problems/categorize-box-according-to-criteria)
+# [2525. 根据规则将箱子分类](https://leetcode.cn/problems/categorize-box-according-to-criteria)
 
-## Description
+[English Version](/solution/2500-2599/2525.Categorize%20Box%20According%20to%20Criteria/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given four integers <code>length</code>, <code>width</code>, <code>height</code>, and <code>mass</code>, representing the dimensions and mass of a box, respectively, return <em>a string representing the <strong>category</strong> of the box</em>.</p>
+<p>给你四个整数&nbsp;<code>length</code>&nbsp;，<code>width</code>&nbsp;，<code>height</code>&nbsp;和&nbsp;<code>mass</code>&nbsp;，分别表示一个箱子的三个维度和质量，请你返回一个表示箱子 <strong>类别</strong> 的字符串。</p>
 
 <ul>
-	<li>The box is <code>&quot;Bulky&quot;</code> if:
+	<li>如果满足以下条件，那么箱子是&nbsp;<code>"Bulky"</code>&nbsp;的：
 
     <ul>
-    	<li><strong>Any</strong> of the dimensions of the box is greater or equal to <code>10<sup>4</sup></code>.</li>
-    	<li>Or, the <strong>volume</strong> of the box is greater or equal to <code>10<sup>9</sup></code>.</li>
+    	<li>箱子 <strong>至少有一个</strong> 维度大于等于 <code>10<sup>4</sup></code>&nbsp;。</li>
+    	<li>或者箱子的 <strong>体积</strong> 大于等于&nbsp;<code>10<sup>9</sup></code>&nbsp;。</li>
     </ul>
     </li>
-    <li>If the mass of the box is greater or equal to <code>100</code>, it is <code>&quot;Heavy&quot;.</code></li>
-    <li>If the box is both <code>&quot;Bulky&quot;</code> and <code>&quot;Heavy&quot;</code>, then its category is <code>&quot;Both&quot;</code>.</li>
-    <li>If the box is neither <code>&quot;Bulky&quot;</code> nor <code>&quot;Heavy&quot;</code>, then its category is <code>&quot;Neither&quot;</code>.</li>
-    <li>If the box is <code>&quot;Bulky&quot;</code> but not <code>&quot;Heavy&quot;</code>, then its category is <code>&quot;Bulky&quot;</code>.</li>
-    <li>If the box is <code>&quot;Heavy&quot;</code> but not <code>&quot;Bulky&quot;</code>, then its category is <code>&quot;Heavy&quot;</code>.</li>
+    <li>如果箱子的质量大于等于&nbsp;<code>100</code>&nbsp;，那么箱子是&nbsp;<code>"Heavy"</code>&nbsp;的。</li>
+    <li>如果箱子同时是&nbsp;<code>"Bulky"</code> 和&nbsp;<code>"Heavy"</code>&nbsp;，那么返回类别为&nbsp;<code>"Both"</code>&nbsp;。</li>
+    <li>如果箱子既不是&nbsp;<code>"Bulky"</code>&nbsp;，也不是&nbsp;<code>"Heavy"</code>&nbsp;，那么返回类别为&nbsp;<code>"Neither"</code>&nbsp;。</li>
+    <li>如果箱子是&nbsp;<code>"Bulky"</code>&nbsp;但不是&nbsp;<code>"Heavy"</code>&nbsp;，那么返回类别为&nbsp;<code>"Bulky"</code>&nbsp;。</li>
+    <li>如果箱子是&nbsp;<code>"Heavy"</code>&nbsp;但不是&nbsp;<code>"Bulky"</code>&nbsp;，那么返回类别为&nbsp;<code>"Heavy"</code>&nbsp;。</li>
 
 </ul>
 
-<p><strong>Note</strong> that the volume of the box is the product of its length, width and height.</p>
+<p><strong>注意</strong>，箱子的体积等于箱子的长度、宽度和高度的乘积。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> length = 1000, width = 35, height = 700, mass = 300
-<strong>Output:</strong> &quot;Heavy&quot;
-<strong>Explanation:</strong> 
-None of the dimensions of the box is greater or equal to 10<sup>4</sup>. 
-Its volume = 24500000 &lt;= 10<sup>9</sup>. So it cannot be categorized as &quot;Bulky&quot;.
-However mass &gt;= 100, so the box is &quot;Heavy&quot;.
-Since the box is not &quot;Bulky&quot; but &quot;Heavy&quot;, we return &quot;Heavy&quot;.</pre>
+<b>输入：</b>length = 1000, width = 35, height = 700, mass = 300
+<b>输出：</b>"Heavy"
+<b>解释：</b>
+箱子没有任何维度大于等于 10<sup>4 </sup>。
+体积为 24500000 &lt;= 10<sup>9 </sup>。所以不能归类为 "Bulky" 。
+但是质量 &gt;= 100 ，所以箱子是 "Heavy" 的。
+由于箱子不是 "Bulky" 但是是 "Heavy" ，所以我们返回 "Heavy" 。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> length = 200, width = 50, height = 800, mass = 50
-<strong>Output:</strong> &quot;Neither&quot;
-<strong>Explanation:</strong> 
-None of the dimensions of the box is greater or equal to 10<sup>4</sup>.
-Its volume = 8 * 10<sup>6</sup> &lt;= 10<sup>9</sup>. So it cannot be categorized as &quot;Bulky&quot;.
-Its mass is also less than 100, so it cannot be categorized as &quot;Heavy&quot; either. 
-Since its neither of the two above categories, we return &quot;Neither&quot;.</pre>
+<b>输入：</b>length = 200, width = 50, height = 800, mass = 50
+<b>输出：</b>"Neither"
+<b>解释：</b>
+箱子没有任何维度大于等于 10<sup>4</sup>&nbsp;。
+体积为 8 * 10<sup>6</sup> &lt;= 10<sup>9</sup>&nbsp;。所以不能归类为 "Bulky" 。
+质量小于 100 ，所以不能归类为 "Heavy" 。
+由于不属于上述两者任何一类，所以我们返回 "Neither" 。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= length, width, height &lt;= 10<sup>5</sup></code></li>
@@ -68,15 +73,15 @@ Since its neither of the two above categories, we return &quot;Neither&quot;.</p
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can simulate according to the problem description.
+根据题意模拟即可。
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -144,21 +149,16 @@ func categorizeBox(length int, width int, height int, mass int) string {
 #### TypeScript
 
 ```ts
-function categorizeBox(
-  length: number,
-  width: number,
-  height: number,
-  mass: number
-): string {
-  const v = length * width * height;
-  let i = 0;
-  if (length >= 10000 || width >= 10000 || height >= 10000 || v >= 1000000000) {
-    i |= 1;
-  }
-  if (mass >= 100) {
-    i |= 2;
-  }
-  return ["Neither", "Bulky", "Heavy", "Both"][i];
+function categorizeBox(length: number, width: number, height: number, mass: number): string {
+    const v = length * width * height;
+    let i = 0;
+    if (length >= 10000 || width >= 10000 || height >= 10000 || v >= 1000000000) {
+        i |= 1;
+    }
+    if (mass >= 100) {
+        i |= 2;
+    }
+    return ['Neither', 'Bulky', 'Heavy', 'Both'][i];
 }
 ```
 
@@ -190,7 +190,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -285,25 +285,20 @@ func categorizeBox(length int, width int, height int, mass int) string {
 #### TypeScript
 
 ```ts
-function categorizeBox(
-  length: number,
-  width: number,
-  height: number,
-  mass: number
-): string {
-  const v = length * width * height;
-  const bulky = length >= 1e4 || width >= 1e4 || height >= 1e4 || v >= 1e9;
-  const heavy = mass >= 100;
-  if (bulky && heavy) {
-    return "Both";
-  }
-  if (bulky) {
-    return "Bulky";
-  }
-  if (heavy) {
-    return "Heavy";
-  }
-  return "Neither";
+function categorizeBox(length: number, width: number, height: number, mass: number): string {
+    const v = length * width * height;
+    const bulky = length >= 1e4 || width >= 1e4 || height >= 1e4 || v >= 1e9;
+    const heavy = mass >= 100;
+    if (bulky && heavy) {
+        return 'Both';
+    }
+    if (bulky) {
+        return 'Bulky';
+    }
+    if (heavy) {
+        return 'Heavy';
+    }
+    return 'Neither';
 }
 ```
 

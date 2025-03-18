@@ -1,52 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0605.Can%20Place%20Flowers/README.md
 tags:
-  - Greedy
-  - Array
+    - 贪心
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [605. Can Place Flowers](https://leetcode.com/problems/can-place-flowers)
+# [605. 种花问题](https://leetcode.cn/problems/can-place-flowers)
 
-## Description
+[English Version](/solution/0600-0699/0605.Can%20Place%20Flowers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in <strong>adjacent</strong> plots.</p>
+<p>假设有一个很长的花坛，一部分地块种植了花，另一部分却没有。可是，花不能种植在相邻的地块上，它们会争夺水源，两者都会死去。</p>
 
-<p>Given an integer array <code>flowerbed</code> containing <code>0</code>&#39;s and <code>1</code>&#39;s, where <code>0</code> means empty and <code>1</code> means not empty, and an integer <code>n</code>, return <code>true</code>&nbsp;<em>if</em> <code>n</code> <em>new flowers can be planted in the</em> <code>flowerbed</code> <em>without violating the no-adjacent-flowers rule and</em> <code>false</code> <em>otherwise</em>.</p>
+<p>给你一个整数数组&nbsp;<code>flowerbed</code> 表示花坛，由若干 <code>0</code> 和 <code>1</code> 组成，其中 <code>0</code> 表示没种植花，<code>1</code> 表示种植了花。另有一个数&nbsp;<code>n</code><strong> </strong>，能否在不打破种植规则的情况下种入&nbsp;<code>n</code><strong>&nbsp;</strong>朵花？能则返回 <code>true</code> ，不能则返回 <code>false</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> flowerbed = [1,0,0,0,1], n = 1
-<strong>Output:</strong> true
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> flowerbed = [1,0,0,0,1], n = 2
-<strong>Output:</strong> false
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>flowerbed = [1,0,0,0,1], n = 1
+<strong>输出：</strong>true
 </pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>flowerbed = [1,0,0,0,1], n = 2
+<strong>输出：</strong>false
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= flowerbed.length &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>flowerbed[i]</code> is <code>0</code> or <code>1</code>.</li>
-	<li>There are no two adjacent flowers in <code>flowerbed</code>.</li>
+	<li><code>flowerbed[i]</code> 为 <code>0</code> 或 <code>1</code></li>
+	<li><code>flowerbed</code> 中不存在相邻的两朵花</li>
 	<li><code>0 &lt;= n &lt;= flowerbed.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy
+### 方法一：贪心
 
-We directly traverse the array $flowerbed$. For each position $i$, if $flowerbed[i]=0$ and its adjacent positions on the left and right are also $0$, then we can plant a flower at this position. Otherwise, we cannot. Finally, we count the number of flowers that can be planted. If it is not less than $n$, we return $true$, otherwise we return $false$.
+我们直接遍历数组 $flowerbed$，对于每个位置 $i$，如果 $flowerbed[i]=0$，并且其左右相邻位置都为 $0$，则我们可以在该位置种花，否则不能。最后我们统计可以种下的花的数量，如果其不小于 $n$，则返回 $true$，否则返回 $false$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $flowerbed$. We only need to traverse the array once. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $flowerbed$ 的长度。我们只需要遍历数组一次。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -128,16 +140,16 @@ func canPlaceFlowers(flowerbed []int, n int) bool {
 
 ```ts
 function canPlaceFlowers(flowerbed: number[], n: number): boolean {
-  const m = flowerbed.length;
-  for (let i = 0; i < m; ++i) {
-    const l = i === 0 ? 0 : flowerbed[i - 1];
-    const r = i === m - 1 ? 0 : flowerbed[i + 1];
-    if (l + flowerbed[i] + r === 0) {
-      flowerbed[i] = 1;
-      --n;
+    const m = flowerbed.length;
+    for (let i = 0; i < m; ++i) {
+        const l = i === 0 ? 0 : flowerbed[i - 1];
+        const r = i === m - 1 ? 0 : flowerbed[i + 1];
+        if (l + flowerbed[i] + r === 0) {
+            flowerbed[i] = 1;
+            --n;
+        }
     }
-  }
-  return n <= 0;
+    return n <= 0;
 }
 ```
 

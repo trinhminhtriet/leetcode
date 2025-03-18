@@ -1,85 +1,90 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1702.Maximum%20Binary%20String%20After%20Change/README.md
 rating: 1825
-source: Biweekly Contest 42 Q3
+source: 第 42 场双周赛 Q3
 tags:
-  - Greedy
-  - String
+    - 贪心
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1702. Maximum Binary String After Change](https://leetcode.com/problems/maximum-binary-string-after-change)
+# [1702. 修改后的最大二进制字符串](https://leetcode.cn/problems/maximum-binary-string-after-change)
 
-## Description
+[English Version](/solution/1700-1799/1702.Maximum%20Binary%20String%20After%20Change/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a binary string <code>binary</code> consisting of only <code>0</code>&#39;s or <code>1</code>&#39;s. You can apply each of the following operations any number of times:</p>
+<p>给你一个二进制字符串 <code>binary</code> ，它仅有 <code>0</code> 或者 <code>1</code> 组成。你可以使用下面的操作任意次对它进行修改：</p>
 
 <ul>
-	<li>Operation 1: If the number contains the substring <code>&quot;00&quot;</code>, you can replace it with <code>&quot;10&quot;</code>.
+	<li>操作 1 ：如果二进制串包含子字符串 <code>"00"</code> ，你可以用 <code>"10"</code> 将其替换。
 
     <ul>
-    	<li>For example, <code>&quot;<u>00</u>010&quot; -&gt; &quot;<u>10</u>010</code>&quot;</li>
+    	<li>比方说， <code>"<strong>00</strong>010" -> "<strong>10</strong>010"</code></li>
     </ul>
     </li>
-    <li>Operation 2: If the number contains the substring <code>&quot;10&quot;</code>, you can replace it with <code>&quot;01&quot;</code>.
+    <li>操作 2 ：如果二进制串包含子字符串 <code>"10"</code> ，你可以用 <code>"01"</code> 将其替换。
     <ul>
-    	<li>For example, <code>&quot;000<u>10</u>&quot; -&gt; &quot;000<u>01</u>&quot;</code></li>
+    	<li>比方说， <code>"000<strong>10</strong>" -> "000<strong>01</strong>"</code></li>
     </ul>
     </li>
 
 </ul>
 
-<p><em>Return the <strong>maximum binary string</strong> you can obtain after any number of operations. Binary string <code>x</code> is greater than binary string <code>y</code> if <code>x</code>&#39;s decimal representation is greater than <code>y</code>&#39;s decimal representation.</em></p>
+<p>请你返回执行上述操作任意次以后能得到的 <strong>最大二进制字符串</strong> 。如果二进制字符串 <code>x</code> 对应的十进制数字大于二进制字符串 <code>y</code> 对应的十进制数字，那么我们称二进制字符串<em> </em><code>x</code><em> </em>大于二进制字符串<em> </em><code>y</code><em> </em>。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> binary = &quot;000110&quot;
-<strong>Output:</strong> &quot;111011&quot;
-<strong>Explanation:</strong> A valid transformation sequence can be:
-&quot;0001<u>10</u>&quot; -&gt; &quot;0001<u>01</u>&quot; 
-&quot;<u>00</u>0101&quot; -&gt; &quot;<u>10</u>0101&quot; 
-&quot;1<u>00</u>101&quot; -&gt; &quot;1<u>10</u>101&quot; 
-&quot;110<u>10</u>1&quot; -&gt; &quot;110<u>01</u>1&quot; 
-&quot;11<u>00</u>11&quot; -&gt; &quot;11<u>10</u>11&quot;
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> binary = &quot;01&quot;
-<strong>Output:</strong> &quot;01&quot;
-<strong>Explanation:</strong>&nbsp;&quot;01&quot; cannot be transformed any further.
+<b>输入：</b>binary = "000110"
+<b>输出：</b>"111011"
+<b>解释：</b>一个可行的转换为：
+"0001<strong>10</strong>" -> "0001<strong>01</strong>" 
+"<strong>00</strong>0101" -> "<strong>10</strong>0101" 
+"1<strong>00</strong>101" -> "1<strong>10</strong>101" 
+"110<strong>10</strong>1" -> "110<strong>01</strong>1" 
+"11<strong>00</strong>11" -> "11<strong>10</strong>11"
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>binary = "01"
+<b>输出：</b>"01"
+<b>解释：</b>"01" 没办法进行任何转换。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= binary.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>binary</code> consist of <code>&#39;0&#39;</code> and <code>&#39;1&#39;</code>.</li>
+	<li><code>1 <= binary.length <= 10<sup>5</sup></code></li>
+	<li><code>binary</code> 仅包含 <code>'0'</code> 和 <code>'1'</code> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Quick Thinking
+### 方法一：脑筋急转弯
 
-We observe that operation $2$ can move all $1$s to the end of the string, and operation $1$ can change all `0000..000` strings to `111..110`.
+我们观察发现，操作 $2$ 可以把所有的 $1$ 都移动到字符串的末尾，而操作 $1$ 可以把所有的 `0000..000` 串变为 `111..110`。
 
-Therefore, to get the maximum binary string, we should move all $1$s that are not at the beginning to the end of the string, making the string in the form of `111..11...000..00..11`. Then, with the help of operation $1$, we change the middle `000..00` to `111..10`. In this way, we can finally get a binary string that contains at most one $0$, which is the maximum binary string we are looking for.
+因此，要想得到最大的二进制串，我们应该把所有不在开头的 $1$ 移动到字符串末尾，使得字符串变为 `111..11...000..00..11` 的形式，然后借助操作 $1$ 把中间的 `000..00` 变为 `111..10`。这样我们最终可以得到一个最多包含一个 $0$ 的二进制字符串，这个字符串就是我们要求的最大二进制串。
 
-In the code implementation, we first judge whether the string contains $0$. If it does not, we directly return the original string. Otherwise, we find the position $k$ of the first $0$, add the number of $0$s after this position, and the position of $0$ in the modified string is obtained. The rest of the positions are all $1$s.
+在代码实现上，我们首先判断字符串是否包含 $0$，如果不包含，直接返回原字符串。否则，我们找到第一个 $0$ 的位置 $k$，加上该位置之后的 $0$ 的个数，得到的就是修改后的字符串的 $0$ 所在的位置，其余位置都是 $1$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串的长度。
 
 <!-- tabs:start -->
 
@@ -165,12 +170,12 @@ func maximumBinaryString(binary string) string {
 
 ```ts
 function maximumBinaryString(binary: string): string {
-  let k = binary.indexOf("0");
-  if (k === -1) {
-    return binary;
-  }
-  k += binary.slice(k + 1).split("0").length - 1;
-  return "1".repeat(k) + "0" + "1".repeat(binary.length - k - 1);
+    let k = binary.indexOf('0');
+    if (k === -1) {
+        return binary;
+    }
+    k += binary.slice(k + 1).split('0').length - 1;
+    return '1'.repeat(k) + '0' + '1'.repeat(binary.length - k - 1);
 }
 ```
 

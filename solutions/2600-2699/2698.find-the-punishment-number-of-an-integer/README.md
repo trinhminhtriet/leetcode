@@ -1,58 +1,63 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2698.Find%20the%20Punishment%20Number%20of%20an%20Integer/README.md
 rating: 1678
-source: Weekly Contest 346 Q3
+source: 第 346 场周赛 Q3
 tags:
-  - Math
-  - Backtracking
+    - 数学
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [2698. Find the Punishment Number of an Integer](https://leetcode.com/problems/find-the-punishment-number-of-an-integer)
+# [2698. 求一个整数的惩罚数](https://leetcode.cn/problems/find-the-punishment-number-of-an-integer)
 
-## Description
+[English Version](/solution/2600-2699/2698.Find%20the%20Punishment%20Number%20of%20an%20Integer/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a positive integer <code>n</code>, return <em>the <strong>punishment number</strong></em> of <code>n</code>.</p>
+<p>给你一个正整数&nbsp;<code>n</code>&nbsp;，请你返回&nbsp;<code>n</code>&nbsp;的&nbsp;<strong>惩罚数</strong>&nbsp;。</p>
 
-<p>The <strong>punishment number</strong> of <code>n</code> is defined as the sum of the squares of all integers <code>i</code> such that:</p>
+<p><code>n</code>&nbsp;的 <strong>惩罚数</strong>&nbsp;定义为所有满足以下条件 <code>i</code>&nbsp;的数的平方和：</p>
 
 <ul>
 	<li><code>1 &lt;= i &lt;= n</code></li>
-	<li>The decimal representation of <code>i * i</code> can be partitioned into contiguous substrings such that the sum of the integer values of these substrings equals <code>i</code>.</li>
+	<li><code>i * i</code> 的十进制表示的字符串可以分割成若干连续子字符串，且这些子字符串对应的整数值之和等于 <code>i</code> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 10
-<strong>Output:</strong> 182
-<strong>Explanation:</strong> There are exactly 3 integers i that satisfy the conditions in the statement:
-- 1 since 1 * 1 = 1
-- 9 since 9 * 9 = 81 and 81 can be partitioned into 8 + 1.
-- 10 since 10 * 10 = 100 and 100 can be partitioned into 10 + 0.
-Hence, the punishment number of 10 is 1 + 81 + 100 = 182
+<b>输入：</b>n = 10
+<b>输出：</b>182
+<b>解释：</b>总共有 3 个范围在 [1, 10] 的整数 i 满足要求：
+- 1 ，因为 1 * 1 = 1
+- 9 ，因为 9 * 9 = 81 ，且 81 可以分割成 8 + 1 。
+- 10 ，因为 10 * 10 = 100 ，且 100 可以分割成 10 + 0 。
+因此，10 的惩罚数为 1 + 81 + 100 = 182
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 37
-<strong>Output:</strong> 1478
-<strong>Explanation:</strong> There are exactly 4 integers i that satisfy the conditions in the statement:
-- 1 since 1 * 1 = 1. 
-- 9 since 9 * 9 = 81 and 81 can be partitioned into 8 + 1. 
-- 10 since 10 * 10 = 100 and 100 can be partitioned into 10 + 0. 
-- 36 since 36 * 36 = 1296 and 1296 can be partitioned into 1 + 29 + 6.
-Hence, the punishment number of 37 is 1 + 81 + 100 + 1296 = 1478
+<b>输入：</b>n = 37
+<b>输出：</b>1478
+<b>解释：</b>总共有 4 个范围在 [1, 37] 的整数 i 满足要求：
+- 1 ，因为 1 * 1 = 1
+- 9 ，因为 9 * 9 = 81 ，且 81 可以分割成 8 + 1 。
+- 10 ，因为 10 * 10 = 100 ，且 100 可以分割成 10 + 0 。
+- 36 ，因为 36 * 36 = 1296 ，且 1296 可以分割成 1 + 29 + 6 。
+因此，37 的惩罚数为 1 + 81 + 100 + 1296 = 1478
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -60,17 +65,17 @@ Hence, the punishment number of 37 is 1 + 81 + 100 + 1296 = 1478
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration + DFS
+### 方法一：枚举 + DFS
 
-We enumerate $i$, where $1 \leq i \leq n$. For each $i$, we split the decimal representation string of $x = i^2$, and then check whether it meets the requirements of the problem. If it does, we add $x$ to the answer.
+我们枚举 $i$，其中 $1 \leq i \leq n$，对于每个 $i$，我们将 $x = i^2$ 的十进制表示的字符串进行分割，然后判断是否满足题目要求。如果满足，我们就将 $x$ 累加到答案中。
 
-After the enumeration ends, we return the answer.
+枚举结束，返回答案即可。
 
-The time complexity is $O(n^{1 + 2 \log_{10}^2})$, and the space complexity is $O(\log n)$, where $n$ is the given positive integer.
+时间复杂度 $O(n^{1 + 2 \log_{10}^2})$，空间复杂度 $O(\log n)$。其中 $n$ 为给定的正整数。
 
 <!-- tabs:start -->
 
@@ -209,32 +214,32 @@ func punishmentNumber(n int) (ans int) {
 
 ```ts
 function punishmentNumber(n: number): number {
-  const check = (s: string, i: number, x: number): boolean => {
-    const m = s.length;
-    if (i >= m) {
-      return x === 0;
+    const check = (s: string, i: number, x: number): boolean => {
+        const m = s.length;
+        if (i >= m) {
+            return x === 0;
+        }
+        let y = 0;
+        for (let j = i; j < m; ++j) {
+            y = y * 10 + Number(s[j]);
+            if (y > x) {
+                break;
+            }
+            if (check(s, j + 1, x - y)) {
+                return true;
+            }
+        }
+        return false;
+    };
+    let ans = 0;
+    for (let i = 1; i <= n; ++i) {
+        const x = i * i;
+        const s = x.toString();
+        if (check(s, 0, i)) {
+            ans += x;
+        }
     }
-    let y = 0;
-    for (let j = i; j < m; ++j) {
-      y = y * 10 + Number(s[j]);
-      if (y > x) {
-        break;
-      }
-      if (check(s, j + 1, x - y)) {
-        return true;
-      }
-    }
-    return false;
-  };
-  let ans = 0;
-  for (let i = 1; i <= n; ++i) {
-    const x = i * i;
-    const s = x.toString();
-    if (check(s, 0, i)) {
-      ans += x;
-    }
-  }
-  return ans;
+    return ans;
 }
 ```
 

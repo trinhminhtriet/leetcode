@@ -1,46 +1,51 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0273.Integer%20to%20English%20Words/README.md
 tags:
-  - Recursion
-  - Math
-  - String
+    - 递归
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [273. Integer to English Words](https://leetcode.com/problems/integer-to-english-words)
+# [273. 整数转换英文表示](https://leetcode.cn/problems/integer-to-english-words)
 
-## Description
+[English Version](/solution/0200-0299/0273.Integer%20to%20English%20Words/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Convert a non-negative integer <code>num</code> to its English words representation.</p>
+<p>将非负整数 <code>num</code> 转换为其对应的英文表示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> num = 123
-<strong>Output:</strong> &quot;One Hundred Twenty Three&quot;
+<strong>输入：</strong>num = 123
+<strong>输出：</strong>"One Hundred Twenty Three"
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> num = 12345
-<strong>Output:</strong> &quot;Twelve Thousand Three Hundred Forty Five&quot;
+<strong>输入：</strong>num = 12345
+<strong>输出：</strong>"Twelve Thousand Three Hundred Forty Five"
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> num = 1234567
-<strong>Output:</strong> &quot;One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven&quot;
+<strong>输入：</strong>num = 1234567
+<strong>输出：</strong>"One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven"
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= num &lt;= 2<sup>31</sup> - 1</code></li>
@@ -48,11 +53,11 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -295,10 +300,10 @@ public class Solution {
 
 ```ts
 function numberToWords(num: number): string {
-  if (num === 0) return "Zero";
+    if (num === 0) return 'Zero';
 
-  // prettier-ignore
-  const f = (x: number): string => {
+    // prettier-ignore
+    const f = (x: number): string => {
     const dict1 = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen',]
     const dict2 = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety',]
     let ans = ''
@@ -313,7 +318,7 @@ function numberToWords(num: number): string {
     return ans.trim()
   }
 
-  return f(num);
+    return f(num);
 }
 ```
 
@@ -321,10 +326,10 @@ function numberToWords(num: number): string {
 
 ```js
 function numberToWords(num) {
-  if (num === 0) return "Zero";
+    if (num === 0) return 'Zero';
 
-  // prettier-ignore
-  const f = (x) => {
+    // prettier-ignore
+    const f = (x) => {
     const dict1 = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen',]
     const dict2 = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety',]
     let ans = ''
@@ -339,7 +344,7 @@ function numberToWords(num) {
     return ans.trim()
   }
 
-  return f(num);
+    return f(num);
 }
 ```
 
@@ -349,7 +354,7 @@ function numberToWords(num) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

@@ -1,85 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2471.Minimum%20Number%20of%20Operations%20to%20Sort%20a%20Binary%20Tree%20by%20Level/README.md
 rating: 1635
-source: Weekly Contest 319 Q3
+source: 第 319 场周赛 Q3
 tags:
-  - Tree
-  - Breadth-First Search
-  - Binary Tree
+    - 树
+    - 广度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [2471. Minimum Number of Operations to Sort a Binary Tree by Level](https://leetcode.com/problems/minimum-number-of-operations-to-sort-a-binary-tree-by-level)
+# [2471. 逐层排序二叉树所需的最少操作数目](https://leetcode.cn/problems/minimum-number-of-operations-to-sort-a-binary-tree-by-level)
 
-## Description
+[English Version](/solution/2400-2499/2471.Minimum%20Number%20of%20Operations%20to%20Sort%20a%20Binary%20Tree%20by%20Level/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the <code>root</code> of a binary tree with <strong>unique values</strong>.</p>
+<p>给你一个 <strong>值互不相同</strong> 的二叉树的根节点 <code>root</code> 。</p>
 
-<p>In one operation, you can choose any two nodes <strong>at the same level</strong> and swap their values.</p>
+<p>在一步操作中，你可以选择 <strong>同一层</strong> 上任意两个节点，交换这两个节点的值。</p>
 
-<p>Return <em>the minimum number of operations needed to make the values at each level sorted in a <strong>strictly increasing order</strong></em>.</p>
+<p>返回每一层按 <strong>严格递增顺序</strong> 排序所需的最少操作数目。</p>
 
-<p>The <strong>level</strong> of a node is the number of edges along the path between it and the root node<em>.</em></p>
+<p>节点的 <strong>层数</strong> 是该节点和根节点之间的路径的边数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2471.Minimum%20Number%20of%20Operations%20to%20Sort%20a%20Binary%20Tree%20by%20Level/images/image-20220918174006-2.png" style="width: 500px; height: 324px;" />
-<pre>
-<strong>Input:</strong> root = [1,4,3,7,6,8,5,null,null,null,null,9,null,10]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-- Swap 4 and 3. The 2<sup>nd</sup> level becomes [3,4].
-- Swap 7 and 5. The 3<sup>rd</sup> level becomes [5,6,8,7].
-- Swap 8 and 7. The 3<sup>rd</sup> level becomes [5,6,7,8].
-We used 3 operations so return 3.
-It can be proven that 3 is the minimum number of operations needed.
+
+<p><strong>示例 1 ：</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2471.Minimum%20Number%20of%20Operations%20to%20Sort%20a%20Binary%20Tree%20by%20Level/images/image-20220918174006-2.png" style="width: 500px; height: 324px;">
+<pre><strong>输入：</strong>root = [1,4,3,7,6,8,5,null,null,null,null,9,null,10]
+<strong>输出：</strong>3
+<strong>解释：</strong>
+- 交换 4 和 3 。第 2 层变为 [3,4] 。
+- 交换 7 和 5 。第 3 层变为 [5,6,8,7] 。
+- 交换 8 和 7 。第 3 层变为 [5,6,7,8] 。
+共计用了 3 步操作，所以返回 3 。
+可以证明 3 是需要的最少操作数目。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2471.Minimum%20Number%20of%20Operations%20to%20Sort%20a%20Binary%20Tree%20by%20Level/images/image-20220918174026-3.png" style="width: 400px; height: 303px;" />
-<pre>
-<strong>Input:</strong> root = [1,3,2,7,6,5,4]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-- Swap 3 and 2. The 2<sup>nd</sup> level becomes [2,3].
-- Swap 7 and 4. The 3<sup>rd</sup> level becomes [4,6,5,7].
-- Swap 6 and 5. The 3<sup>rd</sup> level becomes [4,5,6,7].
-We used 3 operations so return 3.
-It can be proven that 3 is the minimum number of operations needed.
+<p><strong>示例 2 ：</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2471.Minimum%20Number%20of%20Operations%20to%20Sort%20a%20Binary%20Tree%20by%20Level/images/image-20220918174026-3.png" style="width: 400px; height: 303px;">
+<pre><strong>输入：</strong>root = [1,3,2,7,6,5,4]
+<strong>输出：</strong>3
+<strong>解释：
+</strong>- 交换 3 和 2 。第 2 层变为 [2,3] 。 
+- 交换 7 和 4 。第 3 层变为 [4,6,5,7] 。 
+- 交换 6 和 5 。第 3 层变为 [4,5,6,7] 。
+共计用了 3 步操作，所以返回 3 。 
+可以证明 3 是需要的最少操作数目。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2471.Minimum%20Number%20of%20Operations%20to%20Sort%20a%20Binary%20Tree%20by%20Level/images/image-20220918174052-4.png" style="width: 400px; height: 274px;" />
-<pre>
-<strong>Input:</strong> root = [1,2,3,4,5,6]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Each level is already sorted in increasing order so return 0.
+<p><strong>示例 3 ：</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2471.Minimum%20Number%20of%20Operations%20to%20Sort%20a%20Binary%20Tree%20by%20Level/images/image-20220918174052-4.png" style="width: 400px; height: 274px;">
+<pre><strong>输入：</strong>root = [1,2,3,4,5,6]
+<strong>输出：</strong>0
+<strong>解释：</strong>每一层已经按递增顺序排序，所以返回 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>5</sup>]</code>.</li>
+	<li>树中节点的数目在范围 <code>[1, 10<sup>5</sup>]</code> 。</li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
-	<li>All the values of the tree are <strong>unique</strong>.</li>
+	<li>树中的所有值 <strong>互不相同</strong> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS + Discretization + Element Swap
+### 方法一：BFS + 离散化 + 元素交换
 
-First, we traverse the binary tree using BFS to find the node values at each level. Then, we sort the node values at each level. If the sorted node values are different from the original node values, it means that we need to swap elements. The number of swaps is the number of operations needed at that level.
+我们先通过 `BFS` 遍历二叉树，找到每一层的节点值，然后对每一层的节点值进行排序，如果排序后的节点值与原节点值不同，则说明需要交换元素，交换元素的次数即为该层需要的操作数。
 
-The time complexity is $O(n \times \log n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n \times \log n)$。其中 $n$ 为二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -318,31 +320,31 @@ func minimumOperations(root *TreeNode) (ans int) {
  */
 
 function minimumOperations(root: TreeNode | null): number {
-  const queue = [root];
-  let ans = 0;
-  while (queue.length !== 0) {
-    const n = queue.length;
-    const row: number[] = [];
-    for (let i = 0; i < n; i++) {
-      const { val, left, right } = queue.shift();
-      row.push(val);
-      left && queue.push(left);
-      right && queue.push(right);
-    }
-    for (let i = 0; i < n - 1; i++) {
-      let minIdx = i;
-      for (let j = i + 1; j < n; j++) {
-        if (row[j] < row[minIdx]) {
-          minIdx = j;
+    const queue = [root];
+    let ans = 0;
+    while (queue.length !== 0) {
+        const n = queue.length;
+        const row: number[] = [];
+        for (let i = 0; i < n; i++) {
+            const { val, left, right } = queue.shift();
+            row.push(val);
+            left && queue.push(left);
+            right && queue.push(right);
         }
-      }
-      if (i !== minIdx) {
-        [row[i], row[minIdx]] = [row[minIdx], row[i]];
-        ans++;
-      }
+        for (let i = 0; i < n - 1; i++) {
+            let minIdx = i;
+            for (let j = i + 1; j < n; j++) {
+                if (row[j] < row[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            if (i !== minIdx) {
+                [row[i], row[minIdx]] = [row[minIdx], row[i]];
+                ans++;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

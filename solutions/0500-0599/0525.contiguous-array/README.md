@@ -1,62 +1,65 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0525.Contiguous%20Array/README.md
 tags:
-  - Array
-  - Hash Table
-  - Prefix Sum
+    - 数组
+    - 哈希表
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [525. Contiguous Array](https://leetcode.com/problems/contiguous-array)
+# [525. 连续数组](https://leetcode.cn/problems/contiguous-array)
 
-## Description
+[English Version](/solution/0500-0599/0525.Contiguous%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary array <code>nums</code>, return <em>the maximum length of a contiguous subarray with an equal number of </em><code>0</code><em> and </em><code>1</code>.</p>
+<p>给定一个二进制数组 <code>nums</code> , 找到含有相同数量的 <code>0</code> 和 <code>1</code> 的最长连续子数组，并返回该子数组的长度。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [0,1]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> [0, 1] is the longest contiguous subarray with an equal number of 0 and 1.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [0,1,0]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
-</pre>
+<strong>输入:</strong> nums = [0,1]
+<strong>输出:</strong> 2
+<strong>说明:</strong> [0, 1] 是具有相同数量 0 和 1 的最长连续子数组。</pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> nums = [0,1,0]
+<strong>输出:</strong> 2
+<strong>说明:</strong> [0, 1] (或 [1, 0]) 是具有相同数量0和1的最长连续子数组。</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums[i]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
+	<li><code>nums[i]</code> 不是 <code>0</code> 就是 <code>1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Hash Table
+### 方法一：前缀和 + 哈希表
 
-According to the problem description, we can treat $0$s in the array as $-1$. In this way, when encountering a $0$, the prefix sum $s$ will decrease by one, and when encountering a $1$, the prefix sum $s$ will increase by one. Therefore, suppose the prefix sum $s$ is equal at indices $j$ and $i$, where $j < i$, then the subarray from index $j + 1$ to $i$ has an equal number of $0$s and $1$s.
+根据题目描述，我们可以将数组中的 $0$ 视作 $-1$，这样当遇到 $0$ 时，前缀和 $s$ 就会减一，当遇到 $1$ 时，前缀和 $s$ 就会加一。因此，假设前缀和 $s$ 在下标 $j$ 和 $i$ 处的值相等，其中 $j < i$，那么从下标 $j + 1$ 到 $i$ 的子数组中 $0$ 和 $1$ 的数量就是相等的。
 
-We use a hash table to store all prefix sums and their first occurrence indices. Initially, we map the prefix sum of $0$ to $-1$.
+我们使用哈希表存储所有的前缀和以及它们第一次出现的下标，初始时，我们将 $0$ 的前缀和映射到 $-1$。
 
-As we iterate through the array, we calculate the prefix sum $s$. If $s$ is already in the hash table, then we have found a subarray with a sum of $0$, and its length is $i - d[s]$, where $d[s]$ is the index where $s$ first appeared in the hash table. If $s$ is not in the hash table, we store $s$ and its index $i$ in the hash table.
+遍历数组，计算前缀和 $s$，如果 $s$ 已经在哈希表中，那么我们就找到了一个和为 $0$ 的子数组，其长度为 $i - d[s]$，其中 $d[s]$ 是哈希表中保存的 $s$ 第一次出现的下标。如果 $s$ 不在哈希表中，我们将 $s$ 与它的下标 $i$ 存入哈希表。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -143,18 +146,18 @@ func findMaxLength(nums []int) int {
 
 ```ts
 function findMaxLength(nums: number[]): number {
-  const d: Record<number, number> = { 0: -1 };
-  let ans = 0;
-  let s = 0;
-  for (let i = 0; i < nums.length; ++i) {
-    s += nums[i] ? 1 : -1;
-    if (d.hasOwnProperty(s)) {
-      ans = Math.max(ans, i - d[s]);
-    } else {
-      d[s] = i;
+    const d: Record<number, number> = { 0: -1 };
+    let ans = 0;
+    let s = 0;
+    for (let i = 0; i < nums.length; ++i) {
+        s += nums[i] ? 1 : -1;
+        if (d.hasOwnProperty(s)) {
+            ans = Math.max(ans, i - d[s]);
+        } else {
+            d[s] = i;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -166,18 +169,18 @@ function findMaxLength(nums: number[]): number {
  * @return {number}
  */
 var findMaxLength = function (nums) {
-  const d = { 0: -1 };
-  let ans = 0;
-  let s = 0;
-  for (let i = 0; i < nums.length; ++i) {
-    s += nums[i] ? 1 : -1;
-    if (d.hasOwnProperty(s)) {
-      ans = Math.max(ans, i - d[s]);
-    } else {
-      d[s] = i;
+    const d = { 0: -1 };
+    let ans = 0;
+    let s = 0;
+    for (let i = 0; i < nums.length; ++i) {
+        s += nums[i] ? 1 : -1;
+        if (d.hasOwnProperty(s)) {
+            ans = Math.max(ans, i - d[s]);
+        } else {
+            d[s] = i;
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 

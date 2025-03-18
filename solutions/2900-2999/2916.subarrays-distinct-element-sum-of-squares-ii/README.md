@@ -1,66 +1,72 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2916.Subarrays%20Distinct%20Element%20Sum%20of%20Squares%20II/README.md
 rating: 2816
-source: Biweekly Contest 116 Q4
+source: 第 116 场双周赛 Q4
 tags:
-  - Binary Indexed Tree
-  - Segment Tree
-  - Array
-  - Dynamic Programming
+    - 树状数组
+    - 线段树
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2916. Subarrays Distinct Element Sum of Squares II](https://leetcode.com/problems/subarrays-distinct-element-sum-of-squares-ii)
+# [2916. 子数组不同元素数目的平方和 II](https://leetcode.cn/problems/subarrays-distinct-element-sum-of-squares-ii)
 
-## Description
+[English Version](/solution/2900-2999/2916.Subarrays%20Distinct%20Element%20Sum%20of%20Squares%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed </strong>integer array <code>nums</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;。</p>
 
-<p>The <strong>distinct count</strong> of a subarray of <code>nums</code> is defined as:</p>
+<p>定义 <code>nums</code>&nbsp;一个子数组的 <strong>不同计数</strong>&nbsp;值如下：</p>
 
 <ul>
-	<li>Let <code>nums[i..j]</code> be a subarray of <code>nums</code> consisting of all the indices from <code>i</code> to <code>j</code> such that <code>0 &lt;= i &lt;= j &lt; nums.length</code>. Then the number of distinct values in <code>nums[i..j]</code> is called the distinct count of <code>nums[i..j]</code>.</li>
+	<li>令&nbsp;<code>nums[i..j]</code>&nbsp;表示 <code>nums</code> 中所有下标在 <code>i</code> 到 <code>j</code> 范围内的元素构成的子数组（满足 <code>0 &lt;= i &lt;= j &lt; nums.length</code> ），那么我们称子数组&nbsp;<code>nums[i..j]</code>&nbsp;中不同值的数目为&nbsp;<code>nums[i..j]</code>&nbsp;的不同计数。</li>
 </ul>
 
-<p>Return <em>the sum of the <strong>squares</strong> of <strong>distinct counts</strong> of all subarrays of </em><code>nums</code>.</p>
+<p>请你返回 <code>nums</code>&nbsp;中所有子数组的 <strong>不同计数</strong>&nbsp;的 <strong>平方</strong>&nbsp;和。</p>
 
-<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>由于答案可能会很大，请你将它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
 
-<p>A subarray is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
+<p>子数组指的是一个数组里面一段连续 <strong>非空</strong>&nbsp;的元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,1]
-<strong>Output:</strong> 15
-<strong>Explanation:</strong> Six possible subarrays are:
-[1]: 1 distinct value
-[2]: 1 distinct value
-[1]: 1 distinct value
-[1,2]: 2 distinct values
-[2,1]: 2 distinct values
-[1,2,1]: 2 distinct values
-The sum of the squares of the distinct counts in all subarrays is equal to 1<sup>2</sup> + 1<sup>2</sup> + 1<sup>2</sup> + 2<sup>2</sup> + 2<sup>2</sup> + 2<sup>2</sup> = 15.
+<b>输入：</b>nums = [1,2,1]
+<b>输出：</b>15
+<b>解释：</b>六个子数组分别为：
+[1]: 1 个互不相同的元素。
+[2]: 1 个互不相同的元素。
+[1]: 1 个互不相同的元素。
+[1,2]: 2 个互不相同的元素。
+[2,1]: 2 个互不相同的元素。
+[1,2,1]: 2 个互不相同的元素。
+所有不同计数的平方和为 1<sup>2</sup> + 1<sup>2</sup> + 1<sup>2</sup> + 2<sup>2</sup> + 2<sup>2</sup> + 2<sup>2</sup> = 15 。
 </pre>
 
-<p><strong>Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,2]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> Three possible subarrays are:
-[2]: 1 distinct value
-[2]: 1 distinct value
-[2,2]: 1 distinct value
-The sum of the squares of the distinct counts in all subarrays is equal to 1<sup>2</sup> + 1<sup>2</sup> + 1<sup>2</sup> = 3.</pre>
+<b>输入：</b>nums = [2,2]
+<b>输出：3</b>
+<strong>解释：</strong>三个子数组分别为：
+[2]: 1 个互不相同的元素。
+[2]: 1 个互不相同的元素。
+[2,2]: 1 个互不相同的元素。
+所有不同计数的平方和为 1<sup>2</sup> + 1<sup>2</sup> + 1<sup>2</sup> = 3 。
+</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -69,11 +75,11 @@ The sum of the squares of the distinct counts in all subarrays is equal to 1<sup
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

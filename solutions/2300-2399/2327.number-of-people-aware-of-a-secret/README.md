@@ -1,57 +1,60 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2327.Number%20of%20People%20Aware%20of%20a%20Secret/README.md
 rating: 1893
-source: Weekly Contest 300 Q3
+source: 第 300 场周赛 Q3
 tags:
-  - Queue
-  - Dynamic Programming
-  - Simulation
+    - 队列
+    - 动态规划
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2327. Number of People Aware of a Secret](https://leetcode.com/problems/number-of-people-aware-of-a-secret)
+# [2327. 知道秘密的人数](https://leetcode.cn/problems/number-of-people-aware-of-a-secret)
 
-## Description
+[English Version](/solution/2300-2399/2327.Number%20of%20People%20Aware%20of%20a%20Secret/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>On day <code>1</code>, one person discovers a secret.</p>
+<p>在第 <code>1</code>&nbsp;天，有一个人发现了一个秘密。</p>
 
-<p>You are given an integer <code>delay</code>, which means that each person will <strong>share</strong> the secret with a new person <strong>every day</strong>, starting from <code>delay</code> days after discovering the secret. You are also given an integer <code>forget</code>, which means that each person will <strong>forget</strong> the secret <code>forget</code> days after discovering it. A person <strong>cannot</strong> share the secret on the same day they forgot it, or on any day afterwards.</p>
+<p>给你一个整数&nbsp;<code>delay</code>&nbsp;，表示每个人会在发现秘密后的 <code>delay</code>&nbsp;天之后，<strong>每天</strong>&nbsp;给一个新的人&nbsp;<strong>分享</strong>&nbsp;秘密。同时给你一个整数&nbsp;<code>forget</code>&nbsp;，表示每个人在发现秘密&nbsp;<code>forget</code>&nbsp;天之后会&nbsp;<strong>忘记</strong>&nbsp;这个秘密。一个人&nbsp;<strong>不能</strong>&nbsp;在忘记秘密那一天及之后的日子里分享秘密。</p>
 
-<p>Given an integer <code>n</code>, return<em> the number of people who know the secret at the end of day </em><code>n</code>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 6, delay = 2, forget = 4
-<strong>Output:</strong> 5
-<strong>Explanation:</strong>
-Day 1: Suppose the first person is named A. (1 person)
-Day 2: A is the only person who knows the secret. (1 person)
-Day 3: A shares the secret with a new person, B. (2 people)
-Day 4: A shares the secret with a new person, C. (3 people)
-Day 5: A forgets the secret, and B shares the secret with a new person, D. (3 people)
-Day 6: B shares the secret with E, and C shares the secret with F. (5 people)
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 4, delay = 1, forget = 3
-<strong>Output:</strong> 6
-<strong>Explanation:</strong>
-Day 1: The first person is named A. (1 person)
-Day 2: A shares the secret with B. (2 people)
-Day 3: A and B share the secret with 2 new people, C and D. (4 people)
-Day 4: A forgets the secret. B, C, and D share the secret with 3 new people. (6 people)
-</pre>
+<p>给你一个整数&nbsp;<code>n</code>&nbsp;，请你返回在第 <code>n</code>&nbsp;天结束时，知道秘密的人数。由于答案可能会很大，请你将结果对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>n = 6, delay = 2, forget = 4
+<b>输出：</b>5
+<strong>解释：</strong>
+第 1 天：假设第一个人叫 A 。（一个人知道秘密）
+第 2 天：A 是唯一一个知道秘密的人。（一个人知道秘密）
+第 3 天：A 把秘密分享给 B 。（两个人知道秘密）
+第 4 天：A 把秘密分享给一个新的人 C 。（三个人知道秘密）
+第 5 天：A 忘记了秘密，B 把秘密分享给一个新的人 D 。（三个人知道秘密）
+第 6 天：B 把秘密分享给 E，C 把秘密分享给 F 。（五个人知道秘密）
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>n = 4, delay = 1, forget = 3
+<b>输出：</b>6
+<strong>解释：</strong>
+第 1 天：第一个知道秘密的人为 A 。（一个人知道秘密）
+第 2 天：A 把秘密分享给 B 。（两个人知道秘密）
+第 3 天：A 和 B 把秘密分享给 2 个新的人 C 和 D 。（四个人知道秘密）
+第 4 天：A 忘记了秘密，B、C、D 分别分享给 3 个新的人。（六个人知道秘密）
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 1000</code></li>
@@ -60,11 +63,17 @@ Day 4: A forgets the secret. B, C, and D share the secret with 3 new people. (6 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：差分数组
+
+差分数组 $d[i]$ 记录每天知道秘密的人数变化情况，$cnt[i]$ 记录第 $i$ 天新得知秘密的人数。那么从 $[i+delay,i+forget)$ 的这段时间内，$cnt[i]$ 个人每天都能分享给另外 $cnt[i]$ 个人。
+
+最终 $sum(d[:n+1])$ 就是答案。
+
+时间复杂度 $O(n^2)$。
 
 <!-- tabs:start -->
 
@@ -183,25 +192,25 @@ func peopleAwareOfSecret(n int, delay int, forget int) int {
 
 ```ts
 function peopleAwareOfSecret(n: number, delay: number, forget: number): number {
-  let dp = new Array(n + 1).fill(0n);
-  dp[1] = 1n;
-  for (let i = 2; i <= n; i++) {
+    let dp = new Array(n + 1).fill(0n);
+    dp[1] = 1n;
+    for (let i = 2; i <= n; i++) {
+        let pre = 0n;
+        for (let j = i - forget + 1; j <= i - delay; j++) {
+            if (j > 0) {
+                pre += dp[j];
+            }
+        }
+        dp[i] = pre;
+    }
     let pre = 0n;
-    for (let j = i - forget + 1; j <= i - delay; j++) {
-      if (j > 0) {
-        pre += dp[j];
-      }
+    let i = n + 1;
+    for (let j = i - forget; j < i; j++) {
+        if (j > 0) {
+            pre += dp[j];
+        }
     }
-    dp[i] = pre;
-  }
-  let pre = 0n;
-  let i = n + 1;
-  for (let j = i - forget; j < i; j++) {
-    if (j > 0) {
-      pre += dp[j];
-    }
-  }
-  return Number(pre % BigInt(10 ** 9 + 7));
+    return Number(pre % BigInt(10 ** 9 + 7));
 }
 ```
 

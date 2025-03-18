@@ -1,63 +1,68 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3151.Special%20Array%20I/README.md
 rating: 1152
-source: Weekly Contest 398 Q1
+source: 第 398 场周赛 Q1
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [3151. Special Array I](https://leetcode.com/problems/special-array-i)
+# [3151. 特殊数组 I](https://leetcode.cn/problems/special-array-i)
 
-## Description
+[English Version](/solution/3100-3199/3151.Special%20Array%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>An array is considered <strong>special</strong> if every pair of its adjacent elements contains two numbers with different parity.<!-- notionvc: e6bed0fa-c67d-43a7-81b4-99fb85b99e98 --></p>
+<p>如果数组的每一对相邻元素都是两个奇偶性不同的数字，则该数组被认为是一个 <strong>特殊数组</strong>。换句话说，每一对中的元素 <strong>必须</strong> 有一个是偶数，另一个是奇数。</p>
 
-<p>You are given an array of integers <code>nums</code>. Return <code>true</code> if <code>nums</code> is a <strong>special</strong> array, otherwise, return <code>false</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>There is only one element. So the answer is <code>true</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [2,1,4]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>There is only two pairs: <code>(2,1)</code> and <code>(1,4)</code>, and both of them contain numbers with different parity. So the answer is <code>true</code>.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [4,3,1,6]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p><code>nums[1]</code> and <code>nums[2]</code> are both odd. So the answer is <code>false</code>.</p>
-</div>
+<p>你有一个整数数组 <code>nums</code>。如果 <code>nums</code> 是一个 <strong>特殊数组</strong> ，返回 <code>true</code>，否则返回 <code>false</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">nums = [1]</span></p>
+
+<p><strong>输出：</strong><span class="example-io">true</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>只有一个元素，所以答案为 <code>true</code>。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">nums = [2,1,4]</span></p>
+
+<p><strong>输出：</strong><span class="example-io">true</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>只有两对相邻元素： <code>(2,1)</code> 和 <code>(1,4)</code>，它们都包含了奇偶性不同的数字，因此答案为 <code>true</code>。</p>
+</div>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">nums = [4,3,1,6]</span></p>
+
+<p><strong>输出：</strong><span class="example-io">false</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p><code>nums[1]</code> 和 <code>nums[2]</code> 都是奇数。因此答案为 <code>false</code>。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -66,15 +71,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Single Pass
+### 方法一：一次遍历
 
-We traverse the array from left to right. For each pair of adjacent elements, if their parity is the same, then the array is not a special array, return `false`; otherwise, the array is a special array, return `true`.
+我们从左到右遍历数组，对于每一对相邻元素，如果它们的奇偶性相同，那么数组就不是特殊数组，返回 `false`；否则，数组是特殊数组，返回 `true`。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)`.
+时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -134,12 +139,12 @@ func isArraySpecial(nums []int) bool {
 
 ```ts
 function isArraySpecial(nums: number[]): boolean {
-  for (let i = 1; i < nums.length; ++i) {
-    if (nums[i] % 2 === nums[i - 1] % 2) {
-      return false;
+    for (let i = 1; i < nums.length; ++i) {
+        if (nums[i] % 2 === nums[i - 1] % 2) {
+            return false;
+        }
     }
-  }
-  return true;
+    return true;
 }
 ```
 

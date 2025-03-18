@@ -1,68 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0098.Validate%20Binary%20Search%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Search Tree
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉搜索树
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [98. Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree)
+# [98. 验证二叉搜索树](https://leetcode.cn/problems/validate-binary-search-tree)
 
-## Description
+[English Version](/solution/0000-0099/0098.Validate%20Binary%20Search%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, <em>determine if it is a valid binary search tree (BST)</em>.</p>
+<p>给你一个二叉树的根节点 <code>root</code> ，判断其是否是一个有效的二叉搜索树。</p>
 
-<p>A <strong>valid BST</strong> is defined as follows:</p>
+<p><strong>有效</strong> 二叉搜索树定义如下：</p>
 
 <ul>
-	<li>The left <span data-keyword="subtree">subtree</span> of a node contains only nodes with keys <strong>less than</strong> the node&#39;s key.</li>
-	<li>The right subtree of a node contains only nodes with keys <strong>greater than</strong> the node&#39;s key.</li>
-	<li>Both the left and right subtrees must also be binary search trees.</li>
+	<li>节点的左<span data-keyword="subtree">子树</span>只包含<strong> 小于 </strong>当前节点的数。</li>
+	<li>节点的右子树只包含 <strong>大于</strong> 当前节点的数。</li>
+	<li>所有左子树和右子树自身必须也是二叉搜索树。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0098.Validate%20Binary%20Search%20Tree/images/tree1.jpg" style="width: 302px; height: 182px;" />
 <pre>
-<strong>Input:</strong> root = [2,1,3]
-<strong>Output:</strong> true
+<strong>输入：</strong>root = [2,1,3]
+<strong>输出：</strong>true
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0098.Validate%20Binary%20Search%20Tree/images/tree2.jpg" style="width: 422px; height: 292px;" />
 <pre>
-<strong>Input:</strong> root = [5,1,4,null,null,3,6]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The root node&#39;s value is 5 but its right child&#39;s value is 4.
+<strong>输入：</strong>root = [5,1,4,null,null,3,6]
+<strong>输出：</strong>false
+<strong>解释：</strong>根节点的值是 5 ，但是右子节点的值是 4 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li>树中节点数目范围在<code>[1, 10<sup>4</sup>]</code> 内</li>
 	<li><code>-2<sup>31</sup> &lt;= Node.val &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Recursion
+### 方法一：递归
 
-We can perform a recursive in-order traversal on the binary tree. If the result of the traversal is strictly ascending, then this tree is a binary search tree.
+我们可以对二叉树进行递归中序遍历，如果遍历到的结果是严格升序的，那么这棵树就是一个二叉搜索树。
 
-Therefore, we use a variable `prev` to save the last node we traversed. Initially, `prev = -∞`. Then we recursively traverse the left subtree. If the left subtree is not a binary search tree, we directly return `False`. Otherwise, we check whether the value of the current node is greater than `prev`. If not, we return `False`. Otherwise, we update `prev` to the value of the current node, and then recursively traverse the right subtree.
+因此，我们使用一个变量 $\textit{prev}$ 来保存上一个遍历到的节点，初始时 $\textit{prev} = -\infty$，然后我们递归遍历左子树，如果左子树不是二叉搜索树，直接返回 $\textit{False}$，否则判断当前节点的值是否大于 $\textit{prev}$，如果不是，返回 $\textit{False}$，否则更新 $\textit{prev}$ 为当前节点的值，然后递归遍历右子树。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -218,21 +223,21 @@ func isValidBST(root *TreeNode) bool {
  */
 
 function isValidBST(root: TreeNode | null): boolean {
-  let prev: TreeNode | null = null;
-  const dfs = (root: TreeNode | null): boolean => {
-    if (!root) {
-      return true;
-    }
-    if (!dfs(root.left)) {
-      return false;
-    }
-    if (prev && prev.val >= root.val) {
-      return false;
-    }
-    prev = root;
-    return dfs(root.right);
-  };
-  return dfs(root);
+    let prev: TreeNode | null = null;
+    const dfs = (root: TreeNode | null): boolean => {
+        if (!root) {
+            return true;
+        }
+        if (!dfs(root.left)) {
+            return false;
+        }
+        if (prev && prev.val >= root.val) {
+            return false;
+        }
+        prev = root;
+        return dfs(root.right);
+    };
+    return dfs(root);
 }
 ```
 
@@ -297,21 +302,21 @@ impl Solution {
  * @return {boolean}
  */
 var isValidBST = function (root) {
-  let prev = null;
-  const dfs = (root) => {
-    if (!root) {
-      return true;
-    }
-    if (!dfs(root.left)) {
-      return false;
-    }
-    if (prev && prev.val >= root.val) {
-      return false;
-    }
-    prev = root;
-    return dfs(root.right);
-  };
-  return dfs(root);
+    let prev = null;
+    const dfs = root => {
+        if (!root) {
+            return true;
+        }
+        if (!dfs(root.left)) {
+            return false;
+        }
+        if (prev && prev.val >= root.val) {
+            return false;
+        }
+        prev = root;
+        return dfs(root.right);
+    };
+    return dfs(root);
 };
 ```
 

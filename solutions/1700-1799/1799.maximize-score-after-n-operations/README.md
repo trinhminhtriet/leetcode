@@ -1,70 +1,72 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1799.Maximize%20Score%20After%20N%20Operations/README.md
 rating: 2072
-source: Biweekly Contest 48 Q4
+source: 第 48 场双周赛 Q4
 tags:
-  - Bit Manipulation
-  - Array
-  - Math
-  - Dynamic Programming
-  - Backtracking
-  - Bitmask
-  - Number Theory
+    - 位运算
+    - 数组
+    - 数学
+    - 动态规划
+    - 回溯
+    - 状态压缩
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [1799. Maximize Score After N Operations](https://leetcode.com/problems/maximize-score-after-n-operations)
+# [1799. N 次操作后的最大分数和](https://leetcode.cn/problems/maximize-score-after-n-operations)
 
-## Description
+[English Version](/solution/1700-1799/1799.Maximize%20Score%20After%20N%20Operations/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given <code>nums</code>, an array of positive integers of size <code>2 * n</code>. You must perform <code>n</code> operations on this array.</p>
+<p>给你 <code>nums</code> ，它是一个大小为 <code>2 * n</code> 的正整数数组。你必须对这个数组执行 <code>n</code> 次操作。</p>
 
-<p>In the <code>i<sup>th</sup></code> operation <strong>(1-indexed)</strong>, you will:</p>
+<p>在第 <code>i</code> 次操作时（操作编号从 <strong>1</strong> 开始），你需要：</p>
 
 <ul>
-	<li>Choose two elements, <code>x</code> and <code>y</code>.</li>
-	<li>Receive a score of <code>i * gcd(x, y)</code>.</li>
-	<li>Remove <code>x</code> and <code>y</code> from <code>nums</code>.</li>
+	<li>选择两个元素 <code>x</code> 和 <code>y</code> 。</li>
+	<li>获得分数 <code>i * gcd(x, y)</code> 。</li>
+	<li>将 <code>x</code> 和 <code>y</code> 从 <code>nums</code> 中删除。</li>
 </ul>
 
-<p>Return <em>the maximum score you can receive after performing </em><code>n</code><em> operations.</em></p>
+<p>请你返回 <code>n</code> 次操作后你能获得的分数和最大为多少。</p>
 
-<p>The function <code>gcd(x, y)</code> is the greatest common divisor of <code>x</code> and <code>y</code>.</p>
+<p>函数 <code>gcd(x, y)</code> 是 <code>x</code> 和 <code>y</code> 的最大公约数。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong>&nbsp;The optimal choice of operations is:
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums = [1,2]
+<b>输出：</b>1
+<b>解释：</b>最优操作是：
 (1 * gcd(1, 2)) = 1
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [3,4,6,8]
-<strong>Output:</strong> 11
-<strong>Explanation:</strong>&nbsp;The optimal choice of operations is:
+<pre><b>输入：</b>nums = [3,4,6,8]
+<b>输出：</b>11
+<b>解释：</b>最优操作是：
 (1 * gcd(3, 6)) + (2 * gcd(4, 8)) = 3 + 8 = 11
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4,5,6]
-<strong>Output:</strong> 14
-<strong>Explanation:</strong>&nbsp;The optimal choice of operations is:
+<pre><b>输入：</b>nums = [1,2,3,4,5,6]
+<b>输出：</b>14
+<b>解释：</b>最优操作是：
 (1 * gcd(1, 5)) + (2 * gcd(2, 4)) + (3 * gcd(3, 6)) = 1 + 4 + 9 = 14
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 7</code></li>
@@ -74,23 +76,23 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: State Compression + Dynamic Programming
+### 方法一：状态压缩 + 动态规划
 
-We can preprocess to get the greatest common divisor of any two numbers in the array `nums`, stored in the two-dimensional array $g$, where $g[i][j]$ represents the greatest common divisor of $nums[i]$ and $nums[j]$.
+我们可以先预处理得到数组 `nums` 中任意两个数的最大公约数，存储在二维数组 $g$ 中，其中 $g[i][j]$ 表示 $nums[i]$ 和 $nums[j]$ 的最大公约数。
 
-Then define $f[k]$ to represent the maximum score that can be obtained when the state after the current operation is $k$. Suppose $m$ is the number of elements in the array `nums`, then there are a total of $2^m$ states, that is, the range of $k$ is $[0, 2^m - 1]$.
+然后定义 $f[k]$ 表示当前操作后的状态为 $k$ 时，可以获得的最大分数和。假设 $m$ 为数组 `nums` 中的元素个数，那么状态一共有 $2^m$ 种，即 $k$ 的取值范围为 $[0, 2^m - 1]$。
 
-Enumerate all states from small to large, for each state $k$, first determine whether the number of $1$s in the binary bits of this state $cnt$ is even, if so, perform the following operations:
+从小到大枚举所有状态，对于每个状态 $k$，先判断此状态的二进制位中 $1$ 的个数 $cnt$ 是否为偶数，是则进行如下操作：
 
-Enumerate the positions where the binary bits in $k$ are 1, suppose they are $i$ and $j$, then the elements at positions $i$ and $j$ can perform one operation, and the score that can be obtained at this time is $\frac{cnt}{2} \times g[i][j]$, update the maximum value of $f[k]$.
+枚举 $k$ 中二进制位为 1 的位置，假设为 $i$ 和 $j$，则 $i$ 和 $j$ 两个位置的元素可以进行一次操作，此时可以获得的分数为 $\frac{cnt}{2} \times g[i][j]$，更新 $f[k]$ 的最大值。
 
-The final answer is $f[2^m - 1]$.
+最终答案即为 $f[2^m - 1]$。
 
-The time complexity is $O(2^m \times m^2)$, and the space complexity is $O(2^m)$. Here, $m$ is the number of elements in the array `nums`.
+时间复杂度 $O(2^m \times m^2)$，空间复杂度 $O(2^m)$。其中 $m$ 为数组 `nums` 中的元素个数。
 
 <!-- tabs:start -->
 
@@ -230,43 +232,43 @@ func gcd(a, b int) int {
 
 ```ts
 function maxScore(nums: number[]): number {
-  const m = nums.length;
-  const f: number[] = new Array(1 << m).fill(0);
-  const g: number[][] = new Array(m).fill(0).map(() => new Array(m).fill(0));
-  for (let i = 0; i < m; ++i) {
-    for (let j = i + 1; j < m; ++j) {
-      g[i][j] = gcd(nums[i], nums[j]);
-    }
-  }
-  for (let k = 0; k < 1 << m; ++k) {
-    const cnt = bitCount(k);
-    if (cnt % 2 === 0) {
-      for (let i = 0; i < m; ++i) {
-        if ((k >> i) & 1) {
-          for (let j = i + 1; j < m; ++j) {
-            if ((k >> j) & 1) {
-              const t = f[k ^ (1 << i) ^ (1 << j)] + ~~(cnt / 2) * g[i][j];
-              f[k] = Math.max(f[k], t);
-            }
-          }
+    const m = nums.length;
+    const f: number[] = new Array(1 << m).fill(0);
+    const g: number[][] = new Array(m).fill(0).map(() => new Array(m).fill(0));
+    for (let i = 0; i < m; ++i) {
+        for (let j = i + 1; j < m; ++j) {
+            g[i][j] = gcd(nums[i], nums[j]);
         }
-      }
     }
-  }
-  return f[(1 << m) - 1];
+    for (let k = 0; k < 1 << m; ++k) {
+        const cnt = bitCount(k);
+        if (cnt % 2 === 0) {
+            for (let i = 0; i < m; ++i) {
+                if ((k >> i) & 1) {
+                    for (let j = i + 1; j < m; ++j) {
+                        if ((k >> j) & 1) {
+                            const t = f[k ^ (1 << i) ^ (1 << j)] + ~~(cnt / 2) * g[i][j];
+                            f[k] = Math.max(f[k], t);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return f[(1 << m) - 1];
 }
 
 function gcd(a: number, b: number): number {
-  return b ? gcd(b, a % b) : a;
+    return b ? gcd(b, a % b) : a;
 }
 
 function bitCount(i: number): number {
-  i = i - ((i >>> 1) & 0x55555555);
-  i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
-  i = (i + (i >>> 4)) & 0x0f0f0f0f;
-  i = i + (i >>> 8);
-  i = i + (i >>> 16);
-  return i & 0x3f;
+    i = i - ((i >>> 1) & 0x55555555);
+    i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
+    i = (i + (i >>> 4)) & 0x0f0f0f0f;
+    i = i + (i >>> 8);
+    i = i + (i >>> 16);
+    return i & 0x3f;
 }
 ```
 

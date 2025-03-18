@@ -1,88 +1,91 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2262.Total%20Appeal%20of%20A%20String/README.md
 rating: 2033
-source: Weekly Contest 291 Q4
+source: 第 291 场周赛 Q4
 tags:
-  - Hash Table
-  - String
-  - Dynamic Programming
+    - 哈希表
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2262. Total Appeal of A String](https://leetcode.com/problems/total-appeal-of-a-string)
+# [2262. 字符串的总引力](https://leetcode.cn/problems/total-appeal-of-a-string)
 
-## Description
+[English Version](/solution/2200-2299/2262.Total%20Appeal%20of%20A%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <b>appeal</b> of a string is the number of <strong>distinct</strong> characters found in the string.</p>
+<p>字符串的 <strong>引力</strong> 定义为：字符串中 <strong>不同</strong> 字符的数量。</p>
 
 <ul>
-	<li>For example, the appeal of <code>&quot;abbca&quot;</code> is <code>3</code> because it has <code>3</code> distinct characters: <code>&#39;a&#39;</code>, <code>&#39;b&#39;</code>, and <code>&#39;c&#39;</code>.</li>
+	<li>例如，<code>"abbca"</code> 的引力为 <code>3</code> ，因为其中有 <code>3</code> 个不同字符 <code>'a'</code>、<code>'b'</code> 和 <code>'c'</code> 。</li>
 </ul>
 
-<p>Given a string <code>s</code>, return <em>the <strong>total appeal of all of its <strong>substrings</strong>.</strong></em></p>
+<p>给你一个字符串 <code>s</code> ，返回 <strong>其所有子字符串的总引力</strong> <strong>。</strong></p>
 
-<p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;abbca&quot;
-<strong>Output:</strong> 28
-<strong>Explanation:</strong> The following are the substrings of &quot;abbca&quot;:
-- Substrings of length 1: &quot;a&quot;, &quot;b&quot;, &quot;b&quot;, &quot;c&quot;, &quot;a&quot; have an appeal of 1, 1, 1, 1, and 1 respectively. The sum is 5.
-- Substrings of length 2: &quot;ab&quot;, &quot;bb&quot;, &quot;bc&quot;, &quot;ca&quot; have an appeal of 2, 1, 2, and 2 respectively. The sum is 7.
-- Substrings of length 3: &quot;abb&quot;, &quot;bbc&quot;, &quot;bca&quot; have an appeal of 2, 2, and 3 respectively. The sum is 7.
-- Substrings of length 4: &quot;abbc&quot;, &quot;bbca&quot; have an appeal of 3 and 3 respectively. The sum is 6.
-- Substrings of length 5: &quot;abbca&quot; has an appeal of 3. The sum is 3.
-The total sum is 5 + 7 + 7 + 6 + 3 = 28.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;code&quot;
-<strong>Output:</strong> 20
-<strong>Explanation:</strong> The following are the substrings of &quot;code&quot;:
-- Substrings of length 1: &quot;c&quot;, &quot;o&quot;, &quot;d&quot;, &quot;e&quot; have an appeal of 1, 1, 1, and 1 respectively. The sum is 4.
-- Substrings of length 2: &quot;co&quot;, &quot;od&quot;, &quot;de&quot; have an appeal of 2, 2, and 2 respectively. The sum is 6.
-- Substrings of length 3: &quot;cod&quot;, &quot;ode&quot; have an appeal of 3 and 3 respectively. The sum is 6.
-- Substrings of length 4: &quot;code&quot; has an appeal of 4. The sum is 4.
-The total sum is 4 + 6 + 6 + 4 = 20.
-</pre>
+<p><strong>子字符串</strong> 定义为：字符串中的一个连续字符序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>s = "abbca"
+<strong>输出：</strong>28
+<strong>解释：</strong>"abbca" 的子字符串有：
+- 长度为 1 的子字符串："a"、"b"、"b"、"c"、"a" 的引力分别为 1、1、1、1、1，总和为 5 。
+- 长度为 2 的子字符串："ab"、"bb"、"bc"、"ca" 的引力分别为 2、1、2、2 ，总和为 7 。
+- 长度为 3 的子字符串："abb"、"bbc"、"bca" 的引力分别为 2、2、3 ，总和为 7 。
+- 长度为 4 的子字符串："abbc"、"bbca" 的引力分别为 3、3 ，总和为 6 。
+- 长度为 5 的子字符串："abbca" 的引力为 3 ，总和为 3 。
+引力总和为 5 + 7 + 7 + 6 + 3 = 28 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>s = "code"
+<strong>输出：</strong>20
+<strong>解释：</strong>"code" 的子字符串有：
+- 长度为 1 的子字符串："c"、"o"、"d"、"e" 的引力分别为 1、1、1、1 ，总和为 4 。
+- 长度为 2 的子字符串："co"、"od"、"de" 的引力分别为 2、2、2 ，总和为 6 。
+- 长度为 3 的子字符串："cod"、"ode" 的引力分别为 3、3 ，总和为 6 。
+- 长度为 4 的子字符串："code" 的引力为 4 ，总和为 4 。
+引力总和为 4 + 6 + 6 + 4 = 20 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code> 由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We can enumerate all the substrings that end with each character $s[i]$ and calculate their gravitational value sum $t$. Finally, we add up all the $t$ to get the total gravitational value sum.
+我们可以枚举以每个字符 $s[i]$ 结尾的字符串，计算其引力值之和 $t$，最后将所有 $t$ 相加即可。
 
-When we reach $s[i]$, which is added to the end of the substring that ends with $s[i-1]$, we consider the change of the gravitational value sum $t$:
+考虑遍历到 $s[i]$ 时，即把 $s[i]$ 添加到以 $s[i-1]$ 结尾的子字符串的后面，其引力值之和 $t$ 的变化情况：
 
-If $s[i]$ has not appeared before, then the gravitational value of all substrings that end with $s[i-1]$ will increase by $1$, and there are a total of $i$ such substrings. Therefore, $t$ increases by $i$, plus the gravitational value of $s[i]$ itself, which is $1$. Therefore, $t$ increases by a total of $i+1$.
+1. 如果 $s[i]$ 在之前没出现过，那么所有以 $s[i-1]$ 结尾的子字符串的引力值都会增加 $1$，共有 $i$ 个，所以 $t$ 增加 $i$，再加上 $s[i]$ 自身的引力值 $1$，所以 $t$ 一共增加 $i+1$；
+1. 如果 $s[i]$ 在之前出现过，不妨记上次出现的的位置为 $j$，那么我们向子字符串 $s[0..i-1]$, $[1..i-1]$, $s[2..i-1]$, $\cdots$, $s[j..i-1]$ 后面添加 $s[i]$，这些子字符串的引力值不会发生变化，因为 $s[i]$ 已经在这些子字符串中出现过了；而子字符串 $s[j+1..i-1]$, $s[j+2..i-1]$, $\cdots$, $s[i-1]$ 的引力值都会增加 $1$，共有 $i-j-1$ 个，所以 $t$ 增加 $i-j-1$，再加上 $s[i]$ 自身的引力值 $1$，所以 $t$ 一共增加 $i-j$。
 
-If $s[i]$ has appeared before, let the last appearance position be $j$. Then we add $s[i]$ to the end of the substrings $s[0..i-1]$, $[1..i-1]$, $s[2..i-1]$, $\cdots$, $s[j..i-1]$. The gravitational value of these substrings will not change because $s[i]$ has already appeared in these substrings. The gravitational value of the substrings $s[j+1..i-1]$, $s[j+2..i-1]$, $\cdots$, $s[i-1]$ will increase by $1$, and there are a total of $i-j-1$ such substrings. Therefore, $t$ increases by $i-j-1$, plus the gravitational value of $s[i]$ itself, which is $1$. Therefore, $t$ increases by a total of $i-j$.
-Therefore, we can use an array $pos$ to record the last appearance position of each character. Initially, all positions are set to $-1$.
+综上，我们可以用一个数组 $pos$ 记录每个字符上次出现的位置，初始时所有位置都为 $-1$，
 
-Next, we traverse the string, and each time we update the gravitational value sum $t$ of the substring that ends with the current character to $t = t + i - pos[c]$, where $c$ is the current character. We add $t$ to the answer. Then we update $pos[c]$ to the current position $i$. We continue to traverse until the end of the string.
+接下来，我们遍历字符串，每一次我们更新以当前字符结尾的子字符串的引力值之和 $t = t + i - pos[c]$，其中 $c$ 是当前字符，累加 $t$ 到答案中。然后我们更新 $pos[c]$ 为当前位置 $i$。继续遍历直到字符串结束。
 
-The time complexity is $O(n)$, and the space complexity is $O(|\Sigma|)$, where $n$ is the length of the string $s$, and $|\Sigma|$ is the size of the character set. In this problem, $|\Sigma| = 26$.
+时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|)$，其中 $n$ 是字符串 $s$ 的长度；而 $|\Sigma|$ 是字符集的大小，本题中 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -163,17 +166,17 @@ func appealSum(s string) int64 {
 
 ```ts
 function appealSum(s: string): number {
-  const pos: number[] = Array(26).fill(-1);
-  const n = s.length;
-  let ans = 0;
-  let t = 0;
-  for (let i = 0; i < n; ++i) {
-    const c = s.charCodeAt(i) - 97;
-    t += i - pos[c];
-    ans += t;
-    pos[c] = i;
-  }
-  return ans;
+    const pos: number[] = Array(26).fill(-1);
+    const n = s.length;
+    let ans = 0;
+    let t = 0;
+    for (let i = 0; i < n; ++i) {
+        const c = s.charCodeAt(i) - 97;
+        t += i - pos[c];
+        ans += t;
+        pos[c] = i;
+    }
+    return ans;
 }
 ```
 

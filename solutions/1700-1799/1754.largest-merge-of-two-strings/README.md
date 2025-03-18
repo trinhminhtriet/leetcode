@@ -1,80 +1,91 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1754.Largest%20Merge%20Of%20Two%20Strings/README.md
 rating: 1828
-source: Weekly Contest 227 Q3
+source: 第 227 场周赛 Q3
 tags:
-  - Greedy
-  - Two Pointers
-  - String
+    - 贪心
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1754. Largest Merge Of Two Strings](https://leetcode.com/problems/largest-merge-of-two-strings)
+# [1754. 构造字典序最大的合并字符串](https://leetcode.cn/problems/largest-merge-of-two-strings)
 
-## Description
+[English Version](/solution/1700-1799/1754.Largest%20Merge%20Of%20Two%20Strings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two strings <code>word1</code> and <code>word2</code>. You want to construct a string <code>merge</code> in the following way: while either <code>word1</code> or <code>word2</code> are non-empty, choose <strong>one</strong> of the following options:</p>
+<p>给你两个字符串 <code>word1</code> 和 <code>word2</code> 。你需要按下述方式构造一个新字符串 <code>merge</code> ：如果 <code>word1</code> 或 <code>word2</code> 非空，选择 <strong>下面选项之一</strong> 继续操作：</p>
 
 <ul>
-	<li>If <code>word1</code> is non-empty, append the <strong>first</strong> character in <code>word1</code> to <code>merge</code> and delete it from <code>word1</code>.
+	<li>如果 <code>word1</code> 非空，将 <code>word1</code> 中的第一个字符附加到 <code>merge</code> 的末尾，并将其从 <code>word1</code> 中移除。
 
     <ul>
-    	<li>For example, if <code>word1 = &quot;abc&quot; </code>and <code>merge = &quot;dv&quot;</code>, then after choosing this operation, <code>word1 = &quot;bc&quot;</code> and <code>merge = &quot;dva&quot;</code>.</li>
+    	<li>例如，<code>word1 = "abc" </code>且 <code>merge = "dv"</code> ，在执行此选项操作之后，<code>word1 = "bc"</code> ，同时 <code>merge = "dva"</code> 。</li>
     </ul>
     </li>
-    <li>If <code>word2</code> is non-empty, append the <strong>first</strong> character in <code>word2</code> to <code>merge</code> and delete it from <code>word2</code>.
+    <li>如果 <code>word2</code> 非空，将 <code>word2</code> 中的第一个字符附加到 <code>merge</code> 的末尾，并将其从 <code>word2</code> 中移除。
     <ul>
-    	<li>For example, if <code>word2 = &quot;abc&quot; </code>and <code>merge = &quot;&quot;</code>, then after choosing this operation, <code>word2 = &quot;bc&quot;</code> and <code>merge = &quot;a&quot;</code>.</li>
+    	<li>例如，<code>word2 = "abc" </code>且 <code>merge = ""</code> ，在执行此选项操作之后，<code>word2 = "bc"</code> ，同时 <code>merge = "a"</code> 。</li>
     </ul>
     </li>
 
 </ul>
 
-<p>Return <em>the lexicographically <strong>largest</strong> </em><code>merge</code><em> you can construct</em>.</p>
+<p>返回你可以构造的字典序 <strong>最大</strong> 的合并字符串<em> </em><code>merge</code><em> 。</em></p>
 
-<p>A string <code>a</code> is lexicographically larger than a string <code>b</code> (of the same length) if in the first position where <code>a</code> and <code>b</code> differ, <code>a</code> has a character strictly larger than the corresponding character in <code>b</code>. For example, <code>&quot;abcd&quot;</code> is lexicographically larger than <code>&quot;abcc&quot;</code> because the first position they differ is at the fourth character, and <code>d</code> is greater than <code>c</code>.</p>
+<p>长度相同的两个字符串 <code>a</code> 和 <code>b</code> 比较字典序大小，如果在 <code>a</code> 和 <code>b</code> 出现不同的第一个位置，<code>a</code> 中字符在字母表中的出现顺序位于 <code>b</code> 中相应字符之后，就认为字符串 <code>a</code> 按字典序比字符串 <code>b</code> 更大。例如，<code>"abcd"</code> 按字典序比 <code>"abcc"</code> 更大，因为两个字符串出现不同的第一个位置是第四个字符，而 <code>d</code> 在字母表中的出现顺序位于 <code>c</code> 之后。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> word1 = &quot;cabaa&quot;, word2 = &quot;bcaaa&quot;
-<strong>Output:</strong> &quot;cbcabaaaaa&quot;
-<strong>Explanation:</strong> One way to get the lexicographically largest merge is:
-- Take from word1: merge = &quot;c&quot;, word1 = &quot;abaa&quot;, word2 = &quot;bcaaa&quot;
-- Take from word2: merge = &quot;cb&quot;, word1 = &quot;abaa&quot;, word2 = &quot;caaa&quot;
-- Take from word2: merge = &quot;cbc&quot;, word1 = &quot;abaa&quot;, word2 = &quot;aaa&quot;
-- Take from word1: merge = &quot;cbca&quot;, word1 = &quot;baa&quot;, word2 = &quot;aaa&quot;
-- Take from word1: merge = &quot;cbcab&quot;, word1 = &quot;aa&quot;, word2 = &quot;aaa&quot;
-- Append the remaining 5 a&#39;s from word1 and word2 at the end of merge.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> word1 = &quot;abcabc&quot;, word2 = &quot;abdcaba&quot;
-<strong>Output:</strong> &quot;abdcabcabcaba&quot;
+<strong>输入：</strong>word1 = "cabaa", word2 = "bcaaa"
+<strong>输出：</strong>"cbcabaaaaa"
+<strong>解释：</strong>构造字典序最大的合并字符串，可行的一种方法如下所示：
+- 从 word1 中取第一个字符：merge = "c"，word1 = "abaa"，word2 = "bcaaa"
+- 从 word2 中取第一个字符：merge = "cb"，word1 = "abaa"，word2 = "caaa"
+- 从 word2 中取第一个字符：merge = "cbc"，word1 = "abaa"，word2 = "aaa"
+- 从 word1 中取第一个字符：merge = "cbca"，word1 = "baa"，word2 = "aaa"
+- 从 word1 中取第一个字符：merge = "cbcab"，word1 = "aa"，word2 = "aaa"
+- 将 word1 和 word2 中剩下的 5 个 a 附加到 merge 的末尾。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>word1 = "abcabc", word2 = "abdcaba"
+<strong>输出：</strong>"abdcabcabcaba"
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= word1.length, word2.length &lt;= 3000</code></li>
-	<li><code>word1</code> and <code>word2</code> consist only of lowercase English letters.</li>
+	<li><code>1 <= word1.length, word2.length <= 3000</code></li>
+	<li><code>word1</code> 和 <code>word2</code> 仅由小写英文组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心 + 双指针
+
+我们用指针 $i$ 和 $j$ 分别指向字符串 `word1` 和 `word2` 的第一个字符。然后循环，每次比较 $word1[i:]$ 和 $word2[j:]$ 的大小，如果 $word1[i:]$ 比 $word2[j:]$ 大，那么我们就将 $word1[i]$ 加入答案，否则我们就将 $word2[j]$ 加入答案。循环，直至 $i$ 到达字符串 `word1` 的末尾，或者 $j$ 到达字符串 `word2` 的末尾。
+
+然后我们将剩余的字符串加入答案即可。
+
+时间复杂度 $O(n^2)$。其中 $n$ 是字符串 `word1` 和 `word2` 的长度之和。
 
 <!-- tabs:start -->
 
@@ -162,17 +173,17 @@ func largestMerge(word1 string, word2 string) string {
 
 ```ts
 function largestMerge(word1: string, word2: string): string {
-  const m = word1.length;
-  const n = word2.length;
-  let ans = "";
-  let i = 0;
-  let j = 0;
-  while (i < m && j < n) {
-    ans += word1.slice(i) > word2.slice(j) ? word1[i++] : word2[j++];
-  }
-  ans += word1.slice(i);
-  ans += word2.slice(j);
-  return ans;
+    const m = word1.length;
+    const n = word2.length;
+    let ans = '';
+    let i = 0;
+    let j = 0;
+    while (i < m && j < n) {
+        ans += word1.slice(i) > word2.slice(j) ? word1[i++] : word2[j++];
+    }
+    ans += word1.slice(i);
+    ans += word2.slice(j);
+    return ans;
 }
 ```
 

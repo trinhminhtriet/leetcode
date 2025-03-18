@@ -1,80 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2265.Count%20Nodes%20Equal%20to%20Average%20of%20Subtree/README.md
 rating: 1472
-source: Weekly Contest 292 Q2
+source: 第 292 场周赛 Q2
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [2265. Count Nodes Equal to Average of Subtree](https://leetcode.com/problems/count-nodes-equal-to-average-of-subtree)
+# [2265. 统计值等于子树平均值的节点数](https://leetcode.cn/problems/count-nodes-equal-to-average-of-subtree)
 
-## Description
+[English Version](/solution/2200-2299/2265.Count%20Nodes%20Equal%20to%20Average%20of%20Subtree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, return <em>the number of nodes where the value of the node is equal to the <strong>average</strong> of the values in its <strong>subtree</strong></em>.</p>
+<p>给你一棵二叉树的根节点 <code>root</code> ，找出并返回满足要求的节点数，要求节点的值等于其 <strong>子树</strong> 中值的 <strong>平均值</strong> 。</p>
 
-<p><strong>Note:</strong></p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li>The <strong>average</strong> of <code>n</code> elements is the <strong>sum</strong> of the <code>n</code> elements divided by <code>n</code> and <strong>rounded down</strong> to the nearest integer.</li>
-	<li>A <strong>subtree</strong> of <code>root</code> is a tree consisting of <code>root</code> and all of its descendants.</li>
+	<li><code>n</code> 个元素的平均值可以由 <code>n</code> 个元素 <strong>求和</strong> 然后再除以 <code>n</code> ，并 <strong>向下舍入</strong> 到最近的整数。</li>
+	<li><code>root</code> 的 <strong>子树</strong> 由 <code>root</code> 和它的所有后代组成。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2265.Count%20Nodes%20Equal%20to%20Average%20of%20Subtree/images/image-20220315203925-1.png" style="width: 300px; height: 212px;" />
-<pre>
-<strong>Input:</strong> root = [4,8,5,0,1,null,6]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> 
-For the node with value 4: The average of its subtree is (4 + 8 + 5 + 0 + 1 + 6) / 6 = 24 / 6 = 4.
-For the node with value 5: The average of its subtree is (5 + 6) / 2 = 11 / 2 = 5.
-For the node with value 0: The average of its subtree is 0 / 1 = 0.
-For the node with value 1: The average of its subtree is 1 / 1 = 1.
-For the node with value 6: The average of its subtree is 6 / 1 = 6.
+
+<p><strong>示例 1：</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2265.Count%20Nodes%20Equal%20to%20Average%20of%20Subtree/images/image-20220315203925-1.png" style="width: 300px; height: 212px;">
+<pre><strong>输入：</strong>root = [4,8,5,0,1,null,6]
+<strong>输出：</strong>5
+<strong>解释：</strong>
+对值为 4 的节点：子树的平均值 (4 + 8 + 5 + 0 + 1 + 6) / 6 = 24 / 6 = 4 。
+对值为 5 的节点：子树的平均值 (5 + 6) / 2 = 11 / 2 = 5 。
+对值为 0 的节点：子树的平均值 0 / 1 = 0 。
+对值为 1 的节点：子树的平均值 1 / 1 = 1 。
+对值为 6 的节点：子树的平均值 6 / 1 = 6 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2265.Count%20Nodes%20Equal%20to%20Average%20of%20Subtree/images/image-20220326133920-1.png" style="width: 80px; height: 76px;" />
-<pre>
-<strong>Input:</strong> root = [1]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> For the node with value 1: The average of its subtree is 1 / 1 = 1.
+<p><strong>示例 2：</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2265.Count%20Nodes%20Equal%20to%20Average%20of%20Subtree/images/image-20220326133920-1.png" style="width: 80px; height: 76px;">
+<pre><strong>输入：</strong>root = [1]
+<strong>输出：</strong>1
+<strong>解释：</strong>对值为 1 的节点：子树的平均值 1 / 1 = 1。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 1000]</code>.</li>
+	<li>树中节点数目在范围 <code>[1, 1000]</code> 内</li>
 	<li><code>0 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-We design a function $\textit{dfs}$, which calculates the sum and the number of nodes of the subtree rooted at the current node.
+我们设计一个函数 $\textit{dfs}$，它的作用是计算以当前节点为根的子树的和以及节点个数。
 
-The execution process of the function $\textit{dfs}$ is as follows:
+函数 $\textit{dfs}$ 的执行过程如下：
 
-- If the current node is null, return $(0, 0)$.
-- Otherwise, we recursively calculate the sum and the number of nodes of the left and right subtrees, denoted as $(\textit{ls}, \textit{ln})$ and $(\textit{rs}, \textit{rn})$, respectively. Then, the sum $\textit{s}$ and the number of nodes $\textit{n}$ of the subtree rooted at the current node are $\textit{ls} + \textit{rs} + \textit{root.val}$ and $\textit{ln} + \textit{rn} + 1$, respectively. If $\textit{s} / \textit{n} = \textit{root.val}$, it means the current node meets the requirement of the problem, and we increment the answer $\textit{ans}$ by $1$.
-- Finally, the function $\textit{dfs}$ returns $\textit{s}$ and $\textit{n}$.
+-   如果当前节点为空，返回 $(0, 0)$。
+-   否则，我们递归计算左右子树的和以及节点个数，分别记为 $(\textit{ls}, \textit{ln})$ 和 $(\textit{rs}, \textit{rn})$。那么，以当前节点为根的子树的和 $\textit{s}$ 和节点个数 $\textit{n}$ 分别为 $\textit{ls} + \textit{rs} + \textit{root.val}$ 和 $\textit{ln} + \textit{rn} + 1$。如果 $\textit{s} / \textit{n} = \textit{root.val}$，则说明当前节点满足题目要求，我们将答案 $\textit{ans}$ 自增 $1$。
+-   最后，函数 $\textit{dfs}$ 返回 $\textit{s}$ 和 $\textit{n}$。
 
-We initialize the answer $\textit{ans}$ to $0$, then call the $\textit{dfs}$ function, and finally return the answer $\textit{ans}$.
+我们初始化答案 $\textit{ans}$ 为 $0$，然后调用 $\textit{dfs}$ 函数，最后返回答案 $\textit{ans}$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ represents the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 表示二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -159,12 +162,12 @@ class Solution {
 public:
     int averageOfSubtree(TreeNode* root) {
         int ans = 0;
-        auto dfs = [&](auto&& dfs, TreeNode* root) -> pair<int, int> {
+        auto dfs = [&](this auto&& dfs, TreeNode* root) -> pair<int, int> {
             if (!root) {
                 return {0, 0};
             }
-            auto [ls, ln] = dfs(dfs, root->left);
-            auto [rs, rn] = dfs(dfs, root->right);
+            auto [ls, ln] = dfs(root->left);
+            auto [rs, rn] = dfs(root->right);
             int s = ls + rs + root->val;
             int n = ln + rn + 1;
             if (s / n == root->val) {
@@ -172,7 +175,7 @@ public:
             }
             return {s, n};
         };
-        dfs(dfs, root);
+        dfs(root);
         return ans;
     }
 };
@@ -226,22 +229,22 @@ func averageOfSubtree(root *TreeNode) (ans int) {
  */
 
 function averageOfSubtree(root: TreeNode | null): number {
-  let ans: number = 0;
-  const dfs = (root: TreeNode | null): [number, number] => {
-    if (!root) {
-      return [0, 0];
-    }
-    const [ls, ln] = dfs(root.left);
-    const [rs, rn] = dfs(root.right);
-    const s = ls + rs + root.val;
-    const n = ln + rn + 1;
-    if (Math.floor(s / n) === root.val) {
-      ++ans;
-    }
-    return [s, n];
-  };
-  dfs(root);
-  return ans;
+    let ans: number = 0;
+    const dfs = (root: TreeNode | null): [number, number] => {
+        if (!root) {
+            return [0, 0];
+        }
+        const [ls, ln] = dfs(root.left);
+        const [rs, rn] = dfs(root.right);
+        const s = ls + rs + root.val;
+        const n = ln + rn + 1;
+        if (Math.floor(s / n) === root.val) {
+            ++ans;
+        }
+        return [s, n];
+    };
+    dfs(root);
+    return ans;
 }
 ```
 

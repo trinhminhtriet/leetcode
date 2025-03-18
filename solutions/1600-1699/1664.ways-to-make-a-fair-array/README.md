@@ -1,94 +1,99 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1664.Ways%20to%20Make%20a%20Fair%20Array/README.md
 rating: 1590
-source: Weekly Contest 216 Q3
+source: 第 216 场周赛 Q3
 tags:
-  - Array
-  - Prefix Sum
+    - 数组
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1664. Ways to Make a Fair Array](https://leetcode.com/problems/ways-to-make-a-fair-array)
+# [1664. 生成平衡数组的方案数](https://leetcode.cn/problems/ways-to-make-a-fair-array)
 
-## Description
+[English Version](/solution/1600-1699/1664.Ways%20to%20Make%20a%20Fair%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array&nbsp;<code>nums</code>. You can choose <strong>exactly one</strong> index (<strong>0-indexed</strong>) and remove the element. Notice that the index of the elements may change after the removal.</p>
+<p>给你一个整数数组 <code>nums</code> 。你需要选择 <strong>恰好</strong> 一个下标（下标从 <strong>0</strong> 开始）并删除对应的元素。请注意剩下元素的下标可能会因为删除操作而发生改变。</p>
 
-<p>For example, if <code>nums = [6,1,7,4,1]</code>:</p>
+<p>比方说，如果 <code>nums = [6,1,7,4,1]</code> ，那么：</p>
 
 <ul>
-	<li>Choosing to remove index <code>1</code> results in <code>nums = [6,7,4,1]</code>.</li>
-	<li>Choosing to remove index <code>2</code> results in <code>nums = [6,1,4,1]</code>.</li>
-	<li>Choosing to remove index <code>4</code> results in <code>nums = [6,1,7,4]</code>.</li>
+	<li>选择删除下标 <code>1</code> ，剩下的数组为 <code>nums = [6,7,4,1]</code> 。</li>
+	<li>选择删除下标 <code>2</code> ，剩下的数组为 <code>nums = [6,1,4,1]</code> 。</li>
+	<li>选择删除下标 <code>4</code> ，剩下的数组为 <code>nums = [6,1,7,4]</code> 。</li>
 </ul>
 
-<p>An array is <strong>fair</strong> if the sum of the odd-indexed values equals the sum of the even-indexed values.</p>
+<p>如果一个数组满足奇数下标元素的和与偶数下标元素的和相等，该数组就是一个 <strong>平衡数组</strong> 。</p>
 
-<p>Return the <em><strong>number</strong> of indices that you could choose such that after the removal, </em><code>nums</code><em> </em><em>is <strong>fair</strong>. </em></p>
+<p>请你返回删除操作后，剩下的数组<em> </em><code>nums</code><em> </em>是 <strong>平衡数组</strong> 的 <strong>方案数</strong> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [2,1,6,4]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong>
-Remove index 0: [1,6,4] -&gt; Even sum: 1 + 4 = 5. Odd sum: 6. Not fair.
-Remove index 1: [2,6,4] -&gt; Even sum: 2 + 4 = 6. Odd sum: 6. Fair.
-Remove index 2: [2,1,4] -&gt; Even sum: 2 + 4 = 6. Odd sum: 1. Not fair.
-Remove index 3: [2,1,6] -&gt; Even sum: 2 + 6 = 8. Odd sum: 1. Not fair.
-There is 1 index that you can remove to make nums fair.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,1,1]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>&nbsp;You can remove any index and the remaining array is fair.
+<b>输入：</b>nums = [2,1,6,4]
+<b>输出：</b>1
+<strong>解释：</strong>
+删除下标 0 ：[1,6,4] -> 偶数元素下标为：1 + 4 = 5 。奇数元素下标为：6 。不平衡。
+删除下标 1 ：[2,6,4] -> 偶数元素下标为：2 + 4 = 6 。奇数元素下标为：6 。平衡。
+删除下标 2 ：[2,1,4] -> 偶数元素下标为：2 + 4 = 6 。奇数元素下标为：1 。不平衡。
+删除下标 3 ：[2,1,6] -> 偶数元素下标为：2 + 6 = 8 。奇数元素下标为：1 。不平衡。
+只有一种让剩余数组成为平衡数组的方案。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,3]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong>&nbsp;You cannot make a fair array after removing any index.
+<b>输入：</b>nums = [1,1,1]
+<b>输出：</b>3
+<b>解释：</b>你可以删除任意元素，剩余数组都是平衡数组。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,2,3]
+<b>输出：</b>0
+<b>解释：</b>不管删除哪个元素，剩下数组都不是平衡数组。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
+	<li><code>1 <= nums[i] <= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration + Prefix Sum
+### 方法一：枚举 + 前缀和
 
-First, we preprocess to get the sum $s_1$ of the elements at even indices and the sum $s_2$ of the elements at odd indices in the array `nums`.
+我们先预处理得到数组 `nums` 的偶数下标元素之和 $s_1$ 以及奇数下标元素之和 $s_2$。
 
-Then, we enumerate each element $v$ in the array `nums` from front to back, using variables $t_1$ and $t_2$ to record the sum of the elements at even indices and the sum of the elements at odd indices that have been traversed, respectively.
+然后从前往后枚举数组 `nums` 的每个元素 $v$，用变量 $t_1$ 和 $t_2$ 分别记录已遍历的偶数下标元素之和以及奇数下标元素之和。
 
-We observe that for the current element $v$ being traversed, if it is removed, the sum of the elements at odd and even indices after this element will be swapped. At this point, we first determine whether the index $i$ of the current position is odd or even.
+我们观察发现，对于当前遍历到的元素 $v$，如果删除了，那么该元素之后的奇偶下标元素之和会发生交换。此时，我们先判断该位置下标 $i$ 是奇数还是偶数。
 
-- If it is an even index, after deleting the element, the sum of the elements at odd indices in the array is $t_2 + s_1 - t_1 - v$, and the sum of the elements at even indices is $t_1 + s_2 - t_2$. If these two sums are equal, it is a balanced array, and the answer is incremented by one.
+-   如果是偶数下标，删除该元素后，数组的奇数下标元素之和为 $t_2 + s_1 - t_1 - v$，而偶数下标元素之和为 $t_1 + s_2 - t_2$，如果这两个和相等，那么就是一个平衡数组，答案加一。
 
-- If it is an odd index, after deleting the element, the sum of the elements at even indices in the array is $t_1 + s_2 - t_2 - v$, and the sum of the elements at odd indices is $t_2 + s_1 - t_1$. If these two sums are equal, it is a balanced array, and the answer is incremented by one.
+-   如果是奇数下标，删除该元素后，数组的偶数下标元素之和为 $t_1 + s_2 - t_2 - v$，而奇数下标元素之和为 $t_2 + s_1 - t_1$，如果这两个和相等，那么就是一个平衡数组，答案加一。
 
-Then we update $t_1$ and $t_2$ and continue to traverse the next element. After traversing the array, we can get the answer.
+然后我们更新 $t_1$ 和 $t_2$，继续遍历下一个元素。遍历完数组后，即可得到答案。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -195,24 +200,24 @@ func waysToMakeFair(nums []int) (ans int) {
  * @return {number}
  */
 var waysToMakeFair = function (nums) {
-  let [s1, s2, t1, t2] = [0, 0, 0, 0];
-  const n = nums.length;
-  for (let i = 0; i < n; ++i) {
-    if (i % 2 == 0) {
-      s1 += nums[i];
-    } else {
-      s2 += nums[i];
+    let [s1, s2, t1, t2] = [0, 0, 0, 0];
+    const n = nums.length;
+    for (let i = 0; i < n; ++i) {
+        if (i % 2 == 0) {
+            s1 += nums[i];
+        } else {
+            s2 += nums[i];
+        }
     }
-  }
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    const v = nums[i];
-    ans += i % 2 == 0 && t2 + s1 - t1 - v == t1 + s2 - t2;
-    ans += i % 2 == 1 && t2 + s1 - t1 == t1 + s2 - t2 - v;
-    t1 += i % 2 == 0 ? v : 0;
-    t2 += i % 2 == 1 ? v : 0;
-  }
-  return ans;
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        const v = nums[i];
+        ans += i % 2 == 0 && t2 + s1 - t1 - v == t1 + s2 - t2;
+        ans += i % 2 == 1 && t2 + s1 - t1 == t1 + s2 - t2 - v;
+        t1 += i % 2 == 0 ? v : 0;
+        t2 += i % 2 == 1 ? v : 0;
+    }
+    return ans;
 };
 ```
 

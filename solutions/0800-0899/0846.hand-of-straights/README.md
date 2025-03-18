@@ -1,45 +1,50 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0846.Hand%20of%20Straights/README.md
 tags:
-  - Greedy
-  - Array
-  - Hash Table
-  - Sorting
+    - 贪心
+    - 数组
+    - 哈希表
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [846. Hand of Straights](https://leetcode.com/problems/hand-of-straights)
+# [846. 一手顺子](https://leetcode.cn/problems/hand-of-straights)
 
-## Description
+[English Version](/solution/0800-0899/0846.Hand%20of%20Straights/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Alice has some number of cards and she wants to rearrange the cards into groups so that each group is of size <code>groupSize</code>, and consists of <code>groupSize</code> consecutive cards.</p>
+<p>Alice 手中有一把牌，她想要重新排列这些牌，分成若干组，使每一组的牌数都是 <code>groupSize</code> ，并且由 <code>groupSize</code> 张连续的牌组成。</p>
 
-<p>Given an integer array <code>hand</code> where <code>hand[i]</code> is the value written on the <code>i<sup>th</sup></code> card and an integer <code>groupSize</code>, return <code>true</code> if she can rearrange the cards, or <code>false</code> otherwise.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> hand = [1,2,3,6,2,3,4,7,8], groupSize = 3
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Alice&#39;s hand can be rearranged as [1,2,3],[2,3,4],[6,7,8]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> hand = [1,2,3,4,5], groupSize = 4
-<strong>Output:</strong> false
-<strong>Explanation:</strong> Alice&#39;s hand can not be rearranged into groups of 4.
-
-</pre>
+<p>给你一个整数数组 <code>hand</code> 其中 <code>hand[i]</code> 是写在第 <code>i</code> 张牌上的<strong>数值</strong>。如果她可能重新排列这些牌，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<ol>
+</ol>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>hand = [1,2,3,6,2,3,4,7,8], groupSize = 3
+<strong>输出：</strong>true
+<strong>解释：</strong>Alice 手中的牌可以被重新排列为 <code>[1,2,3]，[2,3,4]，[6,7,8]</code>。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>hand = [1,2,3,4,5], groupSize = 4
+<strong>输出：</strong>false
+<strong>解释：</strong>Alice 手中的牌无法被重新排列成几个大小为 4 的组。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= hand.length &lt;= 10<sup>4</sup></code></li>
@@ -48,15 +53,22 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Note:</strong> This question is the same as 1296: <a href="https://leetcode.com/problems/divide-array-in-sets-of-k-consecutive-numbers/" target="_blank">https://leetcode.com/problems/divide-array-in-sets-of-k-consecutive-numbers/</a></p>
+
+<p><strong>注意：</strong>此题目与 1296 重复：<a href="https://leetcode.cn/problems/divide-array-in-sets-of-k-consecutive-numbers/" target="_blank">https://leetcode.cn/problems/divide-array-in-sets-of-k-consecutive-numbers/</a></p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表 + 排序
+
+我们先用哈希表 `cnt` 统计数组 `hand` 中每个数字出现的次数，然后对数组 `hand` 进行排序。
+
+接下来，我们遍历数组 `hand`，对于数组中的每个数字 $v$，如果 $v$ 在哈希表 `cnt` 中出现的次数不为 $0$，则我们枚举 $v$ 到 $v+groupSize-1$ 的每个数字，如果这些数字在哈希表 `cnt` 中出现的次数都不为 $0$，则我们将这些数字的出现次数减 $1$，如果减 $1$ 后这些数字的出现次数为 $0$，则我们在哈希表 `cnt` 中删除这些数字。否则说明无法将数组划分成若干个长度为 $groupSize$ 的子数组，返回 `false`。如果可以将数组划分成若干个长度为 $groupSize$ 的子数组，则遍历结束后返回 `true`。
+
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `hand` 的长度。
 
 <!-- tabs:start -->
 
@@ -161,24 +173,24 @@ func isNStraightHand(hand []int, groupSize int) bool {
 
 ```ts
 function isNStraightHand(hand: number[], groupSize: number) {
-  const cnt: Record<number, number> = {};
-  for (const i of hand) {
-    cnt[i] = (cnt[i] ?? 0) + 1;
-  }
-
-  const keys = Object.keys(cnt).map(Number);
-  for (const i of keys) {
-    while (cnt[i]) {
-      for (let j = i; j < groupSize + i; j++) {
-        if (!cnt[j]) {
-          return false;
-        }
-        cnt[j]--;
-      }
+    const cnt: Record<number, number> = {};
+    for (const i of hand) {
+        cnt[i] = (cnt[i] ?? 0) + 1;
     }
-  }
 
-  return true;
+    const keys = Object.keys(cnt).map(Number);
+    for (const i of keys) {
+        while (cnt[i]) {
+            for (let j = i; j < groupSize + i; j++) {
+                if (!cnt[j]) {
+                    return false;
+                }
+                cnt[j]--;
+            }
+        }
+    }
+
+    return true;
 }
 ```
 
@@ -188,16 +200,19 @@ function isNStraightHand(hand: number[], groupSize: number) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：有序集合
+
+我们也可以使用有序集合统计数组 `hand` 中每个数字出现的次数。
+
+接下来，循环取出有序集合中的最小值 $v$，然后枚举 $v$ 到 $v+groupSize-1$ 的每个数字，如果这些数字在有序集合中出现的次数都不为 $0$，则我们将这些数字的出现次数减 $1$，如果出现次数减 $1$ 后为 $0$，则将该数字从有序集合中删除，否则说明无法将数组划分成若干个长度为 $groupSize$ 的子数组，返回 `false`。如果可以将数组划分成若干个长度为 $groupSize$ 的子数组，则遍历结束后返回 `true`。
+
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `hand` 的长度。
 
 <!-- tabs:start -->
 
 #### Python3
 
 ```python
-from sortedcontainers import SortedDict
-
-
 class Solution:
     def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
         if len(hand) % groupSize != 0:
@@ -310,33 +325,33 @@ func isNStraightHand(hand []int, groupSize int) bool {
 
 ```ts
 function isNStraightHand(hand: number[], groupSize: number): boolean {
-  const n = hand.length;
-  if (n % groupSize) {
-    return false;
-  }
-
-  const groups: number[][] = Array.from({ length: n / groupSize }, () => []);
-  hand.sort((a, b) => a - b);
-
-  for (let i = 0; i < n; i++) {
-    let isPushed = false;
-
-    for (const g of groups) {
-      if (g.length === groupSize || (g.length && hand[i] - g.at(-1)! !== 1)) {
-        continue;
-      }
-
-      g.push(hand[i]);
-      isPushed = true;
-      break;
+    const n = hand.length;
+    if (n % groupSize) {
+        return false;
     }
 
-    if (!isPushed) {
-      return false;
-    }
-  }
+    const groups: number[][] = Array.from({ length: n / groupSize }, () => []);
+    hand.sort((a, b) => a - b);
 
-  return true;
+    for (let i = 0; i < n; i++) {
+        let isPushed = false;
+
+        for (const g of groups) {
+            if (g.length === groupSize || (g.length && hand[i] - g.at(-1)! !== 1)) {
+                continue;
+            }
+
+            g.push(hand[i]);
+            isPushed = true;
+            break;
+        }
+
+        if (!isPushed) {
+            return false;
+        }
+    }
+
+    return true;
 }
 ```
 

@@ -1,60 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0624.Maximum%20Distance%20in%20Arrays/README.md
 tags:
-  - Greedy
-  - Array
+    - 贪心
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [624. Maximum Distance in Arrays](https://leetcode.com/problems/maximum-distance-in-arrays)
+# [624. 数组列表中的最大距离](https://leetcode.cn/problems/maximum-distance-in-arrays)
 
-## Description
+[English Version](/solution/0600-0699/0624.Maximum%20Distance%20in%20Arrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given <code>m</code> <code>arrays</code>, where each array is sorted in <strong>ascending order</strong>.</p>
+<p>给定&nbsp;<code>m</code>&nbsp;个数组，每个数组都已经按照升序排好序了。</p>
 
-<p>You can pick up two integers from two different arrays (each array picks one) and calculate the distance. We define the distance between two integers <code>a</code> and <code>b</code> to be their absolute difference <code>|a - b|</code>.</p>
+<p>现在你需要从两个不同的数组中选择两个整数（每个数组选一个）并且计算它们的距离。两个整数&nbsp;<code>a</code>&nbsp;和&nbsp;<code>b</code>&nbsp;之间的距离定义为它们差的绝对值&nbsp;<code>|a-b|</code>&nbsp;。</p>
 
-<p>Return <em>the maximum distance</em>.</p>
+<p>返回最大距离。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arrays = [[1,2,3],[4,5],[1,2,3]]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> One way to reach the maximum distance 4 is to pick 1 in the first or third array and pick 5 in the second array.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> arrays = [[1],[1]]
-<strong>Output:</strong> 0
+<strong>输入：</strong>[[1,2,3],[4,5],[1,2,3]]
+<strong>输出：</strong>4
+<strong>解释：</strong>
+一种得到答案 4 的方法是从第一个数组或者第三个数组中选择 1，同时从第二个数组中选择 5 。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>arrays = [[1],[1]]
+<b>输出：</b>0
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == arrays.length</code></li>
 	<li><code>2 &lt;= m &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= arrays[i].length &lt;= 500</code></li>
 	<li><code>-10<sup>4</sup> &lt;= arrays[i][j] &lt;= 10<sup>4</sup></code></li>
-	<li><code>arrays[i]</code> is sorted in <strong>ascending order</strong>.</li>
-	<li>There will be at most <code>10<sup>5</sup></code> integers in all the arrays.</li>
+	<li><code>arrays[i]</code>&nbsp;以&nbsp;<strong>升序</strong>&nbsp;排序。</li>
+	<li>所有数组中最多有&nbsp;<code>10<sup>5</sup></code> 个整数。</li>
 </ul>
+
+<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：维护最大值和最小值
+
+我们注意到，最大距离一定是两个数组中的一个最大值和另一个最小值之间的距离。因此，我们可以维护两个变量 $\textit{mi}$ 和 $\textit{mx}$，分别表示已经遍历过的数组中的最小值和最大值。初始时 $\textit{mi}$ 和 $\textit{mx}$ 分别为第一个数组的第一个元素和最后一个元素。
+
+接下来，我们从第二个数组开始遍历，对于每个数组，我们首先计算当前数组的第一个元素和 $\textit{mx}$ 之间的距离，以及当前数组的最后一个元素和 $\textit{mi}$ 之间的距离，然后更新最大距离。同时，我们更新 $\textit{mi} = \min(\textit{mi}, \textit{arr}[0])$ 和 $\textit{mx} = \max(\textit{mx}, \textit{arr}[\textit{size} - 1])$。
+
+遍历结束后，即可得到最大距离。
+
+时间复杂度 $O(m)$，其中 $m$ 为数组的个数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -140,18 +154,41 @@ func abs(x int) int {
 
 ```ts
 function maxDistance(arrays: number[][]): number {
-  const n = arrays.length;
-  let res = 0;
-  let [min, max] = [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY];
+    let ans = 0;
+    let [mi, mx] = [arrays[0][0], arrays[0].at(-1)!];
+    for (let i = 1; i < arrays.length; ++i) {
+        const arr = arrays[i];
+        const a = Math.abs(arr[0] - mx);
+        const b = Math.abs(arr.at(-1)! - mi);
+        ans = Math.max(ans, a, b);
+        mi = Math.min(mi, arr[0]);
+        mx = Math.max(mx, arr.at(-1)!);
+    }
+    return ans;
+}
+```
 
-  for (let i = 0; i < n; i++) {
-    const a = arrays[i];
-    res = Math.max(Math.max(a.at(-1)! - min, max - a[0]), res);
-    min = Math.min(min, a[0]);
-    max = Math.max(max, a.at(-1)!);
-  }
+#### Rust
 
-  return res;
+```rust
+impl Solution {
+    pub fn max_distance(arrays: Vec<Vec<i32>>) -> i32 {
+        let mut ans = 0;
+        let mut mi = arrays[0][0];
+        let mut mx = arrays[0][arrays[0].len() - 1];
+
+        for i in 1..arrays.len() {
+            let arr = &arrays[i];
+            let a = (arr[0] - mx).abs();
+            let b = (arr[arr.len() - 1] - mi).abs();
+            ans = ans.max(a).max(b);
+
+            mi = mi.min(arr[0]);
+            mx = mx.max(arr[arr.len() - 1]);
+        }
+
+        ans
+    }
 }
 ```
 
@@ -163,61 +200,18 @@ function maxDistance(arrays: number[][]): number {
  * @return {number}
  */
 var maxDistance = function (arrays) {
-  const n = arrays.length;
-  let res = 0;
-  let [min, max] = [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY];
-
-  for (let i = 0; i < n; i++) {
-    const a = arrays[i];
-    res = Math.max(Math.max(a.at(-1) - min, max - a[0]), res);
-    min = Math.min(min, a[0]);
-    max = Math.max(max, a.at(-1));
-  }
-
-  return res;
+    let ans = 0;
+    let [mi, mx] = [arrays[0][0], arrays[0].at(-1)];
+    for (let i = 1; i < arrays.length; ++i) {
+        const arr = arrays[i];
+        const a = Math.abs(arr[0] - mx);
+        const b = Math.abs(arr.at(-1) - mi);
+        ans = Math.max(ans, a, b);
+        mi = Math.min(mi, arr[0]);
+        mx = Math.max(mx, arr.at(-1));
+    }
+    return ans;
 };
-```
-
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### Solution 2: One-line solution
-
-<!-- tabs:start -->
-
-#### TypeScript
-
-```ts
-const maxDistance = (arrays: number[][]): number =>
-  arrays.reduce(
-    ([res, min, max], a) => [
-      Math.max(Math.max(a.at(-1)! - min, max - a[0]), res),
-      Math.min(min, a[0]),
-      Math.max(max, a.at(-1)!),
-    ],
-    [0, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]
-  )[0];
-```
-
-#### JavaScript
-
-```js
-/**
- * @param {number[][]} arrays
- * @return {number}
- */
-var maxDistance = (arrays) =>
-  arrays.reduce(
-    ([res, min, max], a) => [
-      Math.max(Math.max(a.at(-1) - min, max - a[0]), res),
-      Math.min(min, a[0]),
-      Math.max(max, a.at(-1)),
-    ],
-    [0, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]
-  )[0];
 ```
 
 <!-- tabs:end -->

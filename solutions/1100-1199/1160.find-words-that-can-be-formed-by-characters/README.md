@@ -1,70 +1,79 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1160.Find%20Words%20That%20Can%20Be%20Formed%20by%20Characters/README.md
 rating: 1205
-source: Weekly Contest 150 Q1
+source: 第 150 场周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - String
-  - Counting
+    - 数组
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1160. Find Words That Can Be Formed by Characters](https://leetcode.com/problems/find-words-that-can-be-formed-by-characters)
+# [1160. 拼写单词](https://leetcode.cn/problems/find-words-that-can-be-formed-by-characters)
 
-## Description
+[English Version](/solution/1100-1199/1160.Find%20Words%20That%20Can%20Be%20Formed%20by%20Characters/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of strings <code>words</code> and a string <code>chars</code>.</p>
+<p>给你一份『词汇表』（字符串数组）&nbsp;<code>words</code>&nbsp;和一张『字母表』（字符串）&nbsp;<code>chars</code>。</p>
 
-<p>A string is <strong>good</strong> if it can be formed by characters from <code>chars</code> (each character can only be used once).</p>
+<p>假如你可以用&nbsp;<code>chars</code>&nbsp;中的『字母』（字符）拼写出 <code>words</code>&nbsp;中的某个『单词』（字符串），那么我们就认为你掌握了这个单词。</p>
 
-<p>Return <em>the sum of lengths of all good strings in words</em>.</p>
+<p>注意：每次拼写（指拼写词汇表中的一个单词）时，<code>chars</code> 中的每个字母都只能用一次。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;cat&quot;,&quot;bt&quot;,&quot;hat&quot;,&quot;tree&quot;], chars = &quot;atach&quot;
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The strings that can be formed are &quot;cat&quot; and &quot;hat&quot; so the answer is 3 + 3 = 6.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;hello&quot;,&quot;world&quot;,&quot;leetcode&quot;], chars = &quot;welldonehoneyr&quot;
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> The strings that can be formed are &quot;hello&quot; and &quot;world&quot; so the answer is 5 + 5 = 10.
-</pre>
+<p>返回词汇表&nbsp;<code>words</code>&nbsp;中你掌握的所有单词的 <strong>长度之和</strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["cat","bt","hat","tree"], chars = "atach"
+<strong>输出：</strong>6
+<strong>解释： </strong>
+可以形成字符串 "cat" 和 "hat"，所以答案是 3 + 3 = 6。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["hello","world","leetcode"], chars = "welldonehoneyr"
+<strong>输出：</strong>10
+<strong>解释：</strong>
+可以形成字符串 "hello" 和 "world"，所以答案是 5 + 5 = 10。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 1000</code></li>
-	<li><code>1 &lt;= words[i].length, chars.length &lt;= 100</code></li>
-	<li><code>words[i]</code> and <code>chars</code> consist of lowercase English letters.</li>
+	<li><code>1 &lt;= words[i].length, chars.length&nbsp;&lt;= 100</code></li>
+	<li>所有字符串中都仅包含小写英文字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We can use an array $cnt$ of length $26$ to count the occurrence of each letter in the string $chars$.
+我们可以用一个长度为 $26$ 的数组 $cnt$ 统计字符串 $chars$ 中每个字母出现的次数。
 
-Then we traverse the string array $words$. For each string $w$, we use an array $wc$ of length $26$ to count the occurrence of each letter in the string $w$. If for each letter $c$, $wc[c] \leq cnt[c]$, then we can spell the string $w$ with the letters in $chars$, otherwise we cannot spell the string $w$. If we can spell the string $w$, then we add the length of the string $w$ to the answer.
+然后遍历字符串数组 $words$，对于每个字符串 $w$，我们用一个长度为 $26$ 的数组 $wc$ 统计字符串 $w$ 中每个字母出现的次数，如果对于每个字母 $c$，$wc[c] \leq cnt[c]$，那么我们就可以用 $chars$ 中的字母拼写出字符串 $w$，否则我们无法拼写出字符串 $w$。如果可以拼写出字符串 $w$，那么我们就将字符串 $w$ 的长度加到答案中。
 
-After the traversal, we can get the answer.
+遍历结束后，即可得到答案。
 
-The time complexity is $O(L)$, and the space complexity is $O(C)$. Here, $L$ is the sum of the lengths of all strings in the problem, and $C$ is the size of the character set. In this problem, $C = 26$.
+时间复杂度 $(L)$，空间复杂度 $O(C)$。其中 $L$ 为题目中所有字符串的长度之和；而 $C$ 为字符集的大小，本题中 $C = 26$。
 
 <!-- tabs:start -->
 
@@ -172,26 +181,26 @@ func countCharacters(words []string, chars string) (ans int) {
 
 ```ts
 function countCharacters(words: string[], chars: string): number {
-  const idx = (c: string) => c.charCodeAt(0) - "a".charCodeAt(0);
-  const cnt = new Array(26).fill(0);
-  for (const c of chars) {
-    cnt[idx(c)]++;
-  }
-  let ans = 0;
-  for (const w of words) {
-    const wc = new Array(26).fill(0);
-    let ok = true;
-    for (const c of w) {
-      if (++wc[idx(c)] > cnt[idx(c)]) {
-        ok = false;
-        break;
-      }
+    const idx = (c: string) => c.charCodeAt(0) - 'a'.charCodeAt(0);
+    const cnt = new Array(26).fill(0);
+    for (const c of chars) {
+        cnt[idx(c)]++;
     }
-    if (ok) {
-      ans += w.length;
+    let ans = 0;
+    for (const w of words) {
+        const wc = new Array(26).fill(0);
+        let ok = true;
+        for (const c of w) {
+            if (++wc[idx(c)] > cnt[idx(c)]) {
+                ok = false;
+                break;
+            }
+        }
+        if (ok) {
+            ans += w.length;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

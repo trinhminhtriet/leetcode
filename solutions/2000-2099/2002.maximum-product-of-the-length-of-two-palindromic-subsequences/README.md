@@ -1,79 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2002.Maximum%20Product%20of%20the%20Length%20of%20Two%20Palindromic%20Subsequences/README.md
 rating: 1869
-source: Weekly Contest 258 Q3
+source: 第 258 场周赛 Q3
 tags:
-  - Bit Manipulation
-  - String
-  - Dynamic Programming
-  - Backtracking
-  - Bitmask
+    - 位运算
+    - 字符串
+    - 动态规划
+    - 回溯
+    - 状态压缩
 ---
 
 <!-- problem:start -->
 
-# [2002. Maximum Product of the Length of Two Palindromic Subsequences](https://leetcode.com/problems/maximum-product-of-the-length-of-two-palindromic-subsequences)
+# [2002. 两个回文子序列长度的最大乘积](https://leetcode.cn/problems/maximum-product-of-the-length-of-two-palindromic-subsequences)
 
-## Description
+[English Version](/solution/2000-2099/2002.Maximum%20Product%20of%20the%20Length%20of%20Two%20Palindromic%20Subsequences/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, find two <strong>disjoint palindromic subsequences</strong> of <code>s</code> such that the <strong>product</strong> of their lengths is <strong>maximized</strong>. The two subsequences are <strong>disjoint</strong> if they do not both pick a character at the same index.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，请你找到&nbsp;<code>s</code>&nbsp;中两个&nbsp;<strong>不相交回文子序列</strong>&nbsp;，使得它们长度的&nbsp;<strong>乘积最大</strong>&nbsp;。两个子序列在原字符串中如果没有任何相同下标的字符，则它们是&nbsp;<strong>不相交</strong>&nbsp;的。</p>
 
-<p>Return <em>the <strong>maximum</strong> possible <strong>product</strong> of the lengths of the two palindromic subsequences</em>.</p>
+<p>请你返回两个回文子序列长度可以达到的<strong>&nbsp;最大乘积</strong>&nbsp;。</p>
 
-<p>A <strong>subsequence</strong> is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters. A string is <strong>palindromic</strong> if it reads the same forward and backward.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="example-1" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2002.Maximum%20Product%20of%20the%20Length%20of%20Two%20Palindromic%20Subsequences/images/two-palindromic-subsequences.png" style="width: 550px; height: 124px;" />
-<pre>
-<strong>Input:</strong> s = &quot;leetcodecom&quot;
-<strong>Output:</strong> 9
-<strong>Explanation</strong>: An optimal solution is to choose &quot;ete&quot; for the 1<sup>st</sup> subsequence and &quot;cdc&quot; for the 2<sup>nd</sup> subsequence.
-The product of their lengths is: 3 * 3 = 9.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;bb&quot;
-<strong>Output:</strong> 1
-<strong>Explanation</strong>: An optimal solution is to choose &quot;b&quot; (the first character) for the 1<sup>st</sup> subsequence and &quot;b&quot; (the second character) for the 2<sup>nd</sup> subsequence.
-The product of their lengths is: 1 * 1 = 1.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;accbcaxxcxx&quot;
-<strong>Output:</strong> 25
-<strong>Explanation</strong>: An optimal solution is to choose &quot;accca&quot; for the 1<sup>st</sup> subsequence and &quot;xxcxx&quot; for the 2<sup>nd</sup> subsequence.
-The product of their lengths is: 5 * 5 = 25.
-</pre>
+<p><strong>子序列</strong>&nbsp;指的是从原字符串中删除若干个字符（可以一个也不删除）后，剩余字符不改变顺序而得到的结果。如果一个字符串从前往后读和从后往前读一模一样，那么这个字符串是一个 <strong>回文字符串</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="example-1" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2002.Maximum%20Product%20of%20the%20Length%20of%20Two%20Palindromic%20Subsequences/images/two-palindromic-subsequences.png" style="width: 550px; height: 124px;"></p>
+
+<pre><b>输入：</b>s = "leetcodecom"
+<b>输出：</b>9
+<b>解释：</b>最优方案是选择 "ete" 作为第一个子序列，"cdc" 作为第二个子序列。
+它们的乘积为 3 * 3 = 9 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>s = "bb"
+<b>输出：</b>1
+<b>解释：</b>最优方案为选择 "b" （第一个字符）作为第一个子序列，"b" （第二个字符）作为第二个子序列。
+它们的乘积为 1 * 1 = 1 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><b>输入：</b>s = "accbcaxxcxx"
+<b>输出：</b>25
+<b>解释：</b>最优方案为选择 "accca" 作为第一个子序列，"xxcxx" 作为第二个子序列。
+它们的乘积为 5 * 5 = 25 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 12</code></li>
-	<li><code>s</code> consists of lowercase English letters only.</li>
+	<li><code>s</code>&nbsp;只含有小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Enumeration
+### 方法一：二进制枚举
 
-We notice that the length of the string $s$ does not exceed $12$, so we can use the method of binary enumeration to enumerate all subsequences of $s$. Suppose the length of $s$ is $n$, we can use $2^n$ binary numbers of length $n$ to represent all subsequences of $s$. For each binary number, the $i$-th bit being $1$ means the $i$-th character of $s$ is in the subsequence, and $0$ means it is not in the subsequence. For each binary number, we judge whether it is a palindrome subsequence and record it in the array $p$.
+我们注意到，字符串 $s$ 的长度不超过 $12$，因此我们可以使用二进制枚举的方法来枚举 $s$ 的所有子序列。不妨设 $s$ 的长度为 $n$，我们可以使用 $2^n$ 个长度为 $n$ 的二进制数来表示 $s$ 的所有子序列。对于每个二进制数，第 $i$ 位为 $1$ 表示 $s$ 的第 $i$ 个字符在子序列中，为 $0$ 表示不在子序列中。我们对于每个二进制数，判断其是否为回文子序列，并且记录在数组 $p$ 中。
 
-Next, we enumerate each number $i$ in $p$. If $i$ is a palindrome subsequence, then we can enumerate a number $j$ from the complement of $i$, $mx = (2^n - 1) \oplus i$. If $j$ is also a palindrome subsequence, then $i$ and $j$ are the two palindrome subsequences we are looking for. Their lengths are the number of $1$s in the binary representation of $i$ and $j$, denoted as $a$ and $b$, respectively. Then their product is $a \times b$. We take the maximum of all possible $a \times b$.
+接下来，我们枚举 $p$ 中的每个数 $i$，如果 $i$ 是回文子序列，那么我们可以从 $i$ 的补集 $mx = (2^n - 1) \oplus i$ 中枚举一个数 $j$，如果 $j$ 也是回文子序列，那么 $i$ 和 $j$ 就是我们要找的两个回文子序列，它们的长度分别为 $i$ 和 $j$ 的二进制表示中的 $1$ 的个数，我们记为 $a$ 和 $b$，那么它们的乘积就是 $a \times b$，我们取所有可能的 $a \times b$ 中的最大值即可。
 
-The time complexity is $(2^n \times n + 3^n)$, and the space complexity is $O(2^n)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $(2^n \times n + 3^n)$，空间复杂度 $O(2^n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 

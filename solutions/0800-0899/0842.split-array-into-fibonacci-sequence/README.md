@@ -1,73 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0842.Split%20Array%20into%20Fibonacci%20Sequence/README.md
 tags:
-  - String
-  - Backtracking
+    - 字符串
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [842. Split Array into Fibonacci Sequence](https://leetcode.com/problems/split-array-into-fibonacci-sequence)
+# [842. 将数组拆分成斐波那契序列](https://leetcode.cn/problems/split-array-into-fibonacci-sequence)
 
-## Description
+[English Version](/solution/0800-0899/0842.Split%20Array%20into%20Fibonacci%20Sequence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string of digits <code>num</code>, such as <code>&quot;123456579&quot;</code>. We can split it into a Fibonacci-like sequence <code>[123, 456, 579]</code>.</p>
+<p>给定一个数字字符串 <code>num</code>，比如 <code>"123456579"</code>，我们可以将它分成「斐波那契式」的序列 <code>[123, 456, 579]</code>。</p>
 
-<p>Formally, a <strong>Fibonacci-like</strong> sequence is a list <code>f</code> of non-negative integers such that:</p>
+<p>形式上，<strong>斐波那契式&nbsp;</strong>序列是一个非负整数列表 <code>f</code>，且满足：</p>
 
 <ul>
-	<li><code>0 &lt;= f[i] &lt; 2<sup>31</sup></code>, (that is, each integer fits in a <strong>32-bit</strong> signed integer type),</li>
-	<li><code>f.length &gt;= 3</code>, and</li>
-	<li><code>f[i] + f[i + 1] == f[i + 2]</code> for all <code>0 &lt;= i &lt; f.length - 2</code>.</li>
+	<li><code>0 &lt;= f[i] &lt; 2<sup>31</sup></code>&nbsp;，（也就是说，每个整数都符合 <strong>32 位</strong>&nbsp;有符号整数类型）</li>
+	<li><code>f.length &gt;= 3</code></li>
+	<li>对于所有的<code>0 &lt;= i &lt; f.length - 2</code>，都有 <code>f[i] + f[i + 1] = f[i + 2]</code></li>
 </ul>
 
-<p>Note that when splitting the string into pieces, each piece must not have extra leading zeroes, except if the piece is the number <code>0</code> itself.</p>
+<p>另外，请注意，将字符串拆分成小块时，每个块的数字一定不要以零开头，除非这个块是数字 <code>0</code> 本身。</p>
 
-<p>Return any Fibonacci-like sequence split from <code>num</code>, or return <code>[]</code> if it cannot be done.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = &quot;1101111&quot;
-<strong>Output:</strong> [11,0,11,11]
-<strong>Explanation:</strong> The output [110, 1, 111] would also be accepted.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = &quot;112358130&quot;
-<strong>Output:</strong> []
-<strong>Explanation:</strong> The task is impossible.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = &quot;0123&quot;
-<strong>Output:</strong> []
-<strong>Explanation:</strong> Leading zeroes are not allowed, so &quot;01&quot;, &quot;2&quot;, &quot;3&quot; is not valid.
-</pre>
+<p>返回从 <code>num</code> 拆分出来的任意一组斐波那契式的序列块，如果不能拆分则返回 <code>[]</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>num = "1101111"
+<strong>输出：</strong>[11,0,11,11]
+<strong>解释：</strong>输出 [110,1,111] 也可以。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入: </strong>num = "112358130"
+<strong>输出: </strong>[]
+<strong>解释: </strong>无法拆分。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>"0123"
+<strong>输出：</strong>[]
+<strong>解释：</strong>每个块的数字不能以零开头，因此 "01"，"2"，"3" 不是有效答案。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num.length &lt;= 200</code></li>
-	<li><code>num</code> contains only digits.</li>
+	<li><code>num</code>&nbsp;中只含有数字</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：回溯 + 剪枝
+
+我们设计一个函数 $dfs(i)$，表示从字符串 $num$ 的第 $i$ 个字符开始拆分，拆分出的斐波那契式序列是否满足题目要求。如果满足，我们就返回 $true$，否则返回 $false$。
+
+函数 $dfs(i)$ 的具体实现如下：
+
+如果 $i$ 等于字符串 $num$ 的长度，说明我们已经拆分完整个字符串，此时我们只需要判断拆分出的序列的长度是否大于 $2$ 即可。如果大于 $2$，说明我们找到了一组满足题目要求的斐波那契式序列，返回 $true$；否则返回 $false$。
+
+如果 $i$ 小于字符串 $num$ 的长度，我们需要枚举拆分出的第一个数 $x$，如果 $x$ 的长度大于 $1$，且以 $0$ 开头，说明 $x$ 不是一个合法的数，我们直接返回 $false$。否则我们将 $x$ 转换成十进制数，如果 $x$ 大于 $2^{31} - 1$，或者 $x$ 大于 $ans$ 的最后两个数之和，直接返回 $false$。如果 $ans$ 的长度小于 $2$，或者 $x$ 等于 $ans$ 的最后两个数之和，我们将 $x$ 加入到 $ans$ 中，然后继续拆分字符串 $num$ 的后面的部分，如果返回 $true$，说明我们找到了一组满足题目要求的斐波那契式序列，返回 $true$；否则我们将 $x$ 从 $ans$ 中移除，然后继续枚举拆分出的第一个数 $x$。
+
+时间复杂度 $O(n \times \log^2 M)$，空间复杂度 $O(n)$。其中 $n$ 和 $M$ 分别是字符串 $num$ 的长度和整型数的最大值。
 
 <!-- tabs:start -->
 

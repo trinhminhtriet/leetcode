@@ -1,40 +1,43 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1389.Create%20Target%20Array%20in%20the%20Given%20Order/README.md
 rating: 1208
-source: Weekly Contest 181 Q1
+source: 第 181 场周赛 Q1
 tags:
-  - Array
-  - Simulation
+    - 数组
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1389. Create Target Array in the Given Order](https://leetcode.com/problems/create-target-array-in-the-given-order)
+# [1389. 按既定顺序创建目标数组](https://leetcode.cn/problems/create-target-array-in-the-given-order)
 
-## Description
+[English Version](/solution/1300-1399/1389.Create%20Target%20Array%20in%20the%20Given%20Order/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two arrays of integers&nbsp;<code>nums</code> and <code>index</code>. Your task is to create <em>target</em> array under the following rules:</p>
+<p>给你两个整数数组 <code>nums</code> 和 <code>index</code>。你需要按照以下规则创建目标数组：</p>
 
 <ul>
-	<li>Initially <em>target</em> array is empty.</li>
-	<li>From left to right read nums[i] and index[i], insert at index <code>index[i]</code>&nbsp;the value <code>nums[i]</code>&nbsp;in&nbsp;<em>target</em> array.</li>
-	<li>Repeat the previous step until there are no elements to read in <code>nums</code> and <code>index.</code></li>
+	<li>目标数组 <code>target</code> 最初为空。</li>
+	<li>按从左到右的顺序依次读取 <code>nums[i]</code> 和 <code>index[i]</code>，在 <code>target</code> 数组中的下标 <code>index[i]</code> 处插入值 <code>nums[i]</code> 。</li>
+	<li>重复上一步，直到在 <code>nums</code> 和 <code>index</code> 中都没有要读取的元素。</li>
 </ul>
 
-<p>Return the <em>target</em> array.</p>
+<p>请你返回目标数组。</p>
 
-<p>It is guaranteed that the insertion operations will be valid.</p>
+<p>题目保证数字插入位置总是存在。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [0,1,2,3,4], index = [0,1,2,2,1]
-<strong>Output:</strong> [0,4,1,3,2]
-<strong>Explanation:</strong>
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [0,1,2,3,4], index = [0,1,2,2,1]
+<strong>输出：</strong>[0,4,1,3,2]
+<strong>解释：</strong>
 nums       index     target
 0            0        [0]
 1            1        [0,1]
@@ -43,12 +46,11 @@ nums       index     target
 4            1        [0,4,1,3,2]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4,0], index = [0,1,2,3,0]
-<strong>Output:</strong> [0,1,2,3,4]
-<strong>Explanation:</strong>
+<pre><strong>输入：</strong>nums = [1,2,3,4,0], index = [0,1,2,3,0]
+<strong>输出：</strong>[0,1,2,3,4]
+<strong>解释：</strong>
 nums       index     target
 1            0        [1]
 2            1        [1,2]
@@ -57,15 +59,15 @@ nums       index     target
 0            0        [0,1,2,3,4]
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1], index = [0]
-<strong>Output:</strong> [1]
+<pre><strong>输入：</strong>nums = [1], index = [0]
+<strong>输出：</strong>[1]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length, index.length &lt;= 100</code></li>
@@ -76,15 +78,15 @@ nums       index     target
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We create a list $target$ to store the target array. Since the problem guarantees that the insertion position always exists, we can directly insert in the given order into the corresponding position.
+我们创建一个列表 $target$，用于存储目标数组。由于题目保证数字插入位置总是存在，因此我们可以直接按照给定的顺序插入到对应的位置。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -151,11 +153,11 @@ func createTargetArray(nums []int, index []int) []int {
 
 ```ts
 function createTargetArray(nums: number[], index: number[]): number[] {
-  const ans: number[] = [];
-  for (let i = 0; i < nums.length; i++) {
-    ans.splice(index[i], 0, nums[i]);
-  }
-  return ans;
+    const ans: number[] = [];
+    for (let i = 0; i < nums.length; i++) {
+        ans.splice(index[i], 0, nums[i]);
+    }
+    return ans;
 }
 ```
 

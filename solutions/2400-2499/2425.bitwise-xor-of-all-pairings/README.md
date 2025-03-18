@@ -1,51 +1,53 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2425.Bitwise%20XOR%20of%20All%20Pairings/README.md
 rating: 1622
-source: Biweekly Contest 88 Q3
+source: 第 88 场双周赛 Q3
 tags:
-  - Bit Manipulation
-  - Brainteaser
-  - Array
+    - 位运算
+    - 脑筋急转弯
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [2425. Bitwise XOR of All Pairings](https://leetcode.com/problems/bitwise-xor-of-all-pairings)
+# [2425. 所有数对的异或和](https://leetcode.cn/problems/bitwise-xor-of-all-pairings)
 
-## Description
+[English Version](/solution/2400-2499/2425.Bitwise%20XOR%20of%20All%20Pairings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>0-indexed</strong> arrays, <code>nums1</code> and <code>nums2</code>, consisting of non-negative integers. There exists another array, <code>nums3</code>, which contains the bitwise XOR of <strong>all pairings</strong> of integers between <code>nums1</code> and <code>nums2</code> (every integer in <code>nums1</code> is paired with every integer in <code>nums2</code> <strong>exactly once</strong>).</p>
+<p>给你两个下标从 <strong>0</strong>&nbsp;开始的数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;，两个数组都只包含非负整数。请你求出另外一个数组&nbsp;<code>nums3</code>&nbsp;，包含 <code>nums1</code>&nbsp;和 <code>nums2</code>&nbsp;中 <strong>所有数对</strong>&nbsp;的异或和（<code>nums1</code>&nbsp;中每个整数都跟 <code>nums2</code>&nbsp;中每个整数 <strong>恰好</strong>&nbsp;匹配一次）。</p>
 
-<p>Return<em> the <strong>bitwise XOR</strong> of all integers in </em><code>nums3</code>.</p>
+<p>请你返回 <code>nums3</code>&nbsp;中所有整数的 <strong>异或和</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums1 = [2,1,3], nums2 = [10,2,5,0]
-<strong>Output:</strong> 13
-<strong>Explanation:</strong>
-A possible nums3 array is [8,0,7,2,11,3,4,1,9,1,6,3].
-The bitwise XOR of all these numbers is 13, so we return 13.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums1 = [2,1,3], nums2 = [10,2,5,0]
+<b>输出：</b>13
+<strong>解释：</strong>
+一个可能的 nums3 数组是 [8,0,7,2,11,3,4,1,9,1,6,3] 。
+所有这些数字的异或和是 13 ，所以我们返回 13 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums1 = [1,2], nums2 = [3,4]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong>
-All possible pairs of bitwise XORs are nums1[0] ^ nums2[0], nums1[0] ^ nums2[1], nums1[1] ^ nums2[0],
-and nums1[1] ^ nums2[1].
-Thus, one possible nums3 array is [2,5,1,6].
-2 ^ 5 ^ 1 ^ 6 = 0, so we return 0.
+<pre><b>输入：</b>nums1 = [1,2], nums2 = [3,4]
+<b>输出：</b>0
+<strong>解释：</strong>
+所有数对异或和的结果分别为 nums1[0] ^ nums2[0] ，nums1[0] ^ nums2[1] ，nums1[1] ^ nums2[0] 和 nums1[1] ^ nums2[1] 。
+所以，一个可能的 nums3 数组是 [2,5,1,6] 。
+2 ^ 5 ^ 1 ^ 6 = 0 ，所以我们返回 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 10<sup>5</sup></code></li>
@@ -54,21 +56,21 @@ Thus, one possible nums3 array is [2,5,1,6].
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Quick Thinking + Bit Manipulation
+### 方法一：脑筋急转弯 + 位运算
 
-Since each element of the array will be XORed with each element of another array, we know that the result remains the same when the same number is XORed twice, i.e., $a \oplus a = 0$. Therefore, we only need to count the length of the array to know how many times each element is XORed with each element of another array.
+由于数组的每个元素都会与另一个数组的每个元素进行异或，我们知道，同一个数异或两次，结果不变，即 $a \oplus a = 0$。因此，我们只需要统计数组的长度，就能知道每个元素与另一个数组的每个元素进行异或的次数。
 
-If the length of the `nums2` array is odd, it means that each element in `nums1` has been XORed an odd number of times with each element in `nums2`, so the final XOR result of the `nums1` array is the XOR result of all elements in the `nums1` array. If it is even, it means that each element in `nums1` has been XORed an even number of times with each element in `nums2`, so the final XOR result of the `nums1` array is 0.
+如果 `nums2` 数组长度为奇数，那么相当于 `nums1` 中每个元素都与 `nums2` 中的每个元素进行了奇数次异或，因此 `nums1` 数组的最终异或结果即为 `nums1` 数组的所有元素异或的结果。如果为偶数，那么相当于 `nums1` 中每个元素都与 `nums2` 中的每个元素进行了偶数次异或，因此 `nums1` 数组的最终异或结果为 0。
 
-Similarly, we can know the final XOR result of the `nums2` array.
+同理，我们可以得知 `nums2` 数组的最终异或结果。
 
-Finally, XOR the two results again to get the final result.
+最终把两个异或结果再异或一次，即可得到最终结果。
 
-The time complexity is $O(m+n)$. Where $m$ and $n$ are the lengths of the `nums1` and `nums2` arrays, respectively.
+时间复杂度 $O(m+n)$。其中 $m$ 和 $n$ 分别为数组 `nums1` 和 `nums2` 的长度。
 
 <!-- tabs:start -->
 
@@ -153,14 +155,14 @@ func xorAllNums(nums1 []int, nums2 []int) int {
 
 ```ts
 function xorAllNums(nums1: number[], nums2: number[]): number {
-  let ans = 0;
-  if (nums2.length % 2 != 0) {
-    ans ^= nums1.reduce((a, c) => a ^ c, 0);
-  }
-  if (nums1.length % 2 != 0) {
-    ans ^= nums2.reduce((a, c) => a ^ c, 0);
-  }
-  return ans;
+    let ans = 0;
+    if (nums2.length % 2 != 0) {
+        ans ^= nums1.reduce((a, c) => a ^ c, 0);
+    }
+    if (nums1.length % 2 != 0) {
+        ans ^= nums2.reduce((a, c) => a ^ c, 0);
+    }
+    return ans;
 }
 ```
 

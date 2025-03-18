@@ -1,52 +1,56 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0914.X%20of%20a%20Kind%20in%20a%20Deck%20of%20Cards/README.md
 tags:
-  - Array
-  - Hash Table
-  - Math
-  - Counting
-  - Number Theory
+    - 数组
+    - 哈希表
+    - 数学
+    - 计数
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [914. X of a Kind in a Deck of Cards](https://leetcode.com/problems/x-of-a-kind-in-a-deck-of-cards)
+# [914. 卡牌分组](https://leetcode.cn/problems/x-of-a-kind-in-a-deck-of-cards)
 
-## Description
+[English Version](/solution/0900-0999/0914.X%20of%20a%20Kind%20in%20a%20Deck%20of%20Cards/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>deck</code> where <code>deck[i]</code> represents the number written on the <code>i<sup>th</sup></code> card.</p>
+<p>给定一副牌，每张牌上都写着一个整数。</p>
 
-<p>Partition the cards into <strong>one or more groups</strong> such that:</p>
+<p>此时，你需要选定一个数字 <code>X</code>，使我们可以将整副牌按下述规则分成 1 组或更多组：</p>
 
 <ul>
-	<li>Each group has <strong>exactly</strong> <code>x</code> cards where <code>x &gt; 1</code>, and</li>
-	<li>All the cards in one group have the same integer written on them.</li>
+	<li>每组都有&nbsp;<code>X</code>&nbsp;张牌。</li>
+	<li>组内所有的牌上都写着相同的整数。</li>
 </ul>
 
-<p>Return <code>true</code><em> if such partition is possible, or </em><code>false</code><em> otherwise</em>.</p>
+<p>仅当你可选的 <code>X &gt;= 2</code> 时返回&nbsp;<code>true</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> deck = [1,2,3,4,4,3,2,1]
-<strong>Output:</strong> true
-<strong>Explanation</strong>: Possible partition [1,1],[2,2],[3,3],[4,4].
+<strong>输入：</strong>deck = [1,2,3,4,4,3,2,1]
+<strong>输出：</strong>true
+<strong>解释：</strong>可行的分组是 [1,1]，[2,2]，[3,3]，[4,4]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> deck = [1,1,1,2,2,2,3,3]
-<strong>Output:</strong> false
-<strong>Explanation</strong>: No possible partition.
+<strong>输入：</strong>deck = [1,1,1,2,2,2,3,3]
+<strong>输出：</strong>false
+<strong>解释：</strong>没有满足要求的分组。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><br />
+<strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= deck.length &lt;= 10<sup>4</sup></code></li>
@@ -55,17 +59,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greatest Common Divisor
+### 方法一：最大公约数
 
-First, we use an array or hash table `cnt` to count the occurrence of each number. Only when $X$ is a divisor of the greatest common divisor of all `cnt[i]`, can it satisfy the problem's requirement.
+我们先用数组或哈希表 `cnt` 统计每个数字出现的次数，只有当 $X$ 是所有数字出现次数的约数时，即 $X$ 是所有 `cnt[i]` 的最大公约数的约数时，才能满足题意。
 
-Therefore, we find the greatest common divisor $g$ of the occurrence of all numbers, and then check whether it is greater than or equal to $2$.
+因此，我们求出所有数字出现次数的最大公约数 $g$，然后判断其是否大于等于 $2$ 即可。
 
-The time complexity is $O(n \times \log M)$, and the space complexity is $O(n + \log M)$. Where $n$ and $M$ are the length of the array `deck` and the maximum value in the array `deck`, respectively.
+时间复杂度 $O(n \times \log M)$，空间复杂度 $O(n + \log M)$。其中 $n$ 和 $M$ 分别是数组 `deck` 的长度和数组 `deck` 中的最大值。
 
 <!-- tabs:start -->
 
@@ -146,16 +150,16 @@ func gcd(a, b int) int {
 
 ```ts
 function hasGroupsSizeX(deck: number[]): boolean {
-  const cnt: Record<number, number> = {};
-  for (const x of deck) {
-    cnt[x] = (cnt[x] || 0) + 1;
-  }
-  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
-  let g = cnt[deck[0]];
-  for (const [_, x] of Object.entries(cnt)) {
-    g = gcd(g, x);
-  }
-  return g >= 2;
+    const cnt: Record<number, number> = {};
+    for (const x of deck) {
+        cnt[x] = (cnt[x] || 0) + 1;
+    }
+    const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+    let g = cnt[deck[0]];
+    for (const [_, x] of Object.entries(cnt)) {
+        g = gcd(g, x);
+    }
+    return g >= 2;
 }
 ```
 

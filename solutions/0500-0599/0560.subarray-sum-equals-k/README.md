@@ -1,34 +1,46 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0560.Subarray%20Sum%20Equals%20K/README.md
 tags:
-  - Array
-  - Hash Table
-  - Prefix Sum
+    - 数组
+    - 哈希表
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [560. Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k)
+# [560. 和为 K 的子数组](https://leetcode.cn/problems/subarray-sum-equals-k)
 
-## Description
+[English Version](/solution/0500-0599/0560.Subarray%20Sum%20Equals%20K/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of integers <code>nums</code> and an integer <code>k</code>, return <em>the total number of subarrays whose sum equals to</em> <code>k</code>.</p>
+<p>给你一个整数数组 <code>nums</code> 和一个整数&nbsp;<code>k</code> ，请你统计并返回 <em>该数组中和为&nbsp;<code>k</code><strong>&nbsp;</strong>的子数组的个数&nbsp;</em>。</p>
 
-<p>A subarray is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
+<p>子数组是数组中元素的连续非空序列。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> nums = [1,1,1], k = 2
-<strong>Output:</strong> 2
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> nums = [1,2,3], k = 3
-<strong>Output:</strong> 2
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,1,1], k = 2
+<strong>输出：</strong>2
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,3], k = 3
+<strong>输出：</strong>2
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
@@ -38,19 +50,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Prefix Sum
+### 方法一：哈希表 + 前缀和
 
-We define a hash table `cnt` to store the number of times the prefix sum of the array `nums` appears. Initially, we set the value of `cnt[0]` to `1`, indicating that the prefix sum `0` appears once.
+我们定义一个哈希表 $\textit{cnt}$，用于存储数组 $\textit{nums}$ 的前缀和出现的次数。初始时，我们将 $\textit{cnt}[0]$ 的值设为 $1$，表示前缀和 $0$ 出现了一次。
 
-We traverse the array `nums`, calculate the prefix sum `s`, then add the value of `cnt[s - k]` to the answer, and increase the value of `cnt[s]` by `1`.
+我们遍历数组 $\textit{nums}$，计算前缀和 $\textit{s}$，然后将 $\textit{cnt}[s - k]$ 的值累加到答案中，并将 $\textit{cnt}[s]$ 的值增加 $1$。
 
-After the traversal, we return the answer.
+遍历结束后，我们返回答案。
 
-The time complexity is `O(n)`, and the space complexity is `O(n)`. Where `n` is the length of the array `nums`.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -123,15 +135,15 @@ func subarraySum(nums []int, k int) (ans int) {
 
 ```ts
 function subarraySum(nums: number[], k: number): number {
-  const cnt: Map<number, number> = new Map();
-  cnt.set(0, 1);
-  let [ans, s] = [0, 0];
-  for (const x of nums) {
-    s += x;
-    ans += cnt.get(s - k) || 0;
-    cnt.set(s, (cnt.get(s) || 0) + 1);
-  }
-  return ans;
+    const cnt: Map<number, number> = new Map();
+    cnt.set(0, 1);
+    let [ans, s] = [0, 0];
+    for (const x of nums) {
+        s += x;
+        ans += cnt.get(s - k) || 0;
+        cnt.set(s, (cnt.get(s) || 0) + 1);
+    }
+    return ans;
 }
 ```
 

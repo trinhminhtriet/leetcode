@@ -1,75 +1,80 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0467.Unique%20Substrings%20in%20Wraparound%20String/README.md
 tags:
-  - String
-  - Dynamic Programming
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [467. Unique Substrings in Wraparound String](https://leetcode.com/problems/unique-substrings-in-wraparound-string)
+# [467. 环绕字符串中唯一的子字符串](https://leetcode.cn/problems/unique-substrings-in-wraparound-string)
 
-## Description
+[English Version](/solution/0400-0499/0467.Unique%20Substrings%20in%20Wraparound%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>We define the string <code>base</code> to be the infinite wraparound string of <code>&quot;abcdefghijklmnopqrstuvwxyz&quot;</code>, so <code>base</code> will look like this:</p>
+<p>定义字符串&nbsp;<code>base</code>&nbsp;为一个&nbsp;<code>"abcdefghijklmnopqrstuvwxyz"</code>&nbsp;无限环绕的字符串，所以&nbsp;<code>base</code>&nbsp;看起来是这样的：</p>
 
 <ul>
-	<li><code>&quot;...zabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd....&quot;</code>.</li>
+	<li><code>"...zabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd...."</code>.</li>
 </ul>
 
-<p>Given a string <code>s</code>, return <em>the number of <strong>unique non-empty substrings</strong> of </em><code>s</code><em> are present in </em><code>base</code>.</p>
+<p>给你一个字符串&nbsp;<code>s</code> ，请你统计并返回&nbsp;<code>s</code>&nbsp;中有多少&nbsp;<strong>不同</strong><strong>非空子串</strong>&nbsp;也在&nbsp;<code>base</code>&nbsp;中出现。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例&nbsp;1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;a&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> Only the substring &quot;a&quot; of s is in base.
+<strong>输入：</strong>s = "a"
+<strong>输出：</strong>1
+<strong>解释：</strong>字符串 s 的子字符串 "a" 在 base 中出现。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;cac&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> There are two substrings (&quot;a&quot;, &quot;c&quot;) of s in base.
+<strong>输入：</strong>s = "cac"
+<strong>输出：</strong>2
+<strong>解释：</strong>字符串 s 有两个子字符串 ("a", "c") 在 base 中出现。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;zab&quot;
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> There are six substrings (&quot;z&quot;, &quot;a&quot;, &quot;b&quot;, &quot;za&quot;, &quot;ab&quot;, and &quot;zab&quot;) of s in base.
+<strong>输入：</strong>s = "zab"
+<strong>输出：</strong>6
+<strong>解释：</strong>字符串 s 有六个子字符串 ("z", "a", "b", "za", "ab", and "zab") 在 base 中出现。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><font color="#c7254e" face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size: 12.6px; background-color: rgb(249, 242, 244);">s</span></font> 由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We can define an array $f$ of length $26$, where $f[i]$ represents the length of the longest consecutive substring ending with the $i$th character. The answer is the sum of all elements in $f$.
+我们不妨定义一个长度为 $26$ 的数组 $f$，其中 $f[i]$ 表示以第 $i$ 个字符结尾的最长连续子串的长度。那么答案就是 $f$ 中所有元素的和。
 
-We define a variable $k$ to represent the length of the longest consecutive substring ending with the current character. We iterate through the string $s$. For each character $c$, if the difference between $c$ and the previous character $s[i - 1]$ is $1$, then we increment $k$ by $1$, otherwise, we reset $k$ to $1$. Then we update $f[c]$ to be the larger value of $f[c]$ and $k$.
+我们定义一个变量 $k$，表示以当前字符结尾的最长连续子串的长度。遍历字符串 $s$，对于每个字符 $c$，如果 $c$ 和前一个字符 $s[i - 1]$ 之间的差值为 $1$，那么 $k$ 就加 $1$，否则 $k$ 重置为 $1$。然后更新 $f[c]$ 为 $f[c]$ 和 $k$ 的较大值。
 
-Finally, we return the sum of all elements in $f$.
+最后返回 $f$ 中所有元素的和即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the character set, in this case, the set of lowercase letters.
+时间复杂度 $O(n)$，其中 $n$ 是字符串 $s$ 的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 是字符集，这里是小写字母集合。
 
 <!-- tabs:start -->
 
@@ -155,19 +160,19 @@ func findSubstringInWraproundString(s string) (ans int) {
 
 ```ts
 function findSubstringInWraproundString(s: string): number {
-  const idx = (c: string): number => c.charCodeAt(0) - 97;
-  const f: number[] = Array(26).fill(0);
-  const n = s.length;
-  for (let i = 0, k = 0; i < n; ++i) {
-    const j = idx(s[i]);
-    if (i && (j - idx(s[i - 1]) + 26) % 26 === 1) {
-      ++k;
-    } else {
-      k = 1;
+    const idx = (c: string): number => c.charCodeAt(0) - 97;
+    const f: number[] = Array(26).fill(0);
+    const n = s.length;
+    for (let i = 0, k = 0; i < n; ++i) {
+        const j = idx(s[i]);
+        if (i && (j - idx(s[i - 1]) + 26) % 26 === 1) {
+            ++k;
+        } else {
+            k = 1;
+        }
+        f[j] = Math.max(f[j], k);
     }
-    f[j] = Math.max(f[j], k);
-  }
-  return f.reduce((acc, cur) => acc + cur, 0);
+    return f.reduce((acc, cur) => acc + cur, 0);
 }
 ```
 

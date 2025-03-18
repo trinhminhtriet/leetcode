@@ -1,33 +1,37 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3116.Kth%20Smallest%20Amount%20With%20Single%20Denomination%20Combination/README.md
 rating: 2387
-source: Weekly Contest 393 Q3
+source: 第 393 场周赛 Q3
 tags:
-  - Bit Manipulation
-  - Array
-  - Math
-  - Binary Search
-  - Combinatorics
-  - Number Theory
+    - 位运算
+    - 数组
+    - 数学
+    - 二分查找
+    - 组合数学
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [3116. Kth Smallest Amount With Single Denomination Combination](https://leetcode.com/problems/kth-smallest-amount-with-single-denomination-combination)
+# [3116. 单面值组合的第 K 小金额](https://leetcode.cn/problems/kth-smallest-amount-with-single-denomination-combination)
 
-## Description
+[English Version](/solution/3100-3199/3116.Kth%20Smallest%20Amount%20With%20Single%20Denomination%20Combination/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>k</code>.</p>
+<p>给你一个整数数组 <code>coins</code> 表示不同面额的硬币，另给你一个整数 <code>k</code> 。</p>
 
-<p>You have an infinite number of coins of each denomination. However, you are <strong>not allowed</strong> to combine coins of different denominations.</p>
+<p>你有无限量的每种面额的硬币。但是，你<strong> 不能 </strong>组合使用不同面额的硬币。</p>
 
-<p>Return the <code>k<sup>th</sup></code> <strong>smallest</strong> amount that can be made using these coins.</p>
+<p>返回使用这些硬币能制造的<strong> 第 </strong><code>k<sup>th</sup></code><strong> 小</strong> 金额。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block" style="
     border-color: var(--border-tertiary);
@@ -37,26 +41,23 @@ tags:
     margin-bottom: 1rem;
     margin-top: 1rem;
     overflow: visible;
-    padding-left: 1rem;
-">
-<p><strong>Input:</strong> <span class="example-io" style="
+    padding-left: 1rem;">
+<p><strong>输入：</strong> <span class="example-io" style="
     font-family: Menlo,sans-serif;
-    font-size: 0.85rem;
-">coins = [3,6,9], k = 3</span></p>
+    font-size: 0.85rem;">coins = [3,6,9], k = 3</span></p>
 
-<p><strong>Output:</strong> <span class="example-io" style="
+<p><strong>输出：</strong> <span class="example-io" style="
     font-family: Menlo,sans-serif;
-    font-size: 0.85rem;
-"> 9</span></p>
+    font-size: 0.85rem;">9</span></p>
 
-<p><strong>Explanation:</strong> The given coins can make the following amounts:<br />
-Coin 3 produces multiples of 3: 3, 6, 9, 12, 15, etc.<br />
-Coin 6 produces multiples of 6: 6, 12, 18, 24, etc.<br />
-Coin 9 produces multiples of 9: 9, 18, 27, 36, etc.<br />
-All of the coins combined produce: 3, 6, <u><strong>9</strong></u>, 12, 15, etc.</p>
+<p><strong>解释：</strong>给定的硬币可以制造以下金额：<br />
+3元硬币产生3的倍数：3, 6, 9, 12, 15等。<br />
+6元硬币产生6的倍数：6, 12, 18, 24等。<br />
+9元硬币产生9的倍数：9, 18, 27, 36等。<br />
+所有硬币合起来可以产生：3, 6, <u><strong>9</strong></u>, 12, 15等。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block" style="
     border-color: var(--border-tertiary);
@@ -66,65 +67,63 @@ All of the coins combined produce: 3, 6, <u><strong>9</strong></u>, 12, 15, etc.
     margin-bottom: 1rem;
     margin-top: 1rem;
     overflow: visible;
-    padding-left: 1rem;
-">
-<p><strong>Input:</strong><span class="example-io" style="
+    padding-left: 1rem;">
+<p><strong>输入：</strong><span class="example-io" style="
     font-family: Menlo,sans-serif;
-    font-size: 0.85rem;
-"> coins = [5,2], k = 7</span></p>
+    font-size: 0.85rem;">coins = [5,2], k = 7</span></p>
 
-<p><strong>Output:</strong><span class="example-io" style="
+<p><strong>输出：</strong><span class="example-io" style="
     font-family: Menlo,sans-serif;
-    font-size: 0.85rem;
-"> 12 </span></p>
+    font-size: 0.85rem;">12</span></p>
 
-<p><strong>Explanation:</strong> The given coins can make the following amounts:<br />
-Coin 5 produces multiples of 5: 5, 10, 15, 20, etc.<br />
-Coin 2 produces multiples of 2: 2, 4, 6, 8, 10, 12, etc.<br />
-All of the coins combined produce: 2, 4, 5, 6, 8, 10, <u><strong>12</strong></u>, 14, 15, etc.</p>
+<p><strong>解释：</strong>给定的硬币可以制造以下金额：<br />
+5元硬币产生5的倍数：5, 10, 15, 20等。<br />
+2元硬币产生2的倍数：2, 4, 6, 8, 10, 12等。<br />
+所有硬币合起来可以产生：2, 4, 5, 6, 8, 10, <u><strong>12</strong></u>, 14, 15等。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= coins.length &lt;= 15</code></li>
 	<li><code>1 &lt;= coins[i] &lt;= 25</code></li>
 	<li><code>1 &lt;= k &lt;= 2 * 10<sup>9</sup></code></li>
-	<li><code>coins</code> contains pairwise distinct integers.</li>
+	<li><code>coins</code> 包含两两不同的整数。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search + Inclusion-Exclusion Principle
+### 方法一：二分查找 + 容斥原理
 
-We can transform the problem into: find the smallest positive integer $x$ such that the number of numbers less than or equal to $x$ and satisfying the condition is exactly $k$. If $x$ satisfies the condition, then for any $x' > x$, $x'$ also satisfies the condition. This shows monotonicity, so we can use binary search to find the smallest $x$ that satisfies the condition.
+我们可以将题目转化为：找到最小的正整数 $x$，使得小于等于 $x$ 的且满足条件的数的个数恰好为 $k$ 个。如果 $x$ 满足条件，那么对任意 $x' > x$ 的 $x'$ 也满足条件，这存在单调性，因此我们可以使用二分查找，找到最小的满足条件的 $x$。
 
-We define a function `check(x)` to determine whether the number of numbers less than or equal to $x$ and satisfying the condition is greater than or equal to $k$. We need to calculate how many numbers can be obtained from the array $coins$.
+我们定义一个函数 `check(x)`，用来判断小于等于 $x$ 的且满足条件的数的个数是否大于等于 $k$。我们需要计算有多少个数可以由 $coins$ 中的数组合得到。
 
-Suppose $coins = [a, b]$, according to the inclusion-exclusion principle, the number of numbers less than or equal to $x$ and satisfying the condition is:
+假设 $coins$ 为 $[a, b]$，根据容斥原理，小于等于 $x$ 的满足条件的数的个数为：
 
 $$
 \left\lfloor \frac{x}{a} \right\rfloor + \left\lfloor \frac{x}{b} \right\rfloor - \left\lfloor \frac{x}{lcm(a, b)} \right\rfloor
 $$
 
-If $coins = [a, b, c]$, the number of numbers less than or equal to $x$ and satisfying the condition is:
+如果 $coins$ 为 $[a, b, c]$，小于等于 $x$ 的满足条件的数的个数为：
 
 $$
 \left\lfloor \frac{x}{a} \right\rfloor + \left\lfloor \frac{x}{b} \right\rfloor + \left\lfloor \frac{x}{c} \right\rfloor - \left\lfloor \frac{x}{lcm(a, b)} \right\rfloor - \left\lfloor \frac{x}{lcm(a, c)} \right\rfloor - \left\lfloor \frac{x}{lcm(b, c)} \right\rfloor + \left\lfloor \frac{x}{lcm(a, b, c)} \right\rfloor
 $$
 
-As you can see, we need to add all cases with an odd number of elements and subtract all cases with an even number of elements.
+可以看到，我们需要累加所有任意奇数个数的情况，减去所有任意偶数个数的情况。
 
-Since $n \leq 15$, we can use binary enumeration to enumerate all subsets and calculate the number of numbers that satisfy the condition, denoted as $cnt$. If $cnt \geq k$, then we need to find the smallest $x$ such that `check(x)` is true.
+由于 $n \leq 15$，我们可以使用二进制枚举的方式，枚举所有的子集，计算满足条件的数的个数，我们记为 $cnt$。如果 $cnt \geq k$，那么我们需要找到最小的 $x$，使得 $check(x)$ 为真。
 
-At the start of the binary search, we define the left boundary $l=1$ and the right boundary $r={10}^{11}$. Then we continuously substitute the middle value $mid$ into the `check` function. If `check(mid)` is true, then we update the right boundary $r$ to $mid$, otherwise we update the left boundary $l$ to $mid+1$. Finally, we return $l$.
+在二分查找开始时，我们定义二分查找的左边界 $l=1$，右边界 $r={10}^{11}$，然后我们不断地将中间值 $mid$ 代入 `check` 函数中，如果 `check(mid)` 为真，那么我们将右边界 $r$ 更新为 $mid$，否则我们将左边界 $l$ 更新为 $mid+1$。最终返回 $l$。
 
-The time complexity is $O(n \times 2^n \times \log (k \times M))$, where $n$ is the length of the array $coins$, and $M$ is the maximum value in the array.
+时间复杂度 $O(n \times 2^n \times \log (k \times M))$，其中 $n$ 是数组 $coins$ 的长度，而 $M$ 是数组 $coins$ 中的最大值。
 
 <!-- tabs:start -->
 
@@ -298,55 +297,55 @@ func lcm(a, b int) int {
 
 ```ts
 function findKthSmallest(coins: number[], k: number): number {
-  let [l, r] = [1n, BigInt(1e11)];
-  const n = coins.length;
-  const check = (mx: bigint): boolean => {
-    let cnt = 0n;
-    for (let i = 1; i < 1 << n; ++i) {
-      let v = 1n;
-      for (let j = 0; j < n; ++j) {
-        if ((i >> j) & 1) {
-          v = lcm(v, BigInt(coins[j]));
-          if (v > mx) {
-            break;
-          }
+    let [l, r] = [1n, BigInt(1e11)];
+    const n = coins.length;
+    const check = (mx: bigint): boolean => {
+        let cnt = 0n;
+        for (let i = 1; i < 1 << n; ++i) {
+            let v = 1n;
+            for (let j = 0; j < n; ++j) {
+                if ((i >> j) & 1) {
+                    v = lcm(v, BigInt(coins[j]));
+                    if (v > mx) {
+                        break;
+                    }
+                }
+            }
+            const m = bitCount(i);
+            if (m & 1) {
+                cnt += mx / v;
+            } else {
+                cnt -= mx / v;
+            }
         }
-      }
-      const m = bitCount(i);
-      if (m & 1) {
-        cnt += mx / v;
-      } else {
-        cnt -= mx / v;
-      }
+        return cnt >= BigInt(k);
+    };
+    while (l < r) {
+        const mid = (l + r) >> 1n;
+        if (check(mid)) {
+            r = mid;
+        } else {
+            l = mid + 1n;
+        }
     }
-    return cnt >= BigInt(k);
-  };
-  while (l < r) {
-    const mid = (l + r) >> 1n;
-    if (check(mid)) {
-      r = mid;
-    } else {
-      l = mid + 1n;
-    }
-  }
-  return Number(l);
+    return Number(l);
 }
 
 function gcd(a: bigint, b: bigint): bigint {
-  return b === 0n ? a : gcd(b, a % b);
+    return b === 0n ? a : gcd(b, a % b);
 }
 
 function lcm(a: bigint, b: bigint): bigint {
-  return (a * b) / gcd(a, b);
+    return (a * b) / gcd(a, b);
 }
 
 function bitCount(i: number): number {
-  i = i - ((i >>> 1) & 0x55555555);
-  i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
-  i = (i + (i >>> 4)) & 0x0f0f0f0f;
-  i = i + (i >>> 8);
-  i = i + (i >>> 16);
-  return i & 0x3f;
+    i = i - ((i >>> 1) & 0x55555555);
+    i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
+    i = (i + (i >>> 4)) & 0x0f0f0f0f;
+    i = i + (i >>> 8);
+    i = i + (i >>> 16);
+    return i & 0x3f;
 }
 ```
 

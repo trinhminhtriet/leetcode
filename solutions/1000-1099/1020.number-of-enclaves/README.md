@@ -1,64 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1020.Number%20of%20Enclaves/README.md
 rating: 1615
-source: Weekly Contest 130 Q4
+source: 第 130 场周赛 Q4
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Array
-  - Matrix
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [1020. Number of Enclaves](https://leetcode.com/problems/number-of-enclaves)
+# [1020. 飞地的数量](https://leetcode.cn/problems/number-of-enclaves)
 
-## Description
+[English Version](/solution/1000-1099/1020.Number%20of%20Enclaves/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> binary matrix <code>grid</code>, where <code>0</code> represents a sea cell and <code>1</code> represents a land cell.</p>
+<p>给你一个大小为 <code>m x n</code> 的二进制矩阵 <code>grid</code> ，其中 <code>0</code> 表示一个海洋单元格、<code>1</code> 表示一个陆地单元格。</p>
 
-<p>A <strong>move</strong> consists of walking from one land cell to another adjacent (<strong>4-directionally</strong>) land cell or walking off the boundary of the <code>grid</code>.</p>
+<p>一次 <strong>移动</strong> 是指从一个陆地单元格走到另一个相邻（<strong>上、下、左、右</strong>）的陆地单元格或跨过 <code>grid</code> 的边界。</p>
 
-<p>Return <em>the number of land cells in</em> <code>grid</code> <em>for which we cannot walk off the boundary of the grid in any number of <strong>moves</strong></em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1020.Number%20of%20Enclaves/images/enclaves1.jpg" style="width: 333px; height: 333px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,0,0,0],[1,0,1,0],[0,1,1,0],[0,0,0,0]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> There are three 1s that are enclosed by 0s, and one 1 that is not enclosed because its on the boundary.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1020.Number%20of%20Enclaves/images/enclaves2.jpg" style="width: 333px; height: 333px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,1,1,0],[0,0,1,0],[0,0,1,0],[0,0,0,0]]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> All 1s are either on the boundary or can reach the boundary.
-</pre>
+<p>返回网格中<strong> 无法 </strong>在任意次数的移动中离开网格边界的陆地单元格的数量。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1020.Number%20of%20Enclaves/images/enclaves1.jpg" style="height: 200px; width: 200px;" />
+<pre>
+<strong>输入：</strong>grid = [[0,0,0,0],[1,0,1,0],[0,1,1,0],[0,0,0,0]]
+<strong>输出：</strong>3
+<strong>解释：</strong>有三个 1 被 0 包围。一个 1 没有被包围，因为它在边界上。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1020.Number%20of%20Enclaves/images/enclaves2.jpg" style="height: 200px; width: 200px;" />
+<pre>
+<strong>输入：</strong>grid = [[0,1,1,0],[0,0,1,0],[0,0,1,0],[0,0,0,0]]
+<strong>输出：</strong>0
+<strong>解释：</strong>所有 1 都在边界上或可以到达边界。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 500</code></li>
-	<li><code>grid[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>grid[i][j]</code> 的值为 <code>0</code> 或 <code>1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS
+
+我们可以从边界上的陆地开始进行深度优先搜索，将所有与边界相连的陆地都标记为 $0$。最后，统计剩余的 $1$ 的个数，即为答案。
+
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -77,15 +86,13 @@ class Solution:
         m, n = len(grid), len(grid[0])
         dirs = (-1, 0, 1, 0, -1)
         for j in range(n):
-            if grid[0][j]:
-                dfs(0, j)
-            if grid[m - 1][j]:
-                dfs(m - 1, j)
+            for i in (0, m - 1):
+                if grid[i][j]:
+                    dfs(i, j)
         for i in range(m):
-            if grid[i][0]:
-                dfs(i, 0)
-            if grid[i][n - 1]:
-                dfs(i, n - 1)
+            for j in (0, n - 1):
+                if grid[i][j]:
+                    dfs(i, j)
         return sum(sum(row) for row in grid)
 ```
 
@@ -99,19 +106,17 @@ class Solution {
         this.grid = grid;
         int m = grid.length, n = grid[0].length;
         for (int j = 0; j < n; j++) {
-            if (grid[0][j] == 1) {
-                dfs(0, j);
-            }
-            if (grid[m - 1][j] == 1) {
-                dfs(m - 1, j);
+            for (int i : List.of(0, m - 1)) {
+                if (grid[i][j] == 1) {
+                    dfs(i, j);
+                }
             }
         }
         for (int i = 0; i < m; i++) {
-            if (grid[i][0] == 1) {
-                dfs(i, 0);
-            }
-            if (grid[i][n - 1] == 1) {
-                dfs(i, n - 1);
+            for (int j : List.of(0, n - 1)) {
+                if (grid[i][j] == 1) {
+                    dfs(i, j);
+                }
             }
         }
         int ans = 0;
@@ -143,28 +148,33 @@ class Solution {
 public:
     int numEnclaves(vector<vector<int>>& grid) {
         int m = grid.size(), n = grid[0].size();
-        int dirs[5] = {-1, 0, 1, 0, -1};
+        const int dirs[5] = {-1, 0, 1, 0, -1};
         function<void(int, int)> dfs = [&](int i, int j) {
             grid[i][j] = 0;
             for (int k = 0; k < 4; ++k) {
                 int x = i + dirs[k], y = j + dirs[k + 1];
-                if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y]) {
+                if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
                     dfs(x, y);
                 }
             }
         };
+        for (int j = 0; j < n; ++j) {
+            for (int i : {0, m - 1}) {
+                if (grid[i][j] == 1) {
+                    dfs(i, j);
+                }
+            }
+        }
         for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] && (i == 0 || i == m - 1 || j == 0 || j == n - 1)) {
+            for (int j : {0, n - 1}) {
+                if (grid[i][j] == 1) {
                     dfs(i, j);
                 }
             }
         }
         int ans = 0;
-        for (auto& row : grid) {
-            for (auto& v : row) {
-                ans += v;
-            }
+        for (const auto& row : grid) {
+            ans += accumulate(row.begin(), row.end(), 0);
         }
         return ans;
     }
@@ -187,16 +197,23 @@ func numEnclaves(grid [][]int) (ans int) {
 			}
 		}
 	}
-	for i, row := range grid {
-		for j, v := range row {
-			if v == 1 && (i == 0 || i == m-1 || j == 0 || j == n-1) {
+	for j := 0; j < n; j++ {
+		for _, i := range [2]int{0, m - 1} {
+			if grid[i][j] == 1 {
+				dfs(i, j)
+			}
+		}
+	}
+	for i := 0; i < m; i++ {
+		for _, j := range [2]int{0, n - 1} {
+			if grid[i][j] == 1 {
 				dfs(i, j)
 			}
 		}
 	}
 	for _, row := range grid {
-		for _, v := range row {
-			ans += v
+		for _, x := range row {
+			ans += x
 		}
 	}
 	return
@@ -207,36 +224,33 @@ func numEnclaves(grid [][]int) (ans int) {
 
 ```ts
 function numEnclaves(grid: number[][]): number {
-  const m = grid.length;
-  const n = grid[0].length;
-  const dirs = [-1, 0, 1, 0, -1];
-  const dfs = (i: number, j: number) => {
-    grid[i][j] = 0;
-    for (let k = 0; k < 4; ++k) {
-      const x = i + dirs[k];
-      const y = j + dirs[k + 1];
-      if (x >= 0 && x < m && y >= 0 && y <= n && grid[x][y] === 1) {
-        dfs(x, y);
-      }
-    }
-  };
-  for (let i = 0; i < m; ++i) {
+    const [m, n] = [grid.length, grid[0].length];
+    const dirs: number[] = [-1, 0, 1, 0, -1];
+    const dfs = (i: number, j: number) => {
+        grid[i][j] = 0;
+        for (let k = 0; k < 4; ++k) {
+            const x = i + dirs[k];
+            const y = j + dirs[k + 1];
+            if (x >= 0 && x < m && y >= 0 && y <= n && grid[x][y] === 1) {
+                dfs(x, y);
+            }
+        }
+    };
     for (let j = 0; j < n; ++j) {
-      if (
-        grid[i][j] === 1 &&
-        (i === 0 || i === m - 1 || j === 0 || j === n - 1)
-      ) {
-        dfs(i, j);
-      }
+        for (let i of [0, m - 1]) {
+            if (grid[i][j] === 1) {
+                dfs(i, j);
+            }
+        }
     }
-  }
-  let ans = 0;
-  for (const row of grid) {
-    for (const v of row) {
-      ans += v;
+    for (let i = 0; i < m; ++i) {
+        for (let j of [0, n - 1]) {
+            if (grid[i][j] === 1) {
+                dfs(i, j);
+            }
+        }
     }
-  }
-  return ans;
+    return grid.flat().reduce((acc, cur) => acc + cur, 0);
 }
 ```
 
@@ -244,40 +258,42 @@ function numEnclaves(grid: number[][]): number {
 
 ```rust
 impl Solution {
-    fn dfs(grid: &mut Vec<Vec<i32>>, y: usize, x: usize) {
-        if y >= grid.len() || x >= grid[0].len() || grid[y][x] == 0 {
-            return;
-        }
-        grid[y][x] = 0;
-        Solution::dfs(grid, y + 1, x);
-        Solution::dfs(grid, y, x + 1);
-        if y != 0 {
-            Solution::dfs(grid, y - 1, x);
-        }
-        if x != 0 {
-            Solution::dfs(grid, y, x - 1);
-        }
-    }
     pub fn num_enclaves(mut grid: Vec<Vec<i32>>) -> i32 {
-        let mut res = 0;
         let m = grid.len();
         let n = grid[0].len();
-        for i in 0..m {
-            Solution::dfs(&mut grid, i, 0);
-            Solution::dfs(&mut grid, i, n - 1);
-        }
-        for i in 0..n {
-            Solution::dfs(&mut grid, 0, i);
-            Solution::dfs(&mut grid, m - 1, i);
-        }
-        for i in 1..m - 1 {
-            for j in 1..n - 1 {
-                if grid[i][j] == 1 {
-                    res += 1;
+        let dirs = [-1, 0, 1, 0, -1];
+
+        fn dfs(grid: &mut Vec<Vec<i32>>, i: usize, j: usize, dirs: &[i32; 5]) {
+            grid[i][j] = 0;
+            for k in 0..4 {
+                let (x, y) = (i as i32 + dirs[k], j as i32 + dirs[k + 1]);
+                if let Some(row) = grid.get_mut(x as usize) {
+                    if let Some(&mut 1) = row.get_mut(y as usize) {
+                        dfs(grid, x as usize, y as usize, dirs);
+                    }
                 }
             }
         }
-        res
+
+        for j in 0..n {
+            if grid[0][j] == 1 {
+                dfs(&mut grid, 0, j, &dirs);
+            }
+            if grid[m - 1][j] == 1 {
+                dfs(&mut grid, m - 1, j, &dirs);
+            }
+        }
+
+        for i in 0..m {
+            if grid[i][0] == 1 {
+                dfs(&mut grid, i, 0, &dirs);
+            }
+            if grid[i][n - 1] == 1 {
+                dfs(&mut grid, i, n - 1, &dirs);
+            }
+        }
+
+        grid.into_iter().flatten().filter(|&x| x == 1).count() as i32
     }
 }
 ```
@@ -288,7 +304,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：BFS
+
+我们也可以使用广度优先搜索的方法，将边界上的陆地入队，然后进行广度优先搜索，将所有与边界相连的陆地都标记为 $0$。最后，统计剩余的 $1$ 的个数，即为答案。
+
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -299,9 +319,14 @@ class Solution:
     def numEnclaves(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
         q = deque()
+        for j in range(n):
+            for i in (0, m - 1):
+                if grid[i][j]:
+                    q.append((i, j))
+                    grid[i][j] = 0
         for i in range(m):
-            for j in range(n):
-                if grid[i][j] and (i == 0 or i == m - 1 or j == 0 or j == n - 1):
+            for j in (0, n - 1):
+                if grid[i][j]:
                     q.append((i, j))
                     grid[i][j] = 0
         dirs = (-1, 0, 1, 0, -1)
@@ -309,10 +334,10 @@ class Solution:
             i, j = q.popleft()
             for a, b in pairwise(dirs):
                 x, y = i + a, j + b
-                if x >= 0 and x < m and y >= 0 and y < n and grid[x][y]:
+                if 0 <= x < m and 0 <= y < n and grid[x][y]:
                     q.append((x, y))
                     grid[x][y] = 0
-        return sum(v for row in grid for v in row)
+        return sum(sum(row) for row in grid)
 ```
 
 #### Java
@@ -323,19 +348,28 @@ class Solution {
         int m = grid.length;
         int n = grid[0].length;
         Deque<int[]> q = new ArrayDeque<>();
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == 1 && (i == 0 || i == m - 1 || j == 0 || j == n - 1)) {
+        for (int j = 0; j < n; ++j) {
+            for (int i : List.of(0, m - 1)) {
+                if (grid[i][j] == 1) {
                     q.offer(new int[] {i, j});
                     grid[i][j] = 0;
                 }
             }
         }
-        int[] dirs = {-1, 0, 1, 0, -1};
+        for (int i = 0; i < m; ++i) {
+            for (int j : List.of(0, n - 1)) {
+                if (grid[i][j] == 1) {
+                    q.offer(new int[] {i, j});
+                    grid[i][j] = 0;
+                }
+            }
+        }
+        final int[] dirs = {-1, 0, 1, 0, -1};
         while (!q.isEmpty()) {
-            var p = q.poll();
+            int[] p = q.poll();
+            int i = p[0], j = p[1];
             for (int k = 0; k < 4; ++k) {
-                int x = p[0] + dirs[k], y = p[1] + dirs[k + 1];
+                int x = i + dirs[k], y = j + dirs[k + 1];
                 if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
                     q.offer(new int[] {x, y});
                     grid[x][y] = 0;
@@ -344,8 +378,8 @@ class Solution {
         }
         int ans = 0;
         for (var row : grid) {
-            for (var v : row) {
-                ans += v;
+            for (int x : row) {
+                ans += x;
             }
         }
         return ans;
@@ -362,9 +396,17 @@ public:
         int m = grid.size(), n = grid[0].size();
         int dirs[5] = {-1, 0, 1, 0, -1};
         queue<pair<int, int>> q;
+        for (int j = 0; j < n; ++j) {
+            for (int i : {0, m - 1}) {
+                if (grid[i][j] == 1) {
+                    q.emplace(i, j);
+                    grid[i][j] = 0;
+                }
+            }
+        }
         for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] && (i == 0 || i == m - 1 || j == 0 || j == n - 1)) {
+            for (int j : {0, n - 1}) {
+                if (grid[i][j] == 1) {
                     q.emplace(i, j);
                     grid[i][j] = 0;
                 }
@@ -375,17 +417,15 @@ public:
             q.pop();
             for (int k = 0; k < 4; ++k) {
                 int x = i + dirs[k], y = j + dirs[k + 1];
-                if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y]) {
+                if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
                     q.emplace(x, y);
                     grid[x][y] = 0;
                 }
             }
         }
         int ans = 0;
-        for (auto& row : grid) {
-            for (auto& v : row) {
-                ans += v;
-            }
+        for (const auto& row : grid) {
+            ans += accumulate(row.begin(), row.end(), 0);
         }
         return ans;
     }
@@ -399,19 +439,27 @@ func numEnclaves(grid [][]int) (ans int) {
 	m, n := len(grid), len(grid[0])
 	dirs := [5]int{-1, 0, 1, 0, -1}
 	q := [][2]int{}
-	for i, row := range grid {
-		for j, v := range row {
-			if v == 1 && (i == 0 || i == m-1 || j == 0 || j == n-1) {
+	for j := 0; j < n; j++ {
+		for _, i := range []int{0, m - 1} {
+			if grid[i][j] == 1 {
+				q = append(q, [2]int{i, j})
+				grid[i][j] = 0
+			}
+		}
+	}
+	for i := 0; i < m; i++ {
+		for _, j := range []int{0, n - 1} {
+			if grid[i][j] == 1 {
 				q = append(q, [2]int{i, j})
 				grid[i][j] = 0
 			}
 		}
 	}
 	for len(q) > 0 {
-		p := q[0]
+		i, j := q[0][0], q[0][1]
 		q = q[1:]
 		for k := 0; k < 4; k++ {
-			x, y := p[0]+dirs[k], p[1]+dirs[k+1]
+			x, y := i+dirs[k], j+dirs[k+1]
 			if x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1 {
 				q = append(q, [2]int{x, y})
 				grid[x][y] = 0
@@ -419,8 +467,8 @@ func numEnclaves(grid [][]int) (ans int) {
 		}
 	}
 	for _, row := range grid {
-		for _, v := range row {
-			ans += v
+		for _, x := range row {
+			ans += x
 		}
 	}
 	return
@@ -431,303 +479,37 @@ func numEnclaves(grid [][]int) (ans int) {
 
 ```ts
 function numEnclaves(grid: number[][]): number {
-  const m = grid.length;
-  const n = grid[0].length;
-  const dirs = [-1, 0, 1, 0, -1];
-  const q: number[][] = [];
-  for (let i = 0; i < m; ++i) {
+    const [m, n] = [grid.length, grid[0].length];
+    const dirs = [-1, 0, 1, 0, -1];
+    const q: number[][] = [];
     for (let j = 0; j < n; ++j) {
-      if (
-        grid[i][j] === 1 &&
-        (i === 0 || i === m - 1 || j === 0 || j === n - 1)
-      ) {
-        q.push([i, j]);
-        grid[i][j] = 0;
-      }
-    }
-  }
-  while (q.length) {
-    const [i, j] = q.shift()!;
-    for (let k = 0; k < 4; ++k) {
-      const x = i + dirs[k];
-      const y = j + dirs[k + 1];
-      if (x >= 0 && x < m && y >= 0 && y <= n && grid[x][y] === 1) {
-        q.push([x, y]);
-        grid[x][y] = 0;
-      }
-    }
-  }
-  let ans = 0;
-  for (const row of grid) {
-    for (const v of row) {
-      ans += v;
-    }
-  }
-  return ans;
-}
-```
-
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### Solution 3
-
-<!-- tabs:start -->
-
-#### Python3
-
-```python
-class UnionFind:
-    def __init__(self, n):
-        self.p = list(range(n))
-        self.size = [1] * n
-
-    def find(self, x):
-        if self.p[x] != x:
-            self.p[x] = self.find(self.p[x])
-        return self.p[x]
-
-    def union(self, a, b):
-        pa, pb = self.find(a), self.find(b)
-        if pa != pb:
-            if self.size[pa] > self.size[pb]:
-                self.p[pb] = pa
-                self.size[pa] += self.size[pb]
-            else:
-                self.p[pa] = pb
-                self.size[pb] += self.size[pa]
-
-
-class Solution:
-    def numEnclaves(self, grid: List[List[int]]) -> int:
-        m, n = len(grid), len(grid[0])
-        uf = UnionFind(m * n + 1)
-        dirs = (-1, 0, 1, 0, -1)
-        for i, row in enumerate(grid):
-            for j, v in enumerate(row):
-                if v:
-                    if i == 0 or i == m - 1 or j == 0 or j == n - 1:
-                        uf.union(i * n + j, m * n)
-                    else:
-                        for a, b in pairwise(dirs):
-                            x, y = i + a, j + b
-                            if x >= 0 and x < m and y >= 0 and y < n and grid[x][y]:
-                                uf.union(i * n + j, x * n + y)
-        return sum(
-            grid[i][j] == 1 and uf.find(i * n + j) != uf.find(m * n)
-            for i in range(m)
-            for j in range(n)
-        )
-```
-
-#### Java
-
-```java
-class UnionFind {
-    private int[] p;
-    private int[] size;
-
-    public UnionFind(int n) {
-        p = new int[n];
-        size = new int[n];
-        for (int i = 0; i < n; ++i) {
-            p[i] = i;
-            size[i] = 1;
-        }
-    }
-
-    public int find(int x) {
-        if (p[x] != x) {
-            p[x] = find(p[x]);
-        }
-        return p[x];
-    }
-
-    public void union(int a, int b) {
-        int pa = find(a), pb = find(b);
-        if (pa != pb) {
-            if (size[pa] > size[pb]) {
-                p[pb] = pa;
-                size[pa] += size[pb];
-            } else {
-                p[pa] = pb;
-                size[pb] += size[pa];
+        for (let i of [0, m - 1]) {
+            if (grid[i][j] === 1) {
+                q.push([i, j]);
+                grid[i][j] = 0;
             }
         }
     }
-}
-
-class Solution {
-    public int numEnclaves(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-        UnionFind uf = new UnionFind(m * n + 1);
-        int[] dirs = {-1, 0, 1, 0, -1};
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == 1) {
-                    if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
-                        uf.union(i * n + j, m * n);
-                    } else {
-                        for (int k = 0; k < 4; ++k) {
-                            int x = i + dirs[k], y = j + dirs[k + 1];
-                            if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
-                                uf.union(i * n + j, x * n + y);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        int ans = 0;
-        for (int i = 1; i < m - 1; ++i) {
-            for (int j = 1; j < n - 1; ++j) {
-                if (grid[i][j] == 1 && uf.find(i * n + j) != uf.find(m * n)) {
-                    ++ans;
-                }
-            }
-        }
-        return ans;
-    }
-}
-```
-
-#### C++
-
-```cpp
-class UnionFind {
-public:
-    UnionFind(int n) {
-        p = vector<int>(n);
-        size = vector<int>(n, 1);
-        iota(p.begin(), p.end(), 0);
-    }
-
-    void unite(int a, int b) {
-        int pa = find(a), pb = find(b);
-        if (pa != pb) {
-            if (size[pa] > size[pb]) {
-                p[pb] = pa;
-                size[pa] += size[pb];
-            } else {
-                p[pa] = pb;
-                size[pb] += size[pa];
+    for (let i = 0; i < m; ++i) {
+        for (let j of [0, n - 1]) {
+            if (grid[i][j] === 1) {
+                q.push([i, j]);
+                grid[i][j] = 0;
             }
         }
     }
-
-    int find(int x) {
-        if (p[x] != x) {
-            p[x] = find(p[x]);
-        }
-        return p[x];
-    }
-
-private:
-    vector<int> p, size;
-};
-
-class Solution {
-public:
-    int numEnclaves(vector<vector<int>>& grid) {
-        int m = grid.size(), n = grid[0].size();
-        UnionFind uf(m * n + 1);
-        int dirs[5] = {-1, 0, 1, 0, -1};
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == 1) {
-                    if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
-                        uf.unite(i * n + j, m * n);
-                    } else {
-                        for (int k = 0; k < 4; ++k) {
-                            int x = i + dirs[k], y = j + dirs[k + 1];
-                            if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
-                                uf.unite(i * n + j, x * n + y);
-                            }
-                        }
-                    }
-                }
+    while (q.length) {
+        const [i, j] = q.pop()!;
+        for (let k = 0; k < 4; ++k) {
+            const x = i + dirs[k];
+            const y = j + dirs[k + 1];
+            if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] === 1) {
+                q.push([x, y]);
+                grid[x][y] = 0;
             }
         }
-        int ans = 0;
-        for (int i = 1; i < m - 1; ++i) {
-            for (int j = 1; j < n - 1; ++j) {
-                ans += grid[i][j] == 1 && uf.find(i * n + j) != uf.find(m * n);
-            }
-        }
-        return ans;
     }
-};
-```
-
-#### Go
-
-```go
-type unionFind struct {
-	p, size []int
-}
-
-func newUnionFind(n int) *unionFind {
-	p := make([]int, n)
-	size := make([]int, n)
-	for i := range p {
-		p[i] = i
-		size[i] = 1
-	}
-	return &unionFind{p, size}
-}
-
-func (uf *unionFind) find(x int) int {
-	if uf.p[x] != x {
-		uf.p[x] = uf.find(uf.p[x])
-	}
-	return uf.p[x]
-}
-
-func (uf *unionFind) union(a, b int) {
-	pa, pb := uf.find(a), uf.find(b)
-	if pa != pb {
-		if uf.size[pa] > uf.size[pb] {
-			uf.p[pb] = pa
-			uf.size[pa] += uf.size[pb]
-		} else {
-			uf.p[pa] = pb
-			uf.size[pb] += uf.size[pa]
-		}
-	}
-}
-
-func numEnclaves(grid [][]int) (ans int) {
-	m, n := len(grid), len(grid[0])
-	uf := newUnionFind(m*n + 1)
-	dirs := [5]int{-1, 0, 1, 0, -1}
-	for i, row := range grid {
-		for j, v := range row {
-			if v == 1 {
-				if i == 0 || i == m-1 || j == 0 || j == n-1 {
-					uf.union(i*n+j, m*n)
-				} else {
-					for k := 0; k < 4; k++ {
-						x, y := i+dirs[k], j+dirs[k+1]
-						if x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1 {
-							uf.union(i*n+j, x*n+y)
-						}
-					}
-				}
-			}
-		}
-	}
-	for i, row := range grid {
-		for j, v := range row {
-			if v == 1 && uf.find(i*n+j) != uf.find(m*n) {
-				ans++
-			}
-		}
-	}
-	return
+    return grid.flat().reduce((acc, cur) => acc + cur, 0);
 }
 ```
 

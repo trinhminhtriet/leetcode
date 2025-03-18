@@ -1,44 +1,49 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0367.Valid%20Perfect%20Square/README.md
 tags:
-  - Math
-  - Binary Search
+    - 数学
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [367. Valid Perfect Square](https://leetcode.com/problems/valid-perfect-square)
+# [367. 有效的完全平方数](https://leetcode.cn/problems/valid-perfect-square)
 
-## Description
+[English Version](/solution/0300-0399/0367.Valid%20Perfect%20Square/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a positive integer num, return <code>true</code> <em>if</em> <code>num</code> <em>is a perfect square or</em> <code>false</code> <em>otherwise</em>.</p>
+<p>给你一个正整数 <code>num</code> 。如果 <code>num</code> 是一个完全平方数，则返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
 
-<p>A <strong>perfect square</strong> is an integer that is the square of an integer. In other words, it is the product of some integer with itself.</p>
+<p><strong>完全平方数</strong> 是一个可以写成某个整数的平方的整数。换句话说，它可以写成某个整数和自身的乘积。</p>
 
-<p>You must not use any built-in library function, such as <code>sqrt</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = 16
-<strong>Output:</strong> true
-<strong>Explanation:</strong> We return true because 4 * 4 = 16 and 4 is an integer.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = 14
-<strong>Output:</strong> false
-<strong>Explanation:</strong> We return false because 3.742 * 3.742 = 14 and 3.742 is not an integer.
-</pre>
+<p>不能使用任何内置的库函数，如&nbsp; <code>sqrt</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>num = 16
+<strong>输出：</strong>true
+<strong>解释：</strong>返回 true ，因为 4 * 4 = 16 且 4 是一个整数。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>num = 14
+<strong>输出：</strong>false
+<strong>解释：</strong>返回 false ，因为 3.742 * 3.742 = 14 但 3.742 不是一个整数。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num &lt;= 2<sup>31</sup> - 1</code></li>
@@ -46,15 +51,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-We can use binary search to solve this problem. Define the left boundary $l = 1$ and the right boundary $r = num$ of the binary search, then find the smallest integer $x$ that satisfies $x^2 \geq num$ in the range $[l, r]$. Finally, if $x^2 = num$, then $num$ is a perfect square.
+我们可以使用二分查找来解决这个问题。定义二分查找的左边界 $l = 1$，右边界 $r = num$，然后在 $[l, r]$ 的范围内查找满足 $x^2 \geq num$ 的最小整数 $x$。最后，如果 $x^2 = num$，则说明 $num$ 是一个完全平方数。
 
-The time complexity is $O(\log n)$, where $n$ is the given number. The space complexity is $O(1)$.
+时间复杂度 $O(\log n)$，其中 $n$ 是给定的数字。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -119,16 +124,16 @@ func isPerfectSquare(num int) bool {
 
 ```ts
 function isPerfectSquare(num: number): boolean {
-  let [l, r] = [1, num];
-  while (l < r) {
-    const mid = (l + r) >> 1;
-    if (mid >= num / mid) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    let [l, r] = [1, num];
+    while (l < r) {
+        const mid = (l + r) >> 1;
+        if (mid >= num / mid) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return l * l === num;
+    return l * l === num;
 }
 ```
 
@@ -158,11 +163,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Mathematics
+### 方法二：数学
 
-Since $1 + 3 + 5 + \cdots + (2n - 1) = n^2$, we can gradually subtract $1, 3, 5, \cdots$ from $num$. If $num$ finally equals $0$, then $num$ is a perfect square.
+由于 $1 + 3 + 5 + \cdots + (2n - 1) = n^2$，我们可以将 $num$ 逐渐减去 $1, 3, 5, \cdots$，如果最后 $num = 0$，则说明 $num$ 是一个完全平方数。
 
-The time complexity is $O(\sqrt n)$, and the space complexity is $O(1)$.
+时间复杂度 $O(\sqrt n)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -220,12 +225,12 @@ func isPerfectSquare(num int) bool {
 
 ```ts
 function isPerfectSquare(num: number): boolean {
-  let i = 1;
-  while (num > 0) {
-    num -= i;
-    i += 2;
-  }
-  return num === 0;
+    let i = 1;
+    while (num > 0) {
+        num -= i;
+        i += 2;
+    }
+    return num === 0;
 }
 ```
 

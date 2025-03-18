@@ -1,84 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0039.Combination%20Sum/README.md
 tags:
-  - Array
-  - Backtracking
+    - 数组
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [39. Combination Sum](https://leetcode.com/problems/combination-sum)
+# [39. 组合总和](https://leetcode.cn/problems/combination-sum)
 
-## Description
+[English Version](/solution/0000-0099/0039.Combination%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of <strong>distinct</strong> integers <code>candidates</code> and a target integer <code>target</code>, return <em>a list of all <strong>unique combinations</strong> of </em><code>candidates</code><em> where the chosen numbers sum to </em><code>target</code><em>.</em> You may return the combinations in <strong>any order</strong>.</p>
+<p>给你一个 <strong>无重复元素</strong> 的整数数组&nbsp;<code>candidates</code> 和一个目标整数&nbsp;<code>target</code>&nbsp;，找出&nbsp;<code>candidates</code>&nbsp;中可以使数字和为目标数&nbsp;<code>target</code> 的 所有<em>&nbsp;</em><strong>不同组合</strong> ，并以列表形式返回。你可以按 <strong>任意顺序</strong> 返回这些组合。</p>
 
-<p>The <strong>same</strong> number may be chosen from <code>candidates</code> an <strong>unlimited number of times</strong>. Two combinations are unique if the <span data-keyword="frequency-array">frequency</span> of at least one of the chosen numbers is different.</p>
+<p><code>candidates</code> 中的 <strong>同一个</strong> 数字可以 <strong>无限制重复被选取</strong> 。如果至少一个数字的被选数量不同，则两种组合是不同的。&nbsp;</p>
 
-<p>The test cases are generated such that the number of unique combinations that sum up to <code>target</code> is less than <code>150</code> combinations for the given input.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> candidates = [2,3,6,7], target = 7
-<strong>Output:</strong> [[2,2,3],[7]]
-<strong>Explanation:</strong>
-2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times.
-7 is a candidate, and 7 = 7.
-These are the only two combinations.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> candidates = [2,3,5], target = 8
-<strong>Output:</strong> [[2,2,2,2],[2,3,3],[3,5]]
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> candidates = [2], target = 1
-<strong>Output:</strong> []
-</pre>
+<p>对于给定的输入，保证和为&nbsp;<code>target</code> 的不同组合数少于 <code>150</code> 个。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例&nbsp;1：</strong></p>
+
+<pre>
+<strong>输入：</strong>candidates = <code>[2,3,6,7]</code>, target = <code>7</code>
+<strong>输出：</strong>[[2,2,3],[7]]
+<strong>解释：</strong>
+2 和 3 可以形成一组候选，2 + 2 + 3 = 7 。注意 2 可以使用多次。
+7 也是一个候选， 7 = 7 。
+仅有这两种组合。</pre>
+
+<p><strong>示例&nbsp;2：</strong></p>
+
+<pre>
+<strong>输入: </strong>candidates = [2,3,5]<code>, </code>target = 8
+<strong>输出: </strong>[[2,2,2,2],[2,3,3],[3,5]]</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入: </strong>candidates = <code>[2], </code>target = 1
+<strong>输出: </strong>[]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= candidates.length &lt;= 30</code></li>
 	<li><code>2 &lt;= candidates[i] &lt;= 40</code></li>
-	<li>All elements of <code>candidates</code> are <strong>distinct</strong>.</li>
+	<li><code>candidates</code> 的所有元素 <strong>互不相同</strong></li>
 	<li><code>1 &lt;= target &lt;= 40</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting + Pruning + Backtracking
+### 方法一：排序 + 剪枝 + 回溯
 
-We can first sort the array to facilitate pruning.
+我们可以先对数组进行排序，方便剪枝。
 
-Next, we design a function $dfs(i, s)$, which means starting the search from index $i$ with a remaining target value of $s$. Here, $i$ and $s$ are both non-negative integers, the current search path is $t$, and the answer is $ans$.
+接下来，我们设计一个函数 $dfs(i, s)$，表示从下标 $i$ 开始搜索，且剩余目标值为 $s$，其中 $i$ 和 $s$ 都是非负整数，当前搜索路径为 $t$，答案为 $ans$。
 
-In the function $dfs(i, s)$, we first check whether $s$ is $0$. If it is, we add the current search path $t$ to the answer $ans$, and then return. If $s \lt candidates[i]$, it means that the elements of the current index and the following indices are all greater than the remaining target value $s$, and the path is invalid, so we return directly. Otherwise, we start the search from index $i$, and the search index range is $j \in [i, n)$, where $n$ is the length of the array $candidates$. During the search, we add the element of the current index to the search path $t$, recursively call the function $dfs(j, s - candidates[j])$, and after the recursion ends, we remove the element of the current index from the search path $t$.
+在函数 $dfs(i, s)$ 中，我们先判断 $s$ 是否为 $0$，如果是，则将当前搜索路径 $t$ 加入答案 $ans$ 中，然后返回。如果 $s \lt candidates[i]$，说明当前下标及后面的下标的元素都大于剩余目标值 $s$，路径不合法，直接返回。否则，我们从下标 $i$ 开始搜索，搜索的下标范围是 $j \in [i, n)$，其中 $n$ 为数组 $candidates$ 的长度。在搜索的过程中，我们将当前下标的元素加入搜索路径 $t$，递归调用函数 $dfs(j, s - candidates[j])$，递归结束后，将当前下标的元素从搜索路径 $t$ 中移除。
 
-In the main function, we just need to call the function $dfs(0, target)$ to get the answer.
+在主函数中，我们只要调用函数 $dfs(0, target)$，即可得到答案。
 
-The time complexity is $O(2^n \times n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $candidates$. Due to pruning, the actual time complexity is much less than $O(2^n \times n)$.
+时间复杂度 $O(2^n \times n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $candidates$ 的长度。由于剪枝，实际的时间复杂度要远小于 $O(2^n \times n)$。
 
-Similar problems:
+相似题目：
 
-- [40. Combination Sum II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0040.Combination%20Sum%20II/README_EN.md)
-- [77. Combinations](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0077.Combinations/README_EN.md)
-- [216. Combination Sum III](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0216.Combination%20Sum%20III/README_EN.md)
+-   [40. 组合总和 II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0040.Combination%20Sum%20II/README.md)
+-   [77. 组合](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0077.Combinations/README.md)
+-   [216. 组合总和 III](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0216.Combination%20Sum%20III/README.md)
 
 <!-- tabs:start -->
 
@@ -196,25 +199,25 @@ func combinationSum(candidates []int, target int) (ans [][]int) {
 
 ```ts
 function combinationSum(candidates: number[], target: number): number[][] {
-  candidates.sort((a, b) => a - b);
-  const ans: number[][] = [];
-  const t: number[] = [];
-  const dfs = (i: number, s: number) => {
-    if (s === 0) {
-      ans.push(t.slice());
-      return;
-    }
-    if (s < candidates[i]) {
-      return;
-    }
-    for (let j = i; j < candidates.length; ++j) {
-      t.push(candidates[j]);
-      dfs(j, s - candidates[j]);
-      t.pop();
-    }
-  };
-  dfs(0, target);
-  return ans;
+    candidates.sort((a, b) => a - b);
+    const ans: number[][] = [];
+    const t: number[] = [];
+    const dfs = (i: number, s: number) => {
+        if (s === 0) {
+            ans.push(t.slice());
+            return;
+        }
+        if (s < candidates[i]) {
+            return;
+        }
+        for (let j = i; j < candidates.length; ++j) {
+            t.push(candidates[j]);
+            dfs(j, s - candidates[j]);
+            t.pop();
+        }
+    };
+    dfs(0, target);
+    return ans;
 }
 ```
 
@@ -284,11 +287,11 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Sorting + Pruning + Backtracking(Another Form)
+### 方法二：排序 + 剪枝 + 回溯（写法二）
 
-We can also change the implementation logic of the function $dfs(i, s)$ to another form. In the function $dfs(i, s)$, we first check whether $s$ is $0$. If it is, we add the current search path $t$ to the answer $ans$, and then return. If $i \geq n$ or $s \lt candidates[i]$, the path is invalid, so we return directly. Otherwise, we consider two situations, one is not selecting the element of the current index, that is, recursively calling the function $dfs(i + 1, s)$, and the other is selecting the element of the current index, that is, recursively calling the function $dfs(i, s - candidates[i])$.
+我们也可以将函数 $dfs(i, s)$ 的实现逻辑改为另一种写法。在函数 $dfs(i, s)$ 中，我们先判断 $s$ 是否为 $0$，如果是，则将当前搜索路径 $t$ 加入答案 $ans$ 中，然后返回。如果 $i \geq n$ 或者 $s \lt candidates[i]$，路径不合法，直接返回。否则，我们考虑两种情况，一种是不选当前下标的元素，即递归调用函数 $dfs(i + 1, s)$，另一种是选当前下标的元素，即递归调用函数 $dfs(i, s - candidates[i])$。
 
-The time complexity is $O(2^n \times n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $candidates$. Due to pruning, the actual time complexity is much less than $O(2^n \times n)$.
+时间复杂度 $O(2^n \times n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $candidates$ 的长度。由于剪枝，实际的时间复杂度要远小于 $O(2^n \times n)$。
 
 <!-- tabs:start -->
 
@@ -403,24 +406,24 @@ func combinationSum(candidates []int, target int) (ans [][]int) {
 
 ```ts
 function combinationSum(candidates: number[], target: number): number[][] {
-  candidates.sort((a, b) => a - b);
-  const ans: number[][] = [];
-  const t: number[] = [];
-  const dfs = (i: number, s: number) => {
-    if (s === 0) {
-      ans.push(t.slice());
-      return;
-    }
-    if (i >= candidates.length || s < candidates[i]) {
-      return;
-    }
-    dfs(i + 1, s);
-    t.push(candidates[i]);
-    dfs(i, s - candidates[i]);
-    t.pop();
-  };
-  dfs(0, target);
-  return ans;
+    candidates.sort((a, b) => a - b);
+    const ans: number[][] = [];
+    const t: number[] = [];
+    const dfs = (i: number, s: number) => {
+        if (s === 0) {
+            ans.push(t.slice());
+            return;
+        }
+        if (i >= candidates.length || s < candidates[i]) {
+            return;
+        }
+        dfs(i + 1, s);
+        t.push(candidates[i]);
+        dfs(i, s - candidates[i]);
+        t.pop();
+    };
+    dfs(0, target);
+    return ans;
 }
 ```
 

@@ -1,59 +1,62 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2710.Remove%20Trailing%20Zeros%20From%20a%20String/README.md
 rating: 1164
-source: Weekly Contest 347 Q1
+source: 第 347 场周赛 Q1
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2710. Remove Trailing Zeros From a String](https://leetcode.com/problems/remove-trailing-zeros-from-a-string)
+# [2710. 移除字符串中的尾随零](https://leetcode.cn/problems/remove-trailing-zeros-from-a-string)
 
-## Description
+[English Version](/solution/2700-2799/2710.Remove%20Trailing%20Zeros%20From%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <strong>positive</strong> integer <code>num</code> represented as a string, return <em>the integer </em><code>num</code><em> without trailing zeros as a string</em>.</p>
+<p>给你一个用字符串表示的正整数 <code>num</code> ，请你以字符串形式返回不含尾随零的整数<em> </em><code>num</code><em> </em>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> num = &quot;51230100&quot;
-<strong>Output:</strong> &quot;512301&quot;
-<strong>Explanation:</strong> Integer &quot;51230100&quot; has 2 trailing zeros, we remove them and return integer &quot;512301&quot;.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>num = "51230100"
+<strong>输出：</strong>"512301"
+<strong>解释：</strong>整数 "51230100" 有 2 个尾随零，移除并返回整数 "512301" 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> num = &quot;123&quot;
-<strong>Output:</strong> &quot;123&quot;
-<strong>Explanation:</strong> Integer &quot;123&quot; has no trailing zeros, we return integer &quot;123&quot;.
+<pre><strong>输入：</strong>num = "123"
+<strong>输出：</strong>"123"
+<strong>解释：</strong>整数 "123" 不含尾随零，返回整数 "123" 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num.length &lt;= 1000</code></li>
-	<li><code>num</code> consists&nbsp;of only digits.</li>
-	<li><code>num</code> doesn&#39;t&nbsp;have any leading zeros.</li>
+	<li><code>num</code> 仅由数字 <code>0</code> 到 <code>9</code> 组成</li>
+	<li><code>num</code> 不含前导零</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal
+### 方法一：遍历
 
-We can traverse the string from the end to the beginning, stopping when we encounter the first character that is not `0`. Then, we return the substring from the beginning to this character.
+我们可以从后往前遍历字符串，遇到第一个不是 `0` 的字符时停止遍历，然后返回从头开始到这个字符的子串。
 
-The time complexity is $O(n)$, where $n$ is the length of the string. Ignoring the space consumed by the answer string, the space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是字符串的长度。忽略答案字符串的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -109,11 +112,11 @@ func removeTrailingZeros(num string) string {
 
 ```ts
 function removeTrailingZeros(num: string): string {
-  let i = num.length - 1;
-  while (num[i] === "0") {
-    --i;
-  }
-  return num.substring(0, i + 1);
+    let i = num.length - 1;
+    while (num[i] === '0') {
+        --i;
+    }
+    return num.substring(0, i + 1);
 }
 ```
 

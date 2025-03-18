@@ -1,69 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2310.Sum%20of%20Numbers%20With%20Units%20Digit%20K/README.md
 rating: 1558
-source: Weekly Contest 298 Q2
+source: 第 298 场周赛 Q2
 tags:
-  - Greedy
-  - Math
-  - Dynamic Programming
-  - Enumeration
+    - 贪心
+    - 数学
+    - 动态规划
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2310. Sum of Numbers With Units Digit K](https://leetcode.com/problems/sum-of-numbers-with-units-digit-k)
+# [2310. 个位数字为 K 的整数之和](https://leetcode.cn/problems/sum-of-numbers-with-units-digit-k)
 
-## Description
+[English Version](/solution/2300-2399/2310.Sum%20of%20Numbers%20With%20Units%20Digit%20K/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two integers <code>num</code> and <code>k</code>, consider a set of positive integers with the following properties:</p>
+<p>给你两个整数 <code>num</code> 和 <code>k</code> ，考虑具有以下属性的正整数多重集：</p>
 
 <ul>
-	<li>The units digit of each integer is <code>k</code>.</li>
-	<li>The sum of the integers is <code>num</code>.</li>
+	<li>每个整数个位数字都是 <code>k</code> 。</li>
+	<li>所有整数之和是 <code>num</code> 。</li>
 </ul>
 
-<p>Return <em>the <strong>minimum</strong> possible size of such a set, or </em><code>-1</code><em> if no such set exists.</em></p>
+<p>返回该多重集的最小大小，如果不存在这样的多重集，返回<em> </em><code>-1</code> 。</p>
 
-<p>Note:</p>
+<p>注意：</p>
 
 <ul>
-	<li>The set can contain multiple instances of the same integer, and the sum of an empty set is considered <code>0</code>.</li>
-	<li>The <strong>units digit</strong> of a number is the rightmost digit of the number.</li>
+	<li>多重集与集合类似，但多重集可以包含多个同一整数，空多重集的和为 <code>0</code> 。</li>
+	<li><strong>个位数字</strong> 是数字最右边的数位。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> num = 58, k = 9
-<strong>Output:</strong> 2
-<strong>Explanation:</strong>
-One valid set is [9,49], as the sum is 58 and each integer has a units digit of 9.
-Another valid set is [19,39].
-It can be shown that 2 is the minimum possible size of a valid set.
+<strong>输入：</strong>num = 58, k = 9
+<strong>输出：</strong>2
+<strong>解释：</strong>
+多重集 [9,49] 满足题目条件，和为 58 且每个整数的个位数字是 9 。
+另一个满足条件的多重集是 [19,39] 。
+可以证明 2 是满足题目条件的多重集的最小长度。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> num = 37, k = 2
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It is not possible to obtain a sum of 37 using only integers that have a units digit of 2.
-</pre>
+<strong>输入：</strong>num = 37, k = 2
+<strong>输出：</strong>-1
+<strong>解释：</strong>个位数字为 2 的整数无法相加得到 37 。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> num = 0, k = 7
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The sum of an empty set is considered 0.
+<strong>输入：</strong>num = 0, k = 7
+<strong>输出：</strong>0
+<strong>解释：</strong>空多重集的和为 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= num &lt;= 3000</code></li>
@@ -72,11 +76,19 @@ It can be shown that 2 is the minimum possible size of a valid set.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：数学 + 枚举
+
+符合拆分条件的每个数都可以表示成 $10x_i+k$，若总共有 $n$ 个数，那么 $\textit{num}-n \times k$ 必然是 $10$ 的倍数。
+
+我们从小到达枚举 $n$，找到第一个满足 $\textit{num}-n \times k$ 是 $10$ 的倍数的 $n$。由于 $n$ 不会超过 $\textit{num}$，因此 $n$ 最大枚举至 $\textit{num}$。
+
+也可以只考虑个位，个位满足，高位随意。
+
+时间复杂度 $O(n)$，其中 $n$ 为 $\textit{num}$ 的大小。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -149,13 +161,13 @@ func minimumNumbers(num int, k int) int {
 
 ```ts
 function minimumNumbers(num: number, k: number): number {
-  if (!num) return 0;
-  let digit = num % 10;
-  for (let i = 1; i < 11; i++) {
-    let target = i * k;
-    if (target <= num && target % 10 == digit) return i;
-  }
-  return -1;
+    if (!num) return 0;
+    let digit = num % 10;
+    for (let i = 1; i < 11; i++) {
+        let target = i * k;
+        if (target <= num && target % 10 == digit) return i;
+    }
+    return -1;
 }
 ```
 
@@ -165,7 +177,7 @@ function minimumNumbers(num: number, k: number): number {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：记忆化搜索
 
 <!-- tabs:start -->
 
@@ -237,7 +249,7 @@ func minimumNumbers(num int, k int) int {
 
 <!-- solution:start -->
 
-### Solution 3
+### 方法三
 
 <!-- tabs:start -->
 

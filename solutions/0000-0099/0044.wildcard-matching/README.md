@@ -1,84 +1,92 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0044.Wildcard%20Matching/README.md
 tags:
-  - Greedy
-  - Recursion
-  - String
-  - Dynamic Programming
+    - 贪心
+    - 递归
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [44. Wildcard Matching](https://leetcode.com/problems/wildcard-matching)
+# [44. 通配符匹配](https://leetcode.cn/problems/wildcard-matching)
 
-## Description
+[English Version](/solution/0000-0099/0044.Wildcard%20Matching/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an input string (<code>s</code>) and a pattern (<code>p</code>), implement wildcard pattern matching with support for <code>&#39;?&#39;</code> and <code>&#39;*&#39;</code> where:</p>
+<div class="title__3Vvk">给你一个输入字符串 (<code>s</code>) 和一个字符模式 (<code>p</code>) ，请你实现一个支持 <code>'?'</code> 和 <code>'*'</code> 匹配规则的通配符匹配：</div>
 
 <ul>
-	<li><code>&#39;?&#39;</code> Matches any single character.</li>
-	<li><code>&#39;*&#39;</code> Matches any sequence of characters (including the empty sequence).</li>
+	<li class="title__3Vvk"><code>'?'</code> 可以匹配任何单个字符。</li>
+	<li class="title__3Vvk"><code>'*'</code> 可以匹配任意字符序列（包括空字符序列）。</li>
 </ul>
 
-<p>The matching should cover the <strong>entire</strong> input string (not partial).</p>
+<div class="original__bRMd">
+<div>
+<p>判定匹配成功的充要条件是：字符模式必须能够 <strong>完全匹配</strong> 输入字符串（而不是部分匹配）。</p>
+</div>
+</div>
+&nbsp;
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aa", p = "a"
+<strong>输出：</strong>false
+<strong>解释：</strong>"a" 无法匹配 "aa" 整个字符串。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aa", p = "*"
+<strong>输出：</strong>true
+<strong>解释：</strong>'*' 可以匹配任意字符串。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "cb", p = "?a"
+<strong>输出：</strong>false
+<strong>解释：</strong>'?' 可以匹配 'c', 但第二个 'a' 无法匹配 'b'。
+</pre>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;aa&quot;, p = &quot;a&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> &quot;a&quot; does not match the entire string &quot;aa&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;aa&quot;, p = &quot;*&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong>&nbsp;&#39;*&#39; matches any sequence.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;cb&quot;, p = &quot;?a&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong>&nbsp;&#39;?&#39; matches &#39;c&#39;, but the second letter is &#39;a&#39;, which does not match &#39;b&#39;.
-</pre>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= s.length, p.length &lt;= 2000</code></li>
-	<li><code>s</code> contains only lowercase English letters.</li>
-	<li><code>p</code> contains only lowercase English letters, <code>&#39;?&#39;</code> or <code>&#39;*&#39;</code>.</li>
+	<li><code>s</code> 仅由小写英文字母组成</li>
+	<li><code>p</code> 仅由小写英文字母、<code>'?'</code> 或 <code>'*'</code> 组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-We design a function $dfs(i, j)$, which represents whether the string $s$ starting from the $i$-th character matches the string $p$ starting from the $j$-th character. The answer is $dfs(0, 0)$.
+我们设计一个函数 $dfs(i, j)$，表示从字符串 $s$ 的第 $i$ 个字符开始和字符串 $p$ 的第 $j$ 个字符开始是否匹配。那么答案就是 $dfs(0, 0)$。
 
-The execution process of the function $dfs(i, j)$ is as follows:
+函数 $dfs(i, j)$ 的执行过程如下：
 
-- If $i \geq \textit{len}(s)$, then $dfs(i, j)$ is true only when $j \geq \textit{len}(p)$ or $p[j] = '*'$ and $dfs(i, j + 1)$ is true.
-- If $j \geq \textit{len}(p)$, then $dfs(i, j)$ is false.
-- If $p[j] = '*'$, then $dfs(i, j)$ is true if and only if $dfs(i + 1, j)$ or $dfs(i + 1, j + 1)$ or $dfs(i, j + 1)$ is true.
-- Otherwise, $dfs(i, j)$ is true if and only if $p[j] = '?'$ or $s[i] = p[j]$ and $dfs(i + 1, j + 1)$ is true.
+-   如果 $i \geq \textit{len}(s)$，那么只有当 $j \geq \textit{len}(p)$ 或者 $p[j] = '*'$ 且 $dfs(i, j + 1)$ 为真时，$dfs(i, j)$ 才为真。
+-   如果 $j \geq \textit{len}(p)$，那么 $dfs(i, j)$ 为假。
+-   如果 $p[j] = '*'$，那么 $dfs(i, j)$ 为真当且仅当 $dfs(i + 1, j)$ 或 $dfs(i + 1, j + 1)$ 或 $dfs(i, j + 1)$ 中有一个为真。
+-   否则 $dfs(i, j)$ 为真当且仅当 $p[j] = '?'$ 或 $s[i] = p[j]$ 且 $dfs(i + 1, j + 1)$ 为真。
 
-To avoid repeated calculations, we use the method of memoization search and store the result of $dfs(i, j)$ in a hash table.
+为了避免重复计算，我们使用记忆化搜索的方法，将 $dfs(i, j)$ 的结果存储在一个哈希表中。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the lengths of the strings $s$ and $p$, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是字符串 $s$ 和 $p$ 的长度。
 
 <!-- tabs:start -->
 
@@ -210,29 +218,29 @@ func isMatch(s string, p string) bool {
 
 ```ts
 function isMatch(s: string, p: string): boolean {
-  const m = s.length;
-  const n = p.length;
-  const f: number[][] = Array.from({ length: m + 1 }, () =>
-    Array.from({ length: n + 1 }, () => -1)
-  );
-  const dfs = (i: number, j: number): boolean => {
-    if (i >= m) {
-      return j >= n || (p[j] === "*" && dfs(i, j + 1));
-    }
-    if (j >= n) {
-      return false;
-    }
-    if (f[i][j] !== -1) {
-      return f[i][j] === 1;
-    }
-    if (p[j] === "*") {
-      f[i][j] = dfs(i + 1, j) || dfs(i, j + 1) ? 1 : 0;
-    } else {
-      f[i][j] = (p[j] === "?" || s[i] === p[j]) && dfs(i + 1, j + 1) ? 1 : 0;
-    }
-    return f[i][j] === 1;
-  };
-  return dfs(0, 0);
+    const m = s.length;
+    const n = p.length;
+    const f: number[][] = Array.from({ length: m + 1 }, () =>
+        Array.from({ length: n + 1 }, () => -1),
+    );
+    const dfs = (i: number, j: number): boolean => {
+        if (i >= m) {
+            return j >= n || (p[j] === '*' && dfs(i, j + 1));
+        }
+        if (j >= n) {
+            return false;
+        }
+        if (f[i][j] !== -1) {
+            return f[i][j] === 1;
+        }
+        if (p[j] === '*') {
+            f[i][j] = dfs(i + 1, j) || dfs(i, j + 1) ? 1 : 0;
+        } else {
+            f[i][j] = (p[j] === '?' || s[i] === p[j]) && dfs(i + 1, j + 1) ? 1 : 0;
+        }
+        return f[i][j] === 1;
+    };
+    return dfs(0, 0);
 }
 ```
 
@@ -281,20 +289,20 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We can convert the memoization search in Solution 1 into dynamic programming.
+我们可以将方法一中的记忆化搜索转换为动态规划。
 
-Define $f[i][j]$ to represent whether the first $i$ characters of string $s$ match the first $j$ characters of string $p$. Initially, $f[0][0] = \textit{true}$, indicating that two empty strings are matching. For $j \in [1, n]$, if $p[j-1] = '*'$, then $f[0][j] = f[0][j-1]$.
+定义 $f[i][j]$ 表示字符串 $s$ 的前 $i$ 个字符和字符串 $p$ 的前 $j$ 个字符是否匹配。初始时 $f[0][0] = \textit{true}$，表示两个空字符串是匹配的。对于 $j \in [1, n]$，如果 $p[j-1] = '*'$，那么 $f[0][j] = f[0][j-1]$。
 
-Next, we consider the case of $i \in [1, m]$ and $j \in [1, n]$:
+接下来我们考虑 $i \in [1, m]$ 和 $j \in [1, n]$ 的情况：
 
-- If $p[j-1] = '*'$, then $f[i][j] = f[i-1][j] \lor f[i][j-1] \lor f[i-1][j-1]$.
-- Otherwise, $f[i][j] = (p[j-1] = '?' \lor s[i-1] = p[j-1]) \land f[i-1][j-1]$.
+-   如果 $p[j-1] = '*'$，那么 $f[i][j] = f[i-1][j] \lor f[i][j-1] \lor f[i-1][j-1]$。
+-   否则 $f[i][j] = (p[j-1] = '?' \lor s[i-1] = p[j-1]) \land f[i-1][j-1]$。
 
-The final answer is $f[m][n]$.
+最终答案为 $f[m][n]$。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the lengths of the strings $s$ and $p$, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是字符串 $s$ 和 $p$ 的长度。
 
 <!-- tabs:start -->
 
@@ -409,28 +417,27 @@ func isMatch(s string, p string) bool {
 
 ```ts
 function isMatch(s: string, p: string): boolean {
-  const m: number = s.length;
-  const n: number = p.length;
-  const f: boolean[][] = Array.from({ length: m + 1 }, () =>
-    Array.from({ length: n + 1 }, () => false)
-  );
-  f[0][0] = true;
-  for (let j = 1; j <= n; ++j) {
-    if (p.charAt(j - 1) === "*") {
-      f[0][j] = f[0][j - 1];
-    }
-  }
-  for (let i = 1; i <= m; ++i) {
+    const m: number = s.length;
+    const n: number = p.length;
+    const f: boolean[][] = Array.from({ length: m + 1 }, () =>
+        Array.from({ length: n + 1 }, () => false),
+    );
+    f[0][0] = true;
     for (let j = 1; j <= n; ++j) {
-      if (p[j - 1] === "*") {
-        f[i][j] = f[i - 1][j] || f[i][j - 1] || f[i - 1][j - 1];
-      } else {
-        f[i][j] =
-          f[i - 1][j - 1] && (p[j - 1] === "?" || s[i - 1] === p[j - 1]);
-      }
+        if (p.charAt(j - 1) === '*') {
+            f[0][j] = f[0][j - 1];
+        }
     }
-  }
-  return f[m][n];
+    for (let i = 1; i <= m; ++i) {
+        for (let j = 1; j <= n; ++j) {
+            if (p[j - 1] === '*') {
+                f[i][j] = f[i - 1][j] || f[i][j - 1] || f[i - 1][j - 1];
+            } else {
+                f[i][j] = f[i - 1][j - 1] && (p[j - 1] === '?' || s[i - 1] === p[j - 1]);
+            }
+        }
+    }
+    return f[m][n];
 }
 ```
 

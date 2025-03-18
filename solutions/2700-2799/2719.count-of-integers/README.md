@@ -1,52 +1,57 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2719.Count%20of%20Integers/README.md
 rating: 2354
-source: Weekly Contest 348 Q4
+source: 第 348 场周赛 Q4
 tags:
-  - Math
-  - String
-  - Dynamic Programming
+    - 数学
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2719. Count of Integers](https://leetcode.com/problems/count-of-integers)
+# [2719. 统计整数数目](https://leetcode.cn/problems/count-of-integers)
 
-## Description
+[English Version](/solution/2700-2799/2719.Count%20of%20Integers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two numeric strings <code>num1</code> and <code>num2</code> and two integers <code>max_sum</code> and <code>min_sum</code>. We denote an integer <code>x</code> to be <em>good</em> if:</p>
+<p>给你两个数字字符串&nbsp;<code>num1</code>&nbsp;和&nbsp;<code>num2</code>&nbsp;，以及两个整数&nbsp;<code>max_sum</code> 和&nbsp;<code>min_sum</code>&nbsp;。如果一个整数&nbsp;<code>x</code>&nbsp;满足以下条件，我们称它是一个好整数：</p>
 
 <ul>
 	<li><code>num1 &lt;= x &lt;= num2</code></li>
 	<li><code>min_sum &lt;= digit_sum(x) &lt;= max_sum</code>.</li>
 </ul>
 
-<p>Return <em>the number of good integers</em>. Since the answer may be large, return it modulo <code>10<sup>9</sup> + 7</code>.</p>
+<p>请你返回好整数的数目。答案可能很大，请返回答案对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;取余后的结果。</p>
 
-<p>Note that <code>digit_sum(x)</code> denotes the sum of the digits of <code>x</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> num1 = &quot;1&quot;, num2 = &quot;12&quot;, <code>min_sum</code> = 1, max_sum = 8
-<strong>Output:</strong> 11
-<strong>Explanation:</strong> There are 11 integers whose sum of digits lies between 1 and 8 are 1,2,3,4,5,6,7,8,10,11, and 12. Thus, we return 11.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> num1 = &quot;1&quot;, num2 = &quot;5&quot;, <code>min_sum</code> = 1, max_sum = 5
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The 5 integers whose sum of digits lies between 1 and 5 are 1,2,3,4, and 5. Thus, we return 5.
-</pre>
+<p>注意，<code>digit_sum(x)</code>&nbsp;表示&nbsp;<code>x</code>&nbsp;各位数字之和。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>num1 = "1", num2 = "12", min_num = 1, max_num = 8
+<b>输出：</b>11
+<b>解释：</b>总共有 11 个整数的数位和在 1 到 8 之间，分别是 1,2,3,4,5,6,7,8,10,11 和 12 。所以我们返回 11 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>num1 = "1", num2 = "5", min_num = 1, max_num = 5
+<b>输出：</b>5
+<b>解释：</b>数位和在 1 到 5 之间的 5 个整数分别为 1,2,3,4 和 5 。所以我们返回 5 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num1 &lt;= num2 &lt;= 10<sup>22</sup></code></li>
@@ -55,23 +60,23 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Digit DP
+### 方法一：数位 DP
 
-The problem is actually asking for the number of integers in the range $[num1,..num2]$ whose digit sum is in the range $[min\_sum,..max\_sum]$. For this kind of range $[l,..r]$ problem, we can consider transforming it into finding the answers for $[1,..r]$ and $[1,..l-1]$, and then subtracting the latter from the former.
+题目实际上求的是区间 $[num1,..num2]$ 中，数位和在 $[min\_sum,..max\_sum]$ 的数的个数。对于这种区间 $[l,..r]$ 的问题，我们可以考虑转化为求 $[1,..r]$ 和 $[1,..l-1]$ 的答案，然后相减即可。
 
-For the answer to $[1,..r]$, we can use digit DP to solve it. We design a function $dfs(pos, s, limit)$, which represents the number of schemes when we are currently processing the $pos$th digit, the digit sum is $s$, and whether the current number has an upper limit $limit$. Here, $pos$ is enumerated from high to low.
+对于 $[1,..r]$ 的答案，我们可以使用数位 DP 来求解。我们设计一个函数 $dfs(pos, s, limit)$ 表示当前处理到第 $pos$ 位，数位和为 $s$，当前数是否有上界限制 $limit$ 的方案数。其中 $pos$ 从高到低枚举。
 
-For $dfs(pos, s, limit)$, we can enumerate the value of the current digit $i$, and then recursively calculate $dfs(pos+1, s+i, limit \bigcap  i==up)$, where $up$ represents the upper limit of the current digit. If $limit$ is true, then $up$ is the upper limit of the current digit, otherwise $up$ is $9$. If $pos$ is greater than or equal to the length of $num$, then we can judge whether $s$ is in the range $[min\_sum,..max\_sum]$. If it is, return $1$, otherwise return $0$.
+对于 $dfs(pos, s, limit)$，我们可以枚举当前数位 $i$ 的值，然后递归计算 $dfs(pos+1, s+i, limit \bigcap  i==up)$，其中 $up$ 表示当前数位的上界。如果 $limit$ 为真，那么 $up$ 就是当前数位的上界，否则 $up$ 为 $9$。如果 $pos$ 大于等于 $num$ 的长度，那么我们就可以判断 $s$ 是否在 $[min\_sum,..max\_sum]$ 的范围内，如果在就返回 $1$，否则返回 $0$。
 
-The time complexity is $O(10 \times n \times max\_sum)$, and the space complexity is $O(n \times max\_sum)$. Here, $n$ represents the length of $num$.
+时间复杂度 $O(10 \times n \times max\_sum)$，空间复杂度 $O(n \times max\_sum)$。其中 $n$ 表示 $num$ 的长度。
 
-Similar problems:
+相似题目：
 
-- [2801. Count Stepping Numbers in Range](https://github.com/doocs/leetcode/blob/main/solution/2800-2899/2801.Count%20Stepping%20Numbers%20in%20Range/README_EN.md)
+-   [2801. 统计范围内的步进数字数目](https://github.com/doocs/leetcode/blob/main/solution/2800-2899/2801.Count%20Stepping%20Numbers%20in%20Range/README.md)
 
 <!-- tabs:start -->
 
@@ -249,37 +254,32 @@ func count(num1 string, num2 string, min_sum int, max_sum int) int {
 #### TypeScript
 
 ```ts
-function count(
-  num1: string,
-  num2: string,
-  min_sum: number,
-  max_sum: number
-): number {
-  const mod = 1e9 + 7;
-  const f: number[][] = Array.from({ length: 23 }, () => Array(220).fill(-1));
-  let num = num2;
-  const dfs = (pos: number, s: number, limit: boolean): number => {
-    if (pos >= num.length) {
-      return s >= min_sum && s <= max_sum ? 1 : 0;
-    }
-    if (!limit && f[pos][s] !== -1) {
-      return f[pos][s];
-    }
-    let ans = 0;
-    const up = limit ? +num[pos] : 9;
-    for (let i = 0; i <= up; i++) {
-      ans = (ans + dfs(pos + 1, s + i, limit && i === up)) % mod;
-    }
-    if (!limit) {
-      f[pos][s] = ans;
-    }
-    return ans;
-  };
-  const a = dfs(0, 0, true);
-  num = (BigInt(num1) - 1n).toString();
-  f.forEach((v) => v.fill(-1));
-  const b = dfs(0, 0, true);
-  return (a - b + mod) % mod;
+function count(num1: string, num2: string, min_sum: number, max_sum: number): number {
+    const mod = 1e9 + 7;
+    const f: number[][] = Array.from({ length: 23 }, () => Array(220).fill(-1));
+    let num = num2;
+    const dfs = (pos: number, s: number, limit: boolean): number => {
+        if (pos >= num.length) {
+            return s >= min_sum && s <= max_sum ? 1 : 0;
+        }
+        if (!limit && f[pos][s] !== -1) {
+            return f[pos][s];
+        }
+        let ans = 0;
+        const up = limit ? +num[pos] : 9;
+        for (let i = 0; i <= up; i++) {
+            ans = (ans + dfs(pos + 1, s + i, limit && i === up)) % mod;
+        }
+        if (!limit) {
+            f[pos][s] = ans;
+        }
+        return ans;
+    };
+    const a = dfs(0, 0, true);
+    num = (BigInt(num1) - 1n).toString();
+    f.forEach(v => v.fill(-1));
+    const b = dfs(0, 0, true);
+    return (a - b + mod) % mod;
 }
 ```
 

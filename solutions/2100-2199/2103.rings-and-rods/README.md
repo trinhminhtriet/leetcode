@@ -1,92 +1,97 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2103.Rings%20and%20Rods/README.md
 rating: 1257
-source: Weekly Contest 271 Q1
+source: 第 271 场周赛 Q1
 tags:
-  - Hash Table
-  - String
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2103. Rings and Rods](https://leetcode.com/problems/rings-and-rods)
+# [2103. 环和杆](https://leetcode.cn/problems/rings-and-rods)
 
-## Description
+[English Version](/solution/2100-2199/2103.Rings%20and%20Rods/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> rings and each ring is either red, green, or blue. The rings are distributed <strong>across ten rods</strong> labeled from <code>0</code> to <code>9</code>.</p>
+<p>总计有 <code>n</code> 个环，环的颜色可以是红、绿、蓝中的一种。这些环分别穿在 10 根编号为 <code>0</code> 到 <code>9</code> 的杆上。</p>
 
-<p>You are given a string <code>rings</code> of length <code>2n</code> that describes the <code>n</code> rings that are placed onto the rods. Every two characters in <code>rings</code> forms a <strong>color-position pair</strong> that is used to describe each ring where:</p>
+<p>给你一个长度为 <code>2n</code> 的字符串 <code>rings</code> ，表示这 <code>n</code> 个环在杆上的分布。<code>rings</code> 中每两个字符形成一个 <strong>颜色位置对</strong> ，用于描述每个环：</p>
 
 <ul>
-	<li>The <strong>first</strong> character of the <code>i<sup>th</sup></code> pair denotes the <code>i<sup>th</sup></code> ring&#39;s <strong>color</strong> (<code>&#39;R&#39;</code>, <code>&#39;G&#39;</code>, <code>&#39;B&#39;</code>).</li>
-	<li>The <strong>second</strong> character of the <code>i<sup>th</sup></code> pair denotes the <strong>rod</strong> that the <code>i<sup>th</sup></code> ring is placed on (<code>&#39;0&#39;</code> to <code>&#39;9&#39;</code>).</li>
+	<li>第 <code>i</code> 对中的 <strong>第一个</strong> 字符表示第 <code>i</code> 个环的 <strong>颜色</strong>（<code>'R'</code>、<code>'G'</code>、<code>'B'</code>）。</li>
+	<li>第 <code>i</code> 对中的 <strong>第二个</strong> 字符表示第 <code>i</code> 个环的 <strong>位置</strong>，也就是位于哪根杆上（<code>'0'</code> 到 <code>'9'</code>）。</li>
 </ul>
 
-<p>For example, <code>&quot;R3G2B1&quot;</code> describes <code>n == 3</code> rings: a red ring placed onto the rod labeled 3, a green ring placed onto the rod labeled 2, and a blue ring placed onto the rod labeled 1.</p>
+<p>例如，<code>"R3G2B1"</code> 表示：共有 <code>n == 3</code> 个环，红色的环在编号为 3 的杆上，绿色的环在编号为 2 的杆上，蓝色的环在编号为 1 的杆上。</p>
 
-<p>Return <em>the number of rods that have <strong>all three colors</strong> of rings on them.</em></p>
+<p>找出所有集齐 <strong>全部三种颜色</strong> 环的杆，并返回这种杆的数量。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2103.Rings%20and%20Rods/images/ex1final.png" style="width: 258px; height: 130px;" />
 <pre>
-<strong>Input:</strong> rings = &quot;B0B6G0R6R0R6G9&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> 
-- The rod labeled 0 holds 3 rings with all colors: red, green, and blue.
-- The rod labeled 6 holds 3 rings, but it only has red and blue.
-- The rod labeled 9 holds only a green ring.
-Thus, the number of rods with all three colors is 1.
+<strong>输入：</strong>rings = "B0B6G0R6R0R6G9"
+<strong>输出：</strong>1
+<strong>解释：</strong>
+- 编号 0 的杆上有 3 个环，集齐全部颜色：红、绿、蓝。
+- 编号 6 的杆上有 3 个环，但只有红、蓝两种颜色。
+- 编号 9 的杆上只有 1 个绿色环。
+因此，集齐全部三种颜色环的杆的数目为 1 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2103.Rings%20and%20Rods/images/ex2final.png" style="width: 266px; height: 130px;" />
 <pre>
-<strong>Input:</strong> rings = &quot;B0R0G0R9R0B0G0&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> 
-- The rod labeled 0 holds 6 rings with all colors: red, green, and blue.
-- The rod labeled 9 holds only a red ring.
-Thus, the number of rods with all three colors is 1.
+<strong>输入：</strong>rings = "B0R0G0R9R0B0G0"
+<strong>输出：</strong>1
+<strong>解释：</strong>
+- 编号 0 的杆上有 6 个环，集齐全部颜色：红、绿、蓝。
+- 编号 9 的杆上只有 1 个红色环。
+因此，集齐全部三种颜色环的杆的数目为 1 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> rings = &quot;G4&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> 
-Only one ring is given. Thus, no rods have all three colors.
+<strong>输入：</strong>rings = "G4"
+<strong>输出：</strong>0
+<strong>解释：</strong>
+只给了一个环，因此，不存在集齐全部三种颜色环的杆。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>rings.length == 2 * n</code></li>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
-	<li><code>rings[i]</code> where <code>i</code> is <strong>even</strong> is either <code>&#39;R&#39;</code>, <code>&#39;G&#39;</code>, or <code>&#39;B&#39;</code> (<strong>0-indexed</strong>).</li>
-	<li><code>rings[i]</code> where <code>i</code> is <strong>odd</strong> is a digit from <code>&#39;0&#39;</code> to <code>&#39;9&#39;</code> (<strong>0-indexed</strong>).</li>
+	<li>如 <code>i</code> 是 <strong>偶数</strong> ，则&nbsp;<code>rings[i]</code> 的值可以取 <code>'R'</code>、<code>'G'</code> 或 <code>'B'</code>（下标从 <strong>0</strong> 开始计数）</li>
+	<li>如 <code>i</code> 是 <strong>奇数</strong> ，则&nbsp;<code>rings[i]</code> 的值可以取 <code>'0'</code> 到 <code>'9'</code> 中的一个数字（下标从 <strong>0</strong> 开始计数）</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Bit Manipulation
+### 方法一：位运算
 
-We can use an array $mask$ of length $10$ to represent the color situation of the rings on each rod, where $mask[i]$ represents the color situation of the ring on the $i$th rod. If there are red, green, and blue rings on the $i$th rod, then the binary representation of $mask[i]$ is $111$, that is, $mask[i] = 7$.
+我们可以用一个长度为 $10$ 的数组 $mask$ 来表示每根杆上的环的颜色情况，其中 $mask[i]$ 表示第 $i$ 根杆上的环的颜色情况，如果第 $i$ 根杆上有红色、绿色、蓝色的环，那么 $mask[i]$ 的二进制表示为 $111$，即 $mask[i] = 7$。
 
-We traverse the string $rings$. For each color position pair $(c, j)$, where $c$ represents the color of the ring and $j$ represents the number of the rod where the ring is located, we set the corresponding binary bit of $mask[j]$, that is, $mask[j] |= d[c]$, where $d[c]$ represents the binary bit corresponding to color $c$.
+我们遍历字符串 $rings$，对于每个颜色位置对 $(c, j)$，其中 $c$ 表示环的颜色，$j$ 表示环所在的杆的编号，我们将 $mask[j]$ 对应的二进制位进行置位，即 $mask[j] |= d[c]$，其中 $d[c]$ 表示颜色 $c$ 对应的二进制位。
 
-Finally, we count the number of elements in $mask$ that are $7$, which is the number of rods that have collected all three colors of rings.
+最后我们统计 $mask$ 中值为 $7$ 的元素的个数，即为集齐全部三种颜色环的杆的数目。
 
-The time complexity is $O(n)$, and the space complexity is $O(|\Sigma|)$, where $n$ represents the length of the string $rings$, and $|\Sigma|$ represents the size of the character set.
+时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|)$，其中 $n$ 表示字符串 $rings$ 的长度，而 $|\Sigma|$ 表示字符集的大小。
 
 <!-- tabs:start -->
 
@@ -172,18 +177,18 @@ func countPoints(rings string) (ans int) {
 
 ```ts
 function countPoints(rings: string): number {
-  const idx = (c: string) => c.charCodeAt(0) - "A".charCodeAt(0);
-  const d: number[] = Array(26).fill(0);
-  d[idx("R")] = 1;
-  d[idx("G")] = 2;
-  d[idx("B")] = 4;
-  const mask: number[] = Array(10).fill(0);
-  for (let i = 0; i < rings.length; i += 2) {
-    const c = rings[i];
-    const j = rings[i + 1].charCodeAt(0) - "0".charCodeAt(0);
-    mask[j] |= d[idx(c)];
-  }
-  return mask.filter((x) => x === 7).length;
+    const idx = (c: string) => c.charCodeAt(0) - 'A'.charCodeAt(0);
+    const d: number[] = Array(26).fill(0);
+    d[idx('R')] = 1;
+    d[idx('G')] = 2;
+    d[idx('B')] = 4;
+    const mask: number[] = Array(10).fill(0);
+    for (let i = 0; i < rings.length; i += 2) {
+        const c = rings[i];
+        const j = rings[i + 1].charCodeAt(0) - '0'.charCodeAt(0);
+        mask[j] |= d[idx(c)];
+    }
+    return mask.filter(x => x === 7).length;
 }
 ```
 
@@ -248,7 +253,7 @@ int countPoints(char* rings) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -256,16 +261,11 @@ int countPoints(char* rings) {
 
 ```ts
 function countPoints(rings: string): number {
-  let c = 0;
-  for (let i = 0; i <= 9; i++) {
-    if (
-      rings.includes("B" + i) &&
-      rings.includes("R" + i) &&
-      rings.includes("G" + i)
-    )
-      c++;
-  }
-  return c;
+    let c = 0;
+    for (let i = 0; i <= 9; i++) {
+        if (rings.includes('B' + i) && rings.includes('R' + i) && rings.includes('G' + i)) c++;
+    }
+    return c;
 }
 ```
 

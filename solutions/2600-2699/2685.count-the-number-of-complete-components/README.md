@@ -1,54 +1,61 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2685.Count%20the%20Number%20of%20Complete%20Components/README.md
 rating: 1769
-source: Weekly Contest 345 Q4
+source: 第 345 场周赛 Q4
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Graph
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [2685. Count the Number of Complete Components](https://leetcode.com/problems/count-the-number-of-complete-components)
+# [2685. 统计完全连通分量的数量](https://leetcode.cn/problems/count-the-number-of-complete-components)
 
-## Description
+[English Version](/solution/2600-2699/2685.Count%20the%20Number%20of%20Complete%20Components/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer <code>n</code>. There is an <strong>undirected</strong> graph with <code>n</code> vertices, numbered from <code>0</code> to <code>n - 1</code>. You are given a 2D integer array <code>edges</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> denotes that there exists an <strong>undirected</strong> edge connecting vertices <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>.</p>
+<p>给你一个整数 <code>n</code> 。现有一个包含 <code>n</code> 个顶点的 <strong>无向</strong> 图，顶点按从 <code>0</code> 到 <code>n - 1</code> 编号。给你一个二维整数数组 <code>edges</code> 其中 <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 表示顶点 <code>a<sub>i</sub></code> 和 <code>b<sub>i</sub></code> 之间存在一条 <strong>无向</strong> 边。</p>
 
-<p>Return <em>the number of <strong>complete connected components</strong> of the graph</em>.</p>
+<p>返回图中 <strong>完全连通分量</strong> 的数量。</p>
 
-<p>A <strong>connected component</strong> is a subgraph of a graph in which there exists a path between any two vertices, and no vertex of the subgraph shares an edge with a vertex outside of the subgraph.</p>
+<p>如果在子图中任意两个顶点之间都存在路径，并且子图中没有任何一个顶点与子图外部的顶点共享边，则称其为 <strong>连通分量</strong> 。</p>
 
-<p>A connected component is said to be <b>complete</b> if there exists an edge between every pair of its vertices.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<p><strong class="example"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2685.Count%20the%20Number%20of%20Complete%20Components/images/screenshot-from-2023-04-11-23-31-23.png" style="width: 671px; height: 270px;" /></strong></p>
-
-<pre>
-<strong>Input:</strong> n = 6, edges = [[0,1],[0,2],[1,2],[3,4]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> From the picture above, one can see that all of the components of this graph are complete.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<p><strong class="example"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2685.Count%20the%20Number%20of%20Complete%20Components/images/screenshot-from-2023-04-11-23-32-00.png" style="width: 671px; height: 270px;" /></strong></p>
-
-<pre>
-<strong>Input:</strong> n = 6, edges = [[0,1],[0,2],[1,2],[3,4],[3,5]]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The component containing vertices 0, 1, and 2 is complete since there is an edge between every pair of two vertices. On the other hand, the component containing vertices 3, 4, and 5 is not complete since there is no edge between vertices 4 and 5. Thus, the number of complete components in this graph is 1.
-</pre>
+<p>如果连通分量中每对节点之间都存在一条边，则称其为 <strong>完全连通分量</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2685.Count%20the%20Number%20of%20Complete%20Components/images/screenshot-from-2023-04-11-23-31-23.png" style="width: 671px; height: 270px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>n = 6, edges = [[0,1],[0,2],[1,2],[3,4]]
+<strong>输出：</strong>3
+<strong>解释：</strong>如上图所示，可以看到此图所有分量都是完全连通分量。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2685.Count%20the%20Number%20of%20Complete%20Components/images/screenshot-from-2023-04-11-23-32-00.png" style="width: 671px; height: 270px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>n = 6, edges = [[0,1],[0,2],[1,2],[3,4],[3,5]]
+<strong>输出：</strong>1
+<strong>解释：</strong>包含节点 0、1 和 2 的分量是完全连通分量，因为每对节点之间都存在一条边。
+包含节点 3 、4 和 5 的分量不是完全连通分量，因为节点 4 和 5 之间不存在边。
+因此，在图中完全连接分量的数量是 1 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 50</code></li>
@@ -56,16 +63,24 @@ tags:
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li>There are no repeated edges.</li>
+	<li>不存在重复的边</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS
+
+我们先根据题目给定的边建立一个邻接表 $g$，其中 $g[i]$ 表示顶点 $i$ 的邻接点集合。
+
+然后我们从 $0$ 开始遍历所有顶点，如果当前顶点没有被访问过，我们就从当前顶点开始进行深度优先搜索，统计当前连通分量的顶点数 $x$ 和边数 $y$。如果 $\frac{x(x-1)}{2} = y$，那么当前连通分量就是完全连通分量，我们将答案加一。
+
+最后我们返回答案即可。
+
+时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是顶点数和边数。
 
 <!-- tabs:start -->
 
@@ -222,25 +237,25 @@ func countCompleteComponents(n int, edges [][]int) (ans int) {
 
 <!-- solution:start -->
 
-### Solution 2: Simple Method
+### 方法二：取巧做法
 
-Problems needed to solve：
+要解决的问题：
 
-1. How do we maintain the link state between each node and the others? 如
-2. How can one determine whether multiple points form a connected graph?
+1. 如何保存每一个节点与其它点联通状态
+2. 如何判断多个点是否是一个联通图
 
-For the first one: we can maintain each node's connection set(including itself).
+对于第一点：实际上就是保存了当前到每个点的联通点集合（包括自己），方便后续判等。
+第二点：有了第一点之后，如果是连通图中的点就有：
 
-For the second one: After solving the first one, we can see:
+1. 此点包含此联通图中所有的点（包括自己）
+2. 并且只包含此联通图中的点
 
-- the node itself includes every node in the connected graph(including itself).
-- and only connected to the nodes in the connected graph.
+拿示例一举例：
 
-Take example 1 to explain：
-
-- Node 5's connected node is itself, so it is a connected graph.
-- Node 0's connected 0, 1, 2. Same as nodes 1, 2.
-- Nodes 3 and 4 also include themselves and each other.
+-   5 包含的联通点有且只有自己，所以是连通图
+-   0 包含 0、1、2，同理 1、2 点也是
+-   3 和 4 也是包含自己和彼此
+-   基于以上就有以下代码实现：
 
 <!-- tabs:start -->
 

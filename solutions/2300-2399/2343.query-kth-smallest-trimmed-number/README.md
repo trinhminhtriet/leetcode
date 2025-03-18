@@ -1,94 +1,104 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2343.Query%20Kth%20Smallest%20Trimmed%20Number/README.md
 rating: 1651
-source: Weekly Contest 302 Q3
+source: 第 302 场周赛 Q3
 tags:
-  - Array
-  - String
-  - Divide and Conquer
-  - Quickselect
-  - Radix Sort
-  - Sorting
-  - Heap (Priority Queue)
+    - 数组
+    - 字符串
+    - 分治
+    - 快速选择
+    - 基数排序
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2343. Query Kth Smallest Trimmed Number](https://leetcode.com/problems/query-kth-smallest-trimmed-number)
+# [2343. 裁剪数字后查询第 K 小的数字](https://leetcode.cn/problems/query-kth-smallest-trimmed-number)
 
-## Description
+[English Version](/solution/2300-2399/2343.Query%20Kth%20Smallest%20Trimmed%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array of strings <code>nums</code>, where each string is of <strong>equal length</strong> and consists of only digits.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的字符串数组&nbsp;<code>nums</code>&nbsp;，其中每个字符串 <strong>长度相等</strong>&nbsp;且只包含数字。</p>
 
-<p>You are also given a <strong>0-indexed</strong> 2D integer array <code>queries</code> where <code>queries[i] = [k<sub>i</sub>, trim<sub>i</sub>]</code>. For each <code>queries[i]</code>, you need to:</p>
+<p>再给你一个下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code>queries</code>&nbsp;，其中&nbsp;<code>queries[i] = [k<sub>i</sub>, trim<sub>i</sub>]</code>&nbsp;。对于每个&nbsp;<code>queries[i]</code>&nbsp;，你需要：</p>
 
 <ul>
-	<li><strong>Trim</strong> each number in <code>nums</code> to its <strong>rightmost</strong> <code>trim<sub>i</sub></code> digits.</li>
-	<li>Determine the <strong>index</strong> of the <code>k<sub>i</sub><sup>th</sup></code> smallest trimmed number in <code>nums</code>. If two trimmed numbers are equal, the number with the <strong>lower</strong> index is considered to be smaller.</li>
-	<li>Reset each number in <code>nums</code> to its original length.</li>
+	<li>将&nbsp;<code>nums</code>&nbsp;中每个数字 <strong>裁剪</strong>&nbsp;到剩下 <strong>最右边</strong>&nbsp;<code>trim<sub>i</sub></code>&nbsp;个数位。</li>
+	<li>在裁剪过后的数字中，找到 <code>nums</code>&nbsp;中第&nbsp;<code>k<sub>i</sub></code>&nbsp;小数字对应的 <strong>下标</strong>&nbsp;。如果两个裁剪后数字一样大，那么下标 <strong>更小</strong>&nbsp;的数字视为更小的数字。</li>
+	<li>将 <code>nums</code>&nbsp;中每个数字恢复到原本字符串。</li>
 </ul>
 
-<p>Return <em>an array </em><code>answer</code><em> of the same length as </em><code>queries</code>,<em> where </em><code>answer[i]</code><em> is the answer to the </em><code>i<sup>th</sup></code><em> query.</em></p>
+<p>请你返回一个长度与 <code><span style="">queries</span></code>&nbsp;相等的数组<em>&nbsp;</em><code>answer</code>，其中<em>&nbsp;</em><code>answer[i]</code>是第<em>&nbsp;</em><code>i</code><em>&nbsp;</em>次查询的结果。</p>
 
-<p><strong>Note</strong>:</p>
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>To trim to the rightmost <code>x</code> digits means to keep removing the leftmost digit, until only <code>x</code> digits remain.</li>
-	<li>Strings in <code>nums</code> may contain leading zeros.</li>
+	<li>裁剪到剩下最右边 <code>x</code>&nbsp;个数位的意思是不断删除最左边的数位，直到剩下 <code>x</code>&nbsp;个数位。</li>
+	<li><code>nums</code>&nbsp;中的字符串可能会有前导 0 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [&quot;102&quot;,&quot;473&quot;,&quot;251&quot;,&quot;814&quot;], queries = [[1,1],[2,3],[4,2],[1,2]]
-<strong>Output:</strong> [2,2,1,0]
-<strong>Explanation:</strong>
-1. After trimming to the last digit, nums = [&quot;2&quot;,&quot;3&quot;,&quot;1&quot;,&quot;4&quot;]. The smallest number is 1 at index 2.
-2. Trimmed to the last 3 digits, nums is unchanged. The 2<sup>nd</sup> smallest number is 251 at index 2.
-3. Trimmed to the last 2 digits, nums = [&quot;02&quot;,&quot;73&quot;,&quot;51&quot;,&quot;14&quot;]. The 4<sup>th</sup> smallest number is 73.
-4. Trimmed to the last 2 digits, the smallest number is 2 at index 0.
-   Note that the trimmed number &quot;02&quot; is evaluated as 2.
+<b>输入：</b>nums = ["102","473","251","814"], queries = [[1,1],[2,3],[4,2],[1,2]]
+<b>输出：</b>[2,2,1,0]
+<strong>解释：</strong>
+1. 裁剪到只剩 1 个数位后，nums = ["2","3","1","4"] 。最小的数字是 1 ，下标为 2 。
+2. 裁剪到剩 3 个数位后，nums 没有变化。第 2 小的数字是 251 ，下标为 2 。
+3. 裁剪到剩 2 个数位后，nums = ["02","73","51","14"] 。第 4 小的数字是 73 ，下标为 1 。
+4. 裁剪到剩 2 个数位后，最小数字是 2 ，下标为 0 。
+   注意，裁剪后数字 "02" 值为 2 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [&quot;24&quot;,&quot;37&quot;,&quot;96&quot;,&quot;04&quot;], queries = [[2,1],[2,2]]
-<strong>Output:</strong> [3,0]
-<strong>Explanation:</strong>
-1. Trimmed to the last digit, nums = [&quot;4&quot;,&quot;7&quot;,&quot;6&quot;,&quot;4&quot;]. The 2<sup>nd</sup> smallest number is 4 at index 3.
-   There are two occurrences of 4, but the one at index 0 is considered smaller than the one at index 3.
-2. Trimmed to the last 2 digits, nums is unchanged. The 2<sup>nd</sup> smallest number is 24.
+<b>输入：</b>nums = ["24","37","96","04"], queries = [[2,1],[2,2]]
+<b>输出：</b>[3,0]
+<strong>解释：</strong>
+1. 裁剪到剩 1 个数位，nums = ["4","7","6","4"] 。第 2 小的数字是 4 ，下标为 3 。
+   有两个 4 ，下标为 0 的 4 视为小于下标为 3 的 4 。
+2. 裁剪到剩 2 个数位，nums 不变。第二小的数字是 24 ，下标为 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><b>提示：</b></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
 	<li><code>1 &lt;= nums[i].length &lt;= 100</code></li>
-	<li><code>nums[i]</code> consists of only digits.</li>
-	<li>All <code>nums[i].length</code> are <strong>equal</strong>.</li>
+	<li><code>nums[i]</code> 只包含数字。</li>
+	<li>所有&nbsp;<code>nums[i].length</code>&nbsp;的长度 <b>相同</b>&nbsp;。</li>
 	<li><code>1 &lt;= queries.length &lt;= 100</code></li>
 	<li><code>queries[i].length == 2</code></li>
 	<li><code>1 &lt;= k<sub>i</sub> &lt;= nums.length</code></li>
-	<li><code>1 &lt;= trim<sub>i</sub> &lt;= nums[i].length</code></li>
+	<li><code>1 &lt;= trim<sub>i</sub> &lt;= nums[0].length</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Follow up:</strong> Could you use the <strong>Radix Sort Algorithm</strong> to solve this problem? What will be the complexity of that solution?</p>
+
+<p><strong>进阶：</strong>你能使用 <strong>基数排序算法</strong> 解决此问题吗？这种解法的复杂度又是多少？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+根据题意，我们可以模拟裁剪过程，然后对裁剪后的字符串进行排序，最后根据下标找到对应的数字即可。
+
+时间复杂度 $O(m \times \ n \times \log n \times s)$，空间复杂度 $O(n)$。其中 $m$ 和 $n$ 分别为 $\textit{nums}$ 和 $\textit{queries}$ 的长度，而 $s$ 为 $\textit{nums}[i]$ 字符串的长度。
 
 <!-- tabs:start -->
 

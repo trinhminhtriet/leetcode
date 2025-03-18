@@ -1,55 +1,56 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1626.Best%20Team%20With%20No%20Conflicts/README.md
 rating: 2027
-source: Weekly Contest 211 Q3
+source: 第 211 场周赛 Q3
 tags:
-  - Array
-  - Dynamic Programming
-  - Sorting
+    - 数组
+    - 动态规划
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1626. Best Team With No Conflicts](https://leetcode.com/problems/best-team-with-no-conflicts)
+# [1626. 无矛盾的最佳球队](https://leetcode.cn/problems/best-team-with-no-conflicts)
 
-## Description
+[English Version](/solution/1600-1699/1626.Best%20Team%20With%20No%20Conflicts/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are the manager of a basketball team. For the upcoming tournament, you want to choose the team with the highest overall score. The score of the team is the <strong>sum</strong> of scores of all the players in the team.</p>
+<p>假设你是球队的经理。对于即将到来的锦标赛，你想组合一支总体得分最高的球队。球队的得分是球队中所有球员的分数 <strong>总和</strong> 。</p>
 
-<p>However, the basketball team is not allowed to have <strong>conflicts</strong>. A <strong>conflict</strong> exists if a younger player has a <strong>strictly higher</strong> score than an older player. A conflict does <strong>not</strong> occur between players of the same age.</p>
+<p>然而，球队中的矛盾会限制球员的发挥，所以必须选出一支 <strong>没有矛盾</strong> 的球队。如果一名年龄较小球员的分数 <strong>严格大于</strong> 一名年龄较大的球员，则存在矛盾。同龄球员之间不会发生矛盾。</p>
 
-<p>Given two lists, <code>scores</code> and <code>ages</code>, where each <code>scores[i]</code> and <code>ages[i]</code> represents the score and age of the <code>i<sup>th</sup></code> player, respectively, return <em>the highest overall score of all possible basketball teams</em>.</p>
+<p>给你两个列表 <code>scores</code> 和 <code>ages</code>，其中每组 <code>scores[i]</code> 和 <code>ages[i]</code> 表示第 <code>i</code> 名球员的分数和年龄。请你返回 <strong>所有可能的无矛盾球队中得分最高那支的分数</strong> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> scores = [1,3,5,10,15], ages = [1,2,3,4,5]
-<strong>Output:</strong> 34
-<strong>Explanation:</strong>&nbsp;You can choose all the players.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>scores = [1,3,5,10,15], ages = [1,2,3,4,5]
+<strong>输出：</strong>34
+<strong>解释：</strong>你可以选中所有球员。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>scores = [4,5,6,5], ages = [2,1,2,1]
+<strong>输出：</strong>16
+<strong>解释：</strong>最佳的选择是后 3 名球员。注意，你可以选中多个同龄球员。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> scores = [4,5,6,5], ages = [2,1,2,1]
-<strong>Output:</strong> 16
-<strong>Explanation:</strong>&nbsp;It is best to choose the last 3 players. Notice that you are allowed to choose multiple people of the same age.
+<pre><strong>输入：</strong>scores = [1,2,3,5], ages = [8,9,10,1]
+<strong>输出：</strong>6
+<strong>解释：</strong>最佳的选择是前 3 名球员。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> scores = [1,2,3,5], ages = [8,9,10,1]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong>&nbsp;It is best to choose the first 3 players. 
-</pre>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= scores.length, ages.length &lt;= 1000</code></li>
@@ -60,11 +61,23 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：排序 + 动态规划
+
+我们可以将球员按照分数从小到大排序，如果分数相同，则按照年龄从小到大排序。
+
+接下来，使用动态规划求解。
+
+我们定义 $f[i]$ 表示以排序后的第 $i$ 个球员作为最后一个球员的最大得分，那么答案就是 $\max_{0 \leq i < n} f[i]$。
+
+对于 $f[i]$，我们可以枚举 $0 \leq j \lt i$，如果第 $i$ 个球员的年龄大于等于第 $j$ 个球员的年龄，则 $f[i]$ 可以从 $f[j]$ 转移而来，转移方程为 $f[i] = \max(f[i], f[j])$。然后我们将第 $i$ 个球员的分数加到 $f[i]$ 中，即 $f[i] += scores[i]$。
+
+最后，我们返回 $\max_{0 \leq i < n} f[i]$ 即可。
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为球员的数量。
 
 <!-- tabs:start -->
 
@@ -167,19 +180,19 @@ func bestTeamScore(scores []int, ages []int) int {
 
 ```ts
 function bestTeamScore(scores: number[], ages: number[]): number {
-  const arr = ages.map((age, i) => [age, scores[i]]);
-  arr.sort((a, b) => (a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]));
-  const n = arr.length;
-  const f = new Array(n).fill(0);
-  for (let i = 0; i < n; ++i) {
-    for (let j = 0; j < i; ++j) {
-      if (arr[i][1] >= arr[j][1]) {
-        f[i] = Math.max(f[i], f[j]);
-      }
+    const arr = ages.map((age, i) => [age, scores[i]]);
+    arr.sort((a, b) => (a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]));
+    const n = arr.length;
+    const f = new Array(n).fill(0);
+    for (let i = 0; i < n; ++i) {
+        for (let j = 0; j < i; ++j) {
+            if (arr[i][1] >= arr[j][1]) {
+                f[i] = Math.max(f[i], f[j]);
+            }
+        }
+        f[i] += arr[i][1];
     }
-    f[i] += arr[i][1];
-  }
-  return Math.max(...f);
+    return Math.max(...f);
 }
 ```
 
@@ -192,19 +205,19 @@ function bestTeamScore(scores: number[], ages: number[]): number {
  * @return {number}
  */
 var bestTeamScore = function (scores, ages) {
-  const arr = ages.map((age, i) => [age, scores[i]]);
-  arr.sort((a, b) => (a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]));
-  const n = arr.length;
-  const f = new Array(n).fill(0);
-  for (let i = 0; i < n; ++i) {
-    for (let j = 0; j < i; ++j) {
-      if (arr[i][1] >= arr[j][1]) {
-        f[i] = Math.max(f[i], f[j]);
-      }
+    const arr = ages.map((age, i) => [age, scores[i]]);
+    arr.sort((a, b) => (a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]));
+    const n = arr.length;
+    const f = new Array(n).fill(0);
+    for (let i = 0; i < n; ++i) {
+        for (let j = 0; j < i; ++j) {
+            if (arr[i][1] >= arr[j][1]) {
+                f[i] = Math.max(f[i], f[j]);
+            }
+        }
+        f[i] += arr[i][1];
     }
-    f[i] += arr[i][1];
-  }
-  return Math.max(...f);
+    return Math.max(...f);
 };
 ```
 
@@ -214,7 +227,15 @@ var bestTeamScore = function (scores, ages) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：排序 + 树状数组
+
+与方法一类似，我们可以将球员按照分数从小到大排序，如果分数相同，则按照年龄从小到大排序。
+
+接下来，我们使用树状数组维护不超过当前球员年龄的球员的最大得分。每一次，我们只需要在 $O(\log m)$ 的时间内找出不超过当前球员年龄的球员的最大得分，然后将当前球员的分数加到该得分上，即可更新当前球员年龄的最大得分。
+
+最后，我们返回得分的最大值即可。
+
+时间复杂度 $O(n \times (\log n + \log m))$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别为球员的数量和球员的年龄的最大值。
 
 <!-- tabs:start -->
 

@@ -1,67 +1,78 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0892.Surface%20Area%20of%203D%20Shapes/README.md
 tags:
-  - Geometry
-  - Array
-  - Math
-  - Matrix
+    - 几何
+    - 数组
+    - 数学
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [892. Surface Area of 3D Shapes](https://leetcode.com/problems/surface-area-of-3d-shapes)
+# [892. 三维形体的表面积](https://leetcode.cn/problems/surface-area-of-3d-shapes)
 
-## Description
+[English Version](/solution/0800-0899/0892.Surface%20Area%20of%203D%20Shapes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>n x n</code> <code>grid</code> where you have placed some <code>1 x 1 x 1</code> cubes. Each value <code>v = grid[i][j]</code> represents a tower of <code>v</code> cubes placed on top of cell <code>(i, j)</code>.</p>
+<p>给你一个 <code>n * n</code> 的网格&nbsp;<code>grid</code> ，上面放置着一些&nbsp;<code>1 x 1 x 1</code>&nbsp;的正方体。每个值&nbsp;<code>v = grid[i][j]</code>&nbsp;表示&nbsp;<code>v</code>&nbsp;个正方体叠放在对应单元格&nbsp;<code>(i, j)</code>&nbsp;上。</p>
 
-<p>After placing these cubes, you have decided to glue any directly adjacent cubes to each other, forming several irregular 3D shapes.</p>
+<p>放置好正方体后，任何直接相邻的正方体都会互相粘在一起，形成一些不规则的三维形体。</p>
 
-<p>Return <em>the total surface area of the resulting shapes</em>.</p>
+<p>请你返回最终这些形体的总表面积。</p>
 
-<p><strong>Note:</strong> The bottom face of each shape counts toward its surface area.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0892.Surface%20Area%20of%203D%20Shapes/images/tmp-grid2.jpg" style="width: 162px; height: 162px;" />
-<pre>
-<strong>Input:</strong> grid = [[1,2],[3,4]]
-<strong>Output:</strong> 34
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0892.Surface%20Area%20of%203D%20Shapes/images/tmp-grid4.jpg" style="width: 242px; height: 242px;" />
-<pre>
-<strong>Input:</strong> grid = [[1,1,1],[1,0,1],[1,1,1]]
-<strong>Output:</strong> 32
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0892.Surface%20Area%20of%203D%20Shapes/images/tmp-grid5.jpg" style="width: 242px; height: 242px;" />
-<pre>
-<strong>Input:</strong> grid = [[2,2,2],[2,1,2],[2,2,2]]
-<strong>Output:</strong> 46
-</pre>
+<p><strong>注意：</strong>每个形体的底面也需要计入表面积中。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>n == grid.length == grid[i].length</code></li>
+</ul>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0892.Surface%20Area%20of%203D%20Shapes/images/tmp-grid2.jpg" style="height: 80px; width: 80px;" />
+<pre>
+<strong>输入：</strong>grid = [[1,2],[3,4]]
+<strong>输出：</strong>34
+</pre>
+
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0892.Surface%20Area%20of%203D%20Shapes/images/tmp-grid4.jpg" style="height: 100px; width: 100px;" />
+<pre>
+<strong>输入：</strong>grid = [[1,1,1],[1,0,1],[1,1,1]]
+<strong>输出：</strong>32
+</pre>
+
+<p><strong>示例 3：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0892.Surface%20Area%20of%203D%20Shapes/images/tmp-grid5.jpg" style="height: 100px; width: 100px;" />
+<pre>
+<strong>输入：</strong>grid = [[2,2,2],[2,1,2],[2,2,2]]
+<strong>输出：</strong>46
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
+
+<ul>
+	<li><code>n == grid.length</code></li>
+	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= n &lt;= 50</code></li>
 	<li><code>0 &lt;= grid[i][j] &lt;= 50</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：遍历，逐个累加
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

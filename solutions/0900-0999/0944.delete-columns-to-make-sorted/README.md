@@ -1,98 +1,98 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0944.Delete%20Columns%20to%20Make%20Sorted/README.md
 tags:
-  - Array
-  - String
+    - 数组
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [944. Delete Columns to Make Sorted](https://leetcode.com/problems/delete-columns-to-make-sorted)
+# [944. 删列造序](https://leetcode.cn/problems/delete-columns-to-make-sorted)
 
-## Description
+[English Version](/solution/0900-0999/0944.Delete%20Columns%20to%20Make%20Sorted/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of <code>n</code> strings <code>strs</code>, all of the same length.</p>
+<p>给你由 <code>n</code> 个小写字母字符串组成的数组 <code>strs</code>，其中每个字符串长度相等。</p>
 
-<p>The strings can be arranged such that there is one on each line, making a grid.</p>
-
-<ul>
-	<li>For example, <code>strs = [&quot;abc&quot;, &quot;bce&quot;, &quot;cae&quot;]</code> can be arranged as follows:</li>
-</ul>
+<p>这些字符串可以每个一行，排成一个网格。例如，<code>strs = ["abc", "bce", "cae"]</code> 可以排列为：</p>
 
 <pre>
 abc
 bce
-cae
-</pre>
+cae</pre>
 
-<p>You want to <strong>delete</strong> the columns that are <strong>not sorted lexicographically</strong>. In the above example (<strong>0-indexed</strong>), columns 0 (<code>&#39;a&#39;</code>, <code>&#39;b&#39;</code>, <code>&#39;c&#39;</code>) and 2 (<code>&#39;c&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;e&#39;</code>) are sorted, while column 1 (<code>&#39;b&#39;</code>, <code>&#39;c&#39;</code>, <code>&#39;a&#39;</code>) is not, so you would delete column 1.</p>
+<p>你需要找出并删除 <strong>不是按字典序非严格递增排列的</strong> 列。在上面的例子（下标从 0 开始）中，列 0（<code>'a'</code>, <code>'b'</code>, <code>'c'</code>）和列 2（<code>'c'</code>, <code>'e'</code>, <code>'e'</code>）都是按字典序非严格递增排列的，而列 1（<code>'b'</code>, <code>'c'</code>, <code>'a'</code>）不是，所以要删除列 1 。</p>
 
-<p>Return <em>the number of columns that you will delete</em>.</p>
+<p>返回你需要删除的列数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> strs = [&quot;cba&quot;,&quot;daf&quot;,&quot;ghi&quot;]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The grid looks as follows:
+<strong>输入：</strong>strs = ["cba","daf","ghi"]
+<strong>输出：</strong>1
+<strong>解释：</strong>网格示意如下：
   cba
   daf
   ghi
-Columns 0 and 2 are sorted, but column 1 is not, so you only need to delete 1 column.
+列 0 和列 2 按升序排列，但列 1 不是，所以只需要删除列 1 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> strs = [&quot;a&quot;,&quot;b&quot;]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The grid looks as follows:
+<strong>输入：</strong>strs = ["a","b"]
+<strong>输出：</strong>0
+<strong>解释：</strong>网格示意如下：
   a
   b
-Column 0 is the only column and is sorted, so you will not delete any columns.
+只有列 0 这一列，且已经按升序排列，所以不用删除任何列。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> strs = [&quot;zyx&quot;,&quot;wvu&quot;,&quot;tsr&quot;]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The grid looks as follows:
+<strong>输入：</strong>strs = ["zyx","wvu","tsr"]
+<strong>输出：</strong>3
+<strong>解释：</strong>网格示意如下：
   zyx
   wvu
   tsr
-All 3 columns are not sorted, so you will delete all 3.
+所有 3 列都是非升序排列的，所以都要删除。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == strs.length</code></li>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
 	<li><code>1 &lt;= strs[i].length &lt;= 1000</code></li>
-	<li><code>strs[i]</code> consists of lowercase English letters.</li>
+	<li><code>strs[i]</code> 由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Compare Column by Column
+### 方法一：逐列比较
 
-We denote the number of rows in the string array $\textit{strs}$ as $n$, and the number of columns as $m$.
+我们记字符串数组 $\textit{strs}$ 的行数为 $n$，列数为 $m$。
 
-We traverse each column, starting from the second row, and compare the character of the current row with that of the previous row column by column. If the character of the current row is less than that of the previous row, it indicates that the current column is not arranged in non-strictly increasing lexicographical order, and we need to delete it, incrementing the result by one, then break out of the inner loop.
+遍历每一列，从第二行开始，逐列比较当前行和上一行的字符，如果当前行的字符小于上一行的字符，说明当前列不是按字典序非严格递增排列的，需要删除，结果加一，然后跳出内层循环。
 
-Finally, we return the result.
+最后返回结果即可。
 
-The time complexity is $O(L)$, where $L$ is the total length of the strings in the array $\textit{strs}$. The space complexity is $O(1)$.
+时间复杂度 $O(L)$，其中 $L$ 为字符串数组 $\textit{strs}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -173,17 +173,17 @@ func minDeletionSize(strs []string) (ans int) {
 
 ```ts
 function minDeletionSize(strs: string[]): number {
-  const [m, n] = [strs[0].length, strs.length];
-  let ans = 0;
-  for (let j = 0; j < m; ++j) {
-    for (let i = 1; i < n; ++i) {
-      if (strs[i][j] < strs[i - 1][j]) {
-        ++ans;
-        break;
-      }
+    const [m, n] = [strs[0].length, strs.length];
+    let ans = 0;
+    for (let j = 0; j < m; ++j) {
+        for (let i = 1; i < n; ++i) {
+            if (strs[i][j] < strs[i - 1][j]) {
+                ++ans;
+                break;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

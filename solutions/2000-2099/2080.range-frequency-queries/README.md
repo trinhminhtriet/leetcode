@@ -1,76 +1,80 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2080.Range%20Frequency%20Queries/README.md
 rating: 1702
-source: Weekly Contest 268 Q3
+source: 第 268 场周赛 Q3
 tags:
-  - Design
-  - Segment Tree
-  - Array
-  - Hash Table
-  - Binary Search
+    - 设计
+    - 线段树
+    - 数组
+    - 哈希表
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [2080. Range Frequency Queries](https://leetcode.com/problems/range-frequency-queries)
+# [2080. 区间内查询数字的频率](https://leetcode.cn/problems/range-frequency-queries)
 
-## Description
+[English Version](/solution/2000-2099/2080.Range%20Frequency%20Queries/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Design a data structure to find the <strong>frequency</strong> of a given value in a given subarray.</p>
+<p>请你设计一个数据结构，它能求出给定子数组内一个给定值的 <strong>频率</strong>&nbsp;。</p>
 
-<p>The <strong>frequency</strong> of a value in a subarray is the number of occurrences of that value in the subarray.</p>
+<p>子数组中一个值的 <strong>频率</strong>&nbsp;指的是这个子数组中这个值的出现次数。</p>
 
-<p>Implement the <code>RangeFreqQuery</code> class:</p>
+<p>请你实现&nbsp;<code>RangeFreqQuery</code>&nbsp;类：</p>
 
 <ul>
-	<li><code>RangeFreqQuery(int[] arr)</code> Constructs an instance of the class with the given <strong>0-indexed</strong> integer array <code>arr</code>.</li>
-	<li><code>int query(int left, int right, int value)</code> Returns the <strong>frequency</strong> of <code>value</code> in the subarray <code>arr[left...right]</code>.</li>
+	<li><code>RangeFreqQuery(int[] arr)</code>&nbsp;用下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>arr</code>&nbsp;构造一个类的实例。</li>
+	<li><code>int query(int left, int right, int value)</code>&nbsp;返回子数组&nbsp;<code>arr[left...right]</code>&nbsp;中&nbsp;<code>value</code>&nbsp;的&nbsp;<strong>频率</strong>&nbsp;。</li>
 </ul>
 
-<p>A <strong>subarray</strong> is a contiguous sequence of elements within an array. <code>arr[left...right]</code> denotes the subarray that contains the elements of <code>nums</code> between indices <code>left</code> and <code>right</code> (<strong>inclusive</strong>).</p>
+<p>一个 <strong>子数组</strong> 指的是数组中一段连续的元素。<code>arr[left...right]</code>&nbsp;指的是 <code>nums</code>&nbsp;中包含下标 <code>left</code>&nbsp;和 <code>right</code>&nbsp;<strong>在内</strong>&nbsp;的中间一段连续元素。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input</strong>
-[&quot;RangeFreqQuery&quot;, &quot;query&quot;, &quot;query&quot;]
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>
+["RangeFreqQuery", "query", "query"]
 [[[12, 33, 4, 56, 22, 2, 34, 33, 22, 12, 34, 56]], [1, 2, 4], [0, 11, 33]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null, 1, 2]
 
-<strong>Explanation</strong>
+<strong>解释：</strong>
 RangeFreqQuery rangeFreqQuery = new RangeFreqQuery([12, 33, 4, 56, 22, 2, 34, 33, 22, 12, 34, 56]);
-rangeFreqQuery.query(1, 2, 4); // return 1. The value 4 occurs 1 time in the subarray [33, 4]
-rangeFreqQuery.query(0, 11, 33); // return 2. The value 33 occurs 2 times in the whole array.
+rangeFreqQuery.query(1, 2, 4); // 返回 1 。4 在子数组 [33, 4] 中出现 1 次。
+rangeFreqQuery.query(0, 11, 33); // 返回 2 。33 在整个子数组中出现 2 次。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= arr[i], value &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= left &lt;= right &lt; arr.length</code></li>
-	<li>At most <code>10<sup>5</sup></code> calls will be made to <code>query</code></li>
+	<li>调用&nbsp;<code>query</code>&nbsp;不超过&nbsp;<code>10<sup>5</sup></code>&nbsp;次。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表 + 二分查找
 
-We use a hash table $g$ to store the array of indices corresponding to each value. In the constructor, we traverse the array $\textit{arr}$, adding the index corresponding to each value to the hash table.
+我们用一个哈希表 $g$ 来存储每个值对应的下标数组。在构造函数中，我们遍历数组 $\textit{arr}$，将每个值对应的下标加入到哈希表中。
 
-In the query function, we first check whether the given value exists in the hash table. If it does not exist, it means that the value does not exist in the array, so we directly return $0$. Otherwise, we get the index array $\textit{idx}$ corresponding to the value. Then we use binary search to find the first index $l$ that is greater than or equal to $\textit{left}$, and the first index $r$ that is greater than $\textit{right}$. Finally, we return $r - l$.
+在查询函数中，我们首先判断哈希表中是否存在给定的值。如果不存在，说明该值在数组中不存在，直接返回 $0$。否则，我们获取该值对应的下标数组 $\textit{idx}$。然后我们使用二分查找找到下标数组中第一个大于等于 $\textit{left}$ 的下标 $l$，以及第一个大于 $\textit{right}$ 的下标 $r$。最后返回 $r - l$ 即可。
 
-In terms of time complexity, the time complexity of the constructor is $O(n)$, and the time complexity of the query function is $O(\log n)$. The space complexity is $O(n)$. Where $n$ is the length of the array.
+时间复杂度方面，构造函数的时间复杂度为 $O(n)$，查询函数的时间复杂度为 $O(\log n)$。其中 $n$ 为数组的长度。空间复杂度为 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -195,44 +199,137 @@ func (this *RangeFreqQuery) Query(left int, right int, value int) int {
 
 ```ts
 class RangeFreqQuery {
-  private g: Map<number, number[]> = new Map();
+    private g: Map<number, number[]> = new Map();
 
-  constructor(arr: number[]) {
-    for (let i = 0; i < arr.length; ++i) {
-      if (!this.g.has(arr[i])) {
-        this.g.set(arr[i], []);
-      }
-      this.g.get(arr[i])!.push(i);
-    }
-  }
-
-  query(left: number, right: number, value: number): number {
-    const idx = this.g.get(value);
-    if (!idx) {
-      return 0;
-    }
-    const search = (x: number): number => {
-      let [l, r] = [0, idx.length];
-      while (l < r) {
-        const mid = (l + r) >> 1;
-        if (idx[mid] >= x) {
-          r = mid;
-        } else {
-          l = mid + 1;
+    constructor(arr: number[]) {
+        for (let i = 0; i < arr.length; ++i) {
+            if (!this.g.has(arr[i])) {
+                this.g.set(arr[i], []);
+            }
+            this.g.get(arr[i])!.push(i);
         }
-      }
-      return l;
-    };
-    const l = search(left);
-    const r = search(right + 1);
-    return r - l;
-  }
+    }
+
+    query(left: number, right: number, value: number): number {
+        const idx = this.g.get(value);
+        if (!idx) {
+            return 0;
+        }
+        const l = _.sortedIndex(idx, left);
+        const r = _.sortedIndex(idx, right + 1);
+        return r - l;
+    }
 }
 
 /**
  * Your RangeFreqQuery object will be instantiated and called as such:
  * var obj = new RangeFreqQuery(arr)
  * var param_1 = obj.query(left,right,value)
+ */
+```
+
+#### Rust
+
+```rust
+use std::collections::HashMap;
+
+struct RangeFreqQuery {
+    g: HashMap<i32, Vec<usize>>,
+}
+
+impl RangeFreqQuery {
+    fn new(arr: Vec<i32>) -> Self {
+        let mut g = HashMap::new();
+        for (i, &value) in arr.iter().enumerate() {
+            g.entry(value).or_insert_with(Vec::new).push(i);
+        }
+        RangeFreqQuery { g }
+    }
+
+    fn query(&self, left: i32, right: i32, value: i32) -> i32 {
+        if let Some(idx) = self.g.get(&value) {
+            let l = idx.partition_point(|&x| x < left as usize);
+            let r = idx.partition_point(|&x| x <= right as usize);
+            return (r - l) as i32;
+        }
+        0
+    }
+}
+```
+
+#### JavaScript
+
+```js
+/**
+ * @param {number[]} arr
+ */
+var RangeFreqQuery = function (arr) {
+    this.g = new Map();
+
+    for (let i = 0; i < arr.length; ++i) {
+        if (!this.g.has(arr[i])) {
+            this.g.set(arr[i], []);
+        }
+        this.g.get(arr[i]).push(i);
+    }
+};
+
+/**
+ * @param {number} left
+ * @param {number} right
+ * @param {number} value
+ * @return {number}
+ */
+RangeFreqQuery.prototype.query = function (left, right, value) {
+    const idx = this.g.get(value);
+    if (!idx) {
+        return 0;
+    }
+    const l = _.sortedIndex(idx, left);
+    const r = _.sortedIndex(idx, right + 1);
+    return r - l;
+};
+
+/**
+ * Your RangeFreqQuery object will be instantiated and called as such:
+ * var obj = new RangeFreqQuery(arr)
+ * var param_1 = obj.query(left,right,value)
+ */
+```
+
+#### C#
+
+```cs
+public class RangeFreqQuery {
+    private Dictionary<int, List<int>> g;
+
+    public RangeFreqQuery(int[] arr) {
+        g = new Dictionary<int, List<int>>();
+        for (int i = 0; i < arr.Length; ++i) {
+            if (!g.ContainsKey(arr[i])) {
+                g[arr[i]] = new List<int>();
+            }
+            g[arr[i]].Add(i);
+        }
+    }
+
+    public int Query(int left, int right, int value) {
+        if (g.ContainsKey(value)) {
+            var idx = g[value];
+            int l = idx.BinarySearch(left);
+            int r = idx.BinarySearch(right + 1);
+            l = l < 0 ? -l - 1 : l;
+            r = r < 0 ? -r - 1 : r;
+            return r - l;
+        }
+        return 0;
+    }
+}
+
+/**
+ * Your RangeFreqQuery object will be instantiated and called as such:
+ * RangeFreqQuery obj = new RangeFreqQuery(arr);
+ * int param_1 = obj.Query(left, right, value);
  */
 ```
 

@@ -1,102 +1,104 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2038.Remove%20Colored%20Pieces%20if%20Both%20Neighbors%20are%20the%20Same%20Color/README.md
 rating: 1467
-source: Biweekly Contest 63 Q2
+source: 第 63 场双周赛 Q2
 tags:
-  - Greedy
-  - Math
-  - String
-  - Game Theory
+    - 贪心
+    - 数学
+    - 字符串
+    - 博弈
 ---
 
 <!-- problem:start -->
 
-# [2038. Remove Colored Pieces if Both Neighbors are the Same Color](https://leetcode.com/problems/remove-colored-pieces-if-both-neighbors-are-the-same-color)
+# [2038. 如果相邻两个颜色均相同则删除当前颜色](https://leetcode.cn/problems/remove-colored-pieces-if-both-neighbors-are-the-same-color)
 
-## Description
+[English Version](/solution/2000-2099/2038.Remove%20Colored%20Pieces%20if%20Both%20Neighbors%20are%20the%20Same%20Color/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> pieces arranged in a line, and each piece is colored either by <code>&#39;A&#39;</code> or by <code>&#39;B&#39;</code>. You are given a string <code>colors</code> of length <code>n</code> where <code>colors[i]</code> is the color of the <code>i<sup>th</sup></code> piece.</p>
+<p>总共有 <code>n</code>&nbsp;个颜色片段排成一列，每个颜色片段要么是&nbsp;<code>'A'</code>&nbsp;要么是&nbsp;<code>'B'</code>&nbsp;。给你一个长度为&nbsp;<code>n</code>&nbsp;的字符串&nbsp;<code>colors</code>&nbsp;，其中&nbsp;<code>colors[i]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个颜色片段的颜色。</p>
 
-<p>Alice and Bob are playing a game where they take <strong>alternating turns</strong> removing pieces from the line. In this game, Alice moves<strong> first</strong>.</p>
+<p>Alice 和 Bob 在玩一个游戏，他们 <strong>轮流</strong>&nbsp;从这个字符串中删除颜色。Alice <strong>先手</strong>&nbsp;。</p>
 
 <ul>
-	<li>Alice is only allowed to remove a piece colored <code>&#39;A&#39;</code> if <strong>both its neighbors</strong> are also colored <code>&#39;A&#39;</code>. She is <strong>not allowed</strong> to remove pieces that are colored <code>&#39;B&#39;</code>.</li>
-	<li>Bob is only allowed to remove a piece colored <code>&#39;B&#39;</code> if <strong>both its neighbors</strong> are also colored <code>&#39;B&#39;</code>. He is <strong>not allowed</strong> to remove pieces that are colored <code>&#39;A&#39;</code>.</li>
-	<li>Alice and Bob <strong>cannot</strong> remove pieces from the edge of the line.</li>
-	<li>If a player cannot make a move on their turn, that player <strong>loses</strong> and the other player <strong>wins</strong>.</li>
+	<li>如果一个颜色片段为 <code>'A'</code>&nbsp;且 <strong>相邻两个颜色</strong>&nbsp;都是颜色 <code>'A'</code>&nbsp;，那么 Alice 可以删除该颜色片段。Alice&nbsp;<strong>不可以</strong>&nbsp;删除任何颜色&nbsp;<code>'B'</code>&nbsp;片段。</li>
+	<li>如果一个颜色片段为 <code>'B'</code>&nbsp;且 <strong>相邻两个颜色</strong>&nbsp;都是颜色 <code>'B'</code>&nbsp;，那么 Bob 可以删除该颜色片段。Bob <strong>不可以</strong>&nbsp;删除任何颜色 <code>'A'</code>&nbsp;片段。</li>
+	<li>Alice 和 Bob <strong>不能</strong>&nbsp;从字符串两端删除颜色片段。</li>
+	<li>如果其中一人无法继续操作，则该玩家 <b>输</b>&nbsp;掉游戏且另一玩家 <strong>获胜</strong>&nbsp;。</li>
 </ul>
 
-<p>Assuming Alice and Bob play optimally, return <code>true</code><em> if Alice wins, or return </em><code>false</code><em> if Bob wins</em>.</p>
+<p>假设 Alice 和 Bob 都采用最优策略，如果 Alice 获胜，请返回&nbsp;<code>true</code>，否则 Bob 获胜，返回<em>&nbsp;</em><code>false</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> colors = &quot;AAABABB&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong>
-A<u>A</u>ABABB -&gt; AABABB
-Alice moves first.
-She removes the second &#39;A&#39; from the left since that is the only &#39;A&#39; whose neighbors are both &#39;A&#39;.
+<p><strong>示例 1：</strong></p>
 
-Now it&#39;s Bob&#39;s turn.
-Bob cannot make a move on his turn since there are no &#39;B&#39;s whose neighbors are both &#39;B&#39;.
-Thus, Alice wins, so return true.
+<pre><b>输入：</b>colors = "AAABABB"
+<b>输出：</b>true
+<b>解释：</b>
+A<em><strong>A</strong></em>ABABB -&gt; AABABB
+Alice 先操作。
+她删除从左数第二个 'A' ，这也是唯一一个相邻颜色片段都是 'A' 的 'A' 。
+
+现在轮到 Bob 操作。
+Bob 无法执行任何操作，因为没有相邻位置都是 'B' 的颜色片段 'B' 。
+因此，Alice 获胜，返回 true 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> colors = &quot;AA&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong>
-Alice has her turn first.
-There are only two &#39;A&#39;s and both are on the edge of the line, so she cannot move on her turn.
-Thus, Bob wins, so return false.
+<pre><b>输入：</b>colors = "AA"
+<b>输出：</b>false
+<strong>解释：</strong>
+Alice 先操作。
+只有 2 个 'A' 且它们都在字符串的两端，所以她无法执行任何操作。
+因此，Bob 获胜，返回 false 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> colors = &quot;ABBBBBBBAAA&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong>
-ABBBBBBBA<u>A</u>A -&gt; ABBBBBBBAA
-Alice moves first.
-Her only option is to remove the second to last &#39;A&#39; from the right.
+<pre><b>输入：</b>colors = "ABBBBBBBAAA"
+<b>输出：</b>false
+<strong>解释：</strong>
+ABBBBBBBA<em><strong>A</strong></em>A -&gt; ABBBBBBBAA
+Alice 先操作。
+她唯一的选择是删除从右数起第二个 'A' 。
 
-ABBBB<u>B</u>BBAA -&gt; ABBBBBBAA
-Next is Bob&#39;s turn.
-He has many options for which &#39;B&#39; piece to remove. He can pick any.
+ABBBB<strong><em>B</em></strong>BBAA -&gt; ABBBBBBAA
+接下来轮到 Bob 操作。
+他有许多选择，他可以选择任何一个 'B' 删除。
 
-On Alice&#39;s second turn, she has no more pieces that she can remove.
-Thus, Bob wins, so return false.
+然后轮到 Alice 操作，她无法删除任何片段。
+所以 Bob 获胜，返回 false 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;=&nbsp;colors.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>colors</code>&nbsp;consists of only the letters&nbsp;<code>&#39;A&#39;</code>&nbsp;and&nbsp;<code>&#39;B&#39;</code></li>
+	<li><code>colors</code>&nbsp;只包含字母&nbsp;<code>'A'</code>&nbsp;和&nbsp;<code>'B'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We count the number of times that the string `colors` contains three consecutive `'A'`s or three consecutive `'B'`s, denoted as $a$ and $b$, respectively.
+我们统计字符串 `colors` 中连续出现 $3$ 个 `'A'` 或 $3$ 个 `'B'` 的个数，分别记为 $a$ 和 $b$。
 
-Finally, we check whether $a$ is greater than $b$. If it is, we return `true`. Otherwise, we return `false`.
+最后判断 $a$ 是否大于 $b$，是则返回 `true`，否则返回 `false`。
 
-The time complexity is $O(n)$, where $n$ is the length of the string `colors`. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 `colors` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -193,22 +195,22 @@ func winnerOfGame(colors string) bool {
 
 ```ts
 function winnerOfGame(colors: string): boolean {
-  const n = colors.length;
-  let [a, b] = [0, 0];
-  for (let i = 0, j = 0; i < n; i = j) {
-    while (j < n && colors[j] === colors[i]) {
-      ++j;
+    const n = colors.length;
+    let [a, b] = [0, 0];
+    for (let i = 0, j = 0; i < n; i = j) {
+        while (j < n && colors[j] === colors[i]) {
+            ++j;
+        }
+        const m = j - i - 2;
+        if (m > 0) {
+            if (colors[i] === 'A') {
+                a += m;
+            } else {
+                b += m;
+            }
+        }
     }
-    const m = j - i - 2;
-    if (m > 0) {
-      if (colors[i] === "A") {
-        a += m;
-      } else {
-        b += m;
-      }
-    }
-  }
-  return a > b;
+    return a > b;
 }
 ```
 

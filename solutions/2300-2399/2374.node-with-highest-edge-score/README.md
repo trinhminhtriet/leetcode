@@ -1,56 +1,59 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2374.Node%20With%20Highest%20Edge%20Score/README.md
 rating: 1418
-source: Weekly Contest 306 Q2
+source: 第 306 场周赛 Q2
 tags:
-  - Graph
-  - Hash Table
+    - 图
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [2374. Node With Highest Edge Score](https://leetcode.com/problems/node-with-highest-edge-score)
+# [2374. 边积分最高的节点](https://leetcode.cn/problems/node-with-highest-edge-score)
 
-## Description
+[English Version](/solution/2300-2399/2374.Node%20With%20Highest%20Edge%20Score/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a directed graph with <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>, where each node has <strong>exactly one</strong> outgoing edge.</p>
+<p>给你一个有向图，图中有 <code>n</code> 个节点，节点编号从 <code>0</code> 到 <code>n - 1</code> ，其中每个节点都 <strong>恰有一条</strong> 出边。</p>
 
-<p>The graph is represented by a given <strong>0-indexed</strong> integer array <code>edges</code> of length <code>n</code>, where <code>edges[i]</code> indicates that there is a <strong>directed</strong> edge from node <code>i</code> to node <code>edges[i]</code>.</p>
+<p>图由一个下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的整数数组 <code>edges</code> 表示，其中 <code>edges[i]</code> 表示存在一条从节点 <code>i</code> 到节点 <code>edges[i]</code> 的 <strong>有向</strong> 边。</p>
 
-<p>The <strong>edge score</strong> of a node <code>i</code> is defined as the sum of the <strong>labels</strong> of all the nodes that have an edge pointing to <code>i</code>.</p>
+<p>节点 <code>i</code> 的 <strong>边积分</strong> 定义为：所有存在一条指向节点 <code>i</code> 的边的节点的 <strong>编号</strong> 总和。</p>
 
-<p>Return <em>the node with the highest <strong>edge score</strong></em>. If multiple nodes have the same <strong>edge score</strong>, return the node with the <strong>smallest</strong> index.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2374.Node%20With%20Highest%20Edge%20Score/images/image-20220620195403-1.png" style="width: 450px; height: 260px;" />
-<pre>
-<strong>Input:</strong> edges = [1,0,0,0,0,7,7,5]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong>
-- The nodes 1, 2, 3 and 4 have an edge pointing to node 0. The edge score of node 0 is 1 + 2 + 3 + 4 = 10.
-- The node 0 has an edge pointing to node 1. The edge score of node 1 is 0.
-- The node 7 has an edge pointing to node 5. The edge score of node 5 is 7.
-- The nodes 5 and 6 have an edge pointing to node 7. The edge score of node 7 is 5 + 6 = 11.
-Node 7 has the highest edge score so return 7.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2374.Node%20With%20Highest%20Edge%20Score/images/image-20220620200212-3.png" style="width: 150px; height: 155px;" />
-<pre>
-<strong>Input:</strong> edges = [2,0,0,2]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong>
-- The nodes 1 and 2 have an edge pointing to node 0. The edge score of node 0 is 1 + 2 = 3.
-- The nodes 0 and 3 have an edge pointing to node 2. The edge score of node 2 is 0 + 3 = 3.
-Nodes 0 and 2 both have an edge score of 3. Since node 0 has a smaller index, we return 0.
-</pre>
+<p>返回 <strong>边积分</strong> 最高的节点。如果多个节点的 <strong>边积分</strong> 相同，返回编号 <strong>最小</strong> 的那个。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2374.Node%20With%20Highest%20Edge%20Score/images/image-20220620195403-1.png" style="width: 450px; height: 260px;">
+<pre><strong>输入：</strong>edges = [1,0,0,0,0,7,7,5]
+<strong>输出：</strong>7
+<strong>解释：</strong>
+- 节点 1、2、3 和 4 都有指向节点 0 的边，节点 0 的边积分等于 1 + 2 + 3 + 4 = 10 。
+- 节点 0 有一条指向节点 1 的边，节点 1 的边积分等于 0 。
+- 节点 7 有一条指向节点 5 的边，节点 5 的边积分等于 7 。
+- 节点 5 和 6 都有指向节点 7 的边，节点 7 的边积分等于 5 + 6 = 11 。
+节点 7 的边积分最高，所以返回 7 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2374.Node%20With%20Highest%20Edge%20Score/images/image-20220620200212-3.png" style="width: 150px; height: 155px;">
+<pre><strong>输入：</strong>edges = [2,0,0,2]
+<strong>输出：</strong>0
+<strong>解释：
+</strong>- 节点 1 和 2 都有指向节点 0 的边，节点 0 的边积分等于 1 + 2 = 3 。
+- 节点 0 和 3 都有指向节点 2 的边，节点 2 的边积分等于 0 + 3 = 3 。
+节点 0 和 2 的边积分都是 3 。由于节点 0 的编号更小，返回 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == edges.length</code></li>
@@ -61,19 +64,19 @@ Nodes 0 and 2 both have an edge score of 3. Since node 0 has a smaller index, we
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Single Traversal
+### 方法一：一次遍历
 
-We define an array $\textit{cnt}$ of length $n$, where $\textit{cnt}[i]$ represents the edge score of node $i$. Initially, all elements are $0$. We also define an answer variable $\textit{ans}$, initially set to $0$.
+我们定义一个长度为 $n$ 的数组 $\textit{cnt}$，其中 $\textit{cnt}[i]$ 表示节点 $i$ 的边积分，初始时所有元素均为 $0$。定义一个答案变量 $\textit{ans}$，初始时为 $0$。
 
-Next, we traverse the array $\textit{edges}$. For each node $i$ and its outgoing edge node $j$, we update $\textit{cnt}[j]$ to $\textit{cnt}[j] + i$. If $\textit{cnt}[\textit{ans}] < \textit{cnt}[j]$ or $\textit{cnt}[\textit{ans}] = \textit{cnt}[j]$ and $j < \textit{ans}$, we update $\textit{ans}$ to $j$.
+接下来，我们遍历数组 $\textit{edges}$，对于每个节点 $i$，以及它的出边节点 $j$，我们更新 $\textit{cnt}[j]$ 为 $\textit{cnt}[j] + i$。如果 $\textit{cnt}[\textit{ans}] < \textit{cnt}[j]$ 或者 $\textit{cnt}[\textit{ans}] = \textit{cnt}[j]$ 且 $j < \textit{ans}$，我们更新 $\textit{ans}$ 为 $j$。
 
-Finally, return $\textit{ans}$.
+最后，返回 $\textit{ans}$ 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{edges}$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{edges}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -151,17 +154,17 @@ func edgeScore(edges []int) (ans int) {
 
 ```ts
 function edgeScore(edges: number[]): number {
-  const n = edges.length;
-  const cnt: number[] = Array(n).fill(0);
-  let ans: number = 0;
-  for (let i = 0; i < n; ++i) {
-    const j = edges[i];
-    cnt[j] += i;
-    if (cnt[ans] < cnt[j] || (cnt[ans] === cnt[j] && j < ans)) {
-      ans = j;
+    const n = edges.length;
+    const cnt: number[] = Array(n).fill(0);
+    let ans: number = 0;
+    for (let i = 0; i < n; ++i) {
+        const j = edges[i];
+        cnt[j] += i;
+        if (cnt[ans] < cnt[j] || (cnt[ans] === cnt[j] && j < ans)) {
+            ans = j;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

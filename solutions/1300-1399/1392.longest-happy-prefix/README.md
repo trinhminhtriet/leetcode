@@ -1,67 +1,72 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1392.Longest%20Happy%20Prefix/README.md
 rating: 1876
-source: Weekly Contest 181 Q4
+source: 第 181 场周赛 Q4
 tags:
-  - String
-  - String Matching
-  - Hash Function
-  - Rolling Hash
+    - 字符串
+    - 字符串匹配
+    - 哈希函数
+    - 滚动哈希
 ---
 
 <!-- problem:start -->
 
-# [1392. Longest Happy Prefix](https://leetcode.com/problems/longest-happy-prefix)
+# [1392. 最长快乐前缀](https://leetcode.cn/problems/longest-happy-prefix)
 
-## Description
+[English Version](/solution/1300-1399/1392.Longest%20Happy%20Prefix/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A string is called a <strong>happy prefix</strong> if is a <strong>non-empty</strong> prefix which is also a suffix (excluding itself).</p>
+<p><strong>「快乐前缀」</strong>&nbsp;是在原字符串中既是&nbsp;<strong>非空</strong> 前缀也是后缀（不包括原字符串自身）的字符串。</p>
 
-<p>Given a string <code>s</code>, return <em>the <strong>longest happy prefix</strong> of</em> <code>s</code>. Return an empty string <code>&quot;&quot;</code> if no such prefix exists.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;level&quot;
-<strong>Output:</strong> &quot;l&quot;
-<strong>Explanation:</strong> s contains 4 prefix excluding itself (&quot;l&quot;, &quot;le&quot;, &quot;lev&quot;, &quot;leve&quot;), and suffix (&quot;l&quot;, &quot;el&quot;, &quot;vel&quot;, &quot;evel&quot;). The largest prefix which is also suffix is given by &quot;l&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;ababab&quot;
-<strong>Output:</strong> &quot;abab&quot;
-<strong>Explanation:</strong> &quot;abab&quot; is the largest prefix which is also suffix. They can overlap in the original string.
-</pre>
+<p>给你一个字符串 <code>s</code>，请你返回它的 <strong>最长快乐前缀</strong>。如果不存在满足题意的前缀，则返回一个空字符串<meta charset="UTF-8" />&nbsp;<code>""</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "level"
+<strong>输出：</strong>"l"
+<strong>解释：</strong>不包括 s 自己，一共有 4 个前缀（"l", "le", "lev", "leve"）和 4 个后缀（"l", "el", "vel", "evel"）。最长的既是前缀也是后缀的字符串是 "l" 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "ababab"
+<strong>输出：</strong>"abab"
+<strong>解释：</strong>"abab" 是最长的既是前缀也是后缀的字符串。题目允许前后缀在原字符串中重叠。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> contains only lowercase English letters.</li>
+	<li><code>s</code> 只含有小写英文字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: String Hashing
+### 方法一：字符串哈希
 
-**String Hashing** is a method to map a string of any length to a non-negative integer, with the probability of collision being almost zero. String hashing is used to calculate the hash value of a string, which allows for quick determination of whether two strings are equal.
+**字符串哈希**是把一个任意长度的字符串映射成一个非负整数，并且其冲突的概率几乎为 0。字符串哈希用于计算字符串哈希值，快速判断两个字符串是否相等。
 
-We choose a fixed value BASE, and consider the string as a number in BASE radix, assigning a value greater than 0 to represent each character. Generally, the values we assign are much smaller than BASE. For example, for strings composed of lowercase letters, we can assign a=1, b=2, ..., z=26. We choose a fixed value MOD, and calculate the remainder of the BASE radix number divided by MOD, which is used as the hash value of the string.
+取一固定值 BASE，把字符串看作是 BASE 进制数，并分配一个大于 0 的数值，代表每种字符。一般来说，我们分配的数值都远小于 BASE。例如，对于小写字母构成的字符串，可以令 a=1, b=2, ..., z=26。取一固定值 MOD，求出该 BASE 进制对 M 的余数，作为该字符串的 hash 值。
 
-Generally, we choose BASE=131 or BASE=13331, at which point the probability of hash value collision is extremely low. As long as the hash values of two strings are the same, we consider the two strings to be equal. Usually, MOD is chosen as $2^{64}$. In C++, we can directly use the unsigned long long type to store this hash value. When calculating, we do not handle arithmetic overflow. When overflow occurs, it is equivalent to automatically taking the modulus of $2^{64}$, which can avoid inefficient modulus operations.
+一般来说，取 BASE=131 或者 BASE=13331，此时 hash 值产生的冲突概率极低。只要两个字符串 hash 值相同，我们就认为两个字符串是相等的。通常 MOD 取 2^64，C++ 里，可以直接使用 unsigned long long 类型存储这个 hash 值，在计算时不处理算术溢出问题，产生溢出时相当于自动对 2^64 取模，这样可以避免低效取模运算。
 
-Except for extremely specially constructed data, the above hash algorithm is unlikely to produce collisions. In general, the above hash algorithm can appear in the standard answers of the problem. We can also choose some appropriate values of BASE and MOD (such as large prime numbers), and perform several groups of hash operations. Only when the results are all the same do we consider the original strings to be equal, making it even more difficult to construct data that causes this hash to produce errors.
+除了在极特殊构造的数据上，上述 hash 算法很难产生冲突，一般情况下上述 hash 算法完全可以出现在题目的标准答案中。我们还可以多取一些恰当的 BASE 和 MOD 的值（例如大质数），多进行几组 hash 运算，当结果都相同时才认为原字符串相等，就更加难以构造出使这个 hash 产生错误的数据。
 
 <!-- tabs:start -->
 
@@ -162,13 +167,13 @@ func longestPrefix(s string) string {
 
 ```ts
 function longestPrefix(s: string): string {
-  const n = s.length;
-  for (let i = n - 1; i >= 0; i--) {
-    if (s.slice(0, i) === s.slice(n - i, n)) {
-      return s.slice(0, i);
+    const n = s.length;
+    for (let i = n - 1; i >= 0; i--) {
+        if (s.slice(0, i) === s.slice(n - i, n)) {
+            return s.slice(0, i);
+        }
     }
-  }
-  return "";
+    return '';
 }
 ```
 
@@ -194,11 +199,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: KMP Algorithm
+### 方法二：KMP 算法
 
-According to the problem description, we need to find the longest happy prefix of a string, which is the longest prefix of the string that is also a suffix of the string. We can use the KMP algorithm to solve this problem.
+根据题目描述，我们需要找到一个字符串的最长快乐前缀，即找到一个字符串的最长前缀，使得这个前缀同时也是这个字符串的后缀。我们可以使用 KMP 算法来解决这个问题。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
 
 <!-- tabs:start -->
 
@@ -301,20 +306,20 @@ func longestPrefix(s string) string {
 
 ```ts
 function longestPrefix(s: string): string {
-  s += "#";
-  const n = s.length;
-  const next: number[] = Array(n).fill(0);
-  next[0] = -1;
-  for (let i = 2, j = 0; i < n; ) {
-    if (s[i - 1] === s[j]) {
-      next[i++] = ++j;
-    } else if (j > 0) {
-      j = next[j];
-    } else {
-      next[i++] = 0;
+    s += '#';
+    const n = s.length;
+    const next: number[] = Array(n).fill(0);
+    next[0] = -1;
+    for (let i = 2, j = 0; i < n; ) {
+        if (s[i - 1] === s[j]) {
+            next[i++] = ++j;
+        } else if (j > 0) {
+            j = next[j];
+        } else {
+            next[i++] = 0;
+        }
     }
-  }
-  return s.slice(0, next[n - 1]);
+    return s.slice(0, next[n - 1]);
 }
 ```
 

@@ -1,90 +1,95 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2043.Simple%20Bank%20System/README.md
 rating: 1356
-source: Weekly Contest 263 Q2
+source: 第 263 场周赛 Q2
 tags:
-  - Design
-  - Array
-  - Hash Table
-  - Simulation
+    - 设计
+    - 数组
+    - 哈希表
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2043. Simple Bank System](https://leetcode.com/problems/simple-bank-system)
+# [2043. 简易银行系统](https://leetcode.cn/problems/simple-bank-system)
 
-## Description
+[English Version](/solution/2000-2099/2043.Simple%20Bank%20System/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have been tasked with writing a program for a popular bank that will automate all its incoming transactions (transfer, deposit, and withdraw). The bank has <code>n</code> accounts numbered from <code>1</code> to <code>n</code>. The initial balance of each account is stored in a <strong>0-indexed</strong> integer array <code>balance</code>, with the <code>(i + 1)<sup>th</sup></code> account having an initial balance of <code>balance[i]</code>.</p>
+<p>你的任务是为一个很受欢迎的银行设计一款程序，以自动化执行所有传入的交易（转账，存款和取款）。银行共有 <code>n</code> 个账户，编号从 <code>1</code> 到 <code>n</code> 。每个账号的初始余额存储在一个下标从 <strong>0</strong> 开始的整数数组 <code>balance</code>&nbsp;中，其中第 <code>(i + 1)</code> 个账户的初始余额是 <code>balance[i]</code> 。</p>
 
-<p>Execute all the <strong>valid</strong> transactions. A transaction is <strong>valid</strong> if:</p>
+<p>请你执行所有 <strong>有效的</strong> 交易。如果满足下面全部条件，则交易 <strong>有效</strong> ：</p>
 
 <ul>
-	<li>The given account number(s) are between <code>1</code> and <code>n</code>, and</li>
-	<li>The amount of money withdrawn or transferred from is <strong>less than or equal</strong> to the balance of the account.</li>
+	<li>指定的账户数量在 <code>1</code> 和 <code>n</code> 之间，且</li>
+	<li>取款或者转账需要的钱的总数 <strong>小于或者等于</strong> 账户余额。</li>
 </ul>
 
-<p>Implement the <code>Bank</code> class:</p>
+<p>实现 <code>Bank</code> 类：</p>
 
 <ul>
-	<li><code>Bank(long[] balance)</code> Initializes the object with the <strong>0-indexed</strong> integer array <code>balance</code>.</li>
-	<li><code>boolean transfer(int account1, int account2, long money)</code> Transfers <code>money</code> dollars from the account numbered <code>account1</code> to the account numbered <code>account2</code>. Return <code>true</code> if the transaction was successful, <code>false</code> otherwise.</li>
-	<li><code>boolean deposit(int account, long money)</code> Deposit <code>money</code> dollars into the account numbered <code>account</code>. Return <code>true</code> if the transaction was successful, <code>false</code> otherwise.</li>
-	<li><code>boolean withdraw(int account, long money)</code> Withdraw <code>money</code> dollars from the account numbered <code>account</code>. Return <code>true</code> if the transaction was successful, <code>false</code> otherwise.</li>
+	<li><code>Bank(long[] balance)</code> 使用下标从 <strong>0</strong> 开始的整数数组 <code>balance</code> 初始化该对象。</li>
+	<li><code>boolean transfer(int account1, int account2, long money)</code> 从编号为&nbsp;<code>account1</code> 的账户向编号为 <code>account2</code> 的账户转帐 <code>money</code> 美元。如果交易成功，返回 <code>true</code> ，否则，返回 <code>false</code> 。</li>
+	<li><code>boolean deposit(int account, long money)</code> 向编号为&nbsp;<code>account</code> 的账户存款 <code>money</code> 美元。如果交易成功，返回 <code>true</code> ；否则，返回 <code>false</code> 。</li>
+	<li><code>boolean withdraw(int account, long money)</code> 从编号为 <code>account</code> 的账户取款 <code>money</code> 美元。如果交易成功，返回 <code>true</code> ；否则，返回 <code>false</code> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;Bank&quot;, &quot;withdraw&quot;, &quot;transfer&quot;, &quot;deposit&quot;, &quot;transfer&quot;, &quot;withdraw&quot;]
+<strong>输入</strong>：
+["Bank", "withdraw", "transfer", "deposit", "transfer", "withdraw"]
 [[[10, 100, 20, 50, 30]], [3, 10], [5, 1, 20], [5, 20], [3, 4, 15], [10, 50]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null, true, true, true, false, false]
 
-<strong>Explanation</strong>
+<strong>解释：</strong>
 Bank bank = new Bank([10, 100, 20, 50, 30]);
-bank.withdraw(3, 10);    // return true, account 3 has a balance of $20, so it is valid to withdraw $10.
-                         // Account 3 has $20 - $10 = $10.
-bank.transfer(5, 1, 20); // return true, account 5 has a balance of $30, so it is valid to transfer $20.
-                         // Account 5 has $30 - $20 = $10, and account 1 has $10 + $20 = $30.
-bank.deposit(5, 20);     // return true, it is valid to deposit $20 to account 5.
-                         // Account 5 has $10 + $20 = $30.
-bank.transfer(3, 4, 15); // return false, the current balance of account 3 is $10,
-                         // so it is invalid to transfer $15 from it.
-bank.withdraw(10, 50);   // return false, it is invalid because account 10 does not exist.
+bank.withdraw(3, 10);    // 返回 true ，账户 3 的余额是 $20 ，所以可以取款 $10 。
+                         // 账户 3 余额为 $20 - $10 = $10 。
+bank.transfer(5, 1, 20); // 返回 true ，账户 5 的余额是 $30 ，所以可以转账 $20 。
+                         // 账户 5 的余额为 $30 - $20 = $10 ，账户 1 的余额为 $10 + $20 = $30 。
+bank.deposit(5, 20);     // 返回 true ，可以向账户 5 存款 $20 。
+                         // 账户 5 的余额为 $10 + $20 = $30 。
+bank.transfer(3, 4, 15); // 返回 false ，账户 3 的当前余额是 $10 。
+                         // 所以无法转账 $15 。
+bank.withdraw(10, 50);   // 返回 false ，交易无效，因为账户 10 并不存在。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == balance.length</code></li>
 	<li><code>1 &lt;= n, account, account1, account2 &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= balance[i], money &lt;= 10<sup>12</sup></code></li>
-	<li>At most <code>10<sup>4</sup></code> calls will be made to <strong>each</strong> function <code>transfer</code>, <code>deposit</code>, <code>withdraw</code>.</li>
+	<li><code>transfer</code>, <code>deposit</code>, <code>withdraw</code> 三个函数，<strong>每个</strong> 最多调用 <code>10<sup>4</sup></code> 次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-According to the problem description, we can use an array `balance` to simulate the balance of bank accounts. The array index starts from 0, and the value of the array represents the balance of the account.
+根据题意，我们可以使用一个数组 `balance` 来模拟银行账户的余额，数组下标从 0 开始，数组的值表示账户的余额。
 
-- During initialization, we assign the `balance` array to the member variable `this.balance`, and assign the length of `balance` to the member variable `this.n`.
-- In the `transfer` function, if `account1` or `account2` is greater than `n` or `balance[account1 - 1]` is less than `money`, return `false`. Otherwise, subtract `money` from `balance[account1 - 1]`, add `money` to `balance[account2 - 1]`, and return `true`.
-- In the `deposit` function, if `account` is greater than `n`, return `false`. Otherwise, add `money` to `balance[account - 1]`, and return `true`.
-- In the `withdraw` function, if `account` is greater than `n` or `balance[account - 1]` is less than `money`, return `false`. Otherwise, subtract `money` from `balance[account - 1]`, and return `true`.
+-   初始化时，我们将 `balance` 数组赋给成员变量 `this.balance`，并将 `balance` 的长度赋给成员变量 `this.n`。
+-   `transfer` 函数中，如果 `account1` 或 `account2` 大于 `n` 或 `balance[account1 - 1]` 小于 `money`，则返回 `false`，否则，将 `balance[account1 - 1]` 减去 `money`，将 `balance[account2 - 1]` 加上 `money`，并返回 `true`。
+-   `deposit` 函数中，如果 `account` 大于 `n`，则返回 `false`，否则，将 `balance[account - 1]` 加上 `money`，并返回 `true`。
+-   `withdraw` 函数中，如果 `account` 大于 `n` 或 `balance[account - 1]` 小于 `money`，则返回 `false`，否则，将 `balance[account - 1]` 减去 `money`，并返回 `true`。
 
-The time complexity of the above operations is $O(1)$, and the space complexity is $O(n)$. Here, $n$ is the length of `balance`.
+以上操作的时间复杂度均为 $O(1)$，空间复杂度为 $O(n)$。其中，$n$ 为 `balance` 的长度。
 
 <!-- tabs:start -->
 
@@ -262,36 +267,36 @@ func (this *Bank) Withdraw(account int, money int64) bool {
 
 ```ts
 class Bank {
-  balance: number[];
-  constructor(balance: number[]) {
-    this.balance = balance;
-  }
-
-  transfer(account1: number, account2: number, money: number): boolean {
-    if (
-      account1 > this.balance.length ||
-      account2 > this.balance.length ||
-      money > this.balance[account1 - 1]
-    )
-      return false;
-    this.balance[account1 - 1] -= money;
-    this.balance[account2 - 1] += money;
-    return true;
-  }
-
-  deposit(account: number, money: number): boolean {
-    if (account > this.balance.length) return false;
-    this.balance[account - 1] += money;
-    return true;
-  }
-
-  withdraw(account: number, money: number): boolean {
-    if (account > this.balance.length || money > this.balance[account - 1]) {
-      return false;
+    balance: number[];
+    constructor(balance: number[]) {
+        this.balance = balance;
     }
-    this.balance[account - 1] -= money;
-    return true;
-  }
+
+    transfer(account1: number, account2: number, money: number): boolean {
+        if (
+            account1 > this.balance.length ||
+            account2 > this.balance.length ||
+            money > this.balance[account1 - 1]
+        )
+            return false;
+        this.balance[account1 - 1] -= money;
+        this.balance[account2 - 1] += money;
+        return true;
+    }
+
+    deposit(account: number, money: number): boolean {
+        if (account > this.balance.length) return false;
+        this.balance[account - 1] += money;
+        return true;
+    }
+
+    withdraw(account: number, money: number): boolean {
+        if (account > this.balance.length || money > this.balance[account - 1]) {
+            return false;
+        }
+        this.balance[account - 1] -= money;
+        return true;
+    }
 }
 
 /**

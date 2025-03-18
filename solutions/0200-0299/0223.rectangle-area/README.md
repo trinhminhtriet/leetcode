@@ -1,61 +1,68 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0223.Rectangle%20Area/README.md
 tags:
-  - Geometry
-  - Math
+    - 几何
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [223. Rectangle Area](https://leetcode.com/problems/rectangle-area)
+# [223. 矩形面积](https://leetcode.cn/problems/rectangle-area)
 
-## Description
+[English Version](/solution/0200-0299/0223.Rectangle%20Area/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the coordinates of two <strong>rectilinear</strong> rectangles in a 2D plane, return <em>the total area covered by the two rectangles</em>.</p>
+<p>给你 <strong>二维</strong> 平面上两个 <strong>由直线构成且边与坐标轴平行/垂直</strong> 的矩形，请你计算并返回两个矩形覆盖的总面积。</p>
 
-<p>The first rectangle is defined by its <strong>bottom-left</strong> corner <code>(ax1, ay1)</code> and its <strong>top-right</strong> corner <code>(ax2, ay2)</code>.</p>
+<p>每个矩形由其 <strong>左下</strong> 顶点和 <strong>右上</strong> 顶点坐标表示：</p>
 
-<p>The second rectangle is defined by its <strong>bottom-left</strong> corner <code>(bx1, by1)</code> and its <strong>top-right</strong> corner <code>(bx2, by2)</code>.</p>
+<div class="MachineTrans-Lines">
+<ul>
+	<li class="MachineTrans-lang-zh-CN">第一个矩形由其左下顶点 <code>(ax1, ay1)</code> 和右上顶点 <code>(ax2, ay2)</code> 定义。</li>
+	<li class="MachineTrans-lang-zh-CN">第二个矩形由其左下顶点 <code>(bx1, by1)</code> 和右上顶点 <code>(bx2, by2)</code> 定义。</li>
+</ul>
+</div>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="Rectangle Area" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0223.Rectangle%20Area/images/rectangle-plane.png" style="width: 700px; height: 365px;" />
 <pre>
-<strong>Input:</strong> ax1 = -3, ay1 = 0, ax2 = 3, ay2 = 4, bx1 = 0, by1 = -1, bx2 = 9, by2 = 2
-<strong>Output:</strong> 45
+<strong>输入：</strong>ax1 = -3, ay1 = 0, ax2 = 3, ay2 = 4, bx1 = 0, by1 = -1, bx2 = 9, by2 = 2
+<strong>输出：</strong>45
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> ax1 = -2, ay1 = -2, ax2 = 2, ay2 = 2, bx1 = -2, by1 = -2, bx2 = 2, by2 = 2
-<strong>Output:</strong> 16
+<strong>输入：</strong>ax1 = -2, ay1 = -2, ax2 = 2, ay2 = 2, bx1 = -2, by1 = -2, bx2 = 2, by2 = 2
+<strong>输出：</strong>16
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>-10<sup>4</sup> &lt;= ax1 &lt;= ax2 &lt;= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt;= ay1 &lt;= ay2 &lt;= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt;= bx1 &lt;= bx2 &lt;= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt;= by1 &lt;= by2 &lt;= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= ax1, ay1, ax2, ay2, bx1, by1, bx2, by2 &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Calculate Overlapping Area
+### 方法一：计算重叠面积
 
-First, we calculate the area of the two rectangles separately, denoted as $a$ and $b$. Then we calculate the overlapping width $width$ and height $height$. The overlapping area is $max(width, 0) \times max(height, 0)$. Finally, we subtract the overlapping area from $a$ and $b$.
+我们先计算出两个矩形各自的面积，记为 $a$ 和 $b$，然后计算重叠的宽度 $width$ 和高度 $height$，那么重叠的面积为 $max(width, 0) \times max(height, 0)$，最后将 $a$, $b$ 和重叠面积相减即可。
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -126,20 +133,20 @@ func computeArea(ax1 int, ay1 int, ax2 int, ay2 int, bx1 int, by1 int, bx2 int, 
 
 ```ts
 function computeArea(
-  ax1: number,
-  ay1: number,
-  ax2: number,
-  ay2: number,
-  bx1: number,
-  by1: number,
-  bx2: number,
-  by2: number
+    ax1: number,
+    ay1: number,
+    ax2: number,
+    ay2: number,
+    bx1: number,
+    by1: number,
+    bx2: number,
+    by2: number,
 ): number {
-  const a = (ax2 - ax1) * (ay2 - ay1);
-  const b = (bx2 - bx1) * (by2 - by1);
-  const width = Math.min(ax2, bx2) - Math.max(ax1, bx1);
-  const height = Math.min(ay2, by2) - Math.max(ay1, by1);
-  return a + b - Math.max(width, 0) * Math.max(height, 0);
+    const a = (ax2 - ax1) * (ay2 - ay1);
+    const b = (bx2 - bx1) * (by2 - by1);
+    const width = Math.min(ax2, bx2) - Math.max(ax1, bx1);
+    const height = Math.min(ay2, by2) - Math.max(ay1, by1);
+    return a + b - Math.max(width, 0) * Math.max(height, 0);
 }
 ```
 

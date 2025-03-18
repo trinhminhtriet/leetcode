@@ -1,54 +1,59 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2915.Length%20of%20the%20Longest%20Subsequence%20That%20Sums%20to%20Target/README.md
 rating: 1658
-source: Biweekly Contest 116 Q3
+source: 第 116 场双周赛 Q3
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2915. Length of the Longest Subsequence That Sums to Target](https://leetcode.com/problems/length-of-the-longest-subsequence-that-sums-to-target)
+# [2915. 和为目标值的最长子序列的长度](https://leetcode.cn/problems/length-of-the-longest-subsequence-that-sums-to-target)
 
-## Description
+[English Version](/solution/2900-2999/2915.Length%20of%20the%20Longest%20Subsequence%20That%20Sums%20to%20Target/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array of integers <code>nums</code>, and an integer <code>target</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>target</code>&nbsp;。</p>
 
-<p>Return <em>the <strong>length of the longest subsequence</strong> of</em> <code>nums</code> <em>that sums up to</em> <code>target</code>. <em>If no such subsequence exists, return</em> <code>-1</code>.</p>
+<p>返回和为 <code>target</code>&nbsp;的 <code>nums</code>&nbsp;子序列中，子序列&nbsp;<strong>长度的最大值&nbsp;</strong>。如果不存在和为 <code>target</code>&nbsp;的子序列，返回 <code>-1</code>&nbsp;。</p>
 
-<p>A <strong>subsequence</strong> is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4,5], target = 9
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> There are 3 subsequences with a sum equal to 9: [4,5], [1,3,5], and [2,3,4]. The longest subsequences are [1,3,5], and [2,3,4]. Hence, the answer is 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [4,1,3,2,1,5], target = 7
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> There are 5 subsequences with a sum equal to 7: [4,3], [4,1,2], [4,2,1], [1,1,5], and [1,3,2,1]. The longest subsequence is [1,3,2,1]. Hence, the answer is 4.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,1,5,4,5], target = 3
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It can be shown that nums has no subsequence that sums up to 3.
-</pre>
+<p><strong>子序列</strong> 指的是从原数组中删除一些或者不删除任何元素后，剩余元素保持原来的顺序构成的数组。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,2,3,4,5], target = 9
+<b>输出：</b>3
+<b>解释：</b>总共有 3 个子序列的和为 9 ：[4,5] ，[1,3,5] 和 [2,3,4] 。最长的子序列是 [1,3,5] 和 [2,3,4] 。所以答案为 3 。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [4,1,3,2,1,5], target = 7
+<b>输出：</b>4
+<strong>解释：</strong>总共有 5 个子序列的和为 7 ：[4,3] ，[4,1,2] ，[4,2,1] ，[1,1,5] 和 [1,3,2,1] 。最长子序列为 [1,3,2,1] 。所以答案为 4 。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,1,5,4,5], target = 3
+<b>输出：</b>-1
+<b>解释：</b>无法得到和为 3 的子序列。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -58,25 +63,25 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ as the length of the longest subsequence that selects several numbers from the first $i$ numbers and the sum of these numbers is exactly $j$. Initially, $f[0][0]=0$, and all other positions are $-\infty$.
+我们定义 $f[i][j]$ 表示前 $i$ 个数中选取若干个数，使得这若干个数的和恰好为 $j$ 的最长子序列的长度。初始时 $f[0][0]=0$，其余位置均为 $-\infty$。
 
-For $f[i][j]$, we consider the $i$th number $x$. If we do not select $x$, then $f[i][j]=f[i-1][j]$. If we select $x$, then $f[i][j]=f[i-1][j-x]+1$, where $j\ge x$. Therefore, we have the state transition equation:
+对于 $f[i][j]$，我们考虑第 $i$ 个数 $x$，如果不选取 $x$，那么 $f[i][j]=f[i-1][j]$；如果选取 $x$，那么 $f[i][j]=f[i-1][j-x]+1$，其中 $j\ge x$。因此我们有状态转移方程：
 
 $$
 f[i][j]=\max\{f[i-1][j],f[i-1][j-x]+1\}
 $$
 
-The final answer is $f[n][target]$. If $f[n][target]\le0$, there is no subsequence with a sum of $target$, return $-1$.
+最终答案为 $f[n][target]$，如果 $f[n][target]\le0$，则不存在和为 $target$ 的子序列，返回 $-1$。
 
-The time complexity is $O(n\times target)$, and the space complexity is $O(n\times target)$. Here, $n$ is the length of the array, and $target$ is the target value.
+时间复杂度 $O(n\times target)$，空间复杂度 $O(n\times target)$。其中 $n$ 为数组长度，而 $target$ 为目标值。
 
-We notice that the state of $f[i][j]$ is only related to $f[i-1][\cdot]$, so we can optimize the first dimension and reduce the space complexity to $O(target)$.
+我们注意到 $f[i][j]$ 的状态只与 $f[i-1][\cdot]$ 有关，因此我们可以优化掉第一维，将空间复杂度优化到 $O(target)$。
 
 <!-- tabs:start -->
 
@@ -179,21 +184,19 @@ func lengthOfLongestSubsequence(nums []int, target int) int {
 
 ```ts
 function lengthOfLongestSubsequence(nums: number[], target: number): number {
-  const n = nums.length;
-  const f: number[][] = Array.from({ length: n + 1 }, () =>
-    Array(target + 1).fill(-Infinity)
-  );
-  f[0][0] = 0;
-  for (let i = 1; i <= n; ++i) {
-    const x = nums[i - 1];
-    for (let j = 0; j <= target; ++j) {
-      f[i][j] = f[i - 1][j];
-      if (j >= x) {
-        f[i][j] = Math.max(f[i][j], f[i - 1][j - x] + 1);
-      }
+    const n = nums.length;
+    const f: number[][] = Array.from({ length: n + 1 }, () => Array(target + 1).fill(-Infinity));
+    f[0][0] = 0;
+    for (let i = 1; i <= n; ++i) {
+        const x = nums[i - 1];
+        for (let j = 0; j <= target; ++j) {
+            f[i][j] = f[i - 1][j];
+            if (j >= x) {
+                f[i][j] = Math.max(f[i][j], f[i - 1][j - x] + 1);
+            }
+        }
     }
-  }
-  return f[n][target] <= 0 ? -1 : f[n][target];
+    return f[n][target] <= 0 ? -1 : f[n][target];
 }
 ```
 
@@ -203,7 +206,7 @@ function lengthOfLongestSubsequence(nums: number[], target: number): number {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -282,14 +285,14 @@ func lengthOfLongestSubsequence(nums []int, target int) int {
 
 ```ts
 function lengthOfLongestSubsequence(nums: number[], target: number): number {
-  const f: number[] = Array(target + 1).fill(-Infinity);
-  f[0] = 0;
-  for (const x of nums) {
-    for (let j = target; j >= x; --j) {
-      f[j] = Math.max(f[j], f[j - x] + 1);
+    const f: number[] = Array(target + 1).fill(-Infinity);
+    f[0] = 0;
+    for (const x of nums) {
+        for (let j = target; j >= x; --j) {
+            f[j] = Math.max(f[j], f[j - x] + 1);
+        }
     }
-  }
-  return f[target] <= 0 ? -1 : f[target];
+    return f[target] <= 0 ? -1 : f[target];
 }
 ```
 

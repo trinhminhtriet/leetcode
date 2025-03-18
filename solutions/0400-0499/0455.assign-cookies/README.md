@@ -1,76 +1,83 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0455.Assign%20Cookies/README.md
 tags:
-  - Greedy
-  - Array
-  - Two Pointers
-  - Sorting
+    - 贪心
+    - 数组
+    - 双指针
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [455. Assign Cookies](https://leetcode.com/problems/assign-cookies)
+# [455. 分发饼干](https://leetcode.cn/problems/assign-cookies)
 
-## Description
+[English Version](/solution/0400-0499/0455.Assign%20Cookies/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Assume you are an awesome parent and want to give your children some cookies. But, you should give each child at most one cookie.</p>
+<p>假设你是一位很棒的家长，想要给你的孩子们一些小饼干。但是，每个孩子最多只能给一块饼干。</p>
 
-<p>Each child <code>i</code> has a greed factor <code>g[i]</code>, which is the minimum size of a cookie that the child will be content with; and each cookie <code>j</code> has a size <code>s[j]</code>. If <code>s[j] &gt;= g[i]</code>, we can assign the cookie <code>j</code> to the child <code>i</code>, and the child <code>i</code> will be content. Your goal is to maximize the number of your content children and output the maximum number.</p>
+<p>对每个孩子 <code>i</code>，都有一个胃口值&nbsp;<code>g[i]</code><sub>，</sub>这是能让孩子们满足胃口的饼干的最小尺寸；并且每块饼干 <code>j</code>，都有一个尺寸 <code>s[j]</code><sub>&nbsp;</sub>。如果 <code>s[j]&nbsp;&gt;= g[i]</code>，我们可以将这个饼干 <code>j</code> 分配给孩子 <code>i</code> ，这个孩子会得到满足。你的目标是满足尽可能多的孩子，并输出这个最大数值。</p>
+&nbsp;
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> g = [1,2,3], s = [1,1]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> You have 3 children and 2 cookies. The greed factors of 3 children are 1, 2, 3. 
-And even though you have 2 cookies, since their size is both 1, you could only make the child whose greed factor is 1 content.
-You need to output 1.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例&nbsp;1:</strong></p>
 
 <pre>
-<strong>Input:</strong> g = [1,2], s = [1,2,3]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> You have 2 children and 3 cookies. The greed factors of 2 children are 1, 2. 
-You have 3 cookies and their sizes are big enough to gratify all of the children, 
-You need to output 2.
+<strong>输入:</strong> g = [1,2,3], s = [1,1]
+<strong>输出:</strong> 1
+<strong>解释:</strong> 
+你有三个孩子和两块小饼干，3 个孩子的胃口值分别是：1,2,3。
+虽然你有两块小饼干，由于他们的尺寸都是 1，你只能让胃口值是 1 的孩子满足。
+所以你应该输出 1。
+</pre>
+
+<p><strong>示例&nbsp;2:</strong></p>
+
+<pre>
+<strong>输入:</strong> g = [1,2], s = [1,2,3]
+<strong>输出:</strong> 2
+<strong>解释:</strong> 
+你有两个孩子和三块小饼干，2 个孩子的胃口值分别是 1,2。
+你拥有的饼干数量和尺寸都足以让所有孩子满足。
+所以你应该输出 2。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= g.length &lt;= 3 * 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= s.length &lt;= 3 * 10<sup>4</sup></code></li>
-	<li><code>1 &lt;= g[i], s[j] &lt;= 2<sup>31</sup> - 1</code></li>
+	<li><code>1 &lt;= g[i], s[j] &lt;=&nbsp;2<sup>31</sup> - 1</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Note:</strong> This question is the same as <a href="https://leetcode.com/problems/maximum-matching-of-players-with-trainers/description/" target="_blank"> 2410: Maximum Matching of Players With Trainers.</a></p>
+
+<p><strong>注意：</strong>本题与&nbsp;<a href="https://leetcode.cn/problems/maximum-matching-of-players-with-trainers/">2410. 运动员和训练师的最大匹配数</a>&nbsp;题相同。</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting + Two Pointers
+### 方法一：排序 + 双指针
 
-According to the problem description, we should prioritize giving cookies to children with smaller appetites, so as to satisfy as many children as possible.
+根据题目描述，我们应该优先将饼干分配给胃口值小的孩子，这样可以尽可能满足更多的孩子。
 
-Therefore, we first sort the two arrays, and then use two pointers $i$ and $j$ to point to the head of arrays $g$ and $s$ respectively. Each time we compare the size of $g[i]$ and $s[j]$:
+因此，我们首先对两个数组进行排序，然后用两个指针 $i$ 和 $j$ 分别指向数组 $g$ 和 $s$ 的头部，每次比较 $g[i]$ 和 $s[j]$ 的大小：
 
-- If $s[j] < g[i]$, it means that the current cookie $s[j]$ cannot satisfy the current child $g[i]$. We should allocate a larger cookie to the current child, so $j$ should move to the right by one. If $j$ goes out of bounds, it means that the current child cannot be satisfied. At this time, the number of successfully allocated children is $i$, and we can return directly.
-- If $s[j] \ge g[i]$, it means that the current cookie $s[j]$ can satisfy the current child $g[i]$. We allocate the current cookie to the current child, so both $i$ and $j$ should move to the right by one.
+-   如果 $s[j] \lt g[i]$，说明当前饼干 $s[j]$ 无法满足当前孩子 $g[i]$，我们应该将尺寸更大的饼干分配给当前孩子，因此 $j$ 应该右移一位；如果 $j$ 越界，说明无法满足当前孩子，此时成功分配的孩子数量为 $i$，直接返回即可；
+-   如果 $s[j] \ge g[i]$，说明当前饼干 $s[j]$ 可以满足当前孩子 $g[i]$，我们将当前饼干分配给当前孩子，因此 $i$ 和 $j$ 都应该右移一位。
 
-If we have traversed the array $g$, it means that all children have been allocated cookies, and we can return the total number of children.
+如果遍历完数组 $g$，则说明所有孩子都已经分配到饼干，则返回孩子总数即可。
 
-The time complexity is $O(m \times \log m + n \times \log n)$, and the space complexity is $O(\log m + \log n)$. Where $m$ and $n$ are the lengths of arrays $g$ and $s$ respectively.
+时间复杂度 $O(m \times \log m + n \times \log n)$，空间复杂度 $O(\log m + \log n)$。其中 $m$ 和 $n$ 分别为数组 $g$ 和 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -159,19 +166,19 @@ func findContentChildren(g []int, s []int) int {
 
 ```ts
 function findContentChildren(g: number[], s: number[]): number {
-  g.sort((a, b) => a - b);
-  s.sort((a, b) => a - b);
-  const m = g.length;
-  const n = s.length;
-  for (let i = 0, j = 0; i < m; ++i) {
-    while (j < n && s[j] < g[i]) {
-      ++j;
+    g.sort((a, b) => a - b);
+    s.sort((a, b) => a - b);
+    const m = g.length;
+    const n = s.length;
+    for (let i = 0, j = 0; i < m; ++i) {
+        while (j < n && s[j] < g[i]) {
+            ++j;
+        }
+        if (j++ >= n) {
+            return i;
+        }
     }
-    if (j++ >= n) {
-      return i;
-    }
-  }
-  return m;
+    return m;
 }
 ```
 
@@ -184,19 +191,19 @@ function findContentChildren(g: number[], s: number[]): number {
  * @return {number}
  */
 var findContentChildren = function (g, s) {
-  g.sort((a, b) => a - b);
-  s.sort((a, b) => a - b);
-  const m = g.length;
-  const n = s.length;
-  for (let i = 0, j = 0; i < m; ++i) {
-    while (j < n && s[j] < g[i]) {
-      ++j;
+    g.sort((a, b) => a - b);
+    s.sort((a, b) => a - b);
+    const m = g.length;
+    const n = s.length;
+    for (let i = 0, j = 0; i < m; ++i) {
+        while (j < n && s[j] < g[i]) {
+            ++j;
+        }
+        if (j++ >= n) {
+            return i;
+        }
     }
-    if (j++ >= n) {
-      return i;
-    }
-  }
-  return m;
+    return m;
 };
 ```
 

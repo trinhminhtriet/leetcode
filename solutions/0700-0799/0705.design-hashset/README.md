@@ -1,68 +1,78 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0705.Design%20HashSet/README.md
 tags:
-  - Design
-  - Array
-  - Hash Table
-  - Linked List
-  - Hash Function
+    - 设计
+    - 数组
+    - 哈希表
+    - 链表
+    - 哈希函数
 ---
 
 <!-- problem:start -->
 
-# [705. Design HashSet](https://leetcode.com/problems/design-hashset)
+# [705. 设计哈希集合](https://leetcode.cn/problems/design-hashset)
 
-## Description
+[English Version](/solution/0700-0799/0705.Design%20HashSet/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Design a HashSet without using any built-in hash table libraries.</p>
+<p>不使用任何内建的哈希表库设计一个哈希集合（HashSet）。</p>
 
-<p>Implement <code>MyHashSet</code> class:</p>
+<p>实现 <code>MyHashSet</code> 类：</p>
 
 <ul>
-	<li><code>void add(key)</code> Inserts the value <code>key</code> into the HashSet.</li>
-	<li><code>bool contains(key)</code> Returns whether the value <code>key</code> exists in the HashSet or not.</li>
-	<li><code>void remove(key)</code> Removes the value <code>key</code> in the HashSet. If <code>key</code> does not exist in the HashSet, do nothing.</li>
+	<li><code>void add(key)</code> 向哈希集合中插入值 <code>key</code> 。</li>
+	<li><code>bool contains(key)</code> 返回哈希集合中是否存在这个值 <code>key</code> 。</li>
+	<li><code>void remove(key)</code> 将给定值 <code>key</code> 从哈希集合中删除。如果哈希集合中没有这个值，什么也不做。</li>
 </ul>
+&nbsp;
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;MyHashSet&quot;, &quot;add&quot;, &quot;add&quot;, &quot;contains&quot;, &quot;contains&quot;, &quot;add&quot;, &quot;contains&quot;, &quot;remove&quot;, &quot;contains&quot;]
+<strong>输入：</strong>
+["MyHashSet", "add", "add", "contains", "contains", "add", "contains", "remove", "contains"]
 [[], [1], [2], [1], [3], [2], [2], [2], [2]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null, null, null, true, false, null, true, null, false]
 
-<strong>Explanation</strong>
+<strong>解释：</strong>
 MyHashSet myHashSet = new MyHashSet();
 myHashSet.add(1);      // set = [1]
 myHashSet.add(2);      // set = [1, 2]
-myHashSet.contains(1); // return True
-myHashSet.contains(3); // return False, (not found)
+myHashSet.contains(1); // 返回 True
+myHashSet.contains(3); // 返回 False ，（未找到）
 myHashSet.add(2);      // set = [1, 2]
-myHashSet.contains(2); // return True
+myHashSet.contains(2); // 返回 True
 myHashSet.remove(2);   // set = [1]
-myHashSet.contains(2); // return False, (already removed)</pre>
+myHashSet.contains(2); // 返回 False ，（已移除）</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= key &lt;= 10<sup>6</sup></code></li>
-	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>add</code>, <code>remove</code>, and <code>contains</code>.</li>
+	<li>最多调用 <code>10<sup>4</sup></code> 次 <code>add</code>、<code>remove</code> 和 <code>contains</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：静态数组实现
+
+直接创建一个大小为 $1000001$ 的数组，初始时数组中的每个元素都为 `false`，表示哈希集合中不存在该元素。
+
+往哈希集合添加元素时，将数组中对应位置的值置为 `true`；删除元素时，将数组中对应位置的值置为 `false`；当查询元素是否存在时，直接返回数组中对应位置的值即可。
+
+以上操作的时间复杂度均为 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -191,22 +201,22 @@ func (this *MyHashSet) Contains(key int) bool {
 
 ```ts
 class MyHashSet {
-  data: Array<boolean>;
-  constructor() {
-    this.data = new Array(10 ** 6 + 1).fill(false);
-  }
+    data: Array<boolean>;
+    constructor() {
+        this.data = new Array(10 ** 6 + 1).fill(false);
+    }
 
-  add(key: number): void {
-    this.data[key] = true;
-  }
+    add(key: number): void {
+        this.data[key] = true;
+    }
 
-  remove(key: number): void {
-    this.data[key] = false;
-  }
+    remove(key: number): void {
+        this.data[key] = false;
+    }
 
-  contains(key: number): boolean {
-    return this.data[key];
-  }
+    contains(key: number): boolean {
+        return this.data[key];
+    }
 }
 
 /**
@@ -224,7 +234,9 @@ class MyHashSet {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：数组嵌套链表
+
+我们也可以开辟一个大小为 `SIZE=1000` 的数组，数组的每个位置是一个链表。
 
 <!-- tabs:start -->
 

@@ -1,78 +1,95 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1458.Max%20Dot%20Product%20of%20Two%20Subsequences/README.md
 rating: 1823
-source: Weekly Contest 190 Q4
+source: 第 190 场周赛 Q4
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1458. Max Dot Product of Two Subsequences](https://leetcode.com/problems/max-dot-product-of-two-subsequences)
+# [1458. 两个子序列的最大点积](https://leetcode.cn/problems/max-dot-product-of-two-subsequences)
 
-## Description
+[English Version](/solution/1400-1499/1458.Max%20Dot%20Product%20of%20Two%20Subsequences/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two arrays <code>nums1</code>&nbsp;and <code><font face="monospace">nums2</font></code><font face="monospace">.</font></p>
+<p>给你两个数组&nbsp;<code>nums1</code>&nbsp;和&nbsp;<code>nums2</code>&nbsp;。</p>
 
-<p>Return the maximum dot product&nbsp;between&nbsp;<strong>non-empty</strong> subsequences of nums1 and nums2 with the same length.</p>
+<p>请你返回 <code>nums1</code> 和 <code>nums2</code> 中两个长度相同的 <strong>非空</strong> 子序列的最大点积。</p>
 
-<p>A subsequence of a array is a new array which is formed from the original array by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie,&nbsp;<code>[2,3,5]</code>&nbsp;is a subsequence of&nbsp;<code>[1,2,3,4,5]</code>&nbsp;while <code>[1,5,3]</code>&nbsp;is not).</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [2,1,-2,5], nums2 = [3,0,-6]
-<strong>Output:</strong> 18
-<strong>Explanation:</strong> Take subsequence [2,-2] from nums1 and subsequence [3,-6] from nums2.
-Their dot product is (2*3 + (-2)*(-6)) = 18.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [3,-2], nums2 = [2,-6,7]
-<strong>Output:</strong> 21
-<strong>Explanation:</strong> Take subsequence [3] from nums1 and subsequence [7] from nums2.
-Their dot product is (3*7) = 21.</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [-1,-1], nums2 = [1,1]
-<strong>Output:</strong> -1
-<strong>Explanation: </strong>Take subsequence [-1] from nums1 and subsequence [1] from nums2.
-Their dot product is -1.</pre>
+<p>数组的非空子序列是通过删除原数组中某些元素（可能一个也不删除）后剩余数字组成的序列，但不能改变数字间相对顺序。比方说，<code>[2,3,5]</code>&nbsp;是&nbsp;<code>[1,2,3,4,5]</code>&nbsp;的一个子序列而&nbsp;<code>[1,5,3]</code>&nbsp;不是。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [2,1,-2,5], nums2 = [3,0,-6]
+<strong>输出：</strong>18
+<strong>解释：</strong>从 nums1 中得到子序列 [2,-2] ，从 nums2 中得到子序列 [3,-6] 。
+它们的点积为 (2*3 + (-2)*(-6)) = 18 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [3,-2], nums2 = [2,-6,7]
+<strong>输出：</strong>21
+<strong>解释：</strong>从 nums1 中得到子序列 [3] ，从 nums2 中得到子序列 [7] 。
+它们的点积为 (3*7) = 21 。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [-1,-1], nums2 = [1,1]
+<strong>输出：</strong>-1
+<strong>解释：</strong>从 nums1 中得到子序列 [-1] ，从 nums2 中得到子序列 [1] 。
+它们的点积为 -1 。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 500</code></li>
-	<li><code>-1000 &lt;= nums1[i], nums2[i] &lt;= 1000</code></li>
+	<li><code>-1000 &lt;= nums1[i], nums2[i] &lt;= 100</code></li>
 </ul>
+
+<p>&nbsp;</p>
+
+<p><strong>点积：</strong></p>
+
+<pre>
+定义 <code><strong>a</strong>&nbsp;= [<em>a</em><sub>1</sub>,&nbsp;<em>a</em><sub>2</sub>,…,&nbsp;<em>a</em><sub><em>n</em></sub>]</code> 和<strong> <code>b</code></strong><code>&nbsp;= [<em>b</em><sub>1</sub>,&nbsp;<em>b</em><sub>2</sub>,…,&nbsp;<em>b</em><sub><em>n</em></sub>]</code> 的点积为：
+
+<img alt="\mathbf{a}\cdot \mathbf{b} = \sum_{i=1}^n a_ib_i = a_1b_1 + a_2b_2 + \cdots + a_nb_n " class="tex" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1458.Max%20Dot%20Product%20of%20Two%20Subsequences/images/1666164309-PBJMQp-image.png" />
+
+这里的 <strong>Σ</strong> 指示总和符号。
+</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ to represent the maximum dot product of two subsequences formed by the first $i$ elements of $\textit{nums1}$ and the first $j$ elements of $\textit{nums2}$. Initially, $f[i][j] = -\infty$.
+我们定义 $f[i][j]$ 表示 $\textit{nums1}$ 的前 $i$ 个元素和 $\textit{nums2}$ 的前 $j$ 个元素构成的两个子序列的最大点积。初始时 $f[i][j] = -\infty$。
 
-For $f[i][j]$, we have the following cases:
+对于 $f[i][j]$，我们有以下几种情况：
 
-1. Do not select $\textit{nums1}[i-1]$ or do not select $\textit{nums2}[j-1]$, i.e., $f[i][j] = \max(f[i-1][j], f[i][j-1])$;
-2. Select $\textit{nums1}[i-1]$ and $\textit{nums2}[j-1]$, i.e., $f[i][j] = \max(f[i][j], \max(0, f[i-1][j-1]) + \textit{nums1}[i-1] \times \textit{nums2}[j-1])$.
+1. 不选 $\textit{nums1}[i-1]$ 或者不选 $\textit{nums2}[j-1]$，即 $f[i][j] = \max(f[i-1][j], f[i][j-1])$；
+2. 选 $\textit{nums1}[i-1]$ 和 $\textit{nums2}[j-1]$，即 $f[i][j] = \max(f[i][j], \max(0, f[i-1][j-1]) + \textit{nums1}[i-1] \times \textit{nums2}[j-1])$。
 
-The final answer is $f[m][n]$.
+最终答案即为 $f[m][n]$。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the lengths of the arrays $\textit{nums1}$ and $\textit{nums2}$, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是数组 $\textit{nums1}$ 和 $\textit{nums2}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -160,19 +177,17 @@ func maxDotProduct(nums1 []int, nums2 []int) int {
 
 ```ts
 function maxDotProduct(nums1: number[], nums2: number[]): number {
-  const m = nums1.length;
-  const n = nums2.length;
-  const f = Array.from({ length: m + 1 }, () =>
-    Array.from({ length: n + 1 }, () => -Infinity)
-  );
-  for (let i = 1; i <= m; ++i) {
-    for (let j = 1; j <= n; ++j) {
-      const v = nums1[i - 1] * nums2[j - 1];
-      f[i][j] = Math.max(f[i - 1][j], f[i][j - 1]);
-      f[i][j] = Math.max(f[i][j], Math.max(0, f[i - 1][j - 1]) + v);
+    const m = nums1.length;
+    const n = nums2.length;
+    const f = Array.from({ length: m + 1 }, () => Array.from({ length: n + 1 }, () => -Infinity));
+    for (let i = 1; i <= m; ++i) {
+        for (let j = 1; j <= n; ++j) {
+            const v = nums1[i - 1] * nums2[j - 1];
+            f[i][j] = Math.max(f[i - 1][j], f[i][j - 1]);
+            f[i][j] = Math.max(f[i][j], Math.max(0, f[i - 1][j - 1]) + v);
+        }
     }
-  }
-  return f[m][n];
+    return f[m][n];
 }
 ```
 

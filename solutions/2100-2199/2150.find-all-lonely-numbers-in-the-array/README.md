@@ -1,55 +1,57 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2150.Find%20All%20Lonely%20Numbers%20in%20the%20Array/README.md
 rating: 1275
-source: Weekly Contest 277 Q3
+source: 第 277 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Counting
+    - 数组
+    - 哈希表
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2150. Find All Lonely Numbers in the Array](https://leetcode.com/problems/find-all-lonely-numbers-in-the-array)
+# [2150. 找出数组中的所有孤独数字](https://leetcode.cn/problems/find-all-lonely-numbers-in-the-array)
 
-## Description
+[English Version](/solution/2100-2199/2150.Find%20All%20Lonely%20Numbers%20in%20the%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code>. A number <code>x</code> is <strong>lonely</strong> when it appears only <strong>once</strong>, and no <strong>adjacent</strong> numbers (i.e. <code>x + 1</code> and <code>x - 1)</code> appear in the array.</p>
+<p>给你一个整数数组 <code>nums</code> 。如果数字 <code>x</code> 在数组中仅出现 <strong>一次</strong> ，且没有 <strong>相邻</strong> 数字（即，<code>x + 1</code> 和 <code>x - 1</code>）出现在数组中，则认为数字 <code>x</code> 是 <strong>孤独数字</strong> 。</p>
 
-<p>Return <em><strong>all</strong> lonely numbers in </em><code>nums</code>. You may return the answer in <strong>any order</strong>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [10,6,5,8]
-<strong>Output:</strong> [10,8]
-<strong>Explanation:</strong> 
-- 10 is a lonely number since it appears exactly once and 9 and 11 does not appear in nums.
-- 8 is a lonely number since it appears exactly once and 7 and 9 does not appear in nums.
-- 5 is not a lonely number since 6 appears in nums and vice versa.
-Hence, the lonely numbers in nums are [10, 8].
-Note that [8, 10] may also be returned.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,3,5,3]
-<strong>Output:</strong> [1,5]
-<strong>Explanation:</strong> 
-- 1 is a lonely number since it appears exactly once and 0 and 2 does not appear in nums.
-- 5 is a lonely number since it appears exactly once and 4 and 6 does not appear in nums.
-- 3 is not a lonely number since it appears twice.
-Hence, the lonely numbers in nums are [1, 5].
-Note that [5, 1] may also be returned.
-</pre>
+<p>返回<em> </em><code>nums</code> 中的 <strong>所有</strong> 孤独数字。你可以按 <strong>任何顺序</strong> 返回答案。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [10,6,5,8]
+<strong>输出：</strong>[10,8]
+<strong>解释：</strong>
+- 10 是一个孤独数字，因为它只出现一次，并且 9 和 11 没有在 nums 中出现。
+- 8 是一个孤独数字，因为它只出现一次，并且 7 和 9 没有在 nums 中出现。
+- 5 不是一个孤独数字，因为 6 出现在 nums 中，反之亦然。
+因此，nums 中的孤独数字是 [10, 8] 。
+注意，也可以返回 [8, 10] 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>nums = [1,3,5,3]
+<strong>输出：</strong>[1,5]
+<strong>解释：</strong>
+- 1 是一个孤独数字，因为它只出现一次，并且 0 和 2 没有在 nums 中出现。
+- 5 是一个孤独数字，因为它只出现一次，并且 4 和 6 没有在 nums 中出现。
+- 3 不是一个孤独数字，因为它出现两次。
+因此，nums 中的孤独数字是 [1, 5] 。
+注意，也可以返回 [5, 1] 。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -58,17 +60,17 @@ Note that [5, 1] may also be returned.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We use a hash table $\textit{cnt}$ to record the occurrence count of each number. Then, we iterate through the hash table. For each number and its occurrence count $(x, v)$, if $v = 1$ and $\textit{cnt}[x - 1] = 0$ and $\textit{cnt}[x + 1] = 0$, then $x$ is a lonely number, and we add it to the answer array.
+我们用一个哈希表 $\textit{cnt}$ 记录每个数字出现的次数，然后遍历哈希表，对于每个数字及其出现次数 $(x, v)$，如果 $v = 1$ 且 $\textit{cnt}[x - 1] = 0$ 且 $\textit{cnt}[x + 1] = 0$，则 $x$ 是一个孤独数字，将其加入答案数组中。
 
-After finishing the iteration, we return the answer array.
+遍历结束后，返回答案数组即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -146,17 +148,17 @@ func findLonely(nums []int) (ans []int) {
 
 ```ts
 function findLonely(nums: number[]): number[] {
-  const cnt: Map<number, number> = new Map();
-  for (const x of nums) {
-    cnt.set(x, (cnt.get(x) || 0) + 1);
-  }
-  const ans: number[] = [];
-  for (const [x, v] of cnt) {
-    if (v === 1 && !cnt.has(x - 1) && !cnt.has(x + 1)) {
-      ans.push(x);
+    const cnt: Map<number, number> = new Map();
+    for (const x of nums) {
+        cnt.set(x, (cnt.get(x) || 0) + 1);
     }
-  }
-  return ans;
+    const ans: number[] = [];
+    for (const [x, v] of cnt) {
+        if (v === 1 && !cnt.has(x - 1) && !cnt.has(x + 1)) {
+            ans.push(x);
+        }
+    }
+    return ans;
 }
 ```
 

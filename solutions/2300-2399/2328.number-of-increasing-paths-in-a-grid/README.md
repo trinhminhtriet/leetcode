@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2328.Number%20of%20Increasing%20Paths%20in%20a%20Grid/README.md
 rating: 2001
-source: Weekly Contest 300 Q4
+source: 第 300 场周赛 Q4
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
-  - Topological Sort
-  - Memoization
-  - Array
-  - Dynamic Programming
-  - Matrix
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
+    - 拓扑排序
+    - 记忆化搜索
+    - 数组
+    - 动态规划
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [2328. Number of Increasing Paths in a Grid](https://leetcode.com/problems/number-of-increasing-paths-in-a-grid)
+# [2328. 网格图中递增路径的数目](https://leetcode.cn/problems/number-of-increasing-paths-in-a-grid)
 
-## Description
+[English Version](/solution/2300-2399/2328.Number%20of%20Increasing%20Paths%20in%20a%20Grid/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> integer matrix <code>grid</code>, where you can move from a cell to any adjacent cell in all <code>4</code> directions.</p>
+<p>给你一个&nbsp;<code>m x n</code>&nbsp;的整数网格图&nbsp;<code>grid</code>&nbsp;，你可以从一个格子移动到&nbsp;<code>4</code>&nbsp;个方向相邻的任意一个格子。</p>
 
-<p>Return <em>the number of <strong>strictly</strong> <strong>increasing</strong> paths in the grid such that you can start from <strong>any</strong> cell and end at <strong>any</strong> cell. </em>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>请你返回在网格图中从 <strong>任意</strong>&nbsp;格子出发，达到 <strong>任意</strong>&nbsp;格子，且路径中的数字是 <strong>严格递增</strong>&nbsp;的路径数目。由于答案可能会很大，请将结果对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
 
-<p>Two paths are considered different if they do not have exactly the same sequence of visited cells.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2328.Number%20of%20Increasing%20Paths%20in%20a%20Grid/images/griddrawio-4.png" style="width: 181px; height: 121px;" />
-<pre>
-<strong>Input:</strong> grid = [[1,1],[3,4]]
-<strong>Output:</strong> 8
-<strong>Explanation:</strong> The strictly increasing paths are:
-- Paths with length 1: [1], [1], [3], [4].
-- Paths with length 2: [1 -&gt; 3], [1 -&gt; 4], [3 -&gt; 4].
-- Paths with length 3: [1 -&gt; 3 -&gt; 4].
-The total number of paths is 4 + 3 + 1 = 8.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> grid = [[1],[2]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The strictly increasing paths are:
-- Paths with length 1: [1], [2].
-- Paths with length 2: [1 -&gt; 2].
-The total number of paths is 2 + 1 = 3.
-</pre>
+<p>如果两条路径中访问过的格子不是完全相同的，那么它们视为两条不同的路径。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2328.Number%20of%20Increasing%20Paths%20in%20a%20Grid/images/griddrawio-4.png" style="width: 181px; height: 121px;"></p>
+
+<pre><b>输入：</b>grid = [[1,1],[3,4]]
+<b>输出：</b>8
+<b>解释：</b>严格递增路径包括：
+- 长度为 1 的路径：[1]，[1]，[3]，[4] 。
+- 长度为 2 的路径：[1 -&gt; 3]，[1 -&gt; 4]，[3 -&gt; 4] 。
+- 长度为 3 的路径：[1 -&gt; 3 -&gt; 4] 。
+路径数目为 4 + 3 + 1 = 8 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>grid = [[1],[2]]
+<b>输出：</b>3
+<b>解释：</b>严格递增路径包括：
+- 长度为 1 的路径：[1]，[2] 。
+- 长度为 2 的路径：[1 -&gt; 2] 。
+路径数目为 2 + 1 = 3 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -65,24 +70,28 @@ The total number of paths is 2 + 1 = 3.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS + Memorization
+### 方法一：记忆化搜索
 
-We design a function $dfs(i, j)$, which represents the number of strictly increasing paths that can be reached from the grid graph starting at the $i$-th row and $j$-th column. Then the answer is $\sum_{i=0}^{m-1} \sum_{j=0}^{n-1} dfs(i, j)$. In the search process, we can use a two-dimensional array $f$ to record the calculated results to avoid repeated calculation.
+我们设计一个函数 $dfs(i, j)$，表示从网格图中的第 $i$ 行第 $j$ 列的格子出发，能够到达任意格子的严格递增路径数目。那么答案就是 $\sum_{i=0}^{m-1} \sum_{j=0}^{n-1} dfs(i, j)$。搜索过程中，我们可以用一个二维数组 $f$ 记录已经计算过的结果，避免重复计算。
 
-The calculation process of the function $dfs(i, j)$ is as follows:
+函数 $dfs(i, j)$ 的计算过程如下：
 
-- If $f[i][j]$ is not $0$, it means that it has been calculated, and $f[i][j]$ is returned directly;
-- Otherwise, we initialize $f[i][j] = 1$, and then enumerate the four directions of $(i, j)$. If the grid $(x, y)$ in a certain direction satisfies $0 \leq x \lt m$, $0 \leq y \lt n$, and $grid[i][j] \lt grid[x][y]$, we can start from the grid $(i, j)$ to the grid $(x, y)$, and the number on the path is strictly increasing, so $f[i][j] += dfs(x, y)$.
+-   如果 $f[i][j]$ 不为 $0$，说明已经计算过，直接返回 $f[i][j]$；
+-   否则，我们初始化 $f[i][j] = 1$，然后枚举 $(i, j)$ 的四个方向，如果某个方向的格子 $(x, y)$ 满足 $0 \leq x \lt m$, $0 \leq y \lt n$ 且 $grid[i][j] \lt grid[x][y]$，我们就可以从格子 $(i, j)$ 出发，到达格子 $(x, y)$，且路径上的数字是严格递增的，因此有 $f[i][j] += dfs(x, y)$。
 
-Finally, we return $f[i][j]$.
+最后，我们返回 $f[i][j]$。
 
-The answer is $\sum_{i=0}^{m-1} \sum_{j=0}^{n-1} dfs(i, j)$.
+答案为 $\sum_{i=0}^{m-1} \sum_{j=0}^{n-1} dfs(i, j)$。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows and columns in the grid graph, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格图的行数和列数。
+
+相似题目：
+
+-   [329. 矩阵中的最长递增路径](https://github.com/doocs/leetcode/blob/main/solution/0300-0399/0329.Longest%20Increasing%20Path%20in%20a%20Matrix/README.md)。
 
 <!-- tabs:start -->
 
@@ -219,32 +228,32 @@ func countPaths(grid [][]int) (ans int) {
 
 ```ts
 function countPaths(grid: number[][]): number {
-  const mod = 1e9 + 7;
-  const m = grid.length;
-  const n = grid[0].length;
-  const f = new Array(m).fill(0).map(() => new Array(n).fill(0));
-  const dfs = (i: number, j: number): number => {
-    if (f[i][j]) {
-      return f[i][j];
+    const mod = 1e9 + 7;
+    const m = grid.length;
+    const n = grid[0].length;
+    const f = new Array(m).fill(0).map(() => new Array(n).fill(0));
+    const dfs = (i: number, j: number): number => {
+        if (f[i][j]) {
+            return f[i][j];
+        }
+        let ans = 1;
+        const dirs: number[] = [-1, 0, 1, 0, -1];
+        for (let k = 0; k < 4; ++k) {
+            const x = i + dirs[k];
+            const y = j + dirs[k + 1];
+            if (x >= 0 && x < m && y >= 0 && y < n && grid[i][j] < grid[x][y]) {
+                ans = (ans + dfs(x, y)) % mod;
+            }
+        }
+        return (f[i][j] = ans);
+    };
+    let ans = 0;
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            ans = (ans + dfs(i, j)) % mod;
+        }
     }
-    let ans = 1;
-    const dirs: number[] = [-1, 0, 1, 0, -1];
-    for (let k = 0; k < 4; ++k) {
-      const x = i + dirs[k];
-      const y = j + dirs[k + 1];
-      if (x >= 0 && x < m && y >= 0 && y < n && grid[i][j] < grid[x][y]) {
-        ans = (ans + dfs(x, y)) % mod;
-      }
-    }
-    return (f[i][j] = ans);
-  };
-  let ans = 0;
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      ans = (ans + dfs(i, j)) % mod;
-    }
-  }
-  return ans;
+    return ans;
 }
 ```
 

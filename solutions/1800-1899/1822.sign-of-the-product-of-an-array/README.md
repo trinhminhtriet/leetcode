@@ -1,83 +1,88 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1822.Sign%20of%20the%20Product%20of%20an%20Array/README.md
 rating: 1209
-source: Weekly Contest 236 Q1
+source: 第 236 场周赛 Q1
 tags:
-  - Array
-  - Math
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [1822. Sign of the Product of an Array](https://leetcode.com/problems/sign-of-the-product-of-an-array)
+# [1822. 数组元素积的符号](https://leetcode.cn/problems/sign-of-the-product-of-an-array)
 
-## Description
+[English Version](/solution/1800-1899/1822.Sign%20of%20the%20Product%20of%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Implement a function <code>signFunc(x)</code> that returns:</p>
+<p>已知函数 <code>signFunc(x)</code> 将会根据 <code>x</code> 的正负返回特定值：</p>
 
 <ul>
-	<li><code>1</code> if <code>x</code> is positive.</li>
-	<li><code>-1</code> if <code>x</code> is negative.</li>
-	<li><code>0</code> if <code>x</code> is equal to <code>0</code>.</li>
+	<li>如果 <code>x</code> 是正数，返回 <code>1</code> 。</li>
+	<li>如果 <code>x</code> 是负数，返回 <code>-1</code> 。</li>
+	<li>如果 <code>x</code> 是等于 <code>0</code> ，返回 <code>0</code> 。</li>
 </ul>
 
-<p>You are given an integer array <code>nums</code>. Let <code>product</code> be the product of all values in the array <code>nums</code>.</p>
+<p>给你一个整数数组 <code>nums</code> 。令 <code>product</code> 为数组 <code>nums</code> 中所有元素值的乘积。</p>
 
-<p>Return <code>signFunc(product)</code>.</p>
+<p>返回 <code>signFunc(product)</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [-1,-2,-3,-4,3,2,1]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The product of all values in the array is 144, and signFunc(144) = 1
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,5,0,2,-3]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The product of all values in the array is 0, and signFunc(0) = 0
+<strong>输入：</strong>nums = [-1,-2,-3,-4,3,2,1]
+<strong>输出：</strong>1
+<strong>解释：</strong>数组中所有值的乘积是 144 ，且 signFunc(144) = 1
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [-1,1,-1,1,-1]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> The product of all values in the array is -1, and signFunc(-1) = -1
+<strong>输入：</strong>nums = [1,5,0,2,-3]
+<strong>输出：</strong>0
+<strong>解释：</strong>数组中所有值的乘积是 0 ，且 signFunc(0) = 0
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [-1,1,-1,1,-1]
+<strong>输出：</strong>-1
+<strong>解释：</strong>数组中所有值的乘积是 -1 ，且 signFunc(-1) = -1
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
-	<li><code>-100 &lt;= nums[i] &lt;= 100</code></li>
+	<li><code>1 <= nums.length <= 1000</code></li>
+	<li><code>-100 <= nums[i] <= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Direct Traversal
+### 方法一：直接遍历
 
-The problem requires us to return the sign of the product of the array elements, i.e., return $1$ for positive numbers, $-1$ for negative numbers, and $0$ if it equals $0$.
+题目要求返回数组元素乘积的符号，即正数返回 $1$，负数返回 $-1$， 等于 $0$ 则返回 $0$。
 
-We can define an answer variable `ans`, initially set to $1$.
+我们可以定义一个答案变量 `ans`，初始值为 $1$。
 
-Then we traverse each element $v$ in the array. If $v$ is a negative number, we multiply `ans` by $-1$. If $v$ is $0$, we return $0$ in advance.
+然后遍历数组每个元素 $v$，如果 $v$ 为负数，则将 `ans` 乘上 $-1$，如果 $v$ 为 $0$，则提前返回 $0$。
 
-After the traversal is over, we return `ans`.
+遍历结束后，返回 `ans` 即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -174,16 +179,16 @@ impl Solution {
  * @return {number}
  */
 var arraySign = function (nums) {
-  let ans = 1;
-  for (const v of nums) {
-    if (!v) {
-      return 0;
+    let ans = 1;
+    for (const v of nums) {
+        if (!v) {
+            return 0;
+        }
+        if (v < 0) {
+            ans *= -1;
+        }
     }
-    if (v < 0) {
-      ans *= -1;
-    }
-  }
-  return ans;
+    return ans;
 };
 ```
 

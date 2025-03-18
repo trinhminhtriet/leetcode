@@ -1,99 +1,104 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0065.Valid%20Number/README.md
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [65. Valid Number](https://leetcode.com/problems/valid-number)
+# [65. 有效数字](https://leetcode.cn/problems/valid-number)
 
-## Description
+[English Version](/solution/0000-0099/0065.Valid%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, return whether <code>s</code> is a <strong>valid number</strong>.<br />
-<br />
-For example, all the following are valid numbers: <code>&quot;2&quot;, &quot;0089&quot;, &quot;-0.1&quot;, &quot;+3.14&quot;, &quot;4.&quot;, &quot;-.9&quot;, &quot;2e10&quot;, &quot;-90E3&quot;, &quot;3e+7&quot;, &quot;+6e-1&quot;, &quot;53.5e93&quot;, &quot;-123.456e789&quot;</code>, while the following are not valid numbers: <code>&quot;abc&quot;, &quot;1a&quot;, &quot;1e&quot;, &quot;e3&quot;, &quot;99e2.5&quot;, &quot;--6&quot;, &quot;-+3&quot;, &quot;95a54e53&quot;</code>.</p>
+<p>给定一个字符串&nbsp;<code>s</code>&nbsp;，返回&nbsp;<code>s</code>&nbsp;是否是一个 <strong>有效数字</strong>。</p>
 
-<p>Formally, a&nbsp;<strong>valid number</strong> is defined using one of the following definitions:</p>
+<p>例如，下面的都是有效数字：<code>"2", "0089", "-0.1", "+3.14", "4.", "-.9", "2e10", "-90E3", "3e+7", "+6e-1", "53.5e93", "-123.456e789"</code>，而接下来的不是：<code>"abc", "1a", "1e", "e3", "99e2.5", "--6", "-+3", "95a54e53"</code>。</p>
 
-<ol>
-	<li>An <strong>integer number</strong> followed by an <strong>optional exponent</strong>.</li>
-	<li>A <strong>decimal number</strong> followed by an <strong>optional exponent</strong>.</li>
-</ol>
-
-<p>An <strong>integer number</strong> is defined with an <strong>optional sign</strong> <code>&#39;-&#39;</code> or <code>&#39;+&#39;</code> followed by <strong>digits</strong>.</p>
-
-<p>A <strong>decimal number</strong> is defined with an <strong>optional sign</strong> <code>&#39;-&#39;</code> or <code>&#39;+&#39;</code> followed by one of the following definitions:</p>
+<p>一般的，一个 <strong>有效数字</strong>&nbsp;可以用以下的规则之一定义：</p>
 
 <ol>
-	<li><strong>Digits</strong> followed by a <strong>dot</strong> <code>&#39;.&#39;</code>.</li>
-	<li><strong>Digits</strong> followed by a <strong>dot</strong> <code>&#39;.&#39;</code> followed by <strong>digits</strong>.</li>
-	<li>A <strong>dot</strong> <code>&#39;.&#39;</code> followed by <strong>digits</strong>.</li>
+	<li>一个 <strong>整数</strong> 后面跟着一个 <strong>可选指数</strong>。</li>
+	<li>一个 <strong>十进制数</strong> 后面跟着一个&nbsp;<strong>可选指数</strong>。</li>
 </ol>
 
-<p>An <strong>exponent</strong> is defined with an <strong>exponent notation</strong> <code>&#39;e&#39;</code> or <code>&#39;E&#39;</code> followed by an <strong>integer number</strong>.</p>
+<p>一个 <strong>整数</strong> 定义为一个&nbsp;<strong>可选符号</strong>&nbsp;<code>'-'</code>&nbsp;或&nbsp;<code>'+'</code>&nbsp;后面跟着 <strong>数字</strong>。</p>
 
-<p>The <strong>digits</strong> are defined as one or more digits.</p>
+<p>一个 <strong>十进制数</strong>&nbsp;定义为一个&nbsp;<strong>可选符号&nbsp;</strong><code>'-'</code>&nbsp;或&nbsp;<code>'+'</code>&nbsp;后面跟着下述规则：</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<ol>
+	<li><strong>数字&nbsp;</strong>后跟着一个 <strong>小数点&nbsp;<code>.</code></strong>。</li>
+	<li><strong>数字&nbsp;</strong>后跟着一个 <strong>小数点&nbsp;<code>.</code>&nbsp;</strong>再跟着<strong> 数位</strong>。</li>
+	<li>一个 <strong>小数点&nbsp;<code>.</code>&nbsp;</strong>后跟着<strong> 数位</strong>。</li>
+</ol>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;0&quot;</span></p>
+<p><strong>指数</strong> 定义为指数符号 <code>'e'</code> 或 <code>'E'</code>，后面跟着一个 <b>整数</b>。</p>
 
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;e&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;.&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
-</div>
+<p><strong>数字</strong>&nbsp;定义为一个或多个数位。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">s = "0"</span></p>
+
+<p><strong>输出：</strong><span class="example-io">true</span></p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">s = "e"</span></p>
+
+<p><strong>输出：</strong><span class="example-io">false</span></p>
+</div>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">s = "."</span></p>
+
+<p><strong>输出：</strong><span class="example-io">false</span></p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 20</code></li>
-	<li><code>s</code> consists of only English letters (both uppercase and lowercase), digits (<code>0-9</code>), plus <code>&#39;+&#39;</code>, minus <code>&#39;-&#39;</code>, or dot <code>&#39;.&#39;</code>.</li>
+	<li><code>s</code> 仅含英文字母（大写和小写），数字（<code>0-9</code>），加号 <code>'+'</code> ，减号 <code>'-'</code> ，或者点 <code>'.'</code> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Case Discussion
+### 方法一：分情况讨论
 
-First, we check if the string starts with a positive or negative sign. If it does, we move the pointer $i$ one step forward. If the pointer $i$ has reached the end of the string at this point, it means the string only contains a positive or negative sign, so we return `false`.
+首先，我们判断字符串是否以正负号开头，如果是，将指针 $i$ 向后移动一位。如果此时指针 $i$ 已经到达字符串末尾，说明字符串只有一个正负号，返回 `false`。
 
-If the character pointed to by the current pointer $i$ is a decimal point, and there is no number after the decimal point, or if there is an `e` or `E` after the decimal point, we return `false`.
+如果当前指针 $i$ 指向的字符是小数点，并且小数点后面没有数字，或者小数点后是一个 `e` 或 `E`，返回 `false`。
 
-Next, we use two variables $dot$ and $e$ to record the number of decimal points and `e` or `E` respectively.
+接着，我们用两个变量 $dot$ 和 $e$ 分别记录小数点和 `e` 或 `E` 的个数。
 
-We use pointer $j$ to point to the current character:
+用指针 $j$ 指向当前字符：
 
-- If the current character is a decimal point, and a decimal point or `e` or `E` has appeared before, return `false`. Otherwise, we increment $dot$ by one;
-- If the current character is `e` or `E`, and `e` or `E` has appeared before, or if the current character is at the beginning or end of the string, return `false`. Otherwise, we increment $e$ by one; then check if the next character is a positive or negative sign, if it is, move the pointer $j$ one step forward. If the pointer $j$ has reached the end of the string at this point, return `false`;
-- If the current character is not a number, return `false`.
+-   如果当前字符是小数点，并且此前出现过小数点或者 `e` 或 `E`，返回 `false`。否则，我们将 $dot$ 加一；
+-   如果当前字符是 `e` 或 `E`，并且此前出现过 `e` 或 `E`，或者当前字符是开头或结尾，返回 `false`。否则，我们将 $e$ 加一；然后判断下一个字符是否是正负号，如果是，将指针 $j$ 向后移动一位。如果此时指针 $j$ 已经到达字符串末尾，返回 `false`；
+-   如果当前字符不是数字，返回 `false`。
 
-After traversing the string, return `true`.
+遍历完字符串后，返回 `true`。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the string.
+时间复杂度 $O(n)$，其中 $n$ 为字符串长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

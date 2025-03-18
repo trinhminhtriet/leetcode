@@ -1,62 +1,67 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2897.Apply%20Operations%20on%20Array%20to%20Maximize%20Sum%20of%20Squares/README.md
 rating: 2301
-source: Weekly Contest 366 Q4
+source: 第 366 场周赛 Q4
 tags:
-  - Greedy
-  - Bit Manipulation
-  - Array
-  - Hash Table
+    - 贪心
+    - 位运算
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [2897. Apply Operations on Array to Maximize Sum of Squares](https://leetcode.com/problems/apply-operations-on-array-to-maximize-sum-of-squares)
+# [2897. 对数组执行操作使平方和最大](https://leetcode.cn/problems/apply-operations-on-array-to-maximize-sum-of-squares)
 
-## Description
+[English Version](/solution/2800-2899/2897.Apply%20Operations%20on%20Array%20to%20Maximize%20Sum%20of%20Squares/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and a <strong>positive</strong> integer <code>k</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;和一个 <strong>正</strong>&nbsp;整数&nbsp;<code>k</code>&nbsp;。</p>
 
-<p>You can do the following operation on the array <strong>any</strong> number of times:</p>
+<p>你可以对数组执行以下操作 <strong>任意次</strong>&nbsp;：</p>
 
 <ul>
-	<li>Choose any two distinct indices <code>i</code> and <code>j</code> and <strong>simultaneously</strong> update the values of <code>nums[i]</code> to <code>(nums[i] AND nums[j])</code> and <code>nums[j]</code> to <code>(nums[i] OR nums[j])</code>. Here, <code>OR</code> denotes the bitwise <code>OR</code> operation, and <code>AND</code> denotes the bitwise <code>AND</code> operation.</li>
+	<li>选择两个互不相同的下标&nbsp;<code>i</code> 和&nbsp;<code>j</code>&nbsp;，<strong>同时</strong>&nbsp;将&nbsp;<code>nums[i]</code>&nbsp;更新为&nbsp;<code>(nums[i] AND nums[j])</code> 且将&nbsp;<code>nums[j]</code>&nbsp;更新为&nbsp;<code>(nums[i] OR nums[j])</code>&nbsp;，<code>OR</code>&nbsp;表示按位 <strong>或</strong>&nbsp;运算，<code>AND</code>&nbsp;表示按位 <strong>与</strong>&nbsp;运算。</li>
 </ul>
 
-<p>You have to choose <code>k</code> elements from the final array and calculate the sum of their <strong>squares</strong>.</p>
+<p>你需要从最终的数组里选择&nbsp;<code>k</code>&nbsp;个元素，并计算它们的 <strong>平方</strong>&nbsp;之和。</p>
 
-<p>Return <em>the <strong>maximum</strong> sum of squares you can achieve</em>.</p>
+<p>请你返回你可以得到的 <strong>最大</strong>&nbsp;平方和。</p>
 
-<p>Since the answer can be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2,6,5,8], k = 2
-<strong>Output:</strong> 261
-<strong>Explanation:</strong> We can do the following operations on the array:
-- Choose i = 0 and j = 3, then change nums[0] to (2 AND 8) = 0 and nums[3] to (2 OR 8) = 10. The resulting array is nums = [0,6,5,10].
-- Choose i = 2 and j = 3, then change nums[2] to (5 AND 10) = 0 and nums[3] to (5 OR 10) = 15. The resulting array is nums = [0,6,0,15].
-We can choose the elements 15 and 6 from the final array. The sum of squares is 15<sup>2</sup> + 6<sup>2</sup> = 261.
-It can be shown that this is the maximum value we can get.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [4,5,4,7], k = 3
-<strong>Output:</strong> 90
-<strong>Explanation:</strong> We do not need to apply any operations.
-We can choose the elements 7, 5, and 4 with a sum of squares: 7<sup>2</sup> + 5<sup>2</sup> + 4<sup>2</sup> = 90.
-It can be shown that this is the maximum value we can get.
-</pre>
+<p>由于答案可能会很大，将答案对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [2,6,5,8], k = 2
+<b>输出：</b>261
+<b>解释：</b>我们可以对数组执行以下操作：
+- 选择 i = 0 和 j = 3 ，同时将 nums[0] 变为 (2 AND 8) = 0 且 nums[3] 变为 (2 OR 8) = 10 ，结果数组为 nums = [0,6,5,10] 。
+- 选择 i = 2 和 j = 3 ，同时将 nums[2] 变为 (5 AND 10) = 0 且 nums[3] 变为 (5 OR 10) = 15 ，结果数组为 nums = [0,6,0,15] 。
+从最终数组里选择元素 15 和 6 ，平方和为 15<sup>2</sup> + 6<sup>2</sup> = 261 。
+261 是可以得到的最大结果。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [4,5,4,7], k = 3
+<b>输出：</b>90
+<b>解释：</b>不需要执行任何操作。
+选择元素 7 ，5 和 4 ，平方和为 7<sup>2</sup> + 5<sup>2</sup> + 4<sup>2</sup> = 90 。
+90 是可以得到的最大结果。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -65,17 +70,17 @@ It can be shown that this is the maximum value we can get.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Bitwise Operation + Greedy
+### 方法一：位运算 + 贪心
 
-According to the problem description, for an operation, we can change $nums[i]$ to $nums[i] \textit{ AND } nums[j]$, and change $nums[j]$ to $nums[i] \textit{ OR } nums[j]$. Let's consider the bits of the numbers. If two bits are both $1$ or both $0$, the result of the operation will not change the bits. If two bits are different, the result of the operation will change the bits to $0$ and $1$, respectively. Therefore, we can move $1$ bits to $0$ bits, but not vice versa.
+根据题目描述，对于一个操作，我们可以将 $nums[i]$ 变为 $nums[i] \textit{ AND } nums[j]$，将 $nums[j]$ 变为 $nums[i] \textit{ OR } nums[j]$。我们不妨按位考虑，两个 $1$ 或两个 $0$ 进行这样的操作，结果都不会改变，如果是 $1$ 和 $0$ 进行这样的操作，结果会变成 $0$ 和 $1$，也即是说，我们可以将 $1$ 转移到 $0$ 上，而 $0$ 不会转移到 $1$ 上。
 
-We can use an array $cnt$ to count the number of $1$ bits in each position, and then select $k$ numbers from them. To maximize the sum of squares, we should choose the largest numbers as much as possible. This is because, assuming the sum of squares of two numbers is $a^2 + b^2$ (where $a \gt b$), changing them to $(a + c)^2 + (b - c)^2 = a^2 + b^2 + 2c(a - b) + 2c^2 \gt a^2 + b^2$ will increase the sum of squares. Therefore, to maximize the sum of squares, we should choose the largest number.
+因此，我们可以用一个数组 $cnt$ 统计每个位置上 $1$ 的个数，然后从中选择 $k$ 个数。由于要使得平方和最大，每次选择的数要尽可能大。这是因为，假设两个数的平方和为 $a^2 + b^2$（其中 $a \gt b$），将两个数平方和变成 $(a + c)^2 + (b - c)^2 = a^2 + b^2 + 2c(a - b) + 2c^2 \gt a^2 + b^2$。因此，为了最大化平方和，我们应该让一个数字尽可能大。
 
-The time complexity is $O(n \times \log M)$, and the space complexity is $O(\log M)$. Here, $M$ is the maximum value in the array.
+时间复杂度 $O(n \times \log M)$，空间复杂度 $O(\log M)$，其中 $M$ 是数组中的最大值。
 
 <!-- tabs:start -->
 
@@ -193,27 +198,27 @@ func maxSum(nums []int, k int) (ans int) {
 
 ```ts
 function maxSum(nums: number[], k: number): number {
-  const cnt: number[] = Array(31).fill(0);
-  for (const x of nums) {
-    for (let i = 0; i < 31; ++i) {
-      if ((x >> i) & 1) {
-        ++cnt[i];
-      }
+    const cnt: number[] = Array(31).fill(0);
+    for (const x of nums) {
+        for (let i = 0; i < 31; ++i) {
+            if ((x >> i) & 1) {
+                ++cnt[i];
+            }
+        }
     }
-  }
-  let ans = 0n;
-  const mod = 1e9 + 7;
-  while (k-- > 0) {
-    let x = 0;
-    for (let i = 0; i < 31; ++i) {
-      if (cnt[i] > 0) {
-        x |= 1 << i;
-        --cnt[i];
-      }
+    let ans = 0n;
+    const mod = 1e9 + 7;
+    while (k-- > 0) {
+        let x = 0;
+        for (let i = 0; i < 31; ++i) {
+            if (cnt[i] > 0) {
+                x |= 1 << i;
+                --cnt[i];
+            }
+        }
+        ans = (ans + BigInt(x) * BigInt(x)) % BigInt(mod);
     }
-    ans = (ans + BigInt(x) * BigInt(x)) % BigInt(mod);
-  }
-  return Number(ans);
+    return Number(ans);
 }
 ```
 

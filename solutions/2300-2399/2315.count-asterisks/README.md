@@ -1,68 +1,78 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2315.Count%20Asterisks/README.md
 rating: 1250
-source: Biweekly Contest 81 Q1
+source: 第 81 场双周赛 Q1
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2315. Count Asterisks](https://leetcode.com/problems/count-asterisks)
+# [2315. 统计星号](https://leetcode.cn/problems/count-asterisks)
 
-## Description
+[English Version](/solution/2300-2399/2315.Count%20Asterisks/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code>, where every <strong>two</strong> consecutive vertical bars <code>&#39;|&#39;</code> are grouped into a <strong>pair</strong>. In other words, the 1<sup>st</sup> and 2<sup>nd</sup> <code>&#39;|&#39;</code> make a pair, the 3<sup>rd</sup> and 4<sup>th</sup> <code>&#39;|&#39;</code> make a pair, and so forth.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，每&nbsp;<strong>两个</strong>&nbsp;连续竖线&nbsp;<code>'|'</code>&nbsp;为 <strong>一对</strong>&nbsp;。换言之，第一个和第二个&nbsp;<code>'|'</code>&nbsp;为一对，第三个和第四个&nbsp;<code>'|'</code>&nbsp;为一对，以此类推。</p>
 
-<p>Return <em>the number of </em><code>&#39;*&#39;</code><em> in </em><code>s</code><em>, <strong>excluding</strong> the </em><code>&#39;*&#39;</code><em> between each pair of </em><code>&#39;|&#39;</code>.</p>
+<p>请你返回 <strong>不在</strong> 竖线对之间，<code>s</code>&nbsp;中&nbsp;<code>'*'</code>&nbsp;的数目。</p>
 
-<p><strong>Note</strong> that each <code>&#39;|&#39;</code> will belong to <strong>exactly</strong> one pair.</p>
+<p><strong>注意</strong>，每个竖线&nbsp;<code>'|'</code>&nbsp;都会 <strong>恰好</strong>&nbsp;属于一个对。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;l|*e*et|c**o|*de|&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The considered characters are underlined: &quot;<u>l</u>|*e*et|<u>c**o</u>|*de|&quot;.
-The characters between the first and second &#39;|&#39; are excluded from the answer.
-Also, the characters between the third and fourth &#39;|&#39; are excluded from the answer.
-There are 2 asterisks considered. Therefore, we return 2.</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><b>输入：</b>s = "l|*e*et|c**o|*de|"
+<b>输出：</b>2
+<b>解释：</b>不在竖线对之间的字符加粗加斜体后，得到字符串："<strong><em>l</em></strong>|*e*et|<strong><em>c**o</em></strong>|*de|" 。
+第一和第二条竖线 '|' 之间的字符不计入答案。
+同时，第三条和第四条竖线 '|' 之间的字符也不计入答案。
+不在竖线对之间总共有 2 个星号，所以我们返回 2 。</pre>
 
-<pre>
-<strong>Input:</strong> s = &quot;iamprogrammer&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> In this example, there are no asterisks in s. Therefore, we return 0.
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>s = "iamprogrammer"
+<b>输出：</b>0
+<b>解释：</b>在这个例子中，s 中没有星号。所以返回 0 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;yo|uar|e**|b|e***au|tifu|l&quot;
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The considered characters are underlined: &quot;<u>yo</u>|uar|<u>e**</u>|b|<u>e***au</u>|tifu|<u>l</u>&quot;. There are 5 asterisks considered. Therefore, we return 5.</pre>
+<pre><b>输入：</b>s = "yo|uar|e**|b|e***au|tifu|l"
+<b>输出：</b>5
+<b>解释：</b>需要考虑的字符加粗加斜体后："<strong><em>yo</em></strong>|uar|<strong><em>e**</em></strong>|b|<strong><em>e***au</em></strong>|tifu|<strong><em>l</em></strong>" 。不在竖线对之间总共有 5 个星号。所以我们返回 5 。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code> consists of lowercase English letters, vertical bars <code>&#39;|&#39;</code>, and asterisks <code>&#39;*&#39;</code>.</li>
-	<li><code>s</code> contains an <strong>even</strong> number of vertical bars <code>&#39;|&#39;</code>.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母，竖线&nbsp;<code>'|'</code>&nbsp;和星号&nbsp;<code>'*'</code>&nbsp;。</li>
+	<li><code>s</code>&nbsp;包含 <strong>偶数</strong>&nbsp;个竖线&nbsp;<code>'|'</code> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+我们定义一个整型变量 $\textit{ok}$，表示遇到 `*` 时是否能计数，初始时 $\textit{ok}=1$，表示可以计数。
+
+遍历字符串 $s$，如果遇到 `*`，则根据 $\textit{ok}$ 的值决定是否计数，如果遇到 `|`，则 $\textit{ok}$ 的值取反。
+
+最后返回计数的结果。
+
+时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -138,16 +148,16 @@ func countAsterisks(s string) (ans int) {
 
 ```ts
 function countAsterisks(s: string): number {
-  let ans = 0;
-  let ok = 1;
-  for (const c of s) {
-    if (c === "*") {
-      ans += ok;
-    } else if (c === "|") {
-      ok ^= 1;
+    let ans = 0;
+    let ok = 1;
+    for (const c of s) {
+        if (c === '*') {
+            ans += ok;
+        } else if (c === '|') {
+            ok ^= 1;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

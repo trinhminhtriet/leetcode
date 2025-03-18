@@ -1,73 +1,77 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3002.Maximum%20Size%20of%20a%20Set%20After%20Removals/README.md
 rating: 1917
-source: Weekly Contest 379 Q3
+source: 第 379 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Hash Table
+    - 贪心
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [3002. Maximum Size of a Set After Removals](https://leetcode.com/problems/maximum-size-of-a-set-after-removals)
+# [3002. 移除后集合的最多元素数](https://leetcode.cn/problems/maximum-size-of-a-set-after-removals)
 
-## Description
+[English Version](/solution/3000-3099/3002.Maximum%20Size%20of%20a%20Set%20After%20Removals/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code> of even length <code>n</code>.</p>
+<p>给你两个下标从 <code>0</code> 开始的整数数组 <code>nums1</code> 和 <code>nums2</code> ，它们的长度都是偶数<code> n</code> 。</p>
 
-<p>You must remove <code>n / 2</code> elements from <code>nums1</code> and <code>n / 2</code> elements from <code>nums2</code>. After the removals, you insert the remaining elements of <code>nums1</code> and <code>nums2</code> into a set <code>s</code>.</p>
+<p>你必须从 <code>nums1</code> 中移除 <code>n / 2</code> 个元素，同时从 <code>nums2</code> 中也移除 <code>n / 2</code> 个元素。移除之后，你将 <code>nums1</code> 和 <code>nums2</code> 中剩下的元素插入到集合 <code>s</code> 中。</p>
 
-<p>Return <em>the <strong>maximum</strong> possible size of the set</em> <code>s</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [1,2,1,2], nums2 = [1,1,1,1]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We remove two occurences of 1 from nums1 and nums2. After the removals, the arrays become equal to nums1 = [2,2] and nums2 = [1,1]. Therefore, s = {1,2}.
-It can be shown that 2 is the maximum possible size of the set s after the removals.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [1,2,3,4,5,6], nums2 = [2,3,2,3,2,3]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> We remove 2, 3, and 6 from nums1, as well as 2 and two occurrences of 3 from nums2. After the removals, the arrays become equal to nums1 = [1,4,5] and nums2 = [2,3,2]. Therefore, s = {1,2,3,4,5}.
-It can be shown that 5 is the maximum possible size of the set s after the removals.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [1,1,2,2,3,3], nums2 = [4,4,5,5,6,6]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> We remove 1, 2, and 3 from nums1, as well as 4, 5, and 6 from nums2. After the removals, the arrays become equal to nums1 = [1,2,3] and nums2 = [4,5,6]. Therefore, s = {1,2,3,4,5,6}.
-It can be shown that 6 is the maximum possible size of the set s after the removals.
-</pre>
+<p>返回集合 <code>s</code>可能的<strong> 最多 </strong>包含多少元素。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [1,2,1,2], nums2 = [1,1,1,1]
+<strong>输出：</strong>2
+<strong>解释：</strong>从 nums1 和 nums2 中移除两个 1 。移除后，数组变为 nums1 = [2,2] 和 nums2 = [1,1] 。因此，s = {1,2} 。
+可以证明，在移除之后，集合 s 最多可以包含 2 个元素。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [1,2,3,4,5,6], nums2 = [2,3,2,3,2,3]
+<strong>输出：</strong>5
+<strong>解释：</strong>从 nums1 中移除 2、3 和 6 ，同时从 nums2 中移除两个 3 和一个 2 。移除后，数组变为 nums1 = [1,4,5] 和 nums2 = [2,3,2] 。因此，s = {1,2,3,4,5} 。
+可以证明，在移除之后，集合 s 最多可以包含 5 个元素。 
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [1,1,2,2,3,3], nums2 = [4,4,5,5,6,6]
+<strong>输出：</strong>6
+<strong>解释：</strong>从 nums1 中移除 1、2 和 3 ，同时从 nums2 中移除 4、5 和 6 。移除后，数组变为 nums1 = [1,2,3] 和 nums2 = [4,5,6] 。因此，s = {1,2,3,4,5,6} 。
+可以证明，在移除之后，集合 s 最多可以包含 6 个元素。 </pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums1.length == nums2.length</code></li>
 	<li><code>1 &lt;= n &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>n</code> is even.</li>
+	<li><code>n</code>是偶数。</li>
 	<li><code>1 &lt;= nums1[i], nums2[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -183,25 +187,25 @@ func maximumSetSize(nums1 []int, nums2 []int) int {
 
 ```ts
 function maximumSetSize(nums1: number[], nums2: number[]): number {
-  const s1: Set<number> = new Set(nums1);
-  const s2: Set<number> = new Set(nums2);
-  const n = nums1.length;
-  let [a, b, c] = [0, 0, 0];
-  for (const x of s1) {
-    if (!s2.has(x)) {
-      ++a;
+    const s1: Set<number> = new Set(nums1);
+    const s2: Set<number> = new Set(nums2);
+    const n = nums1.length;
+    let [a, b, c] = [0, 0, 0];
+    for (const x of s1) {
+        if (!s2.has(x)) {
+            ++a;
+        }
     }
-  }
-  for (const x of s2) {
-    if (!s1.has(x)) {
-      ++b;
-    } else {
-      ++c;
+    for (const x of s2) {
+        if (!s1.has(x)) {
+            ++b;
+        } else {
+            ++c;
+        }
     }
-  }
-  a = Math.min(a, n >> 1);
-  b = Math.min(b, n >> 1);
-  return Math.min(a + b + c, n);
+    a = Math.min(a, n >> 1);
+    b = Math.min(b, n >> 1);
+    return Math.min(a + b + c, n);
 }
 ```
 

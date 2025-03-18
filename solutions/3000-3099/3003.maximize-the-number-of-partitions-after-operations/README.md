@@ -1,101 +1,106 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3003.Maximize%20the%20Number%20of%20Partitions%20After%20Operations/README.md
 rating: 3039
-source: Weekly Contest 379 Q4
+source: 第 379 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - String
-  - Dynamic Programming
-  - Bitmask
+    - 位运算
+    - 字符串
+    - 动态规划
+    - 状态压缩
 ---
 
 <!-- problem:start -->
 
-# [3003. Maximize the Number of Partitions After Operations](https://leetcode.com/problems/maximize-the-number-of-partitions-after-operations)
+# [3003. 执行操作后的最大分割数量](https://leetcode.cn/problems/maximize-the-number-of-partitions-after-operations)
 
-## Description
+[English Version](/solution/3000-3099/3003.Maximize%20the%20Number%20of%20Partitions%20After%20Operations/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> and an integer <code>k</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的字符串&nbsp;<code>s</code>&nbsp;和一个整数&nbsp;<code>k</code>。</p>
 
-<p>First, you are allowed to change <strong>at most</strong> <strong>one</strong> index in <code>s</code> to another lowercase English letter.</p>
-
-<p>After that, do the following partitioning operation until <code>s</code> is <strong>empty</strong>:</p>
+<p>你需要执行以下分割操作，直到字符串&nbsp;<code>s&nbsp;</code>变为&nbsp;<strong>空</strong>：</p>
 
 <ul>
-	<li>Choose the <strong>longest</strong> <strong>prefix</strong> of <code>s</code> containing at most <code>k</code> <strong>distinct</strong> characters.</li>
-	<li><strong>Delete</strong> the prefix from <code>s</code> and increase the number of partitions by one. The remaining characters (if any) in <code>s</code> maintain their initial order.</li>
+	<li>选择&nbsp;<code>s</code>&nbsp;的最长&nbsp;<strong>前缀</strong>，该前缀最多包含&nbsp;<code>k&nbsp;</code>个&nbsp;<strong>不同&nbsp;</strong>字符。</li>
+	<li><strong>删除&nbsp;</strong>这个前缀，并将分割数量加一。如果有剩余字符，它们在&nbsp;<code>s</code>&nbsp;中保持原来的顺序。</li>
 </ul>
 
-<p>Return an integer denoting the <strong>maximum</strong> number of resulting partitions after the operations by optimally choosing at most one index to change.</p>
+<p>执行操作之 <strong>前</strong> ，你可以将&nbsp;<code>s</code>&nbsp;中&nbsp;<strong>至多一处 </strong>下标的对应字符更改为另一个小写英文字母。</p>
+
+<p>在最优选择情形下改变至多一处下标对应字符后，用整数表示并返回操作结束时得到的 <strong>最大</strong> 分割数量。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;accca&quot;, k = 2</span></p>
+<p><strong>输入：</strong><span class="example-io">s = "accca", k = 2</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
+<p><strong>输出：</strong><span class="example-io">3</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The optimal way is to change <code>s[2]</code> to something other than a and c, for example, b. then it becomes <code>&quot;acbca&quot;</code>.</p>
+<p>最好的方式是把&nbsp;<code>s[2]</code>&nbsp;变为除了 a 和 c 之外的东西，比如&nbsp;b。然后它变成了&nbsp;<code>"acbca"</code>。</p>
 
-<p>Then we perform the operations:</p>
+<p>然后我们执行以下操作：</p>
 
 <ol>
-	<li>The longest prefix containing at most 2 distinct characters is <code>&quot;ac&quot;</code>, we remove it and <code>s</code> becomes <code>&quot;bca&quot;</code>.</li>
-	<li>Now The longest prefix containing at most 2 distinct characters is <code>&quot;bc&quot;</code>, so we remove it and <code>s</code> becomes <code>&quot;a&quot;</code>.</li>
-	<li>Finally, we remove <code>&quot;a&quot;</code> and <code>s</code> becomes empty, so the procedure ends.</li>
+	<li>最多包含 2 个不同字符的最长前缀是 <code>"ac"</code>，我们删除它然后&nbsp;<code>s</code> 变为&nbsp;<code>"bca"</code>。</li>
+	<li>现在最多包含 2 个不同字符的最长前缀是&nbsp;<code>"bc"</code>，所以我们删除它然后&nbsp;<code>s</code> 变为&nbsp;<code>"a"</code>。</li>
+	<li>最后，我们删除&nbsp;<code>"a"</code>&nbsp;并且&nbsp;<code>s</code>&nbsp;变成空串，所以该过程结束。</li>
 </ol>
 
-<p>Doing the operations, the string is divided into 3 partitions, so the answer is 3.</p>
+<p>进行操作时，字符串被分成 3 个部分，所以答案是 3。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;aabaab&quot;, k = 3</span></p>
+<p><strong>输入：</strong><span class="example-io">s = "aabaab", k = 3</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
+<p><strong>输出：</strong><span class="example-io">1</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>Initially&nbsp;<code>s</code>&nbsp;contains 2 distinct characters, so whichever character we change, it will contain at most 3 distinct characters, so the longest prefix with at most 3 distinct characters would always be all of it, therefore the answer is 1.</p>
+<p>一开始&nbsp;<code>s</code>&nbsp;包含 2 个不同的字符，所以无论我们改变哪个，&nbsp;它最多包含 3 个不同字符，因此最多包含 3 个不同字符的最长前缀始终是所有字符，因此答案是 1。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;xxyz&quot;, k = 1</span></p>
+<p><strong>输入：</strong><span class="example-io">s = "xxyz", k = 1</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">4</span></p>
+<p><span class="example-io"><b>输出：</b>4</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The optimal way is to change&nbsp;<code>s[0]</code>&nbsp;or&nbsp;<code>s[1]</code>&nbsp;to something other than characters in&nbsp;<code>s</code>, for example, to change&nbsp;<code>s[0]</code>&nbsp;to&nbsp;<code>w</code>.</p>
+<p>最好的方式是将&nbsp;<code>s[0]</code>&nbsp;或&nbsp;<code>s[1]</code>&nbsp;变为&nbsp;<code>s</code>&nbsp;中字符以外的东西，例如将&nbsp;<code>s[0]</code>&nbsp;变为&nbsp;<code>w</code>。</p>
 
-<p>Then&nbsp;<code>s</code>&nbsp;becomes <code>&quot;wxyz&quot;</code>, which consists of 4 distinct characters, so as <code>k</code> is 1, it will divide into 4 partitions.</p>
+<p>然后&nbsp;<code>s</code>&nbsp;变为&nbsp;<code>"wxyz"</code>，包含 4 个不同的字符，所以当&nbsp;<code>k</code>&nbsp;为 1，它将分为 4 个部分。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>s</code> consists only of lowercase English letters.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
 	<li><code>1 &lt;= k &lt;= 26</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -249,47 +254,47 @@ func maxPartitionsAfterOperations(s string, k int) int {
 
 ```ts
 function maxPartitionsAfterOperations(s: string, k: number): number {
-  const n = s.length;
-  const f: Map<bigint, number> = new Map();
-  const dfs = (i: number, cur: number, t: number): number => {
-    if (i >= n) {
-      return 1;
-    }
-    const key = (BigInt(i) << 27n) | (BigInt(cur) << 1n) | BigInt(t);
-    if (f.has(key)) {
-      return f.get(key)!;
-    }
-    const v = 1 << (s.charCodeAt(i) - 97);
-    let nxt = cur | v;
-    let ans = 0;
-    if (bitCount(nxt) > k) {
-      ans = dfs(i + 1, v, t) + 1;
-    } else {
-      ans = dfs(i + 1, nxt, t);
-    }
-    if (t) {
-      for (let j = 0; j < 26; ++j) {
-        nxt = cur | (1 << j);
-        if (bitCount(nxt) > k) {
-          ans = Math.max(ans, dfs(i + 1, 1 << j, 0) + 1);
-        } else {
-          ans = Math.max(ans, dfs(i + 1, nxt, 0));
+    const n = s.length;
+    const f: Map<bigint, number> = new Map();
+    const dfs = (i: number, cur: number, t: number): number => {
+        if (i >= n) {
+            return 1;
         }
-      }
-    }
-    f.set(key, ans);
-    return ans;
-  };
-  return dfs(0, 0, 1);
+        const key = (BigInt(i) << 27n) | (BigInt(cur) << 1n) | BigInt(t);
+        if (f.has(key)) {
+            return f.get(key)!;
+        }
+        const v = 1 << (s.charCodeAt(i) - 97);
+        let nxt = cur | v;
+        let ans = 0;
+        if (bitCount(nxt) > k) {
+            ans = dfs(i + 1, v, t) + 1;
+        } else {
+            ans = dfs(i + 1, nxt, t);
+        }
+        if (t) {
+            for (let j = 0; j < 26; ++j) {
+                nxt = cur | (1 << j);
+                if (bitCount(nxt) > k) {
+                    ans = Math.max(ans, dfs(i + 1, 1 << j, 0) + 1);
+                } else {
+                    ans = Math.max(ans, dfs(i + 1, nxt, 0));
+                }
+            }
+        }
+        f.set(key, ans);
+        return ans;
+    };
+    return dfs(0, 0, 1);
 }
 
 function bitCount(i: number): number {
-  i = i - ((i >>> 1) & 0x55555555);
-  i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
-  i = (i + (i >>> 4)) & 0x0f0f0f0f;
-  i = i + (i >>> 8);
-  i = i + (i >>> 16);
-  return i & 0x3f;
+    i = i - ((i >>> 1) & 0x55555555);
+    i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
+    i = (i + (i >>> 4)) & 0x0f0f0f0f;
+    i = i + (i >>> 8);
+    i = i + (i >>> 16);
+    return i & 0x3f;
 }
 ```
 

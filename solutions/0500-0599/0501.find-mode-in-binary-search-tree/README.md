@@ -1,66 +1,72 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0501.Find%20Mode%20in%20Binary%20Search%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Search Tree
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉搜索树
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [501. Find Mode in Binary Search Tree](https://leetcode.com/problems/find-mode-in-binary-search-tree)
+# [501. 二叉搜索树中的众数](https://leetcode.cn/problems/find-mode-in-binary-search-tree)
 
-## Description
+[English Version](/solution/0500-0599/0501.Find%20Mode%20in%20Binary%20Search%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary search tree (BST) with duplicates, return <em>all the <a href="https://en.wikipedia.org/wiki/Mode_(statistics)" target="_blank">mode(s)</a> (i.e., the most frequently occurred element) in it</em>.</p>
+<p>给你一个含重复值的二叉搜索树（BST）的根节点 <code>root</code> ，找出并返回 BST 中的所有 <a href="https://baike.baidu.com/item/%E4%BC%97%E6%95%B0/44796" target="_blank">众数</a>（即，出现频率最高的元素）。</p>
 
-<p>If the tree has more than one mode, return them in <strong>any order</strong>.</p>
+<p>如果树中有不止一个众数，可以按 <strong>任意顺序</strong> 返回。</p>
 
-<p>Assume a BST is defined as follows:</p>
+<p>假定 BST 满足如下定义：</p>
 
 <ul>
-	<li>The left subtree of a node contains only nodes with keys <strong>less than or equal to</strong> the node&#39;s key.</li>
-	<li>The right subtree of a node contains only nodes with keys <strong>greater than or equal to</strong> the node&#39;s key.</li>
-	<li>Both the left and right subtrees must also be binary search trees.</li>
+	<li>结点左子树中所含节点的值 <strong>小于等于</strong> 当前节点的值</li>
+	<li>结点右子树中所含节点的值 <strong>大于等于</strong> 当前节点的值</li>
+	<li>左子树和右子树都是二叉搜索树</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0501.Find%20Mode%20in%20Binary%20Search%20Tree/images/mode-tree.jpg" style="width: 142px; height: 222px;" />
 <pre>
-<strong>Input:</strong> root = [1,null,2,2]
-<strong>Output:</strong> [2]
+<strong>输入：</strong>root = [1,null,2,2]
+<strong>输出：</strong>[2]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> root = [0]
-<strong>Output:</strong> [0]
+<strong>输入：</strong>root = [0]
+<strong>输出：</strong>[0]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li>树中节点的数目在范围 <code>[1, 10<sup>4</sup>]</code> 内</li>
 	<li><code>-10<sup>5</sup> &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <p>&nbsp;</p>
-<strong>Follow up:</strong> Could you do that without using any extra space? (Assume that the implicit stack space incurred due to recursion does not count).
+
+<p><strong>进阶：</strong>你可以不使用额外的空间吗？（假设由递归产生的隐式调用栈的开销不被计算在内）</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

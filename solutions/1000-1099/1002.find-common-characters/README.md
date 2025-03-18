@@ -1,52 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1002.Find%20Common%20Characters/README.md
 rating: 1279
-source: Weekly Contest 126 Q1
+source: 第 126 场周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - String
+    - 数组
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1002. Find Common Characters](https://leetcode.com/problems/find-common-characters)
+# [1002. 查找共用字符](https://leetcode.cn/problems/find-common-characters)
 
-## Description
+[English Version](/solution/1000-1099/1002.Find%20Common%20Characters/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string array <code>words</code>, return <em>an array of all characters that show up in all strings within the </em><code>words</code><em> (including duplicates)</em>. You may return the answer in <strong>any order</strong>.</p>
+给你一个字符串数组 <code>words</code> ，请你找出所有在 <code>words</code> 的每个字符串中都出现的共用字符（<strong>包括重复字符</strong>），并以数组形式返回。你可以按 <strong>任意顺序</strong> 返回答案。
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> words = ["bella","label","roller"]
-<strong>Output:</strong> ["e","l","l"]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> words = ["cool","lock","cook"]
-<strong>Output:</strong> ["c","o"]
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["bella","label","roller"]
+<strong>输出：</strong>["e","l","l"]
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["cool","lock","cook"]
+<strong>输出：</strong>["c","o"]
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 100</code></li>
-	<li><code>words[i]</code> consists of lowercase English letters.</li>
+	<li><code>words[i]</code> 由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We use an array $cnt$ of length $26$ to record the minimum number of times each character appears in all strings. Finally, we traverse the $cnt$ array and add characters with a count greater than $0$ to the answer.
+我们用一个长度为 $26$ 的数组 $cnt$ 记录每个字符在所有字符串中出现的最小次数，最后遍历 $cnt$ 数组，将出现次数大于 $0$ 的字符加入答案即可。
 
-The time complexity is $O(n \sum w_i)$, and the space complexity is $O(|\Sigma|)$. Here, $n$ is the length of the string array $words$, $w_i$ is the length of the $i$-th string in the array $words$, and $|\Sigma|$ is the size of the character set, which is $26$ in this problem.
+时间复杂度 $O(n \sum w_i)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 为字符串数组 $words$ 的长度，而 $w_i$ 为字符串数组 $words$ 中第 $i$ 个字符串的长度，另外 $|\Sigma|$ 为字符集的大小，本题中 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -145,22 +157,22 @@ func commonChars(words []string) (ans []string) {
 
 ```ts
 function commonChars(words: string[]): string[] {
-  const cnt = Array(26).fill(20000);
-  const aCode = "a".charCodeAt(0);
-  for (const w of words) {
-    const t = Array(26).fill(0);
-    for (const c of w) {
-      t[c.charCodeAt(0) - aCode]++;
+    const cnt = Array(26).fill(20000);
+    const aCode = 'a'.charCodeAt(0);
+    for (const w of words) {
+        const t = Array(26).fill(0);
+        for (const c of w) {
+            t[c.charCodeAt(0) - aCode]++;
+        }
+        for (let i = 0; i < 26; i++) {
+            cnt[i] = Math.min(cnt[i], t[i]);
+        }
     }
+    const ans: string[] = [];
     for (let i = 0; i < 26; i++) {
-      cnt[i] = Math.min(cnt[i], t[i]);
+        cnt[i] && ans.push(...String.fromCharCode(i + aCode).repeat(cnt[i]));
     }
-  }
-  const ans: string[] = [];
-  for (let i = 0; i < 26; i++) {
-    cnt[i] && ans.push(...String.fromCharCode(i + aCode).repeat(cnt[i]));
-  }
-  return ans;
+    return ans;
 }
 ```
 

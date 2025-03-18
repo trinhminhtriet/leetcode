@@ -1,83 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1129.Shortest%20Path%20with%20Alternating%20Colors/README.md
 rating: 1779
-source: Weekly Contest 146 Q2
+source: 第 146 场周赛 Q2
 tags:
-  - Breadth-First Search
-  - Graph
+    - 广度优先搜索
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [1129. Shortest Path with Alternating Colors](https://leetcode.com/problems/shortest-path-with-alternating-colors)
+# [1129. 颜色交替的最短路径](https://leetcode.cn/problems/shortest-path-with-alternating-colors)
 
-## Description
+[English Version](/solution/1100-1199/1129.Shortest%20Path%20with%20Alternating%20Colors/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer <code>n</code>, the number of nodes in a directed graph where the nodes are labeled from <code>0</code> to <code>n - 1</code>. Each edge is red or blue in this graph, and there could be self-edges and parallel edges.</p>
+<p>给定一个整数 <code>n</code>，即有向图中的节点数，其中节点标记为 <code>0</code> 到 <code>n - 1</code>。图中的每条边为红色或者蓝色，并且可能存在自环或平行边。</p>
 
-<p>You are given two arrays <code>redEdges</code> and <code>blueEdges</code> where:</p>
+<p>给定两个数组&nbsp;<code>redEdges</code>&nbsp;和&nbsp;<code>blueEdges</code>，其中：</p>
 
 <ul>
-	<li><code>redEdges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is a directed red edge from node <code>a<sub>i</sub></code> to node <code>b<sub>i</sub></code> in the graph, and</li>
-	<li><code>blueEdges[j] = [u<sub>j</sub>, v<sub>j</sub>]</code> indicates that there is a directed blue edge from node <code>u<sub>j</sub></code> to node <code>v<sub>j</sub></code> in the graph.</li>
+	<li><code>redEdges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示图中存在一条从节点&nbsp;<code>a<sub>i</sub></code>&nbsp;到节点&nbsp;<code>b<sub>i</sub></code>&nbsp;的红色有向边，</li>
+	<li><code>blueEdges[j] = [u<sub>j</sub>, v<sub>j</sub>]</code>&nbsp;表示图中存在一条从节点&nbsp;<code>u<sub>j</sub></code>&nbsp;到节点&nbsp;<code>v<sub>j</sub></code>&nbsp;的蓝色有向边。</li>
 </ul>
 
-<p>Return an array <code>answer</code> of length <code>n</code>, where each <code>answer[x]</code> is the length of the shortest path from node <code>0</code> to node <code>x</code> such that the edge colors alternate along the path, or <code>-1</code> if such a path does not exist.</p>
+<p>返回长度为 <code>n</code> 的数组&nbsp;<code>answer</code>，其中&nbsp;<code>answer[X]</code>&nbsp;是从节点&nbsp;<code>0</code>&nbsp;到节点&nbsp;<code>X</code>&nbsp;的红色边和蓝色边交替出现的最短路径的长度。如果不存在这样的路径，那么 <code>answer[x] = -1</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 3, redEdges = [[0,1],[1,2]], blueEdges = []
-<strong>Output:</strong> [0,1,-1]
+<strong>输入：</strong>n = 3, red_edges = [[0,1],[1,2]], blue_edges = []
+<strong>输出：</strong>[0,1,-1]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 3, redEdges = [[0,1]], blueEdges = [[2,1]]
-<strong>Output:</strong> [0,1,-1]
+<strong>输入：</strong>n = 3, red_edges = [[0,1]], blue_edges = [[2,1]]
+<strong>输出：</strong>[0,1,-1]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
 	<li><code>0 &lt;= redEdges.length,&nbsp;blueEdges.length &lt;= 400</code></li>
 	<li><code>redEdges[i].length == blueEdges[j].length == 2</code></li>
-	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub>, u<sub>j</sub>, v<sub>j</sub> &lt; n</code></li>
+	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub>, u<sub>j</sub>, v<sub>j</sub>&nbsp;&lt; n</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-The problem is essentially a shortest path problem, which we can consider solving using BFS.
+题目实际上是最短路问题，我们可以考虑使用 BFS 来解决。
 
-First, we preprocess all the edges, categorizing all the edges by color and storing them in a multi-dimensional array $g$. Where $g[0]$ stores all red edges, and $g[1]$ stores all blue edges.
+首先，我们对所有的边进行预处理，将所有的边按照颜色分类，存储到多维数组 $g$ 中。其中 $g[0]$ 存储所有红色边，而 $g[1]$ 存储所有蓝色边。
 
-Next, we define the following data structures or variables:
+接着，我们定义以下数据结构或变量：
 
-- Queue $q$: used to store the currently searched node and the color of the current edge;
-- Set $vis$: used to store the nodes that have been searched and the color of the current edge;
-- Variable $d$: used to represent the current search level, i.e., the distance from the currently searched node to the starting point;
-- Array $ans$: used to store the shortest distance from each node to the starting point. Initially, we initialize all elements in the $ans$ array to $-1$, indicating that the distance from all nodes to the starting point is unknown.
+-   队列 $q$：用来存储当前搜索到的节点，以及当前边的颜色；
+-   集合 $vis$：用来存储已经搜索过的节点，以及当前边的颜色；
+-   变量 $d$：用来表示当前搜索的层数，即当前搜索到的节点到起点的距离；
+-   数组 $ans$：用来存储每个节点到起点的最短距离。初始时，我们将 $ans$ 数组中的所有元素初始化为 $-1$，表示所有节点到起点的距离都未知。
 
-We first enqueue the starting point $0$ and the color of the starting edge $0$ or $1$, indicating that we start from the starting point and the current edge is red or blue.
+我们首先将起点 $0$ 和起点边的颜色 $0$ 或 $1$ 入队，表示从起点出发，且当前是红色或蓝色边。
 
-Next, we start the BFS search. Each time we take out a node $(i, c)$ from the queue, if the answer of the current node has not been updated, then we update the answer of the current node to the current level $d$, i.e., $ans[i] = d$. Then, we flip the color of the current edge $c$, i.e., if the current edge is red, we change it to blue, and vice versa. We take out all edges corresponding to the color, if the other end node $j$ of the edge has not been searched, then we enqueue it.
+接下来，我们开始进行 BFS 搜索。我们每次从队列中取出一个节点 $(i, c)$，如果当前节点的答案还未更新，则将当前节点的答案更新为当前层数 $d$，即 $ans[i] = d$。然后，我们将当前边的颜色 $c$ 取反，即如果当前边为红色，则将其变为蓝色，反之亦然。我们取出颜色对应的所有边，如果边的另一端节点 $j$ 未被搜索过，则将其入队。
 
-After the search is over, return the answer array.
+搜索结束后，返回答案数组即可。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Here, $n$ and $m$ are the number of nodes and edges, respectively.
+时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别为节点数和边数。
 
 <!-- tabs:start -->
 
@@ -245,45 +250,43 @@ func shortestAlternatingPaths(n int, redEdges [][]int, blueEdges [][]int) []int 
 
 ```ts
 function shortestAlternatingPaths(
-  n: number,
-  redEdges: number[][],
-  blueEdges: number[][]
+    n: number,
+    redEdges: number[][],
+    blueEdges: number[][],
 ): number[] {
-  const g: [Graph, Graph] = [{}, {}];
-  const ans = Array(n).fill(-1);
-  const vis = Array.from({ length: n }, () =>
-    Array.from({ length: 2 }, () => false)
-  );
-  let q: Vertex[] = [
-    [0, 0],
-    [0, 1],
-  ];
-  vis[0][0] = vis[0][1] = true;
-  let d = 0;
-  for (const [i, j] of redEdges) {
-    (g[0][i] ??= []).push(j);
-  }
-  for (const [i, j] of blueEdges) {
-    (g[1][i] ??= []).push(j);
-  }
-  while (q.length) {
-    const qNext: Vertex[] = [];
-    for (let [i, color] of q) {
-      if (ans[i] === -1) {
-        ans[i] = d;
-      }
-      color ^= 1;
-      for (const j of g[color][i] ?? []) {
-        if (!vis[j][color]) {
-          vis[j][color] = true;
-          qNext.push([j, color as Color]);
-        }
-      }
+    const g: [Graph, Graph] = [{}, {}];
+    const ans = Array(n).fill(-1);
+    const vis = Array.from({ length: n }, () => Array.from({ length: 2 }, () => false));
+    let q: Vertex[] = [
+        [0, 0],
+        [0, 1],
+    ];
+    vis[0][0] = vis[0][1] = true;
+    let d = 0;
+    for (const [i, j] of redEdges) {
+        (g[0][i] ??= []).push(j);
     }
-    q = qNext;
-    d++;
-  }
-  return ans;
+    for (const [i, j] of blueEdges) {
+        (g[1][i] ??= []).push(j);
+    }
+    while (q.length) {
+        const qNext: Vertex[] = [];
+        for (let [i, color] of q) {
+            if (ans[i] === -1) {
+                ans[i] = d;
+            }
+            color ^= 1;
+            for (const j of g[color][i] ?? []) {
+                if (!vis[j][color]) {
+                    vis[j][color] = true;
+                    qNext.push([j, color as Color]);
+                }
+            }
+        }
+        q = qNext;
+        d++;
+    }
+    return ans;
 }
 
 type Graph = Record<number, number[]>;

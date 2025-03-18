@@ -1,126 +1,146 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2836.Maximize%20Value%20of%20Function%20in%20a%20Ball%20Passing%20Game/README.md
 rating: 2768
-source: Weekly Contest 360 Q4
+source: 第 360 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Array
-  - Dynamic Programming
+    - 位运算
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2836. Maximize Value of Function in a Ball Passing Game](https://leetcode.com/problems/maximize-value-of-function-in-a-ball-passing-game)
+# [2836. 在传球游戏中最大化函数值](https://leetcode.cn/problems/maximize-value-of-function-in-a-ball-passing-game)
 
-## Description
+[English Version](/solution/2800-2899/2836.Maximize%20Value%20of%20Function%20in%20a%20Ball%20Passing%20Game/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>receiver</code> of length <code>n</code> and an integer <code>k</code>. <code>n</code> players are playing a ball-passing game.</p>
+<p>给你一个长度为 <code>n</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>receiver</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。</p>
 
-<p>You choose the starting player, <code>i</code>. The game proceeds as follows: player <code>i</code> passes the ball to player <code>receiver[i]</code>, who then passes it to <code>receiver[receiver[i]]</code>, and so on, for <code>k</code> passes in total. The game&#39;s score is the sum of the indices of the players who touched the ball, including repetitions, i.e. <code>i + receiver[i] + receiver[receiver[i]] + ... + receiver<sup>(k)</sup>[i]</code>.</p>
+<p>总共有&nbsp;<code>n</code>&nbsp;名玩家，玩家 <strong>编号</strong>&nbsp;互不相同，且为&nbsp;<code>[0, n - 1]</code>&nbsp;中的整数。这些玩家玩一个传球游戏，<code>receiver[i]</code>&nbsp;表示编号为 <code>i</code>&nbsp;的玩家会传球给编号为 <code>receiver[i]</code>&nbsp;的玩家。玩家可以传球给自己，也就是说&nbsp;<code>receiver[i]</code>&nbsp;可能等于&nbsp;<code>i</code>&nbsp;。</p>
 
-<p>Return&nbsp;the <strong>maximum</strong>&nbsp;possible score.</p>
+<p>你需要从 <code>n</code>&nbsp;名玩家中选择一名玩家作为游戏开始时唯一手中有球的玩家，球会被传 <strong>恰好</strong>&nbsp;<code>k</code>&nbsp;次。</p>
 
-<p><strong>Notes:</strong></p>
+<p>如果选择编号为 <code>x</code>&nbsp;的玩家作为开始玩家，定义函数&nbsp;<code>f(x)</code>&nbsp;表示从编号为&nbsp;<code>x</code>&nbsp;的玩家开始，<code>k</code>&nbsp;次传球内所有接触过球玩家的编号之&nbsp;<strong>和</strong>&nbsp;，如果有玩家多次触球，则 <strong>累加多次</strong>&nbsp;。换句话说，&nbsp;<code>f(x) = x + receiver[x] + receiver[receiver[x]] + ... + receiver<sup>(k)</sup>[x]</code>&nbsp;。</p>
 
-<ul>
-	<li><code>receiver</code> may contain duplicates.</li>
-	<li><code>receiver[i]</code> may be equal to <code>i</code>.</li>
-</ul>
+<p>你的任务时选择开始玩家 <code>x</code>&nbsp;，目的是<strong>&nbsp;最大化</strong>&nbsp;<code>f(x)</code>&nbsp;。</p>
+
+<p>请你返回函数的 <strong>最大值</strong>&nbsp;。</p>
+
+<p><strong>注意：</strong><code>receiver</code>&nbsp;可能含有重复元素。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">receiver = [2,0,1], k = 4</span></p>
+<p><strong class="example">示例 1：</strong></p>
 
-<p><strong>Output:</strong> <span class="example-io">6</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>Starting with player <code>i = 2</code> the initial score is 2:</p>
-
-<table>
+<table border="1" cellspacing="3" style="border-collapse: separate; text-align: center;">
 	<tbody>
 		<tr>
-			<th>Pass</th>
-			<th>Sender Index</th>
-			<th>Receiver Index</th>
-			<th>Score</th>
+			<th style="padding: 5px; border: 1px solid black;">传递次数</th>
+			<th style="padding: 5px; border: 1px solid black;">传球者编号</th>
+			<th style="padding: 5px; border: 1px solid black;">接球者编号</th>
+			<th style="padding: 5px; border: 1px solid black;">x + 所有接球者编号</th>
 		</tr>
 		<tr>
-			<td>1</td>
-			<td>2</td>
-			<td>1</td>
-			<td>3</td>
+			<td style="padding: 5px; border: 1px solid black;">&nbsp;</td>
+			<td style="padding: 5px; border: 1px solid black;">&nbsp;</td>
+			<td style="padding: 5px; border: 1px solid black;">&nbsp;</td>
+			<td style="padding: 5px; border: 1px solid black;">2</td>
 		</tr>
 		<tr>
-			<td>2</td>
-			<td>1</td>
-			<td>0</td>
-			<td>3</td>
+			<td style="padding: 5px; border: 1px solid black;">1</td>
+			<td style="padding: 5px; border: 1px solid black;">2</td>
+			<td style="padding: 5px; border: 1px solid black;">1</td>
+			<td style="padding: 5px; border: 1px solid black;">3</td>
 		</tr>
 		<tr>
-			<td>3</td>
-			<td>0</td>
-			<td>2</td>
-			<td>5</td>
+			<td style="padding: 5px; border: 1px solid black;">2</td>
+			<td style="padding: 5px; border: 1px solid black;">1</td>
+			<td style="padding: 5px; border: 1px solid black;">0</td>
+			<td style="padding: 5px; border: 1px solid black;">3</td>
 		</tr>
 		<tr>
-			<td>4</td>
-			<td>2</td>
-			<td>1</td>
-			<td>6</td>
+			<td style="padding: 5px; border: 1px solid black;">3</td>
+			<td style="padding: 5px; border: 1px solid black;">0</td>
+			<td style="padding: 5px; border: 1px solid black;">2</td>
+			<td style="padding: 5px; border: 1px solid black;">5</td>
+		</tr>
+		<tr>
+			<td style="padding: 5px; border: 1px solid black;">4</td>
+			<td style="padding: 5px; border: 1px solid black;">2</td>
+			<td style="padding: 5px; border: 1px solid black;">1</td>
+			<td style="padding: 5px; border: 1px solid black;">6</td>
 		</tr>
 	</tbody>
 </table>
-</div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p>&nbsp;</p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">receiver = [1,1,1,2,3], k = 3</span></p>
+<pre>
+<b>输入：</b>receiver = [2,0,1], k = 4
+<b>输出：</b>6
+<b>解释：</b>上表展示了从编号为 x = 2 开始的游戏过程。
+从表中可知，f(2) 等于 6 。
+6 是能得到最大的函数值。
+所以输出为 6 。
+</pre>
 
-<p><strong>Output:</strong> <span class="example-io">10</span></p>
+<p><strong class="example">示例 2：</strong></p>
 
-<p><strong>Explanation:</strong></p>
-
-<p>Starting with player <code>i = 4</code> the initial score is 4:</p>
-
-<table>
+<table border="1" cellspacing="3" style="border-collapse: separate; text-align: center;">
 	<tbody>
 		<tr>
-			<th>Pass</th>
-			<th>Sender Index</th>
-			<th>Receiver Index</th>
-			<th>Score</th>
+			<th style="padding: 5px; border: 1px solid black;">传递次数</th>
+			<th style="padding: 5px; border: 1px solid black;">传球者编号</th>
+			<th style="padding: 5px; border: 1px solid black;">接球者编号</th>
+			<th style="padding: 5px; border: 1px solid black;">x + 所有接球者编号</th>
 		</tr>
 		<tr>
-			<td>1</td>
-			<td>4</td>
-			<td>3</td>
-			<td>7</td>
+			<td style="padding: 5px; border: 1px solid black;">&nbsp;</td>
+			<td style="padding: 5px; border: 1px solid black;">&nbsp;</td>
+			<td style="padding: 5px; border: 1px solid black;">&nbsp;</td>
+			<td style="padding: 5px; border: 1px solid black;">4</td>
 		</tr>
 		<tr>
-			<td>2</td>
-			<td>3</td>
-			<td>2</td>
-			<td>9</td>
+			<td style="padding: 5px; border: 1px solid black;">1</td>
+			<td style="padding: 5px; border: 1px solid black;">4</td>
+			<td style="padding: 5px; border: 1px solid black;">3</td>
+			<td style="padding: 5px; border: 1px solid black;">7</td>
 		</tr>
 		<tr>
-			<td>3</td>
-			<td>2</td>
-			<td>1</td>
-			<td>10</td>
+			<td style="padding: 5px; border: 1px solid black;">2</td>
+			<td style="padding: 5px; border: 1px solid black;">3</td>
+			<td style="padding: 5px; border: 1px solid black;">2</td>
+			<td style="padding: 5px; border: 1px solid black;">9</td>
+		</tr>
+		<tr>
+			<td style="padding: 5px; border: 1px solid black;">3</td>
+			<td style="padding: 5px; border: 1px solid black;">2</td>
+			<td style="padding: 5px; border: 1px solid black;">1</td>
+			<td style="padding: 5px; border: 1px solid black;">10</td>
 		</tr>
 	</tbody>
 </table>
-</div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<pre>
+<b>输入：</b>receiver = [1,1,1,2,3], k = 3
+<b>输出：</b>10
+<b>解释：</b>上表展示了从编号为 x = 4 开始的游戏过程。
+从表中可知，f(4) 等于 10 。
+10 是能得到最大的函数值。
+所以输出为 10 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= receiver.length == n &lt;= 10<sup>5</sup></code></li>
@@ -130,29 +150,29 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming + Binary Lifting
+### 方法一：动态规划 + 倍增
 
-The problem asks us to find the maximum sum of the player IDs who have touched the ball within $k$ passes starting from each player $i$. If we solve it by brute force, we need to traverse upwards $k$ times starting from $i$, with a time complexity of $O(k)$, which will obviously time out.
+题目要我们寻找从每个玩家 $i$ 开始，传球 $k$ 次内所有接触过球玩家的编号之和的最大值。如果暴力求解，需要从 $i$ 开始向上遍历 $k$ 次，时间复杂度为 $O(k)$，显然会超时。
 
-We can use dynamic programming combined with binary lifting to handle this.
+我们可以使用动态规划，结合倍增的思想来处理。
 
-We define $f[i][j]$ as the player ID that can be reached by passing the ball $2^j$ times starting from player $i$, and define $g[i][j]$ as the sum of the player IDs that can be reached by passing the ball $2^j$ times starting from player $i$ (excluding the last player).
+我们定义 $f[i][j]$ 表示从玩家 $i$ 开始，传球 $2^j$ 次所能到达的玩家编号，定义 $g[i][j]$ 表示从玩家 $i$ 开始，传球 $2^j$ 次所能到达的玩家编号之和（不包括最后一个玩家）。
 
-When $j=0$, the number of passes is $1$, so $f[i][0] = receiver[i]$, and $g[i][0] = i$.
+当 $j=0$ 是，传球次数为 $1$，所以 $f[i][0] = receiver[i]$，而 $g[i][0] = i$。
 
-When $j > 0$, the number of passes is $2^j$, which is equivalent to passing the ball $2^{j-1}$ times starting from player $i$, and then passing the ball $2^{j-1}$ times starting from player $f[i][j-1]$, so $f[i][j] = f[f[i][j-1]][j-1]$, and $g[i][j] = g[i][j-1] + g[f[i][j-1]][j-1]$.
+当 $j \gt 0$ 时，传球次数为 $2^j$，相当于从玩家 $i$ 开始，传球 $2^{j-1}$ 次，再从玩家 $f[i][j-1]$ 开始，传球 $2^{j-1}$ 次，所以 $f[i][j] = f[f[i][j-1]][j-1]$，而 $g[i][j] = g[i][j-1] + g[f[i][j-1]][j-1]$。
 
-Next, we can enumerate each player $i$ as the starting player, then accumulate upwards according to the binary representation of $k$, and finally get the maximum sum of the player IDs who have touched the ball within $k$ passes starting from player $i$.
+接下来，我们可以枚举每个玩家 $i$ 作为开始玩家，然后根据 $k$ 的二进制表示，累计向上查询，最终得到玩家 $i$ 开始，传球 $k$ 次内所有接触过球玩家的编号之和的最大值。
 
-The time complexity is $O(n \times \log k)$, and the space complexity is $O(n \times \log k)$. Here, $n$ is the number of players.
+时间复杂度 $O(n \times \log k)$，空间复杂度 $O(n \times \log k)$。其中 $n$ 为玩家数。
 
-Similar problems:
+相似题目：
 
-- [1483. Kth Ancestor of a Tree Node](https://github.com/doocs/leetcode/blob/main/solution/1400-1499/1483.Kth%20Ancestor%20of%20a%20Tree%20Node/README_EN.md)
+-   [1483. 树节点的第 K 个祖先](https://github.com/doocs/leetcode/blob/main/solution/1400-1499/1483.Kth%20Ancestor%20of%20a%20Tree%20Node/README.md)
 
 <!-- tabs:start -->
 

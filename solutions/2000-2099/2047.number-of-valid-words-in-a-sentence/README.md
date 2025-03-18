@@ -1,96 +1,101 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2047.Number%20of%20Valid%20Words%20in%20a%20Sentence/README.md
 rating: 1471
-source: Weekly Contest 264 Q1
+source: 第 264 场周赛 Q1
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2047. Number of Valid Words in a Sentence](https://leetcode.com/problems/number-of-valid-words-in-a-sentence)
+# [2047. 句子中的有效单词数](https://leetcode.cn/problems/number-of-valid-words-in-a-sentence)
 
-## Description
+[English Version](/solution/2000-2099/2047.Number%20of%20Valid%20Words%20in%20a%20Sentence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A sentence consists of lowercase letters (<code>&#39;a&#39;</code> to <code>&#39;z&#39;</code>), digits (<code>&#39;0&#39;</code> to <code>&#39;9&#39;</code>), hyphens (<code>&#39;-&#39;</code>), punctuation marks (<code>&#39;!&#39;</code>, <code>&#39;.&#39;</code>, and <code>&#39;,&#39;</code>), and spaces (<code>&#39; &#39;</code>) only. Each sentence can be broken down into <strong>one or more tokens</strong> separated by one or more spaces <code>&#39; &#39;</code>.</p>
+<p>句子仅由小写字母（<code>'a'</code> 到 <code>'z'</code>）、数字（<code>'0'</code> 到 <code>'9'</code>）、连字符（<code>'-'</code>）、标点符号（<code>'!'</code>、<code>'.'</code> 和 <code>','</code>）以及空格（<code>' '</code>）组成。每个句子可以根据空格分解成 <strong>一个或者多个 token</strong> ，这些 token 之间由一个或者多个空格 <code>' '</code> 分隔。</p>
 
-<p>A token is a valid word if <strong>all three</strong> of the following are true:</p>
+<p>如果一个 token 同时满足下述条件，则认为这个 token 是一个有效单词：</p>
 
 <ul>
-	<li>It only contains lowercase letters, hyphens, and/or punctuation (<strong>no</strong> digits).</li>
-	<li>There is <strong>at most one</strong> hyphen <code>&#39;-&#39;</code>. If present, it <strong>must</strong> be surrounded by lowercase characters (<code>&quot;a-b&quot;</code> is valid, but <code>&quot;-ab&quot;</code> and <code>&quot;ab-&quot;</code> are not valid).</li>
-	<li>There is <strong>at most one</strong> punctuation mark. If present, it <strong>must</strong> be at the <strong>end</strong> of the token (<code>&quot;ab,&quot;</code>, <code>&quot;cd!&quot;</code>, and <code>&quot;.&quot;</code> are valid, but <code>&quot;a!b&quot;</code> and <code>&quot;c.,&quot;</code> are not valid).</li>
+	<li>仅由小写字母、连字符和/或标点（不含数字）组成。</li>
+	<li><strong>至多一个</strong> 连字符 <code>'-'</code> 。如果存在，连字符两侧应当都存在小写字母（<code>"a-b"</code> 是一个有效单词，但 <code>"-ab"</code> 和 <code>"ab-"</code> 不是有效单词）。</li>
+	<li><strong>至多一个 </strong>标点符号。如果存在，标点符号应当位于 token 的 <strong>末尾</strong> 。</li>
 </ul>
 
-<p>Examples of valid words include <code>&quot;a-b.&quot;</code>, <code>&quot;afad&quot;</code>, <code>&quot;ba-c&quot;</code>, <code>&quot;a!&quot;</code>, and <code>&quot;!&quot;</code>.</p>
+<p>这里给出几个有效单词的例子：<code>"a-b."</code>、<code>"afad"</code>、<code>"ba-c"</code>、<code>"a!"</code> 和 <code>"!"</code> 。</p>
 
-<p>Given a string <code>sentence</code>, return <em>the <strong>number</strong> of valid words in </em><code>sentence</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> sentence = &quot;<u>cat</u> <u>and</u>  <u>dog</u>&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The valid words in the sentence are &quot;cat&quot;, &quot;and&quot;, and &quot;dog&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> sentence = &quot;!this  1-s b8d!&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are no valid words in the sentence.
-&quot;!this&quot; is invalid because it starts with a punctuation mark.
-&quot;1-s&quot; and &quot;b8d&quot; are invalid because they contain digits.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> sentence = &quot;<u>alice</u> <u>and</u>  <u>bob</u> <u>are</u> <u>playing</u> stone-game10&quot;
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The valid words in the sentence are &quot;alice&quot;, &quot;and&quot;, &quot;bob&quot;, &quot;are&quot;, and &quot;playing&quot;.
-&quot;stone-game10&quot; is invalid because it contains digits.
-</pre>
+<p>给你一个字符串 <code>sentence</code> ，请你找出并返回<em> </em><code>sentence</code> 中<strong> 有效单词的数目</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>sentence = "<em><strong>cat</strong></em> <em><strong>and</strong></em>  <em><strong>dog</strong></em>"
+<strong>输出：</strong>3
+<strong>解释：</strong>句子中的有效单词是 "cat"、"and" 和 "dog"
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>sentence = "!this  1-s b8d!"
+<strong>输出：</strong>0
+<strong>解释：</strong>句子中没有有效单词
+"!this" 不是有效单词，因为它以一个标点开头
+"1-s" 和 "b8d" 也不是有效单词，因为它们都包含数字
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>sentence = "<em><strong>alice</strong></em> <em><strong>and</strong></em>  <em><strong>bob</strong></em> <em><strong>are</strong></em> <em><strong>playing</strong></em> stone-game10"
+<strong>输出：</strong>5
+<strong>解释：</strong>句子中的有效单词是 "alice"、"and"、"bob"、"are" 和 "playing"
+"stone-game10" 不是有效单词，因为它含有数字
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= sentence.length &lt;= 1000</code></li>
-	<li><code>sentence</code> only contains lowercase English letters, digits, <code>&#39; &#39;</code>, <code>&#39;-&#39;</code>, <code>&#39;!&#39;</code>, <code>&#39;.&#39;</code>, and <code>&#39;,&#39;</code>.</li>
-	<li>There will be at least&nbsp;<code>1</code> token.</li>
+	<li><code>sentence</code> 由小写英文字母、数字（<code>0-9</code>）、以及字符（<code>' '</code>、<code>'-'</code>、<code>'!'</code>、<code>'.'</code> 和 <code>','</code>）组成</li>
+	<li>句子中至少有 <code>1</code> 个 token</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-First, we split the sentence into words by spaces, and then check each word to determine if it is a valid word.
+我们首先将句子按空格分割成单词，然后对每个单词进行检查，判断是否为有效单词。
 
-For each word, we can use a boolean variable $\textit{st}$ to record whether a hyphen has already appeared, and then traverse each character in the word, judging according to the rules described in the problem.
+对于每个单词，我们可以使用一个布尔变量 $\textit{st}$ 来记录是否已经出现过连字符，然后遍历单词中的每个字符，根据题目描述的规则进行判断。
 
-For each character $s[i]$, we have the following cases:
+对于每个字符 $s[i]$，我们有以下几种情况：
 
-- If $s[i]$ is a digit, then $s$ is not a valid word, and we return $\text{false}$ directly;
-- If $s[i]$ is a punctuation mark ('!', '.', ','), and $i < \text{len}(s) - 1$, then $s$ is not a valid word, and we return $\text{false}$ directly;
-- If $s[i]$ is a hyphen, then we need to check if the following conditions are met:
-  - The hyphen can only appear once;
-  - The hyphen cannot appear at the beginning or end of the word;
-  - Both sides of the hyphen must be letters;
-- If $s[i]$ is a letter, then we do not need to do anything.
+-   如果 $s[i]$ 是数字，那么 $s$ 不是有效单词，直接返回 $\text{false}$；
+-   如果 $s[i]$ 是标点符号（'!'、'.'、','）且 $i < \text{len}(s) - 1$，那么 $s$ 不是有效单词，直接返回 $\text{false}$；
+-   如果 $s[i]$ 是连字符，那么我们需要判断是否满足以下条件：
+    -   连字符只能出现一次；
+    -   连字符不能出现在单词的开头或结尾；
+    -   连字符两侧必须是字母；
+-   如果 $s[i]$ 是字母，那么我们不需要做任何处理。
 
-Finally, we count the number of valid words in the sentence.
+最后，我们统计出句子中的有效单词数即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the sentence.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是句子的长度。
 
 <!-- tabs:start -->
 
@@ -235,31 +240,31 @@ func countValidWords(sentence string) (ans int) {
 
 ```ts
 function countValidWords(sentence: string): number {
-  const check = (s: string): number => {
-    if (s.length === 0) {
-      return 0;
-    }
-    let st = false;
-    for (let i = 0; i < s.length; ++i) {
-      if (/\d/.test(s[i])) {
-        return 0;
-      }
-      if (["!", ".", ","].includes(s[i]) && i < s.length - 1) {
-        return 0;
-      }
-      if (s[i] === "-") {
-        if (st || [0, s.length - 1].includes(i)) {
-          return 0;
+    const check = (s: string): number => {
+        if (s.length === 0) {
+            return 0;
         }
-        if (!/[a-zA-Z]/.test(s[i - 1]) || !/[a-zA-Z]/.test(s[i + 1])) {
-          return 0;
+        let st = false;
+        for (let i = 0; i < s.length; ++i) {
+            if (/\d/.test(s[i])) {
+                return 0;
+            }
+            if (['!', '.', ','].includes(s[i]) && i < s.length - 1) {
+                return 0;
+            }
+            if (s[i] === '-') {
+                if (st || [0, s.length - 1].includes(i)) {
+                    return 0;
+                }
+                if (!/[a-zA-Z]/.test(s[i - 1]) || !/[a-zA-Z]/.test(s[i + 1])) {
+                    return 0;
+                }
+                st = true;
+            }
         }
-        st = true;
-      }
-    }
-    return 1;
-  };
-  return sentence.split(/\s+/).reduce((acc, s) => acc + check(s), 0);
+        return 1;
+    };
+    return sentence.split(/\s+/).reduce((acc, s) => acc + check(s), 0);
 }
 ```
 

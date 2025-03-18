@@ -1,94 +1,99 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2197.Replace%20Non-Coprime%20Numbers%20in%20Array/README.md
 rating: 2057
-source: Weekly Contest 283 Q4
+source: 第 283 场周赛 Q4
 tags:
-  - Stack
-  - Array
-  - Math
-  - Number Theory
+    - 栈
+    - 数组
+    - 数学
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [2197. Replace Non-Coprime Numbers in Array](https://leetcode.com/problems/replace-non-coprime-numbers-in-array)
+# [2197. 替换数组中的非互质数](https://leetcode.cn/problems/replace-non-coprime-numbers-in-array)
 
-## Description
+[English Version](/solution/2100-2199/2197.Replace%20Non-Coprime%20Numbers%20in%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of integers <code>nums</code>. Perform the following steps:</p>
+<p>给你一个整数数组 <code>nums</code> 。请你对数组执行下述操作：</p>
 
 <ol>
-	<li>Find <strong>any</strong> two <strong>adjacent</strong> numbers in <code>nums</code> that are <strong>non-coprime</strong>.</li>
-	<li>If no such numbers are found, <strong>stop</strong> the process.</li>
-	<li>Otherwise, delete the two numbers and <strong>replace</strong> them with their <strong>LCM (Least Common Multiple)</strong>.</li>
-	<li><strong>Repeat</strong> this process as long as you keep finding two adjacent non-coprime numbers.</li>
+	<li>从 <code>nums</code> 中找出 <strong>任意</strong> 两个 <strong>相邻</strong> 的 <strong>非互质</strong> 数。</li>
+	<li>如果不存在这样的数，<strong>终止</strong> 这一过程。</li>
+	<li>否则，删除这两个数，并 <strong>替换</strong> 为它们的 <strong>最小公倍数</strong>（Least Common Multiple，LCM）。</li>
+	<li>只要还能找出两个相邻的非互质数就继续 <strong>重复</strong> 这一过程。</li>
 </ol>
 
-<p>Return <em>the <strong>final</strong> modified array.</em> It can be shown that replacing adjacent non-coprime numbers in <strong>any</strong> arbitrary order will lead to the same result.</p>
+<p>返回修改后得到的 <strong>最终</strong> 数组。可以证明的是，以 <strong>任意</strong> 顺序替换相邻的非互质数都可以得到相同的结果。</p>
 
-<p>The test cases are generated such that the values in the final array are <strong>less than or equal</strong> to <code>10<sup>8</sup></code>.</p>
+<p>生成的测试用例可以保证最终数组中的值 <strong>小于或者等于</strong> <code>10<sup>8</sup></code> 。</p>
 
-<p>Two values <code>x</code> and <code>y</code> are <strong>non-coprime</strong> if <code>GCD(x, y) &gt; 1</code> where <code>GCD(x, y)</code> is the <strong>Greatest Common Divisor</strong> of <code>x</code> and <code>y</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [6,4,3,2,7,6,2]
-<strong>Output:</strong> [12,7,6]
-<strong>Explanation:</strong> 
-- (6, 4) are non-coprime with LCM(6, 4) = 12. Now, nums = [<strong><u>12</u></strong>,3,2,7,6,2].
-- (12, 3) are non-coprime with LCM(12, 3) = 12. Now, nums = [<strong><u>12</u></strong>,2,7,6,2].
-- (12, 2) are non-coprime with LCM(12, 2) = 12. Now, nums = [<strong><u>12</u></strong>,7,6,2].
-- (6, 2) are non-coprime with LCM(6, 2) = 6. Now, nums = [12,7,<u><strong>6</strong></u>].
-There are no more adjacent non-coprime numbers in nums.
-Thus, the final modified array is [12,7,6].
-Note that there are other ways to obtain the same resultant array.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2,2,1,1,3,3,3]
-<strong>Output:</strong> [2,1,1,3]
-<strong>Explanation:</strong> 
-- (3, 3) are non-coprime with LCM(3, 3) = 3. Now, nums = [2,2,1,1,<u><strong>3</strong></u>,3].
-- (3, 3) are non-coprime with LCM(3, 3) = 3. Now, nums = [2,2,1,1,<u><strong>3</strong></u>].
-- (2, 2) are non-coprime with LCM(2, 2) = 2. Now, nums = [<u><strong>2</strong></u>,1,1,3].
-There are no more adjacent non-coprime numbers in nums.
-Thus, the final modified array is [2,1,1,3].
-Note that there are other ways to obtain the same resultant array.
-</pre>
+<p>两个数字 <code>x</code> 和 <code>y</code> 满足 <strong>非互质数</strong> 的条件是：<code>GCD(x, y) &gt; 1</code> ，其中 <code>GCD(x, y)</code> 是 <code>x</code> 和 <code>y</code> 的 <strong>最大公约数</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1 ：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [6,4,3,2,7,6,2]
+<strong>输出：</strong>[12,7,6]
+<strong>解释：</strong>
+- (6, 4) 是一组非互质数，且 LCM(6, 4) = 12 。得到 nums = [<em><strong>12</strong></em>,3,2,7,6,2] 。
+- (12, 3) 是一组非互质数，且 LCM(12, 3) = 12 。得到 nums = [<em><strong>12</strong></em>,2,7,6,2] 。
+- (12, 2) 是一组非互质数，且 LCM(12, 2) = 12 。得到 nums = [<em><strong>12</strong></em>,7,6,2] 。
+- (6, 2) 是一组非互质数，且 LCM(6, 2) = 6 。得到 nums = [12,7,<em><strong>6</strong></em>] 。
+现在，nums 中不存在相邻的非互质数。
+因此，修改后得到的最终数组是 [12,7,6] 。
+注意，存在其他方法可以获得相同的最终数组。
+</pre>
+
+<p><strong>示例 2 ：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [2,2,1,1,3,3,3]
+<strong>输出：</strong>[2,1,1,3]
+<strong>解释：</strong>
+- (3, 3) 是一组非互质数，且 LCM(3, 3) = 3 。得到 nums = [2,2,1,1,<em><strong>3</strong></em>,3] 。
+- (3, 3) 是一组非互质数，且 LCM(3, 3) = 3 。得到 nums = [2,2,1,1,<em><strong>3</strong></em>] 。
+- (2, 2) 是一组非互质数，且 LCM(2, 2) = 2 。得到 nums = [<em><strong>2</strong></em>,1,1,3] 。
+现在，nums 中不存在相邻的非互质数。 
+因此，修改后得到的最终数组是 [2,1,1,3] 。 
+注意，存在其他方法可以获得相同的最终数组。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
-	<li>The test cases are generated such that the values in the final array are <strong>less than or equal</strong> to <code>10<sup>8</sup></code>.</li>
+	<li>生成的测试用例可以保证最终数组中的值 <strong>小于或者等于</strong> <code>10<sup>8</sup></code> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Stack
+### 方法一：栈
 
-If there exist three adjacent numbers $x$, $y$, $z$ that can be merged, then the result of first merging $x$ and $y$, then merging $z$, is the same as the result of first merging $y$ and $z$, then merging $x$. Both results are $\textit{LCM}(x, y, z)$.
+如果存在三个相邻的数 $x$, $y$, $z$ 可以进行合并，那么我们先合并 $x$ 和 $y$，再合并 $z$ 的结果，与先合并 $y$ 和 $z$，再合并 $x$ 的结果是一样的，结果均为 $\textit{LCM}(x, y, z)$。
 
-Therefore, we can always prefer to merge the adjacent numbers on the left, and then merge the result with the adjacent number on the right.
+因此，我们可以总是优先合并左侧相邻的数，再将合并后的结果与右侧相邻的数进行合并。
 
-We use a stack to simulate this process. We traverse the array, and for each number, we push it into the stack. Then we continuously check whether the top two numbers of the stack are coprime. If they are not coprime, we pop these two numbers out of the stack, and then push their least common multiple into the stack, until the top two numbers of the stack are coprime, or there are less than two elements in the stack.
+我们使用一个栈来模拟这个过程，遍历数组，对于每个数，我们将其入栈，然后不断检查栈顶的两个数是否互质，如果不互质，我们将这两个数出栈，然后将它们的最小公倍数入栈，直到栈顶的两个数互质，或者栈中元素小于两个。
 
-The final elements in the stack are the final result.
+最后栈中的元素即为最终结果。
 
-The time complexity is $O(n \times \log M)$, and the space complexity is $O(n)$. Where $M$ is the maximum value in the array.
+时间复杂度 $O(n \times \log M)$，空间复杂度 $O(n)$。其中 $M$ 为数组中的最大值。
 
 <!-- tabs:start -->
 
@@ -199,28 +204,28 @@ func gcd(a, b int) int {
 
 ```ts
 function replaceNonCoprimes(nums: number[]): number[] {
-  const gcd = (a: number, b: number): number => {
-    if (b === 0) {
-      return a;
+    const gcd = (a: number, b: number): number => {
+        if (b === 0) {
+            return a;
+        }
+        return gcd(b, a % b);
+    };
+    const stk: number[] = [];
+    for (let x of nums) {
+        stk.push(x);
+        while (stk.length > 1) {
+            x = stk.at(-1)!;
+            const y = stk.at(-2)!;
+            const g = gcd(x, y);
+            if (g === 1) {
+                break;
+            }
+            stk.pop();
+            stk.pop();
+            stk.push(((x * y) / g) | 0);
+        }
     }
-    return gcd(b, a % b);
-  };
-  const stk: number[] = [];
-  for (let x of nums) {
-    stk.push(x);
-    while (stk.length > 1) {
-      x = stk.at(-1)!;
-      const y = stk.at(-2)!;
-      const g = gcd(x, y);
-      if (g === 1) {
-        break;
-      }
-      stk.pop();
-      stk.pop();
-      stk.push(((x * y) / g) | 0);
-    }
-  }
-  return stk;
+    return stk;
 }
 ```
 

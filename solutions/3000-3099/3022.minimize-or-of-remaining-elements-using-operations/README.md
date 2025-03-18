@@ -1,65 +1,70 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3022.Minimize%20OR%20of%20Remaining%20Elements%20Using%20Operations/README.md
 rating: 2917
-source: Weekly Contest 382 Q4
+source: 第 382 场周赛 Q4
 tags:
-  - Greedy
-  - Bit Manipulation
-  - Array
+    - 贪心
+    - 位运算
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [3022. Minimize OR of Remaining Elements Using Operations](https://leetcode.com/problems/minimize-or-of-remaining-elements-using-operations)
+# [3022. 给定操作次数内使剩余元素的或值最小](https://leetcode.cn/problems/minimize-or-of-remaining-elements-using-operations)
 
-## Description
+[English Version](/solution/3000-3099/3022.Minimize%20OR%20of%20Remaining%20Elements%20Using%20Operations/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>k</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。</p>
 
-<p>In one operation, you can pick any index <code>i</code> of <code>nums</code> such that <code>0 &lt;= i &lt; nums.length - 1</code> and replace <code>nums[i]</code> and <code>nums[i + 1]</code> with a single occurrence of <code>nums[i] &amp; nums[i + 1]</code>, where <code>&amp;</code> represents the bitwise <code>AND</code> operator.</p>
+<p>一次操作中，你可以选择 <code>nums</code>&nbsp;中满足&nbsp;<code>0 &lt;= i &lt; nums.length - 1</code>&nbsp;的一个下标 <code>i</code>&nbsp;，并将&nbsp;<code>nums[i]</code> 和&nbsp;<code>nums[i + 1]</code>&nbsp;替换为数字&nbsp;<code>nums[i] &amp; nums[i + 1]</code>&nbsp;，其中&nbsp;<code>&amp;</code>&nbsp;表示按位&nbsp;<code>AND</code>&nbsp;操作。</p>
 
-<p>Return <em>the <strong>minimum</strong> possible value of the bitwise </em><code>OR</code><em> of the remaining elements of</em> <code>nums</code> <em>after applying <strong>at most</strong></em> <code>k</code> <em>operations</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [3,5,3,2,7], k = 2
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> Let&#39;s do the following operations:
-1. Replace nums[0] and nums[1] with (nums[0] &amp; nums[1]) so that nums becomes equal to [1,3,2,7].
-2. Replace nums[2] and nums[3] with (nums[2] &amp; nums[3]) so that nums becomes equal to [1,3,2].
-The bitwise-or of the final array is 3.
-It can be shown that 3 is the minimum possible value of the bitwise OR of the remaining elements of nums after applying at most k operations.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [7,3,15,14,2,8], k = 4
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Let&#39;s do the following operations:
-1. Replace nums[0] and nums[1] with (nums[0] &amp; nums[1]) so that nums becomes equal to [3,15,14,2,8]. 
-2. Replace nums[0] and nums[1] with (nums[0] &amp; nums[1]) so that nums becomes equal to [3,14,2,8].
-3. Replace nums[0] and nums[1] with (nums[0] &amp; nums[1]) so that nums becomes equal to [2,2,8].
-4. Replace nums[1] and nums[2] with (nums[1] &amp; nums[2]) so that nums becomes equal to [2,0].
-The bitwise-or of the final array is 2.
-It can be shown that 2 is the minimum possible value of the bitwise OR of the remaining elements of nums after applying at most k operations.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [10,7,10,3,9,14,9,4], k = 1
-<strong>Output:</strong> 15
-<strong>Explanation:</strong> Without applying any operations, the bitwise-or of nums is 15.
-It can be shown that 15 is the minimum possible value of the bitwise OR of the remaining elements of nums after applying at most k operations.
-</pre>
+<p>请你返回 <strong>至多</strong>&nbsp;<code>k</code>&nbsp;次操作以内，使 <code>nums</code>&nbsp;中所有剩余元素按位 <code>OR</code>&nbsp;结果的 <strong>最小值</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [3,5,3,2,7], k = 2
+<b>输出：</b>3
+<b>解释：</b>执行以下操作：
+1. 将 nums[0] 和 nums[1] 替换为 (nums[0] &amp; nums[1]) ，得到 nums 为 [1,3,2,7] 。
+2. 将 nums[2] 和 nums[3] 替换为 (nums[2] &amp; nums[3]) ，得到 nums 为 [1,3,2] 。
+最终数组的按位或值为 3 。
+3 是 k 次操作以内，可以得到的剩余元素的最小按位或值。</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [7,3,15,14,2,8], k = 4
+<b>输出：</b>2
+<b>解释：</b>执行以下操作：
+1. 将 nums[0] 和 nums[1] 替换为 (nums[0] &amp; nums[1]) ，得到 nums 为 [3,15,14,2,8] 。
+2. 将 nums[0] 和 nums[1] 替换为 (nums[0] &amp; nums[1]) ，得到 nums 为 [3,14,2,8] 。
+3. 将 nums[0] 和 nums[1] 替换为 (nums[0] &amp; nums[1]) ，得到 nums 为 [2,2,8] 。
+4. 将 nums[1] 和 nums[2] 替换为 (nums[1] &amp; nums[2]) ，得到 nums 为 [2,0] 。
+最终数组的按位或值为 2 。
+2 是 k 次操作以内，可以得到的剩余元素的最小按位或值。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [10,7,10,3,9,14,9,4], k = 1
+<b>输出：</b>15
+<b>解释：</b>不执行任何操作，nums 的按位或值为 15 。
+15 是 k 次操作以内，可以得到的剩余元素的最小按位或值。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -69,11 +74,11 @@ It can be shown that 15 is the minimum possible value of the bitwise OR of the r
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

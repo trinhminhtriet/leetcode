@@ -1,79 +1,93 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1261.Find%20Elements%20in%20a%20Contaminated%20Binary%20Tree/README.md
 rating: 1439
-source: Weekly Contest 163 Q2
+source: 第 163 场周赛 Q2
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Design
-  - Hash Table
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 设计
+    - 哈希表
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [1261. Find Elements in a Contaminated Binary Tree](https://leetcode.com/problems/find-elements-in-a-contaminated-binary-tree)
+# [1261. 在受污染的二叉树中查找元素](https://leetcode.cn/problems/find-elements-in-a-contaminated-binary-tree)
 
-## Description
+[English Version](/solution/1200-1299/1261.Find%20Elements%20in%20a%20Contaminated%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary tree with the following rules:</p>
+<p>给出一个满足下述规则的二叉树：</p>
 
 <ol>
 	<li><code>root.val == 0</code></li>
-	<li>If <code>treeNode.val == x</code> and <code>treeNode.left != null</code>, then <code>treeNode.left.val == 2 * x + 1</code></li>
-	<li>If <code>treeNode.val == x</code> and <code>treeNode.right != null</code>, then <code>treeNode.right.val == 2 * x + 2</code></li>
+	<li>对于任意 <code>treeNode</code>：
+	<ol type="a">
+		<li>如果 <code>treeNode.val</code> 为&nbsp;<code>x</code> 且&nbsp;<code>treeNode.left != null</code>，那么&nbsp;<code>treeNode.left.val == 2 * x + 1</code></li>
+		<li>如果 <code>treeNode.val</code> 为&nbsp;<code>x</code> 且 <code>treeNode.right != null</code>，那么&nbsp;<code>treeNode.right.val == 2 * x + 2</code></li>
+	</ol>
+	</li>
 </ol>
 
-<p>Now the binary tree is contaminated, which means all <code>treeNode.val</code> have been changed to <code>-1</code>.</p>
+<p>现在这个二叉树受到「污染」，所有的&nbsp;<code>treeNode.val</code>&nbsp;都变成了&nbsp;<code>-1</code>。</p>
 
-<p>Implement the <code>FindElements</code> class:</p>
+<p>请你先还原二叉树，然后实现&nbsp;<code>FindElements</code>&nbsp;类：</p>
 
 <ul>
-	<li><code>FindElements(TreeNode* root)</code> Initializes the object with a contaminated binary tree and recovers it.</li>
-	<li><code>bool find(int target)</code> Returns <code>true</code> if the <code>target</code> value exists in the recovered binary tree.</li>
+	<li><code>FindElements(TreeNode* root)</code>&nbsp;用受污染的二叉树初始化对象，你需要先把它还原。</li>
+	<li><code>bool find(int target)</code>&nbsp;判断目标值&nbsp;<code>target</code>&nbsp;是否存在于还原后的二叉树中并返回结果。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1261.Find%20Elements%20in%20a%20Contaminated%20Binary%20Tree/images/untitled-diagram-4-1.jpg" style="width: 320px; height: 119px;" />
+
+<p><strong class="example">示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1261.Find%20Elements%20in%20a%20Contaminated%20Binary%20Tree/images/untitled-diagram-4-1.jpg" style="height: 119px; width: 320px;" /></strong></p>
+
 <pre>
-<strong>Input</strong>
-[&quot;FindElements&quot;,&quot;find&quot;,&quot;find&quot;]
+<strong>输入：</strong>
+["FindElements","find","find"]
 [[[-1,null,-1]],[1],[2]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null,false,true]
-<strong>Explanation</strong>
+<strong>解释：</strong>
 FindElements findElements = new FindElements([-1,null,-1]); 
 findElements.find(1); // return False 
 findElements.find(2); // return True </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1261.Find%20Elements%20in%20a%20Contaminated%20Binary%20Tree/images/untitled-diagram-4.jpg" style="width: 400px; height: 198px;" />
+<p><strong class="example">示例 2：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1261.Find%20Elements%20in%20a%20Contaminated%20Binary%20Tree/images/untitled-diagram-4.jpg" style="height: 198px; width: 400px;" /></strong></p>
+
 <pre>
-<strong>Input</strong>
-[&quot;FindElements&quot;,&quot;find&quot;,&quot;find&quot;,&quot;find&quot;]
+<strong>输入：</strong>
+["FindElements","find","find","find"]
 [[[-1,-1,-1,-1,-1]],[1],[3],[5]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null,true,true,false]
-<strong>Explanation</strong>
+<strong>解释：</strong>
 FindElements findElements = new FindElements([-1,-1,-1,-1,-1]);
 findElements.find(1); // return True
 findElements.find(3); // return True
 findElements.find(5); // return False</pre>
 
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1261.Find%20Elements%20in%20a%20Contaminated%20Binary%20Tree/images/untitled-diagram-4-1-1.jpg" style="width: 306px; height: 274px;" />
+<p><strong class="example">示例 3：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1261.Find%20Elements%20in%20a%20Contaminated%20Binary%20Tree/images/untitled-diagram-4-1-1.jpg" style="height: 274px; width: 306px;" /></strong></p>
+
 <pre>
-<strong>Input</strong>
-[&quot;FindElements&quot;,&quot;find&quot;,&quot;find&quot;,&quot;find&quot;,&quot;find&quot;]
+<strong>输入：</strong>
+["FindElements","find","find","find","find"]
 [[[-1,null,-1,-1,null,-1]],[2],[3],[4],[5]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null,true,false,false,true]
-<strong>Explanation</strong>
+<strong>解释：</strong>
 FindElements findElements = new FindElements([-1,null,-1,-1,null,-1]);
 findElements.find(2); // return True
 findElements.find(3); // return False
@@ -82,27 +96,28 @@ findElements.find(5); // return True
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>TreeNode.val == -1</code></li>
-	<li>The height of the binary tree is less than or equal to <code>20</code></li>
-	<li>The total number of nodes is between <code>[1, 10<sup>4</sup>]</code></li>
-	<li>Total calls of <code>find()</code> is between <code>[1, 10<sup>4</sup>]</code></li>
+	<li>二叉树的高度不超过&nbsp;<code>20</code></li>
+	<li>节点的总数在&nbsp;<code>[1,&nbsp;10<sup>4</sup>]</code>&nbsp;之间</li>
+	<li>调用&nbsp;<code>find()</code>&nbsp;的总次数在&nbsp;<code>[1,&nbsp;10<sup>4</sup>]</code>&nbsp;之间</li>
 	<li><code>0 &lt;= target &lt;= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS + Hash Table
+### 方法一：DFS + 哈希表
 
-First, we traverse the binary tree using DFS, restore the node values to their original values, and store all node values in a hash table. Then, when searching, we only need to check if the target value exists in the hash table.
+我们先通过 DFS 遍历二叉树，将节点值恢复为原来的值，并将所有节点值存入哈希表中。然后在查找时，只需要判断哈希表中是否存在目标值即可。
 
-In terms of time complexity, it takes $O(n)$ time to traverse the binary tree during initialization, and $O(1)$ time to check if the target value exists in the hash table during search. The space complexity is $O(n)$, where $n$ is the number of nodes in the binary tree.
+时间复杂度方面，初始化时需要遍历二叉树，时间复杂度为 $O(n)$，查找时只需要判断哈希表中是否存在目标值，时间复杂度为 $O(1)$。空间复杂度 $O(n)$。其中 $n$ 为二叉树节点个数。
 
 <!-- tabs:start -->
 
@@ -301,28 +316,73 @@ func (this *FindElements) Find(target int) bool {
  */
 
 class FindElements {
-  private s: Set<number> = new Set<number>();
+    readonly #s = new Set<number>();
 
-  constructor(root: TreeNode | null) {
-    root.val = 0;
-    const dfs = (root: TreeNode) => {
-      this.s.add(root.val);
-      if (root.left) {
-        root.left.val = root.val * 2 + 1;
-        dfs(root.left);
-      }
-      if (root.right) {
-        root.right.val = root.val * 2 + 2;
-        dfs(root.right);
-      }
-    };
-    dfs(root);
-  }
+    constructor(root: TreeNode | null) {
+        root.val = 0;
 
-  find(target: number): boolean {
-    return this.s.has(target);
-  }
+        const dfs = (node: TreeNode | null, x = 0) => {
+            if (!node) return;
+
+            this.#s.add(x);
+            dfs(node.left, x * 2 + 1);
+            dfs(node.right, x * 2 + 2);
+        };
+
+        dfs(root);
+    }
+
+    find(target: number): boolean {
+        return this.#s.has(target);
+    }
 }
+
+/**
+ * Your FindElements object will be instantiated and called as such:
+ * var obj = new FindElements(root)
+ * var param_1 = obj.find(target)
+ */
+```
+
+#### JavaScript
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+
+const s = Symbol.for('s');
+
+/**
+ * @param {TreeNode} root
+ */
+var FindElements = function (root) {
+    root.val = 0;
+    this[s] = new Set();
+
+    const dfs = (node, x = 0) => {
+        if (!node) return;
+
+        this[s].add(x);
+        dfs(node.left, x * 2 + 1);
+        dfs(node.right, x * 2 + 2);
+    };
+
+    dfs(root);
+};
+
+/**
+ * @param {number} target
+ * @return {boolean}
+ */
+FindElements.prototype.find = function (target) {
+    return this[s].has(target);
+};
 
 /**
  * Your FindElements object will be instantiated and called as such:

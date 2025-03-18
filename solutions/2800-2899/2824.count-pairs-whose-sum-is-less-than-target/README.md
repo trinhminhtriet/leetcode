@@ -1,58 +1,63 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2824.Count%20Pairs%20Whose%20Sum%20is%20Less%20than%20Target/README.md
 rating: 1165
-source: Biweekly Contest 111 Q1
+source: 第 111 场双周赛 Q1
 tags:
-  - Array
-  - Two Pointers
-  - Binary Search
-  - Sorting
+    - 数组
+    - 双指针
+    - 二分查找
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2824. Count Pairs Whose Sum is Less than Target](https://leetcode.com/problems/count-pairs-whose-sum-is-less-than-target)
+# [2824. 统计和小于目标的下标对数目](https://leetcode.cn/problems/count-pairs-whose-sum-is-less-than-target)
 
-## Description
+[English Version](/solution/2800-2899/2824.Count%20Pairs%20Whose%20Sum%20is%20Less%20than%20Target/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-Given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code> and an integer <code>target</code>, return <em>the number of pairs</em> <code>(i, j)</code> <em>where</em> <code>0 &lt;= i &lt; j &lt; n</code> <em>and</em> <code>nums[i] + nums[j] &lt; target</code>.
+给你一个下标从 <strong>0</strong>&nbsp;开始长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>target</code>&nbsp;，请你返回满足&nbsp;<code>0 &lt;= i &lt; j &lt; n</code> 且 <code>nums[i] + nums[j] &lt; target</code>&nbsp;的下标对&nbsp;<code>(i, j)</code>&nbsp;的数目。
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [-1,1,2,3,1], target = 2
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> There are 3 pairs of indices that satisfy the conditions in the statement:
-- (0, 1) since 0 &lt; 1 and nums[0] + nums[1] = 0 &lt; target
-- (0, 2) since 0 &lt; 2 and nums[0] + nums[2] = 1 &lt; target 
-- (0, 4) since 0 &lt; 4 and nums[0] + nums[4] = 0 &lt; target
-Note that (0, 3) is not counted since nums[0] + nums[3] is not strictly less than the target.
+<b>输入：</b>nums = [-1,1,2,3,1], target = 2
+<b>输出：</b>3
+<b>解释：</b>总共有 3 个下标对满足题目描述：
+- (0, 1) ，0 &lt; 1 且 nums[0] + nums[1] = 0 &lt; target
+- (0, 2) ，0 &lt; 2 且 nums[0] + nums[2] = 1 &lt; target 
+- (0, 4) ，0 &lt; 4 且 nums[0] + nums[4] = 0 &lt; target
+注意 (0, 3) 不计入答案因为 nums[0] + nums[3] 不是严格小于 target 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [-6,2,5,-2,-7,-1,3], target = -2
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> There are 10 pairs of indices that satisfy the conditions in the statement:
-- (0, 1) since 0 &lt; 1 and nums[0] + nums[1] = -4 &lt; target
-- (0, 3) since 0 &lt; 3 and nums[0] + nums[3] = -8 &lt; target
-- (0, 4) since 0 &lt; 4 and nums[0] + nums[4] = -13 &lt; target
-- (0, 5) since 0 &lt; 5 and nums[0] + nums[5] = -7 &lt; target
-- (0, 6) since 0 &lt; 6 and nums[0] + nums[6] = -3 &lt; target
-- (1, 4) since 1 &lt; 4 and nums[1] + nums[4] = -5 &lt; target
-- (3, 4) since 3 &lt; 4 and nums[3] + nums[4] = -9 &lt; target
-- (3, 5) since 3 &lt; 5 and nums[3] + nums[5] = -3 &lt; target
-- (4, 5) since 4 &lt; 5 and nums[4] + nums[5] = -8 &lt; target
-- (4, 6) since 4 &lt; 6 and nums[4] + nums[6] = -4 &lt; target
+<b>输入：</b>nums = [-6,2,5,-2,-7,-1,3], target = -2
+<b>输出：</b>10
+<b>解释：</b>总共有 10 个下标对满足题目描述：
+- (0, 1) ，0 &lt; 1 且 nums[0] + nums[1] = -4 &lt; target
+- (0, 3) ，0 &lt; 3 且 nums[0] + nums[3] = -8 &lt; target
+- (0, 4) ，0 &lt; 4 且 nums[0] + nums[4] = -13 &lt; target
+- (0, 5) ，0 &lt; 5 且 nums[0] + nums[5] = -7 &lt; target
+- (0, 6) ，0 &lt; 6 且 nums[0] + nums[6] = -3 &lt; target
+- (1, 4) ，1 &lt; 4 且 nums[1] + nums[4] = -5 &lt; target
+- (3, 4) ，3 &lt; 4 且 nums[3] + nums[4] = -9 &lt; target
+- (3, 5) ，3 &lt; 5 且 nums[3] + nums[5] = -3 &lt; target
+- (4, 5) ，4 &lt; 5 且 nums[4] + nums[5] = -8 &lt; target
+- (4, 6) ，4 &lt; 6 且 nums[4] + nums[6] = -4 &lt; target
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length == n &lt;= 50</code></li>
@@ -61,17 +66,17 @@ Note that (0, 3) is not counted since nums[0] + nums[3] is not strictly less tha
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting + Binary Search
+### 方法一：排序 + 二分查找
 
-First, we sort the array $nums$. Then, for each $j$, we use binary search in the range $[0, j)$ to find the first index $i$ that is greater than or equal to $target - nums[j]$. All indices $k$ in the range $[0, i)$ meet the condition, so the answer increases by $i$.
+我们先对数组 $nums$ 进行排序，然后枚举 $j$，在 $[0, j)$ 的范围内使用二分查找第一个大于等于 $target - nums[j]$ 的下标 $i$，那么 $[0, i)$ 的范围内的所有下标 $k$ 都满足条件，因此答案增加 $i$。
 
-After the traversal, we return the answer.
+遍历结束后，我们返回答案。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -152,25 +157,25 @@ func countPairs(nums []int, target int) (ans int) {
 
 ```ts
 function countPairs(nums: number[], target: number): number {
-  nums.sort((a, b) => a - b);
-  let ans = 0;
-  const search = (x: number, r: number): number => {
-    let l = 0;
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (nums[mid] >= x) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
+    nums.sort((a, b) => a - b);
+    let ans = 0;
+    const search = (x: number, r: number): number => {
+        let l = 0;
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (nums[mid] >= x) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l;
+    };
+    for (let j = 0; j < nums.length; ++j) {
+        const i = search(target - nums[j], j);
+        ans += i;
     }
-    return l;
-  };
-  for (let j = 0; j < nums.length; ++j) {
-    const i = search(target - nums[j], j);
-    ans += i;
-  }
-  return ans;
+    return ans;
 }
 ```
 

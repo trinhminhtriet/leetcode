@@ -1,76 +1,81 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2629.Function%20Composition/README.md
 tags:
-  - JavaScript
+    - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2629. Function Composition](https://leetcode.com/problems/function-composition)
+# [2629. 复合函数](https://leetcode.cn/problems/function-composition)
 
-## Description
+[English Version](/solution/2600-2699/2629.Function%20Composition/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of functions&nbsp;<code>[f<span style="font-size: 10.8333px;">1</span>, f<sub>2</sub>, f<sub>3</sub>,&nbsp;..., f<sub>n</sub>]</code>, return&nbsp;a new function&nbsp;<code>fn</code>&nbsp;that is the <strong>function&nbsp;composition</strong> of the array of functions.</p>
+<p>请你编写一个函数，它接收一个函数数组 <code>[f<sub>1</sub>, f<sub>2</sub>, f<sub>3</sub>，…， f<sub>n</sub>]</code> ，并返回一个新的函数 <code>fn</code>&nbsp;，它是函数数组的 <strong>复合函数</strong> 。</p>
 
-<p>The&nbsp;<strong>function&nbsp;composition</strong>&nbsp;of&nbsp;<code>[f(x), g(x), h(x)]</code>&nbsp;is&nbsp;<code>fn(x) = f(g(h(x)))</code>.</p>
+<p><code>[f(x)， g(x)， h(x)]</code> 的 <strong>复合函数</strong> 为 <code>fn(x) = f(g(h(x)))</code>&nbsp;。</p>
 
-<p>The&nbsp;<strong>function&nbsp;composition</strong>&nbsp;of an empty list of functions is the&nbsp;<strong>identity function</strong>&nbsp;<code>f(x) = x</code>.</p>
+<p>一个空函数列表的 <strong>复合函数</strong> 是 <strong>恒等函数</strong> <code>f(x) = x</code> 。</p>
 
-<p>You may assume each&nbsp;function&nbsp;in the array accepts one integer as input&nbsp;and returns one integer as output.</p>
+<p>你可以假设数组中的每个函数接受一个整型参数作为输入，并返回一个整型作为输出。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> functions = [x =&gt; x + 1, x =&gt; x * x, x =&gt; 2 * x], x = 4
-<strong>Output:</strong> 65
-<strong>Explanation:</strong>
-Evaluating from right to left ...
+<strong>输入：</strong>functions = [x =&gt; x + 1, x =&gt; x * x, x =&gt; 2 * x], x = 4
+<b>输出：</b>65
+<strong>解释：</strong>
+从右向左计算......
 Starting with x = 4.
 2 * (4) = 8
 (8) * (8) = 64
 (64) + 1 = 65
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> functions = [x =&gt; 10 * x, x =&gt; 10 * x, x =&gt; 10 * x], x = 1
-<strong>Output:</strong> 1000
-<strong>Explanation:</strong>
-Evaluating from right to left ...
+<b>输入：</b>functions = [x =&gt; 10 * x, x =&gt; 10 * x, x =&gt; 10 * x], x = 1
+<b>输出：</b>1000
+<strong>解释：</strong>
+从右向左计算......
 10 * (1) = 10
 10 * (10) = 100
 10 * (100) = 1000
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> functions = [], x = 42
-<strong>Output:</strong> 42
-<strong>Explanation:</strong>
-The composition of zero functions is the identity function</pre>
+<b>输入：</b>functions = [], x = 42
+<b>输出：</b>42
+<strong>解释：</strong>
+空函数列表的复合函数就是恒等函数</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code><font face="monospace">-1000 &lt;= x &lt;= 1000</font></code></li>
 	<li><code><font face="monospace">0 &lt;= functions.length &lt;= 1000</font></code></li>
-	<li>all functions accept and return a single integer</li>
+	<li><font face="monospace">所有函数都接受并返回一个整型</font></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -80,9 +85,9 @@ The composition of zero functions is the identity function</pre>
 type F = (x: number) => number;
 
 function compose(functions: F[]): F {
-  return function (x) {
-    return functions.reduceRight((acc, fn) => fn(acc), x);
-  };
+    return function (x) {
+        return functions.reduceRight((acc, fn) => fn(acc), x);
+    };
 }
 
 /**

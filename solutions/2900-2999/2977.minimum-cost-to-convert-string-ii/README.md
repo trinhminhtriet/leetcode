@@ -1,109 +1,116 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2977.Minimum%20Cost%20to%20Convert%20String%20II/README.md
 rating: 2695
-source: Weekly Contest 377 Q4
+source: 第 377 场周赛 Q4
 tags:
-  - Graph
-  - Trie
-  - Array
-  - String
-  - Dynamic Programming
-  - Shortest Path
+    - 图
+    - 字典树
+    - 数组
+    - 字符串
+    - 动态规划
+    - 最短路
 ---
 
 <!-- problem:start -->
 
-# [2977. Minimum Cost to Convert String II](https://leetcode.com/problems/minimum-cost-to-convert-string-ii)
+# [2977. 转换字符串的最小成本 II](https://leetcode.cn/problems/minimum-cost-to-convert-string-ii)
 
-## Description
+[English Version](/solution/2900-2999/2977.Minimum%20Cost%20to%20Convert%20String%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>0-indexed</strong> strings <code>source</code> and <code>target</code>, both of length <code>n</code> and consisting of <strong>lowercase</strong> English characters. You are also given two <strong>0-indexed</strong> string arrays <code>original</code> and <code>changed</code>, and an integer array <code>cost</code>, where <code>cost[i]</code> represents the cost of converting the string <code>original[i]</code> to the string <code>changed[i]</code>.</p>
+<p>给你两个下标从 <strong>0</strong> 开始的字符串 <code>source</code> 和 <code>target</code> ，它们的长度均为 <code>n</code> 并且由 <strong>小写 </strong>英文字母组成。</p>
 
-<p>You start with the string <code>source</code>. In one operation, you can pick a <strong>substring</strong> <code>x</code> from the string, and change it to <code>y</code> at a cost of <code>z</code> <strong>if</strong> there exists <strong>any</strong> index <code>j</code> such that <code>cost[j] == z</code>, <code>original[j] == x</code>, and <code>changed[j] == y</code>. You are allowed to do <strong>any</strong> number of operations, but any pair of operations must satisfy <strong>either</strong> of these two conditions:</p>
+<p>另给你两个下标从 <strong>0</strong> 开始的字符串数组 <code>original</code> 和 <code>changed</code> ，以及一个整数数组 <code>cost</code> ，其中 <code>cost[i]</code> 代表将字符串 <code>original[i]</code> 更改为字符串 <code>changed[i]</code> 的成本。</p>
+
+<p>你从字符串 <code>source</code> 开始。在一次操作中，<strong>如果 </strong>存在 <strong>任意</strong> 下标 <code>j</code> 满足 <code>cost[j] == z</code>&nbsp; 、<code>original[j] == x</code> 以及 <code>changed[j] == y</code> ，你就可以选择字符串中的 <strong>子串</strong> <code>x</code> 并以 <code>z</code> 的成本将其更改为 <code>y</code> 。 你可以执行 <strong>任意数量 </strong>的操作，但是任两次操作必须满足<strong> 以下两个 </strong>条件 <strong>之一</strong> ：</p>
 
 <ul>
-	<li>The substrings picked in the operations are <code>source[a..b]</code> and <code>source[c..d]</code> with either <code>b &lt; c</code> <strong>or</strong> <code>d &lt; a</code>. In other words, the indices picked in both operations are <strong>disjoint</strong>.</li>
-	<li>The substrings picked in the operations are <code>source[a..b]</code> and <code>source[c..d]</code> with <code>a == c</code> <strong>and</strong> <code>b == d</code>. In other words, the indices picked in both operations are <strong>identical</strong>.</li>
+	<li>在两次操作中选择的子串分别是 <code>source[a..b]</code> 和 <code>source[c..d]</code> ，满足 <code>b &lt; c</code>&nbsp; <strong>或</strong> <code>d &lt; a</code> 。换句话说，两次操作中选择的下标<strong> 不相交 </strong>。</li>
+	<li>在两次操作中选择的子串分别是 <code>source[a..b]</code> 和 <code>source[c..d]</code> ，满足 <code>a == c</code> <strong>且</strong> <code>b == d</code> 。换句话说，两次操作中选择的下标<strong> 相同 </strong>。</li>
 </ul>
 
-<p>Return <em>the <strong>minimum</strong> cost to convert the string </em><code>source</code><em> to the string </em><code>target</code><em> using <strong>any</strong> number of operations</em>. <em>If it is impossible to convert</em> <code>source</code> <em>to</em> <code>target</code>,<em> return</em> <code>-1</code>.</p>
+<p>返回将字符串 <code>source</code> 转换为字符串 <code>target</code> 所需的<strong> 最小 </strong>成本。如果不可能完成转换，则返回 <code>-1</code> 。</p>
 
-<p><strong>Note</strong> that there may exist indices <code>i</code>, <code>j</code> such that <code>original[j] == original[i]</code> and <code>changed[j] == changed[i]</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> source = &quot;abcd&quot;, target = &quot;acbe&quot;, original = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;c&quot;,&quot;e&quot;,&quot;d&quot;], changed = [&quot;b&quot;,&quot;c&quot;,&quot;b&quot;,&quot;e&quot;,&quot;b&quot;,&quot;e&quot;], cost = [2,5,5,1,2,20]
-<strong>Output:</strong> 28
-<strong>Explanation:</strong> To convert &quot;abcd&quot; to &quot;acbe&quot;, do the following operations:
-- Change substring source[1..1] from &quot;b&quot; to &quot;c&quot; at a cost of 5.
-- Change substring source[2..2] from &quot;c&quot; to &quot;e&quot; at a cost of 1.
-- Change substring source[2..2] from &quot;e&quot; to &quot;b&quot; at a cost of 2.
-- Change substring source[3..3] from &quot;d&quot; to &quot;e&quot; at a cost of 20.
-The total cost incurred is 5 + 1 + 2 + 20 = 28. 
-It can be shown that this is the minimum possible cost.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> source = &quot;abcdefgh&quot;, target = &quot;acdeeghh&quot;, original = [&quot;bcd&quot;,&quot;fgh&quot;,&quot;thh&quot;], changed = [&quot;cde&quot;,&quot;thh&quot;,&quot;ghh&quot;], cost = [1,3,5]
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> To convert &quot;abcdefgh&quot; to &quot;acdeeghh&quot;, do the following operations:
-- Change substring source[1..3] from &quot;bcd&quot; to &quot;cde&quot; at a cost of 1.
-- Change substring source[5..7] from &quot;fgh&quot; to &quot;thh&quot; at a cost of 3. We can do this operation because indices [5,7] are disjoint with indices picked in the first operation.
-- Change substring source[5..7] from &quot;thh&quot; to &quot;ghh&quot; at a cost of 5. We can do this operation because indices [5,7] are disjoint with indices picked in the first operation, and identical with indices picked in the second operation.
-The total cost incurred is 1 + 3 + 5 = 9.
-It can be shown that this is the minimum possible cost.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> source = &quot;abcdefgh&quot;, target = &quot;addddddd&quot;, original = [&quot;bcd&quot;,&quot;defgh&quot;], changed = [&quot;ddd&quot;,&quot;ddddd&quot;], cost = [100,1578]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It is impossible to convert &quot;abcdefgh&quot; to &quot;addddddd&quot;.
-If you select substring source[1..3] as the first operation to change &quot;abcdefgh&quot; to &quot;adddefgh&quot;, you cannot select substring source[3..7] as the second operation because it has a common index, 3, with the first operation.
-If you select substring source[3..7] as the first operation to change &quot;abcdefgh&quot; to &quot;abcddddd&quot;, you cannot select substring source[1..3] as the second operation because it has a common index, 3, with the first operation.
-</pre>
+<p><strong>注意</strong>，可能存在下标 <code>i</code> 、<code>j</code> 使得 <code>original[j] == original[i]</code> 且 <code>changed[j] == changed[i]</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>source = "abcd", target = "acbe", original = ["a","b","c","c","e","d"], changed = ["b","c","b","e","b","e"], cost = [2,5,5,1,2,20]
+<strong>输出：</strong>28
+<strong>解释：</strong>将 "abcd" 转换为 "acbe"，执行以下操作：
+- 将子串 source[1..1] 从 "b" 改为 "c" ，成本为 5 。
+- 将子串 source[2..2] 从 "c" 改为 "e" ，成本为 1 。
+- 将子串 source[2..2] 从 "e" 改为 "b" ，成本为 2 。
+- 将子串 source[3..3] 从 "d" 改为 "e" ，成本为 20 。
+产生的总成本是 5 + 1 + 2 + 20 = 28 。 
+可以证明这是可能的最小成本。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>source = "abcdefgh", target = "acdeeghh", original = ["bcd","fgh","thh"], changed = ["cde","thh","ghh"], cost = [1,3,5]
+<strong>输出：</strong>9
+<strong>解释：</strong>将 "abcdefgh" 转换为 "acdeeghh"，执行以下操作：
+- 将子串 source[1..3] 从 "bcd" 改为 "cde" ，成本为 1 。
+- 将子串 source[5..7] 从 "fgh" 改为 "thh" ，成本为 3 。可以执行此操作，因为下标 [5,7] 与第一次操作选中的下标不相交。
+- 将子串 source[5..7] 从 "thh" 改为 "ghh" ，成本为 5 。可以执行此操作，因为下标 [5,7] 与第一次操作选中的下标不相交，且与第二次操作选中的下标相同。
+产生的总成本是 1 + 3 + 5 = 9 。
+可以证明这是可能的最小成本。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>source = "abcdefgh", target = "addddddd", original = ["bcd","defgh"], changed = ["ddd","ddddd"], cost = [100,1578]
+<strong>输出：</strong>-1
+<strong>解释：</strong>无法将 "abcdefgh" 转换为 "addddddd" 。
+如果选择子串 source[1..3] 执行第一次操作，以将 "abcdefgh" 改为 "adddefgh" ，你无法选择子串 source[3..7] 执行第二次操作，因为两次操作有一个共用下标 3 。
+如果选择子串 source[3..7] 执行第一次操作，以将 "abcdefgh" 改为 "abcddddd" ，你无法选择子串 source[1..3] 执行第二次操作，因为两次操作有一个共用下标 3 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= source.length == target.length &lt;= 1000</code></li>
-	<li><code>source</code>, <code>target</code> consist only of lowercase English characters.</li>
+	<li><code>source</code>、<code>target</code> 均由小写英文字母组成</li>
 	<li><code>1 &lt;= cost.length == original.length == changed.length &lt;= 100</code></li>
 	<li><code>1 &lt;= original[i].length == changed[i].length &lt;= source.length</code></li>
-	<li><code>original[i]</code>, <code>changed[i]</code> consist only of lowercase English characters.</li>
+	<li><code>original[i]</code>、<code>changed[i]</code> 均由小写英文字母组成</li>
 	<li><code>original[i] != changed[i]</code></li>
 	<li><code>1 &lt;= cost[i] &lt;= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Trie + Floyd Algorithm + Memoization Search
+### 方法一：字典树 + Floyd 算法 + 记忆化搜索
 
-According to the problem description, we can consider each string as a node, and the conversion cost between each pair of strings as a directed edge. We first initialize a $26 \times 26$ two-dimensional array $g$, where $g[i][j]$ represents the minimum cost of converting string $i$ to string $j$. Initially, $g[i][j] = \infty$, and if $i = j$, then $g[i][j] = 0$. Here, we can use a trie to store the strings in `original` and `changed` along with their corresponding integer identifiers.
+根据题目描述，我们可以将每个字符串看作一个节点，每对字符串的转换成本看作一条有向边。那么我们先初始化一个 $26 \times 26$ 的二维数组 $g$，其中 $g[i][j]$ 表示字符串 $i$ 转换成字符串 $j$ 的最小成本。初始时 $g[i][j] = \infty$，如果 $i = j$，那么 $g[i][j] = 0$。在这里，我们可以借助字典树存储 `original` 和 `changed` 中的字符串以及对应的整数编号。
 
-Next, we use the Floyd algorithm to calculate the minimum cost between any two strings.
+然后，我们使用 Floyd 算法计算出任意两个字符串之间的最小成本。
 
-Then, we define a function $dfs(i)$ to represent the minimum cost of converting the string $source[i..]$ to the string $target[i..]$. The answer is $dfs(0)$.
+接下来，我们定义函数 $dfs(i)$ 表示将字符串 $source[i..]$ 转换为字符串 $target[i..]$ 所需的最小成本。那么答案就是 $dfs(0)$。
 
-The calculation process of the function $dfs(i)$ is as follows:
+函数 $dfs(i)$ 的计算过程如下：
 
-- If $i \geq |source|$, no conversion is needed, return $0$.
-- Otherwise, if $source[i] = target[i]$, we can skip directly and recursively calculate $dfs(i + 1)$. We can also enumerate the index $j$ in the range $[i, |source|)$, if $source[i..j]$ and $target[i..j]$ are both in the trie, and their corresponding integer identifiers $x$ and $y$ are both greater than or equal to $0$, then we can add $dfs(j + 1)$ and $g[x][y]$ to get the cost of one conversion scheme, and we take the minimum value among all schemes.
+-   如果 $i \geq |source|$，说明不需要转换，返回 $0$。
+-   否则，如果 $source[i] = target[i]$，那么可以直接跳过，我们直接递归计算 $dfs(i + 1)$。我们也可以在 $[i, |source|)$ 的范围内枚举下标 $j$，如果 $source[i..j]$ 和 $target[i..j]$ 都在字典树中，且其对应的整数编号 $x$ 和 $y$ 都大于等于 $0$，那么我们可以将 $dfs(j + 1)$ 和 $g[x][y]$ 相加，得到一种转换方案的成本，我们取所有方案中的最小值。
 
-In summary, we can get:
+综上，我们可以得到：
 
 $$
 dfs(i) = \begin{cases}
@@ -113,11 +120,11 @@ dfs(i + 1), & source[i] = target[i] \\
 \end{cases}
 $$
 
-Where $x$ and $y$ are the integer identifiers of $source[i..j]$ and $target[i..j]$ in the trie, respectively.
+其中 $x$ 和 $y$ 分别是 $source[i..j]$ 和 $target[i..j]$ 在字典树中对应的整数编号。
 
-To avoid repeated calculations, we can use memoization search.
+为了避免重复计算，我们可以使用记忆化搜索。
 
-The time complexity is $O(m^3 + n^2 + m \times n)$, and the space complexity is $O(m^2 + m \times n + n)$. Where $m$ and $n$ are the lengths of the arrays `original` and `source`, respectively.
+时间复杂度 $O(m^3 + n^2 + m \times n)$，空间复杂度 $O(m^2 + m \times n + n)$。其中 $m$ 和 $n$ 分别是数组 $original$ 和 $source$ 的长度。
 
 <!-- tabs:start -->
 
@@ -484,83 +491,81 @@ func minimumCost(source string, target string, original []string, changed []stri
 
 ```ts
 class Node {
-  children: (Node | null)[] = Array(26).fill(null);
-  v: number = -1;
+    children: (Node | null)[] = Array(26).fill(null);
+    v: number = -1;
 }
 
 function minimumCost(
-  source: string,
-  target: string,
-  original: string[],
-  changed: string[],
-  cost: number[]
+    source: string,
+    target: string,
+    original: string[],
+    changed: string[],
+    cost: number[],
 ): number {
-  const m = cost.length;
-  const n = source.length;
-  const g: number[][] = Array.from({ length: m << 1 }, () =>
-    Array(m << 1).fill(Infinity)
-  );
-  const root: Node = new Node();
-  let idx: number = 0;
-  const f: number[] = Array(n).fill(-1);
-  const insert = (w: string): number => {
-    let node: Node = root;
-    for (const c of w) {
-      const i: number = c.charCodeAt(0) - "a".charCodeAt(0);
-      if (node.children[i] === null) {
-        node.children[i] = new Node();
-      }
-      node = node.children[i] as Node;
-    }
-    if (node.v < 0) {
-      node.v = idx++;
-    }
-    return node.v;
-  };
+    const m = cost.length;
+    const n = source.length;
+    const g: number[][] = Array.from({ length: m << 1 }, () => Array(m << 1).fill(Infinity));
+    const root: Node = new Node();
+    let idx: number = 0;
+    const f: number[] = Array(n).fill(-1);
+    const insert = (w: string): number => {
+        let node: Node = root;
+        for (const c of w) {
+            const i: number = c.charCodeAt(0) - 'a'.charCodeAt(0);
+            if (node.children[i] === null) {
+                node.children[i] = new Node();
+            }
+            node = node.children[i] as Node;
+        }
+        if (node.v < 0) {
+            node.v = idx++;
+        }
+        return node.v;
+    };
 
-  const dfs = (i: number): number => {
-    if (i >= n) {
-      return 0;
-    }
-    if (f[i] !== -1) {
-      return f[i];
-    }
-    let res: number = source[i] === target[i] ? dfs(i + 1) : Infinity;
-    let p: Node = root;
-    let q: Node = root;
-    for (let j = i; j < source.length; ++j) {
-      p = p.children[source[j].charCodeAt(0) - "a".charCodeAt(0)] as Node;
-      q = q.children[target[j].charCodeAt(0) - "a".charCodeAt(0)] as Node;
-      if (p === null || q === null) {
-        break;
-      }
-      if (p.v < 0 || q.v < 0) {
-        continue;
-      }
-      const t: number = g[p.v][q.v];
-      res = Math.min(res, t + dfs(j + 1));
-    }
-    return (f[i] = res);
-  };
+    const dfs = (i: number): number => {
+        if (i >= n) {
+            return 0;
+        }
+        if (f[i] !== -1) {
+            return f[i];
+        }
+        let res: number = source[i] === target[i] ? dfs(i + 1) : Infinity;
+        let p: Node = root;
+        let q: Node = root;
+        for (let j = i; j < source.length; ++j) {
+            p = p.children[source[j].charCodeAt(0) - 'a'.charCodeAt(0)] as Node;
+            q = q.children[target[j].charCodeAt(0) - 'a'.charCodeAt(0)] as Node;
+            if (p === null || q === null) {
+                break;
+            }
+            if (p.v < 0 || q.v < 0) {
+                continue;
+            }
+            const t: number = g[p.v][q.v];
+            res = Math.min(res, t + dfs(j + 1));
+        }
+        return (f[i] = res);
+    };
 
-  for (let i = 0; i < m; ++i) {
-    const x: number = insert(original[i]);
-    const y: number = insert(changed[i]);
-    g[x][y] = Math.min(g[x][y], cost[i]);
-  }
-
-  for (let k = 0; k < idx; ++k) {
-    for (let i = 0; i < idx; ++i) {
-      if (g[i][k] >= Infinity) {
-        continue;
-      }
-      for (let j = 0; j < idx; ++j) {
-        g[i][j] = Math.min(g[i][j], g[i][k] + g[k][j]);
-      }
+    for (let i = 0; i < m; ++i) {
+        const x: number = insert(original[i]);
+        const y: number = insert(changed[i]);
+        g[x][y] = Math.min(g[x][y], cost[i]);
     }
-  }
-  const ans: number = dfs(0);
-  return ans >= Infinity ? -1 : ans;
+
+    for (let k = 0; k < idx; ++k) {
+        for (let i = 0; i < idx; ++i) {
+            if (g[i][k] >= Infinity) {
+                continue;
+            }
+            for (let j = 0; j < idx; ++j) {
+                g[i][j] = Math.min(g[i][j], g[i][k] + g[k][j]);
+            }
+        }
+    }
+    const ans: number = dfs(0);
+    return ans >= Infinity ? -1 : ans;
 }
 ```
 

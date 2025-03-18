@@ -1,95 +1,100 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3227.Vowels%20Game%20in%20a%20String/README.md
 rating: 1451
-source: Weekly Contest 407 Q2
+source: 第 407 场周赛 Q2
 tags:
-  - Brainteaser
-  - Math
-  - String
-  - Game Theory
+    - 脑筋急转弯
+    - 数学
+    - 字符串
+    - 博弈
 ---
 
 <!-- problem:start -->
 
-# [3227. Vowels Game in a String](https://leetcode.com/problems/vowels-game-in-a-string)
+# [3227. 字符串元音游戏](https://leetcode.cn/problems/vowels-game-in-a-string)
 
-## Description
+[English Version](/solution/3200-3299/3227.Vowels%20Game%20in%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Alice and Bob are playing a game on a string.</p>
+<p>小红和小明在玩一个字符串元音游戏。</p>
 
-<p>You are given a string <code>s</code>, Alice and Bob will take turns playing the following game where Alice starts <strong>first</strong>:</p>
+<p>给你一个字符串 <code>s</code>，小红和小明将轮流参与游戏，小红<strong> 先 </strong>开始：</p>
 
 <ul>
-	<li>On Alice&#39;s turn, she has to remove any <strong>non-empty</strong> <span data-keyword="substring">substring</span> from <code>s</code> that contains an <strong>odd</strong> number of vowels.</li>
-	<li>On Bob&#39;s turn, he has to remove any <strong>non-empty</strong> <span data-keyword="substring">substring</span> from <code>s</code> that contains an <strong>even</strong> number of vowels.</li>
+	<li>在小红的回合，她必须移除 <code>s</code> 中包含 <strong>奇数 </strong>个元音的任意 <strong>非空</strong> <span data-keyword="substring">子字符串</span>。</li>
+	<li>在小明的回合，他必须移除 <code>s</code> 中包含 <strong>偶数 </strong>个元音的任意 <strong>非空</strong> <span data-keyword="substring">子字符串</span>。</li>
 </ul>
 
-<p>The first player who cannot make a move on their turn loses the game. We assume that both Alice and Bob play <strong>optimally</strong>.</p>
+<p>第一个无法在其回合内进行移除操作的玩家输掉游戏。假设小红和小明都采取 <strong>最优策略 </strong>。</p>
 
-<p>Return <code>true</code> if Alice wins the game, and <code>false</code> otherwise.</p>
+<p>如果小红赢得游戏，返回 <code>true</code>，否则返回 <code>false</code>。</p>
 
-<p>The English vowels are: <code>a</code>, <code>e</code>, <code>i</code>, <code>o</code>, and <code>u</code>.</p>
+<p>英文元音字母包括：<code>a</code>, <code>e</code>, <code>i</code>, <code>o</code>, 和 <code>u</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;leetcoder&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">s = "leetcoder"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
+<p><strong>输出：</strong> <span class="example-io">true</span></p>
 
-<p><strong>Explanation:</strong><br />
-Alice can win the game as follows:</p>
+<p><strong>解释：</strong><br />
+小红可以执行如下移除操作来赢得游戏：</p>
 
 <ul>
-	<li>Alice plays first, she can delete the underlined substring in <code>s = &quot;<u><strong>leetco</strong></u>der&quot;</code> which contains 3 vowels. The resulting string is <code>s = &quot;der&quot;</code>.</li>
-	<li>Bob plays second, he can delete the underlined substring in <code>s = &quot;<u><strong>d</strong></u>er&quot;</code> which contains 0 vowels. The resulting string is <code>s = &quot;er&quot;</code>.</li>
-	<li>Alice plays third, she can delete the whole string <code>s = &quot;<strong><u>er</u></strong>&quot;</code> which contains 1 vowel.</li>
-	<li>Bob plays fourth, since the string is empty, there is no valid play for Bob. So Alice wins the game.</li>
+	<li>小红先手，她可以移除加下划线的子字符串 <code>s = "<u><strong>leetco</strong></u>der"</code>，其中包含 3 个元音。结果字符串为 <code>s = "der"</code>。</li>
+	<li>小明接着，他可以移除加下划线的子字符串 <code>s = "<u><strong>d</strong></u>er"</code>，其中包含 0 个元音。结果字符串为 <code>s = "er"</code>。</li>
+	<li>小红再次操作，她可以移除整个字符串 <code>s = "<strong><u>er</u></strong>"</code>，其中包含 1 个元音。</li>
+	<li>又轮到小明，由于字符串为空，无法执行移除操作，因此小红赢得游戏。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;bbcd&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">s = "bbcd"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
+<p><strong>输出：</strong> <span class="example-io">false</span></p>
 
-<p><strong>Explanation:</strong><br />
-There is no valid play for Alice in her first turn, so Alice loses the game.</p>
+<p><strong>解释：</strong><br />
+小红在她的第一回合无法执行移除操作，因此小红输掉了游戏。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists only of lowercase English letters.</li>
+	<li><code>s</code> 仅由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Brain Teaser
+### 方法一：脑筋急转弯
 
-Let's denote the number of vowels in the string as $k$.
+我们不妨记字符串中元音字母的个数为 $k$。
 
-If $k = 0$, meaning there are no vowels in the string, then Little Red cannot remove any substring, and Little Ming wins directly.
+如果 $k = 0$，即字符串中没有元音字母，那么小红无法移除任何子字符串，小明直接获胜。
 
-If $k$ is odd, then Little Red can remove the entire string, resulting in a direct win for Little Red.
+如果 $k$ 为奇数，那么小红可以移除整个字符串，小红直接获胜。
 
-If $k$ is even, then Little Red can remove $k - 1$ vowels, leaving one vowel in the string. In this case, Little Ming cannot remove any substring, leading to a direct win for Little Red.
+如果 $k$ 为偶数，那么小红可以移除 $k - 1$ 个元音字母，此时剩下一个元音字母，小明无法移除任何子字符串，小红直接获胜。
 
-In conclusion, if the string contains vowels, then Little Red wins; otherwise, Little Ming wins.
+综上所述，如果字符串中包含元音字母，那么小红获胜，否则小明获胜。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -152,13 +157,13 @@ func doesAliceWin(s string) bool {
 
 ```ts
 function doesAliceWin(s: string): boolean {
-  const vowels = "aeiou";
-  for (const c of s) {
-    if (vowels.includes(c)) {
-      return true;
+    const vowels = 'aeiou';
+    for (const c of s) {
+        if (vowels.includes(c)) {
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 ```
 

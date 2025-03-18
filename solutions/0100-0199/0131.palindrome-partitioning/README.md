@@ -1,45 +1,67 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0131.Palindrome%20Partitioning/README.md
 tags:
-  - String
-  - Dynamic Programming
-  - Backtracking
+    - 字符串
+    - 动态规划
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [131. Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning)
+# [131. 分割回文串](https://leetcode.cn/problems/palindrome-partitioning)
 
-## Description
+[English Version](/solution/0100-0199/0131.Palindrome%20Partitioning/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, partition <code>s</code> such that every <span data-keyword="substring-nonempty">substring</span> of the partition is a <span data-keyword="palindrome-string"><strong>palindrome</strong></span>. Return <em>all possible palindrome partitioning of </em><code>s</code>.</p>
+<p>给你一个字符串 <code>s</code>，请你将<em> </em><code>s</code><em> </em>分割成一些子串，使每个子串都是 <strong><span data-keyword="palindrome-string">回文串</span></strong> 。返回 <code>s</code> 所有可能的分割方案。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> s = "aab"
-<strong>Output:</strong> [["a","a","b"],["aa","b"]]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> s = "a"
-<strong>Output:</strong> [["a"]]
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aab"
+<strong>输出：</strong>[["a","a","b"],["aa","b"]]
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "a"
+<strong>输出：</strong>[["a"]]
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 16</code></li>
-	<li><code>s</code> contains only lowercase English letters.</li>
+	<li><code>s</code> 仅由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：预处理 + DFS(回溯)
+
+我们可以使用动态规划，预处理出字符串中的任意子串是否为回文串，即 $f[i][j]$ 表示子串 $s[i..j]$ 是否为回文串。
+
+接下来，我们设计一个函数 $dfs(i)$，表示从字符串的第 $i$ 个字符开始，分割成若干回文串，当前分割方案为 $t$。
+
+如果 $i=|s|$，说明已经分割完成，我们将 $t$ 放入答案数组中，然后返回。
+
+否则，我们可以从 $i$ 开始，从小到大依次枚举结束位置 $j$，如果 $s[i..j]$ 是回文串，那么就把 $s[i..j]$ 加入到 $t$ 中，然后继续递归 $dfs(j+1)$，回溯的时候要弹出 $s[i..j]$。
+
+时间复杂度 $O(n \times 2^n)$，空间复杂度 $O(n^2)$。其中 $n$ 是字符串的长度。
 
 <!-- tabs:start -->
 
@@ -127,14 +149,14 @@ public:
         }
         vector<vector<string>> ans;
         vector<string> t;
-        function<void(int)> dfs = [&](int i) {
+        auto dfs = [&](this auto&& dfs, int i) -> void {
             if (i == n) {
-                ans.push_back(t);
+                ans.emplace_back(t);
                 return;
             }
             for (int j = i; j < n; ++j) {
                 if (f[i][j]) {
-                    t.push_back(s.substr(i, j - i + 1));
+                    t.emplace_back(s.substr(i, j - i + 1));
                     dfs(j + 1);
                     t.pop_back();
                 }
@@ -187,32 +209,30 @@ func partition(s string) (ans [][]string) {
 
 ```ts
 function partition(s: string): string[][] {
-  const n = s.length;
-  const f: boolean[][] = new Array(n)
-    .fill(0)
-    .map(() => new Array(n).fill(true));
-  for (let i = n - 1; i >= 0; --i) {
-    for (let j = i + 1; j < n; ++j) {
-      f[i][j] = s[i] === s[j] && f[i + 1][j - 1];
+    const n = s.length;
+    const f: boolean[][] = Array.from({ length: n }, () => Array(n).fill(true));
+    for (let i = n - 1; i >= 0; --i) {
+        for (let j = i + 1; j < n; ++j) {
+            f[i][j] = s[i] === s[j] && f[i + 1][j - 1];
+        }
     }
-  }
-  const ans: string[][] = [];
-  const t: string[] = [];
-  const dfs = (i: number) => {
-    if (i === n) {
-      ans.push(t.slice());
-      return;
-    }
-    for (let j = i; j < n; ++j) {
-      if (f[i][j]) {
-        t.push(s.slice(i, j + 1));
-        dfs(j + 1);
-        t.pop();
-      }
-    }
-  };
-  dfs(0);
-  return ans;
+    const ans: string[][] = [];
+    const t: string[] = [];
+    const dfs = (i: number) => {
+        if (i === n) {
+            ans.push(t.slice());
+            return;
+        }
+        for (let j = i; j < n; ++j) {
+            if (f[i][j]) {
+                t.push(s.slice(i, j + 1));
+                dfs(j + 1);
+                t.pop();
+            }
+        }
+    };
+    dfs(0);
+    return ans;
 }
 ```
 

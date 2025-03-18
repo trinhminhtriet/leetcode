@@ -1,59 +1,61 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1866.Number%20of%20Ways%20to%20Rearrange%20Sticks%20With%20K%20Sticks%20Visible/README.md
 rating: 2333
-source: Weekly Contest 241 Q4
+source: 第 241 场周赛 Q4
 tags:
-  - Math
-  - Dynamic Programming
-  - Combinatorics
+    - 数学
+    - 动态规划
+    - 组合数学
 ---
 
 <!-- problem:start -->
 
-# [1866. Number of Ways to Rearrange Sticks With K Sticks Visible](https://leetcode.com/problems/number-of-ways-to-rearrange-sticks-with-k-sticks-visible)
+# [1866. 恰有 K 根木棍可以看到的排列数目](https://leetcode.cn/problems/number-of-ways-to-rearrange-sticks-with-k-sticks-visible)
 
-## Description
+[English Version](/solution/1800-1899/1866.Number%20of%20Ways%20to%20Rearrange%20Sticks%20With%20K%20Sticks%20Visible/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> uniquely-sized sticks whose lengths are integers from <code>1</code> to <code>n</code>. You want to arrange the sticks such that <strong>exactly</strong> <code>k</code>&nbsp;sticks are <strong>visible</strong> from the left. A stick&nbsp;is <strong>visible</strong> from the left if there are no <strong>longer</strong>&nbsp;sticks to the <strong>left</strong> of it.</p>
+<p>有 <code>n</code> 根长度互不相同的木棍，长度为从 <code>1</code> 到 <code>n</code> 的整数。请你将这些木棍排成一排，并满足从左侧 <strong>可以看到</strong> <strong>恰好</strong> <code>k</code> 根木棍。从左侧 <strong>可以看到</strong> 木棍的前提是这个木棍的 <strong>左侧</strong> 不存在比它 <strong>更长的</strong> 木棍。</p>
 
 <ul>
-	<li>For example, if the sticks are arranged <code>[<u>1</u>,<u>3</u>,2,<u>5</u>,4]</code>, then the sticks with lengths <code>1</code>, <code>3</code>, and <code>5</code> are visible from the left.</li>
+	<li>例如，如果木棍排列为 <code>[<em><strong>1</strong></em>,<em><strong>3</strong></em>,2,<em><strong>5</strong></em>,4]</code> ，那么从左侧可以看到的就是长度分别为 <code>1</code>、<code>3</code> 、<code>5</code> 的木棍。</li>
 </ul>
 
-<p>Given <code>n</code> and <code>k</code>, return <em>the <strong>number</strong> of such arrangements</em>. Since the answer may be large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>给你 <code>n</code> 和 <code>k</code> ，返回符合题目要求的排列 <strong>数目</strong> 。由于答案可能很大，请返回对 <code>10<sup>9</sup> + 7</code> <strong>取余 </strong>的结果。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> n = 3, k = 2
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> [<u>1</u>,<u>3</u>,2], [<u>2</u>,<u>3</u>,1], and [<u>2</u>,1,<u>3</u>] are the only arrangements such that exactly 2 sticks are visible.
-The visible sticks are underlined.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>n = 3, k = 2
+<strong>输出：</strong>3
+<strong>解释：</strong>[<strong><em>1</em></strong>,<strong><em>3</em></strong>,2], [<em><strong>2</strong></em>,<em><strong>3</strong></em>,1] 和 [<em><strong>2</strong></em>,1,<em><strong>3</strong></em>] 是仅有的能满足恰好 2 根木棍可以看到的排列。
+可以看到的木棍已经用粗体+斜体标识。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 5, k = 5
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> [<u>1</u>,<u>2</u>,<u>3</u>,<u>4</u>,<u>5</u>] is the only arrangement such that all 5 sticks are visible.
-The visible sticks are underlined.
+<pre><strong>输入：</strong>n = 5, k = 5
+<strong>输出：</strong>1
+<strong>解释：</strong>[<em><strong>1</strong></em>,<em><strong>2</strong></em>,<em><strong>3</strong></em>,<em><strong>4</strong></em>,<em><strong>5</strong></em>] 是唯一一种能满足全部 5 根木棍可以看到的排列。
+可以看到的木棍已经用粗体+斜体标识。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 20, k = 11
-<strong>Output:</strong> 647427950
-<strong>Explanation:</strong> There are 647427950 (mod 10<sup>9 </sup>+ 7) ways to rearrange the sticks such that exactly 11 sticks are visible.
+<pre><strong>输入：</strong>n = 20, k = 11
+<strong>输出：</strong>647427950
+<strong>解释：</strong>总共有 647427950 (mod 10<sup>9 </sup>+ 7) 种能满足恰好有 11 根木棍可以看到的排列。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -62,27 +64,25 @@ The visible sticks are underlined.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ to represent the number of permutations of length $i$ in which exactly $j$ sticks can be seen. Initially, $f[0][0]=1$ and the rest $f[i][j]=0$. The answer is $f[n][k]$.
+我们定义 $f[i][j]$ 表示长度为 $i$ 的排列中，恰有 $j$ 根木棍可以看到的排列数目。初始时 $f[0][0]=1$，其余 $f[i][j]=0$。答案为 $f[n][k]$。
 
-Consider whether the last stick can be seen. If it can be seen, it must be the longest. Then there are $i - 1$ sticks in front of it, and exactly $j - 1$ sticks can be seen, which is $f[i - 1][j - 1]$. If the last stick cannot be seen, it can be any one except the longest stick. Then there are $i - 1$ sticks in front of it, and exactly $j$ sticks can be seen, which is $f[i - 1][j] \times (i - 1)$.
+考虑最后一根木棍是否可以看到，如果可以看到，那么它一定是最长的，那么它的前面有 $i - 1$ 根木棍，恰有 $j - 1$ 根木棍可以看到，即 $f[i - 1][j - 1]$；如果最后一根木棍不可以看到，那么它可以是除了最长的木棍之外的任意一根，那么它的前面有 $i - 1$ 根木棍，恰有 $j$ 根木棍可以看到，即 $f[i - 1][j] \times (i - 1)$。
 
-Therefore, the state transition equation is:
+因此，状态转移方程为：
 
 $$
 f[i][j] = f[i - 1][j - 1] + f[i - 1][j] \times (i - 1)
 $$
 
-The final answer is $f[n][k]$.
+最终答案为 $f[n][k]$。
 
-We notice that $f[i][j]$ is only related to $f[i - 1][j - 1]$ and $f[i - 1][j]$, so we can use a one-dimensional array to optimize the space complexity.
-
-The time complexity is $O(n \times k)$, and the space complexity is $O(k)$. Here, $n$ and $k$ are the two integers given in the problem.
+时间复杂度 $O(n \times k)$，空间复杂度 $O(n \times k)$。其中 $n$ 和 $k$ 分别是题目中给定的两个整数。
 
 <!-- tabs:start -->
 
@@ -161,17 +161,17 @@ func rearrangeSticks(n int, k int) int {
 
 ```ts
 function rearrangeSticks(n: number, k: number): number {
-  const mod = 10 ** 9 + 7;
-  const f: number[][] = Array.from({ length: n + 1 }, () =>
-    Array.from({ length: k + 1 }, () => 0)
-  );
-  f[0][0] = 1;
-  for (let i = 1; i <= n; ++i) {
-    for (let j = 1; j <= k; ++j) {
-      f[i][j] = (f[i - 1][j - 1] + (i - 1) * f[i - 1][j]) % mod;
+    const mod = 10 ** 9 + 7;
+    const f: number[][] = Array.from({ length: n + 1 }, () =>
+        Array.from({ length: k + 1 }, () => 0),
+    );
+    f[0][0] = 1;
+    for (let i = 1; i <= n; ++i) {
+        for (let j = 1; j <= k; ++j) {
+            f[i][j] = (f[i - 1][j - 1] + (i - 1) * f[i - 1][j]) % mod;
+        }
     }
-  }
-  return f[n][k];
+    return f[n][k];
 }
 ```
 
@@ -181,7 +181,11 @@ function rearrangeSticks(n: number, k: number): number {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：动态规划（空间优化）
+
+我们注意到 $f[i][j]$ 只跟 $f[i - 1][j - 1]$ 和 $f[i - 1][j]$ 有关，因此可以使用一维数组优化空间复杂度。
+
+时间复杂度 $O(n \times k)$，空间复杂度 $O(k)$。其中 $n$ 和 $k$ 分别是题目中给定的两个整数。
 
 <!-- tabs:start -->
 
@@ -260,16 +264,16 @@ func rearrangeSticks(n int, k int) int {
 
 ```ts
 function rearrangeSticks(n: number, k: number): number {
-  const mod = 10 ** 9 + 7;
-  const f: number[] = Array(n + 1).fill(0);
-  f[0] = 1;
-  for (let i = 1; i <= n; ++i) {
-    for (let j = k; j; --j) {
-      f[j] = (f[j] * (i - 1) + f[j - 1]) % mod;
+    const mod = 10 ** 9 + 7;
+    const f: number[] = Array(n + 1).fill(0);
+    f[0] = 1;
+    for (let i = 1; i <= n; ++i) {
+        for (let j = k; j; --j) {
+            f[j] = (f[j] * (i - 1) + f[j - 1]) % mod;
+        }
+        f[0] = 0;
     }
-    f[0] = 0;
-  }
-  return f[k];
+    return f[k];
 }
 ```
 

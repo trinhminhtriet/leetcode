@@ -1,93 +1,98 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1963.Minimum%20Number%20of%20Swaps%20to%20Make%20the%20String%20Balanced/README.md
 rating: 1688
-source: Weekly Contest 253 Q3
+source: 第 253 场周赛 Q3
 tags:
-  - Stack
-  - Greedy
-  - Two Pointers
-  - String
+    - 栈
+    - 贪心
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1963. Minimum Number of Swaps to Make the String Balanced](https://leetcode.com/problems/minimum-number-of-swaps-to-make-the-string-balanced)
+# [1963. 使字符串平衡的最小交换次数](https://leetcode.cn/problems/minimum-number-of-swaps-to-make-the-string-balanced)
 
-## Description
+[English Version](/solution/1900-1999/1963.Minimum%20Number%20of%20Swaps%20to%20Make%20the%20String%20Balanced/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> string <code>s</code> of <strong>even</strong> length <code>n</code>. The string consists of <strong>exactly</strong> <code>n / 2</code> opening brackets <code>&#39;[&#39;</code> and <code>n / 2</code> closing brackets <code>&#39;]&#39;</code>.</p>
+<p>给你一个字符串 <code>s</code> ，<strong>下标从 0 开始</strong> ，且长度为偶数 <code>n</code> 。字符串 <strong>恰好</strong> 由 <code>n / 2</code> 个开括号 <code>'['</code> 和 <code>n / 2</code> 个闭括号 <code>']'</code> 组成。</p>
 
-<p>A string is called <strong>balanced</strong> if and only if:</p>
+<p>只有能满足下述所有条件的字符串才能称为 <strong>平衡字符串</strong> ：</p>
 
 <ul>
-	<li>It is the empty string, or</li>
-	<li>It can be written as <code>AB</code>, where both <code>A</code> and <code>B</code> are <strong>balanced</strong> strings, or</li>
-	<li>It can be written as <code>[C]</code>, where <code>C</code> is a <strong>balanced</strong> string.</li>
+	<li>字符串是一个空字符串，或者</li>
+	<li>字符串可以记作 <code>AB</code> ，其中 <code>A</code> 和 <code>B</code> 都是 <strong>平衡字符串</strong> ，或者</li>
+	<li>字符串可以写成 <code>[C]</code> ，其中 <code>C</code> 是一个 <strong>平衡字符串</strong> 。</li>
 </ul>
 
-<p>You may swap the brackets at <strong>any</strong> two indices <strong>any</strong> number of times.</p>
+<p>你可以交换 <strong>任意</strong> 两个下标所对应的括号 <strong>任意</strong> 次数。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of swaps to make </em><code>s</code> <em><strong>balanced</strong></em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;][][&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> You can make the string balanced by swapping index 0 with index 3.
-The resulting string is &quot;[[]]&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;]]][[[&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> You can do the following to make the string balanced:
-- Swap index 0 with index 4. s = &quot;[]][][&quot;.
-- Swap index 1 with index 5. s = &quot;[[][]]&quot;.
-The resulting string is &quot;[[][]]&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;[]&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The string is already balanced.
-</pre>
+<p>返回使<em> </em><code>s</code> 变成 <strong>平衡字符串</strong> 所需要的 <strong>最小</strong> 交换次数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "][]["
+<strong>输出：</strong>1
+<strong>解释：</strong>交换下标 0 和下标 3 对应的括号，可以使字符串变成平衡字符串。
+最终字符串变成 "[[]]" 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "]]][[["
+<strong>输出：</strong>2
+<strong>解释：</strong>执行下述操作可以使字符串变成平衡字符串：
+- 交换下标 0 和下标 4 对应的括号，s = "[]][][" 。
+- 交换下标 1 和下标 5 对应的括号，s = "[[][]]" 。
+最终字符串变成 "[[][]]" 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "[]"
+<strong>输出：</strong>0
+<strong>解释：</strong>这个字符串已经是平衡字符串。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == s.length</code></li>
 	<li><code>2 &lt;= n &lt;= 10<sup>6</sup></code></li>
-	<li><code>n</code> is even.</li>
-	<li><code>s[i]</code> is either <code>&#39;[&#39; </code>or <code>&#39;]&#39;</code>.</li>
-	<li>The number of opening brackets <code>&#39;[&#39;</code> equals <code>n / 2</code>, and the number of closing brackets <code>&#39;]&#39;</code> equals <code>n / 2</code>.</li>
+	<li><code>n</code> 为偶数</li>
+	<li><code>s[i]</code> 为<code>'['</code> 或 <code>']'</code></li>
+	<li>开括号 <code>'['</code> 的数目为 <code>n / 2</code> ，闭括号 <code>']'</code> 的数目也是 <code>n / 2</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy
+### 方法一：贪心
 
-We use a variable $x$ to record the current number of unmatched left brackets. We traverse the string $s$, for each character $c$:
+我们用一个变量 $x$ 记录当前未匹配的左括号的数量，遍历字符串 $s$，对于每个字符 $c$：
 
-- If $c$ is a left bracket, then we increment $x$ by one;
-- If $c$ is a right bracket, then we need to check whether $x$ is greater than zero. If it is, we match the current right bracket with the nearest unmatched left bracket on the left, i.e., decrement $x$ by one.
+-   如果 $c$ 是左括号，那么 $x$ 加一；
+-   如果 $c$ 是右括号，那么我们需要判断 $x$ 是否大于零，如果大于零，那么将当前右括号与左侧最近的一个未匹配的左括号匹配，即 $x$ 减一。
 
-After the traversal, we will definitely get a string of the form `"]]]...[[[..."`. We then greedily swap the brackets at both ends each time, which can eliminate $2$ unmatched left brackets at a time. Therefore, the total number of swaps needed is $\left\lfloor \frac{x + 1}{2} \right\rfloor$.
+遍历结束后，得到的一定是形如 `"]]]...[[[..."`的字符串，我们再贪心地每次将两端的括号交换，这样一次可以消去 $2$ 个不匹配的左括号。因此，一共需要交换的次数为 $\left\lfloor \frac{x + 1}{2} \right\rfloor$。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -163,15 +168,15 @@ func minSwaps(s string) int {
 
 ```ts
 function minSwaps(s: string): number {
-  let x = 0;
-  for (const c of s) {
-    if (c === "[") {
-      ++x;
-    } else if (x) {
-      --x;
+    let x = 0;
+    for (const c of s) {
+        if (c === '[') {
+            ++x;
+        } else if (x) {
+            --x;
+        }
     }
-  }
-  return (x + 1) >> 1;
+    return (x + 1) >> 1;
 }
 ```
 

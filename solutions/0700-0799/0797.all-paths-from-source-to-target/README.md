@@ -1,60 +1,71 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0797.All%20Paths%20From%20Source%20to%20Target/README.md
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
-  - Backtracking
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [797. All Paths From Source to Target](https://leetcode.com/problems/all-paths-from-source-to-target)
+# [797. 所有可能的路径](https://leetcode.cn/problems/all-paths-from-source-to-target)
 
-## Description
+[English Version](/solution/0700-0799/0797.All%20Paths%20From%20Source%20to%20Target/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a directed acyclic graph (<strong>DAG</strong>) of <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>, find all possible paths from node <code>0</code> to node <code>n - 1</code> and return them in <strong>any order</strong>.</p>
+<p>给你一个有&nbsp;<code>n</code>&nbsp;个节点的 <strong>有向无环图（DAG）</strong>，请你找出所有从节点 <code>0</code>&nbsp;到节点 <code>n-1</code>&nbsp;的路径并输出（<strong>不要求按特定顺序</strong>）</p>
 
-<p>The graph is given as follows: <code>graph[i]</code> is a list of all nodes you can visit from node <code>i</code> (i.e., there is a directed edge from node <code>i</code> to node <code>graph[i][j]</code>).</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0797.All%20Paths%20From%20Source%20to%20Target/images/all_1.jpg" style="width: 242px; height: 242px;" />
-<pre>
-<strong>Input:</strong> graph = [[1,2],[3],[3],[]]
-<strong>Output:</strong> [[0,1,3],[0,2,3]]
-<strong>Explanation:</strong> There are two paths: 0 -&gt; 1 -&gt; 3 and 0 -&gt; 2 -&gt; 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0797.All%20Paths%20From%20Source%20to%20Target/images/all_2.jpg" style="width: 423px; height: 301px;" />
-<pre>
-<strong>Input:</strong> graph = [[4,3,1],[3,2,4],[3],[4],[]]
-<strong>Output:</strong> [[0,4],[0,3,4],[0,1,3,4],[0,1,2,3,4],[0,1,4]]
-</pre>
+<p><meta charset="UTF-8" />&nbsp;<code>graph[i]</code>&nbsp;是一个从节点 <code>i</code> 可以访问的所有节点的列表（即从节点 <code>i</code> 到节点&nbsp;<code>graph[i][j]</code>存在一条有向边）。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0797.All%20Paths%20From%20Source%20to%20Target/images/all_1.jpg" /></p>
+
+<pre>
+<strong>输入：</strong>graph = [[1,2],[3],[3],[]]
+<strong>输出：</strong>[[0,1,3],[0,2,3]]
+<strong>解释：</strong>有两条路径 0 -&gt; 1 -&gt; 3 和 0 -&gt; 2 -&gt; 3
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0797.All%20Paths%20From%20Source%20to%20Target/images/all_2.jpg" /></p>
+
+<pre>
+<strong>输入：</strong>graph = [[4,3,1],[3,2,4],[3],[4],[]]
+<strong>输出：</strong>[[0,4],[0,3,4],[0,1,3,4],[0,1,2,3,4],[0,1,4]]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == graph.length</code></li>
 	<li><code>2 &lt;= n &lt;= 15</code></li>
 	<li><code>0 &lt;= graph[i][j] &lt; n</code></li>
-	<li><code>graph[i][j] != i</code> (i.e., there will be no self-loops).</li>
-	<li>All the elements of <code>graph[i]</code> are <strong>unique</strong>.</li>
-	<li>The input graph is <strong>guaranteed</strong> to be a <strong>DAG</strong>.</li>
+	<li><code>graph[i][j] != i</code>（即不存在自环）</li>
+	<li><code>graph[i]</code> 中的所有元素 <strong>互不相同</strong></li>
+	<li>保证输入为 <strong>有向无环图（DAG）</strong></li>
 </ul>
+
+<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -191,24 +202,24 @@ impl Solution {
  * @return {number[][]}
  */
 var allPathsSourceTarget = function (graph) {
-  const ans = [];
-  const t = [0];
+    const ans = [];
+    const t = [0];
 
-  const dfs = (t) => {
-    const cur = t[t.length - 1];
-    if (cur == graph.length - 1) {
-      ans.push([...t]);
-      return;
-    }
-    for (const v of graph[cur]) {
-      t.push(v);
-      dfs(t);
-      t.pop();
-    }
-  };
+    const dfs = t => {
+        const cur = t[t.length - 1];
+        if (cur == graph.length - 1) {
+            ans.push([...t]);
+            return;
+        }
+        for (const v of graph[cur]) {
+            t.push(v);
+            dfs(t);
+            t.pop();
+        }
+    };
 
-  dfs(t);
-  return ans;
+    dfs(t);
+    return ans;
 };
 ```
 
@@ -216,25 +227,25 @@ var allPathsSourceTarget = function (graph) {
 
 ```ts
 function allPathsSourceTarget(graph: number[][]): number[][] {
-  const ans: number[][] = [];
+    const ans: number[][] = [];
 
-  const dfs = (path: number[]) => {
-    const curr = path.at(-1)!;
-    if (curr === graph.length - 1) {
-      ans.push([...path]);
-      return;
-    }
+    const dfs = (path: number[]) => {
+        const curr = path.at(-1)!;
+        if (curr === graph.length - 1) {
+            ans.push([...path]);
+            return;
+        }
 
-    for (const v of graph[curr]) {
-      path.push(v);
-      dfs(path);
-      path.pop();
-    }
-  };
+        for (const v of graph[curr]) {
+            path.push(v);
+            dfs(path);
+            path.pop();
+        }
+    };
 
-  dfs([0]);
+    dfs([0]);
 
-  return ans;
+    return ans;
 }
 ```
 
@@ -244,7 +255,7 @@ function allPathsSourceTarget(graph: number[][]): number[][] {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

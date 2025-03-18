@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1741.Find%20Total%20Time%20Spent%20by%20Each%20Employee/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1741. Find Total Time Spent by Each Employee](https://leetcode.com/problems/find-total-time-spent-by-each-employee)
+# [1741. 查找每个员工花费的总时间](https://leetcode.cn/problems/find-total-time-spent-by-each-employee)
 
-## Description
+[English Version](/solution/1700-1799/1741.Find%20Total%20Time%20Spent%20by%20Each%20Employee/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Employees</code></p>
+<p>表: <code>Employees</code></p>
 
 <pre>
 +-------------+------+
@@ -24,26 +27,26 @@ tags:
 | in_time     | int  |
 | out_time    | int  |
 +-------------+------+
-(emp_id, event_day, in_time) is the primary key (combinations of columns with unique values) of this table.
-The table shows the employees&#39; entries and exits in an office.
-event_day is the day at which this event happened, in_time is the minute at which the employee entered the office, and out_time is the minute at which they left the office.
-in_time and out_time are between 1 and 1440.
-It is guaranteed that no two events on the same day intersect in time, and in_time &lt; out_time.
+在 SQL 中，(emp_id, event_day, in_time) 是这个表的主键。
+该表显示了员工在办公室的出入情况。
+event_day 是此事件发生的日期，in_time 是员工进入办公室的时间，而 out_time 是他们离开办公室的时间。
+in_time 和 out_time 的取值在1到1440之间。
+题目保证同一天没有两个事件在时间上是相交的，并且保证 in_time 小于 out_time。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to calculate the total time <strong>in minutes</strong> spent by each employee on each day at the office. Note that within one day, an employee can enter and leave more than once. The time spent in the office for a single entry is <code>out_time - in_time</code>.</p>
+<p>计算每位员工每天在办公室花费的总时间（以分钟为单位）。 请注意，在一天之内，同一员工是可以多次进入和离开办公室的。 在办公室里一次进出所花费的时间为out_time 减去 in_time。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
-
-<p>The result format is in the following example.</p>
+<p>返回结果表单的顺序无要求。<br />
+查询结果的格式如下：</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
+<strong>输入：</strong>
 Employees table:
 +--------+------------+---------+----------+
 | emp_id | event_day  | in_time | out_time |
@@ -54,7 +57,7 @@ Employees table:
 | 2      | 2020-11-28 | 3       | 33       |
 | 2      | 2020-12-09 | 47      | 74       |
 +--------+------------+---------+----------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +------------+--------+------------+
 | day        | emp_id | total_time |
 +------------+--------+------------+
@@ -63,20 +66,20 @@ Employees table:
 | 2020-12-03 | 1      | 41         |
 | 2020-12-09 | 2      | 27         |
 +------------+--------+------------+
-<strong>Explanation:</strong> 
-Employee 1 has three events: two on day 2020-11-28 with a total of (32 - 4) + (200 - 55) = 173, and one on day 2020-12-03 with a total of (42 - 1) = 41.
-Employee 2 has two events: one on day 2020-11-28 with a total of (33 - 3) = 30, and one on day 2020-12-09 with a total of (74 - 47) = 27.
+<strong>解释：</strong>
+雇员 1 有三次进出: 有两次发生在 2020-11-28 花费的时间为 (32 - 4) + (200 - 55) = 173, 有一次发生在 2020-12-03 花费的时间为 (42 - 1) = 41。
+雇员 2 有两次进出: 有一次发生在 2020-11-28 花费的时间为 (33 - 3) = 30,  有一次发生在 2020-12-09 花费的时间为 (74 - 47) = 27。
 </pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Group By + Sum Function
+### 方法一：分组求和
 
-We can first group by `emp_id` and `event_day`, and then calculate the total time for each group. The total time is equal to the sum of the differences between `out_time` and `in_time` for each record in the group.
+我们可以先按照 `emp_id` 和 `event_day` 进行分组，然后计算每个分组的总时间。总时间等于每个分组的 `out_time` 减去 `in_time` 的和。
 
 <!-- tabs:start -->
 

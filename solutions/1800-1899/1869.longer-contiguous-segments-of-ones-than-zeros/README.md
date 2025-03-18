@@ -1,81 +1,86 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1869.Longer%20Contiguous%20Segments%20of%20Ones%20than%20Zeros/README.md
 rating: 1204
-source: Weekly Contest 242 Q1
+source: 第 242 场周赛 Q1
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1869. Longer Contiguous Segments of Ones than Zeros](https://leetcode.com/problems/longer-contiguous-segments-of-ones-than-zeros)
+# [1869. 哪种连续子字符串更长](https://leetcode.cn/problems/longer-contiguous-segments-of-ones-than-zeros)
 
-## Description
+[English Version](/solution/1800-1899/1869.Longer%20Contiguous%20Segments%20of%20Ones%20than%20Zeros/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary string <code>s</code>, return <code>true</code><em> if the <strong>longest</strong> contiguous segment of </em><code>1</code>&#39;<em>s is <strong>strictly longer</strong> than the <strong>longest</strong> contiguous segment of </em><code>0</code>&#39;<em>s in </em><code>s</code>, or return <code>false</code><em> otherwise</em>.</p>
+<p>给你一个二进制字符串 <code>s</code> 。如果字符串中由 <code>1</code> 组成的 <strong>最长</strong> 连续子字符串 <strong>严格长于</strong> 由 <code>0</code> 组成的 <strong>最长</strong> 连续子字符串，返回 <code>true</code> ；否则，返回 <code>false</code><em> </em>。</p>
 
 <ul>
-	<li>For example, in <code>s = &quot;<u>11</u>01<u>000</u>10&quot;</code> the longest continuous segment of <code>1</code>s has length <code>2</code>, and the longest continuous segment of <code>0</code>s has length <code>3</code>.</li>
+	<li>例如，<code>s = "<strong>11</strong>01<strong>000</strong>10"</code> 中，由 <code>1</code> 组成的最长连续子字符串的长度是 <code>2</code> ，由 <code>0</code> 组成的最长连续子字符串的长度是 <code>3</code> 。</li>
 </ul>
 
-<p>Note that if there are no <code>0</code>&#39;s, then the longest continuous segment of <code>0</code>&#39;s is considered to have a length <code>0</code>. The same applies if there is no <code>1</code>&#39;s.</p>
+<p>注意，如果字符串中不存在 <code>0</code> ，此时认为由 <code>0</code> 组成的最长连续子字符串的长度是 <code>0</code> 。字符串中不存在 <code>1</code> 的情况也适用此规则。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s = &quot;1101&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong>
-The longest contiguous segment of 1s has length 2: &quot;<u>11</u>01&quot;
-The longest contiguous segment of 0s has length 1: &quot;11<u>0</u>1&quot;
-The segment of 1s is longer, so return true.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;111000&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong>
-The longest contiguous segment of 1s has length 3: &quot;<u>111</u>000&quot;
-The longest contiguous segment of 0s has length 3: &quot;111<u>000</u>&quot;
-The segment of 1s is not longer, so return false.
+<strong>输入：</strong>s = "1101"
+<strong>输出：</strong>true
+<strong>解释：</strong>
+由 <code>1</code> 组成的最长连续子字符串的长度是 2："<strong>11</strong>01"
+由 <code>0</code> 组成的最长连续子字符串的长度是 1："11<strong>0</strong>1"
+由 1 组成的子字符串更长，故返回 true 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;110100010&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong>
-The longest contiguous segment of 1s has length 2: &quot;<u>11</u>0100010&quot;
-The longest contiguous segment of 0s has length 3: &quot;1101<u>000</u>10&quot;
-The segment of 1s is not longer, so return false.
+<strong>输入：</strong>s = "111000"
+<strong>输出：</strong>false
+<strong>解释：</strong>
+由 <code>1</code> 组成的最长连续子字符串的长度是 3："<strong>111</strong>000"
+由<code> 0</code> 组成的最长连续子字符串的长度是 3："111<strong>000</strong>"
+由 1 组成的子字符串不比由 0 组成的子字符串长，故返回 false 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "110100010"
+<strong>输出：</strong>false
+<strong>解释：</strong>
+由 <code>1</code> 组成的最长连续子字符串的长度是 2："<strong>11</strong>0100010"
+由 <code>0</code> 组成的最长连续子字符串的长度是 3："1101<strong>000</strong>10"
+由 1 组成的子字符串不比由 0 组成的子字符串长，故返回 false 。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>1 <= s.length <= 100</code></li>
+	<li><code>s[i]</code> 不是 <code>'0'</code> 就是 <code>'1'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Passes
+### 方法一：两次遍历
 
-We design a function $f(x)$, which represents the length of the longest consecutive substring in string $s$ composed of $x$. If $f(1) > f(0)$, then return `true`, otherwise return `false`.
+我们设计一个函数 $f(x)$，表示字符串 $s$ 中由 $x$ 组成的最长连续子字符串的长度。如果 $f(1) \gt f(0)$，那么返回 `true`，否则返回 `false`。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)`.
+时间复杂度 $O(n)$，其中 $n$ 是字符串 $s$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -165,18 +170,18 @@ func checkZeroOnes(s string) bool {
 
 ```ts
 function checkZeroOnes(s: string): boolean {
-  const f = (x: string): number => {
-    let [mx, cnt] = [0, 0];
-    for (const c of s) {
-      if (c === x) {
-        mx = Math.max(mx, ++cnt);
-      } else {
-        cnt = 0;
-      }
-    }
-    return mx;
-  };
-  return f("1") > f("0");
+    const f = (x: string): number => {
+        let [mx, cnt] = [0, 0];
+        for (const c of s) {
+            if (c === x) {
+                mx = Math.max(mx, ++cnt);
+            } else {
+                cnt = 0;
+            }
+        }
+        return mx;
+    };
+    return f('1') > f('0');
 }
 ```
 
@@ -188,18 +193,18 @@ function checkZeroOnes(s: string): boolean {
  * @return {boolean}
  */
 var checkZeroOnes = function (s) {
-  const f = (x) => {
-    let [mx, cnt] = [0, 0];
-    for (const c of s) {
-      if (c === x) {
-        mx = Math.max(mx, ++cnt);
-      } else {
-        cnt = 0;
-      }
-    }
-    return mx;
-  };
-  return f("1") > f("0");
+    const f = x => {
+        let [mx, cnt] = [0, 0];
+        for (const c of s) {
+            if (c === x) {
+                mx = Math.max(mx, ++cnt);
+            } else {
+                cnt = 0;
+            }
+        }
+        return mx;
+    };
+    return f('1') > f('0');
 };
 ```
 

@@ -1,76 +1,81 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3244.Shortest%20Distance%20After%20Road%20Addition%20Queries%20II/README.md
 rating: 2270
-source: Weekly Contest 409 Q3
+source: 第 409 场周赛 Q3
 tags:
-  - Greedy
-  - Graph
-  - Array
-  - Ordered Set
+    - 贪心
+    - 图
+    - 数组
+    - 有序集合
 ---
 
 <!-- problem:start -->
 
-# [3244. Shortest Distance After Road Addition Queries II](https://leetcode.com/problems/shortest-distance-after-road-addition-queries-ii)
+# [3244. 新增道路查询后的最短距离 II](https://leetcode.cn/problems/shortest-distance-after-road-addition-queries-ii)
 
-## Description
+[English Version](/solution/3200-3299/3244.Shortest%20Distance%20After%20Road%20Addition%20Queries%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer <code>n</code> and a 2D integer array <code>queries</code>.</p>
+<p>给你一个整数 <code>n</code> 和一个二维整数数组 <code>queries</code>。</p>
 
-<p>There are <code>n</code> cities numbered from <code>0</code> to <code>n - 1</code>. Initially, there is a <strong>unidirectional</strong> road from city <code>i</code> to city <code>i + 1</code> for all <code>0 &lt;= i &lt; n - 1</code>.</p>
+<p>有 <code>n</code> 个城市，编号从 <code>0</code> 到 <code>n - 1</code>。初始时，每个城市 <code>i</code> 都有一条<strong>单向</strong>道路通往城市 <code>i + 1</code>（ <code>0 &lt;= i &lt; n - 1</code>）。</p>
 
-<p><code>queries[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> represents the addition of a new <strong>unidirectional</strong> road from city <code>u<sub>i</sub></code> to city <code>v<sub>i</sub></code>. After each query, you need to find the <strong>length</strong> of the <strong>shortest path</strong> from city <code>0</code> to city <code>n - 1</code>.</p>
+<p><code>queries[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> 表示新建一条从城市 <code>u<sub>i</sub></code> 到城市 <code>v<sub>i</sub></code> 的<strong>单向</strong>道路。每次查询后，你需要找到从城市 <code>0</code> 到城市 <code>n - 1</code> 的<strong>最短路径</strong>的<strong>长度</strong>。</p>
 
-<p>There are no two queries such that <code>queries[i][0] &lt; queries[j][0] &lt; queries[i][1] &lt; queries[j][1]</code>.</p>
+<p>所有查询中不会存在两个查询都满足 <code>queries[i][0] &lt; queries[j][0] &lt; queries[i][1] &lt; queries[j][1]</code>。</p>
 
-<p>Return an array <code>answer</code> where for each <code>i</code> in the range <code>[0, queries.length - 1]</code>, <code>answer[i]</code> is the <em>length of the shortest path</em> from city <code>0</code> to city <code>n - 1</code> after processing the <strong>first </strong><code>i + 1</code> queries.</p>
+<p>返回一个数组 <code>answer</code>，对于范围 <code>[0, queries.length - 1]</code> 中的每个 <code>i</code>，<code>answer[i]</code> 是处理完<strong>前</strong> <code>i + 1</code> 个查询后，从城市 <code>0</code> 到城市 <code>n - 1</code> 的最短路径的<em>长度</em>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 5, queries = [[2,4],[0,2],[0,4]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">n = 5, queries = [[2, 4], [0, 2], [0, 4]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[3,2,1]</span></p>
+<p><strong>输出：</strong> <span class="example-io">[3, 2, 1]</span></p>
 
-<p><strong>Explanation: </strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3244.Shortest%20Distance%20After%20Road%20Addition%20Queries%20II/images/image8.jpg" style="width: 350px; height: 60px;" /></p>
 
-<p>After the addition of the road from 2 to 4, the length of the shortest path from 0 to 4 is 3.</p>
+<p>新增一条从 2 到 4 的道路后，从 0 到 4 的最短路径长度为 3。</p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3244.Shortest%20Distance%20After%20Road%20Addition%20Queries%20II/images/image9.jpg" style="width: 350px; height: 60px;" /></p>
 
-<p>After the addition of the road from 0 to 2, the length of the shortest path from 0 to 4 is 2.</p>
+<p>新增一条从 0 到 2 的道路后，从 0 到 4 的最短路径长度为 2。</p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3244.Shortest%20Distance%20After%20Road%20Addition%20Queries%20II/images/image10.jpg" style="width: 350px; height: 96px;" /></p>
 
-<p>After the addition of the road from 0 to 4, the length of the shortest path from 0 to 4 is 1.</p>
+<p>新增一条从 0 到 4 的道路后，从 0 到 4 的最短路径长度为 1。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 4, queries = [[0,3],[0,2]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">n = 4, queries = [[0, 3], [0, 2]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[1,1]</span></p>
+<p><strong>输出：</strong> <span class="example-io">[1, 1]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3244.Shortest%20Distance%20After%20Road%20Addition%20Queries%20II/images/image11.jpg" style="width: 300px; height: 70px;" /></p>
 
-<p>After the addition of the road from 0 to 3, the length of the shortest path from 0 to 3 is 1.</p>
+<p>新增一条从 0 到 3 的道路后，从 0 到 3 的最短路径长度为 1。</p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3244.Shortest%20Distance%20After%20Road%20Addition%20Queries%20II/images/image12.jpg" style="width: 300px; height: 70px;" /></p>
 
-<p>After the addition of the road from 0 to 2, the length of the shortest path remains 1.</p>
+<p>新增一条从 0 到 2 的道路后，从 0 到 3 的最短路径长度仍为 1。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -78,25 +83,25 @@ tags:
 	<li><code>queries[i].length == 2</code></li>
 	<li><code>0 &lt;= queries[i][0] &lt; queries[i][1] &lt; n</code></li>
 	<li><code>1 &lt; queries[i][1] - queries[i][0]</code></li>
-	<li>There are no repeated roads among the queries.</li>
-	<li>There are no two queries such that <code>i != j</code> and <code>queries[i][0] &lt; queries[j][0] &lt; queries[i][1] &lt; queries[j][1]</code>.</li>
+	<li>查询中不存在重复的道路。</li>
+	<li>不存在两个查询都满足 <code>i != j</code> 且 <code>queries[i][0] &lt; queries[j][0] &lt; queries[i][1] &lt; queries[j][1]</code>。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Recording Jump Positions
+### 方法一：贪心 + 记录跳转位置
 
-We define an array $\textit{nxt}$ of length $n - 1$, where $\textit{nxt}[i]$ represents the next city that can be reached from city $i$. Initially, $\textit{nxt}[i] = i + 1$.
+我们定义一个长度为 $n - 1$ 的数组 $\textit{nxt}$，其中 $\textit{nxt}[i]$ 表示从城市 $i$ 可以到达的下一个城市的编号。初始时 $\textit{nxt}[i] = i + 1$。
 
-For each query $[u, v]$, if $u'$ and $v'$ have already been connected before, and $u' \leq u < v \leq v'$, then we can skip this query. Otherwise, we need to set the next city number for cities from $\textit{nxt}[u]$ to $\textit{nxt}[v - 1]$ to $0$, and set $\textit{nxt}[u]$ to $v$.
+对于每次查询 $[u, v]$，如果此前已经连通了 $u'$ 和 $v'$，且 $u' <= u < v <= v'$，那么我们可以跳过这次查询。否则，我们需要将 $nxt[u]$ 到 $nxt[v - 1]$ 这些城市的下一个城市编号设置为 $0$，并将 $nxt[u]$ 设置为 $v$。
 
-During this process, we maintain a variable $\textit{cnt}$, which represents the length of the shortest path from city $0$ to city $n - 1$. Initially, $\textit{cnt} = n - 1$. Each time we set the next city number for cities in $[\textit{nxt}[u], \textit{v})$ to $0$, $\textit{cnt}$ decreases by $1$.
+在这个过程中，我们维护一个变量 $\textit{cnt}$，表示从城市 $0$ 到城市 $n - 1$ 的最短路径的长度。初始时 $\textit{cnt} = n - 1$。每一次，如果我们将 $[\textit{nxt}[u], \textit{v})$ 这些城市的下一个城市编号设置为 $0$，那么 $\textit{cnt}$ 就会减少 $1$。
 
-Time complexity is $O(n + q)$, and space complexity is $O(n)$. Here, $n$ and $q$ are the number of cities and the number of queries, respectively.
+时间复杂度 $O(n + q)$，空间复杂度 $O(n)$。其中 $n$ 和 $q$ 分别是城市数量和查询数量。
 
 <!-- tabs:start -->
 
@@ -209,25 +214,22 @@ func shortestDistanceAfterQueries(n int, queries [][]int) (ans []int) {
 #### TypeScript
 
 ```ts
-function shortestDistanceAfterQueries(
-  n: number,
-  queries: number[][]
-): number[] {
-  const nxt: number[] = Array.from({ length: n - 1 }, (_, i) => i + 1);
-  const ans: number[] = [];
-  let cnt = n - 1;
-  for (const [u, v] of queries) {
-    if (nxt[u] && nxt[u] < v) {
-      let i = nxt[u];
-      while (i < v) {
-        --cnt;
-        [nxt[i], i] = [0, nxt[i]];
-      }
-      nxt[u] = v;
+function shortestDistanceAfterQueries(n: number, queries: number[][]): number[] {
+    const nxt: number[] = Array.from({ length: n - 1 }, (_, i) => i + 1);
+    const ans: number[] = [];
+    let cnt = n - 1;
+    for (const [u, v] of queries) {
+        if (nxt[u] && nxt[u] < v) {
+            let i = nxt[u];
+            while (i < v) {
+                --cnt;
+                [nxt[i], i] = [0, nxt[i]];
+            }
+            nxt[u] = v;
+        }
+        ans.push(cnt);
     }
-    ans.push(cnt);
-  }
-  return ans;
+    return ans;
 }
 ```
 

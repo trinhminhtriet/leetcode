@@ -1,68 +1,71 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2580.Count%20Ways%20to%20Group%20Overlapping%20Ranges/README.md
 rating: 1631
-source: Biweekly Contest 99 Q3
+source: 第 99 场双周赛 Q3
 tags:
-  - Array
-  - Sorting
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2580. Count Ways to Group Overlapping Ranges](https://leetcode.com/problems/count-ways-to-group-overlapping-ranges)
+# [2580. 统计将重叠区间合并成组的方案数](https://leetcode.cn/problems/count-ways-to-group-overlapping-ranges)
 
-## Description
+[English Version](/solution/2500-2599/2580.Count%20Ways%20to%20Group%20Overlapping%20Ranges/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D integer array <code>ranges</code> where <code>ranges[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> denotes that all integers between <code>start<sub>i</sub></code> and <code>end<sub>i</sub></code> (both <strong>inclusive</strong>) are contained in the <code>i<sup>th</sup></code> range.</p>
+<p>给你一个二维整数数组&nbsp;<code>ranges</code>&nbsp;，其中&nbsp;<code>ranges[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>&nbsp;表示&nbsp;<code>start<sub>i</sub></code>&nbsp;到&nbsp;<code>end<sub>i</sub></code>&nbsp;之间（包括二者）的所有整数都包含在第&nbsp;<code>i</code>&nbsp;个区间中。</p>
 
-<p>You are to split <code>ranges</code> into <strong>two</strong> (possibly empty) groups such that:</p>
-
-<ul>
-	<li>Each range belongs to exactly one group.</li>
-	<li>Any two <strong>overlapping</strong> ranges must belong to the <strong>same</strong> group.</li>
-</ul>
-
-<p>Two ranges are said to be <strong>overlapping</strong>&nbsp;if there exists at least <strong>one</strong> integer that is present in both ranges.</p>
+<p>你需要将&nbsp;<code>ranges</code>&nbsp;分成 <strong>两个</strong>&nbsp;组（可以为空），满足：</p>
 
 <ul>
-	<li>For example, <code>[1, 3]</code> and <code>[2, 5]</code> are overlapping because <code>2</code> and <code>3</code> occur in both ranges.</li>
+	<li>每个区间只属于一个组。</li>
+	<li>两个有 <strong>交集</strong>&nbsp;的区间必须在 <strong>同一个&nbsp;</strong>组内。</li>
 </ul>
 
-<p>Return <em>the <strong>total number</strong> of ways to split</em> <code>ranges</code> <em>into two groups</em>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>如果两个区间有至少 <strong>一个</strong>&nbsp;公共整数，那么这两个区间是 <b>有交集</b>&nbsp;的。</p>
+
+<ul>
+	<li>比方说，区间&nbsp;<code>[1, 3]</code> 和&nbsp;<code>[2, 5]</code>&nbsp;有交集，因为&nbsp;<code>2</code>&nbsp;和&nbsp;<code>3</code>&nbsp;在两个区间中都被包含。</li>
+</ul>
+
+<p>请你返回将 <code>ranges</code>&nbsp;划分成两个组的 <strong>总方案数</strong>&nbsp;。由于答案可能很大，将它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> ranges = [[6,10],[5,15]]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> 
-The two ranges are overlapping, so they must be in the same group.
-Thus, there are two possible ways:
-- Put both the ranges together in group 1.
-- Put both the ranges together in group 2.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>ranges = [[6,10],[5,15]]
+<b>输出：</b>2
+<b>解释：</b>
+两个区间有交集，所以它们必须在同一个组内。
+所以有两种方案：
+- 将两个区间都放在第 1 个组中。
+- 将两个区间都放在第 2 个组中。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> ranges = [[1,3],[10,20],[2,5],[4,8]]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> 
-Ranges [1,3], and [2,5] are overlapping. So, they must be in the same group.
-Again, ranges [2,5] and [4,8] are also overlapping. So, they must also be in the same group. 
-Thus, there are four possible ways to group them:
-- All the ranges in group 1.
-- All the ranges in group 2.
-- Ranges [1,3], [2,5], and [4,8] in group 1 and [10,20] in group 2.
-- Ranges [1,3], [2,5], and [4,8] in group 2 and [10,20] in group 1.
+<pre><b>输入：</b>ranges = [[1,3],[10,20],[2,5],[4,8]]
+<b>输出：</b>4
+<b>解释：</b>
+区间 [1,3] 和 [2,5] 有交集，所以它们必须在同一个组中。
+同理，区间 [2,5] 和 [4,8] 也有交集，所以它们也必须在同一个组中。
+所以总共有 4 种分组方案：
+- 所有区间都在第 1 组。
+- 所有区间都在第 2 组。
+- 区间 [1,3] ，[2,5] 和 [4,8] 在第 1 个组中，[10,20] 在第 2 个组中。
+- 区间 [1,3] ，[2,5] 和 [4,8] 在第 2 个组中，[10,20] 在第 1 个组中。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= ranges.length &lt;= 10<sup>5</sup></code></li>
@@ -72,19 +75,19 @@ Thus, there are four possible ways to group them:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting + Counting + Fast Power
+### 方法一：排序 + 计数 + 快速幂
 
-We can first sort the intervals in the range, merge the overlapping intervals, and count the number of non-overlapping intervals, denoted as $cnt$.
+我们可以先对区间进行排序，相交的区间进行合并，统计有多少个不相交的区间，记为 $cnt$。
 
-Each non-overlapping interval can be chosen to be put in the first group or the second group, so the number of plans is $2^{cnt}$. Note that $2^{cnt}$ may be very large, so we need to take modulo $10^9 + 7$. Here, we can use fast power to solve this problem.
+每个不相交的区间可以选择放在第一组或第二组，所以方案数为 $2^{cnt}$。注意到 $2^{cnt}$ 可能很大，所以需要对 $10^9 + 7$ 取模。这里可以使用快速幂求解。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the number of intervals.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为区间个数。
 
-Alternatively, we can also avoid using fast power. Once a new non-overlapping interval is found, we multiply the number of plans by 2 and take modulo $10^9 + 7$.
+我们也可以不使用快速幂，一旦发现有新的不相交的区间，就将方案数乘 $2$ 后对 $10^9 + 7$ 取模。
 
 <!-- tabs:start -->
 
@@ -192,17 +195,17 @@ func countWays(ranges [][]int) int {
 
 ```ts
 function countWays(ranges: number[][]): number {
-  ranges.sort((a, b) => a[0] - b[0]);
-  let mx = -1;
-  let ans = 1;
-  const mod = 10 ** 9 + 7;
-  for (const [start, end] of ranges) {
-    if (start > mx) {
-      ans = (ans * 2) % mod;
+    ranges.sort((a, b) => a[0] - b[0]);
+    let mx = -1;
+    let ans = 1;
+    const mod = 10 ** 9 + 7;
+    for (const [start, end] of ranges) {
+        if (start > mx) {
+            ans = (ans * 2) % mod;
+        }
+        mx = Math.max(mx, end);
     }
-    mx = Math.max(mx, end);
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -212,7 +215,7 @@ function countWays(ranges: number[][]): number {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

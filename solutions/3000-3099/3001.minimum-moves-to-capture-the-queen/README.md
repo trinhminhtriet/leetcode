@@ -1,77 +1,92 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3001.Minimum%20Moves%20to%20Capture%20The%20Queen/README.md
 rating: 1796
-source: Weekly Contest 379 Q2
+source: 第 379 场周赛 Q2
 tags:
-  - Array
-  - Enumeration
+    - 数学
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [3001. Minimum Moves to Capture The Queen](https://leetcode.com/problems/minimum-moves-to-capture-the-queen)
+# [3001. 捕获黑皇后需要的最少移动次数](https://leetcode.cn/problems/minimum-moves-to-capture-the-queen)
 
-## Description
+[English Version](/solution/3000-3099/3001.Minimum%20Moves%20to%20Capture%20The%20Queen/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a <strong>1-indexed</strong> <code>8 x 8</code> chessboard containing <code>3</code> pieces.</p>
+<p>现有一个下标从 <strong>1</strong> 开始的 <code>8 x 8</code> 棋盘，上面有 <code>3</code> 枚棋子。</p>
 
-<p>You are given <code>6</code> integers <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>, and <code>f</code> where:</p>
+<p>给你 <code>6</code> 个整数 <code>a</code> 、<code>b</code> 、<code>c</code> 、<code>d</code> 、<code>e</code> 和 <code>f</code> ，其中：</p>
 
 <ul>
-	<li><code>(a, b)</code> denotes the position of the white rook.</li>
-	<li><code>(c, d)</code> denotes the position of the white bishop.</li>
-	<li><code>(e, f)</code> denotes the position of the black queen.</li>
+	<li><code>(a, b)</code> 表示白色车的位置。</li>
+	<li><code>(c, d)</code> 表示白色象的位置。</li>
+	<li><code>(e, f)</code> 表示黑皇后的位置。</li>
 </ul>
 
-<p>Given that you can only move the white pieces, return <em>the <strong>minimum</strong> number of moves required to capture the black queen</em>.</p>
+<p>假定你只能移动白色棋子，返回捕获黑皇后所需的<strong>最少</strong>移动次数。</p>
 
-<p><strong>Note</strong> that:</p>
+<p><strong>请注意</strong>：</p>
 
 <ul>
-	<li>Rooks can move any number of squares either vertically or horizontally, but cannot jump over other pieces.</li>
-	<li>Bishops can move any number of squares diagonally, but cannot jump over other pieces.</li>
-	<li>A rook or a bishop can capture the queen if it is located in a square that they can move to.</li>
-	<li>The queen does not move.</li>
+	<li>车可以向垂直或水平方向移动任意数量的格子，但不能跳过其他棋子。</li>
+	<li>象可以沿对角线方向移动任意数量的格子，但不能跳过其他棋子。</li>
+	<li>如果车或象能移向皇后所在的格子，则认为它们可以捕获皇后。</li>
+	<li>皇后不能移动。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3001.Minimum%20Moves%20to%20Capture%20The%20Queen/images/ex1.png" style="width: 600px; height: 600px; padding: 10px; background: #fff; border-radius: .5rem;" />
 <pre>
-<strong>Input:</strong> a = 1, b = 1, c = 8, d = 8, e = 2, f = 3
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We can capture the black queen in two moves by moving the white rook to (1, 3) then to (2, 3).
-It is impossible to capture the black queen in less than two moves since it is not being attacked by any of the pieces at the beginning.
+<strong>输入：</strong>a = 1, b = 1, c = 8, d = 8, e = 2, f = 3
+<strong>输出：</strong>2
+<strong>解释：</strong>将白色车先移动到 (1, 3) ，然后移动到 (2, 3) 来捕获黑皇后，共需移动 2 次。
+由于起始时没有任何棋子正在攻击黑皇后，要想捕获黑皇后，移动次数不可能少于 2 次。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3001.Minimum%20Moves%20to%20Capture%20The%20Queen/images/ex2.png" style="width: 600px; height: 600px;padding: 10px; background: #fff; border-radius: .5rem;" />
 <pre>
-<strong>Input:</strong> a = 5, b = 3, c = 3, d = 4, e = 5, f = 2
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> We can capture the black queen in a single move by doing one of the following: 
-- Move the white rook to (5, 2).
-- Move the white bishop to (5, 2).
+<strong>输入：</strong>a = 5, b = 3, c = 3, d = 4, e = 5, f = 2
+<strong>输出：</strong>1
+<strong>解释：</strong>可以通过以下任一方式移动 1 次捕获黑皇后：
+- 将白色车移动到 (5, 2) 。
+- 将白色象移动到 (5, 2) 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= a, b, c, d, e, f &lt;= 8</code></li>
-	<li>No two pieces are on the same square.</li>
+	<li>两枚棋子不会同时出现在同一个格子上。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：分类讨论
+
+根据题意，我们可以将捕获黑皇后的情况分为以下几种：
+
+1. 白色车和黑皇后在同一行，且中间没有其他棋子，此时只需要移动白色车 $1$ 一次；
+1. 白色车和黑皇后在同一列，且中间没有其他棋子，此时只需要移动白色车 $1$ 一次；
+1. 白色象和黑皇后在对角线 `\` 上，且中间没有其他棋子，此时只需要移动白色象 $1$ 一次；
+1. 白色象和黑皇后在对角线 `/` 上，且中间没有其他棋子，此时只需要移动白色象 $1$ 一次；
+1. 其他情况，只需要移动两次。
+
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -82,50 +97,35 @@ class Solution:
     def minMovesToCaptureTheQueen(
         self, a: int, b: int, c: int, d: int, e: int, f: int
     ) -> int:
-        def check(dirs, sx, sy, bx, by) -> bool:
-            for dx, dy in pairwise(dirs):
-                for k in range(1, 8):
-                    x = sx + dx * k
-                    y = sy + dy * k
-                    if not (1 <= x <= 8 and 1 <= y <= 8) or (x, y) == (bx, by):
-                        break
-                    if (x, y) == (e, f):
-                        return True
-            return False
-
-        dirs1 = (-1, 0, 1, 0, -1)
-        dirs2 = (-1, 1, 1, -1, -1)
-        return 1 if check(dirs1, a, b, c, d) or check(dirs2, c, d, a, b) else 2
+        if a == e and (c != a or (d - b) * (d - f) > 0):
+            return 1
+        if b == f and (d != b or (c - a) * (c - e) > 0):
+            return 1
+        if c - e == d - f and (a - e != b - f or (a - c) * (a - e) > 0):
+            return 1
+        if c - e == f - d and (a - e != f - b or (a - c) * (a - e) > 0):
+            return 1
+        return 2
 ```
 
 #### Java
 
 ```java
 class Solution {
-    private final int[] dirs1 = {-1, 0, 1, 0, -1};
-    private final int[] dirs2 = {-1, 1, 1, -1, -1};
-    private int e, f;
-
     public int minMovesToCaptureTheQueen(int a, int b, int c, int d, int e, int f) {
-        this.e = e;
-        this.f = f;
-        return check(dirs1, a, b, c, d) || check(dirs2, c, d, a, b) ? 1 : 2;
-    }
-
-    private boolean check(int[] dirs, int sx, int sy, int bx, int by) {
-        for (int d = 0; d < 4; ++d) {
-            for (int k = 1; k < 8; ++k) {
-                int x = sx + dirs[d] * k;
-                int y = sy + dirs[d + 1] * k;
-                if (x < 1 || x > 8 || y < 1 || y > 8 || (x == bx && y == by)) {
-                    break;
-                }
-                if (x == e && y == f) {
-                    return true;
-                }
-            }
+        if (a == e && (c != a || (d - b) * (d - f) > 0)) {
+            return 1;
         }
-        return false;
+        if (b == f && (d != b || (c - a) * (c - e) > 0)) {
+            return 1;
+        }
+        if (c - e == d - f && (a - e != b - f || (a - c) * (a - e) > 0)) {
+            return 1;
+        }
+        if (c - e == f - d && (a - e != f - b || (a - c) * (a - e) > 0)) {
+            return 1;
+        }
+        return 2;
     }
 }
 ```
@@ -136,23 +136,19 @@ class Solution {
 class Solution {
 public:
     int minMovesToCaptureTheQueen(int a, int b, int c, int d, int e, int f) {
-        int dirs[2][5] = {{-1, 0, 1, 0, -1}, {-1, 1, 1, -1, -1}};
-        auto check = [&](int i, int sx, int sy, int bx, int by) {
-            for (int d = 0; d < 4; ++d) {
-                for (int k = 1; k < 8; ++k) {
-                    int x = sx + dirs[i][d] * k;
-                    int y = sy + dirs[i][d + 1] * k;
-                    if (x < 1 || x > 8 || y < 1 || y > 8 || (x == bx && y == by)) {
-                        break;
-                    }
-                    if (x == e && y == f) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        };
-        return check(0, a, b, c, d) || check(1, c, d, a, b) ? 1 : 2;
+        if (a == e && (c != a || (d - b) * (d - f) > 0)) {
+            return 1;
+        }
+        if (b == f && (d != b || (c - a) * (c - e) > 0)) {
+            return 1;
+        }
+        if (c - e == d - f && (a - e != b - f || (a - c) * (a - e) > 0)) {
+            return 1;
+        }
+        if (c - e == f - d && (a - e != f - b || (a - c) * (a - e) > 0)) {
+            return 1;
+        }
+        return 2;
     }
 };
 ```
@@ -161,23 +157,16 @@ public:
 
 ```go
 func minMovesToCaptureTheQueen(a int, b int, c int, d int, e int, f int) int {
-	dirs := [2][5]int{{-1, 0, 1, 0, -1}, {-1, 1, 1, -1, -1}}
-	check := func(i, sx, sy, bx, by int) bool {
-		for d := 0; d < 4; d++ {
-			for k := 1; k < 8; k++ {
-				x := sx + dirs[i][d]*k
-				y := sy + dirs[i][d+1]*k
-				if x < 1 || x > 8 || y < 1 || y > 8 || (x == bx && y == by) {
-					break
-				}
-				if x == e && y == f {
-					return true
-				}
-			}
-		}
-		return false
+	if a == e && (c != a || (d-b)*(d-f) > 0) {
+		return 1
 	}
-	if check(0, a, b, c, d) || check(1, c, d, a, b) {
+	if b == f && (d != b || (c-a)*(c-e) > 0) {
+		return 1
+	}
+	if c-e == d-f && (a-e != b-f || (a-c)*(a-e) > 0) {
+		return 1
+	}
+	if c-e == f-d && (a-e != f-b || (a-c)*(a-e) > 0) {
 		return 1
 	}
 	return 2
@@ -188,42 +177,70 @@ func minMovesToCaptureTheQueen(a int, b int, c int, d int, e int, f int) int {
 
 ```ts
 function minMovesToCaptureTheQueen(
-  a: number,
-  b: number,
-  c: number,
-  d: number,
-  e: number,
-  f: number
+    a: number,
+    b: number,
+    c: number,
+    d: number,
+    e: number,
+    f: number,
 ): number {
-  const dirs: number[][] = [
-    [-1, 0, 1, 0, -1],
-    [-1, 1, 1, -1, -1],
-  ];
-  const check = (
-    i: number,
-    sx: number,
-    sy: number,
-    bx: number,
-    by: number
-  ): boolean => {
-    for (let d = 0; d < 4; ++d) {
-      for (let k = 1; k < 8; ++k) {
-        const x = sx + dirs[i][d] * k;
-        const y = sy + dirs[i][d + 1] * k;
-        if (x < 1 || x > 8 || y < 1 || y > 8) {
-          break;
-        }
-        if (x === bx && y === by) {
-          break;
-        }
-        if (x === e && y === f) {
-          return true;
-        }
-      }
+    if (a === e && (c !== a || (d - b) * (d - f) > 0)) {
+        return 1;
     }
-    return false;
-  };
-  return check(0, a, b, c, d) || check(1, c, d, a, b) ? 1 : 2;
+    if (b === f && (d !== b || (c - a) * (c - e) > 0)) {
+        return 1;
+    }
+    if (c - e === d - f && (a - e !== b - f || (a - c) * (a - e) > 0)) {
+        return 1;
+    }
+    if (c - e === f - d && (a - e !== f - b || (a - c) * (a - e) > 0)) {
+        return 1;
+    }
+    return 2;
+}
+```
+
+#### Rust
+
+```rust
+impl Solution {
+    pub fn min_moves_to_capture_the_queen(a: i32, b: i32, c: i32, d: i32, e: i32, f: i32) -> i32 {
+        if a == e && (c != a || (d - b) * (d - f) > 0) {
+            return 1;
+        }
+        if b == f && (d != b || (c - a) * (c - e) > 0) {
+            return 1;
+        }
+        if c - e == d - f && (a - e != b - f || (a - c) * (a - e) > 0) {
+            return 1;
+        }
+        if c - e == f - d && (a - e != f - b || (a - c) * (a - e) > 0) {
+            return 1;
+        }
+        return 2;
+    }
+}
+```
+
+#### Cangjie
+
+```cj
+class Solution {
+    func minMovesToCaptureTheQueen(a: Int64, b: Int64, c: Int64, d: Int64, e: Int64, f: Int64): Int64 {
+        if (a == e && (c != a || (d - b) * (d - f) > 0)) {
+            return 1
+        }
+        if (b == f && (d != b || (c - a) * (c - e) > 0)) {
+            return 1
+        }
+        if (c - e == d - f && (a - e != b - f || (a - c) * (a - e) > 0)) {
+            return 1
+        }
+        if (c - e == f - d && (a - e != f - b || (a - c) * (a - e) > 0)) {
+            return 1
+        }
+        2
+    }
 }
 ```
 

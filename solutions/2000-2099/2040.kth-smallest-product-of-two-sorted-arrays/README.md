@@ -1,93 +1,95 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2040.Kth%20Smallest%20Product%20of%20Two%20Sorted%20Arrays/README.md
 rating: 2517
-source: Biweekly Contest 63 Q4
+source: 第 63 场双周赛 Q4
 tags:
-  - Array
-  - Binary Search
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [2040. Kth Smallest Product of Two Sorted Arrays](https://leetcode.com/problems/kth-smallest-product-of-two-sorted-arrays)
+# [2040. 两个有序数组的第 K 小乘积](https://leetcode.cn/problems/kth-smallest-product-of-two-sorted-arrays)
 
-## Description
+[English Version](/solution/2000-2099/2040.Kth%20Smallest%20Product%20of%20Two%20Sorted%20Arrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-Given two <strong>sorted 0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code> as well as an integer <code>k</code>, return <em>the </em><code>k<sup>th</sup></code><em> (<strong>1-based</strong>) smallest product of </em><code>nums1[i] \* nums2[j]</code><em> where </em><code>0 &lt;= i &lt; nums1.length</code><em> and </em><code>0 &lt;= j &lt; nums2.length</code>.
+给你两个 <strong>从小到大排好序</strong>&nbsp;且下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;以及一个整数&nbsp;<code>k</code>&nbsp;，请你返回第<em>&nbsp;</em><code>k</code>&nbsp;（从 <strong>1</strong>&nbsp;开始编号）小的&nbsp;<code>nums1[i] \* nums2[j]</code><em>&nbsp;</em>的乘积，其中<em>&nbsp;</em><code>0 &lt;= i &lt; nums1.length</code><em> </em>且<em> </em><code>0 &lt;= j &lt; nums2.length</code>&nbsp;。
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums1 = [2,5], nums2 = [3,4], k = 2
-<strong>Output:</strong> 8
-<strong>Explanation:</strong> The 2 smallest products are:
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums1 = [2,5], nums2 = [3,4], k = 2
+<b>输出：</b>8
+<b>解释：</b>第 2 小的乘积计算如下：
 - nums1[0] * nums2[0] = 2 * 3 = 6
 - nums1[0] * nums2[1] = 2 * 4 = 8
-The 2<sup>nd</sup> smallest product is 8.
+第 2 小的乘积为 8 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums1 = [-4,-2,0,3], nums2 = [2,4], k = 6
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The 6 smallest products are:
+<pre><b>输入：</b>nums1 = [-4,-2,0,3], nums2 = [2,4], k = 6
+<b>输出：</b>0
+<strong>解释：</strong>第 6 小的乘积计算如下：
 - nums1[0] * nums2[1] = (-4) * 4 = -16
 - nums1[0] * nums2[0] = (-4) * 2 = -8
 - nums1[1] * nums2[1] = (-2) * 4 = -8
 - nums1[1] * nums2[0] = (-2) * 2 = -4
 - nums1[2] * nums2[0] = 0 * 2 = 0
 - nums1[2] * nums2[1] = 0 * 4 = 0
-The 6<sup>th</sup> smallest product is 0.
+第 6 小的乘积为 0 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums1 = [-2,-1,0,1,2], nums2 = [-3,-1,2,4,5], k = 3
-<strong>Output:</strong> -6
-<strong>Explanation:</strong> The 3 smallest products are:
+<pre><b>输入：</b>nums1 = [-2,-1,0,1,2], nums2 = [-3,-1,2,4,5], k = 3
+<b>输出：</b>-6
+<b>解释：</b>第 3 小的乘积计算如下：
 - nums1[0] * nums2[4] = (-2) * 5 = -10
 - nums1[0] * nums2[3] = (-2) * 4 = -8
 - nums1[4] * nums2[0] = 2 * (-3) = -6
-The 3<sup>rd</sup> smallest product is -6.
+第 3 小的乘积为 -6 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 5 * 10<sup>4</sup></code></li>
 	<li><code>-10<sup>5</sup> &lt;= nums1[i], nums2[j] &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= k &lt;= nums1.length * nums2.length</code></li>
-	<li><code>nums1</code> and <code>nums2</code> are sorted.</li>
+	<li><code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;都是从小到大排好序的。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-We can use binary search to enumerate the value of the product $p$, defining the binary search interval as $[l, r]$, where $l = -\textit{max}(|\textit{nums1}[0]|, |\textit{nums1}[n - 1]|) \times \textit{max}(|\textit{nums2}[0]|, |\textit{nums2}[n - 1]|)$, $r = -l$.
+我们可以二分枚举乘积的值 $p$，定义二分的区间为 $[l, r]$，其中 $l = -\textit{max}(|\textit{nums1}[0]|, |\textit{nums1}[n - 1]|) \times \textit{max}(|\textit{nums2}[0]|, |\textit{nums2}[n - 1]|)$, $r = -l$。
 
-For each $p$, we calculate the number of products less than or equal to $p$. If this number is greater than or equal to $k$, it means the $k$-th smallest product must be less than or equal to $p$, so we can reduce the right endpoint of the interval to $p$. Otherwise, we increase the left endpoint of the interval to $p + 1$.
+对于每个 $p$，我们计算出乘积小于等于 $p$ 的乘积的个数，如果这个个数大于等于 $k$，那么说明第 $k$ 小的乘积一定小于等于 $p$，我们就可以将区间右端点缩小到 $p$，否则我们将区间左端点增大到 $p + 1$。
 
-The key to the problem is how to calculate the number of products less than or equal to $p$. We can enumerate each number $x$ in $\textit{nums1}$ and discuss in cases:
+那么问题的关键就是如何计算乘积小于等于 $p$ 的乘积的个数。我们可以枚举 $\textit{nums1}$ 中的每个数 $x$，分类讨论：
 
-- If $x > 0$, then $x \times \textit{nums2}[i]$ is monotonically increasing as $i$ increases. We can use binary search to find the smallest $i$ such that $x \times \textit{nums2}[i] > p$. Then, $i$ is the number of products less than or equal to $p$, which is accumulated into the count $\textit{cnt}$;
-- If $x < 0$, then $x \times \textit{nums2}[i]$ is monotonically decreasing as $i$ increases. We can use binary search to find the smallest $i$ such that $x \times \textit{nums2}[i] \leq p$. Then, $n - i$ is the number of products less than or equal to $p$, which is accumulated into the count $\textit{cnt}$;
-- If $x = 0$, then $x \times \textit{nums2}[i] = 0$. If $p \geq 0$, then $n$ is the number of products less than or equal to $p$, which is accumulated into the count $\textit{cnt}$.
+-   如果 $x > 0$，那么 $x \times \textit{nums2}[i]$ 随着 $i$ 的增大是单调递增的，我们可以使用二分查找找到最小的 $i$，使得 $x \times \textit{nums2}[i] > p$，那么 $i$ 就是小于等于 $p$ 的乘积的个数，累加到个数 $\textit{cnt}$ 中；
+-   如果 $x < 0$，那么 $x \times \textit{nums2}[i]$ 随着 $i$ 的增大是单调递减的，我们可以使用二分查找找到最小的 $i$，使得 $x \times \textit{nums2}[i] \leq p$，那么 $n - i$ 就是小于等于 $p$ 的乘积的个数，累加到个数 $\textit{cnt}$ 中；
+-   如果 $x = 0$，那么 $x \times \textit{nums2}[i] = 0$，如果 $p \geq 0$，那么 $n$ 就是小于等于 $p$ 的乘积的个数，累加到个数 $\textit{cnt}$ 中。
 
-This way, we can find the $k$-th smallest product through binary search.
+这样我们就可以通过二分查找找到第 $k$ 小的乘积。
 
-The time complexity is $O(m \times \log n \times \log M)$, where $m$ and $n$ are the lengths of $\textit{nums1}$ and $\textit{nums2}$, respectively, and $M$ is the maximum absolute value in $\textit{nums1}$ and $\textit{nums2}$.
+时间复杂度 $O(m \times \log n \times \log M)$，其中 $m$ 和 $n$ 分别为 $\textit{nums1}$ 和 $\textit{nums2}$ 的长度，而 $M$ 为 $\textit{nums1}$ 和 $\textit{nums2}$ 中的最大值的绝对值。
 
 <!-- tabs:start -->
 

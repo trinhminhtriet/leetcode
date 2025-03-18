@@ -1,58 +1,63 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3152.Special%20Array%20II/README.md
 rating: 1523
-source: Weekly Contest 398 Q2
+source: 第 398 场周赛 Q2
 tags:
-  - Array
-  - Binary Search
-  - Prefix Sum
+    - 数组
+    - 二分查找
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [3152. Special Array II](https://leetcode.com/problems/special-array-ii)
+# [3152. 特殊数组 II](https://leetcode.cn/problems/special-array-ii)
 
-## Description
+[English Version](/solution/3100-3199/3152.Special%20Array%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>An array is considered <strong>special</strong> if every pair of its adjacent elements contains two numbers with different parity.</p>
+<p>如果数组的每一对相邻元素都是两个奇偶性不同的数字，则该数组被认为是一个 <strong>特殊数组</strong> 。</p>
 
-<p>You are given an array of integer <code>nums</code> and a 2D integer matrix <code>queries</code>, where for <code>queries[i] = [from<sub>i</sub>, to<sub>i</sub>]</code> your task is to check that <span data-keyword="subarray">subarray</span> <code>nums[from<sub>i</sub>..to<sub>i</sub>]</code> is <strong>special</strong> or not.</p>
+<p>你有一个整数数组 <code>nums</code> 和一个二维整数矩阵 <code>queries</code>，对于 <code>queries[i] = [from<sub>i</sub>, to<sub>i</sub>]</code>，请你帮助你检查 <span data-keyword="subarray">子数组</span> <code>nums[from<sub>i</sub>..to<sub>i</sub>]</code> 是不是一个 <strong>特殊数组 </strong>。</p>
 
-<p>Return an array of booleans <code>answer</code> such that <code>answer[i]</code> is <code>true</code> if <code>nums[from<sub>i</sub>..to<sub>i</sub>]</code> is special.<!-- notionvc: e5d6f4e2-d20a-4fbd-9c7f-22fbe52ef730 --></p>
+<p>返回布尔数组 <code>answer</code>，如果 <code>nums[from<sub>i</sub>..to<sub>i</sub>]</code> 是特殊数组，则 <code>answer[i]</code> 为 <code>true</code> ，否则，<code>answer[i]</code> 为 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [3,4,1,2,6], queries = [[0,4]]</span></p>
+<p><strong>输入：</strong><span class="example-io">nums = [3,4,1,2,6], queries = [[0,4]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[false]</span></p>
+<p><strong>输出：</strong><span class="example-io">[false]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The subarray is <code>[3,4,1,2,6]</code>. 2 and 6 are both even.</p>
+<p>子数组是 <code>[3,4,1,2,6]</code>。2 和 6 都是偶数。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [4,3,1,6], queries = [[0,2],[2,3]]</span></p>
+<p><strong>输入：</strong><span class="example-io">nums = [4,3,1,6], queries = [[0,2],[2,3]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[false,true]</span></p>
+<p><strong>输出：</strong><span class="example-io">[false,true]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ol>
-	<li>The subarray is <code>[4,3,1]</code>. 3 and 1 are both odd. So the answer to this query is <code>false</code>.</li>
-	<li>The subarray is <code>[1,6]</code>. There is only one pair: <code>(1,6)</code> and it contains numbers with different parity. So the answer to this query is <code>true</code>.</li>
+	<li>子数组是 <code>[4,3,1]</code>。3 和 1 都是奇数。因此这个查询的答案是 <code>false</code>。</li>
+	<li>子数组是 <code>[1,6]</code>。只有一对：<code>(1,6)</code>，且包含了奇偶性不同的数字。因此这个查询的答案是 <code>true</code>。</li>
 </ol>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -64,17 +69,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Record the Leftmost Special Array Position for Each Position
+### 方法一：记录每个位置的最左特殊数组位置
 
-We can define an array $d$ to record the leftmost special array position for each position, initially $d[i] = i$. Then we traverse the array $nums$ from left to right. If $nums[i]$ and $nums[i - 1]$ have different parities, then $d[i] = d[i - 1]$.
+我们可以定义一个数组 $d$ 来记录每个位置的最左特殊数组位置，初始时 $d[i] = i$。然后我们从左到右遍历数组 $nums$，如果 $nums[i]$ 和 $nums[i - 1]$ 的奇偶性不同，那么 $d[i] = d[i - 1]$。
 
-Finally, we traverse each query and check whether $d[to] <= from$ holds.
+最后我们遍历每个查询，判断 $d[to] <= from$ 是否成立即可。
 
-The time complexity is $O(n)$ and the space complexity is $O(n)$, where $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -163,14 +168,14 @@ func isArraySpecial(nums []int, queries [][]int) (ans []bool) {
 
 ```ts
 function isArraySpecial(nums: number[], queries: number[][]): boolean[] {
-  const n = nums.length;
-  const d: number[] = Array.from({ length: n }, (_, i) => i);
-  for (let i = 1; i < n; ++i) {
-    if (nums[i] % 2 !== nums[i - 1] % 2) {
-      d[i] = d[i - 1];
+    const n = nums.length;
+    const d: number[] = Array.from({ length: n }, (_, i) => i);
+    for (let i = 1; i < n; ++i) {
+        if (nums[i] % 2 !== nums[i - 1] % 2) {
+            d[i] = d[i - 1];
+        }
     }
-  }
-  return queries.map(([from, to]) => d[to] <= from);
+    return queries.map(([from, to]) => d[to] <= from);
 }
 ```
 

@@ -1,31 +1,34 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3068.Find%20the%20Maximum%20Sum%20of%20Node%20Values/README.md
 rating: 2267
-source: Biweekly Contest 125 Q4
+source: 第 125 场双周赛 Q4
 tags:
-  - Greedy
-  - Bit Manipulation
-  - Tree
-  - Array
-  - Dynamic Programming
-  - Sorting
+    - 贪心
+    - 位运算
+    - 树
+    - 数组
+    - 动态规划
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3068. Find the Maximum Sum of Node Values](https://leetcode.com/problems/find-the-maximum-sum-of-node-values)
+# [3068. 最大节点价值之和](https://leetcode.cn/problems/find-the-maximum-sum-of-node-values)
 
-## Description
+[English Version](/solution/3000-3099/3068.Find%20the%20Maximum%20Sum%20of%20Node%20Values/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There exists an <strong>undirected</strong> tree with <code>n</code> nodes numbered <code>0</code> to <code>n - 1</code>. You are given a <strong>0-indexed</strong> 2D integer array <code>edges</code> of length <code>n - 1</code>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> indicates that there is an edge between nodes <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> in the tree. You are also given a <strong>positive</strong> integer <code>k</code>, and a <strong>0-indexed</strong> array of <strong>non-negative</strong> integers <code>nums</code> of length <code>n</code>, where <code>nums[i]</code> represents the <strong>value</strong> of the node numbered <code>i</code>.</p>
+<p>给你一棵 <code>n</code>&nbsp;个节点的 <strong>无向</strong>&nbsp;树，节点从 <code>0</code>&nbsp;到 <code>n - 1</code>&nbsp;编号。树以长度为 <code>n - 1</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的二维整数数组 <code>edges</code>&nbsp;的形式给你，其中&nbsp;<code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code>&nbsp;表示树中节点&nbsp;<code>u<sub>i</sub></code>&nbsp;和&nbsp;<code>v<sub>i</sub></code>&nbsp;之间有一条边。同时给你一个 <strong>正</strong>&nbsp;整数&nbsp;<code>k</code>&nbsp;和一个长度为 <code>n</code>&nbsp;下标从&nbsp;<strong>0</strong>&nbsp;开始的&nbsp;<strong>非负</strong>&nbsp;整数数组&nbsp;<code>nums</code>&nbsp;，其中&nbsp;<code>nums[i]</code>&nbsp;表示节点 <code>i</code>&nbsp;的 <strong>价值</strong>&nbsp;。</p>
 
-<p>Alice wants the sum of values of tree nodes to be <strong>maximum</strong>, for which Alice can perform the following operation <strong>any</strong> number of times (<strong>including zero</strong>) on the tree:</p>
+<p>Alice&nbsp;想 <strong>最大化</strong>&nbsp;树中所有节点价值之和。为了实现这一目标，Alice 可以执行以下操作 <strong>任意</strong>&nbsp;次（<strong>包括</strong><strong>&nbsp;0 次</strong>）：</p>
 
 <ul>
-	<li>Choose any edge <code>[u, v]</code> connecting the nodes <code>u</code> and <code>v</code>, and update their values as follows:
+	<li>选择连接节点&nbsp;<code>u</code>&nbsp;和&nbsp;<code>v</code>&nbsp;的边&nbsp;<code>[u, v]</code>&nbsp;，并将它们的值更新为：
 
     <ul>
     	<li><code>nums[u] = nums[u] XOR k</code></li>
@@ -35,41 +38,49 @@ tags:
 
 </ul>
 
-<p>Return <em>the <strong>maximum</strong> possible <strong>sum</strong> of the <strong>values</strong> Alice can achieve by performing the operation <strong>any</strong> number of times</em>.</p>
+<p>请你返回 Alice 通过执行以上操作 <strong>任意次</strong>&nbsp;后，可以得到所有节点 <strong>价值之和</strong>&nbsp;的 <strong>最大值</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3068.Find%20the%20Maximum%20Sum%20of%20Node%20Values/images/screenshot-2023-11-10-012513.png" style="width: 300px; height: 277px;padding: 10px; background: #fff; border-radius: .5rem;" />
+
+<p><strong class="example">示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3068.Find%20the%20Maximum%20Sum%20of%20Node%20Values/images/screenshot-2023-11-10-012513.png" style="width: 300px; height: 277px;padding: 10px; background: #fff; border-radius: .5rem;" /></p>
+
 <pre>
-<strong>Input:</strong> nums = [1,2,1], k = 3, edges = [[0,1],[0,2]]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> Alice can achieve the maximum sum of 6 using a single operation:
-- Choose the edge [0,2]. nums[0] and nums[2] become: 1 XOR 3 = 2, and the array nums becomes: [1,2,1] -&gt; [2,2,2].
-The total sum of values is 2 + 2 + 2 = 6.
-It can be shown that 6 is the maximum achievable sum of values.
+<b>输入：</b>nums = [1,2,1], k = 3, edges = [[0,1],[0,2]]
+<b>输出：</b>6
+<b>解释：</b>Alice 可以通过一次操作得到最大价值和 6 ：
+- 选择边 [0,2] 。nums[0] 和 nums[2] 都变为：1 XOR 3 = 2 ，数组 nums 变为：[1,2,1] -&gt; [2,2,2] 。
+所有节点价值之和为 2 + 2 + 2 = 6 。
+6 是可以得到最大的价值之和。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3068.Find%20the%20Maximum%20Sum%20of%20Node%20Values/images/screenshot-2024-01-09-220017.png" style="padding: 10px; background: rgb(255, 255, 255); border-radius: 0.5rem; width: 300px; height: 239px;" />
+<p><strong class="example">示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3068.Find%20the%20Maximum%20Sum%20of%20Node%20Values/images/screenshot-2024-01-09-220017.png" style="padding: 10px; background: rgb(255, 255, 255); border-radius: 0.5rem; width: 300px; height: 239px;" /></p>
+
 <pre>
-<strong>Input:</strong> nums = [2,3], k = 7, edges = [[0,1]]
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> Alice can achieve the maximum sum of 9 using a single operation:
-- Choose the edge [0,1]. nums[0] becomes: 2 XOR 7 = 5 and nums[1] become: 3 XOR 7 = 4, and the array nums becomes: [2,3] -&gt; [5,4].
-The total sum of values is 5 + 4 = 9.
-It can be shown that 9 is the maximum achievable sum of values.
+<b>输入：</b>nums = [2,3], k = 7, edges = [[0,1]]
+<b>输出：</b>9
+<b>解释：</b>Alice 可以通过一次操作得到最大和 9 ：
+- 选择边 [0,1] 。nums[0] 变为：2 XOR 7 = 5 ，nums[1] 变为：3 XOR 7 = 4 ，数组 nums 变为：[2,3] -&gt; [5,4] 。
+所有节点价值之和为 5 + 4 = 9 。
+9 是可以得到最大的价值之和。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3068.Find%20the%20Maximum%20Sum%20of%20Node%20Values/images/screenshot-2023-11-10-012641.png" style="width: 600px; height: 233px;padding: 10px; background: #fff; border-radius: .5rem;" />
+<p><strong class="example">示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3068.Find%20the%20Maximum%20Sum%20of%20Node%20Values/images/screenshot-2023-11-10-012641.png" style="width: 600px; height: 233px;padding: 10px; background: #fff; border-radius: .5rem;" /></p>
+
 <pre>
-<strong>Input:</strong> nums = [7,7,7,7,7,7], k = 3, edges = [[0,1],[0,2],[0,3],[0,4],[0,5]]
-<strong>Output:</strong> 42
-<strong>Explanation:</strong> The maximum achievable sum is 42 which can be achieved by Alice performing no operations.
+<b>输入：</b>nums = [7,7,7,7,7,7], k = 3, edges = [[0,1],[0,2],[0,3],[0,4],[0,5]]
+<b>输出：</b>42
+<b>解释：</b>Alice 不需要执行任何操作，就可以得到最大价值之和 42 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == nums.length &lt;= 2 * 10<sup>4</sup></code></li>
@@ -78,24 +89,24 @@ It can be shown that 9 is the maximum achievable sum of values.
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= edges[i][0], edges[i][1] &lt;= n - 1</code></li>
-	<li>The input is generated such that <code>edges</code> represent&nbsp;a valid tree.</li>
+	<li>输入保证&nbsp;<code>edges</code>&nbsp;构成一棵合法的树。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-For any number $x$, its value remains unchanged after being XORed with $k$ an even number of times. Therefore, for any path in a tree, if we perform the operation on all edges in the path, the values of all nodes on the path except the start and end nodes will not change.
+对于任意一个数 $x$，与 $k$ 异或偶数次后，值不变。所以，对于一棵树的任意一条路径，我们将路径上所有的边都进行操作，那么该路径上除了起点和终点外，其他节点的值都不会改变。
 
-Additionally, no matter how many operations are performed, there will always be an even number of elements XORed with $k$, and the remaining elements will remain unchanged.
+另外，无论进行了多少次操作，总会有偶数个元素异或了 $k$，其余元素不变。
 
-Thus, the problem is transformed into: for the array $\textit{nums}$, select an even number of elements to XOR with $k$ to maximize the sum.
+因此，问题转化为：对于数组 $\textit{nums}$，任选其中偶数个元素异或 $k$，使得和最大。
 
-We can use dynamic programming to solve this problem. Let $f_0$ represent the maximum sum when an even number of elements have been XORed with $k$, and $f_1$ represent the maximum sum when an odd number of elements have been XORed with $k$. The state transition equations are:
+我们可以使用动态规划解决这个问题。设 $f_0$ 表示当前有偶数个元素异或了 $k$ 时的最大和，而 $f_1$ 表示当前有奇数个元素异或了 $k$ 时的最大和。那么状态转移方程为：
 
 $$
 \begin{aligned}
@@ -104,11 +115,11 @@ f_1 &= \max(f_1 + x, f_0 + (x \oplus k))
 \end{aligned}
 $$
 
-where $x$ represents the current element's value.
+其中 $x$ 表示当前元素的值。
 
-We traverse the array $\textit{nums}$ and update $f_0$ and $f_1$ according to the above state transition equations. Finally, we return $f_0$.
+我们遍历数组 $\textit{nums}$，根据上述状态转移方程更新 $f_0$ 和 $f_1$，最后返回 $f_0$ 即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -172,11 +183,11 @@ func maximumValueSum(nums []int, k int, edges [][]int) int64 {
 
 ```ts
 function maximumValueSum(nums: number[], k: number, edges: number[][]): number {
-  let [f0, f1] = [0, -Infinity];
-  for (const x of nums) {
-    [f0, f1] = [Math.max(f0 + x, f1 + (x ^ k)), Math.max(f1 + x, f0 + (x ^ k))];
-  }
-  return f0;
+    let [f0, f1] = [0, -Infinity];
+    for (const x of nums) {
+        [f0, f1] = [Math.max(f0 + x, f1 + (x ^ k)), Math.max(f1 + x, f0 + (x ^ k))];
+    }
+    return f0;
 }
 ```
 

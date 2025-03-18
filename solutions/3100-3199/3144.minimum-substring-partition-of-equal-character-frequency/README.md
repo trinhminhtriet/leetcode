@@ -1,83 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3144.Minimum%20Substring%20Partition%20of%20Equal%20Character%20Frequency/README.md
 rating: 1917
-source: Biweekly Contest 130 Q3
+source: 第 130 场双周赛 Q3
 tags:
-  - Hash Table
-  - String
-  - Dynamic Programming
-  - Counting
+    - 哈希表
+    - 字符串
+    - 动态规划
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [3144. Minimum Substring Partition of Equal Character Frequency](https://leetcode.com/problems/minimum-substring-partition-of-equal-character-frequency)
+# [3144. 分割字符频率相等的最少子字符串](https://leetcode.cn/problems/minimum-substring-partition-of-equal-character-frequency)
 
-## Description
+[English Version](/solution/3100-3199/3144.Minimum%20Substring%20Partition%20of%20Equal%20Character%20Frequency/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, you need to partition it into one or more <strong>balanced</strong> <span data-keyword="substring">substrings</span>. For example, if <code>s == &quot;ababcc&quot;</code> then <code>(&quot;abab&quot;, &quot;c&quot;, &quot;c&quot;)</code>, <code>(&quot;ab&quot;, &quot;abc&quot;, &quot;c&quot;)</code>, and <code>(&quot;ababcc&quot;)</code> are all valid partitions, but <code>(&quot;a&quot;, <strong>&quot;bab&quot;</strong>, &quot;cc&quot;)</code>, <code>(<strong>&quot;aba&quot;</strong>, &quot;bc&quot;, &quot;c&quot;)</code>, and <code>(&quot;ab&quot;, <strong>&quot;abcc&quot;</strong>)</code> are not. The unbalanced substrings are bolded.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，你需要将它分割成一个或者更多的&nbsp;<strong>平衡</strong>&nbsp;子字符串。比方说，<code>s == "ababcc"</code>&nbsp;那么&nbsp;<code>("abab", "c", "c")</code>&nbsp;，<code>("ab", "abc", "c")</code>&nbsp;和&nbsp;<code>("ababcc")</code>&nbsp;都是合法分割，但是&nbsp;<code>("a", <strong>"bab"</strong>, "cc")</code>&nbsp;，<code>(<strong>"aba"</strong>, "bc", "c")</code>&nbsp;和&nbsp;<code>("ab", <strong>"abcc"</strong>)</code>&nbsp;不是，不平衡的子字符串用粗体表示。</p>
 
-<p>Return the <strong>minimum</strong> number of substrings that you can partition <code>s</code> into.</p>
+<p>请你返回 <code>s</code>&nbsp;<strong>最少</strong> 能分割成多少个平衡子字符串。</p>
 
-<p><strong>Note:</strong> A <strong>balanced</strong> string is a string where each character in the string occurs the same number of times.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;fabccddg&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>We can partition the string <code>s</code> into 3 substrings in one of the following ways: <code>(&quot;fab, &quot;ccdd&quot;, &quot;g&quot;)</code>, or <code>(&quot;fabc&quot;, &quot;cd&quot;, &quot;dg&quot;)</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;abababaccddb&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>We can partition the string <code>s</code> into 2 substrings like so: <code>(&quot;abab&quot;, &quot;abaccddb&quot;)</code>.</p>
-</div>
+<p><b>注意：</b>一个 <strong>平衡</strong>&nbsp;字符串指的是字符串中所有字符出现的次数都相同。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>s = "fabccddg"</span></p>
+
+<p><span class="example-io"><b>输出：</b>3</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>我们可以将 <code>s</code>&nbsp;分割成 3 个子字符串：<code>("fab, "ccdd", "g")</code>&nbsp;或者&nbsp;<code>("fabc", "cd", "dg")</code>&nbsp;。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>s = "abababaccddb"</span></p>
+
+<p><span class="example-io"><b>输出：</b>2</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>我们可以将&nbsp;<code>s</code>&nbsp;分割成 2 个子字符串：<code>("abab", "abaccddb")</code>&nbsp;。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code> consists only of English lowercase letters.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoized Search + Hash Table
+### 方法一：记忆化搜索 + 哈希表
 
-We design a function $\textit{dfs}(i)$, which represents the minimum number of substrings starting from $s[i]$. The answer is $\textit{dfs}(0)$.
+我们设计一个函数 $\textit{dfs}(i)$，表示从字符串 $s[i]$ 开始分割的最少子字符串数量。那么答案就是 $\textit{dfs}(0)$。
 
-The calculation process of the function $\textit{dfs}(i)$ is as follows:
+函数 $\textit{dfs}(i)$ 的计算过程如下：
 
-If $i \geq n$, it means all characters have been processed, so return $0$.
+如果 $i \geq n$，表示已经处理完了所有字符，返回 $0$。
 
-Otherwise, we maintain a hash table $\textit{cnt}$ to represent the frequency of each character in the current substring. Additionally, we maintain a hash table $\textit{freq}$ to represent the frequency of each character's occurrence count.
+否则，我们维护一个哈希表 $\textit{cnt}$，表示当前子字符串中每个字符出现的次数。另外，我们还维护一个哈希表 $\textit{freq}$，表示每个字符出现的次数的频率。
 
-Then we enumerate $j$ from $i$ to $n-1$, representing the end position of the current substring. For each $j$, we update $\textit{cnt}$ and $\textit{freq}$, then check if the size of $\textit{freq}$ is $1$. If it is, we can split from $j+1$, and the answer is $1 + \textit{dfs}(j+1)$. We take the minimum answer among all $j$ as the return value of the function.
+然后我们枚举 $j$ 从 $i$ 到 $n-1$，表示当前子字符串的结束位置。对于每个 $j$，我们更新 $\textit{cnt}$ 和 $\textit{freq}$，然后判断 $\textit{freq}$ 的大小是否为 $1$，如果是的话，我们可以从 $j+1$ 开始分割，此时答案为 $1 + \textit{dfs}(j+1)$，我们取所有 $j$ 中答案的最小值作为函数的返回值。
 
-To avoid repeated calculations, we use memoized search.
+为了避免重复计算，我们使用记忆化搜索。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n \times |\Sigma|)$. Here, $n$ is the length of the string $s$, and $|\Sigma|$ represents the size of the character set, which is $26$ in this problem.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n \times |\Sigma|)$。其中 $n$ 为字符串 $s$ 的长度，而 $|\Sigma|$ 表示字符集的大小，本题中 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -160,7 +165,7 @@ public:
         int n = s.size();
         int f[n];
         memset(f, -1, sizeof(f));
-        auto dfs = [&](auto&& dfs, int i) -> int {
+        auto dfs = [&](this auto&& dfs, int i) -> int {
             if (i >= n) {
                 return 0;
             }
@@ -181,12 +186,12 @@ public:
                 ++cnt[k];
                 ++freq[cnt[k]];
                 if (freq.size() == 1) {
-                    f[i] = min(f[i], 1 + dfs(dfs, j + 1));
+                    f[i] = min(f[i], 1 + dfs(j + 1));
                 }
             }
             return f[i];
         };
-        return dfs(dfs, 0);
+        return dfs(0);
     }
 };
 ```
@@ -235,35 +240,35 @@ func minimumSubstringsInPartition(s string) int {
 
 ```ts
 function minimumSubstringsInPartition(s: string): number {
-  const n = s.length;
-  const f: number[] = Array(n).fill(-1);
-  const dfs = (i: number): number => {
-    if (i >= n) {
-      return 0;
-    }
-    if (f[i] !== -1) {
-      return f[i];
-    }
-    const cnt: Map<number, number> = new Map();
-    const freq: Map<number, number> = new Map();
-    f[i] = n - i;
-    for (let j = i; j < n; ++j) {
-      const k = s.charCodeAt(j) - 97;
-      if (freq.has(cnt.get(k)!)) {
-        freq.set(cnt.get(k)!, freq.get(cnt.get(k)!)! - 1);
-        if (freq.get(cnt.get(k)!) === 0) {
-          freq.delete(cnt.get(k)!);
+    const n = s.length;
+    const f: number[] = Array(n).fill(-1);
+    const dfs = (i: number): number => {
+        if (i >= n) {
+            return 0;
         }
-      }
-      cnt.set(k, (cnt.get(k) || 0) + 1);
-      freq.set(cnt.get(k)!, (freq.get(cnt.get(k)!) || 0) + 1);
-      if (freq.size === 1) {
-        f[i] = Math.min(f[i], 1 + dfs(j + 1));
-      }
-    }
-    return f[i];
-  };
-  return dfs(0);
+        if (f[i] !== -1) {
+            return f[i];
+        }
+        const cnt: Map<number, number> = new Map();
+        const freq: Map<number, number> = new Map();
+        f[i] = n - i;
+        for (let j = i; j < n; ++j) {
+            const k = s.charCodeAt(j) - 97;
+            if (freq.has(cnt.get(k)!)) {
+                freq.set(cnt.get(k)!, freq.get(cnt.get(k)!)! - 1);
+                if (freq.get(cnt.get(k)!) === 0) {
+                    freq.delete(cnt.get(k)!);
+                }
+            }
+            cnt.set(k, (cnt.get(k) || 0) + 1);
+            freq.set(cnt.get(k)!, (freq.get(cnt.get(k)!) || 0) + 1);
+            if (freq.size === 1) {
+                f[i] = Math.min(f[i], 1 + dfs(j + 1));
+            }
+        }
+        return f[i];
+    };
+    return dfs(0);
 }
 ```
 
@@ -273,11 +278,11 @@ function minimumSubstringsInPartition(s: string): number {
 
 <!-- solution:start -->
 
-### Solution 2: Memoized Search (Optimization)
+### 方法二：记忆化搜索（优化）
 
-We can optimize Solution 1 by not maintaining the $\textit{freq}$ hash table. Instead, we only need to maintain a hash table $\textit{cnt}$, which represents the frequency of each character in the current substring. Additionally, we maintain two variables $k$ and $m$ to represent the number of distinct characters in the current substring and the maximum frequency of any character, respectively. For a substring $s[i..j]$, if $j-i+1 = m \times k$, then this substring is a balanced substring.
+我们可以对方法一进行优化，不需要维护 $\textit{freq}$ 哈希表，只需要维护一个哈希表 $\textit{cnt}$，表示当前子字符串中每个字符出现的次数。另外，维护两个变量 $k$ 和 $m$ 分别表示当前子字符串中的字符种类数和出现次数最多的字符的出现次数。对于一个子串 $s[i..j]$，如果 $j-i+1 = m \times k$，那么这个子串就是一个平衡子串。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n \times |\Sigma|)$. Here, $n$ is the length of the string $s$, and $|\Sigma|$ represents the size of the character set, which is $26$ in this problem.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n \times |\Sigma|)$。其中 $n$ 为字符串 $s$ 的长度，而 $|\Sigma|$ 表示字符集的大小，本题中 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -352,7 +357,7 @@ public:
         int n = s.size();
         int f[n];
         memset(f, -1, sizeof(f));
-        auto dfs = [&](auto&& dfs, int i) -> int {
+        auto dfs = [&](this auto&& dfs, int i) -> int {
             if (i >= n) {
                 return 0;
             }
@@ -366,12 +371,12 @@ public:
                 k += ++cnt[s[j] - 'a'] == 1 ? 1 : 0;
                 m = max(m, cnt[s[j] - 'a']);
                 if (j - i + 1 == k * m) {
-                    f[i] = min(f[i], 1 + dfs(dfs, j + 1));
+                    f[i] = min(f[i], 1 + dfs(j + 1));
                 }
             }
             return f[i];
         };
-        return dfs(dfs, 0);
+        return dfs(0);
     }
 };
 ```
@@ -417,29 +422,29 @@ func minimumSubstringsInPartition(s string) int {
 
 ```ts
 function minimumSubstringsInPartition(s: string): number {
-  const n = s.length;
-  const f: number[] = Array(n).fill(-1);
-  const dfs = (i: number): number => {
-    if (i >= n) {
-      return 0;
-    }
-    if (f[i] !== -1) {
-      return f[i];
-    }
-    const cnt: number[] = Array(26).fill(0);
-    f[i] = n - i;
-    let [k, m] = [0, 0];
-    for (let j = i; j < n; ++j) {
-      const x = s.charCodeAt(j) - 97;
-      k += ++cnt[x] === 1 ? 1 : 0;
-      m = Math.max(m, cnt[x]);
-      if (j - i + 1 === k * m) {
-        f[i] = Math.min(f[i], 1 + dfs(j + 1));
-      }
-    }
-    return f[i];
-  };
-  return dfs(0);
+    const n = s.length;
+    const f: number[] = Array(n).fill(-1);
+    const dfs = (i: number): number => {
+        if (i >= n) {
+            return 0;
+        }
+        if (f[i] !== -1) {
+            return f[i];
+        }
+        const cnt: number[] = Array(26).fill(0);
+        f[i] = n - i;
+        let [k, m] = [0, 0];
+        for (let j = i; j < n; ++j) {
+            const x = s.charCodeAt(j) - 97;
+            k += ++cnt[x] === 1 ? 1 : 0;
+            m = Math.max(m, cnt[x]);
+            if (j - i + 1 === k * m) {
+                f[i] = Math.min(f[i], 1 + dfs(j + 1));
+            }
+        }
+        return f[i];
+    };
+    return dfs(0);
 }
 ```
 
@@ -449,15 +454,15 @@ function minimumSubstringsInPartition(s: string): number {
 
 <!-- solution:start -->
 
-### Solution 3: Dynamic Programming
+### 方法三：动态规划
 
-We can convert the memoized search into dynamic programming. Define the state $f[i]$ as the minimum number of substrings required to partition the first $i$ characters. Initially, $f[0] = 0$, and the rest $f[i] = +\infty$ or $f[i] = n$.
+我们可以将记忆化搜索转换为动态规划，定义状态 $f[i]$ 对前 $i$ 个字符进行分割的最少子字符串数量。初始时 $f[0] = 0$，其余 $f[i] = +\infty$ 或者 $f[i] = n$。
 
-Next, we enumerate $i$ from $0$ to $n-1$. For each $i$, we maintain a hash table $\textit{cnt}$ to represent the frequency of each character in the current substring. Additionally, we maintain two variables $k$ and $m$ to represent the number of distinct characters in the current substring and the maximum frequency of any character, respectively. For a substring $s[j..i]$, if $i-j+1 = m \times k$, then this substring is a balanced substring. At this point, we can partition from $j$, so $f[i+1] = \min(f[i+1], f[j] + 1)$.
+接下来我们枚举 $i$ 从 $0$ 到 $n-1$，对于每个 $i$，我们维护一个哈希表 $\textit{cnt}$，表示当前子字符串中每个字符出现的次数。另外，我们维护两个变量 $k$ 和 $m$ 分别表示当前子字符串中的字符种类数和出现次数最多的字符的出现次数。对于一个子串 $s[j..i]$，如果 $i-j+1 = m \times k$，那么这个子串就是一个平衡子串。此时我们可以从 $j$ 开始分割，那么 $f[i+1] = \min(f[i+1], f[j] + 1)$。
 
-The final answer is $f[n]$.
+最终答案为 $f[n]$。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n + |\Sigma|)$. Here, $n$ is the length of the string $s$, and $|\Sigma|$ represents the size of the character set, which is $26$ in this problem.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n + |\Sigma|)$。其中 $n$ 为字符串 $s$ 的长度，而 $|\Sigma|$ 表示字符集的大小，本题中 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -564,22 +569,22 @@ func minimumSubstringsInPartition(s string) int {
 
 ```ts
 function minimumSubstringsInPartition(s: string): number {
-  const n = s.length;
-  const f: number[] = Array(n + 1).fill(n);
-  f[0] = 0;
-  for (let i = 0; i < n; ++i) {
-    const cnt: number[] = Array(26).fill(0);
-    let [k, m] = [0, 0];
-    for (let j = i; ~j; --j) {
-      const x = s.charCodeAt(j) - 97;
-      k += ++cnt[x] === 1 ? 1 : 0;
-      m = Math.max(m, cnt[x]);
-      if (i - j + 1 === k * m) {
-        f[i + 1] = Math.min(f[i + 1], 1 + f[j]);
-      }
+    const n = s.length;
+    const f: number[] = Array(n + 1).fill(n);
+    f[0] = 0;
+    for (let i = 0; i < n; ++i) {
+        const cnt: number[] = Array(26).fill(0);
+        let [k, m] = [0, 0];
+        for (let j = i; ~j; --j) {
+            const x = s.charCodeAt(j) - 97;
+            k += ++cnt[x] === 1 ? 1 : 0;
+            m = Math.max(m, cnt[x]);
+            if (i - j + 1 === k * m) {
+                f[i + 1] = Math.min(f[i + 1], 1 + f[j]);
+            }
+        }
     }
-  }
-  return f[n];
+    return f[n];
 }
 ```
 

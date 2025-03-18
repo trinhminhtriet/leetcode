@@ -1,73 +1,90 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1761.Minimum%20Degree%20of%20a%20Connected%20Trio%20in%20a%20Graph/README.md
 rating: 2005
-source: Weekly Contest 228 Q4
+source: 第 228 场周赛 Q4
 tags:
-  - Graph
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [1761. Minimum Degree of a Connected Trio in a Graph](https://leetcode.com/problems/minimum-degree-of-a-connected-trio-in-a-graph)
+# [1761. 一个图中连通三元组的最小度数](https://leetcode.cn/problems/minimum-degree-of-a-connected-trio-in-a-graph)
 
-## Description
+[English Version](/solution/1700-1799/1761.Minimum%20Degree%20of%20a%20Connected%20Trio%20in%20a%20Graph/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an undirected graph. You are given an integer <code>n</code> which is the number of nodes in the graph and an array <code>edges</code>, where each <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> indicates that there is an undirected edge between <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code>.</p>
+<p>给你一个无向图，整数 <code>n</code> 表示图中节点的数目，<code>edges</code> 数组表示图中的边，其中 <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> ，表示 <code>u<sub>i</sub></code> 和 <code>v<sub>i</sub></code><sub> </sub>之间有一条无向边。</p>
 
-<p>A <strong>connected trio</strong> is a set of <strong>three</strong> nodes where there is an edge between <b>every</b> pair of them.</p>
+<p>一个 <strong>连通三元组</strong> 指的是 <strong>三个</strong> 节点组成的集合且这三个点之间 <strong>两两</strong> 有边。</p>
 
-<p>The <strong>degree of a connected trio</strong> is the number of edges where one endpoint is in the trio, and the other is not.</p>
+<p><strong>连通三元组的度数</strong> 是所有满足此条件的边的数目：一个顶点在这个三元组内，而另一个顶点不在这个三元组内。</p>
 
-<p>Return <em>the <strong>minimum</strong> degree of a connected trio in the graph, or</em> <code>-1</code> <em>if the graph has no connected trios.</em></p>
+<p>请你返回所有连通三元组中度数的 <strong>最小值</strong> ，如果图中没有连通三元组，那么返回 <code>-1</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1761.Minimum%20Degree%20of%20a%20Connected%20Trio%20in%20a%20Graph/images/trios1.png" style="width: 388px; height: 164px;" />
 <pre>
-<strong>Input:</strong> n = 6, edges = [[1,2],[1,3],[3,2],[4,1],[5,2],[3,6]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> There is exactly one trio, which is [1,2,3]. The edges that form its degree are bolded in the figure above.
+<b>输入：</b>n = 6, edges = [[1,2],[1,3],[3,2],[4,1],[5,2],[3,6]]
+<b>输出：</b>3
+<b>解释：</b>只有一个三元组 [1,2,3] 。构成度数的边在上图中已被加粗。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1761.Minimum%20Degree%20of%20a%20Connected%20Trio%20in%20a%20Graph/images/trios2.png" style="width: 388px; height: 164px;" />
 <pre>
-<strong>Input:</strong> n = 7, edges = [[1,3],[4,1],[4,3],[2,5],[5,6],[6,7],[7,5],[2,6]]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are exactly three trios:
-1) [1,4,3] with degree 0.
-2) [2,5,6] with degree 2.
-3) [5,6,7] with degree 2.
+<b>输入：</b>n = 7, edges = [[1,3],[4,1],[4,3],[2,5],[5,6],[6,7],[7,5],[2,6]]
+<b>输出：</b>0
+<b>解释：</b>有 3 个三元组：
+1) [1,4,3]，度数为 0 。
+2) [2,5,6]，度数为 2 。
+3) [5,6,7]，度数为 2 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>2 &lt;= n &lt;= 400</code></li>
+	<li><code>2 <= n <= 400</code></li>
 	<li><code>edges[i].length == 2</code></li>
-	<li><code>1 &lt;= edges.length &lt;= n * (n-1) / 2</code></li>
-	<li><code>1 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt;= n</code></li>
+	<li><code>1 <= edges.length <= n * (n-1) / 2</code></li>
+	<li><code>1 <= u<sub>i</sub>, v<sub>i</sub> <= n</code></li>
 	<li><code>u<sub>i </sub>!= v<sub>i</sub></code></li>
-	<li>There are no repeated edges.</li>
+	<li>图中没有重复的边。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：暴力枚举
+
+我们先将所有边存入邻接矩阵 $\textit{g}$ 中，再将每个节点的度数存入数组 $\textit{deg}$ 中。初始化答案 $\textit{ans}=+\infty$。
+
+然后枚举所有的三元组 $(i, j, k)$，其中 $i \lt j \lt k$，如果 $\textit{g}[i][j] = \textit{g}[j][k] = \textit{g}[i][k] = 1$，则说明这三个节点构成了一个连通三元组，此时更新答案为 $\textit{ans} = \min(\textit{ans}, \textit{deg}[i] + \textit{deg}[j] + \textit{deg}[k] - 6)$。
+
+枚举完所有的三元组后，如果答案仍然为 $+\infty$，说明图中不存在连通三元组，返回 $-1$，否则返回答案。
+
+时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 为节点数。
 
 <!-- tabs:start -->
 
 #### Python3
 
 ```python
+def min(a: int, b: int) -> int:
+    return a if a < b else b
+
+
 class Solution:
     def minTrioDegree(self, n: int, edges: List[List[int]]) -> int:
         g = [[False] * n for _ in range(n)]
@@ -188,28 +205,28 @@ func minTrioDegree(n int, edges [][]int) int {
 
 ```ts
 function minTrioDegree(n: number, edges: number[][]): number {
-  const g = Array.from({ length: n }, () => Array(n).fill(false));
-  const deg: number[] = Array(n).fill(0);
-  for (let [u, v] of edges) {
-    u--;
-    v--;
-    g[u][v] = g[v][u] = true;
-    ++deg[u];
-    ++deg[v];
-  }
-  let ans = Infinity;
-  for (let i = 0; i < n; ++i) {
-    for (let j = i + 1; j < n; ++j) {
-      if (g[i][j]) {
-        for (let k = j + 1; k < n; ++k) {
-          if (g[i][k] && g[j][k]) {
-            ans = Math.min(ans, deg[i] + deg[j] + deg[k] - 6);
-          }
-        }
-      }
+    const g = Array.from({ length: n }, () => Array(n).fill(false));
+    const deg: number[] = Array(n).fill(0);
+    for (let [u, v] of edges) {
+        u--;
+        v--;
+        g[u][v] = g[v][u] = true;
+        ++deg[u];
+        ++deg[v];
     }
-  }
-  return ans === Infinity ? -1 : ans;
+    let ans = Infinity;
+    for (let i = 0; i < n; ++i) {
+        for (let j = i + 1; j < n; ++j) {
+            if (g[i][j]) {
+                for (let k = j + 1; k < n; ++k) {
+                    if (g[i][k] && g[j][k]) {
+                        ans = Math.min(ans, deg[i] + deg[j] + deg[k] - 6);
+                    }
+                }
+            }
+        }
+    }
+    return ans === Infinity ? -1 : ans;
 }
 ```
 

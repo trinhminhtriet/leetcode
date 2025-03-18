@@ -1,76 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0676.Implement%20Magic%20Dictionary/README.md
 tags:
-  - Depth-First Search
-  - Design
-  - Trie
-  - Hash Table
-  - String
+    - 深度优先搜索
+    - 设计
+    - 字典树
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [676. Implement Magic Dictionary](https://leetcode.com/problems/implement-magic-dictionary)
+# [676. 实现一个魔法字典](https://leetcode.cn/problems/implement-magic-dictionary)
 
-## Description
+[English Version](/solution/0600-0699/0676.Implement%20Magic%20Dictionary/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Design a data structure that is initialized with a list of <strong>different</strong> words. Provided a string, you should determine if you can change exactly one character in this string to match any word in the data structure.</p>
+<p>设计一个使用单词列表进行初始化的数据结构，单词列表中的单词 <strong>互不相同</strong> 。 如果给出一个单词，请判定能否只将这个单词中<strong>一个</strong>字母换成另一个字母，使得所形成的新单词存在于你构建的字典中。</p>
 
-<p>Implement the&nbsp;<code>MagicDictionary</code>&nbsp;class:</p>
+<p>实现 <code>MagicDictionary</code> 类：</p>
 
 <ul>
-	<li><code>MagicDictionary()</code>&nbsp;Initializes the object.</li>
-	<li><code>void buildDict(String[]&nbsp;dictionary)</code>&nbsp;Sets the data structure&nbsp;with an array of distinct strings <code>dictionary</code>.</li>
-	<li><code>bool search(String searchWord)</code> Returns <code>true</code> if you can change <strong>exactly one character</strong> in <code>searchWord</code> to match any string in the data structure, otherwise returns <code>false</code>.</li>
+	<li><code>MagicDictionary()</code> 初始化对象</li>
+	<li><code>void buildDict(String[] dictionary)</code> 使用字符串数组 <code>dictionary</code> 设定该数据结构，<code>dictionary</code> 中的字符串互不相同</li>
+	<li><code>bool search(String searchWord)</code> 给定一个字符串 <code>searchWord</code> ，判定能否只将字符串中<strong> 一个 </strong>字母换成另一个字母，使得所形成的新字符串能够与字典中的任一字符串匹配。如果可以，返回 <code>true</code> ；否则，返回 <code>false</code> 。</li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<div class="top-view__1vxA">
+<div class="original__bRMd">
+<div>
+<p><strong>示例：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;MagicDictionary&quot;, &quot;buildDict&quot;, &quot;search&quot;, &quot;search&quot;, &quot;search&quot;, &quot;search&quot;]
-[[], [[&quot;hello&quot;, &quot;leetcode&quot;]], [&quot;hello&quot;], [&quot;hhllo&quot;], [&quot;hell&quot;], [&quot;leetcoded&quot;]]
-<strong>Output</strong>
+<strong>输入</strong>
+["MagicDictionary", "buildDict", "search", "search", "search", "search"]
+[[], [["hello", "leetcode"]], ["hello"], ["hhllo"], ["hell"], ["leetcoded"]]
+<strong>输出</strong>
 [null, null, false, true, false, false]
 
-<strong>Explanation</strong>
+<strong>解释</strong>
 MagicDictionary magicDictionary = new MagicDictionary();
-magicDictionary.buildDict([&quot;hello&quot;, &quot;leetcode&quot;]);
-magicDictionary.search(&quot;hello&quot;); // return False
-magicDictionary.search(&quot;hhllo&quot;); // We can change the second &#39;h&#39; to &#39;e&#39; to match &quot;hello&quot; so we return True
-magicDictionary.search(&quot;hell&quot;); // return False
-magicDictionary.search(&quot;leetcoded&quot;); // return False
+magicDictionary.buildDict(["hello", "leetcode"]);
+magicDictionary.search("hello"); // 返回 False
+magicDictionary.search("hhllo"); // 将第二个 'h' 替换为 'e' 可以匹配 "hello" ，所以返回 True
+magicDictionary.search("hell"); // 返回 False
+magicDictionary.search("leetcoded"); // 返回 False
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;=&nbsp;dictionary.length &lt;= 100</code></li>
-	<li><code>1 &lt;=&nbsp;dictionary[i].length &lt;= 100</code></li>
-	<li><code>dictionary[i]</code> consists of only lower-case English letters.</li>
-	<li>All the strings in&nbsp;<code>dictionary</code>&nbsp;are <strong>distinct</strong>.</li>
-	<li><code>1 &lt;=&nbsp;searchWord.length &lt;= 100</code></li>
-	<li><code>searchWord</code>&nbsp;consists of only lower-case English letters.</li>
-	<li><code>buildDict</code>&nbsp;will be called only once before <code>search</code>.</li>
-	<li>At most <code>100</code> calls will be made to <code>search</code>.</li>
+	<li><code>1 <= dictionary.length <= 100</code></li>
+	<li><code>1 <= dictionary[i].length <= 100</code></li>
+	<li><code>dictionary[i]</code> 仅由小写英文字母组成</li>
+	<li><code>dictionary</code> 中的所有字符串 <strong>互不相同</strong></li>
+	<li><code>1 <= searchWord.length <= 100</code></li>
+	<li><code>searchWord</code> 仅由小写英文字母组成</li>
+	<li><code>buildDict</code> 仅在 <code>search</code> 之前调用一次</li>
+	<li>最多调用 <code>100</code> 次 <code>search</code></li>
 </ul>
+</div>
+</div>
+</div>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Trie + DFS
+### 方法一：前缀树 + DFS
 
-We can use a trie to store all the words in the dictionary. For each word we search, we use depth-first search. Specifically, we start from the root of the trie. For the current letter we are traversing, we first check whether there is a child node that is the same as it. If there is, we continue to traverse downwards. Otherwise, we need to check whether there are remaining modification times. If not, it means that it cannot be matched, so we return false. If there are remaining modification times, we can try to modify the current letter and continue to traverse downwards. If the child node corresponding to the modified letter exists, it means that it can be matched, otherwise it means that it cannot be matched, so we return false. If we traverse to the end of the word and the number of modifications is exactly 1, it means that it can be matched, so we return true.
+我们可以使用前缀树来存储字典中的所有单词，然后对于每个搜索的单词，我们使用深度优先搜索的方法，具体地，我们从前缀树的根节点开始，对于当前遍历到的字母，我们首先判断是否存在与其相同的子节点，如果存在，则继续向下遍历，否则我们需要判断是否还有剩余的修改次数，如果没有，则说明无法匹配，返回 false。如果有剩余的修改次数，我们可以尝试对当前的字母进行修改，然后继续向下遍历，如果当前的字母修改后对应的子节点存在，则说明可以匹配，否则说明无法匹配，返回 false。如果我们遍历到了单词的结尾，且修改次数恰好为 1，那么说明可以匹配，返回 true。
 
-The time complexity is $O(n \times l + q \times l \times |\Sigma|)$, and the space complexity is $O(n \times l)$, where $n$ and $l$ are the number of words in the dictionary and the average length of the words, respectively, and $q$ is the number of words searched. In addition, $|\Sigma|$ represents the size of the character set. Here, the character set is lowercase English letters, so $|\Sigma|=26$.
+时间复杂度 $O(n \times l + q \times l \times |\Sigma|)$，空间复杂度 $O(n \times l)$，其中 $n$ 和 $l$ 分别是字典中的单词数量和单词的平均长度，而 $q$ 是搜索的单词数量。另外 $|\Sigma|$ 表示字符集的大小，这里字符集为小写英文字母，因此 $|\Sigma|=26$。
 
 <!-- tabs:start -->
 
@@ -351,61 +362,61 @@ func (md *MagicDictionary) Search(searchWord string) bool {
 
 ```ts
 class Trie {
-  private children: Trie[] = Array(26).fill(null);
-  private isEnd: boolean = false;
+    private children: Trie[] = Array(26).fill(null);
+    private isEnd: boolean = false;
 
-  constructor() {}
+    constructor() {}
 
-  insert(w: string): void {
-    let node: Trie = this;
-    for (const c of w) {
-      const i: number = c.charCodeAt(0) - "a".charCodeAt(0);
-      if (!node.children[i]) {
-        node.children[i] = new Trie();
-      }
-      node = node.children[i];
-    }
-    node.isEnd = true;
-  }
-
-  search(w: string): boolean {
-    const dfs = (i: number, node: Trie, diff: number): boolean => {
-      if (i >= w.length) {
-        return diff === 1 && node.isEnd;
-      }
-      const j: number = w.charCodeAt(i) - "a".charCodeAt(0);
-      if (node.children[j] && dfs(i + 1, node.children[j], diff)) {
-        return true;
-      }
-      if (diff === 0) {
-        for (let k = 0; k < 26; k++) {
-          if (k !== j && node.children[k] && dfs(i + 1, node.children[k], 1)) {
-            return true;
-          }
+    insert(w: string): void {
+        let node: Trie = this;
+        for (const c of w) {
+            const i: number = c.charCodeAt(0) - 'a'.charCodeAt(0);
+            if (!node.children[i]) {
+                node.children[i] = new Trie();
+            }
+            node = node.children[i];
         }
-      }
-      return false;
-    };
-    return dfs(0, this, 0);
-  }
+        node.isEnd = true;
+    }
+
+    search(w: string): boolean {
+        const dfs = (i: number, node: Trie, diff: number): boolean => {
+            if (i >= w.length) {
+                return diff === 1 && node.isEnd;
+            }
+            const j: number = w.charCodeAt(i) - 'a'.charCodeAt(0);
+            if (node.children[j] && dfs(i + 1, node.children[j], diff)) {
+                return true;
+            }
+            if (diff === 0) {
+                for (let k = 0; k < 26; k++) {
+                    if (k !== j && node.children[k] && dfs(i + 1, node.children[k], 1)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
+        return dfs(0, this, 0);
+    }
 }
 
 class MagicDictionary {
-  private trie: Trie;
+    private trie: Trie;
 
-  constructor() {
-    this.trie = new Trie();
-  }
-
-  buildDict(dictionary: string[]): void {
-    for (const w of dictionary) {
-      this.trie.insert(w);
+    constructor() {
+        this.trie = new Trie();
     }
-  }
 
-  search(searchWord: string): boolean {
-    return this.trie.search(searchWord);
-  }
+    buildDict(dictionary: string[]): void {
+        for (const w of dictionary) {
+            this.trie.insert(w);
+        }
+    }
+
+    search(searchWord: string): boolean {
+        return this.trie.search(searchWord);
+    }
 }
 
 /**

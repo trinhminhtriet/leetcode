@@ -1,76 +1,81 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0691.Stickers%20to%20Spell%20Word/README.md
 tags:
-  - Bit Manipulation
-  - Array
-  - String
-  - Dynamic Programming
-  - Backtracking
-  - Bitmask
+    - 位运算
+    - 记忆化搜索
+    - 数组
+    - 哈希表
+    - 字符串
+    - 动态规划
+    - 回溯
+    - 状态压缩
 ---
 
 <!-- problem:start -->
 
-# [691. Stickers to Spell Word](https://leetcode.com/problems/stickers-to-spell-word)
+# [691. 贴纸拼词](https://leetcode.cn/problems/stickers-to-spell-word)
 
-## Description
+[English Version](/solution/0600-0699/0691.Stickers%20to%20Spell%20Word/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>We are given <code>n</code> different types of <code>stickers</code>. Each sticker has a lowercase English word on it.</p>
+<p>我们有 <code>n</code> 种不同的贴纸。每个贴纸上都有一个小写的英文单词。</p>
 
-<p>You would like to spell out the given string <code>target</code> by cutting individual letters from your collection of stickers and rearranging them. You can use each sticker more than once if you want, and you have infinite quantities of each sticker.</p>
+<p>您想要拼写出给定的字符串 <code>target</code>&nbsp;，方法是从收集的贴纸中切割单个字母并重新排列它们。如果你愿意，你可以多次使用每个贴纸，每个贴纸的数量是无限的。</p>
 
-<p>Return <em>the minimum number of stickers that you need to spell out </em><code>target</code>. If the task is impossible, return <code>-1</code>.</p>
+<p>返回你需要拼出 <code>target</code>&nbsp;的最小贴纸数量。如果任务不可能，则返回 <code>-1</code> 。</p>
 
-<p><strong>Note:</strong> In all test cases, all words were chosen randomly from the <code>1000</code> most common US English words, and <code>target</code> was chosen as a concatenation of two random words.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> stickers = [&quot;with&quot;,&quot;example&quot;,&quot;science&quot;], target = &quot;thehat&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-We can use 2 &quot;with&quot; stickers, and 1 &quot;example&quot; sticker.
-After cutting and rearrange the letters of those stickers, we can form the target &quot;thehat&quot;.
-Also, this is the minimum number of stickers necessary to form the target string.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> stickers = [&quot;notice&quot;,&quot;possible&quot;], target = &quot;basicbasic&quot;
-<strong>Output:</strong> -1
-Explanation:
-We cannot form the target &quot;basicbasic&quot; from cutting letters from the given stickers.
-</pre>
+<p><strong>注意：</strong>在所有的测试用例中，所有的单词都是从 <code>1000</code> 个最常见的美国英语单词中随机选择的，并且 <code>target</code>&nbsp;被选择为两个随机单词的连接。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong> stickers = ["with","example","science"], target = "thehat"
+<b>输出：</b>3
+<strong>解释：
+</strong>我们可以使用 2 个 "with" 贴纸，和 1 个 "example" 贴纸。
+把贴纸上的字母剪下来并重新排列后，就可以形成目标 “thehat“ 了。
+此外，这是形成目标字符串所需的最小贴纸数量。
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<b>输入：</b>stickers = ["notice","possible"], target = "basicbasic"
+<b>输出：</b>-1
+<strong>解释：</strong>我们不能通过剪切给定贴纸的字母来形成目标“basicbasic”。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>n == stickers.length</code></li>
 	<li><code>1 &lt;= n &lt;= 50</code></li>
 	<li><code>1 &lt;= stickers[i].length &lt;= 10</code></li>
 	<li><code>1 &lt;= target.length &lt;= 15</code></li>
-	<li><code>stickers[i]</code> and <code>target</code> consist of lowercase English letters.</li>
+	<li><code>stickers[i]</code>&nbsp;和&nbsp;<code>target</code>&nbsp;由小写英文单词组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS + State Compression
+### 方法一：BFS + 状态压缩
 
-We notice that the length of the string `target` does not exceed 15. We can use a binary number of length 15 to represent whether each character of `target` has been spelled out. If the $i$th bit is 1, it means that the $i$th character of `target` has been spelled out; otherwise, it has not been spelled out.
+我们注意到，字符串 $\textit{target}$ 的长度不超过 $15$，我们可以使用一个长度为 $15$ 的二进制数来表示 $\textit{target}$ 的每个字符是否被拼出，如果第 $i$ 位为 $1$，表示 $\textit{target}$ 的第 $i$ 个字符已经被拼出，否则表示未被拼出。
 
-We define an initial state 0, which means that all characters have not been spelled out. Then we use the Breadth-First Search (BFS) method, starting from the initial state. Each time we search, we enumerate all the stickers. For each sticker, we try to spell out each character of `target`. If we spell out a character, we set the $i$th bit of the corresponding binary number to 1, indicating that the character has been spelled out. Then we continue to search until we spell out all the characters of `target`.
+我们定义一个初始状态 $0$，表示所有字符都未被拼出，然后我们使用广度优先搜索的方法，从初始状态开始，每次搜索时，我们枚举所有的贴纸，对于每一张贴纸，我们尝试拼出 $\textit{target}$ 的每一个字符，如果拼出了某个字符，我们就将对应的二进制数的第 $i$ 位设置为 $1$，表示该字符已经被拼出，然后我们继续搜索，直到我们拼出了 $\textit{target}$ 的所有字符。
 
-The time complexity is $O(2^n \times m \times (l + n))$, and the space complexity is $O(2^n)$. Where $n$ is the length of the string `target`, and $m$ and $l$ are the number of stickers and the average length of the stickers, respectively.
+时间复杂度 $O(2^n \times m \times (l + n))$，空间复杂度 $O(2^n)$。其中 $n$ 是字符串 $\textit{target}$ 的长度，而 $m$ 和 $l$ 分别是贴纸的数量和贴纸的平均长度。
 
 <!-- tabs:start -->
 
@@ -228,38 +233,38 @@ func minStickers(stickers []string, target string) (ans int) {
 
 ```ts
 function minStickers(stickers: string[], target: string): number {
-  const n = target.length;
-  const q: number[] = [0];
-  const vis: boolean[] = Array(1 << n).fill(false);
-  vis[0] = true;
-  for (let ans = 0; q.length; ++ans) {
-    const qq: number[] = [];
-    for (const cur of q) {
-      if (cur === (1 << n) - 1) {
-        return ans;
-      }
-      for (const s of stickers) {
-        const cnt: number[] = Array(26).fill(0);
-        for (const c of s) {
-          cnt[c.charCodeAt(0) - 97]++;
+    const n = target.length;
+    const q: number[] = [0];
+    const vis: boolean[] = Array(1 << n).fill(false);
+    vis[0] = true;
+    for (let ans = 0; q.length; ++ans) {
+        const qq: number[] = [];
+        for (const cur of q) {
+            if (cur === (1 << n) - 1) {
+                return ans;
+            }
+            for (const s of stickers) {
+                const cnt: number[] = Array(26).fill(0);
+                for (const c of s) {
+                    cnt[c.charCodeAt(0) - 97]++;
+                }
+                let nxt = cur;
+                for (let i = 0; i < n; ++i) {
+                    const j = target.charCodeAt(i) - 97;
+                    if (((cur >> i) & 1) === 0 && cnt[j]) {
+                        nxt |= 1 << i;
+                        cnt[j]--;
+                    }
+                }
+                if (!vis[nxt]) {
+                    vis[nxt] = true;
+                    qq.push(nxt);
+                }
+            }
         }
-        let nxt = cur;
-        for (let i = 0; i < n; ++i) {
-          const j = target.charCodeAt(i) - 97;
-          if (((cur >> i) & 1) === 0 && cnt[j]) {
-            nxt |= 1 << i;
-            cnt[j]--;
-          }
-        }
-        if (!vis[nxt]) {
-          vis[nxt] = true;
-          qq.push(nxt);
-        }
-      }
+        q.splice(0, q.length, ...qq);
     }
-    q.splice(0, q.length, ...qq);
-  }
-  return -1;
+    return -1;
 }
 ```
 

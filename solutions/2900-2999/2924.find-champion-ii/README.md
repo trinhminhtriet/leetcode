@@ -1,60 +1,65 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2924.Find%20Champion%20II/README.md
 rating: 1430
-source: Weekly Contest 370 Q2
+source: 第 370 场周赛 Q2
 tags:
-  - Graph
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [2924. Find Champion II](https://leetcode.com/problems/find-champion-ii)
+# [2924. 找到冠军 II](https://leetcode.cn/problems/find-champion-ii)
 
-## Description
+[English Version](/solution/2900-2999/2924.Find%20Champion%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> teams numbered from <code>0</code> to <code>n - 1</code> in a tournament; each team is also a node in a <strong>DAG</strong>.</p>
+<p>一场比赛中共有 <code>n</code> 支队伍，按从 <code>0</code> 到&nbsp; <code>n - 1</code> 编号。每支队伍也是 <strong>有向无环图（DAG）</strong> 上的一个节点。</p>
 
-<p>You are given the integer <code>n</code> and a <strong>0-indexed</strong> 2D integer array <code>edges</code> of length <code><font face="monospace">m</font></code> representing the <strong>DAG</strong>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> indicates that there is a directed edge from team <code>u<sub>i</sub></code> to team <code>v<sub>i</sub></code> in the graph.</p>
+<p>给你一个整数 <code>n</code> 和一个下标从 <strong>0</strong> 开始、长度为 <code>m</code> 的二维整数数组 <code>edges</code> 表示这个有向无环图，其中 <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> 表示图中存在一条从 <code>u<sub>i</sub></code> 队到 <code>v<sub>i</sub></code> 队的有向边。</p>
 
-<p>A directed edge from <code>a</code> to <code>b</code> in the graph means that team <code>a</code> is <strong>stronger</strong> than team <code>b</code> and team <code>b</code> is <strong>weaker</strong> than team <code>a</code>.</p>
+<p>从 <code>a</code> 队到 <code>b</code> 队的有向边意味着 <code>a</code> 队比 <code>b</code> 队 <strong>强</strong> ，也就是 <code>b</code> 队比 <code>a</code> 队 <strong>弱</strong> 。</p>
 
-<p>Team <code>a</code> will be the <strong>champion</strong> of the tournament if there is no team <code>b</code> that is <strong>stronger</strong> than team <code>a</code>.</p>
+<p>在这场比赛中，如果不存在某支强于 <code>a</code> 队的队伍，则认为 <code>a</code> 队将会是 <strong>冠军</strong> 。</p>
 
-<p>Return <em>the team that will be the <strong>champion</strong> of the tournament if there is a <strong>unique</strong> champion, otherwise, return </em><code>-1</code><em>.</em></p>
+<p>如果这场比赛存在 <strong>唯一</strong> 一个冠军，则返回将会成为冠军的队伍。否则，返回<em> </em><code>-1</code><em> 。</em></p>
 
-<p><strong>Notes</strong></p>
+<p><strong>注意</strong></p>
 
 <ul>
-	<li>A <strong>cycle</strong> is a series of nodes <code>a<sub>1</sub>, a<sub>2</sub>, ..., a<sub>n</sub>, a<sub>n+1</sub></code> such that node <code>a<sub>1</sub></code> is the same node as node <code>a<sub>n+1</sub></code>, the nodes <code>a<sub>1</sub>, a<sub>2</sub>, ..., a<sub>n</sub></code> are distinct, and there is a directed edge from the node <code>a<sub>i</sub></code> to node <code>a<sub>i+1</sub></code> for every <code>i</code> in the range <code>[1, n]</code>.</li>
-	<li>A <strong>DAG</strong> is a directed graph that does not have any <strong>cycle</strong>.</li>
+	<li><strong>环</strong> 是形如 <code>a<sub>1</sub>, a<sub>2</sub>, ..., a<sub>n</sub>, a<sub>n+1</sub></code> 的一个序列，且满足：节点 <code>a<sub>1</sub></code> 与节点 <code>a<sub>n+1</sub></code> 是同一个节点；节点 <code>a<sub>1</sub>, a<sub>2</sub>, ..., a<sub>n</sub></code> 互不相同；对于范围&nbsp;<code>[1, n]</code> 中的每个 <code>i</code> ，均存在一条从节点 <code>a<sub>i</sub></code> 到节点 <code>a<sub>i+1</sub></code> 的有向边。</li>
+	<li><strong>有向无环图</strong> 是不存在任何环的有向图。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <p><img height="300" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2924.Find%20Champion%20II/images/graph-3.png" width="300" /></p>
 
 <pre>
-<strong>Input:</strong> n = 3, edges = [[0,1],[1,2]]
-<strong>Output:</strong> 0
-<strong>Explanation: </strong>Team 1 is weaker than team 0. Team 2 is weaker than team 1. So the champion is team 0.
+<strong>输入：</strong>n = 3, edges = [[0,1],[1,2]]
+<strong>输出：</strong>0
+<strong>解释：</strong>1 队比 0 队弱。2 队比 1 队弱。所以冠军是 0 队。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <p><img height="300" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2924.Find%20Champion%20II/images/graph-4.png" width="300" /></p>
 
 <pre>
-<strong>Input:</strong> n = 4, edges = [[0,2],[1,3],[1,2]]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> Team 2 is weaker than team 0 and team 1. Team 3 is weaker than team 1. But team 1 and team 0 are not weaker than any other teams. So the answer is -1.
+<strong>输入：</strong>n = 4, edges = [[0,2],[1,3],[1,2]]
+<strong>输出：</strong>-1
+<strong>解释：</strong>2 队比 0 队和 1 队弱。3 队比 1 队弱。但是 1 队和 0 队之间不存在强弱对比。所以答案是 -1 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
@@ -63,21 +68,21 @@ tags:
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= edge[i][j] &lt;= n - 1</code></li>
 	<li><code>edges[i][0] != edges[i][1]</code></li>
-	<li>The input is generated such that if team <code>a</code> is stronger than team <code>b</code>, team <code>b</code> is not stronger than team <code>a</code>.</li>
-	<li>The input is generated such that if team <code>a</code> is stronger than team <code>b</code> and team <code>b</code> is stronger than team <code>c</code>, then team <code>a</code> is stronger than team <code>c</code>.</li>
+	<li>生成的输入满足：如果 <code>a</code> 队比 <code>b</code> 队强，就不存在 <code>b</code> 队比 <code>a</code> 队强</li>
+	<li>生成的输入满足：如果 <code>a</code> 队比 <code>b</code> 队强，<code>b</code> 队比 <code>c</code> 队强，那么 <code>a</code> 队比 <code>c</code> 队强</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting In-degrees
+### 方法一：统计入度
 
-Based on the problem description, we only need to count the in-degrees of each node and record them in an array $indeg$. If only one node has an in-degree of $0$, then this node is the champion; otherwise, there is no unique champion.
+根据题目描述，我们只需要统计每个节点的入度，记录在数组 $indeg$ 中。如果只有一个节点的入度为 $0$，那么这个节点就是冠军，否则不存在唯一的冠军。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是节点的数量。
 
 <!-- tabs:start -->
 
@@ -162,18 +167,73 @@ func findChampion(n int, edges [][]int) int {
 
 ```ts
 function findChampion(n: number, edges: number[][]): number {
-  const indeg: number[] = Array(n).fill(0);
-  for (const [_, v] of edges) {
-    ++indeg[v];
-  }
-  let [ans, cnt] = [-1, 0];
-  for (let i = 0; i < n; ++i) {
-    if (indeg[i] === 0) {
-      ++cnt;
-      ans = i;
+    const indeg: number[] = Array(n).fill(0);
+    for (const [_, v] of edges) {
+        ++indeg[v];
     }
-  }
-  return cnt === 1 ? ans : -1;
+    let [ans, cnt] = [-1, 0];
+    for (let i = 0; i < n; ++i) {
+        if (indeg[i] === 0) {
+            ++cnt;
+            ans = i;
+        }
+    }
+    return cnt === 1 ? ans : -1;
+}
+```
+
+#### JavaScript
+
+```js
+function findChampion(n, edges) {
+    const indeg = Array(n).fill(0);
+    for (const [_, v] of edges) {
+        ++indeg[v];
+    }
+    let [ans, cnt] = [-1, 0];
+    for (let i = 0; i < n; ++i) {
+        if (indeg[i] === 0) {
+            ++cnt;
+            ans = i;
+        }
+    }
+    return cnt === 1 ? ans : -1;
+}
+```
+
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- solution:start -->
+
+### 方法二
+
+<!-- tabs:start -->
+
+#### TypeScript
+
+```ts
+function findChampion(n: number, edges: number[][]): number {
+    const vertexes = new Set<number>(Array.from({ length: n }, (_, i) => i));
+
+    for (const [_, v] of edges) {
+        vertexes.delete(v);
+    }
+
+    return vertexes.size === 1 ? vertexes[Symbol.iterator]().next().value! : -1;
+}
+```
+
+#### JavaScript
+
+```js
+function findChampion(n, edges) {
+    const vertexes = new Set(Array.from({ length: n }, (_, i) => i));
+    for (const [_, v] of edges) {
+        vertexes.delete(v);
+    }
+    return vertexes.size === 1 ? vertexes[Symbol.iterator]().next().value : -1;
 }
 ```
 

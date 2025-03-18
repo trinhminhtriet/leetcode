@@ -1,94 +1,101 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1625.Lexicographically%20Smallest%20String%20After%20Applying%20Operations/README.md
 rating: 1992
-source: Weekly Contest 211 Q2
+source: 第 211 场周赛 Q2
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - String
-  - Enumeration
+    - 深度优先搜索
+    - 广度优先搜索
+    - 字符串
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [1625. Lexicographically Smallest String After Applying Operations](https://leetcode.com/problems/lexicographically-smallest-string-after-applying-operations)
+# [1625. 执行操作后字典序最小的字符串](https://leetcode.cn/problems/lexicographically-smallest-string-after-applying-operations)
 
-## Description
+[English Version](/solution/1600-1699/1625.Lexicographically%20Smallest%20String%20After%20Applying%20Operations/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> of <strong>even length</strong> consisting of digits from <code>0</code> to <code>9</code>, and two integers <code>a</code> and <code>b</code>.</p>
+<p>给你一个字符串 <code>s</code> 以及两个整数 <code>a</code> 和 <code>b</code> 。其中，字符串 <code>s</code> 的长度为偶数，且仅由数字 <code>0</code> 到 <code>9</code> 组成。</p>
 
-<p>You can apply either of the following two operations any number of times and in any order on <code>s</code>:</p>
+<p>你可以在 <code>s</code> 上按任意顺序多次执行下面两个操作之一：</p>
 
 <ul>
-	<li>Add <code>a</code> to all odd indices of <code>s</code> <strong>(0-indexed)</strong>. Digits post <code>9</code> are cycled back to <code>0</code>. For example, if <code>s = &quot;3456&quot;</code> and <code>a = 5</code>, <code>s</code> becomes <code>&quot;3951&quot;</code>.</li>
-	<li>Rotate <code>s</code> to the right by <code>b</code> positions. For example, if <code>s = &quot;3456&quot;</code> and <code>b = 1</code>, <code>s</code> becomes <code>&quot;6345&quot;</code>.</li>
+	<li>累加：将&nbsp; <code>a</code> 加到 <code>s</code> 中所有下标为奇数的元素上（<strong>下标从 0 开始</strong>）。数字一旦超过 <code>9</code> 就会变成 <code>0</code>，如此循环往复。例如，<code>s = "3456"</code> 且 <code>a = 5</code>，则执行此操作后 <code>s</code> 变成 <code>"3951"</code>。</li>
+	<li>轮转：将 <code>s</code> 向右轮转 <code>b</code> 位。例如，<code>s = "3456"</code> 且 <code>b = 1</code>，则执行此操作后 <code>s</code> 变成 <code>"6345"</code>。</li>
 </ul>
 
-<p>Return <em>the <strong>lexicographically smallest</strong> string you can obtain by applying the above operations any number of times on</em> <code>s</code>.</p>
+<p>请你返回在 <code>s</code> 上执行上述操作任意次后可以得到的 <strong>字典序最小</strong> 的字符串。</p>
 
-<p>A string <code>a</code> is lexicographically smaller than a string <code>b</code> (of the same length) if in the first position where <code>a</code> and <code>b</code> differ, string <code>a</code> has a letter that appears earlier in the alphabet than the corresponding letter in <code>b</code>. For example, <code>&quot;0158&quot;</code> is lexicographically smaller than <code>&quot;0190&quot;</code> because the first position they differ is at the third letter, and <code>&#39;5&#39;</code> comes before <code>&#39;9&#39;</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;5525&quot;, a = 9, b = 2
-<strong>Output:</strong> &quot;2050&quot;
-<strong>Explanation:</strong> We can apply the following operations:
-Start:  &quot;5525&quot;
-Rotate: &quot;2555&quot;
-Add:    &quot;2454&quot;
-Add:    &quot;2353&quot;
-Rotate: &quot;5323&quot;
-Add:    &quot;5222&quot;
-Add:    &quot;5121&quot;
-Rotate: &quot;2151&quot;
-Add:    &quot;2050&quot;​​​​​
-There is no way to obtain a string that is lexicographically smaller than &quot;2050&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;74&quot;, a = 5, b = 1
-<strong>Output:</strong> &quot;24&quot;
-<strong>Explanation:</strong> We can apply the following operations:
-Start:  &quot;74&quot;
-Rotate: &quot;47&quot;
-​​​​​​​Add:    &quot;42&quot;
-​​​​​​​Rotate: &quot;24&quot;​​​​​​​​​​​​
-There is no way to obtain a string that is lexicographically smaller than &quot;24&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;0011&quot;, a = 4, b = 2
-<strong>Output:</strong> &quot;0011&quot;
-<strong>Explanation:</strong> There are no sequence of operations that will give us a lexicographically smaller string than &quot;0011&quot;.
-</pre>
+<p>如果两个字符串长度相同，那么字符串 <code>a</code> 字典序比字符串 <code>b</code> 小可以这样定义：在 <code>a</code> 和 <code>b</code> 出现不同的第一个位置上，字符串 <code>a</code> 中的字符出现在字母表中的时间早于 <code>b</code> 中的对应字符。例如，<code>"0158”</code> 字典序比 <code>"0190"</code> 小，因为不同的第一个位置是在第三个字符，显然 <code>'5'</code> 出现在 <code>'9'</code> 之前。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "5525", a = 9, b = 2
+<strong>输出：</strong>"2050"
+<strong>解释：</strong>执行操作如下：
+初态："5525"
+轮转："2555"
+累加："2454"
+累加："2353"
+轮转："5323"
+累加："5222"
+累加："5121"
+轮转："2151"
+累加："2050"​​​​​
+无法获得字典序小于 "2050" 的字符串。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "74", a = 5, b = 1
+<strong>输出：</strong>"24"
+<strong>解释：</strong>执行操作如下：
+初态："74"
+轮转："47"
+累加："42"
+轮转："24"​​​​​
+无法获得字典序小于 "24" 的字符串。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "0011", a = 4, b = 2
+<strong>输出：</strong>"0011"
+<strong>解释：</strong>无法获得字典序小于 "0011" 的字符串。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s.length</code> is even.</li>
-	<li><code>s</code> consists of digits from <code>0</code> to <code>9</code> only.</li>
+	<li><code>s.length</code> 是偶数</li>
+	<li><code>s</code> 仅由数字 <code>0</code> 到 <code>9</code> 组成</li>
 	<li><code>1 &lt;= a &lt;= 9</code></li>
 	<li><code>1 &lt;= b &lt;= s.length - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：BFS
+
+本题数据规模较小，我们可以使用 BFS 暴力搜索所有可能的状态，然后取字典序最小的状态即可。
 
 <!-- tabs:start -->
 
@@ -215,7 +222,15 @@ func findLexSmallestString(s string, a int, b int) string {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：枚举
+
+我们观察发现，对于累加操作，数字最多累加 $10$ 次，就会回到原来的状态；对于轮转操作，字符串最多轮转 $n$ 次，也会回到原来的状态。
+
+因此，轮转操作最多产生 $n$ 种状态，如果轮转位数 $b$ 为偶数，累加操作只会对奇数位数字产生影响，因此总共产生 $n \times 10$ 种状态；如果轮转位数 $b$ 为奇数，累加操作既会对奇数位数字产生影响，也会对偶数位数字产生影响，因此总共产生 $n \times 10 \times 10$ 种状态。
+
+所以，我们直接枚举所有的字符串状态，取字典序最小的状态即可。
+
+时间复杂度 $O(n^2 \times 10^2)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 

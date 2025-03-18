@@ -1,82 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3071.Minimum%20Operations%20to%20Write%20the%20Letter%20Y%20on%20a%20Grid/README.md
 rating: 1689
-source: Weekly Contest 387 Q3
+source: 第 387 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Counting
-  - Matrix
+    - 数组
+    - 哈希表
+    - 计数
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [3071. Minimum Operations to Write the Letter Y on a Grid](https://leetcode.com/problems/minimum-operations-to-write-the-letter-y-on-a-grid)
+# [3071. 在矩阵上写出字母 Y 所需的最少操作次数](https://leetcode.cn/problems/minimum-operations-to-write-the-letter-y-on-a-grid)
 
-## Description
+[English Version](/solution/3000-3099/3071.Minimum%20Operations%20to%20Write%20the%20Letter%20Y%20on%20a%20Grid/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> <code>n x n</code> grid where <code>n</code> is odd, and <code>grid[r][c]</code> is <code>0</code>, <code>1</code>, or <code>2</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始、大小为 <code>n x n</code> 的矩阵 <code>grid</code> ，其中 <code>n</code> 为奇数，且 <code>grid[r][c]</code> 的值为 <code>0</code> 、<code>1</code> 或 <code>2</code> 。</p>
 
-<p>We say that a cell belongs to the Letter <strong>Y</strong> if it belongs to one of the following:</p>
-
-<ul>
-	<li>The diagonal starting at the top-left cell and ending at the center cell of the grid.</li>
-	<li>The diagonal starting at the top-right cell and ending at the center cell of the grid.</li>
-	<li>The vertical line starting at the center cell and ending at the bottom border of the grid.</li>
-</ul>
-
-<p>The Letter <strong>Y</strong> is written on the grid if and only if:</p>
+<p>如果一个单元格属于以下三条线中的任一一条，我们就认为它是字母 <strong>Y</strong> 的一部分：</p>
 
 <ul>
-	<li>All values at cells belonging to the Y are equal.</li>
-	<li>All values at cells not belonging to the Y are equal.</li>
-	<li>The values at cells belonging to the Y are different from the values at cells not belonging to the Y.</li>
+	<li>从左上角单元格开始到矩阵中心单元格结束的对角线。</li>
+	<li>从右上角单元格开始到矩阵中心单元格结束的对角线。</li>
+	<li>从中心单元格开始到矩阵底部边界结束的垂直线。</li>
 </ul>
 
-<p>Return <em>the <strong>minimum</strong> number of operations needed to write the letter Y on the grid given that in one operation you can change the value at any cell to</em> <code>0</code><em>,</em> <code>1</code><em>,</em> <em>or</em> <code>2</code><em>.</em></p>
+<p>当且仅当满足以下全部条件时，可以判定矩阵上写有字母 <strong>Y </strong>：</p>
+
+<ul>
+	<li>属于 Y 的所有单元格的值相等。</li>
+	<li>不属于 Y 的所有单元格的值相等。</li>
+	<li>属于 Y 的单元格的值与不属于Y的单元格的值不同。</li>
+</ul>
+
+<p>每次操作你可以将任意单元格的值改变为 <code>0</code> 、<code>1</code> 或 <code>2</code> 。返回在矩阵上写出字母 Y 所需的 <strong>最少 </strong>操作次数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3071.Minimum%20Operations%20to%20Write%20the%20Letter%20Y%20on%20a%20Grid/images/y2.png" style="width: 461px; height: 121px;" />
 <pre>
-<strong>Input:</strong> grid = [[1,2,2],[1,1,0],[0,1,0]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We can write Y on the grid by applying the changes highlighted in blue in the image above. After the operations, all cells that belong to Y, denoted in bold, have the same value of 1 while those that do not belong to Y are equal to 0.
-It can be shown that 3 is the minimum number of operations needed to write Y on the grid.
+<strong>输入：</strong>grid = [[1,2,2],[1,1,0],[0,1,0]]
+<strong>输出：</strong>3
+<strong>解释：</strong>将在矩阵上写出字母 Y 需要执行的操作用蓝色高亮显示。操作后，所有属于 Y 的单元格（加粗显示）的值都为 1 ，而不属于 Y 的单元格的值都为 0 。
+可以证明，写出 Y 至少需要进行 3 次操作。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3071.Minimum%20Operations%20to%20Write%20the%20Letter%20Y%20on%20a%20Grid/images/y3.png" style="width: 701px; height: 201px;" />
 <pre>
-<strong>Input:</strong> grid = [[0,1,0,1,0],[2,1,0,1,2],[2,2,2,0,1],[2,2,2,2,2],[2,1,2,2,2]]
-<strong>Output:</strong> 12
-<strong>Explanation:</strong> We can write Y on the grid by applying the changes highlighted in blue in the image above. After the operations, all cells that belong to Y, denoted in bold, have the same value of 0 while those that do not belong to Y are equal to 2. 
-It can be shown that 12 is the minimum number of operations needed to write Y on the grid.</pre>
+<strong>输入：</strong>grid = [[0,1,0,1,0],[2,1,0,1,2],[2,2,2,0,1],[2,2,2,2,2],[2,1,2,2,2]]
+<strong>输出：</strong>12
+<strong>解释：</strong>将在矩阵上写出字母 Y 需要执行的操作用蓝色高亮显示。操作后，所有属于 Y 的单元格（加粗显示）的值都为 0 ，而不属于 Y 的单元格的值都为 2 。
+可以证明，写出 Y 至少需要进行 12 次操作。
+</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>3 &lt;= n &lt;= 49 </code></li>
+	<li><code>3 &lt;= n &lt;= 49</code></li>
 	<li><code>n == grid.length == grid[i].length</code></li>
 	<li><code>0 &lt;= grid[i][j] &lt;= 2</code></li>
-	<li><code>n</code> is odd.</li>
+	<li><code>n</code> 为奇数。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We use two arrays of length 3, `cnt1` and `cnt2`, to record the counts of cell values that belong to `Y` and do not belong to `Y`, respectively. Then we enumerate `i` and `j`, which represent the values of cells that belong to `Y` and do not belong to `Y`, respectively, to calculate the minimum number of operations.
+我们用两个长度为 $3$ 的数组 `cnt1` 和 `cnt2` 分别记录属于 `Y` 的单元格和不属于 `Y` 的单元格的值的个数。然后我们枚举 `i` 和 `j`，分别表示属于 `Y` 的单元格和不属于 `Y` 的单元格的值，计算出最少操作次数。
 
-The time complexity is $O(n^2)$, where $n$ is the size of the matrix. The space complexity is $O(1)$.
+时间复杂度 $O(n^2)$，其中 $n$ 是矩阵的大小。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -204,30 +210,30 @@ func minimumOperationsToWriteY(grid [][]int) int {
 
 ```ts
 function minimumOperationsToWriteY(grid: number[][]): number {
-  const n = grid.length;
-  const cnt1: number[] = Array(3).fill(0);
-  const cnt2: number[] = Array(3).fill(0);
-  for (let i = 0; i < n; ++i) {
-    for (let j = 0; j < n; ++j) {
-      const a = i === j && i <= n >> 1;
-      const b = i + j === n - 1 && i <= n >> 1;
-      const c = j === n >> 1 && i >= n >> 1;
-      if (a || b || c) {
-        ++cnt1[grid[i][j]];
-      } else {
-        ++cnt2[grid[i][j]];
-      }
+    const n = grid.length;
+    const cnt1: number[] = Array(3).fill(0);
+    const cnt2: number[] = Array(3).fill(0);
+    for (let i = 0; i < n; ++i) {
+        for (let j = 0; j < n; ++j) {
+            const a = i === j && i <= n >> 1;
+            const b = i + j === n - 1 && i <= n >> 1;
+            const c = j === n >> 1 && i >= n >> 1;
+            if (a || b || c) {
+                ++cnt1[grid[i][j]];
+            } else {
+                ++cnt2[grid[i][j]];
+            }
+        }
     }
-  }
-  let ans = n * n;
-  for (let i = 0; i < 3; ++i) {
-    for (let j = 0; j < 3; ++j) {
-      if (i !== j) {
-        ans = Math.min(ans, n * n - cnt1[i] - cnt2[j]);
-      }
+    let ans = n * n;
+    for (let i = 0; i < 3; ++i) {
+        for (let j = 0; j < 3; ++j) {
+            if (i !== j) {
+                ans = Math.min(ans, n * n - cnt1[i] - cnt2[j]);
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

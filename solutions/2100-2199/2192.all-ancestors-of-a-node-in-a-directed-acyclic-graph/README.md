@@ -1,63 +1,70 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2192.All%20Ancestors%20of%20a%20Node%20in%20a%20Directed%20Acyclic%20Graph/README.md
 rating: 1787
-source: Biweekly Contest 73 Q3
+source: 第 73 场双周赛 Q3
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
-  - Topological Sort
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
+    - 拓扑排序
 ---
 
 <!-- problem:start -->
 
-# [2192. All Ancestors of a Node in a Directed Acyclic Graph](https://leetcode.com/problems/all-ancestors-of-a-node-in-a-directed-acyclic-graph)
+# [2192. 有向无环图中一个节点的所有祖先](https://leetcode.cn/problems/all-ancestors-of-a-node-in-a-directed-acyclic-graph)
 
-## Description
+[English Version](/solution/2100-2199/2192.All%20Ancestors%20of%20a%20Node%20in%20a%20Directed%20Acyclic%20Graph/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a positive integer <code>n</code> representing the number of nodes of a <strong>Directed Acyclic Graph</strong> (DAG). The nodes are numbered from <code>0</code> to <code>n - 1</code> (<strong>inclusive</strong>).</p>
+<p>给你一个正整数&nbsp;<code>n</code>&nbsp;，它表示一个 <strong>有向无环图</strong>&nbsp;中节点的数目，节点编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;（包括两者）。</p>
 
-<p>You are also given a 2D integer array <code>edges</code>, where <code>edges[i] = [from<sub>i</sub>, to<sub>i</sub>]</code> denotes that there is a <strong>unidirectional</strong> edge from <code>from<sub>i</sub></code> to <code>to<sub>i</sub></code> in the graph.</p>
+<p>给你一个二维整数数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [from<sub>i</sub>, to<sub>i</sub>]</code>&nbsp;表示图中一条从&nbsp;<code>from<sub>i</sub></code>&nbsp;到&nbsp;<code>to<sub>i</sub></code>&nbsp;的单向边。</p>
 
-<p>Return <em>a list</em> <code>answer</code><em>, where </em><code>answer[i]</code><em> is the <strong>list of ancestors</strong> of the</em> <code>i<sup>th</sup></code> <em>node, sorted in <strong>ascending order</strong></em>.</p>
+<p>请你返回一个数组&nbsp;<code>answer</code>，其中<em>&nbsp;</em><code>answer[i]</code>是第&nbsp;<code>i</code>&nbsp;个节点的所有&nbsp;<strong>祖先</strong>&nbsp;，这些祖先节点&nbsp;<strong>升序</strong>&nbsp;排序。</p>
 
-<p>A node <code>u</code> is an <strong>ancestor</strong> of another node <code>v</code> if <code>u</code> can reach <code>v</code> via a set of edges.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2192.All%20Ancestors%20of%20a%20Node%20in%20a%20Directed%20Acyclic%20Graph/images/e1.png" style="width: 322px; height: 265px;" />
-<pre>
-<strong>Input:</strong> n = 8, edgeList = [[0,3],[0,4],[1,3],[2,4],[2,7],[3,5],[3,6],[3,7],[4,6]]
-<strong>Output:</strong> [[],[],[],[0,1],[0,2],[0,1,3],[0,1,2,3,4],[0,1,2,3]]
-<strong>Explanation:</strong>
-The above diagram represents the input graph.
-- Nodes 0, 1, and 2 do not have any ancestors.
-- Node 3 has two ancestors 0 and 1.
-- Node 4 has two ancestors 0 and 2.
-- Node 5 has three ancestors 0, 1, and 3.
-- Node 6 has five ancestors 0, 1, 2, 3, and 4.
-- Node 7 has four ancestors 0, 1, 2, and 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2192.All%20Ancestors%20of%20a%20Node%20in%20a%20Directed%20Acyclic%20Graph/images/e2.png" style="width: 343px; height: 299px;" />
-<pre>
-<strong>Input:</strong> n = 5, edgeList = [[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
-<strong>Output:</strong> [[],[0],[0,1],[0,1,2],[0,1,2,3]]
-<strong>Explanation:</strong>
-The above diagram represents the input graph.
-- Node 0 does not have any ancestor.
-- Node 1 has one ancestor 0.
-- Node 2 has two ancestors 0 and 1.
-- Node 3 has three ancestors 0, 1, and 2.
-- Node 4 has four ancestors 0, 1, 2, and 3.
-</pre>
+<p>如果 <code>u</code>&nbsp;通过一系列边，能够到达 <code>v</code>&nbsp;，那么我们称节点 <code>u</code>&nbsp;是节点 <code>v</code>&nbsp;的 <strong>祖先</strong>&nbsp;节点。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2192.All%20Ancestors%20of%20a%20Node%20in%20a%20Directed%20Acyclic%20Graph/images/e1.png" style="width: 322px; height: 265px;"></p>
+
+<pre><b>输入：</b>n = 8, edgeList = [[0,3],[0,4],[1,3],[2,4],[2,7],[3,5],[3,6],[3,7],[4,6]]
+<b>输出：</b>[[],[],[],[0,1],[0,2],[0,1,3],[0,1,2,3,4],[0,1,2,3]]
+<strong>解释：</strong>
+上图为输入所对应的图。
+- 节点 0 ，1 和 2 没有任何祖先。
+- 节点 3 有 2 个祖先 0 和 1 。
+- 节点 4 有 2 个祖先 0 和 2 。
+- 节点 5 有 3 个祖先 0 ，1 和 3 。
+- 节点 6 有 5 个祖先 0 ，1 ，2 ，3 和 4 。
+- 节点 7 有 4 个祖先 0 ，1 ，2 和 3 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2192.All%20Ancestors%20of%20a%20Node%20in%20a%20Directed%20Acyclic%20Graph/images/e2.png" style="width: 343px; height: 299px;"></p>
+
+<pre><b>输入：</b>n = 5, edgeList = [[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+<b>输出：</b>[[],[0],[0,1],[0,1,2],[0,1,2,3]]
+<strong>解释：</strong>
+上图为输入所对应的图。
+- 节点 0 没有任何祖先。
+- 节点 1 有 1 个祖先 0 。
+- 节点 2 有 2 个祖先 0 和 1 。
+- 节点 3 有 3 个祖先 0 ，1 和 2 。
+- 节点 4 有 4 个祖先 0 ，1 ，2 和 3 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -65,23 +72,23 @@ The above diagram represents the input graph.
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= from<sub>i</sub>, to<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>from<sub>i</sub> != to<sub>i</sub></code></li>
-	<li>There are no duplicate edges.</li>
-	<li>The graph is <strong>directed</strong> and <strong>acyclic</strong>.</li>
+	<li>图中不会有重边。</li>
+	<li>图是 <strong>有向</strong> 且 <strong>无环</strong> 的。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-First, we construct the adjacency list $g$ based on the two-dimensional array $edges$, where $g[i]$ represents all successor nodes of node $i$.
+我们先根据二维数组 $edges$ 构建邻接表 $g$，其中 $g[i]$ 表示节点 $i$ 的所有后继节点。
 
-Then, we enumerate node $i$ as the ancestor node from small to large, use BFS to search all successor nodes of node $i$, and add node $i$ to the ancestor list of these successor nodes.
+然后我们从小到大枚举节点 $i$ 作为祖先节点，使用 BFS 搜索节点 $i$ 的所有后继节点，把节点 $i$ 加入这些后继节点的祖先列表中。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Where $n$ is the number of nodes.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是节点数。
 
 <!-- tabs:start -->
 
@@ -227,30 +234,30 @@ func getAncestors(n int, edges [][]int) [][]int {
 
 ```ts
 function getAncestors(n: number, edges: number[][]): number[][] {
-  const g: number[][] = Array.from({ length: n }, () => []);
-  for (const [u, v] of edges) {
-    g[u].push(v);
-  }
-  const ans: number[][] = Array.from({ length: n }, () => []);
-  const bfs = (s: number) => {
-    const q: number[] = [s];
-    const vis: boolean[] = Array.from({ length: n }, () => false);
-    vis[s] = true;
-    while (q.length) {
-      const i = q.pop()!;
-      for (const j of g[i]) {
-        if (!vis[j]) {
-          vis[j] = true;
-          ans[j].push(s);
-          q.push(j);
-        }
-      }
+    const g: number[][] = Array.from({ length: n }, () => []);
+    for (const [u, v] of edges) {
+        g[u].push(v);
     }
-  };
-  for (let i = 0; i < n; ++i) {
-    bfs(i);
-  }
-  return ans;
+    const ans: number[][] = Array.from({ length: n }, () => []);
+    const bfs = (s: number) => {
+        const q: number[] = [s];
+        const vis: boolean[] = Array.from({ length: n }, () => false);
+        vis[s] = true;
+        while (q.length) {
+            const i = q.pop()!;
+            for (const j of g[i]) {
+                if (!vis[j]) {
+                    vis[j] = true;
+                    ans[j].push(s);
+                    q.push(j);
+                }
+            }
+        }
+    };
+    for (let i = 0; i < n; ++i) {
+        bfs(i);
+    }
+    return ans;
 }
 ```
 

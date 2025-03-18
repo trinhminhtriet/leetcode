@@ -1,97 +1,99 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1850.Minimum%20Adjacent%20Swaps%20to%20Reach%20the%20Kth%20Smallest%20Number/README.md
 rating: 2073
-source: Weekly Contest 239 Q3
+source: 第 239 场周赛 Q3
 tags:
-  - Greedy
-  - Two Pointers
-  - String
+    - 贪心
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1850. Minimum Adjacent Swaps to Reach the Kth Smallest Number](https://leetcode.com/problems/minimum-adjacent-swaps-to-reach-the-kth-smallest-number)
+# [1850. 邻位交换的最小次数](https://leetcode.cn/problems/minimum-adjacent-swaps-to-reach-the-kth-smallest-number)
 
-## Description
+[English Version](/solution/1800-1899/1850.Minimum%20Adjacent%20Swaps%20to%20Reach%20the%20Kth%20Smallest%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>num</code>, representing a large integer, and an integer <code>k</code>.</p>
+<p>给你一个表示大整数的字符串 <code>num</code> ，和一个整数 <code>k</code> 。</p>
 
-<p>We call some integer <strong>wonderful</strong> if it is a <strong>permutation</strong> of the digits in <code>num</code> and is <strong>greater in value</strong> than <code>num</code>. There can be many wonderful integers. However, we only care about the <strong>smallest-valued</strong> ones.</p>
+<p>如果某个整数是 <code>num</code> 中各位数字的一个 <strong>排列</strong> 且它的 <strong>值大于</strong> <code>num</code> ，则称这个整数为 <strong>妙数</strong> 。可能存在很多妙数，但是只需要关注 <strong>值最小</strong> 的那些。</p>
 
 <ul>
-	<li>For example, when <code>num = &quot;5489355142&quot;</code>:
+	<li>例如，<code>num = "5489355142"</code> ：
 
     <ul>
-    	<li>The 1<sup>st</sup> smallest wonderful integer is <code>&quot;5489355214&quot;</code>.</li>
-    	<li>The 2<sup>nd</sup> smallest wonderful integer is <code>&quot;5489355241&quot;</code>.</li>
-    	<li>The 3<sup>rd</sup> smallest wonderful integer is <code>&quot;5489355412&quot;</code>.</li>
-    	<li>The 4<sup>th</sup> smallest wonderful integer is <code>&quot;5489355421&quot;</code>.</li>
+    	<li>第 1 个最小妙数是 <code>"5489355214"</code></li>
+    	<li>第 2 个最小妙数是 <code>"5489355241"</code></li>
+    	<li>第 3 个最小妙数是 <code>"5489355412"</code></li>
+    	<li>第 4 个最小妙数是 <code>"5489355421"</code></li>
     </ul>
     </li>
 
 </ul>
 
-<p>Return <em>the <strong>minimum number of adjacent digit swaps</strong> that needs to be applied to </em><code>num</code><em> to reach the </em><code>k<sup>th</sup></code><em><strong> smallest wonderful</strong> integer</em>.</p>
+<p>返回要得到第 <code>k</code> 个 <strong>最小妙数</strong> 需要对 <code>num</code> 执行的 <strong>相邻位数字交换的最小次数</strong> 。</p>
 
-<p>The tests are generated in such a way that <code>k<sup>th</sup></code>&nbsp;smallest wonderful integer exists.</p>
+<p>测试用例是按存在第 <code>k</code> 个最小妙数而生成的。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> num = &quot;5489355142&quot;, k = 4
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The 4<sup>th</sup> smallest wonderful number is &quot;5489355421&quot;. To get this number:
-- Swap index 7 with index 8: &quot;5489355<u>14</u>2&quot; -&gt; &quot;5489355<u>41</u>2&quot;
-- Swap index 8 with index 9: &quot;54893554<u>12</u>&quot; -&gt; &quot;54893554<u>21</u>&quot;
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>num = "5489355142", k = 4
+<strong>输出：</strong>2
+<strong>解释：</strong>第 4 个最小妙数是 "5489355421" ，要想得到这个数字：
+- 交换下标 7 和下标 8 对应的位："5489355<strong>14</strong>2" -&gt; "5489355<strong>41</strong>2"
+- 交换下标 8 和下标 9 对应的位："54893554<strong>12</strong>" -&gt; "54893554<strong>21</strong>"
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> num = &quot;11112&quot;, k = 4
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The 4<sup>th</sup> smallest wonderful number is &quot;21111&quot;. To get this number:
-- Swap index 3 with index 4: &quot;111<u>12</u>&quot; -&gt; &quot;111<u>21</u>&quot;
-- Swap index 2 with index 3: &quot;11<u>12</u>1&quot; -&gt; &quot;11<u>21</u>1&quot;
-- Swap index 1 with index 2: &quot;1<u>12</u>11&quot; -&gt; &quot;1<u>21</u>11&quot;
-- Swap index 0 with index 1: &quot;<u>12</u>111&quot; -&gt; &quot;<u>21</u>111&quot;
+<pre><strong>输入：</strong>num = "11112", k = 4
+<strong>输出：</strong>4
+<strong>解释：</strong>第 4 个最小妙数是 "21111" ，要想得到这个数字：
+- 交换下标 3 和下标 4 对应的位："111<strong>12</strong>" -&gt; "111<strong>21</strong>"
+- 交换下标 2 和下标 3 对应的位："11<strong>12</strong>1" -&gt; "11<strong>21</strong>1"
+- 交换下标 1 和下标 2 对应的位："1<strong>12</strong>11" -&gt; "1<strong>21</strong>11"
+- 交换下标 0 和下标 1 对应的位："<strong>12</strong>111" -&gt; "<strong>21</strong>111"
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> num = &quot;00123&quot;, k = 1
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The 1<sup>st</sup> smallest wonderful number is &quot;00132&quot;. To get this number:
-- Swap index 3 with index 4: &quot;001<u>23</u>&quot; -&gt; &quot;001<u>32</u>&quot;
+<pre><strong>输入：</strong>num = "00123", k = 1
+<strong>输出：</strong>1
+<strong>解释：</strong>第 1 个最小妙数是 "00132" ，要想得到这个数字：
+- 交换下标 3 和下标 4 对应的位："001<strong>23</strong>" -&gt; "001<strong>32</strong>"
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= num.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= k &lt;= 1000</code></li>
-	<li><code>num</code> only consists of digits.</li>
+	<li><code>num</code> 仅由数字组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Find Next Permutation + Inversion Pairs
+### 方法一：求下一个排列 + 逆序对
 
-We can call the `next_permutation` function $k$ times to get the $k$th smallest permutation $s$.
+我们可以调用 $k$ 次 `next_permutation` 函数，得到第 $k$ 个最小妙数 $s$。
 
-Next, we just need to calculate how many swaps are needed for $num$ to become $s$.
+接下来，我们只需要计算 $num$ 需要经过多少次交换才能变成 $s$ 即可。
 
-Let's first consider a simple situation where all the digits in $num$ are different. In this case, we can directly map the digit characters in $num$ to indices. For example, if $num$ is `"54893"` and $s$ is `"98345"`. We map each digit in $num$ to an index, that is:
+我们先考虑一个简单的情况，即 $num$ 中的数字都不相同。在这种情况下，我们可以直接把 $num$ 中的数字字符映射为下标。例如 $num$ 等于 `"54893"`，而 $s$ 等于 `"98345"`。我们将 $num$ 中的每个数字映射为下标，即：
 
 $$
 \begin{aligned}
@@ -103,13 +105,13 @@ num[4] &= 3 &\rightarrow& \quad 4 \\
 \end{aligned}
 $$
 
-Then, mapping each digit in $s$ to an index results in `"32410"`. In this way, the number of swaps needed to change $num$ to $s$ is equal to the number of inversion pairs in the index array after $s$ is mapped.
+那么 $s$ 中的每个数字映射为下标，就是 `"32410"`。这样，将 $num$ 变成 $s$ 所需要的交换次数，就等于 $s$ 映射后的下标数组的逆序对数。
 
-If there are identical digits in $num$, we can use an array $d$ to record the indices where each digit appears, where $d[i]$ represents the list of indices where the digit $i$ appears. To minimize the number of swaps, when mapping $s$ to an index array, we only need to greedily select the index of the corresponding digit in $d$ in order.
+如果 $num$ 中存在相同的数字，那么我们可以使用一个数组 $d$ 来记录每个数字出现的下标，其中 $d[i]$ 表示数字 $i$ 出现的下标列表。为了使得交换次数尽可能少，在将 $s$ 映射为下标数组时，我们只需要按顺序贪心地选择 $d$ 中对应数字的下标即可。
 
-Finally, we can directly use a double loop to calculate the number of inversion pairs, or we can optimize it with a Binary Indexed Tree.
+最后，我们可以直接使用双重循环来计算逆序对数，也可以使用树状数组来优化。
 
-The time complexity is $O(n \times (k + n))$, and the space complexity is $O(n)$. Where $n$ is the length of $num$.
+时间复杂度 $O(n \times (k + n))$，空间复杂度 $O(n)$。其中 $n$ 是 $num$ 的长度。
 
 <!-- tabs:start -->
 
@@ -297,49 +299,49 @@ func nextPermutation(nums []byte) bool {
 
 ```ts
 function getMinSwaps(num: string, k: number): number {
-  const n = num.length;
-  const s = num.split("");
-  for (let i = 0; i < k; ++i) {
-    nextPermutation(s);
-  }
-  const d: number[][] = Array.from({ length: 10 }, () => []);
-  for (let i = 0; i < n; ++i) {
-    d[+num[i]].push(i);
-  }
-  const idx: number[] = Array(10).fill(0);
-  const arr: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    arr.push(d[+s[i]][idx[+s[i]]++]);
-  }
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    for (let j = 0; j < i; ++j) {
-      if (arr[j] > arr[i]) {
-        ans++;
-      }
+    const n = num.length;
+    const s = num.split('');
+    for (let i = 0; i < k; ++i) {
+        nextPermutation(s);
     }
-  }
-  return ans;
+    const d: number[][] = Array.from({ length: 10 }, () => []);
+    for (let i = 0; i < n; ++i) {
+        d[+num[i]].push(i);
+    }
+    const idx: number[] = Array(10).fill(0);
+    const arr: number[] = [];
+    for (let i = 0; i < n; ++i) {
+        arr.push(d[+s[i]][idx[+s[i]]++]);
+    }
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        for (let j = 0; j < i; ++j) {
+            if (arr[j] > arr[i]) {
+                ans++;
+            }
+        }
+    }
+    return ans;
 }
 
 function nextPermutation(nums: string[]): boolean {
-  const n = nums.length;
-  let i = n - 2;
-  while (i >= 0 && nums[i] >= nums[i + 1]) {
-    i--;
-  }
-  if (i < 0) {
-    return false;
-  }
-  let j = n - 1;
-  while (j >= 0 && nums[i] >= nums[j]) {
-    j--;
-  }
-  [nums[i], nums[j]] = [nums[j], nums[i]];
-  for (i = i + 1, j = n - 1; i < j; ++i, --j) {
+    const n = nums.length;
+    let i = n - 2;
+    while (i >= 0 && nums[i] >= nums[i + 1]) {
+        i--;
+    }
+    if (i < 0) {
+        return false;
+    }
+    let j = n - 1;
+    while (j >= 0 && nums[i] >= nums[j]) {
+        j--;
+    }
     [nums[i], nums[j]] = [nums[j], nums[i]];
-  }
-  return true;
+    for (i = i + 1, j = n - 1; i < j; ++i, --j) {
+        [nums[i], nums[j]] = [nums[j], nums[i]];
+    }
+    return true;
 }
 ```
 

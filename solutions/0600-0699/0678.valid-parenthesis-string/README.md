@@ -1,66 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0678.Valid%20Parenthesis%20String/README.md
 tags:
-  - Stack
-  - Greedy
-  - String
-  - Dynamic Programming
+    - 栈
+    - 贪心
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [678. Valid Parenthesis String](https://leetcode.com/problems/valid-parenthesis-string)
+# [678. 有效的括号字符串](https://leetcode.cn/problems/valid-parenthesis-string)
 
-## Description
+[English Version](/solution/0600-0699/0678.Valid%20Parenthesis%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code> containing only three types of characters: <code>&#39;(&#39;</code>, <code>&#39;)&#39;</code> and <code>&#39;*&#39;</code>, return <code>true</code> <em>if</em> <code>s</code> <em>is <strong>valid</strong></em>.</p>
+<p>给你一个只包含三种字符的字符串，支持的字符类型分别是 <code>'('</code>、<code>')'</code> 和 <code>'*'</code>。请你检验这个字符串是否为有效字符串，如果是 <strong>有效</strong> 字符串返回 <code>true</code> 。</p>
 
-<p>The following rules define a <strong>valid</strong> string:</p>
+<p><strong>有效</strong> 字符串符合如下规则：</p>
 
 <ul>
-	<li>Any left parenthesis <code>&#39;(&#39;</code> must have a corresponding right parenthesis <code>&#39;)&#39;</code>.</li>
-	<li>Any right parenthesis <code>&#39;)&#39;</code> must have a corresponding left parenthesis <code>&#39;(&#39;</code>.</li>
-	<li>Left parenthesis <code>&#39;(&#39;</code> must go before the corresponding right parenthesis <code>&#39;)&#39;</code>.</li>
-	<li><code>&#39;*&#39;</code> could be treated as a single right parenthesis <code>&#39;)&#39;</code> or a single left parenthesis <code>&#39;(&#39;</code> or an empty string <code>&quot;&quot;</code>.</li>
+	<li>任何左括号 <code>'('</code>&nbsp;必须有相应的右括号 <code>')'</code>。</li>
+	<li>任何右括号 <code>')'</code>&nbsp;必须有相应的左括号 <code>'('</code>&nbsp;。</li>
+	<li>左括号 <code>'('</code> 必须在对应的右括号之前 <code>')'</code>。</li>
+	<li><code>'*'</code>&nbsp;可以被视为单个右括号 <code>')'</code>&nbsp;，或单个左括号 <code>'('</code>&nbsp;，或一个空字符串 <code>""</code>。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> s = "()"
-<strong>Output:</strong> true
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> s = "(*)"
-<strong>Output:</strong> true
-</pre><p><strong class="example">Example 3:</strong></p>
-<pre><strong>Input:</strong> s = "(*))"
-<strong>Output:</strong> true
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "()"
+<strong>输出：</strong>true
 </pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "(*)"
+<strong>输出：</strong>true
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "(*))"
+<strong>输出：</strong>true
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s[i]</code> is <code>&#39;(&#39;</code>, <code>&#39;)&#39;</code> or <code>&#39;*&#39;</code>.</li>
+	<li><code>s[i]</code> 为 <code>'('</code>、<code>')'</code> 或 <code>'*'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-Let `dp[i][j]` be true if and only if the interval `s[i], s[i+1], ..., s[j]` can be made valid. Then `dp[i][j]` is true only if:
+定义 $dp[i][j]$ 表示字符串 $s$ 中下标范围 $[i..j]$ 内的子串是否为有效括号字符串。答案为 $dp[0][n - 1]$。
 
-- `s[i]` is `'*'`, and the interval `s[i+1], s[i+2], ..., s[j]` can be made valid;
-- or, `s[i]` can be made to be `'('`, and there is some `k` in `[i+1, j]` such that `s[k]` can be made to be `')'`, plus the two intervals cut by `s[k]` (`s[i+1: k] and s[k+1: j+1]`) can be made valid;
+子串长度为 $1$ 时，如果字符 $s[i]$ 为 `*`，则 $dp[i][i]$ 为 `true`，否则为 `false`。
 
-- Time Complexity: $O(n^3)$, where $n$ is the length of the string. There are $O(n^2)$ states corresponding to entries of dp, and we do an average of $O(n)$ work on each state.
-- Space Complexity: $O(n^2)$.
+子串长度大于 $1$ 时，如果满足下面任意一种情况，则 $dp[i][j]$ 为 `true`：
+
+-   子串 $s[i..j]$ 的左边界为 `(` 或 `*`，且右边界为 `*` 或 `)`，且 $s[i+1..j-1]$ 为有效括号字符串；
+-   子串 $s[i..j]$ 中的任意下标 $k$，如果 $s[i..k]$ 为有效括号字符串，且 $s[k+1..j]$ 为有效括号字符串，则 $s[i..j]$ 为有效括号字符串。
+
+时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 为字符串 `s` 的长度。
 
 <!-- tabs:start -->
 
@@ -163,12 +182,15 @@ func checkValidString(s string) bool {
 
 <!-- solution:start -->
 
-### Solution 2: Greedy
+### 方法二：贪心 + 两遍扫描
 
-Scan twice, first from left to right to make sure that each of the closing brackets is matched successfully, and second from right to left to make sure that each of the opening brackets is matched successfully.
+两遍扫描，第一遍从左往右，确定每一个右括号都可以成功配对，第二遍从右往左，确定每一个左括号都可以成功配对。
 
-- Time Complexity: $O(n)$, where $n$ is the length of the string.
-- Space Complexity: $O(1)$.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 `s` 的长度。
+
+相似题目：
+
+-   [2116. 判断一个括号字符串是否有效](https://github.com/doocs/leetcode/blob/main/solution/2100-2199/2116.Check%20if%20a%20Parentheses%20String%20Can%20Be%20Valid/README.md)
 
 <!-- tabs:start -->
 

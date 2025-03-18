@@ -1,80 +1,84 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1130.Minimum%20Cost%20Tree%20From%20Leaf%20Values/README.md
 rating: 1919
-source: Weekly Contest 146 Q3
+source: 第 146 场周赛 Q3
 tags:
-  - Stack
-  - Greedy
-  - Array
-  - Dynamic Programming
-  - Monotonic Stack
+    - 栈
+    - 贪心
+    - 数组
+    - 动态规划
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [1130. Minimum Cost Tree From Leaf Values](https://leetcode.com/problems/minimum-cost-tree-from-leaf-values)
+# [1130. 叶值的最小代价生成树](https://leetcode.cn/problems/minimum-cost-tree-from-leaf-values)
 
-## Description
+[English Version](/solution/1100-1199/1130.Minimum%20Cost%20Tree%20From%20Leaf%20Values/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array <code>arr</code> of positive integers, consider all binary trees such that:</p>
+<p>给你一个正整数数组&nbsp;<code>arr</code>，考虑所有满足以下条件的二叉树：</p>
 
 <ul>
-	<li>Each node has either <code>0</code> or <code>2</code> children;</li>
-	<li>The values of <code>arr</code> correspond to the values of each <strong>leaf</strong> in an in-order traversal of the tree.</li>
-	<li>The value of each non-leaf node is equal to the product of the largest leaf value in its left and right subtree, respectively.</li>
+	<li>每个节点都有 <code>0</code> 个或是 <code>2</code> 个子节点。</li>
+	<li>数组&nbsp;<code>arr</code>&nbsp;中的值与树的中序遍历中每个叶节点的值一一对应。</li>
+	<li>每个非叶节点的值等于其左子树和右子树中叶节点的最大值的乘积。</li>
 </ul>
 
-<p>Among all possible binary trees considered, return <em>the smallest possible sum of the values of each non-leaf node</em>. It is guaranteed this sum fits into a <strong>32-bit</strong> integer.</p>
+<p>在所有这样的二叉树中，返回每个非叶节点的值的最小可能总和。这个和的值是一个&nbsp;32 位整数。</p>
 
-<p>A node is a <strong>leaf</strong> if and only if it has zero children.</p>
+<p>如果一个节点有 0 个子节点，那么该节点为叶节点。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1130.Minimum%20Cost%20Tree%20From%20Leaf%20Values/images/tree1.jpg" style="width: 500px; height: 169px;" />
 <pre>
-<strong>Input:</strong> arr = [6,2,4]
-<strong>Output:</strong> 32
-<strong>Explanation:</strong> There are two possible trees shown.
-The first has a non-leaf node sum 36, and the second has non-leaf node sum 32.
+<strong>输入：</strong>arr = [6,2,4]
+<strong>输出：</strong>32
+<strong>解释：</strong>有两种可能的树，第一种的非叶节点的总和为 36 ，第二种非叶节点的总和为 32 。 
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1130.Minimum%20Cost%20Tree%20From%20Leaf%20Values/images/tree2.jpg" style="width: 224px; height: 145px;" />
 <pre>
-<strong>Input:</strong> arr = [4,11]
-<strong>Output:</strong> 44
+<strong>输入：</strong>arr = [4,11]
+<strong>输出：</strong>44
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= arr.length &lt;= 40</code></li>
 	<li><code>1 &lt;= arr[i] &lt;= 15</code></li>
-	<li>It is guaranteed that the answer fits into a <strong>32-bit</strong> signed integer (i.e., it is less than 2<sup>31</sup>).</li>
+	<li>答案保证是一个 32 位带符号整数，即小于&nbsp;<code>2<sup>31</sup></code> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-According to the problem description, the values in the array $arr$ correspond one-to-one with the values in the inorder traversal of each leaf node of the tree. We can divide the array into two non-empty sub-arrays, corresponding to the left and right subtrees of the tree, and recursively solve for the minimum possible sum of all non-leaf node values in each subtree.
+根据题目描述，数组 $arr$ 中的值与树的中序遍历中每个叶节点的值一一对应，我们可以将数组划分为左右两个非空子数组，分别对应树的左右子树，递归地求解每个子树的所有非叶节点的值的最小可能总和。
 
-We design a function $dfs(i, j)$, which represents the minimum possible sum of all non-leaf node values in the index range $[i, j]$ of the array $arr$. The answer is $dfs(0, n - 1)$, where $n$ is the length of the array $arr$.
+我们设计一个函数 $dfs(i, j)$，表示数组 $arr$ 中下标范围 $[i, j]$ 内的所有非叶节点的值的最小可能总和，那么答案就是 $dfs(0, n - 1)$，其中 $n$ 为数组 $arr$ 的长度。
 
-The calculation process of the function $dfs(i, j)$ is as follows:
+函数 $dfs(i, j)$ 的计算过程如下：
 
-- If $i = j$, it means that there is only one element in the array $arr[i..j]$, and there are no non-leaf nodes, so $dfs(i, j) = 0$.
-- Otherwise, we enumerate $k \in [i, j - 1]$, divide the array $arr$ into two sub-arrays $arr[i..k]$ and $arr[k + 1..j]$. For each $k$, we recursively calculate $dfs(i, k)$ and $dfs(k + 1, j)$. Here, $dfs(i, k)$ represents the minimum possible sum of all non-leaf node values in the index range $[i, k]$ of the array $arr$, and $dfs(k + 1, j)$ represents the minimum possible sum of all non-leaf node values in the index range $[k + 1, j]$ of the array $arr$. So $dfs(i, j) = \min_{i \leq k < j} \{dfs(i, k) + dfs(k + 1, j) + \max_{i \leq t \leq k} \{arr[t]\} \max_{k < t \leq j} \{arr[t]\}\}$.
+-   如果 $i = j$，说明数组 $arr[i..j]$ 中只有一个元素，没有非叶节点，因此 $dfs(i, j) = 0$。
+-   否则，我们枚举 $k \in [i, j - 1]$，将数组 $arr$ 划分为两个子数组 $arr[i \cdots k]$ 和 $arr[k + 1 \cdots j]$，对于每个 $k$，我们递归计算 $dfs(i, k)$ 和 $dfs(k + 1, j)$，其中 $dfs(i, k)$ 表示数组 $arr$ 中下标范围 $[i, k]$ 内的所有非叶节点的值的最小可能总和，而 $dfs(k + 1, j)$ 表示数组 $arr$ 中下标范围 $[k + 1, j]$ 内的所有非叶节点的值的最小可能总和，那么 $dfs(i, j) = \min_{i \leq k < j} \{dfs(i, k) + dfs(k + 1, j) + \max_{i \leq t \leq k} \{arr[t]\} \max_{k < t \leq j} \{arr[t]\}\}$。
 
-In summary, we can get:
+综上所述，我们可以得到：
 
 $$
 dfs(i, j) = \begin{cases}
@@ -83,7 +87,7 @@ dfs(i, j) = \begin{cases}
 \end{cases}
 $$
 
-In the above recursive process, we can use the method of memoization search to avoid repeated calculations. Additionally, we can use an array $g$ to record the maximum value of all leaf nodes in the index range $[i, j]$ of the array $arr$. This allows us to optimize the calculation process of $dfs(i, j)$:
+上述递归过程中，我们可以使用记忆化搜索的方法，避免重复计算。另外，我们还可以使用数组 $g$ 记录数组 $arr$ 中下标范围 $[i, j]$ 内的所有叶节点的最大值，那么 $dfs(i, j)$ 的计算过程可以优化为：
 
 $$
 dfs(i, j) = \begin{cases}
@@ -92,9 +96,9 @@ dfs(i, j) = \begin{cases}
 \end{cases}
 $$
 
-Finally, we return $dfs(0, n - 1)$.
+最后，我们返回 $dfs(0, n - 1)$ 即可。
 
-The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the array $arr$.
+时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 为数组 $arr$ 的长度。
 
 <!-- tabs:start -->
 
@@ -227,29 +231,29 @@ func mctFromLeafValues(arr []int) int {
 
 ```ts
 function mctFromLeafValues(arr: number[]): number {
-  const n = arr.length;
-  const f: number[][] = new Array(n).fill(0).map(() => new Array(n).fill(0));
-  const g: number[][] = new Array(n).fill(0).map(() => new Array(n).fill(0));
-  for (let i = n - 1; i >= 0; --i) {
-    g[i][i] = arr[i];
-    for (let j = i + 1; j < n; ++j) {
-      g[i][j] = Math.max(g[i][j - 1], arr[j]);
+    const n = arr.length;
+    const f: number[][] = new Array(n).fill(0).map(() => new Array(n).fill(0));
+    const g: number[][] = new Array(n).fill(0).map(() => new Array(n).fill(0));
+    for (let i = n - 1; i >= 0; --i) {
+        g[i][i] = arr[i];
+        for (let j = i + 1; j < n; ++j) {
+            g[i][j] = Math.max(g[i][j - 1], arr[j]);
+        }
     }
-  }
-  const dfs = (i: number, j: number): number => {
-    if (i === j) {
-      return 0;
-    }
-    if (f[i][j] > 0) {
-      return f[i][j];
-    }
-    let ans = 1 << 30;
-    for (let k = i; k < j; ++k) {
-      ans = Math.min(ans, dfs(i, k) + dfs(k + 1, j) + g[i][k] * g[k + 1][j]);
-    }
-    return (f[i][j] = ans);
-  };
-  return dfs(0, n - 1);
+    const dfs = (i: number, j: number): number => {
+        if (i === j) {
+            return 0;
+        }
+        if (f[i][j] > 0) {
+            return f[i][j];
+        }
+        let ans = 1 << 30;
+        for (let k = i; k < j; ++k) {
+            ans = Math.min(ans, dfs(i, k) + dfs(k + 1, j) + g[i][k] * g[k + 1][j]);
+        }
+        return (f[i][j] = ans);
+    };
+    return dfs(0, n - 1);
 }
 ```
 
@@ -259,11 +263,11 @@ function mctFromLeafValues(arr: number[]): number {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We can change the memoization search in Solution 1 to dynamic programming.
+我们可以将方法一中的记忆化搜索改为动态规划的方式进行求解。
 
-Define $f[i][j]$ to represent the minimum possible sum of all non-leaf node values in the index range $[i, j]$ of the array $arr$, and $g[i][j]$ to represent the maximum value of all leaf nodes in the index range $[i, j]$ of the array $arr$. Then, the state transition equation is:
+定义 $f[i][j]$ 表示数组 $arr$ 中下标范围 $[i, j]$ 内的所有非叶节点的值的最小可能总和，而 $g[i][j]$ 表示数组 $arr$ 中下标范围 $[i, j]$ 内的所有叶节点的最大值，那么状态转移方程为：
 
 $$
 f[i][j] = \begin{cases}
@@ -272,9 +276,9 @@ f[i][j] = \begin{cases}
 \end{cases}
 $$
 
-Finally, we return $f[0][n - 1]$.
+最后，我们返回 $f[0][n - 1]$ 即可。
 
-The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the array $arr$.
+时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 为数组 $arr$ 的长度。
 
 <!-- tabs:start -->
 
@@ -377,23 +381,20 @@ func mctFromLeafValues(arr []int) int {
 
 ```ts
 function mctFromLeafValues(arr: number[]): number {
-  const n = arr.length;
-  const f: number[][] = new Array(n).fill(0).map(() => new Array(n).fill(0));
-  const g: number[][] = new Array(n).fill(0).map(() => new Array(n).fill(0));
-  for (let i = n - 1; i >= 0; --i) {
-    g[i][i] = arr[i];
-    for (let j = i + 1; j < n; ++j) {
-      g[i][j] = Math.max(g[i][j - 1], arr[j]);
-      f[i][j] = 1 << 30;
-      for (let k = i; k < j; ++k) {
-        f[i][j] = Math.min(
-          f[i][j],
-          f[i][k] + f[k + 1][j] + g[i][k] * g[k + 1][j]
-        );
-      }
+    const n = arr.length;
+    const f: number[][] = new Array(n).fill(0).map(() => new Array(n).fill(0));
+    const g: number[][] = new Array(n).fill(0).map(() => new Array(n).fill(0));
+    for (let i = n - 1; i >= 0; --i) {
+        g[i][i] = arr[i];
+        for (let j = i + 1; j < n; ++j) {
+            g[i][j] = Math.max(g[i][j - 1], arr[j]);
+            f[i][j] = 1 << 30;
+            for (let k = i; k < j; ++k) {
+                f[i][j] = Math.min(f[i][j], f[i][k] + f[k + 1][j] + g[i][k] * g[k + 1][j]);
+            }
+        }
     }
-  }
-  return f[0][n - 1];
+    return f[0][n - 1];
 }
 ```
 
@@ -403,7 +404,7 @@ function mctFromLeafValues(arr: number[]): number {
 
 <!-- solution:start -->
 
-### Solution 3
+### 方法三
 
 <!-- tabs:start -->
 

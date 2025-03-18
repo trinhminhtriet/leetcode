@@ -1,83 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2662.Minimum%20Cost%20of%20a%20Path%20With%20Special%20Roads/README.md
 rating: 2153
-source: Weekly Contest 343 Q3
+source: 第 343 场周赛 Q3
 tags:
-  - Graph
-  - Array
-  - Shortest Path
-  - Heap (Priority Queue)
+    - 图
+    - 数组
+    - 最短路
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2662. Minimum Cost of a Path With Special Roads](https://leetcode.com/problems/minimum-cost-of-a-path-with-special-roads)
+# [2662. 前往目标的最小代价](https://leetcode.cn/problems/minimum-cost-of-a-path-with-special-roads)
 
-## Description
+[English Version](/solution/2600-2699/2662.Minimum%20Cost%20of%20a%20Path%20With%20Special%20Roads/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>start</code> where <code>start = [startX, startY]</code> represents your initial position <code>(startX, startY)</code> in a 2D space. You are also given the array <code>target</code> where <code>target = [targetX, targetY]</code> represents your target position <code>(targetX, targetY)</code>.</p>
+<p>给你一个数组 <code>start</code> ，其中 <code>start = [startX, startY]</code> 表示你的初始位置位于二维空间上的 <code>(startX, startY)</code> 。另给你一个数组 <code>target</code> ，其中 <code>target = [targetX, targetY]</code> 表示你的目标位置 <code>(targetX, targetY)</code> 。</p>
 
-<p>The <strong>cost</strong> of going from a position <code>(x1, y1)</code> to any other position in the space <code>(x2, y2)</code> is <code>|x2 - x1| + |y2 - y1|</code>.</p>
+<p>从位置 <code>(x1, y1)</code> 到空间中任一其他位置 <code>(x2, y2)</code> 的 <strong>代价</strong> 是 <code>|x2 - x1| + |y2 - y1|</code> 。</p>
 
-<p>There are also some <strong>special roads</strong>. You are given a 2D array <code>specialRoads</code> where <code>specialRoads[i] = [x1<sub>i</sub>, y1<sub>i</sub>, x2<sub>i</sub>, y2<sub>i</sub>, cost<sub>i</sub>]</code> indicates that the <code>i<sup>th</sup></code> special road goes in <strong>one direction</strong> from <code>(x1<sub>i</sub>, y1<sub>i</sub>)</code> to <code>(x2<sub>i</sub>, y2<sub>i</sub>)</code> with a cost equal to <code>cost<sub>i</sub></code>. You can use each special road any number of times.</p>
+<p>给你一个二维数组 <code>specialRoads</code> ，表示空间中存在的一些 <strong>特殊路径</strong>。其中 <code>specialRoads[i] = [x1<sub>i</sub>, y1<sub>i</sub>, x2<sub>i</sub>, y2<sub>i</sub>, cost<sub>i</sub>]</code> 表示第 <code>i</code> 条特殊路径可以从 <code>(x1<sub>i</sub>, y1<sub>i</sub>)</code> 到 <code>(x2<sub>i</sub>, y2<sub>i</sub>)</code> ，但成本等于 <code>cost<sub>i</sub></code> 。你可以使用每条特殊路径任意次数。</p>
 
-<p>Return the <strong>minimum</strong> cost required to go from <code>(startX, startY)</code> to <code>(targetX, targetY)</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">start = [1,1], target = [4,5], specialRoads = [[1,2,3,3,2],[3,4,4,5,1]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">5</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<ol>
-	<li>(1,1) to (1,2) with a cost of |1 - 1| + |2 - 1| = 1.</li>
-	<li>(1,2) to (3,3). Use <code><span class="example-io">specialRoads[0]</span></code><span class="example-io"> with</span><span class="example-io"> the cost 2.</span></li>
-	<li><span class="example-io">(3,3) to (3,4) with a cost of |3 - 3| + |4 - 3| = 1.</span></li>
-	<li><span class="example-io">(3,4) to (4,5). Use </span><code><span class="example-io">specialRoads[1]</span></code><span class="example-io"> with the cost</span><span class="example-io"> 1.</span></li>
-</ol>
-
-<p><span class="example-io">So the total cost is 1 + 2 + 1 + 1 = 5.</span></p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">start = [3,2], target = [5,7], specialRoads = [[5,7,3,2,1],[3,2,3,4,4],[3,3,5,5,5],[3,4,5,6,6]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">7</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>It is optimal not to use any special edges and go directly from the starting to the ending position with a cost |5 - 3| + |7 - 2| = 7.</p>
-
-<p>Note that the <span class="example-io"><code>specialRoads[0]</code> is directed from (5,7) to (3,2).</span></p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">start = [1,1], target = [10,4], specialRoads = [[4,2,1,1,3],[1,2,7,4,4],[10,3,6,1,2],[6,1,1,2,3]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">8</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<ol>
-	<li>(1,1) to (1,2) with a cost of |1 - 1| + |2 - 1| = 1.</li>
-	<li>(1,2) to (7,4). Use <code><span class="example-io">specialRoads[1]</span></code><span class="example-io"> with the cost</span><span class="example-io"> 4.</span></li>
-	<li>(7,4) to (10,4) with a cost of |10 - 7| + |4 - 4| = 3.</li>
-</ol>
-</div>
+<p>返回从 <code>(startX, startY)</code> 到 <code>(targetX, targetY)</code> 所需的 <strong>最小</strong> 代价。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">start = [1,1], target = [4,5], specialRoads = [[1,2,3,3,2],[3,4,4,5,1]]</span></p>
+
+<p><span class="example-io"><b>输出：</b>5</span></p>
+
+<p><b>解释：</b></p>
+
+<ol>
+	<li>(1,1) 到 (1,2) 花费为 |1 - 1| + |2 - 1| = 1。</li>
+	<li>(1,2) 到 (3,3)。使用&nbsp;<code><span class="example-io">specialRoads[0]</span></code><span class="example-io">&nbsp;花费为</span><span class="example-io">&nbsp;2。</span></li>
+	<li><span class="example-io">(3,3) </span>到<span class="example-io"> (3,4) </span>花费为<span class="example-io"> |3 - 3| + |4 - 3| = 1。</span></li>
+	<li><span class="example-io">(3,4) </span>到<span class="example-io"> (4,5)。</span>使用<span class="example-io"> </span><code><span class="example-io">specialRoads[1]</span></code><span class="example-io"> 花费为</span><span class="example-io"> 1。</span></li>
+</ol>
+
+<p><span class="example-io">所以总花费是 1 + 2 + 1 + 1 = 5。</span></p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">start = [3,2], target = [5,7], specialRoads = [[5,7,3,2,1],[3,2,3,4,4],[3,3,5,5,5],[3,4,5,6,6]]</span></p>
+
+<p><span class="example-io"><b>输出：</b></span><span class="example-io">7</span></p>
+
+<p><b>解释：</b></p>
+
+<p>不使用任何特殊路径，直接从开始到结束位置是最优的，花费为&nbsp;|5 - 3| + |7 - 2| = 7。</p>
+
+<p>注意&nbsp;<span class="example-io"><code>specialRoads[0]</code>&nbsp;直接从 (5,7) 到 (3,2)。</span></p>
+</div>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">start = [1,1], target = [10,4], specialRoads = [[4,2,1,1,3],[1,2,7,4,4],[10,3,6,1,2],[6,1,1,2,3]]</span></p>
+
+<p><span class="example-io"><b>输出：</b></span><span class="example-io">8</span></p>
+
+<p><b>解释：</b></p>
+
+<ol>
+	<li>(1,1) 到 (1,2) 花费为 |1 - 1| + |2 - 1| = 1。</li>
+	<li>(1,2) 到 (7,4)。使用&nbsp;<code><span class="example-io">specialRoads[1]</span></code><span class="example-io">&nbsp;花费为</span><span class="example-io">&nbsp;4。</span></li>
+	<li>(7,4) 到 (10,4) 花费为 |10 - 7| + |4 - 4| = 3。</li>
+</ol>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>start.length == target.length == 2</code></li>
@@ -92,23 +97,23 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dijkstra
+### 方法一：Dijkstra
 
-We can find that for each coordinate $(x, y)$ we visit, suppose the minimum cost from the start point to $(x, y)$ is $d$. If we choose to move directly to $(targetX, targetY)$, then the total cost is $d + |x - targetX| + |y - targetY|$. If we choose to go through a special path $(x_1, y_1) \rightarrow (x_2, y_2)$, then we need to spend $|x - x_1| + |y - y_1| + cost$ to move from $(x, y)$ to $(x_2, y_2)$.
+我们可以发现，对于访问到的每个坐标点 $(x, y)$，假设从起点到 $(x, y)$ 的最小代价为 $d$。如果选择直接移动到 $(targetX, targetY)$，那么总代价就是 $d + |x - targetX| + |y - targetY|$。如果选择经过某条特殊路径 $(x_1, y_1) \rightarrow (x_2, y_2)$，那么我们需要可以花费 $|x - x_1| + |y - y_1| + cost$ 的代价，从 $(x, y)$ 移动到 $(x_2, y_2)$。
 
-Therefore, we can use Dijkstra algorithm to find the minimum cost from the start point to all points, and then choose the smallest one from them.
+因此，我们可以使用 Dijkstra 算法求出从起点到所有点的最小代价，然后从中选择最小的那个。
 
-We define a priority queue $q$, each element in the queue is a triple $(d, x, y)$, which means that the minimum cost from the start point to $(x, y)$ is $d$. Initially, we add $(0, startX, startY)$ to the queue.
+我们定义一个优先队列 $q$，队列中的每一个元素是一个三元组 $(d, x, y)$，表示从起点到 $(x, y)$ 的最小代价为 $d$。初始时，我们将 $(0, startX, startY)$ 加入队列中。
 
-In each step, we take out the first element $(d, x, y)$ in the queue, at this time we can update the answer, that is $ans = \min(ans, d + dist(x, y, targetX, targetY))$. Then we enumerate all special paths $(x_1, y_1) \rightarrow (x_2, y_2)$ and add $(d + dist(x, y, x_1, y_1) + cost, x_2, y_2)$ to the queue.
+在每一步中，我们取出队首元素 $(d, x, y)$，此时我们可以更新答案，即 $ans = \min(ans, d + dist(x, y, targetX, targetY))$。然后我们枚举所有的特殊路径 $(x_1, y_1) \rightarrow (x_2, y_2)$，将 $(d + dist(x, y, x_1, y_1) + cost, x_2, y_2)$ 加入队列中。
 
-Finally, when the queue is empty, we can get the answer.
+最后当队列为空时，我们就可以得到答案。
 
-The time complexity is $O(n^2 \times \log n)$, and the space complexity is $O(n^2)$. Where $n$ is the number of special paths.
+时间复杂度 $O(n^2 \times \log n)$，空间复杂度 $O(n^2)$。其中 $n$ 是特殊路径的数量。
 
 <!-- tabs:start -->
 
@@ -254,99 +259,94 @@ func (h *hp) Pop() any          { a := *h; v := a[len(a)-1]; *h = a[:len(a)-1]; 
 #### TypeScript
 
 ```ts
-function minimumCost(
-  start: number[],
-  target: number[],
-  specialRoads: number[][]
-): number {
-  const dist = (x1: number, y1: number, x2: number, y2: number): number => {
-    return Math.abs(x1 - x2) + Math.abs(y1 - y2);
-  };
-  const q = new Heap<[number, number, number]>((a, b) => a[0] - b[0]);
-  q.push([0, start[0], start[1]]);
-  const n = 1000000;
-  const vis: Set<number> = new Set();
-  let ans = 1 << 30;
-  while (q.size()) {
-    const [d, x, y] = q.pop();
-    const k = x * n + y;
-    if (vis.has(k)) {
-      continue;
+function minimumCost(start: number[], target: number[], specialRoads: number[][]): number {
+    const dist = (x1: number, y1: number, x2: number, y2: number): number => {
+        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+    };
+    const q = new Heap<[number, number, number]>((a, b) => a[0] - b[0]);
+    q.push([0, start[0], start[1]]);
+    const n = 1000000;
+    const vis: Set<number> = new Set();
+    let ans = 1 << 30;
+    while (q.size()) {
+        const [d, x, y] = q.pop();
+        const k = x * n + y;
+        if (vis.has(k)) {
+            continue;
+        }
+        vis.add(k);
+        ans = Math.min(ans, d + dist(x, y, target[0], target[1]));
+        for (const [x1, y1, x2, y2, cost] of specialRoads) {
+            q.push([d + dist(x, y, x1, y1) + cost, x2, y2]);
+        }
     }
-    vis.add(k);
-    ans = Math.min(ans, d + dist(x, y, target[0], target[1]));
-    for (const [x1, y1, x2, y2, cost] of specialRoads) {
-      q.push([d + dist(x, y, x1, y1) + cost, x2, y2]);
-    }
-  }
-  return ans;
+    return ans;
 }
 
 type Compare<T> = (lhs: T, rhs: T) => number;
 
 class Heap<T = number> {
-  data: Array<T | null>;
-  lt: (i: number, j: number) => boolean;
-  constructor();
-  constructor(data: T[]);
-  constructor(compare: Compare<T>);
-  constructor(data: T[], compare: Compare<T>);
-  constructor(data: T[] | Compare<T>, compare?: (lhs: T, rhs: T) => number);
-  constructor(
-    data: T[] | Compare<T> = [],
-    compare: Compare<T> = (lhs: T, rhs: T) =>
-      lhs < rhs ? -1 : lhs > rhs ? 1 : 0
-  ) {
-    if (typeof data === "function") {
-      compare = data;
-      data = [];
+    data: Array<T | null>;
+    lt: (i: number, j: number) => boolean;
+    constructor();
+    constructor(data: T[]);
+    constructor(compare: Compare<T>);
+    constructor(data: T[], compare: Compare<T>);
+    constructor(data: T[] | Compare<T>, compare?: (lhs: T, rhs: T) => number);
+    constructor(
+        data: T[] | Compare<T> = [],
+        compare: Compare<T> = (lhs: T, rhs: T) => (lhs < rhs ? -1 : lhs > rhs ? 1 : 0),
+    ) {
+        if (typeof data === 'function') {
+            compare = data;
+            data = [];
+        }
+        this.data = [null, ...data];
+        this.lt = (i, j) => compare(this.data[i]!, this.data[j]!) < 0;
+        for (let i = this.size(); i > 0; i--) this.heapify(i);
     }
-    this.data = [null, ...data];
-    this.lt = (i, j) => compare(this.data[i]!, this.data[j]!) < 0;
-    for (let i = this.size(); i > 0; i--) this.heapify(i);
-  }
 
-  size(): number {
-    return this.data.length - 1;
-  }
-
-  push(v: T): void {
-    this.data.push(v);
-    let i = this.size();
-    while (i >> 1 !== 0 && this.lt(i, i >> 1)) this.swap(i, (i >>= 1));
-  }
-
-  pop(): T {
-    this.swap(1, this.size());
-    const top = this.data.pop();
-    this.heapify(1);
-    return top!;
-  }
-
-  top(): T {
-    return this.data[1]!;
-  }
-  heapify(i: number): void {
-    while (true) {
-      let min = i;
-      const [l, r, n] = [i * 2, i * 2 + 1, this.data.length];
-      if (l < n && this.lt(l, min)) min = l;
-      if (r < n && this.lt(r, min)) min = r;
-      if (min !== i) {
-        this.swap(i, min);
-        i = min;
-      } else break;
+    size(): number {
+        return this.data.length - 1;
     }
-  }
 
-  clear(): void {
-    this.data = [null];
-  }
+    push(v: T): void {
+        this.data.push(v);
+        let i = this.size();
+        while (i >> 1 !== 0 && this.lt(i, i >> 1)) this.swap(i, (i >>= 1));
+    }
 
-  private swap(i: number, j: number): void {
-    const d = this.data;
-    [d[i], d[j]] = [d[j], d[i]];
-  }
+    pop(): T {
+        this.swap(1, this.size());
+        const top = this.data.pop();
+        this.heapify(1);
+        return top!;
+    }
+
+    top(): T {
+        return this.data[1]!;
+    }
+    heapify(i: number): void {
+        while (true) {
+            let min = i;
+            const [l, r, n] = [i * 2, i * 2 + 1, this.data.length];
+            if (l < n && this.lt(l, min)) min = l;
+            if (r < n && this.lt(r, min)) min = r;
+            if (min !== i) {
+                this.swap(i, min);
+                i = min;
+            } else break;
+        }
+    }
+
+    clear(): void {
+        this.data = [null];
+    }
+
+    private swap(i: number, j: number): void {
+        const d = this.data;
+        [d[i], d[j]] = [d[j], d[i]];
+    }
 }
 ```
 

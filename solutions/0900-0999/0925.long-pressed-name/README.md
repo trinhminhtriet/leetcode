@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0925.Long%20Pressed%20Name/README.md
 tags:
-  - Two Pointers
-  - String
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [925. Long Pressed Name](https://leetcode.com/problems/long-pressed-name)
+# [925. 长按键入](https://leetcode.cn/problems/long-pressed-name)
 
-## Description
+[English Version](/solution/0900-0999/0925.Long%20Pressed%20Name/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Your friend is typing his <code>name</code> into a keyboard. Sometimes, when typing a character <code>c</code>, the key might get <em>long pressed</em>, and the character will be typed 1 or more times.</p>
+<p>你的朋友正在使用键盘输入他的名字&nbsp;<code>name</code>。偶尔，在键入字符&nbsp;<code>c</code>&nbsp;时，按键可能会被<em>长按</em>，而字符可能被输入 1 次或多次。</p>
 
-<p>You examine the <code>typed</code> characters of the keyboard. Return <code>True</code> if it is possible that it was your friends name, with some characters (possibly none) being long pressed.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> name = &quot;alex&quot;, typed = &quot;aaleex&quot;
-<strong>Output:</strong> true
-<strong>Explanation: </strong>&#39;a&#39; and &#39;e&#39; in &#39;alex&#39; were long pressed.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> name = &quot;saeed&quot;, typed = &quot;ssaaedd&quot;
-<strong>Output:</strong> false
-<strong>Explanation: </strong>&#39;e&#39; must have been pressed twice, but it was not in the typed output.
-</pre>
+<p>你将会检查键盘输入的字符&nbsp;<code>typed</code>。如果它对应的可能是你的朋友的名字（其中一些字符可能被长按），那么就返回&nbsp;<code>True</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>name = "alex", typed = "aaleex"
+<strong>输出：</strong>true
+<strong>解释：</strong>'alex' 中的 'a' 和 'e' 被长按。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>name = "saeed", typed = "ssaaedd"
+<strong>输出：</strong>false
+<strong>解释：</strong>'e' 一定需要被键入两次，但在 typed 的输出中不是这样。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= name.length, typed.length &lt;= 1000</code></li>
-	<li><code>name</code> and <code>typed</code> consist of only lowercase English letters.</li>
+	<li><code>name</code> 和&nbsp;<code>typed</code>&nbsp;的字符都是小写字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-We use two pointers $i$ and $j$ to point to the first character of the strings `typed` and `name` respectively, and then start traversing. If `typed[j]` is not equal to `name[i]`, it means the two strings do not match, and we directly return `False`. Otherwise, we find the next position of the continuous identical characters, denoted as $x$ and $y$ respectively. If $x - i > y - j$, it means the number of characters in `typed` is less than the number of characters in `name`, and we directly return `False`. Otherwise, we update $i$ and $j$ to $x$ and $y$ respectively, continue traversing, until $i$ and $j$ have traversed `name` and `typed` respectively, and return `True`.
+我们利用两个指针 $i$ 和 $j$ 分别指向字符串 $\textit{typed}$ 和 $\textit{name}$ 的第一个字符，然后开始遍历，如果 $\textit{typed}[j] \neq \textit{name}[i]$，说明两个字符串不匹配，直接返回 $\textit{False}$。否则，我们找到连续相同的字符的下一个位置，分别记为 $x$ 和 $y$，如果 $x - i > y - j$，说明 $\textit{typed}$ 中的字符个数小于 $\textit{name}$ 中的字符个数，直接返回 $\textit{False}$。否则，我们将 $i$ 和 $j$ 更新为 $x$ 和 $y$，继续遍历，直到 $i$ 和 $j$ 分别遍历完 $\textit{name}$ 和 $\textit{typed}$，返回 $\textit{True}$。
 
-The time complexity is $O(m + n)$, where $m$ and $n$ are the lengths of the strings `name` and `typed` respectively. The space complexity is $O(1)`.
+时间复杂度 $O(m + n)$，其中 $m$ 和 $n$ 分别是字符串 $\textit{name}$ 和 $\textit{typed}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -176,28 +181,28 @@ func isLongPressedName(name string, typed string) bool {
 
 ```ts
 function isLongPressedName(name: string, typed: string): boolean {
-  const [m, n] = [name.length, typed.length];
-  let i = 0;
-  let j = 0;
-  while (i < m && j < n) {
-    if (name[i] !== typed[j]) {
-      return false;
+    const [m, n] = [name.length, typed.length];
+    let i = 0;
+    let j = 0;
+    while (i < m && j < n) {
+        if (name[i] !== typed[j]) {
+            return false;
+        }
+        let x = i + 1;
+        while (x < m && name[x] === name[i]) {
+            x++;
+        }
+        let y = j + 1;
+        while (y < n && typed[y] === typed[j]) {
+            y++;
+        }
+        if (x - i > y - j) {
+            return false;
+        }
+        i = x;
+        j = y;
     }
-    let x = i + 1;
-    while (x < m && name[x] === name[i]) {
-      x++;
-    }
-    let y = j + 1;
-    while (y < n && typed[y] === typed[j]) {
-      y++;
-    }
-    if (x - i > y - j) {
-      return false;
-    }
-    i = x;
-    j = y;
-  }
-  return i === m && j === n;
+    return i === m && j === n;
 }
 ```
 

@@ -1,49 +1,54 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3005.Count%20Elements%20With%20Maximum%20Frequency/README.md
 rating: 1216
-source: Weekly Contest 380 Q1
+source: 第 380 场周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - Counting
+    - 数组
+    - 哈希表
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [3005. Count Elements With Maximum Frequency](https://leetcode.com/problems/count-elements-with-maximum-frequency)
+# [3005. 最大频率元素计数](https://leetcode.cn/problems/count-elements-with-maximum-frequency)
 
-## Description
+[English Version](/solution/3000-3099/3005.Count%20Elements%20With%20Maximum%20Frequency/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>nums</code> consisting of <strong>positive</strong> integers.</p>
+<p>给你一个由 <strong>正整数 </strong>组成的数组 <code>nums</code> 。</p>
 
-<p>Return <em>the <strong>total frequencies</strong> of elements in</em><em> </em><code>nums</code>&nbsp;<em>such that those elements all have the <strong>maximum</strong> frequency</em>.</p>
+<p>返回数组 <code>nums</code> 中所有具有 <strong>最大 </strong>频率的元素的 <strong>总频率 </strong>。</p>
 
-<p>The <strong>frequency</strong> of an element is the number of occurrences of that element in the array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,2,3,1,4]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The elements 1 and 2 have a frequency of 2 which is the maximum frequency in the array.
-So the number of elements in the array with maximum frequency is 4.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4,5]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> All elements of the array have a frequency of 1 which is the maximum.
-So the number of elements in the array with maximum frequency is 5.
-</pre>
+<p>元素的 <strong>频率 </strong>是指该元素在数组中出现的次数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,2,3,1,4]
+<strong>输出：</strong>4
+<strong>解释：</strong>元素 1 和 2 的频率为 2 ，是数组中的最大频率。
+因此具有最大频率的元素在数组中的数量是 4 。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,3,4,5]
+<strong>输出：</strong>5
+<strong>解释：</strong>数组中的所有元素的频率都为 1 ，是最大频率。
+因此具有最大频率的元素在数组中的数量是 5 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -52,17 +57,17 @@ So the number of elements in the array with maximum frequency is 5.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We can use a hash table or array $cnt$ to record the occurrence of each element.
+我们可以用一个哈希表或数组 $cnt$ 记录每个元素出现的次数。
 
-Then we traverse $cnt$ to find the element with the most occurrences, and let its occurrence be $mx$. We sum up the occurrences of elements that appear $mx$ times, which is the answer.
+然后我们遍历 $cnt$，找到出现次数最多的元素，记其出现次数为 $mx$，累加出现次数等于 $mx$ 的元素的出现次数，即为答案。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -147,20 +152,20 @@ func maxFrequencyElements(nums []int) (ans int) {
 
 ```ts
 function maxFrequencyElements(nums: number[]): number {
-  const cnt: number[] = Array(101).fill(0);
-  for (const x of nums) {
-    ++cnt[x];
-  }
-  let [ans, mx] = [0, -1];
-  for (const x of cnt) {
-    if (mx < x) {
-      mx = x;
-      ans = x;
-    } else if (mx === x) {
-      ans += x;
+    const cnt: number[] = Array(101).fill(0);
+    for (const x of nums) {
+        ++cnt[x];
     }
-  }
-  return ans;
+    let [ans, mx] = [0, -1];
+    for (const x of cnt) {
+        if (mx < x) {
+            mx = x;
+            ans = x;
+        } else if (mx === x) {
+            ans += x;
+        }
+    }
+    return ans;
 }
 ```
 

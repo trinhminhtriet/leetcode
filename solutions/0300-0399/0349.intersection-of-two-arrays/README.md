@@ -1,42 +1,47 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0349.Intersection%20of%20Two%20Arrays/README.md
 tags:
-  - Array
-  - Hash Table
-  - Two Pointers
-  - Binary Search
-  - Sorting
+    - 数组
+    - 哈希表
+    - 双指针
+    - 二分查找
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays)
+# [349. 两个数组的交集](https://leetcode.cn/problems/intersection-of-two-arrays)
 
-## Description
+[English Version](/solution/0300-0399/0349.Intersection%20of%20Two%20Arrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two integer arrays <code>nums1</code> and <code>nums2</code>, return <em>an array of their <span data-keyword="array-intersection">intersection</span></em>. Each element in the result must be <strong>unique</strong> and you may return the result in <strong>any order</strong>.</p>
+<p>给定两个数组&nbsp;<code>nums1</code>&nbsp;和&nbsp;<code>nums2</code> ，返回 <em>它们的 <span data-keyword="array-intersection">交集</span></em>&nbsp;。输出结果中的每个元素一定是 <strong>唯一</strong> 的。我们可以 <strong>不考虑输出结果的顺序</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums1 = [1,2,2,1], nums2 = [2,2]
-<strong>Output:</strong> [2]
+<strong>输入：</strong>nums1 = [1,2,2,1], nums2 = [2,2]
+<strong>输出：</strong>[2]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums1 = [4,9,5], nums2 = [9,4,9,8,4]
-<strong>Output:</strong> [9,4]
-<strong>Explanation:</strong> [4,9] is also accepted.
+<strong>输入：</strong>nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+<strong>输出：</strong>[9,4]
+<strong>解释：</strong>[4,9] 也是可通过的
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 1000</code></li>
@@ -45,17 +50,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table or Array
+### 方法一：哈希表或数组
 
-First, we use a hash table or an array $s$ of length $1001$ to record the elements that appear in the array $nums1$. Then, we iterate through each element in the array $nums2$. If an element $x$ is in $s$, we add $x$ to the answer and remove $x$ from $s$.
+我们先用哈希表或者一个长度为 $1001$ 的数组 $s$ 记录数组 $nums1$ 中出现的元素，然后遍历数组 $nums2$ 中每个元素，如果元素 $x$ 在 $s$ 中，那么将 $x$ 加入答案，并且从 $s$ 中移除 $x$。
 
-After the iteration is finished, we return the answer array.
+遍历结束后，返回答案数组即可。
 
-The time complexity is $O(n+m)$, and the space complexity is $O(n)$. Here, $n$ and $m$ are the lengths of the arrays $nums1$ and $nums2$, respectively.
+时间复杂度 $O(n+m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是数组 $nums1$ 和 $nums2$ 的长度。
 
 <!-- tabs:start -->
 
@@ -133,8 +138,8 @@ func intersection(nums1 []int, nums2 []int) (ans []int) {
 
 ```ts
 function intersection(nums1: number[], nums2: number[]): number[] {
-  const s = new Set(nums1);
-  return [...new Set(nums2.filter((x) => s.has(x)))];
+    const s = new Set(nums1);
+    return [...new Set(nums2.filter(x => s.has(x)))];
 }
 ```
 
@@ -147,8 +152,8 @@ function intersection(nums1: number[], nums2: number[]): number[] {
  * @return {number[]}
  */
 var intersection = function (nums1, nums2) {
-  const s = new Set(nums1);
-  return [...new Set(nums2.filter((x) => s.has(x)))];
+    const s = new Set(nums1);
+    return [...new Set(nums2.filter(x => s.has(x)))];
 };
 ```
 

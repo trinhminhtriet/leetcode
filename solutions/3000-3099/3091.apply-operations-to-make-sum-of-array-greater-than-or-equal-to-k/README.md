@@ -1,68 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3091.Apply%20Operations%20to%20Make%20Sum%20of%20Array%20Greater%20Than%20or%20Equal%20to%20k/README.md
 rating: 1521
-source: Weekly Contest 390 Q2
+source: 第 390 场周赛 Q2
 tags:
-  - Greedy
-  - Math
-  - Enumeration
+    - 贪心
+    - 数学
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [3091. Apply Operations to Make Sum of Array Greater Than or Equal to k](https://leetcode.com/problems/apply-operations-to-make-sum-of-array-greater-than-or-equal-to-k)
+# [3091. 执行操作使数据元素之和大于等于 K](https://leetcode.cn/problems/apply-operations-to-make-sum-of-array-greater-than-or-equal-to-k)
 
-## Description
+[English Version](/solution/3000-3099/3091.Apply%20Operations%20to%20Make%20Sum%20of%20Array%20Greater%20Than%20or%20Equal%20to%20k/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>positive</strong> integer <code>k</code>. Initially, you have an array <code>nums = [1]</code>.</p>
+<p>给你一个<strong>正整数</strong> <code>k</code> 。最初，你有一个数组 <code>nums = [1]</code> 。</p>
 
-<p>You can perform <strong>any</strong> of the following operations on the array <strong>any</strong> number of times (<strong>possibly zero</strong>):</p>
-
-<ul>
-	<li>Choose any element in the array and <strong>increase</strong> its value by <code>1</code>.</li>
-	<li>Duplicate any element in the array and add it to the end of the array.</li>
-</ul>
-
-<p>Return <em>the <strong>minimum</strong> number of operations required to make the <strong>sum</strong> of elements of the final array greater than or equal to </em><code>k</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">k = 11</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">5</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>We can do the following operations on the array <code>nums = [1]</code>:</p>
+<p>你可以对数组执行以下 <strong>任意 </strong>操作 <strong>任意 </strong>次数（<strong>可能为零</strong>）：</p>
 
 <ul>
-	<li>Increase the element by <code>1</code> three times. The resulting array is <code>nums = [4]</code>.</li>
-	<li>Duplicate the element two times. The resulting array is <code>nums = [4,4,4]</code>.</li>
+	<li>选择数组中的任何一个元素，然后将它的值<strong> 增加</strong> <code>1</code> 。</li>
+	<li>复制数组中的任何一个元素，然后将它附加到数组的末尾。</li>
 </ul>
 
-<p>The sum of the final array is <code>4 + 4 + 4 = 12</code> which is greater than or equal to <code>k = 11</code>.<br />
-The total number of operations performed is <code>3 + 2 = 5</code>.</p>
-</div>
+<p>返回使得最终数组元素之<strong> 和 </strong>大于或等于 <code>k</code> 所需的 <strong>最少 </strong>操作次数。</p>
 
-<p><strong class="example">Example 2:</strong></p>
+<p>&nbsp;</p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">k = 1</span></p>
+<p><strong>输入：</strong><span class="example-io">k = 11</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong><span class="example-io">5</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The sum of the original array is already greater than or equal to <code>1</code>, so no operations are needed.</p>
+<p>可以对数组 <code>nums = [1]</code> 执行以下操作：</p>
+
+<ul>
+	<li>将元素的值增加 <code>1</code> 三次。结果数组为 <code>nums = [4]</code> 。</li>
+	<li>复制元素两次。结果数组为 <code>nums = [4,4,4]</code> 。</li>
+</ul>
+
+<p>最终数组的和为 <code>4 + 4 + 4 = 12</code> ，大于等于 <code>k = 11</code> 。<br />
+执行的总操作次数为 <code>3 + 2 = 5</code> 。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">k = 1</span></p>
+
+<p><strong>输出：</strong><span class="example-io">0</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>原始数组的和已经大于等于 <code>1</code> ，因此不需要执行操作。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
@@ -70,17 +75,17 @@ The total number of operations performed is <code>3 + 2 = 5</code>.</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We should put the copy operation (i.e., operation $2$) at the end to reduce the number of operations.
+我们应该将复制的操作（即操作 $2$）放后面，这样可以减少操作次数。
 
-Therefore, we enumerate the number of times $a$ for operation $1$ in the range $[0, k]$, then the number of times $b$ for operation $2$ is $\left\lceil \frac{k}{a+1} \right\rceil - 1$. We take the minimum of $a+b$.
+因此，我们在 $[0, k]$ 的范围内枚举操作 $1$ 的次数 $a$，那么操作 $2$ 的次数 $b = \left\lceil \frac{k}{a+1} \right\rceil - 1$。取最小的 $a+b$ 即可。
 
-The time complexity is $O(k)$, where $k$ is the input positive integer $k$. The space complexity is $O(1)$.
+时间复杂度 $O(k)$，其中 $k$ 为输入的正整数 $k$。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -148,13 +153,13 @@ func minOperations(k int) int {
 
 ```ts
 function minOperations(k: number): number {
-  let ans = k;
-  for (let a = 0; a < k; ++a) {
-    const x = a + 1;
-    const b = Math.ceil(k / x) - 1;
-    ans = Math.min(ans, a + b);
-  }
-  return ans;
+    let ans = k;
+    for (let a = 0; a < k; ++a) {
+        const x = a + 1;
+        const b = Math.ceil(k / x) - 1;
+        ans = Math.min(ans, a + b);
+    }
+    return ans;
 }
 ```
 

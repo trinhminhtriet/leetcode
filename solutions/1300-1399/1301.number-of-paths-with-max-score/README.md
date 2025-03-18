@@ -1,77 +1,81 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1301.Number%20of%20Paths%20with%20Max%20Score/README.md
 rating: 1853
-source: Biweekly Contest 16 Q4
+source: 第 16 场双周赛 Q4
 tags:
-  - Array
-  - Dynamic Programming
-  - Matrix
+    - 数组
+    - 动态规划
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [1301. Number of Paths with Max Score](https://leetcode.com/problems/number-of-paths-with-max-score)
+# [1301. 最大得分的路径数目](https://leetcode.cn/problems/number-of-paths-with-max-score)
 
-## Description
+[English Version](/solution/1300-1399/1301.Number%20of%20Paths%20with%20Max%20Score/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a square <code>board</code>&nbsp;of characters. You can move on the board starting at the bottom right square marked with the character&nbsp;<code>&#39;S&#39;</code>.</p>
+<p>给你一个正方形字符数组&nbsp;<code>board</code>&nbsp;，你从数组最右下方的字符&nbsp;<code>&#39;S&#39;</code>&nbsp;出发。</p>
 
-<p>You need&nbsp;to reach the top left square marked with the character <code>&#39;E&#39;</code>. The rest of the squares are labeled either with a numeric character&nbsp;<code>1, 2, ..., 9</code> or with an obstacle <code>&#39;X&#39;</code>. In one move you can go up, left or up-left (diagonally) only if there is no obstacle there.</p>
+<p>你的目标是到达数组最左上角的字符&nbsp;<code>&#39;E&#39;</code> ，数组剩余的部分为数字字符&nbsp;<code>1, 2, ..., 9</code>&nbsp;或者障碍 <code>&#39;X&#39;</code>。在每一步移动中，你可以向上、向左或者左上方移动，可以移动的前提是到达的格子没有障碍。</p>
 
-<p>Return a list of two integers: the first integer is the maximum sum of numeric characters you can collect, and the second is the number of such paths that you can take to get that maximum sum, <strong>taken modulo <code>10^9 + 7</code></strong>.</p>
+<p>一条路径的 「得分」 定义为：路径上所有数字的和。</p>
 
-<p>In case there is no path, return&nbsp;<code>[0, 0]</code>.</p>
+<p>请你返回一个列表，包含两个整数：第一个整数是 「得分」 的最大值，第二个整数是得到最大得分的方案数，请把结果对&nbsp;<strong><code>10^9 + 7</code></strong> <strong>取余</strong>。</p>
+
+<p>如果没有任何路径可以到达终点，请返回&nbsp;<code>[0, 0]</code> 。</p>
 
 <p>&nbsp;</p>
 
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1：</strong></p>
 
-<pre><strong>Input:</strong> board = ["E23","2X2","12S"]
+<pre>
+<strong>输入：</strong>board = [&quot;E23&quot;,&quot;2X2&quot;,&quot;12S&quot;]
+<strong>输出：</strong>[7,1]
+</pre>
 
-<strong>Output:</strong> [7,1]
+<p><strong>示例 2：</strong></p>
 
-</pre><p><strong class="example">Example 2:</strong></p>
+<pre>
+<strong>输入：</strong>board = [&quot;E12&quot;,&quot;1X1&quot;,&quot;21S&quot;]
+<strong>输出：</strong>[4,2]
+</pre>
 
-<pre><strong>Input:</strong> board = ["E12","1X1","21S"]
+<p><strong>示例 3：</strong></p>
 
-<strong>Output:</strong> [4,2]
-
-</pre><p><strong class="example">Example 3:</strong></p>
-
-<pre><strong>Input:</strong> board = ["E11","XXX","11S"]
-
-<strong>Output:</strong> [0,0]
-
+<pre>
+<strong>输入：</strong>board = [&quot;E11&quot;,&quot;XXX&quot;,&quot;11S&quot;]
+<strong>输出：</strong>[0,0]
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>2 &lt;= board.length == board[i].length &lt;= 100</code></li>
-
+	<li><code>2 &lt;= board.length == board[i].length &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ to represent the maximum score from the starting point $(n - 1, n - 1)$ to $(i, j)$, and $g[i][j]$ to represent the number of ways to achieve the maximum score from the starting point $(n - 1, n - 1)$ to $(i, j)$. Initially, $f[n - 1][n - 1] = 0$ and $g[n - 1][n - 1] = 1$. The other positions of $f[i][j]$ are all $-1$, and $g[i][j]$ are all $0$.
+我们定义 $f[i][j]$ 表示从起点 $(n - 1, n - 1)$ 到达 $(i, j)$ 的最大得分，定义 $g[i][j]$ 表示从起点 $(n - 1, n - 1)$ 到达 $(i, j)$ 的最大得分的方案数。初始时 $f[n - 1][n - 1] = 0$，并且 $g[n - 1][n - 1] = 1$。其它位置的 $f[i][j]$ 均为 $-1$，而 $g[i][j]$ 均为 $0$。
 
-For the current position $(i, j)$, it can be transferred from three positions: $(i + 1, j)$, $(i, j + 1)$, and $(i + 1, j + 1)$. Therefore, we can enumerate these three positions to update the values of $f[i][j]$ and $g[i][j]$. If the current position $(i, j)$ has an obstacle, or the current position is the starting point, or other positions are out of bounds, no update is performed. Otherwise, if another position $(x, y)$ satisfies $f[x][y] \gt f[i][j]$, then we update $f[i][j] = f[x][y]$ and $g[i][j] = g[x][y]$. If $f[x][y] = f[i][j]$, then we update $g[i][j] = g[i][j] + g[x][y]$. Finally, if the current position $(i, j)$ is reachable and is a number, we update $f[i][j] = f[i][j] + board[i][j]$.
+对于当前位置 $(i, j)$，它可以由 $(i + 1, j)$, $(i, j + 1)$, $(i + 1, j + 1)$ 三个位置转移而来，因此我们可以枚举这三个位置，更新 $f[i][j]$ 和 $g[i][j]$ 的值。如果当前位置 $(i, j)$ 有障碍，或者当前位置是起点，或者其它位置越界，则不进行更新。否则，如果其它位置 $(x, y)$ 满足 $f[x][y] \gt f[i][j]$，那么我们更新 $f[i][j] = f[x][y]$，并且 $g[i][j] = g[x][y]$。如果 $f[x][y] = f[i][j]$，那么我们更新 $g[i][j] = g[i][j] + g[x][y]$。最后，如果当前位置 $(i, j)$ 可达并且是数字，我们更新 $f[i][j] = f[i][j] + board[i][j]$。
 
-Finally, if $f[0][0] \lt 0$, it means there is no path to reach the endpoint, return $[0, 0]$. Otherwise, return $[f[0][0], g[0][0]]$. Note that the result needs to be taken modulo $10^9 + 7$.
+最后，如果 $f[0][0] \lt 0$，说明没有路径可以到达终点，返回 $[0, 0]$。否则，返回 $[f[0][0], g[0][0]]$。注意，返回结果需要对 $10^9 + 7$ 取余。
 
-Time complexity $O(n^2)$, space complexity $O(n^2)$. Where $n$ is the side length of the array.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是数组的边长。
 
 <!-- tabs:start -->
 

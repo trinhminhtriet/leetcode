@@ -1,69 +1,86 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1763.Longest%20Nice%20Substring/README.md
 rating: 1521
-source: Biweekly Contest 46 Q1
+source: 第 46 场双周赛 Q1
 tags:
-  - Bit Manipulation
-  - Hash Table
-  - String
-  - Divide and Conquer
-  - Sliding Window
+    - 位运算
+    - 哈希表
+    - 字符串
+    - 分治
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1763. Longest Nice Substring](https://leetcode.com/problems/longest-nice-substring)
+# [1763. 最长的美好子字符串](https://leetcode.cn/problems/longest-nice-substring)
 
-## Description
+[English Version](/solution/1700-1799/1763.Longest%20Nice%20Substring/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A string <code>s</code> is <strong>nice</strong> if, for every letter of the alphabet that <code>s</code> contains, it appears <strong>both</strong> in uppercase and lowercase. For example, <code>&quot;abABB&quot;</code> is nice because <code>&#39;A&#39;</code> and <code>&#39;a&#39;</code> appear, and <code>&#39;B&#39;</code> and <code>&#39;b&#39;</code> appear. However, <code>&quot;abA&quot;</code> is not because <code>&#39;b&#39;</code> appears, but <code>&#39;B&#39;</code> does not.</p>
+<p>当一个字符串 <code>s</code> 包含的每一种字母的大写和小写形式 <strong>同时</strong> 出现在 <code>s</code> 中，就称这个字符串 <code>s</code> 是 <strong>美好</strong> 字符串。比方说，<code>"abABB"</code> 是美好字符串，因为 <code>'A'</code> 和 <code>'a'</code> 同时出现了，且 <code>'B'</code> 和 <code>'b'</code> 也同时出现了。然而，<code>"abA"</code> 不是美好字符串因为 <code>'b'</code> 出现了，而 <code>'B'</code> 没有出现。</p>
 
-<p>Given a string <code>s</code>, return <em>the longest <strong>substring</strong> of <code>s</code> that is <strong>nice</strong>. If there are multiple, return the substring of the <strong>earliest</strong> occurrence. If there are none, return an empty string</em>.</p>
+<p>给你一个字符串 <code>s</code> ，请你返回 <code>s</code> 最长的 <strong>美好子字符串</strong> 。如果有多个答案，请你返回 <strong>最早</strong> 出现的一个。如果不存在美好子字符串，请你返回一个空字符串。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s = &quot;YazaAay&quot;
-<strong>Output:</strong> &quot;aAa&quot;
-<strong>Explanation: </strong>&quot;aAa&quot; is a nice string because &#39;A/a&#39; is the only letter of the alphabet in s, and both &#39;A&#39; and &#39;a&#39; appear.
-&quot;aAa&quot; is the longest nice substring.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;Bb&quot;
-<strong>Output:</strong> &quot;Bb&quot;
-<strong>Explanation:</strong> &quot;Bb&quot; is a nice string because both &#39;B&#39; and &#39;b&#39; appear. The whole string is a substring.
+<b>输入：</b>s = "YazaAay"
+<b>输出：</b>"aAa"
+<strong>解释：</strong>"aAa" 是一个美好字符串，因为这个子串中仅含一种字母，其小写形式 'a' 和大写形式 'A' 也同时出现了。
+"aAa" 是最长的美好子字符串。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;c&quot;
-<strong>Output:</strong> &quot;&quot;
-<strong>Explanation:</strong> There are no nice substrings.
-</pre>
+<b>输入：</b>s = "Bb"
+<b>输出：</b>"Bb"
+<b>解释：</b>"Bb" 是美好字符串，因为 'B' 和 'b' 都出现了。整个字符串也是原字符串的子字符串。</pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>s = "c"
+<b>输出：</b>""
+<b>解释：</b>没有美好子字符串。</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<b>输入：</b>s = "dDzeE"
+<b>输出：</b>"dD"
+<strong>解释：</strong>"dD" 和 "eE" 都是最长美好子字符串。
+由于有多个美好子字符串，返回 "dD" ，因为它出现得最早。</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> consists of uppercase and lowercase English letters.</li>
+	<li><code>1 <= s.length <= 100</code></li>
+	<li><code>s</code> 只包含大写和小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：枚举 + 哈希表
+
+我们可以直接枚举所有子串的起点位置 $i$，找到以该位置所在的字符为首字符的所有子串，用哈希表 $s$ 记录子串的所有字符。
+
+如果子串中存在一个字母找不到对应的大写字母或者小写字母，那么不满足条件，否则取最长的且最早出现的子串。
+
+时间复杂度 $O(n^2 \times C)$，空间复杂度 $O(C)$。其中 $n$ 为字符串 $s$ 的长度，而 $C$ 为字符集的大小。
 
 <!-- tabs:start -->
 
@@ -183,24 +200,24 @@ func longestNiceSubstring(s string) string {
 
 ```ts
 function longestNiceSubstring(s: string): string {
-  const n = s.length;
-  let ans = "";
-  for (let i = 0; i < n; i++) {
-    let lower = 0,
-      upper = 0;
-    for (let j = i; j < n; j++) {
-      const c = s.charCodeAt(j);
-      if (c > 96) {
-        lower |= 1 << (c - 97);
-      } else {
-        upper |= 1 << (c - 65);
-      }
-      if (lower == upper && j - i + 1 > ans.length) {
-        ans = s.substring(i, j + 1);
-      }
+    const n = s.length;
+    let ans = '';
+    for (let i = 0; i < n; i++) {
+        let lower = 0,
+            upper = 0;
+        for (let j = i; j < n; j++) {
+            const c = s.charCodeAt(j);
+            if (c > 96) {
+                lower |= 1 << (c - 97);
+            } else {
+                upper |= 1 << (c - 65);
+            }
+            if (lower == upper && j - i + 1 > ans.length) {
+                ans = s.substring(i, j + 1);
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -210,7 +227,13 @@ function longestNiceSubstring(s: string): string {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：枚举 + 位运算
+
+与方法一类似，我们可以直接枚举所有子串的起点位置 $i$，找到以该位置所在的字符为首字符的所有子串，用两个整数 $lower$ 和 $upper$ 分别记录子串中小写字母和大写字母的出现情况。
+
+判断子串是否满足条件，只需要判断 $lower$ 和 $upper$ 中对应的位是否都为 $1$ 即可。
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 

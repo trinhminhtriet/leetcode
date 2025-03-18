@@ -1,78 +1,84 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2529.Maximum%20Count%20of%20Positive%20Integer%20and%20Negative%20Integer/README.md
 rating: 1195
-source: Weekly Contest 327 Q1
+source: 第 327 场周赛 Q1
 tags:
-  - Array
-  - Binary Search
-  - Counting
+    - 数组
+    - 二分查找
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2529. Maximum Count of Positive Integer and Negative Integer](https://leetcode.com/problems/maximum-count-of-positive-integer-and-negative-integer)
+# [2529. 正整数和负整数的最大计数](https://leetcode.cn/problems/maximum-count-of-positive-integer-and-negative-integer)
 
-## Description
+[English Version](/solution/2500-2599/2529.Maximum%20Count%20of%20Positive%20Integer%20and%20Negative%20Integer/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array <code>nums</code> sorted in <strong>non-decreasing</strong> order, return <em>the maximum between the number of positive integers and the number of negative integers.</em></p>
+<p>给你一个按 <strong>非递减顺序</strong> 排列的数组 <code>nums</code> ，返回正整数数目和负整数数目中的最大值。</p>
 
 <ul>
-	<li>In other words, if the number of positive integers in <code>nums</code> is <code>pos</code> and the number of negative integers is <code>neg</code>, then return the maximum of <code>pos</code> and <code>neg</code>.</li>
+	<li>换句话讲，如果 <code>nums</code> 中正整数的数目是 <code>pos</code> ，而负整数的数目是 <code>neg</code> ，返回 <code>pos</code> 和 <code>neg</code>二者中的最大值。</li>
 </ul>
 
-<p><strong>Note</strong> that <code>0</code> is neither positive nor negative.</p>
+<p><strong>注意：</strong><code>0</code> 既不是正整数也不是负整数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [-2,-1,-1,1,2,3]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> There are 3 positive integers and 3 negative integers. The maximum count among them is 3.
+<strong>输入：</strong>nums = [-2,-1,-1,1,2,3]
+<strong>输出：</strong>3
+<strong>解释：</strong>共有 3 个正整数和 3 个负整数。计数得到的最大值是 3 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [-3,-2,-1,0,0,1,2]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> There are 2 positive integers and 3 negative integers. The maximum count among them is 3.
+<strong>输入：</strong>nums = [-3,-2,-1,0,0,1,2]
+<strong>输出：</strong>3
+<strong>解释：</strong>共有 2 个正整数和 3 个负整数。计数得到的最大值是 3 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [5,20,66,1314]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> There are 4 positive integers and 0 negative integers. The maximum count among them is 4.
+<strong>输入：</strong>nums = [5,20,66,1314]
+<strong>输出：</strong>4
+<strong>解释：</strong>共有 4 个正整数和 0 个负整数。计数得到的最大值是 4 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2000</code></li>
 	<li><code>-2000 &lt;= nums[i] &lt;= 2000</code></li>
-	<li><code>nums</code> is sorted in a <strong>non-decreasing order</strong>.</li>
+	<li><code>nums</code> 按 <strong>非递减顺序</strong> 排列。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Follow up:</strong> Can you solve the problem in <code>O(log(n))</code> time complexity?</p>
+
+<p><strong>进阶：</strong>你可以设计并实现时间复杂度为 <code>O(log(n))</code> 的算法解决此问题吗？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal
+### 方法一：遍历
 
-We can directly traverse the array, count the number of positive and negative integers $a$ and $b$, and return the larger of $a$ and $b$.
+我们可以直接遍历数组，统计正整数和负整数的个数 $a$ 和 $b$，返回 $a$ 和 $b$ 中的较大值即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -143,15 +149,15 @@ func maximumCount(nums []int) int {
 
 ```ts
 function maximumCount(nums: number[]): number {
-  let [a, b] = [0, 0];
-  for (const x of nums) {
-    if (x > 0) {
-      ++a;
-    } else if (x < 0) {
-      ++b;
+    let [a, b] = [0, 0];
+    for (const x of nums) {
+        if (x > 0) {
+            ++a;
+        } else if (x < 0) {
+            ++b;
+        }
     }
-  }
-  return Math.max(a, b);
+    return Math.max(a, b);
 }
 ```
 
@@ -200,11 +206,11 @@ int maximumCount(int* nums, int numsSize) {
 
 <!-- solution:start -->
 
-### Solution 2: Binary Search
+### 方法二：二分查找
 
-Since the array is sorted in non-decreasing order, we can use binary search to find the index $i$ of the first element that is greater than or equal to $1$, and the index $j$ of the first element that is greater than or equal to $0$. The number of positive integers is $a = n - i$, and the number of negative integers is $b = j$. We return the larger of $a$ and $b$.
+由于数组是按非递减顺序排列的，因此可以使用二分查找找到第一个大于等于 $1$ 的元素的下标 $i$ 以及第一个大于等于 $0$ 的元素的下标 $j$，那么正整数的个数 $a = n - i$，负整数的个数 $b = j$，返回 $a$ 和 $b$ 中的较大值即可。
 
-The time complexity is $O(\log n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(\log n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -270,22 +276,22 @@ func maximumCount(nums []int) int {
 
 ```ts
 function maximumCount(nums: number[]): number {
-  const search = (x: number): number => {
-    let [left, right] = [0, nums.length];
-    while (left < right) {
-      const mid = (left + right) >> 1;
-      if (nums[mid] >= x) {
-        right = mid;
-      } else {
-        left = mid + 1;
-      }
-    }
-    return left;
-  };
-  const i = search(1);
-  const j = search(0);
-  const [a, b] = [nums.length - i, j];
-  return Math.max(a, b);
+    const search = (x: number): number => {
+        let [left, right] = [0, nums.length];
+        while (left < right) {
+            const mid = (left + right) >> 1;
+            if (nums[mid] >= x) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    };
+    const i = search(1);
+    const j = search(0);
+    const [a, b] = [nums.length - i, j];
+    return Math.max(a, b);
 }
 ```
 

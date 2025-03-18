@@ -1,62 +1,69 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1000.Minimum%20Cost%20to%20Merge%20Stones/README.md
 rating: 2422
-source: Weekly Contest 126 Q4
+source: 第 126 场周赛 Q4
 tags:
-  - Array
-  - Dynamic Programming
-  - Prefix Sum
+    - 数组
+    - 动态规划
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1000. Minimum Cost to Merge Stones](https://leetcode.com/problems/minimum-cost-to-merge-stones)
+# [1000. 合并石头的最低成本](https://leetcode.cn/problems/minimum-cost-to-merge-stones)
 
-## Description
+[English Version](/solution/1000-1099/1000.Minimum%20Cost%20to%20Merge%20Stones/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> piles of <code>stones</code> arranged in a row. The <code>i<sup>th</sup></code> pile has <code>stones[i]</code> stones.</p>
+<p>有 <code>n</code> 堆石头排成一排，第 <code>i</code> 堆中有&nbsp;<code>stones[i]</code>&nbsp;块石头。</p>
 
-<p>A move consists of merging exactly <code>k</code> <strong>consecutive</strong> piles into one pile, and the cost of this move is equal to the total number of stones in these <code>k</code> piles.</p>
+<p>每次 <strong>移动</strong> 需要将 <strong>连续的</strong> <code>k</code> 堆石头合并为一堆，而这次移动的成本为这 <code>k</code> 堆中石头的总数。</p>
 
-<p>Return <em>the minimum cost to merge all piles of stones into one pile</em>. If it is impossible, return <code>-1</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> stones = [3,2,4,1], k = 2
-<strong>Output:</strong> 20
-<strong>Explanation:</strong> We start with [3, 2, 4, 1].
-We merge [3, 2] for a cost of 5, and we are left with [5, 4, 1].
-We merge [4, 1] for a cost of 5, and we are left with [5, 5].
-We merge [5, 5] for a cost of 10, and we are left with [10].
-The total cost was 20, and this is the minimum possible.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> stones = [3,2,4,1], k = 3
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> After any merge operation, there are 2 piles left, and we can&#39;t merge anymore.  So the task is impossible.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> stones = [3,5,1,2,6], k = 3
-<strong>Output:</strong> 25
-<strong>Explanation:</strong> We start with [3, 5, 1, 2, 6].
-We merge [5, 1, 2] for a cost of 8, and we are left with [3, 8, 6].
-We merge [3, 8, 6] for a cost of 17, and we are left with [17].
-The total cost was 25, and this is the minimum possible.
-</pre>
+<p>返回把所有石头合并成一堆的最低成本。如果无法合并成一堆，返回 <code>-1</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>stones = [3,2,4,1], K = 2
+<strong>输出：</strong>20
+<strong>解释：</strong>
+从 [3, 2, 4, 1] 开始。
+合并 [3, 2]，成本为 5，剩下 [5, 4, 1]。
+合并 [4, 1]，成本为 5，剩下 [5, 5]。
+合并 [5, 5]，成本为 10，剩下 [10]。
+总成本 20，这是可能的最小值。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>stones = [3,2,4,1], K = 3
+<strong>输出：</strong>-1
+<strong>解释：</strong>任何合并操作后，都会剩下 2 堆，我们无法再进行合并。所以这项任务是不可能完成的。.
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>stones = [3,5,1,2,6], K = 3
+<strong>输出：</strong>25
+<strong>解释：</strong>
+从 [3, 5, 1, 2, 6] 开始。
+合并 [5, 1, 2]，成本为 8，剩下 [3, 8, 6]。
+合并 [3, 8, 6]，成本为 17，剩下 [17]。
+总成本 25，这是可能的最小值。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == stones.length</code></li>
@@ -67,11 +74,29 @@ The total cost was 25, and this is the minimum possible.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：动态规划（区间 DP）+ 前缀和
+
+我们不妨记题目中的 $k$ 为 $K$，石头的堆数为 $n$。
+
+定义 $f[i][j][k]$ 表示将区间 $[i, j]$ 中的石头合并成 $k$ 堆的最小成本。初始时 $f[i][i][1] = 0$，其他位置的值均为 $\infty$。
+
+注意到 $k$ 的取值范围为 $[1, K]$，因此我们需要枚举 $k$ 的值。
+
+对于 $f[i][j][k]$，我们可以枚举 $i \leq h \lt j$，将区间 $[i, j]$ 拆分成两个区间 $[i, h]$ 和 $[h + 1, j]$，然后将 $[i, h]$ 中的石头合并成 $1$ 堆，将 $[h + 1, j]$ 中的石头合并成 $k - 1$ 堆，最后将这两堆石头合并成一堆，这样就可以将区间 $[i, j]$ 中的石头合并成 $k$ 堆。因此，我们可以得到状态转移方程：
+
+$$
+f[i][j][k] = \min_{i \leq h < j} \{f[i][h][1] + f[h + 1][j][k - 1]\}
+$$
+
+我们将区间 $[i, j]$ 的 $K$ 堆石头合并成一堆，因此 $f[i][j][1] = f[i][j][K] + \sum_{t = i}^j stones[t]$，其中 $\sum_{t = i}^j stones[t]$ 表示区间 $[i, j]$ 中石头的总数。
+
+最后答案即为 $f[1][n][1]$，其中 $n$ 为石头的堆数。
+
+时间复杂度 $O(n^3 \times k)$，空间复杂度 $O(n^2 \times k)$。其中 $n$ 为石头的堆数。
 
 <!-- tabs:start -->
 

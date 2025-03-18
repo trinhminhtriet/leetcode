@@ -1,76 +1,81 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2953.Count%20Complete%20Substrings/README.md
 rating: 2449
-source: Weekly Contest 374 Q3
+source: 第 374 场周赛 Q3
 tags:
-  - Hash Table
-  - String
-  - Sliding Window
+    - 哈希表
+    - 字符串
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2953. Count Complete Substrings](https://leetcode.com/problems/count-complete-substrings)
+# [2953. 统计完全子字符串](https://leetcode.cn/problems/count-complete-substrings)
 
-## Description
+[English Version](/solution/2900-2999/2953.Count%20Complete%20Substrings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>word</code> and an integer <code>k</code>.</p>
+<p>给你一个字符串&nbsp;<code>word</code>&nbsp;和一个整数 <code>k</code>&nbsp;。</p>
 
-<p>A substring <code>s</code> of <code>word</code> is <strong>complete</strong> if:</p>
+<p>如果&nbsp;<code>word</code>&nbsp;的一个子字符串 <code>s</code>&nbsp;满足以下条件，我们称它是 <strong>完全字符串：</strong></p>
 
 <ul>
-	<li>Each character in <code>s</code> occurs <strong>exactly</strong> <code>k</code> times.</li>
-	<li>The difference between two adjacent characters is <strong>at most</strong> <code>2</code>. That is, for any two adjacent characters <code>c1</code> and <code>c2</code> in <code>s</code>, the absolute difference in their positions in the alphabet is <strong>at most</strong> <code>2</code>.</li>
+	<li><code>s</code>&nbsp;中每个字符 <strong>恰好</strong>&nbsp;出现 <code>k</code>&nbsp;次。</li>
+	<li>相邻字符在字母表中的顺序 <strong>至多</strong>&nbsp;相差&nbsp;<code>2</code>&nbsp;。也就是说，<code>s</code>&nbsp;中两个相邻字符&nbsp;<code>c1</code> 和&nbsp;<code>c2</code>&nbsp;，它们在字母表中的位置相差<strong>&nbsp;至多</strong>&nbsp;为 <code>2</code> 。</li>
 </ul>
 
-<p>Return <em>the number of <strong>complete </strong>substrings of</em> <code>word</code>.</p>
+<p>请你返回 <code>word</code>&nbsp;中 <strong>完全</strong>&nbsp;子字符串的数目。</p>
 
-<p>A <strong>substring</strong> is a <strong>non-empty</strong> contiguous sequence of characters in a string.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> word = &quot;igigee&quot;, k = 2
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The complete substrings where each character appears exactly twice and the difference between adjacent characters is at most 2 are: <u><strong>igig</strong></u>ee, igig<u><strong>ee</strong></u>, <u><strong>igigee</strong></u>.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> word = &quot;aaabbbccc&quot;, k = 3
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The complete substrings where each character appears exactly three times and the difference between adjacent characters is at most 2 are: <strong><u>aaa</u></strong>bbbccc, aaa<u><strong>bbb</strong></u>ccc, aaabbb<u><strong>ccc</strong></u>, <strong><u>aaabbb</u></strong>ccc, aaa<u><strong>bbbccc</strong></u>, <u><strong>aaabbbccc</strong></u>.
-</pre>
+<p><strong>子字符串</strong>&nbsp;指的是一个字符串中一段连续 <strong>非空</strong>&nbsp;的字符序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>word = "igigee", k = 2
+<b>输出：</b>3
+<b>解释：</b>完全子字符串需要满足每个字符恰好出现 2 次，且相邻字符相差至多为 2 ：<em><strong>igig</strong></em>ee, igig<strong style="font-style: italic;">ee</strong>, <em><strong>igigee</strong>&nbsp;。</em>
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>word = "aaabbbccc", k = 3
+<b>输出：</b>6
+<b>解释：</b>完全子字符串需要满足每个字符恰好出现 3 次，且相邻字符相差至多为 2 ：<em><strong>aaa</strong></em>bbbccc, aaa<em><strong>bbb</strong></em>ccc, aaabbb<em><strong>ccc</strong></em>, <em><strong>aaabbb</strong></em>ccc, aaa<em><strong>bbbccc</strong></em>, <em><strong>aaabbbccc </strong></em>。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>word</code> consists only of lowercase English letters.</li>
+	<li><code>word</code>&nbsp;只包含小写英文字母。</li>
 	<li><code>1 &lt;= k &lt;= word.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumerate Character Types + Sliding Window
+### 方法一：枚举字符种类数 + 滑动窗口
 
-According to condition 2 in the problem description, we can find that in a complete string, the difference between two adjacent characters does not exceed 2. Therefore, we traverse the string $word$, and we can use two pointers to split $word$ into several substrings. The number of character types in these substrings does not exceed 26, and the difference between adjacent characters does not exceed 2. Next, we only need to count the number of substrings in each substring where each character appears $k$ times.
+根据题目描述中的条件 $2$，我们可以发现，一个完全字符串中，相邻两个字符之差不超过 $2$。因此，我们遍历字符串 $word$，可以利用双指针把 $word$ 分割成若干个子字符串，这些子字符串中的字符种类数不超过 $26$，且相邻字符之差不超过 $2$。接下来，我们只需要在每个子字符串中，统计每个字符都出现 $k$ 次的子字符串的个数即可。
 
-We define a function $f(s)$, which is used to count the number of substrings in the string $s$ where each character appears $k$ times. Since the number of character types in $s$ does not exceed 26, we can enumerate each character type $i$, where $1 \le i \le 26$, then the length of the substring with character type $i$ is $l = i \times k$.
+我们定义一个函数 $f(s)$，它的功能是统计字符串 $s$ 中每个字符都出现 $k$ 次的子字符串的个数。由于 $s$ 中的字符种类数不超过 $26$，因此我们可以枚举每个字符种类数 $i$，其中 $1 \le i \le 26$，那么每个字符种类数为 $i$ 的子字符串的长度为 $l = i \times k$。
 
-We can use an array or hash table $cnt$ to maintain the number of times each character appears in a sliding window of length $l$, and use another hash table $freq$ to maintain the number of times each frequency appears. If $freq[k] = i$, that is, there are $i$ characters that appear $k$ times, then we have found a substring that meets the conditions. We can use two pointers to maintain this sliding window. Each time we move the right pointer, we increase the number of times the character pointed to by the right pointer appears and update the $freq$ array; each time we move the left pointer, we decrease the number of times the character pointed to by the left pointer appears and update the $freq$ array. After each pointer movement, we judge whether $freq[k]$ is equal to $i$. If it is equal, it means that we have found a substring that meets the conditions.
+我们可以用一个数组或哈希表 $cnt$ 维护一个长度为 $l$ 的滑动窗口中每个字符出现的次数，用另一个哈希表 $freq$ 维护每个次数出现的次数。如果 $freq[k] = i$，即有 $i$ 个字符都出现了 $k$ 次，那么我们就找到了一个满足条件的子字符串。我们可以用双指针维护这个滑动窗口，每次移动右指针时，我们将右指针指向的字符出现的次数加一，并更新 $freq$ 数组；每次移动左指针时，我们将左指针指向的字符出现的次数减一，并更新 $freq$ 数组。在每次移动指针后，我们都判断 $freq[k]$ 是否等于 $i$，如果等于则说明我们找到了一个满足条件的子字符串。
 
-The time complexity is $O(n \times |\Sigma|)$, and the space complexity is $O(|\Sigma|)$, where $n$ is the length of the string $word$; and $\Sigma$ is the size of the character set. In this problem, the character set is lowercase English letters, so $|\Sigma| = 26$.
+时间复杂度 $O(n \times |\Sigma|)$，空间复杂度 $O(|\Sigma|)$，其中 $n$ 是字符串 $word$ 的长度；而 $\Sigma$ 是字符集的大小，本题中字符集为小写英文字母，因此 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -288,60 +293,57 @@ func abs(x int) int {
 
 ```ts
 function countCompleteSubstrings(word: string, k: number): number {
-  const f = (s: string): number => {
-    const m = s.length;
+    const f = (s: string): number => {
+        const m = s.length;
+        let ans = 0;
+        for (let i = 1; i <= 26 && i * k <= m; i++) {
+            const l = i * k;
+            const cnt: number[] = new Array(26).fill(0);
+            for (let j = 0; j < l; j++) {
+                cnt[s.charCodeAt(j) - 'a'.charCodeAt(0)]++;
+            }
+            const freq: { [key: number]: number } = {};
+            for (const x of cnt) {
+                if (x > 0) {
+                    freq[x] = (freq[x] || 0) + 1;
+                }
+            }
+            if (freq[k] === i) {
+                ans++;
+            }
+
+            for (let j = l; j < m; j++) {
+                const a = s.charCodeAt(j) - 'a'.charCodeAt(0);
+                const b = s.charCodeAt(j - l) - 'a'.charCodeAt(0);
+
+                freq[cnt[a]]--;
+                cnt[a]++;
+                freq[cnt[a]] = (freq[cnt[a]] || 0) + 1;
+
+                freq[cnt[b]]--;
+                cnt[b]--;
+                freq[cnt[b]] = (freq[cnt[b]] || 0) + 1;
+
+                if (freq[k] === i) {
+                    ans++;
+                }
+            }
+        }
+
+        return ans;
+    };
+
+    let n = word.length;
     let ans = 0;
-    for (let i = 1; i <= 26 && i * k <= m; i++) {
-      const l = i * k;
-      const cnt: number[] = new Array(26).fill(0);
-      for (let j = 0; j < l; j++) {
-        cnt[s.charCodeAt(j) - "a".charCodeAt(0)]++;
-      }
-      const freq: { [key: number]: number } = {};
-      for (const x of cnt) {
-        if (x > 0) {
-          freq[x] = (freq[x] || 0) + 1;
+    for (let i = 0; i < n; ) {
+        let j = i + 1;
+        while (j < n && Math.abs(word.charCodeAt(j) - word.charCodeAt(j - 1)) <= 2) {
+            j++;
         }
-      }
-      if (freq[k] === i) {
-        ans++;
-      }
-
-      for (let j = l; j < m; j++) {
-        const a = s.charCodeAt(j) - "a".charCodeAt(0);
-        const b = s.charCodeAt(j - l) - "a".charCodeAt(0);
-
-        freq[cnt[a]]--;
-        cnt[a]++;
-        freq[cnt[a]] = (freq[cnt[a]] || 0) + 1;
-
-        freq[cnt[b]]--;
-        cnt[b]--;
-        freq[cnt[b]] = (freq[cnt[b]] || 0) + 1;
-
-        if (freq[k] === i) {
-          ans++;
-        }
-      }
+        ans += f(word.substring(i, j));
+        i = j;
     }
-
     return ans;
-  };
-
-  let n = word.length;
-  let ans = 0;
-  for (let i = 0; i < n; ) {
-    let j = i + 1;
-    while (
-      j < n &&
-      Math.abs(word.charCodeAt(j) - word.charCodeAt(j - 1)) <= 2
-    ) {
-      j++;
-    }
-    ans += f(word.substring(i, j));
-    i = j;
-  }
-  return ans;
 }
 ```
 

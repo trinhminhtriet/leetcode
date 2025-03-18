@@ -1,57 +1,83 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0961.N-Repeated%20Element%20in%20Size%202N%20Array/README.md
 tags:
-  - Array
-  - Hash Table
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [961. N-Repeated Element in Size 2N Array](https://leetcode.com/problems/n-repeated-element-in-size-2n-array)
+# [961. 在长度 2N 的数组中找出重复 N 次的元素](https://leetcode.cn/problems/n-repeated-element-in-size-2n-array)
 
-## Description
+[English Version](/solution/0900-0999/0961.N-Repeated%20Element%20in%20Size%202N%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> with the following properties:</p>
+<p>给你一个整数数组 <code>nums</code> ，该数组具有以下属性：</p>
 
+<div class="original__bRMd">
+<div>
 <ul>
 	<li><code>nums.length == 2 * n</code>.</li>
-	<li><code>nums</code> contains <code>n + 1</code> <strong>unique</strong> elements.</li>
-	<li>Exactly one element of <code>nums</code> is repeated <code>n</code> times.</li>
+	<li><code>nums</code> 包含 <code>n + 1</code> 个 <strong>不同的</strong> 元素</li>
+	<li><code>nums</code> 中恰有一个元素重复 <code>n</code> 次</li>
 </ul>
 
-<p>Return <em>the element that is repeated </em><code>n</code><em> times</em>.</p>
+<p>找出并返回重复了 <code>n</code><em> </em>次的那个元素。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> nums = [1,2,3,3]
-<strong>Output:</strong> 3
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> nums = [2,1,2,5,3,2]
-<strong>Output:</strong> 2
-</pre><p><strong class="example">Example 3:</strong></p>
-<pre><strong>Input:</strong> nums = [5,1,5,2,5,3,5,4]
-<strong>Output:</strong> 5
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,3,3]
+<strong>输出：</strong>3
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [2,1,2,5,3,2]
+<strong>输出：</strong>2
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [5,1,5,2,5,3,5,4]
+<strong>输出：</strong>5
+</pre>
+</div>
+</div>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 5000</code></li>
 	<li><code>nums.length == 2 * n</code></li>
 	<li><code>0 &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>nums</code> contains <code>n + 1</code> <strong>unique</strong> elements and one of them is repeated exactly <code>n</code> times.</li>
+	<li><code>nums</code> 由 <code>n + 1</code> 个<strong> 不同的</strong> 元素组成，且其中一个元素恰好重复 <code>n</code> 次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表
+
+由于数组 $nums$ 一共有 $2n$ 个元素，其中有 $n + 1$ 个不同的元素，且有一个元素重复了 $n$ 次，说明数组中的其余 $n$ 个元素都是不同的。
+
+因此，我们只需要遍历数组 $nums$，用哈希表 $s$ 记录遍历过的元素。当遍历到某个元素 $x$ 时，如果 $x$ 在哈希表 $s$ 中已经存在，说明 $x$ 是重复的元素，直接返回 $x$ 即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -117,13 +143,13 @@ func repeatedNTimes(nums []int) int {
 
 ```ts
 function repeatedNTimes(nums: number[]): number {
-  const s: Set<number> = new Set();
-  for (const x of nums) {
-    if (s.has(x)) {
-      return x;
+    const s: Set<number> = new Set();
+    for (const x of nums) {
+        if (s.has(x)) {
+            return x;
+        }
+        s.add(x);
     }
-    s.add(x);
-  }
 }
 ```
 
@@ -135,13 +161,13 @@ function repeatedNTimes(nums: number[]): number {
  * @return {number}
  */
 var repeatedNTimes = function (nums) {
-  const s = new Set();
-  for (const x of nums) {
-    if (s.has(x)) {
-      return x;
+    const s = new Set();
+    for (const x of nums) {
+        if (s.has(x)) {
+            return x;
+        }
+        s.add(x);
     }
-    s.add(x);
-  }
 };
 ```
 

@@ -1,80 +1,81 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1614.Maximum%20Nesting%20Depth%20of%20the%20Parentheses/README.md
 rating: 1322
-source: Weekly Contest 210 Q1
+source: 第 210 场周赛 Q1
 tags:
-  - Stack
-  - String
+    - 栈
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1614. Maximum Nesting Depth of the Parentheses](https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses)
+# [1614. 括号的最大嵌套深度](https://leetcode.cn/problems/maximum-nesting-depth-of-the-parentheses)
 
-## Description
+[English Version](/solution/1600-1699/1614.Maximum%20Nesting%20Depth%20of%20the%20Parentheses/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <strong>valid parentheses string</strong> <code>s</code>, return the <strong>nesting depth</strong> of<em> </em><code>s</code>. The nesting depth is the <strong>maximum</strong> number of nested parentheses.</p>
+<p>给定 <strong>有效括号字符串</strong> <code>s</code>，返回 <code>s</code> 的 <strong>嵌套深度</strong>。嵌套深度是嵌套括号的 <strong>最大</strong> 数量。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;(1+(2*3)+((8)/4))+1&quot;</span></p>
+<p><strong>输入：</strong>s = "(1+(2*3)+((<strong>8</strong>)/4))+1"</p>
 
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
+<p><strong>输出：</strong>3</p>
 
-<p><strong>Explanation:</strong></p>
-
-<p>Digit 8 is inside of 3 nested parentheses in the string.</p>
+<p><strong>解释：</strong>数字 8 在嵌套的 3 层括号中。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;(1)+((2))+(((3)))&quot;</span></p>
+<p><strong>输入：</strong>s = "(1)+((2))+(((<strong>3</strong>)))"</p>
 
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
+<p><strong>输出：</strong>3</p>
 
-<p><strong>Explanation:</strong></p>
-
-<p>Digit 3 is inside of 3 nested parentheses in the string.</p>
+<p><strong>解释：</strong>数字 3 在嵌套的 3 层括号中。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;()(())((()()))&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">s = "()(())((()()))"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
+<p><strong>输出：</strong><span class="example-io">3</span></p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> consists of digits <code>0-9</code> and characters <code>&#39;+&#39;</code>, <code>&#39;-&#39;</code>, <code>&#39;*&#39;</code>, <code>&#39;/&#39;</code>, <code>&#39;(&#39;</code>, and <code>&#39;)&#39;</code>.</li>
-	<li>It is guaranteed that parentheses expression <code>s</code> is a VPS.</li>
+	<li><code>s</code> 由数字 <code>0-9</code> 和字符 <code>'+'</code>、<code>'-'</code>、<code>'*'</code>、<code>'/'</code>、<code>'('</code>、<code>')'</code> 组成</li>
+	<li>题目数据保证括号字符串&nbsp;<code>s</code> 是 <strong>有效的括号字符串</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal
+### 方法一：遍历
 
-We use a variable $d$ to record the current depth, initially $d = 0$.
+我们用一个变量 $d$ 记录当前的深度，初始时 $d = 0$。
 
-Traverse the string $s$. When encountering a left parenthesis, increment the depth $d$ by one and update the answer to be the maximum of the current depth $d$ and the answer. When encountering a right parenthesis, decrement the depth $d$ by one.
+遍历字符串 $s$，当遇到左括号时，深度 $d$ 加一，同时更新答案为当前深度 $d$ 和答案的最大值。当遇到右括号时，深度 $d$ 减一。
 
-Finally, return the answer.
+最后返回答案即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是字符串 $s$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -152,16 +153,16 @@ func maxDepth(s string) (ans int) {
 
 ```ts
 function maxDepth(s: string): number {
-  let ans = 0;
-  let d = 0;
-  for (const c of s) {
-    if (c === "(") {
-      ans = Math.max(ans, ++d);
-    } else if (c === ")") {
-      --d;
+    let ans = 0;
+    let d = 0;
+    for (const c of s) {
+        if (c === '(') {
+            ans = Math.max(ans, ++d);
+        } else if (c === ')') {
+            --d;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -173,16 +174,16 @@ function maxDepth(s: string): number {
  * @return {number}
  */
 var maxDepth = function (s) {
-  let ans = 0;
-  let d = 0;
-  for (const c of s) {
-    if (c === "(") {
-      ans = Math.max(ans, ++d);
-    } else if (c === ")") {
-      --d;
+    let ans = 0;
+    let d = 0;
+    for (const c of s) {
+        if (c === '(') {
+            ans = Math.max(ans, ++d);
+        } else if (c === ')') {
+            --d;
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 

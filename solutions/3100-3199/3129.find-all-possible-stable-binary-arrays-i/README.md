@@ -1,76 +1,81 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3129.Find%20All%20Possible%20Stable%20Binary%20Arrays%20I/README.md
 rating: 2200
-source: Biweekly Contest 129 Q3
+source: 第 129 场双周赛 Q3
 tags:
-  - Dynamic Programming
-  - Prefix Sum
+    - 动态规划
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [3129. Find All Possible Stable Binary Arrays I](https://leetcode.com/problems/find-all-possible-stable-binary-arrays-i)
+# [3129. 找出所有稳定的二进制数组 I](https://leetcode.cn/problems/find-all-possible-stable-binary-arrays-i)
 
-## Description
+[English Version](/solution/3100-3199/3129.Find%20All%20Possible%20Stable%20Binary%20Arrays%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given 3 positive integers <code>zero</code>, <code>one</code>, and <code>limit</code>.</p>
+<p>给你 3 个正整数&nbsp;<code>zero</code>&nbsp;，<code>one</code>&nbsp;和&nbsp;<code>limit</code>&nbsp;。</p>
 
-<p>A <span data-keyword="binary-array">binary array</span> <code>arr</code> is called <strong>stable</strong> if:</p>
+<p>一个 <span data-keyword="binary-array">二进制数组</span> <code>arr</code> 如果满足以下条件，那么我们称它是 <strong>稳定的</strong> ：</p>
 
 <ul>
-	<li>The number of occurrences of 0 in <code>arr</code> is <strong>exactly </strong><code>zero</code>.</li>
-	<li>The number of occurrences of 1 in <code>arr</code> is <strong>exactly</strong> <code>one</code>.</li>
-	<li>Each <span data-keyword="subarray-nonempty">subarray</span> of <code>arr</code> with a size greater than <code>limit</code> must contain <strong>both </strong>0 and 1.</li>
+	<li>0 在&nbsp;<code>arr</code>&nbsp;中出现次数 <strong>恰好</strong>&nbsp;为<strong>&nbsp;</strong><code>zero</code>&nbsp;。</li>
+	<li>1 在&nbsp;<code>arr</code>&nbsp;中出现次数 <strong>恰好</strong>&nbsp;为&nbsp;<code>one</code>&nbsp;。</li>
+	<li><code>arr</code> 中每个长度超过 <code>limit</code>&nbsp;的 <span data-keyword="subarray-nonempty">子数组</span> 都 <strong>同时</strong> 包含 0 和 1 。</li>
 </ul>
 
-<p>Return the <em>total</em> number of <strong>stable</strong> binary arrays.</p>
+<p>请你返回 <strong>稳定</strong>&nbsp;二进制数组的 <em>总</em> 数目。</p>
 
-<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">zero = 1, one = 1, limit = 2</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The two possible stable binary arrays are <code>[1,0]</code> and <code>[0,1]</code>, as both arrays have a single 0 and a single 1, and no subarray has a length greater than 2.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">zero = 1, one = 2, limit = 1</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The only possible stable binary array is <code>[1,0,1]</code>.</p>
-
-<p>Note that the binary arrays <code>[1,1,0]</code> and <code>[0,1,1]</code> have subarrays of length 2 with identical elements, hence, they are not stable.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">zero = 3, one = 3, limit = 2</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">14</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>All the possible stable binary arrays are <code>[0,0,1,0,1,1]</code>, <code>[0,0,1,1,0,1]</code>, <code>[0,1,0,0,1,1]</code>, <code>[0,1,0,1,0,1]</code>, <code>[0,1,0,1,1,0]</code>, <code>[0,1,1,0,0,1]</code>, <code>[0,1,1,0,1,0]</code>, <code>[1,0,0,1,0,1]</code>, <code>[1,0,0,1,1,0]</code>, <code>[1,0,1,0,0,1]</code>, <code>[1,0,1,0,1,0]</code>, <code>[1,0,1,1,0,0]</code>, <code>[1,1,0,0,1,0]</code>, and <code>[1,1,0,1,0,0]</code>.</p>
-</div>
+<p>由于答案可能很大，将它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<b>取余</b>&nbsp;后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>zero = 1, one = 1, limit = 2</span></p>
+
+<p><span class="example-io"><b>输出：</b>2</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>两个稳定的二进制数组为&nbsp;<code>[1,0]</code> 和&nbsp;<code>[0,1]</code>&nbsp;，两个数组都有一个 0 和一个 1 ，且没有子数组长度大于 2 。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">zero = 1, one = 2, limit = 1</span></p>
+
+<p><span class="example-io"><b>输出：</b>1</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>唯一稳定的二进制数组是&nbsp;<code>[1,0,1]</code>&nbsp;。</p>
+
+<p>二进制数组&nbsp;<code>[1,1,0]</code> 和&nbsp;<code>[0,1,1]</code>&nbsp;都有长度为 2 且元素全都相同的子数组，所以它们不稳定。</p>
+</div>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>zero = 3, one = 3, limit = 2</span></p>
+
+<p><span class="example-io"><b>输出：</b>14</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>所有稳定的二进制数组包括&nbsp;<code>[0,0,1,0,1,1]</code>&nbsp;，<code>[0,0,1,1,0,1]</code>&nbsp;，<code>[0,1,0,0,1,1]</code>&nbsp;，<code>[0,1,0,1,0,1]</code>&nbsp;，<code>[0,1,0,1,1,0]</code>&nbsp;，<code>[0,1,1,0,0,1]</code>&nbsp;，<code>[0,1,1,0,1,0]</code>&nbsp;，<code>[1,0,0,1,0,1]</code>&nbsp;，<code>[1,0,0,1,1,0]</code>&nbsp;，<code>[1,0,1,0,0,1]</code>&nbsp;，<code>[1,0,1,0,1,0]</code>&nbsp;，<code>[1,0,1,1,0,0]</code>&nbsp;，<code>[1,1,0,0,1,0]</code>&nbsp;和&nbsp;<code>[1,1,0,1,0,0]</code>&nbsp;。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= zero, one, limit &lt;= 200</code></li>
@@ -78,20 +83,25 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-We design a function $dfs(i, j, k)$ to represent the number of stable binary arrays that satisfy the problem conditions when there are $i$ $0$s and $j$ $1$s left, and the next number to be filled is $k$. The answer is $dfs(zero, one, 0) + dfs(zero, one, 1)$.
+我们设计一个函数 $dfs(i, j, k)$ 表示还剩下 $i$ 个 $0$ 和 $j$ 个 $1$ 且接下来待填的数字是 $k$ 的情况下，满足题目条件的稳定二进制数组的个数。那么答案就是 $dfs(zero, one, 0) + dfs(zero, one, 1)$。
 
-The calculation process of the function $dfs(i, j, k)$ is as follows:
+函数 $dfs(i, j, k)$ 的计算过程如下：
 
-- If $i < 0$ or $j < 0$, return $0$.
-- If $i = 0$, return $1$ when $k = 1$ and $j \leq \textit{limit}$, otherwise return $0$.
-- If $j = 0$, return $1$ when $k = 0$ and $i \leq \textit{limit}$, otherwise return $0$.
-- If $k = 0$, we consider the case where the previous number is $0$, $dfs(i - 1, j, 0)$, and the case where the previous number is $1$, $dfs(i - 1, j, 1)$. If the previous number is $0$, it may cause more than $\textit{limit}$ $0$s in the subarray, i.e., the situation where the $\textit{limit} + 1$
+-   如果 $i \lt 0$ 或 $j \lt 0$，返回 $0$。
+-   如果 $i = 0$，那么当 $k = 1$ 且 $j \leq \textit{limit}$ 时返回 $1$，否则返回 $0$。
+-   如果 $j = 0$，那么当 $k = 0$ 且 $i \leq \textit{limit}$ 时返回 $1$，否则返回 $0$。
+-   如果 $k = 0$，我们考虑前一个数字是 $0$ 的情况 $dfs(i - 1, j, 0)$ 和前一个数字是 $1$ 的情况 $dfs(i - 1, j, 1)$，如果前一个数是 $0$，那么有可能使得子数组中有超过 $\textit{limit}$ 个 $0$，即不允许出现倒数第 $\textit{limit} + 1$ 个数是 $1$ 的情况，所以我们要减去这种情况，即 $dfs(i - \textit{limit} - 1, j, 1)$。
+-   如果 $k = 1$，我们考虑前一个数字是 $0$ 的情况 $dfs(i, j - 1, 0)$ 和前一个数字是 $1$ 的情况 $dfs(i, j - 1, 1)$，如果前一个数是 $1$，那么有可能使得子数组中有超过 $\textit{limit}$ 个 $1$，即不允许出现倒数第 $\textit{limit} + 1$ 个数是 $0$ 的情况，所以我们要减去这种情况，即 $dfs(i, j - \textit{limit} - 1, 0)$。
+
+为了避免重复计算，我们使用记忆化搜索的方法。
+
+时间复杂度 $O(zero \times one)$，空间复杂度 $O(zero \times one)$。
 
 <!-- tabs:start -->
 
@@ -152,9 +162,11 @@ class Solution {
             return f[i][j][k];
         }
         if (k == 0) {
-            f[i][j][k] = (dfs(i - 1, j, 0) + dfs(i - 1, j, 1) - dfs(i - limit - 1, j, 1) + mod) % mod;
+            f[i][j][k]
+                = (dfs(i - 1, j, 0) + dfs(i - 1, j, 1) - dfs(i - limit - 1, j, 1) + mod) % mod;
         } else {
-            f[i][j][k] = (dfs(i, j - 1, 0) + dfs(i, j - 1, 1) - dfs(i, j - limit - 1, 0) + mod) % mod;
+            f[i][j][k]
+                = (dfs(i, j - 1, 0) + dfs(i, j - 1, 1) - dfs(i, j - limit - 1, 0) + mod) % mod;
         }
         return f[i][j][k];
     }
@@ -170,7 +182,7 @@ public:
         const int mod = 1e9 + 7;
         using ll = long long;
         vector<vector<array<ll, 2>>> f = vector<vector<array<ll, 2>>>(zero + 1, vector<array<ll, 2>>(one + 1, {-1, -1}));
-        auto dfs = [&](auto&& dfs, int i, int j, int k) -> ll {
+        auto dfs = [&](this auto&& dfs, int i, int j, int k) -> ll {
             if (i < 0 || j < 0) {
                 return 0;
             }
@@ -185,13 +197,13 @@ public:
                 return res;
             }
             if (k == 0) {
-                res = (dfs(dfs, i - 1, j, 0) + dfs(dfs, i - 1, j, 1) - dfs(dfs, i - limit - 1, j, 1) + mod) % mod;
+                res = (dfs(i - 1, j, 0) + dfs(i - 1, j, 1) - dfs(i - limit - 1, j, 1) + mod) % mod;
             } else {
-                res = (dfs(dfs, i, j - 1, 0) + dfs(dfs, i, j - 1, 1) - dfs(dfs, i, j - limit - 1, 0) + mod) % mod;
+                res = (dfs(i, j - 1, 0) + dfs(i, j - 1, 1) - dfs(i, j - limit - 1, 0) + mod) % mod;
             }
             return res;
         };
-        return (dfs(dfs, zero, one, 0) + dfs(dfs, zero, one, 1)) % mod;
+        return (dfs(zero, one, 0) + dfs(zero, one, 1)) % mod;
     }
 };
 ```
@@ -243,43 +255,35 @@ func numberOfStableArrays(zero int, one int, limit int) int {
 #### TypeScript
 
 ```ts
-function numberOfStableArrays(
-  zero: number,
-  one: number,
-  limit: number
-): number {
-  const mod = 1e9 + 7;
-  const f: number[][][] = Array.from({ length: zero + 1 }, () =>
-    Array.from({ length: one + 1 }, () => [-1, -1])
-  );
+function numberOfStableArrays(zero: number, one: number, limit: number): number {
+    const mod = 1e9 + 7;
+    const f: number[][][] = Array.from({ length: zero + 1 }, () =>
+        Array.from({ length: one + 1 }, () => [-1, -1]),
+    );
 
-  const dfs = (i: number, j: number, k: number): number => {
-    if (i < 0 || j < 0) {
-      return 0;
-    }
-    if (i === 0) {
-      return k === 1 && j <= limit ? 1 : 0;
-    }
-    if (j === 0) {
-      return k === 0 && i <= limit ? 1 : 0;
-    }
-    let res = f[i][j][k];
-    if (res !== -1) {
-      return res;
-    }
-    if (k === 0) {
-      res =
-        (dfs(i - 1, j, 0) + dfs(i - 1, j, 1) - dfs(i - limit - 1, j, 1) + mod) %
-        mod;
-    } else {
-      res =
-        (dfs(i, j - 1, 0) + dfs(i, j - 1, 1) - dfs(i, j - limit - 1, 0) + mod) %
-        mod;
-    }
-    return (f[i][j][k] = res);
-  };
+    const dfs = (i: number, j: number, k: number): number => {
+        if (i < 0 || j < 0) {
+            return 0;
+        }
+        if (i === 0) {
+            return k === 1 && j <= limit ? 1 : 0;
+        }
+        if (j === 0) {
+            return k === 0 && i <= limit ? 1 : 0;
+        }
+        let res = f[i][j][k];
+        if (res !== -1) {
+            return res;
+        }
+        if (k === 0) {
+            res = (dfs(i - 1, j, 0) + dfs(i - 1, j, 1) - dfs(i - limit - 1, j, 1) + mod) % mod;
+        } else {
+            res = (dfs(i, j - 1, 0) + dfs(i, j - 1, 1) - dfs(i, j - limit - 1, 0) + mod) % mod;
+        }
+        return (f[i][j][k] = res);
+    };
 
-  return (dfs(zero, one, 0) + dfs(zero, one, 1)) % mod;
+    return (dfs(zero, one, 0) + dfs(zero, one, 1)) % mod;
 }
 ```
 
@@ -289,20 +293,20 @@ function numberOfStableArrays(
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We can also convert the memoization search of Solution 1 into dynamic programming.
+我们也可以将方法一的记忆化搜索转换为动态规划。
 
-We define $f[i][j][k]$ as the number of stable binary arrays using $i$ $0$s and $j$ $1$s, and the last number is $k$. So the answer is $f[zero][one][0] + f[zero][one][1]$.
+我们定义 $f[i][j][k]$ 表示使用 $i$ 个 $0$ 和 $j$ 个 $1$ 且最后一个数字是 $k$ 的稳定二进制数组的个数。那么答案就是 $f[zero][one][0] + f[zero][one][1]$。
 
-Initially, we have $f[i][0][0] = 1$, where $1 \leq i \leq \min(\textit{limit}, \textit{zero})$; and $f[0][j][1] = 1$, where $1 \leq j \leq \min(\textit{limit}, \textit{one})$.
+初始时，我们有 $f[i][0][0] = 1$，其中 $1 \leq i \leq \min(\textit{limit}, \textit{zero})$；有 $f[0][j][1] = 1$，其中 $1 \leq j \leq \min(\textit{limit}, \textit{one})$。
 
-The state transition equation is as follows:
+状态转移方程如下：
 
-- $f[i][j][0] = f[i - 1][j][0] + f[i - 1][j][1] - f[i - \textit{limit} - 1][j][1]$.
-- $f[i][j][1] = f[i][j - 1][0] + f[i][j - 1][1] - f[i][j - \textit{limit} - 1][0]$.
+-   $f[i][j][0] = f[i - 1][j][0] + f[i - 1][j][1] - f[i - \textit{limit} - 1][j][1]$。
+-   $f[i][j][1] = f[i][j - 1][0] + f[i][j - 1][1] - f[i][j - \textit{limit} - 1][0]$。
 
-The time complexity is $O(zero \times one)$, and the space complexity is $O(zero \times one)$.
+时间复杂度 $O(zero \times one)$，空间复杂度 $O(zero \times one)$。
 
 <!-- tabs:start -->
 
@@ -415,33 +419,29 @@ func numberOfStableArrays(zero int, one int, limit int) int {
 #### TypeScript
 
 ```ts
-function numberOfStableArrays(
-  zero: number,
-  one: number,
-  limit: number
-): number {
-  const mod = 1e9 + 7;
-  const f: number[][][] = Array.from({ length: zero + 1 }, () =>
-    Array.from({ length: one + 1 }, () => [0, 0])
-  );
+function numberOfStableArrays(zero: number, one: number, limit: number): number {
+    const mod = 1e9 + 7;
+    const f: number[][][] = Array.from({ length: zero + 1 }, () =>
+        Array.from({ length: one + 1 }, () => [0, 0]),
+    );
 
-  for (let i = 1; i <= Math.min(limit, zero); i++) {
-    f[i][0][0] = 1;
-  }
-  for (let j = 1; j <= Math.min(limit, one); j++) {
-    f[0][j][1] = 1;
-  }
-
-  for (let i = 1; i <= zero; i++) {
-    for (let j = 1; j <= one; j++) {
-      const x = i - limit - 1 < 0 ? 0 : f[i - limit - 1][j][1];
-      const y = j - limit - 1 < 0 ? 0 : f[i][j - limit - 1][0];
-      f[i][j][0] = (f[i - 1][j][0] + f[i - 1][j][1] - x + mod) % mod;
-      f[i][j][1] = (f[i][j - 1][0] + f[i][j - 1][1] - y + mod) % mod;
+    for (let i = 1; i <= Math.min(limit, zero); i++) {
+        f[i][0][0] = 1;
     }
-  }
+    for (let j = 1; j <= Math.min(limit, one); j++) {
+        f[0][j][1] = 1;
+    }
 
-  return (f[zero][one][0] + f[zero][one][1]) % mod;
+    for (let i = 1; i <= zero; i++) {
+        for (let j = 1; j <= one; j++) {
+            const x = i - limit - 1 < 0 ? 0 : f[i - limit - 1][j][1];
+            const y = j - limit - 1 < 0 ? 0 : f[i][j - limit - 1][0];
+            f[i][j][0] = (f[i - 1][j][0] + f[i - 1][j][1] - x + mod) % mod;
+            f[i][j][1] = (f[i][j - 1][0] + f[i][j - 1][1] - y + mod) % mod;
+        }
+    }
+
+    return (f[zero][one][0] + f[zero][one][1]) % mod;
 }
 ```
 

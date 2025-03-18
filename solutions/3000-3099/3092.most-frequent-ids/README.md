@@ -1,86 +1,91 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3092.Most%20Frequent%20IDs/README.md
 rating: 1793
-source: Weekly Contest 390 Q3
+source: 第 390 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Ordered Set
-  - Heap (Priority Queue)
+    - 数组
+    - 哈希表
+    - 有序集合
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [3092. Most Frequent IDs](https://leetcode.com/problems/most-frequent-ids)
+# [3092. 最高频率的 ID](https://leetcode.cn/problems/most-frequent-ids)
 
-## Description
+[English Version](/solution/3000-3099/3092.Most%20Frequent%20IDs/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The problem involves tracking the frequency of IDs in a collection that changes over time. You have two integer arrays, <code>nums</code> and <code>freq</code>, of equal length <code>n</code>. Each element in <code>nums</code> represents an ID, and the corresponding element in <code>freq</code> indicates how many times that ID should be added to or removed from the collection at each step.</p>
+<p>你需要在一个集合里动态记录 ID 的出现频率。给你两个长度都为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code> 和&nbsp;<code>freq</code>&nbsp;，<code>nums</code>&nbsp;中每一个元素表示一个 ID ，对应的 <code>freq</code>&nbsp;中的元素表示这个 ID 在集合中此次操作后需要增加或者减少的数目。</p>
 
 <ul>
-	<li><strong>Addition of IDs:</strong> If <code>freq[i]</code> is positive, it means <code>freq[i]</code> IDs with the value <code>nums[i]</code> are added to the collection at step <code>i</code>.</li>
-	<li><strong>Removal of IDs:</strong> If <code>freq[i]</code> is negative, it means <code>-freq[i]</code> IDs with the value <code>nums[i]</code> are removed from the collection at step <code>i</code>.</li>
+	<li><strong>增加 ID 的数目：</strong>如果&nbsp;<code>freq[i]</code>&nbsp;是正数，那么&nbsp;<code>freq[i]</code>&nbsp;个 ID 为&nbsp;<code>nums[i]</code>&nbsp;的元素在第 <code>i</code>&nbsp;步操作后会添加到集合中。</li>
+	<li><strong>减少 ID 的数目：</strong>如果&nbsp;<code>freq[i]</code>&nbsp;是负数，那么&nbsp;<code>-freq[i]</code>&nbsp;个 ID 为&nbsp;<code>nums[i]</code>&nbsp;的元素在第 <code>i</code>&nbsp;步操作后会从集合中删除。</li>
 </ul>
 
-<p>Return an array <code>ans</code> of length <code>n</code>, where <code>ans[i]</code> represents the <strong>count</strong> of the <em>most frequent ID</em> in the collection after the <code>i<sup>th</sup></code>&nbsp;step. If the collection is empty at any step, <code>ans[i]</code> should be 0 for that step.</p>
+<p>请你返回一个长度为 <code>n</code>&nbsp;的数组 <code>ans</code>&nbsp;，其中&nbsp;<code>ans[i]</code>&nbsp;表示第 <code>i</code>&nbsp;步操作后出现频率最高的 ID <strong>数目</strong>&nbsp;，如果在某次操作后集合为空，那么 <code>ans[i]</code>&nbsp;为 0 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [2,3,2,1], freq = [3,2,-3,1]</span></p>
+<p><span class="example-io"><b>输入：</b>nums = [2,3,2,1], freq = [3,2,-3,1]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[3,3,2,2]</span></p>
+<p><span class="example-io"><b>输出：</b>[3,3,2,2]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>After step 0, we have 3 IDs with the value of 2. So <code>ans[0] = 3</code>.<br />
-After step 1, we have 3 IDs with the value of 2 and 2 IDs with the value of 3. So <code>ans[1] = 3</code>.<br />
-After step 2, we have 2 IDs with the value of 3. So <code>ans[2] = 2</code>.<br />
-After step 3, we have 2 IDs with the value of 3 and 1 ID with the value of 1. So <code>ans[3] = 2</code>.</p>
+<p>第 0 步操作后，有 3 个 ID 为 2 的元素，所以&nbsp;<code>ans[0] = 3</code>&nbsp;。<br />
+第 1 步操作后，有 3 个 ID 为 2 的元素和 2 个 ID 为 3 的元素，所以&nbsp;<code>ans[1] = 3</code>&nbsp;。<br />
+第 2 步操作后，有 2 个 ID 为 3 的元素，所以&nbsp;<code>ans[2] = 2</code>&nbsp;。<br />
+第 3 步操作后，有 2 个 ID 为 3 的元素和 1 个 ID 为 1 的元素，所以&nbsp;<code>ans[3] = 2</code>&nbsp;。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [5,5,3], freq = [2,-2,1]</span></p>
+<p><span class="example-io"><b>输入：</b>nums = [5,5,3], freq = [2,-2,1]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[2,0,1]</span></p>
+<p><span class="example-io"><b>输出：</b>[2,0,1]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>After step 0, we have 2 IDs with the value of 5. So <code>ans[0] = 2</code>.<br />
-After step 1, there are no IDs. So <code>ans[1] = 0</code>.<br />
-After step 2, we have 1 ID with the value of 3. So <code>ans[2] = 1</code>.</p>
+<p>第 0 步操作后，有 2 个 ID 为 5 的元素，所以&nbsp;<code>ans[0] = 2</code>&nbsp;。<br />
+第 1 步操作后，集合中没有任何元素，所以&nbsp;<code>ans[1] = 0</code>&nbsp;。<br />
+第 2 步操作后，有 1 个 ID 为 3 的元素，所以&nbsp;<code>ans[2] = 1</code>&nbsp;。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length == freq.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
 	<li><code>-10<sup>5</sup> &lt;= freq[i] &lt;= 10<sup>5</sup></code></li>
 	<li><code>freq[i] != 0</code></li>
-	<li>The input is generated<!-- notionvc: a136b55a-f319-4fa6-9247-11be9f3b1db8 --> such that the occurrences of an ID will not be negative in any step.</li>
+	<li>输入保证任何操作后，集合中的元素出现次数不会为负数。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Priority Queue (Max Heap)
+### 方法一：哈希表 + 优先队列（大根堆）
 
-We use a hash table $cnt$ to record the occurrence times of each ID, a hash table $lazy$ to record the number of times each occurrence needs to be deleted, and a priority queue $pq$ to maintain the maximum occurrence times.
+我们用一个哈希表 $cnt$ 来记录每个 ID 的出现次数，用一个哈希表 $lazy$ 来记录每个次数需要被删除的个数。用一个优先队列 $pq$ 来维护出现次数的最大值。
 
-For each operation $(x, f)$, we need to update the occurrence times $cnt[x]$ of $x$, which means the value of $cnt[x]$ in $lazy$ needs to increase by $1$, indicating that the number of times this occurrence needs to be deleted increases by $1$. Then we update the value of $cnt[x]$, adding $f$ to $cnt[x]$. Then we add the updated value of $cnt[x]$ to the priority queue $pq$. Then we check the top element of the priority queue $pq$. If the number of times the corresponding occurrence needs to be deleted in $lazy$ is greater than $0$, we pop the top element. Finally, we judge whether the priority queue is empty. If it is not empty, the top element is the maximum occurrence times, and we add it to the answer array.
+每一次操作 $(x, f)$，我们需要更新 $x$ 的出现次数 $cnt[x]$，这意味着 $cnt[x]$ 在 $lazy$ 中的值需要增加 $1$，表示该次数需要删除的个数增加 $1$。然后我们更新 $cnt[x]$ 的值，将 $cnt[x]$ 加上 $f$。然后我们更新后的 $cnt[x]$ 的值加入优先队列 $pq$ 中。然后我们检查优先队列 $pq$ 的堆顶元素，如果 $lazy$ 中对应的次数需要删除的个数大于 $0$，我们就将堆顶元素弹出。最后，我们判断优先队列是否为空，如果不为空，堆顶元素就是出现次数的最大值，我们将其加入答案数组中。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 

@@ -1,66 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1424.Diagonal%20Traverse%20II/README.md
 rating: 1779
-source: Weekly Contest 186 Q3
+source: 第 186 场周赛 Q3
 tags:
-  - Array
-  - Sorting
-  - Heap (Priority Queue)
+    - 数组
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1424. Diagonal Traverse II](https://leetcode.com/problems/diagonal-traverse-ii)
+# [1424. 对角线遍历 II](https://leetcode.cn/problems/diagonal-traverse-ii)
 
-## Description
+[English Version](/solution/1400-1499/1424.Diagonal%20Traverse%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a 2D integer array <code>nums</code>, return <em>all elements of </em><code>nums</code><em> in diagonal order as shown in the below images</em>.</p>
+<p>给你一个列表&nbsp;<code>nums</code>&nbsp;，里面每一个元素都是一个整数列表。请你依照下面各图的规则，按顺序返回&nbsp;<code>nums</code>&nbsp;中对角线上的整数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1424.Diagonal%20Traverse%20II/images/sample_1_1784.png" style="width: 158px; height: 143px;" />
-<pre>
-<strong>Input:</strong> nums = [[1,2,3],[4,5,6],[7,8,9]]
-<strong>Output:</strong> [1,4,2,7,5,3,8,6,9]
+
+<p><strong>示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1424.Diagonal%20Traverse%20II/images/sample_1_1784.png" style="height: 143px; width: 158px;"></strong></p>
+
+<pre><strong>输入：</strong>nums = [[1,2,3],[4,5,6],[7,8,9]]
+<strong>输出：</strong>[1,4,2,7,5,3,8,6,9]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1424.Diagonal%20Traverse%20II/images/sample_2_1784.png" style="width: 230px; height: 177px;" />
-<pre>
-<strong>Input:</strong> nums = [[1,2,3,4,5],[6,7],[8],[9,10,11],[12,13,14,15,16]]
-<strong>Output:</strong> [1,6,2,8,7,3,9,4,12,10,5,13,11,14,15,16]
+<p><strong>示例 2：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1424.Diagonal%20Traverse%20II/images/sample_2_1784.png" style="height: 177px; width: 230px;"></strong></p>
+
+<pre><strong>输入：</strong>nums = [[1,2,3,4,5],[6,7],[8],[9,10,11],[12,13,14,15,16]]
+<strong>输出：</strong>[1,6,2,8,7,3,9,4,12,10,5,13,11,14,15,16]
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>nums = [[1,2,3],[4],[5,6,7],[8],[9,10,11]]
+<strong>输出：</strong>[1,4,2,5,3,8,6,9,7,10,11]
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>nums = [[1,2,3,4,5,6]]
+<strong>输出：</strong>[1,2,3,4,5,6]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums[i].length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= sum(nums[i].length) &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums[i][j] &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10^5</code></li>
+	<li><code>1 &lt;= nums[i].length &lt;=&nbsp;10^5</code></li>
+	<li><code>1 &lt;= nums[i][j] &lt;= 10^9</code></li>
+	<li><code>nums</code>&nbsp;中最多有&nbsp;<code>10^5</code>&nbsp;个数字。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-We observe that:
+我们观察到：
 
-- The value of $i + j$ is the same for each diagonal;
-- The value of $i + j$ for the next diagonal is greater than that of the previous diagonal;
-- Within the same diagonal, the value of $i + j$ is the same, and the value of $j$ increases from small to large.
+-   每一条对角线上的 $i + j$ 的值都是相同的；
+-   下一条对角线的 $i + j$ 的值比前一条对角线的大；
+-   在同一条对角线中的 $i + j$ 是相同的，而 $j$ 值是从小到大递增。
 
-Therefore, we store all numbers in the form of $(i, j, \textit{nums}[i][j])$ into $\textit{arr}$, and then sort according to the first two items. Finally, return the array composed of the values at index 2 of all elements in $\textit{arr}$.
+因此，我们将所有数字以 $(i, j, \textit{nums}[i][j])$ 的形式存进 $\textit{arr}$，然后按照前两项排序。最后返回 $\textit{arr}$ 所有元素下标为 $2$ 的值组成的数组即可。
 
-The time complexity is $O(n \times \log n)$, where $n$ is the number of elements in the array $\textit{nums}$. The space complexity is $O(n)$.
+时间复杂度 $O(n \times \log n)$，其中 $n$ 是数组 $\textit{nums}$ 中元素的个数。空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -148,14 +167,14 @@ func findDiagonalOrder(nums [][]int) []int {
 
 ```ts
 function findDiagonalOrder(nums: number[][]): number[] {
-  const arr: number[][] = [];
-  for (let i = 0; i < nums.length; ++i) {
-    for (let j = 0; j < nums[i].length; ++j) {
-      arr.push([i + j, j, nums[i][j]]);
+    const arr: number[][] = [];
+    for (let i = 0; i < nums.length; ++i) {
+        for (let j = 0; j < nums[i].length; ++j) {
+            arr.push([i + j, j, nums[i][j]]);
+        }
     }
-  }
-  arr.sort((a, b) => (a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]));
-  return arr.map((x) => x[2]);
+    arr.sort((a, b) => (a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]));
+    return arr.map(x => x[2]);
 }
 ```
 

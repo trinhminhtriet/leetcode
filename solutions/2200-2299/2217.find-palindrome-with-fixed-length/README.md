@@ -1,49 +1,54 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2217.Find%20Palindrome%20With%20Fixed%20Length/README.md
 rating: 1822
-source: Weekly Contest 286 Q3
+source: 第 286 场周赛 Q3
 tags:
-  - Array
-  - Math
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2217. Find Palindrome With Fixed Length](https://leetcode.com/problems/find-palindrome-with-fixed-length)
+# [2217. 找到指定长度的回文数](https://leetcode.cn/problems/find-palindrome-with-fixed-length)
 
-## Description
+[English Version](/solution/2200-2299/2217.Find%20Palindrome%20With%20Fixed%20Length/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>queries</code> and a <strong>positive</strong> integer <code>intLength</code>, return <em>an array</em> <code>answer</code> <em>where</em> <code>answer[i]</code> <em>is either the </em><code>queries[i]<sup>th</sup></code> <em>smallest <strong>positive palindrome</strong> of length</em> <code>intLength</code> <em>or</em> <code>-1</code><em> if no such palindrome exists</em>.</p>
+<p>给你一个整数数组&nbsp;<code>queries</code>&nbsp;和一个 <strong>正</strong>&nbsp;整数&nbsp;<code>intLength</code>&nbsp;，请你返回一个数组&nbsp;<code>answer</code>&nbsp;，其中&nbsp;<code>answer[i]</code> 是长度为&nbsp;<code>intLength</code>&nbsp;的&nbsp;<strong>正回文数</strong> 中第<em>&nbsp;</em><code>queries[i]</code>&nbsp;小的数字，如果不存在这样的回文数，则为 <code>-1</code>&nbsp;。</p>
 
-<p>A <strong>palindrome</strong> is a number that reads the same backwards and forwards. Palindromes cannot have leading zeros.</p>
+<p><strong>回文数</strong> 指的是从前往后和从后往前读一模一样的数字。回文数不能有前导 0 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> queries = [1,2,3,4,5,90], intLength = 3
-<strong>Output:</strong> [101,111,121,131,141,999]
-<strong>Explanation:</strong>
-The first few palindromes of length 3 are:
+<b>输入：</b>queries = [1,2,3,4,5,90], intLength = 3
+<b>输出：</b>[101,111,121,131,141,999]
+<strong>解释：</strong>
+长度为 3 的最小回文数依次是：
 101, 111, 121, 131, 141, 151, 161, 171, 181, 191, 202, ...
-The 90<sup>th</sup> palindrome of length 3 is 999.
+第 90 个长度为 3 的回文数是 999 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> queries = [2,4,6], intLength = 4
-<strong>Output:</strong> [1111,1331,1551]
-<strong>Explanation:</strong>
-The first six palindromes of length 4 are:
-1001, 1111, 1221, 1331, 1441, and 1551.
+<b>输入：</b>queries = [2,4,6], intLength = 4
+<b>输出：</b>[1111,1331,1551]
+<strong>解释：</strong>
+长度为 4 的前 6 个回文数是：
+1001, 1111, 1221, 1331, 1441 和 1551 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= queries.length &lt;= 5 * 10<sup>4</sup></code></li>
@@ -53,11 +58,11 @@ The first six palindromes of length 4 are:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -162,23 +167,23 @@ func kthPalindrome(queries []int, intLength int) []int64 {
 
 ```ts
 function kthPalindrome(queries: number[], intLength: number): number[] {
-  const isOdd = intLength % 2 === 1;
-  const bestNum = 10 ** ((intLength >> 1) + (isOdd ? 1 : 0) - 1);
-  const max = bestNum * 9;
-  return queries.map((v) => {
-    if (v > max) {
-      return -1;
-    }
-    const num = bestNum + v - 1;
-    return Number(
-      num +
-        (num + "")
-          .split("")
-          .reverse()
-          .slice(isOdd ? 1 : 0)
-          .join("")
-    );
-  });
+    const isOdd = intLength % 2 === 1;
+    const bestNum = 10 ** ((intLength >> 1) + (isOdd ? 1 : 0) - 1);
+    const max = bestNum * 9;
+    return queries.map(v => {
+        if (v > max) {
+            return -1;
+        }
+        const num = bestNum + v - 1;
+        return Number(
+            num +
+                (num + '')
+                    .split('')
+                    .reverse()
+                    .slice(isOdd ? 1 : 0)
+                    .join(''),
+        );
+    });
 }
 ```
 

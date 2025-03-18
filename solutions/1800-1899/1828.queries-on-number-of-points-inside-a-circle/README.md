@@ -1,51 +1,54 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1828.Queries%20on%20Number%20of%20Points%20Inside%20a%20Circle/README.md
 rating: 1380
-source: Biweekly Contest 50 Q2
+source: 第 50 场双周赛 Q2
 tags:
-  - Geometry
-  - Array
-  - Math
+    - 几何
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [1828. Queries on Number of Points Inside a Circle](https://leetcode.com/problems/queries-on-number-of-points-inside-a-circle)
+# [1828. 统计一个圆中点的数目](https://leetcode.cn/problems/queries-on-number-of-points-inside-a-circle)
 
-## Description
+[English Version](/solution/1800-1899/1828.Queries%20on%20Number%20of%20Points%20Inside%20a%20Circle/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>points</code> where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> is the coordinates of the <code>i<sup>th</sup></code> point on a 2D plane. Multiple points can have the <strong>same</strong> coordinates.</p>
+<p>给你一个数组 <code>points</code> ，其中 <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> ，表示第 <code>i</code> 个点在二维平面上的坐标。多个点可能会有 <strong>相同</strong> 的坐标。</p>
 
-<p>You are also given an array <code>queries</code> where <code>queries[j] = [x<sub>j</sub>, y<sub>j</sub>, r<sub>j</sub>]</code> describes a circle centered at <code>(x<sub>j</sub>, y<sub>j</sub>)</code> with a radius of <code>r<sub>j</sub></code>.</p>
+<p>同时给你一个数组 <code>queries</code> ，其中 <code>queries[j] = [x<sub>j</sub>, y<sub>j</sub>, r<sub>j</sub>]</code> ，表示一个圆心在 <code>(x<sub>j</sub>, y<sub>j</sub>)</code> 且半径为 <code>r<sub>j</sub></code><sub> </sub>的圆。</p>
 
-<p>For each query <code>queries[j]</code>, compute the number of points <strong>inside</strong> the <code>j<sup>th</sup></code> circle. Points <strong>on the border</strong> of the circle are considered <strong>inside</strong>.</p>
+<p>对于每一个查询 <code>queries[j]</code> ，计算在第 <code>j</code> 个圆 <strong>内</strong> 点的数目。如果一个点在圆的 <strong>边界上</strong> ，我们同样认为它在圆 <strong>内</strong> 。</p>
 
-<p>Return <em>an array </em><code>answer</code><em>, where </em><code>answer[j]</code><em> is the answer to the </em><code>j<sup>th</sup></code><em> query</em>.</p>
+<p>请你返回一个数组<em> </em><code>answer</code> ，其中<em> </em><code>answer[j]</code>是第 <code>j</code> 个查询的答案。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1828.Queries%20on%20Number%20of%20Points%20Inside%20a%20Circle/images/chrome_2021-03-25_22-34-16.png" style="width: 500px; height: 418px;" />
-<pre>
-<strong>Input:</strong> points = [[1,3],[3,3],[5,3],[2,2]], queries = [[2,3,1],[4,3,1],[1,1,2]]
-<strong>Output:</strong> [3,2,2]
-<b>Explanation: </b>The points and circles are shown above.
-queries[0] is the green circle, queries[1] is the red circle, and queries[2] is the blue circle.
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1828.Queries%20on%20Number%20of%20Points%20Inside%20a%20Circle/images/chrome_2021-03-25_22-34-16.png" style="width: 500px; height: 418px;">
+<pre><b>输入：</b>points = [[1,3],[3,3],[5,3],[2,2]], queries = [[2,3,1],[4,3,1],[1,1,2]]
+<b>输出：</b>[3,2,2]
+<b>解释：</b>所有的点和圆如上图所示。
+queries[0] 是绿色的圆，queries[1] 是红色的圆，queries[2] 是蓝色的圆。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1828.Queries%20on%20Number%20of%20Points%20Inside%20a%20Circle/images/chrome_2021-03-25_22-42-07.png" style="width: 500px; height: 390px;" />
-<pre>
-<strong>Input:</strong> points = [[1,1],[2,2],[3,3],[4,4],[5,5]], queries = [[1,2,2],[2,2,2],[4,3,2],[4,3,3]]
-<strong>Output:</strong> [2,3,2,4]
-<b>Explanation: </b>The points and circles are shown above.
-queries[0] is green, queries[1] is red, queries[2] is blue, and queries[3] is purple.
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1828.Queries%20on%20Number%20of%20Points%20Inside%20a%20Circle/images/chrome_2021-03-25_22-42-07.png" style="width: 500px; height: 390px;">
+<pre><b>输入：</b>points = [[1,1],[2,2],[3,3],[4,4],[5,5]], queries = [[1,2,2],[2,2,2],[4,3,2],[4,3,3]]
+<b>输出：</b>[2,3,2,4]
+<b>解释：</b>所有的点和圆如上图所示。
+queries[0] 是绿色的圆，queries[1] 是红色的圆，queries[2] 是蓝色的圆，queries[3] 是紫色的圆。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= points.length &lt;= 500</code></li>
@@ -55,23 +58,20 @@ queries[0] is green, queries[1] is red, queries[2] is blue, and queries[3] is pu
 	<li><code>queries[j].length == 3</code></li>
 	<li><code>0 &lt;= x<sub>j</sub>, y<sub>j</sub> &lt;= 500</code></li>
 	<li><code>1 &lt;= r<sub>j</sub> &lt;= 500</code></li>
-	<li>All coordinates are integers.</li>
+	<li>所有的坐标都是整数。</li>
 </ul>
-
-<p>&nbsp;</p>
-<p><strong>Follow up:</strong> Could you find the answer for each query in better complexity than <code>O(n)</code>?</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-Enumerate all the circles $(x, y, r)$. For each circle, calculate the number of points within the circle to get the answer.
+枚举所有的圆点 $(x, y, r)$，对于每个圆点，计算在圆内的点的个数，即可得到答案。
 
-The time complexity is $O(m \times n)$, where $m$ and $n$ are the lengths of the arrays `queries` and `points` respectively. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别为数组 `queries` 的长度和 `points` 的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -160,15 +160,15 @@ func countPoints(points [][]int, queries [][]int) (ans []int) {
 
 ```ts
 function countPoints(points: number[][], queries: number[][]): number[] {
-  return queries.map(([cx, cy, r]) => {
-    let res = 0;
-    for (const [px, py] of points) {
-      if (Math.sqrt((cx - px) ** 2 + (cy - py) ** 2) <= r) {
-        res++;
-      }
-    }
-    return res;
-  });
+    return queries.map(([cx, cy, r]) => {
+        let res = 0;
+        for (const [px, py] of points) {
+            if (Math.sqrt((cx - px) ** 2 + (cy - py) ** 2) <= r) {
+                res++;
+            }
+        }
+        return res;
+    });
 }
 ```
 

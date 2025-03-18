@@ -1,53 +1,59 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1907.Count%20Salary%20Categories/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1907. Count Salary Categories](https://leetcode.com/problems/count-salary-categories)
+# [1907. 按分类统计薪水](https://leetcode.cn/problems/count-salary-categories)
 
-## Description
+[English Version](/solution/1900-1999/1907.Count%20Salary%20Categories/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Accounts</code></p>
+<p>表: <code>Accounts</code></p>
 
 <pre>
 +-------------+------+
-| Column Name | Type |
+| 列名        | 类型  |
 +-------------+------+
 | account_id  | int  |
 | income      | int  |
 +-------------+------+
-account_id is the primary key (column with unique values) for this table.
-Each row contains information about the monthly income for one bank account.
+在 SQL 中，account_id&nbsp;是这个表的主键。
+每一行都包含一个银行帐户的月收入的信息。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution&nbsp;to calculate the number of bank accounts for each salary category. The salary categories are:</p>
+<p>查询每个工资类别的银行账户数量。&nbsp;工资类别如下：</p>
 
 <ul>
-	<li><code>&quot;Low Salary&quot;</code>: All the salaries <strong>strictly less</strong> than <code>$20000</code>.</li>
-	<li><code>&quot;Average Salary&quot;</code>: All the salaries in the <strong>inclusive</strong> range <code>[$20000, $50000]</code>.</li>
-	<li><code>&quot;High Salary&quot;</code>: All the salaries <strong>strictly greater</strong> than <code>$50000</code>.</li>
+	<li><code>"Low Salary"</code>：所有工资 <strong>严格低于</strong> <code>20000</code> 美元。</li>
+	<li><code>"Average Salary"</code>： <strong>包含</strong> 范围内的所有工资&nbsp;<code>[$20000,&nbsp;$50000]</code> 。</li>
+	<li>
+	<p><code>"High Salary"</code>：所有工资 <strong>严格大于</strong> <code>50000</code> 美元。</p>
+	</li>
 </ul>
 
-<p>The result table <strong>must</strong> contain all three categories. If there are no accounts in a category,&nbsp;return&nbsp;<code>0</code>.</p>
+<p>结果表 <strong>必须</strong> 包含所有三个类别。&nbsp;如果某个类别中没有帐户，则报告&nbsp;<code>0</code> 。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
+<p>按 <strong>任意顺序</strong> 返回结果表。</p>
 
-<p>The&nbsp;result format is in the following example.</p>
+<p>查询结果格式如下示例。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Accounts table:
+<b>输入：</b>
+Accounts 表:
 +------------+--------+
 | account_id | income |
 +------------+--------+
@@ -56,7 +62,7 @@ Accounts table:
 | 8          | 87709  |
 | 6          | 91796  |
 +------------+--------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +----------------+----------------+
 | category       | accounts_count |
 +----------------+----------------+
@@ -64,21 +70,20 @@ Accounts table:
 | Average Salary | 0              |
 | High Salary    | 3              |
 +----------------+----------------+
-<strong>Explanation:</strong> 
-Low Salary: Account 2.
-Average Salary: No accounts.
-High Salary: Accounts 3, 6, and 8.
-</pre>
+<strong>解释：</strong>
+低薪: 有一个账户 2.
+中等薪水: 没有.
+高薪: 有三个账户，他们是 3, 6和 8.</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Temporary Table + Grouping + Left Join
+### 方法一：构建临时表 + 分组统计 + 左连接
 
-We can first create a temporary table containing all salary categories, and then count the number of bank accounts for each salary category. Finally, we use a left join to connect the temporary table with the result table to ensure that the result table contains all salary categories.
+我们可以先构建一个临时表，包含所有工资类别，然后再统计每个工资类别的银行账户数量。最后我们使用左连接，将临时表和统计结果表连接起来，这样就可以保证结果表中包含所有工资类别。
 
 <!-- tabs:start -->
 
@@ -117,9 +122,9 @@ FROM
 
 <!-- solution:start -->
 
-### Solution 2: Filtering + Merging
+### 方法二：筛选 + 合并
 
-We can filter out the number of bank accounts for each salary category separately, and then merge the results. Here, we use `UNION` to merge the results.
+我们可以分别筛选出每个工资类别的银行账户数量，然后再将结果合并起来。这里我们使用 `UNION` 来合并结果。
 
 <!-- tabs:start -->
 

@@ -1,82 +1,65 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2946.Matrix%20Similarity%20After%20Cyclic%20Shifts/README.md
 rating: 1405
-source: Weekly Contest 373 Q1
+source: 第 373 场周赛 Q1
 tags:
-  - Array
-  - Math
-  - Matrix
-  - Simulation
+    - 数组
+    - 数学
+    - 矩阵
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2946. Matrix Similarity After Cyclic Shifts](https://leetcode.com/problems/matrix-similarity-after-cyclic-shifts)
+# [2946. 循环移位后的矩阵相似检查](https://leetcode.cn/problems/matrix-similarity-after-cyclic-shifts)
 
-## Description
+[English Version](/solution/2900-2999/2946.Matrix%20Similarity%20After%20Cyclic%20Shifts/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> integer matrix <code>mat</code> and an integer <code>k</code>. The matrix rows are 0-indexed.</p>
+<p>给你一个<strong>下标从 0 开始</strong>且大小为 <code>m x n</code> 的整数矩阵 <code>mat</code> 和一个整数 <code>k</code> 。请你将矩阵中的<strong> 奇数</strong> 行循环 <strong>右</strong> 移 <code>k</code> 次，<strong>偶数</strong> 行循环 <strong>左</strong> 移 <code>k</code> 次。</p>
 
-<p>The following proccess happens <code>k</code> times:</p>
-
-<ul>
-	<li><strong>Even-indexed</strong> rows (0, 2, 4, ...) are cyclically shifted to the left.</li>
-</ul>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2946.Matrix%20Similarity%20After%20Cyclic%20Shifts/images/lshift.jpg" style="width: 283px; height: 90px;" /></p>
-
-<ul>
-	<li><strong>Odd-indexed</strong> rows (1, 3, 5, ...) are cyclically shifted to the right.</li>
-</ul>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2946.Matrix%20Similarity%20After%20Cyclic%20Shifts/images/rshift-stlone.jpg" style="width: 283px; height: 90px;" /></p>
-
-<p>Return <code>true</code> if the final modified matrix after <code>k</code> steps is identical to the original matrix, and <code>false</code> otherwise.</p>
+<p>如果初始矩阵和最终矩阵完全相同，则返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">mat = [[1,2,3],[4,5,6],[7,8,9]], k = 4</span></p>
+<p><strong class="example">示例 1：</strong></p>
 
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
+<pre>
+<strong>输入：</strong>mat = [[1,2,1,2],[5,5,5,5],[6,3,6,3]], k = 2
+<strong>输出：</strong>true
+<strong>解释：</strong>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2946.Matrix%20Similarity%20After%20Cyclic%20Shifts/images/similarmatrix.png" style="width: 500px; height: 117px;" />
 
-<p><strong>Explanation:</strong></p>
+初始矩阵如图一所示。
+图二表示对奇数行右移一次且对偶数行左移一次后的矩阵状态。
+图三是经过两次循环移位后的最终矩阵状态，与初始矩阵相同。
+因此，返回 true 。
+</pre>
 
-<p>In each step left shift is applied to rows 0 and 2 (even indices), and right shift to row 1 (odd index).</p>
+<p><strong class="example">示例 2：</strong></p>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2946.Matrix%20Similarity%20After%20Cyclic%20Shifts/images/t1-2.jpg" style="width: 857px; height: 150px;" /></p>
-</div>
+<pre>
+<strong>输入：</strong>mat = [[2,2],[2,2]], k = 3
+<strong>输出：</strong>true
+<strong>解释：</strong>由于矩阵中的所有值都相等，即使进行循环移位，矩阵仍然保持不变。因此，返回 true 。
+</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">mat = [[1,2,1,2],[5,5,5,5],[6,3,6,3]], k = 2</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2946.Matrix%20Similarity%20After%20Cyclic%20Shifts/images/t1-3.jpg" style="width: 632px; height: 150px;" /></p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">mat = [[2,2],[2,2]], k = 3</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>As all the values are equal in the matrix, even after performing cyclic shifts the matrix will remain the same.</p>
-</div>
+<pre>
+<strong>输入：</strong>mat = [[1,2]], k = 1
+<strong>输出：</strong>false
+<strong>解释：</strong>循环移位一次后，mat = [[2,1]]，与初始矩阵不相等。因此，返回 false 。
+</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= mat.length &lt;= 25</code></li>
@@ -87,11 +70,11 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -179,20 +162,20 @@ func areSimilar(mat [][]int, k int) bool {
 
 ```ts
 function areSimilar(mat: number[][], k: number): boolean {
-  const m = mat.length;
-  const n = mat[0].length;
-  k %= n;
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (i % 2 === 1 && mat[i][j] !== mat[i][(j + k) % n]) {
-        return false;
-      }
-      if (i % 2 === 0 && mat[i][j] !== mat[i][(j - k + n) % n]) {
-        return false;
-      }
+    const m = mat.length;
+    const n = mat[0].length;
+    k %= n;
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (i % 2 === 1 && mat[i][j] !== mat[i][(j + k) % n]) {
+                return false;
+            }
+            if (i % 2 === 0 && mat[i][j] !== mat[i][(j - k + n) % n]) {
+                return false;
+            }
+        }
     }
-  }
-  return true;
+    return true;
 }
 ```
 

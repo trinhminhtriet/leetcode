@@ -1,54 +1,59 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2906.Construct%20Product%20Matrix/README.md
 rating: 2074
-source: Weekly Contest 367 Q4
+source: 第 367 场周赛 Q4
 tags:
-  - Array
-  - Matrix
-  - Prefix Sum
+    - 数组
+    - 矩阵
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2906. Construct Product Matrix](https://leetcode.com/problems/construct-product-matrix)
+# [2906. 构造乘积矩阵](https://leetcode.cn/problems/construct-product-matrix)
 
-## Description
+[English Version](/solution/2900-2999/2906.Construct%20Product%20Matrix/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <strong>0-indexed</strong> 2D integer matrix <code><font face="monospace">grid</font></code><font face="monospace"> </font>of size <code>n * m</code>, we define a <strong>0-indexed</strong> 2D matrix <code>p</code> of size <code>n * m</code> as the <strong>product</strong> matrix of <code>grid</code> if the following condition is met:</p>
+<p>给你一个下标从 <strong>0</strong> 开始、大小为 <code>n * m</code> 的二维整数矩阵 <code><font face="monospace">grid</font></code><font face="monospace"> ，定义一个下标从 <strong>0</strong> 开始、大小为 <code>n * m</code> 的的二维矩阵</font> <code>p</code>。如果满足以下条件，则称 <code>p</code> 为 <code>grid</code> 的 <strong>乘积矩阵</strong> ：</p>
 
 <ul>
-	<li>Each element <code>p[i][j]</code> is calculated as the product of all elements in <code>grid</code> except for the element <code>grid[i][j]</code>. This product is then taken modulo <code><font face="monospace">12345</font></code>.</li>
+	<li>对于每个元素 <code>p[i][j]</code> ，它的值等于除了 <code>grid[i][j]</code> 外所有元素的乘积。乘积对 <code>12345</code> 取余数。</li>
 </ul>
 
-<p>Return <em>the product matrix of</em> <code><font face="monospace">grid</font></code>.</p>
+<p>返回 <code>grid</code> 的乘积矩阵。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> grid = [[1,2],[3,4]]
-<strong>Output:</strong> [[24,12],[8,6]]
-<strong>Explanation:</strong> p[0][0] = grid[0][1] * grid[1][0] * grid[1][1] = 2 * 3 * 4 = 24
+<strong>输入：</strong>grid = [[1,2],[3,4]]
+<strong>输出：</strong>[[24,12],[8,6]]
+<strong>解释：</strong>p[0][0] = grid[0][1] * grid[1][0] * grid[1][1] = 2 * 3 * 4 = 24
 p[0][1] = grid[0][0] * grid[1][0] * grid[1][1] = 1 * 3 * 4 = 12
 p[1][0] = grid[0][0] * grid[0][1] * grid[1][1] = 1 * 2 * 4 = 8
 p[1][1] = grid[0][0] * grid[0][1] * grid[1][0] = 1 * 2 * 3 = 6
-So the answer is [[24,12],[8,6]].</pre>
+所以答案是 [[24,12],[8,6]] 。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> grid = [[12345],[2],[1]]
-<strong>Output:</strong> [[2],[0],[0]]
-<strong>Explanation:</strong> p[0][0] = grid[0][1] * grid[0][2] = 2 * 1 = 2.
-p[0][1] = grid[0][0] * grid[0][2] = 12345 * 1 = 12345. 12345 % 12345 = 0. So p[0][1] = 0.
-p[0][2] = grid[0][0] * grid[0][1] = 12345 * 2 = 24690. 24690 % 12345 = 0. So p[0][2] = 0.
-So the answer is [[2],[0],[0]].</pre>
+<strong>输入：</strong>grid = [[12345],[2],[1]]
+<strong>输出：</strong>[[2],[0],[0]]
+<strong>解释：</strong>p[0][0] = grid[0][1] * grid[0][2] = 2 * 1 = 2
+p[0][1] = grid[0][0] * grid[0][2] = 12345 * 1 = 12345. 12345 % 12345 = 0 ，所以 p[0][1] = 0
+p[0][2] = grid[0][0] * grid[0][1] = 12345 * 2 = 24690. 24690 % 12345 = 0 ，所以 p[0][2] = 0
+所以答案是 [[2],[0],[0]] 。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == grid.length&nbsp;&lt;= 10<sup>5</sup></code></li>
@@ -59,21 +64,21 @@ So the answer is [[2],[0],[0]].</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix and Suffix Decomposition
+### 方法一：前后缀分解
 
-We can preprocess the suffix product (excluding itself) of each element, and then traverse the matrix to calculate the prefix product (excluding itself) of each element. The product of the two gives us the result for each position.
+我们可以预处理出每个元素的后缀乘积（不包含自身），然后再遍历矩阵，计算得到每个元素的前缀乘积（不包含自身），将两者相乘即可得到每个位置的结果。
 
-Specifically, we use $p[i][j]$ to represent the result of the element in the $i$-th row and $j$-th column of the matrix. We define a variable $suf$ to represent the product of all elements below and to the right of the current position. Initially, $suf$ is set to $1$. We start traversing from the bottom right corner of the matrix. For each position $(i, j)$, we assign $suf$ to $p[i][j]$, and then update $suf$ to $suf \times grid[i][j] \bmod 12345$. This way, we can obtain the suffix product of each position.
+具体地，我们用 $p[i][j]$ 表示矩阵中第 $i$ 行第 $j$ 列元素的结果，定义一个变量 $suf$ 表示当前位置右下方的所有元素的乘积，初始时 $suf = 1$。我们从矩阵右下角开始遍历，对于每个位置 $(i, j)$，我们将 $suf$ 赋值给 $p[i][j]$，然后更新 $suf$ 为 $suf \times grid[i][j] \bmod 12345$，这样就可以得到每个位置的后缀乘积。
 
-Next, we start traversing from the top left corner of the matrix. For each position $(i, j)$, we multiply $p[i][j]$ by $pre$, take the result modulo $12345$, and then update $pre$ to $pre \times grid[i][j] \bmod 12345$. This way, we can obtain the prefix product of each position.
+接下来我们从矩阵左上角开始遍历，对于每个位置 $(i, j)$，我们将 $p[i][j]$ 乘上 $pre$，再对 $12345$ 取模，然后更新 $pre$ 为 $pre \times grid[i][j] \bmod 12345$，这样就可以得到每个位置的前缀乘积。
 
-After the traversal, we return the result matrix $p$.
+遍历结束，返回结果矩阵 $p$ 即可。
 
-The time complexity is $O(n \times m)$, where $n$ and $m$ are the number of rows and columns in the matrix, respectively. Ignoring the space occupied by the result matrix, the space complexity is $O(1)$.
+时间复杂度 $O(n \times m)$，其中 $n$ 和 $m$ 分别是矩阵的行数和列数。忽略结果矩阵的空间占用，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -185,26 +190,24 @@ func constructProductMatrix(grid [][]int) [][]int {
 
 ```ts
 function constructProductMatrix(grid: number[][]): number[][] {
-  const mod = 12345;
-  const [n, m] = [grid.length, grid[0].length];
-  const p: number[][] = Array.from({ length: n }, () =>
-    Array.from({ length: m }, () => 0)
-  );
-  let suf = 1;
-  for (let i = n - 1; ~i; --i) {
-    for (let j = m - 1; ~j; --j) {
-      p[i][j] = suf;
-      suf = (suf * grid[i][j]) % mod;
+    const mod = 12345;
+    const [n, m] = [grid.length, grid[0].length];
+    const p: number[][] = Array.from({ length: n }, () => Array.from({ length: m }, () => 0));
+    let suf = 1;
+    for (let i = n - 1; ~i; --i) {
+        for (let j = m - 1; ~j; --j) {
+            p[i][j] = suf;
+            suf = (suf * grid[i][j]) % mod;
+        }
     }
-  }
-  let pre = 1;
-  for (let i = 0; i < n; ++i) {
-    for (let j = 0; j < m; ++j) {
-      p[i][j] = (p[i][j] * pre) % mod;
-      pre = (pre * grid[i][j]) % mod;
+    let pre = 1;
+    for (let i = 0; i < n; ++i) {
+        for (let j = 0; j < m; ++j) {
+            p[i][j] = (p[i][j] * pre) % mod;
+            pre = (pre * grid[i][j]) % mod;
+        }
     }
-  }
-  return p;
+    return p;
 }
 ```
 

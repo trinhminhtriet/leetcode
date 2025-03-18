@@ -1,83 +1,86 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2424.Longest%20Uploaded%20Prefix/README.md
 rating: 1604
-source: Biweekly Contest 88 Q2
+source: 第 88 场双周赛 Q2
 tags:
-  - Union Find
-  - Design
-  - Binary Indexed Tree
-  - Segment Tree
-  - Binary Search
-  - Ordered Set
-  - Heap (Priority Queue)
+    - 并查集
+    - 设计
+    - 树状数组
+    - 线段树
+    - 二分查找
+    - 有序集合
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2424. Longest Uploaded Prefix](https://leetcode.com/problems/longest-uploaded-prefix)
+# [2424. 最长上传前缀](https://leetcode.cn/problems/longest-uploaded-prefix)
 
-## Description
+[English Version](/solution/2400-2499/2424.Longest%20Uploaded%20Prefix/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a stream of <code>n</code> videos, each represented by a <strong>distinct</strong> number from <code>1</code> to <code>n</code> that you need to &quot;upload&quot; to a server. You need to implement a data structure that calculates the length of the <strong>longest uploaded prefix</strong> at various points in the upload process.</p>
+<p>给你一个&nbsp;<code>n</code>&nbsp;个视频的上传序列，每个视频编号为&nbsp;<code>1</code>&nbsp;到&nbsp;<code>n</code>&nbsp;之间的 <strong>不同</strong>&nbsp;数字，你需要依次将这些视频上传到服务器。请你实现一个数据结构，在上传的过程中计算 <strong>最长上传前缀</strong>&nbsp;。</p>
 
-<p>We consider <code>i</code> to be an uploaded prefix if all videos in the range <code>1</code> to <code>i</code> (<strong>inclusive</strong>) have been uploaded to the server. The longest uploaded prefix is the <strong>maximum </strong>value of <code>i</code> that satisfies this definition.<br />
-<br />
-Implement the <code>LUPrefix </code>class:</p>
+<p>如果&nbsp;<strong>闭区间</strong>&nbsp;<code>1</code>&nbsp;到&nbsp;<code>i</code>&nbsp;之间的视频全部都已经被上传到服务器，那么我们称 <code>i</code>&nbsp;是上传前缀。最长上传前缀指的是符合定义的 <code>i</code>&nbsp;中的 <strong>最大值</strong>&nbsp;。<br>
+<br>
+请你实现&nbsp;<code>LUPrefix</code>&nbsp;类：</p>
 
 <ul>
-	<li><code>LUPrefix(int n)</code> Initializes the object for a stream of <code>n</code> videos.</li>
-	<li><code>void upload(int video)</code> Uploads <code>video</code> to the server.</li>
-	<li><code>int longest()</code> Returns the length of the <strong>longest uploaded prefix</strong> defined above.</li>
+	<li><code>LUPrefix(int n)</code>&nbsp;初始化一个 <code>n</code>&nbsp;个视频的流对象。</li>
+	<li><code>void upload(int video)</code>&nbsp;上传&nbsp;<code>video</code>&nbsp;到服务器。</li>
+	<li><code>int longest()</code>&nbsp;返回上述定义的 <strong>最长上传前缀</strong>&nbsp;的长度。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input</strong>
-[&quot;LUPrefix&quot;, &quot;upload&quot;, &quot;longest&quot;, &quot;upload&quot;, &quot;longest&quot;, &quot;upload&quot;, &quot;longest&quot;]
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>
+["LUPrefix", "upload", "longest", "upload", "longest", "upload", "longest"]
 [[4], [3], [], [1], [], [2], []]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null, null, 0, null, 1, null, 3]
 
-<strong>Explanation</strong>
-LUPrefix server = new LUPrefix(4);   // Initialize a stream of 4 videos.
-server.upload(3);                    // Upload video 3.
-server.longest();                    // Since video 1 has not been uploaded yet, there is no prefix.
-                                     // So, we return 0.
-server.upload(1);                    // Upload video 1.
-server.longest();                    // The prefix [1] is the longest uploaded prefix, so we return 1.
-server.upload(2);                    // Upload video 2.
-server.longest();                    // The prefix [1,2,3] is the longest uploaded prefix, so we return 3.
+<strong>解释：</strong>
+LUPrefix server = new LUPrefix(4);   // 初始化 4个视频的上传流
+server.upload(3);                    // 上传视频 3 。
+server.longest();                    // 由于视频 1 还没有被上传，最长上传前缀是 0 。
+server.upload(1);                    // 上传视频 1 。
+server.longest();                    // 前缀 [1] 是最长上传前缀，所以我们返回 1 。
+server.upload(2);                    // 上传视频 2 。
+server.longest();                    // 前缀 [1,2,3] 是最长上传前缀，所以我们返回 3 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= video &lt;= n</code></li>
-	<li>All values of <code>video</code> are <strong>distinct</strong>.</li>
-	<li>At most <code>2 * 10<sup>5</sup></code> calls <strong>in total</strong> will be made to <code>upload</code> and <code>longest</code>.</li>
-	<li>At least one call will be made to <code>longest</code>.</li>
+	<li><code>1 &lt;= video &lt;= 10<sup>5</sup></code></li>
+	<li><code>video</code>&nbsp;中所有值 <strong>互不相同</strong>&nbsp;。</li>
+	<li><code>upload</code> 和&nbsp;<code>longest</code>&nbsp;<strong>总调用</strong> 次数至多不超过&nbsp;<code>2 * 10<sup>5</sup></code>&nbsp;次。</li>
+	<li>至少会调用&nbsp;<code>longest</code>&nbsp;一次。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We use a variable $r$ to record the current longest prefix of uploaded videos, and an array or hash table $s$ to record the videos that have been uploaded.
+我们用变量 $r$ 记录当前的最长上传前缀，用数组或哈希表 $s$ 记录已经上传的视频。
 
-Each time a video is uploaded, we set `s[video]` to `true`, then loop to check whether `s[r + 1]` is `true`. If it is, we update $r$.
+每次上传视频 `video` 时，将 `s[video]` 置为 `true`，然后循环判断 `s[r + 1]` 是否为 `true`，如果是，则更新 $r$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the total number of videos.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为视频总数。
 
 <!-- tabs:start -->
 

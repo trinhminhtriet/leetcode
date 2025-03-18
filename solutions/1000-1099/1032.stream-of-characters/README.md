@@ -1,79 +1,95 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1032.Stream%20of%20Characters/README.md
 rating: 1970
-source: Weekly Contest 133 Q4
+source: 第 133 场周赛 Q4
 tags:
-  - Design
-  - Trie
-  - Array
-  - String
-  - Data Stream
+    - 设计
+    - 字典树
+    - 数组
+    - 字符串
+    - 数据流
 ---
 
 <!-- problem:start -->
 
-# [1032. Stream of Characters](https://leetcode.com/problems/stream-of-characters)
+# [1032. 字符流](https://leetcode.cn/problems/stream-of-characters)
 
-## Description
+[English Version](/solution/1000-1099/1032.Stream%20of%20Characters/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Design an algorithm that accepts a stream of characters and checks if a suffix of these characters is a string of a given array of strings <code>words</code>.</p>
+<p>设计一个算法：接收一个字符流，并检查这些字符的后缀是否是字符串数组 <code>words</code> 中的一个字符串。</p>
 
-<p>For example, if <code>words = [&quot;abc&quot;, &quot;xyz&quot;]</code>&nbsp;and the stream added the four characters (one by one) <code>&#39;a&#39;</code>, <code>&#39;x&#39;</code>, <code>&#39;y&#39;</code>, and <code>&#39;z&#39;</code>, your algorithm should detect that the suffix <code>&quot;xyz&quot;</code> of the characters <code>&quot;axyz&quot;</code> matches <code>&quot;xyz&quot;</code> from <code>words</code>.</p>
+<p>例如，<code>words = ["abc", "xyz"]</code> 且字符流中逐个依次加入 4 个字符 <code>'a'</code>、<code>'x'</code>、<code>'y'</code> 和 <code>'z'</code> ，你所设计的算法应当可以检测到&nbsp;<code>"axyz"</code> 的后缀 <code>"xyz"</code> 与&nbsp;<code>words</code> 中的字符串 <code>"xyz"</code> 匹配。</p>
 
-<p>Implement the <code>StreamChecker</code> class:</p>
+<p>按下述要求实现 <code>StreamChecker</code> 类：</p>
 
 <ul>
-	<li><code>StreamChecker(String[] words)</code> Initializes the object with the strings array <code>words</code>.</li>
-	<li><code>boolean query(char letter)</code> Accepts a new character from the stream and returns <code>true</code> if any non-empty suffix from the stream forms a word that is in <code>words</code>.</li>
+	<li><code>StreamChecker(String[] words)</code> ：构造函数，用字符串数组&nbsp;<code>words</code> 初始化数据结构。</li>
+	<li><code>boolean query(char letter)</code>：从字符流中接收一个新字符，如果字符流中的任一非空后缀能匹配 <code>words</code> 中的某一字符串，返回 <code>true</code> ；否则，返回 <code>false</code>。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;StreamChecker&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;]
-[[[&quot;cd&quot;, &quot;f&quot;, &quot;kl&quot;]], [&quot;a&quot;], [&quot;b&quot;], [&quot;c&quot;], [&quot;d&quot;], [&quot;e&quot;], [&quot;f&quot;], [&quot;g&quot;], [&quot;h&quot;], [&quot;i&quot;], [&quot;j&quot;], [&quot;k&quot;], [&quot;l&quot;]]
-<strong>Output</strong>
+<strong>输入：</strong>
+["StreamChecker", "query", "query", "query", "query", "query", "query", "query", "query", "query", "query", "query", "query"]
+[[["cd", "f", "kl"]], ["a"], ["b"], ["c"], ["d"], ["e"], ["f"], ["g"], ["h"], ["i"], ["j"], ["k"], ["l"]]
+<strong>输出：</strong>
 [null, false, false, false, true, false, true, false, false, false, false, false, true]
 
-<strong>Explanation</strong>
-StreamChecker streamChecker = new StreamChecker([&quot;cd&quot;, &quot;f&quot;, &quot;kl&quot;]);
-streamChecker.query(&quot;a&quot;); // return False
-streamChecker.query(&quot;b&quot;); // return False
-streamChecker.query(&quot;c&quot;); // return False
-streamChecker.query(&quot;d&quot;); // return True, because &#39;cd&#39; is in the wordlist
-streamChecker.query(&quot;e&quot;); // return False
-streamChecker.query(&quot;f&quot;); // return True, because &#39;f&#39; is in the wordlist
-streamChecker.query(&quot;g&quot;); // return False
-streamChecker.query(&quot;h&quot;); // return False
-streamChecker.query(&quot;i&quot;); // return False
-streamChecker.query(&quot;j&quot;); // return False
-streamChecker.query(&quot;k&quot;); // return False
-streamChecker.query(&quot;l&quot;); // return True, because &#39;kl&#39; is in the wordlist
+<strong>解释：</strong>
+StreamChecker streamChecker = new StreamChecker(["cd", "f", "kl"]);
+streamChecker.query("a"); // 返回 False
+streamChecker.query("b"); // 返回 False
+streamChecker.query("c"); // 返回n False
+streamChecker.query("d"); // 返回 True ，因为 'cd' 在 words 中
+streamChecker.query("e"); // 返回 False
+streamChecker.query("f"); // 返回 True ，因为 'f' 在 words 中
+streamChecker.query("g"); // 返回 False
+streamChecker.query("h"); // 返回 False
+streamChecker.query("i"); // 返回 False
+streamChecker.query("j"); // 返回 False
+streamChecker.query("k"); // 返回 False
+streamChecker.query("l"); // 返回 True ，因为 'kl' 在 words 中
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 2000</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 200</code></li>
-	<li><code>words[i]</code> consists of lowercase English letters.</li>
-	<li><code>letter</code> is a lowercase English letter.</li>
-	<li>At most <code>4 * 10<sup>4</sup></code> calls will be made to query.</li>
+	<li><code>words[i]</code> 由小写英文字母组成</li>
+	<li><code>letter</code> 是一个小写英文字母</li>
+	<li>最多调用查询 <code>4 * 10<sup>4</sup></code> 次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：前缀树
+
+我们可以根据初始化时的字符串数组 $words$ 构建前缀树，前缀树的每个节点包含两个属性：
+
+-   `children`：指向 $26$ 个字母的指针数组，用于存储当前节点的子节点。
+-   `is_end`：标记当前节点是否为某个字符串的结尾。
+
+在构造函数中，我们遍历字符串数组 $words$，对于每个字符串 $w$，我们将其反转后，逐个字符插入到前缀树中，插入结束后，将当前节点的 `is_end` 标记为 `true`。
+
+在 `query` 函数中，我们将当前字符 $c$ 加入到字符流中，然后从后往前遍历字符流，对于每个字符 $c$，我们在前缀树中查找是否存在以 $c$ 为结尾的字符串，如果存在，返回 `true`，否则返回 `false`。注意到 $words$ 中的字符串长度不超过 $200$，因此查询时最多只需要遍历 $200$ 个字符。
+
+时间复杂度方面，构造函数的时间复杂度为 $O(L)$，而 `query` 函数的时间复杂度为 $O(M)$。其中 $L$ 为字符串数组 $words$ 中所有字符串的长度之和，而 $M$ 为字符串数组 $words$ 中字符串的最大长度。空间复杂度 $O(L)$。
 
 <!-- tabs:start -->
 

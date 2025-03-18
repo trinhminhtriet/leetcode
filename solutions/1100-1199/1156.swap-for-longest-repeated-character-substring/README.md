@@ -1,74 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1156.Swap%20For%20Longest%20Repeated%20Character%20Substring/README.md
 rating: 1787
-source: Weekly Contest 149 Q3
+source: 第 149 场周赛 Q3
 tags:
-  - Hash Table
-  - String
-  - Sliding Window
+    - 哈希表
+    - 字符串
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1156. Swap For Longest Repeated Character Substring](https://leetcode.com/problems/swap-for-longest-repeated-character-substring)
+# [1156. 单字符重复子串的最大长度](https://leetcode.cn/problems/swap-for-longest-repeated-character-substring)
 
-## Description
+[English Version](/solution/1100-1199/1156.Swap%20For%20Longest%20Repeated%20Character%20Substring/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>text</code>. You can swap two of the characters in the <code>text</code>.</p>
+<p>如果字符串中的所有字符都相同，那么这个字符串是单字符重复的字符串。</p>
 
-<p>Return <em>the length of the longest substring with repeated characters</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> text = &quot;ababa&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We can swap the first &#39;b&#39; with the last &#39;a&#39;, or the last &#39;b&#39; with the first &#39;a&#39;. Then, the longest repeated character substring is &quot;aaa&quot; with length 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> text = &quot;aaabaaa&quot;
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> Swap &#39;b&#39; with the last &#39;a&#39; (or the first &#39;a&#39;), and we get longest repeated character substring &quot;aaaaaa&quot; with length 6.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> text = &quot;aaaaa&quot;
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> No need to swap, longest repeated character substring is &quot;aaaaa&quot; with length is 5.
-</pre>
+<p>给你一个字符串&nbsp;<code>text</code>，你只能交换其中两个字符一次或者什么都不做，然后得到一些单字符重复的子串。返回其中最长的子串的长度。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>text = &quot;ababa&quot;
+<strong>输出：</strong>3
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>text = &quot;aaabaaa&quot;
+<strong>输出：</strong>6
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>text = &quot;aaabbaaa&quot;
+<strong>输出：</strong>4
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>text = &quot;aaaaa&quot;
+<strong>输出：</strong>5
+</pre>
+
+<p><strong>示例 5：</strong></p>
+
+<pre><strong>输入：</strong>text = &quot;abcdef&quot;
+<strong>输出：</strong>1
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= text.length &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>text</code> consist of lowercase English characters only.</li>
+	<li><code>1 &lt;= text.length &lt;= 20000</code></li>
+	<li><code>text</code> 仅由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-First, we use a hash table or array $cnt$ to count the occurrence of each character in the string $text$.
+我们先用哈希表或数组 $cnt$ 统计字符串 $text$ 中每个字符出现的次数。
 
-Next, we define a pointer $i$, initially $i = 0$. Each time, we set the pointer $j$ to $i$, and continuously move $j$ to the right until the character pointed by $j$ is different from the character pointed by $i$. At this time, we get a substring $text[i..j-1]$ of length $l = j - i$, where all characters are the same.
+接下来，我们定义一个指针 $i$，初始时 $i = 0$。每一次，我们将指针 $j$ 指向 $i$，并不断地向右移动 $j$，直到 $j$ 指向的字符与 $i$ 指向的字符不同，此时我们得到了一个长度为 $l = j - i$ 的子串 $text[i..j-1]$，其中所有字符都相同。
 
-Then we skip the character pointed by the pointer $j$, and continue to move the pointer $k$ to the right until the character pointed by $k$ is different from the character pointed by $i$. At this time, we get a substring $text[j+1..k-1]$ of length $r = k - j - 1$, where all characters are the same. So the longest single-character repeated substring we can get by at most one swap operation is $\min(l + r + 1, cnt[text[i]])$. Next, we move the pointer $i$ to $j$ and continue to find the next substring. We take the maximum length of all substrings that meet the conditions.
+然后我们跳过指针 $j$ 指向的字符，用指针 $k$ 继续向右移动，直到 $k$ 指向的字符与 $i$ 指向的字符不同，此时我们得到了一个长度为 $r = k - j - 1$ 的子串 $text[j+1..k-1]$，其中所有字符都相同。那么我们最多通过一次交换操作，可以得到的最长单字符重复子串的长度为 $\min(l + r + 1, cnt[text[i]])$。接下来，我们将指针 $i$ 移动到 $j$，继续寻找下一个子串。我们取所有满足条件的子串的最大长度即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(C)$. Here, $n$ is the length of the string, and $C$ is the size of the character set. In this problem, $C = 26$.
+时间复杂度为 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为字符串的长度；而 $C$ 为字符集的大小，本题中 $C = 26$。
 
 <!-- tabs:start -->
 
@@ -185,29 +196,29 @@ func maxRepOpt1(text string) (ans int) {
 
 ```ts
 function maxRepOpt1(text: string): number {
-  const idx = (c: string) => c.charCodeAt(0) - "a".charCodeAt(0);
-  const cnt: number[] = new Array(26).fill(0);
-  for (const c of text) {
-    cnt[idx(c)]++;
-  }
-  let ans = 0;
-  let i = 0;
-  const n = text.length;
-  while (i < n) {
-    let j = i;
-    while (j < n && text[j] === text[i]) {
-      ++j;
+    const idx = (c: string) => c.charCodeAt(0) - 'a'.charCodeAt(0);
+    const cnt: number[] = new Array(26).fill(0);
+    for (const c of text) {
+        cnt[idx(c)]++;
     }
-    const l = j - i;
-    let k = j + 1;
-    while (k < n && text[k] === text[i]) {
-      ++k;
+    let ans = 0;
+    let i = 0;
+    const n = text.length;
+    while (i < n) {
+        let j = i;
+        while (j < n && text[j] === text[i]) {
+            ++j;
+        }
+        const l = j - i;
+        let k = j + 1;
+        while (k < n && text[k] === text[i]) {
+            ++k;
+        }
+        const r = k - j - 1;
+        ans = Math.max(ans, Math.min(cnt[idx(text[i])], l + r + 1));
+        i = j;
     }
-    const r = k - j - 1;
-    ans = Math.max(ans, Math.min(cnt[idx(text[i])], l + r + 1));
-    i = j;
-  }
-  return ans;
+    return ans;
 }
 ```
 

@@ -1,64 +1,86 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0850.Rectangle%20Area%20II/README.md
 tags:
-  - Segment Tree
-  - Array
-  - Ordered Set
-  - Line Sweep
+    - 线段树
+    - 数组
+    - 有序集合
+    - 扫描线
 ---
 
 <!-- problem:start -->
 
-# [850. Rectangle Area II](https://leetcode.com/problems/rectangle-area-ii)
+# [850. 矩形面积 II](https://leetcode.cn/problems/rectangle-area-ii)
 
-## Description
+[English Version](/solution/0800-0899/0850.Rectangle%20Area%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D array of axis-aligned <code>rectangles</code>. Each <code>rectangle[i] = [x<sub>i1</sub>, y<sub>i1</sub>, x<sub>i2</sub>, y<sub>i2</sub>]</code> denotes the <code>i<sup>th</sup></code> rectangle where <code>(x<sub>i1</sub>, y<sub>i1</sub>)</code> are the coordinates of the <strong>bottom-left corner</strong>, and <code>(x<sub>i2</sub>, y<sub>i2</sub>)</code> are the coordinates of the <strong>top-right corner</strong>.</p>
+<p>给你一个轴对齐的二维数组&nbsp;<code>rectangles</code>&nbsp;。 对于&nbsp;<code>rectangle[i] = [x1, y1, x2, y2]</code>，其中&nbsp;<code>(x<sub>i1</sub>, y<sub>i1</sub>)</code>&nbsp;是该矩形 <strong>左下角</strong> 的坐标，<meta charset="UTF-8" />&nbsp;<code>(x<sub>i2</sub>, y<sub>i2</sub>)</code>&nbsp;是该矩形&nbsp;<strong>右上角</strong> 的坐标。</p>
 
-<p>Calculate the <strong>total area</strong> covered by all <code>rectangles</code> in the plane. Any area covered by two or more rectangles should only be counted <strong>once</strong>.</p>
+<p>计算平面中所有&nbsp;<code>rectangles</code>&nbsp;所覆盖的 <strong>总面积 </strong>。任何被两个或多个矩形覆盖的区域应只计算 <strong>一次</strong> 。</p>
 
-<p>Return <em>the <strong>total area</strong></em>. Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0850.Rectangle%20Area%20II/images/rectangle_area_ii_pic.png" style="width: 600px; height: 450px;" />
-<pre>
-<strong>Input:</strong> rectangles = [[0,0,2,2],[1,0,2,3],[1,0,3,1]]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> A total area of 6 is covered by all three rectangles, as illustrated in the picture.
-From (1,1) to (2,2), the green and red rectangles overlap.
-From (1,0) to (2,3), all three rectangles overlap.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> rectangles = [[0,0,1000000000,1000000000]]
-<strong>Output:</strong> 49
-<strong>Explanation:</strong> The answer is 10<sup>18</sup> modulo (10<sup>9</sup> + 7), which is 49.
-</pre>
+<p>返回<em> <strong>总面积</strong> </em>。因为答案可能太大，返回<meta charset="UTF-8" />&nbsp;<code>10<sup>9</sup>&nbsp;+ 7</code> 的&nbsp;<strong>模</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0850.Rectangle%20Area%20II/images/rectangle_area_ii_pic.png" style="height: 360px; width: 480px;" /></p>
+
+<pre>
+<strong>输入：</strong>rectangles = [[0,0,2,2],[1,0,2,3],[1,0,3,1]]
+<strong>输出：</strong>6
+<strong>解释：</strong>如图所示，三个矩形覆盖了总面积为 6 的区域。
+从(1,1)到(2,2)，绿色矩形和红色矩形重叠。
+从(1,0)到(2,3)，三个矩形都重叠。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>rectangles = [[0,0,1000000000,1000000000]]
+<strong>输出：</strong>49
+<strong>解释：</strong>答案是 10<sup>18</sup> 对 (10<sup>9</sup> + 7) 取模的结果， 即 49 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= rectangles.length &lt;= 200</code></li>
-	<li><code>rectanges[i].length == 4</code></li>
-	<li><code>0 &lt;= x<sub>i1</sub>, y<sub>i1</sub>, x<sub>i2</sub>, y<sub>i2</sub> &lt;= 10<sup>9</sup></code></li>
-	<li><code>x<sub>i1 &lt;= </sub>x<sub>i2</sub></code></li>
-	<li><code>y<sub>i1 &lt;=</sub> y<sub>i2</sub></code></li>
+	<li><code>rectanges[i].length = 4</code><meta charset="UTF-8" /></li>
+	<li><code>0 &lt;= x<sub>i1</sub>, y<sub>i1</sub>, x<sub>i2</sub>, y<sub>i2</sub>&nbsp;&lt;= 10<sup>9</sup></code></li>
+	<li><code>x<sub>i1&nbsp;</sub>&lt;= x<sub>i2</sub></code></li>
+	<li><code>y<sub>i1&nbsp;</sub>&lt;= y<sub>i2</sub></code></li>
+	<li>所有矩阵面积不为 0。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：离散化 + 线段树 + 扫描线
+
+线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 $log(width)$。更新某个元素的值，只需要更新 $log(width)$ 个区间，并且这些区间都包含在一个包含该元素的大区间内。区间修改时，需要使用**懒标记**保证效率。
+
+-   线段树的每个节点代表一个区间；
+-   线段树具有唯一的根节点，代表的区间是整个统计范围，如 $[1, N]$；
+-   线段树的每个叶子节点代表一个长度为 1 的元区间 $[x, x]$；
+-   对于每个内部节点 $[l, r]$，它的左儿子是 $[l, mid]$，右儿子是 $[mid + 1, r]$, 其中 $mid = ⌊(l + r) / 2⌋$ (即向下取整)。
+
+对于本题，线段树节点维护的信息有：
+
+1. 区间被覆盖的次数 `cnt`；
+1. 区间被覆盖的长度 `len`。
+
+另外，由于本题利用了扫描线本身的特性，因此，区间修改时，不需要懒标记，也无须进行 pushdown 操作。
 
 <!-- tabs:start -->
 

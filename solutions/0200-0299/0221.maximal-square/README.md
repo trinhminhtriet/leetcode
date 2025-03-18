@@ -1,65 +1,70 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0221.Maximal%20Square/README.md
 tags:
-  - Array
-  - Dynamic Programming
-  - Matrix
+    - 数组
+    - 动态规划
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [221. Maximal Square](https://leetcode.com/problems/maximal-square)
+# [221. 最大正方形](https://leetcode.cn/problems/maximal-square)
 
-## Description
+[English Version](/solution/0200-0299/0221.Maximal%20Square/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an <code>m x n</code> binary <code>matrix</code> filled with <code>0</code>&#39;s and <code>1</code>&#39;s, <em>find the largest square containing only</em> <code>1</code>&#39;s <em>and return its area</em>.</p>
+<p>在一个由 <code>'0'</code> 和 <code>'1'</code> 组成的二维矩阵内，找到只包含 <code>'1'</code> 的最大正方形，并返回其面积。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0221.Maximal%20Square/images/max1grid.jpg" style="width: 400px; height: 319px;" />
 <pre>
-<strong>Input:</strong> matrix = [[&quot;1&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;],[&quot;1&quot;,&quot;0&quot;,&quot;1&quot;,&quot;1&quot;,&quot;1&quot;],[&quot;1&quot;,&quot;1&quot;,&quot;1&quot;,&quot;1&quot;,&quot;1&quot;],[&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;]]
-<strong>Output:</strong> 4
+<strong>输入：</strong>matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+<strong>输出：</strong>4
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0221.Maximal%20Square/images/max2grid.jpg" style="width: 165px; height: 165px;" />
 <pre>
-<strong>Input:</strong> matrix = [[&quot;0&quot;,&quot;1&quot;],[&quot;1&quot;,&quot;0&quot;]]
-<strong>Output:</strong> 1
+<strong>输入：</strong>matrix = [["0","1"],["1","0"]]
+<strong>输出：</strong>1
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> matrix = [[&quot;0&quot;]]
-<strong>Output:</strong> 0
+<strong>输入：</strong>matrix = [["0"]]
+<strong>输出：</strong>0
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == matrix.length</code></li>
 	<li><code>n == matrix[i].length</code></li>
-	<li><code>1 &lt;= m, n &lt;= 300</code></li>
-	<li><code>matrix[i][j]</code> is <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>1 <= m, n <= 300</code></li>
+	<li><code>matrix[i][j]</code> 为 <code>'0'</code> 或 <code>'1'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $dp[i + 1][j + 1]$ as the maximum square side length with the lower right corner at index $(i, j)$. The answer is the maximum value among all $dp[i + 1][j + 1]$.
+我们定义 $dp[i + 1][j + 1]$ 表示以下标 $(i, j)$ 作为正方形右下角的最大正方形边长。答案为所有 $dp[i + 1][j + 1]$ 中的最大值。
 
-The state transition equation is:
+状态转移方程为：
 
 $$
 dp[i + 1][j + 1] =
@@ -69,7 +74,7 @@ dp[i + 1][j + 1] =
 \end{cases}
 $$
 
-The time complexity is $O(m\times n)$, and the space complexity is $O(m\times n)$. Where $m$ and $n$ are the number of rows and columns of the matrix, respectively.
+时间复杂度 $O(m\times n)$，空间复杂度 $O(m\times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
 <!-- tabs:start -->
 

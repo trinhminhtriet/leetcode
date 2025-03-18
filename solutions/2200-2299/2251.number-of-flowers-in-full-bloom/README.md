@@ -1,50 +1,59 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2251.Number%20of%20Flowers%20in%20Full%20Bloom/README.md
 rating: 2022
-source: Weekly Contest 290 Q4
+source: 第 290 场周赛 Q4
 tags:
-  - Array
-  - Hash Table
-  - Binary Search
-  - Ordered Set
-  - Prefix Sum
-  - Sorting
+    - 数组
+    - 哈希表
+    - 二分查找
+    - 有序集合
+    - 前缀和
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2251. Number of Flowers in Full Bloom](https://leetcode.com/problems/number-of-flowers-in-full-bloom)
+# [2251. 花期内花的数目](https://leetcode.cn/problems/number-of-flowers-in-full-bloom)
 
-## Description
+[English Version](/solution/2200-2299/2251.Number%20of%20Flowers%20in%20Full%20Bloom/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> 2D integer array <code>flowers</code>, where <code>flowers[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> means the <code>i<sup>th</sup></code> flower will be in <strong>full bloom</strong> from <code>start<sub>i</sub></code> to <code>end<sub>i</sub></code> (<strong>inclusive</strong>). You are also given a <strong>0-indexed</strong> integer array <code>people</code> of size <code>n</code>, where <code>people[i]</code> is the time that the <code>i<sup>th</sup></code> person will arrive to see the flowers.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code>flowers</code>&nbsp;，其中&nbsp;<code>flowers[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;朵花的 <strong>花期</strong>&nbsp;从&nbsp;<code>start<sub>i</sub></code>&nbsp;到&nbsp;<code>end<sub>i</sub></code>&nbsp;（都 <strong>包含</strong>）。同时给你一个下标从 <strong>0</strong>&nbsp;开始大小为 <code>n</code>&nbsp;的整数数组&nbsp;<code>people</code> ，<code>people[i]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;个人来看花的时间。</p>
 
-<p>Return <em>an integer array </em><code>answer</code><em> of size </em><code>n</code><em>, where </em><code>answer[i]</code><em> is the <strong>number</strong> of flowers that are in full bloom when the </em><code>i<sup>th</sup></code><em> person arrives.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2251.Number%20of%20Flowers%20in%20Full%20Bloom/images/ex1new.jpg" style="width: 550px; height: 216px;" />
-<pre>
-<strong>Input:</strong> flowers = [[1,6],[3,7],[9,12],[4,13]], people = [2,3,7,11]
-<strong>Output:</strong> [1,2,2,2]
-<strong>Explanation: </strong>The figure above shows the times when the flowers are in full bloom and when the people arrive.
-For each person, we return the number of flowers in full bloom during their arrival.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2251.Number%20of%20Flowers%20in%20Full%20Bloom/images/ex2new.jpg" style="width: 450px; height: 195px;" />
-<pre>
-<strong>Input:</strong> flowers = [[1,10],[3,3]], people = [3,3,2]
-<strong>Output:</strong> [2,2,1]
-<strong>Explanation:</strong> The figure above shows the times when the flowers are in full bloom and when the people arrive.
-For each person, we return the number of flowers in full bloom during their arrival.
-</pre>
+<p>请你返回一个大小为 <code>n</code>&nbsp;的整数数组<em>&nbsp;</em><code>answer</code>&nbsp;，其中&nbsp;<code>answer[i]</code>是第&nbsp;<code>i</code>&nbsp;个人到达时在花期内花的&nbsp;<strong>数目</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2251.Number%20of%20Flowers%20in%20Full%20Bloom/images/ex1new.jpg" style="width: 550px; height: 216px;" /></p>
+
+<pre>
+<b>输入：</b>flowers = [[1,6],[3,7],[9,12],[4,13]], people = [2,3,7,11]
+<b>输出：</b>[1,2,2,2]
+<strong>解释：</strong>上图展示了每朵花的花期时间，和每个人的到达时间。
+对每个人，我们返回他们到达时在花期内花的数目。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2251.Number%20of%20Flowers%20in%20Full%20Bloom/images/ex2new.jpg" style="width: 450px; height: 195px;" /></p>
+
+<pre>
+<b>输入：</b>flowers = [[1,10],[3,3]], people = [3,3,2]
+<b>输出：</b>[2,2,1]
+<b>解释：</b>上图展示了每朵花的花期时间，和每个人的到达时间。
+对每个人，我们返回他们到达时在花期内花的数目。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= flowers.length &lt;= 5 * 10<sup>4</sup></code></li>
@@ -56,11 +65,15 @@ For each person, we return the number of flowers in full bloom during their arri
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：排序 + 二分查找
+
+我们将花按照开始时间和结束时间分别排序，然后对于每个人，我们可以使用二分查找来找到他们到达时在花期内花的数目。就是说，找出在每个人到达时，已经开花的花的数目，减去在每个人到达时，已经凋谢的花的数目，即可得到答案。
+
+时间复杂度 $O((m + n) \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是数组 $\textit{flowers}$ 和 $\textit{people}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -164,36 +177,36 @@ func fullBloomFlowers(flowers [][]int, people []int) (ans []int) {
 
 ```ts
 function fullBloomFlowers(flowers: number[][], people: number[]): number[] {
-  const n = flowers.length;
-  const start = new Array(n).fill(0);
-  const end = new Array(n).fill(0);
-  for (let i = 0; i < n; ++i) {
-    start[i] = flowers[i][0];
-    end[i] = flowers[i][1];
-  }
-  start.sort((a, b) => a - b);
-  end.sort((a, b) => a - b);
-  const ans: number[] = [];
-  for (const p of people) {
-    const r = search(start, p + 1);
-    const l = search(end, p);
-    ans.push(r - l);
-  }
-  return ans;
+    const n = flowers.length;
+    const start = new Array(n).fill(0);
+    const end = new Array(n).fill(0);
+    for (let i = 0; i < n; ++i) {
+        start[i] = flowers[i][0];
+        end[i] = flowers[i][1];
+    }
+    start.sort((a, b) => a - b);
+    end.sort((a, b) => a - b);
+    const ans: number[] = [];
+    for (const p of people) {
+        const r = search(start, p + 1);
+        const l = search(end, p);
+        ans.push(r - l);
+    }
+    return ans;
 }
 
 function search(nums: number[], x: number): number {
-  let l = 0;
-  let r = nums.length;
-  while (l < r) {
-    const mid = (l + r) >> 1;
-    if (nums[mid] >= x) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    let l = 0;
+    let r = nums.length;
+    while (l < r) {
+        const mid = (l + r) >> 1;
+        if (nums[mid] >= x) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return l;
+    return l;
 }
 ```
 
@@ -252,7 +265,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：差分 + 排序 + 离线查询
+
+我们可以利用差分来维护每个时间点的花的数目。接下来，我们将 $people$ 按照到达时间从小到大排序，在每个人到达时，我们对差分数组进行前缀和运算，就可以得到答案。
+
+时间复杂度 $O(m \times \log m + n \times \log n)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是数组 $\textit{flowers}$ 和 $\textit{people}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -379,28 +396,26 @@ func fullBloomFlowers(flowers [][]int, people []int) []int {
 
 ```ts
 function fullBloomFlowers(flowers: number[][], people: number[]): number[] {
-  const d: Map<number, number> = new Map();
-  for (const [st, ed] of flowers) {
-    d.set(st, (d.get(st) || 0) + 1);
-    d.set(ed + 1, (d.get(ed + 1) || 0) - 1);
-  }
-  const ts = [...d.keys()].sort((a, b) => a - b);
-  let s = 0;
-  let i = 0;
-  const m = people.length;
-  const idx: number[] = [...Array(m)]
-    .map((_, i) => i)
-    .sort((a, b) => people[a] - people[b]);
-  const ans = Array(m).fill(0);
-  for (const j of idx) {
-    const t = people[j];
-    while (i < ts.length && ts[i] <= t) {
-      s += d.get(ts[i])!;
-      ++i;
+    const d: Map<number, number> = new Map();
+    for (const [st, ed] of flowers) {
+        d.set(st, (d.get(st) || 0) + 1);
+        d.set(ed + 1, (d.get(ed + 1) || 0) - 1);
     }
-    ans[j] = s;
-  }
-  return ans;
+    const ts = [...d.keys()].sort((a, b) => a - b);
+    let s = 0;
+    let i = 0;
+    const m = people.length;
+    const idx: number[] = [...Array(m)].map((_, i) => i).sort((a, b) => people[a] - people[b]);
+    const ans = Array(m).fill(0);
+    for (const j of idx) {
+        const t = people[j];
+        while (i < ts.length && ts[i] <= t) {
+            s += d.get(ts[i])!;
+            ++i;
+        }
+        ans[j] = s;
+    }
+    return ans;
 }
 ```
 

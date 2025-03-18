@@ -1,98 +1,106 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0518.Coin%20Change%20II/README.md
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [518. Coin Change II](https://leetcode.com/problems/coin-change-ii)
+# [518. 零钱兑换 II](https://leetcode.cn/problems/coin-change-ii)
 
-## Description
+[English Version](/solution/0500-0599/0518.Coin%20Change%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money.</p>
+<p>给你一个整数数组 <code>coins</code> 表示不同面额的硬币，另给一个整数 <code>amount</code> 表示总金额。</p>
 
-<p>Return <em>the number of combinations that make up that amount</em>. If that amount of money cannot be made up by any combination of the coins, return <code>0</code>.</p>
+<p>请你计算并返回可以凑成总金额的硬币组合数。如果任何硬币组合都无法凑出总金额，返回 <code>0</code> 。</p>
 
-<p>You may assume that you have an infinite number of each kind of coin.</p>
+<p>假设每一种面额的硬币有无限个。 </p>
 
-<p>The answer is <strong>guaranteed</strong> to fit into a signed <strong>32-bit</strong> integer.</p>
+<p>题目数据保证结果符合 32 位带符号整数。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<ul>
+</ul>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> amount = 5, coins = [1,2,5]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> there are four ways to make up the amount:
+<strong>输入：</strong>amount = 5, coins = [1, 2, 5]
+<strong>输出：</strong>4
+<strong>解释：</strong>有四种方式可以凑成总金额：
 5=5
 5=2+2+1
 5=2+1+1+1
 5=1+1+1+1+1
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> amount = 3, coins = [2]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> the amount of 3 cannot be made up just with coins of 2.
+<strong>输入：</strong>amount = 3, coins = [2]
+<strong>输出：</strong>0
+<strong>解释：</strong>只用面额 2 的硬币不能凑成总金额 3 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> amount = 10, coins = [10]
-<strong>Output:</strong> 1
+<strong>输入：</strong>amount = 10, coins = [10] 
+<strong>输出：</strong>1
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= coins.length &lt;= 300</code></li>
-	<li><code>1 &lt;= coins[i] &lt;= 5000</code></li>
-	<li>All the values of <code>coins</code> are <strong>unique</strong>.</li>
-	<li><code>0 &lt;= amount &lt;= 5000</code></li>
+	<li><code>1 <= coins.length <= 300</code></li>
+	<li><code>1 <= coins[i] <= 5000</code></li>
+	<li><code>coins</code> 中的所有值 <strong>互不相同</strong></li>
+	<li><code>0 <= amount <= 5000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming (Complete Knapsack)
+### 方法一：动态规划(完全背包)
 
-We define $f[i][j]$ as the number of coin combinations to make up the amount $j$ using the first $i$ types of coins. Initially, $f[0][0] = 1$, and the values of other positions are all $0$.
+我们定义 $f[i][j]$ 表示使用前 $i$ 种硬币，凑出金额 $j$ 的硬币组合数。初始时 $f[0][0] = 1$，其余位置的值均为 $0$。
 
-We can enumerate the quantity $k$ of the last coin used, then we have equation one:
+我们可以枚举使用的最后一枚硬币的数量 $k$，那么有式子一：
 
 $$
 f[i][j] = f[i - 1][j] + f[i - 1][j - x] + f[i - 1][j - 2 \times x] + \cdots + f[i - 1][j - k \times x]
 $$
 
-where $x$ represents the face value of the $i$-th type of coin.
+其中 $x$ 表示第 $i$ 种硬币的面值。
 
-Let $j = j - x$, then we have equation two:
+不妨令 $j = j - x$，那么有式子二：
 
 $$
 f[i][j - x] = f[i - 1][j - x] + f[i - 1][j - 2 \times x] + \cdots + f[i - 1][j - k \times x]
 $$
 
-Substituting equation two into equation one, we can get the following state transition equation:
+将式子二代入式子一，得到：
 
 $$
 f[i][j] = f[i - 1][j] + f[i][j - x]
 $$
 
-The final answer is $f[m][n]$.
+最终的答案为 $f[m][n]$，其中 $m$ 和 $n$ 分别表示硬币的种类数和总金额。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of types of coins and the total amount, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为硬币的种类数和总金额。
 
 <!-- tabs:start -->
 
@@ -182,26 +190,24 @@ func change(amount int, coins []int) int {
 
 ```ts
 function change(amount: number, coins: number[]): number {
-  const [m, n] = [coins.length, amount];
-  const f: number[][] = Array.from({ length: m + 1 }, () =>
-    Array(n + 1).fill(0)
-  );
-  f[0][0] = 1;
-  for (let i = 1; i <= m; ++i) {
-    for (let j = 0; j <= n; ++j) {
-      f[i][j] = f[i - 1][j];
-      if (j >= coins[i - 1]) {
-        f[i][j] += f[i][j - coins[i - 1]];
-      }
+    const [m, n] = [coins.length, amount];
+    const f: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    f[0][0] = 1;
+    for (let i = 1; i <= m; ++i) {
+        for (let j = 0; j <= n; ++j) {
+            f[i][j] = f[i - 1][j];
+            if (j >= coins[i - 1]) {
+                f[i][j] += f[i][j - coins[i - 1]];
+            }
+        }
     }
-  }
-  return f[m][n];
+    return f[m][n];
 }
 ```
 
 <!-- tabs:end -->
 
-We notice that $f[i][j]$ is only related to $f[i - 1][j]$ and $f[i][j - x]$. Therefore, we can optimize the two-dimensional array into a one-dimensional array, reducing the space complexity to $O(n)$.
+我们注意到 $f[i][j]$ 只与 $f[i - 1][j]$ 和 $f[i][j - x]$ 有关，因此我们可以将二维数组优化为一维数组，空间复杂度降为 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -276,15 +282,15 @@ func change(amount int, coins []int) int {
 
 ```ts
 function change(amount: number, coins: number[]): number {
-  const n = amount;
-  const f: number[] = Array(n + 1).fill(0);
-  f[0] = 1;
-  for (const x of coins) {
-    for (let j = x; j <= n; ++j) {
-      f[j] += f[j - x];
+    const n = amount;
+    const f: number[] = Array(n + 1).fill(0);
+    f[0] = 1;
+    for (const x of coins) {
+        for (let j = x; j <= n; ++j) {
+            f[j] += f[j - x];
+        }
     }
-  }
-  return f[n];
+    return f[n];
 }
 ```
 

@@ -1,77 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0690.Employee%20Importance/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Array
-  - Hash Table
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [690. Employee Importance](https://leetcode.com/problems/employee-importance)
+# [690. 员工的重要性](https://leetcode.cn/problems/employee-importance)
 
-## Description
+[English Version](/solution/0600-0699/0690.Employee%20Importance/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have a data structure of employee information, including the employee&#39;s unique ID, importance value, and direct subordinates&#39; IDs.</p>
+<p>你有一个保存员工信息的数据结构，它包含了员工唯一的 id ，重要度和直系下属的 id 。</p>
 
-<p>You are given an array of employees <code>employees</code> where:</p>
+<p>给定一个员工数组&nbsp;<code>employees</code>，其中：</p>
 
 <ul>
-	<li><code>employees[i].id</code> is the ID of the <code>i<sup>th</sup></code> employee.</li>
-	<li><code>employees[i].importance</code> is the importance value of the <code>i<sup>th</sup></code> employee.</li>
-	<li><code>employees[i].subordinates</code> is a list of the IDs of the direct subordinates of the <code>i<sup>th</sup></code> employee.</li>
+	<li><code>employees[i].id</code> 是第&nbsp;<code>i</code>&nbsp;个员工的 ID。</li>
+	<li><code>employees[i].importance</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;个员工的重要度。</li>
+	<li><code>employees[i].subordinates</code> 是第 <code>i</code> 名员工的直接下属的 ID 列表。</li>
 </ul>
 
-<p>Given an integer <code>id</code> that represents an employee&#39;s ID, return <em>the <strong>total</strong> importance value of this employee and all their direct and indirect subordinates</em>.</p>
+<p>给定一个整数&nbsp;<code>id</code>&nbsp;表示一个员工的 ID，返回这个员工和他所有下属的重要度的 <strong>总和</strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0690.Employee%20Importance/images/emp1-tree.jpg" style="width: 400px; height: 258px;" />
-<pre>
-<strong>Input:</strong> employees = [[1,5,[2,3]],[2,3,[]],[3,3,[]]], id = 1
-<strong>Output:</strong> 11
-<strong>Explanation:</strong> Employee 1 has an importance value of 5 and has two direct subordinates: employee 2 and employee 3.
-They both have an importance value of 3.
-Thus, the total importance value of employee 1 is 5 + 3 + 3 = 11.
-</pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0690.Employee%20Importance/images/emp2-tree.jpg" style="width: 362px; height: 361px;" />
+<p><strong>示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0690.Employee%20Importance/images/1716170448-dKZffb-image.png" style="width: 400px; height: 258px;" /></strong></p>
+
 <pre>
-<strong>Input:</strong> employees = [[1,2,[5]],[5,-3,[]]], id = 5
-<strong>Output:</strong> -3
-<strong>Explanation:</strong> Employee 5 has an importance value of -3 and has no direct subordinates.
-Thus, the total importance value of employee 5 is -3.
+<strong>输入：</strong>employees = [[1,5,[2,3]],[2,3,[]],[3,3,[]]], id = 1
+<strong>输出：</strong>11
+<strong>解释：</strong>
+员工 1 自身的重要度是 5 ，他有两个直系下属 2 和 3 ，而且 2 和 3 的重要度均为 3 。因此员工 1 的总重要度是 5 + 3 + 3 = 11 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 2：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0690.Employee%20Importance/images/1716170929-dkWpra-image.png" style="width: 362px; height: 361px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>employees = [[1,2,[5]],[5,-3,[]]], id = 5
+<strong>输出：</strong>-3
+<strong>解释：</strong>员工 5 的重要度为 -3 并且没有直接下属。
+因此，员工 5 的总重要度为 -3。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= employees.length &lt;= 2000</code></li>
 	<li><code>1 &lt;= employees[i].id &lt;= 2000</code></li>
-	<li>All <code>employees[i].id</code> are <strong>unique</strong>.</li>
+	<li>所有的&nbsp;<code>employees[i].id</code>&nbsp;<strong>互不相同</strong>。</li>
 	<li><code>-100 &lt;= employees[i].importance &lt;= 100</code></li>
-	<li>One employee has at most one direct leader and may have several subordinates.</li>
-	<li>The IDs in <code>employees[i].subordinates</code> are valid IDs.</li>
+	<li>一名员工最多有一名直接领导，并可能有多名下属。</li>
+	<li><code>employees[i].subordinates</code>&nbsp;中的 ID 都有效。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + DFS
+### 方法一：哈希表 + DFS
 
-We use a hash table $d$ to store all employee information, where the key is the employee's ID, and the value is the employee object. Then we start a depth-first search from the given employee ID. Each time we traverse to an employee, we add the employee's importance to the answer, and recursively traverse all the subordinates of the employee, adding the importance of the subordinates to the answer as well.
+我们用一个哈希表 $d$ 存储所有员工的信息，其中键是员工的 ID，值是员工对象。然后我们从给定的员工 ID 开始深度优先搜索，每次遍历到一个员工时，将该员工的重要度加到答案中，并递归遍历该员工的所有下属，将下属的重要度也加到答案中。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of employees.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是员工的数量。
 
 <!-- tabs:start -->
 
@@ -209,18 +219,18 @@ func getImportance(employees []*Employee, id int) int {
  */
 
 function getImportance(employees: Employee[], id: number): number {
-  const d = new Map<number, Employee>();
-  for (const e of employees) {
-    d.set(e.id, e);
-  }
-  const dfs = (i: number): number => {
-    let s = d.get(i)!.importance;
-    for (const j of d.get(i)!.subordinates) {
-      s += dfs(j);
+    const d = new Map<number, Employee>();
+    for (const e of employees) {
+        d.set(e.id, e);
     }
-    return s;
-  };
-  return dfs(id);
+    const dfs = (i: number): number => {
+        let s = d.get(i)!.importance;
+        for (const j of d.get(i)!.subordinates) {
+            s += dfs(j);
+        }
+        return s;
+    };
+    return dfs(id);
 }
 ```
 
@@ -242,18 +252,18 @@ function getImportance(employees: Employee[], id: number): number {
  * @return {number}
  */
 var GetImportance = function (employees, id) {
-  const d = new Map();
-  for (const e of employees) {
-    d.set(e.id, e);
-  }
-  const dfs = (i) => {
-    let s = d.get(i).importance;
-    for (const j of d.get(i).subordinates) {
-      s += dfs(j);
+    const d = new Map();
+    for (const e of employees) {
+        d.set(e.id, e);
     }
-    return s;
-  };
-  return dfs(id);
+    const dfs = i => {
+        let s = d.get(i).importance;
+        for (const j of d.get(i).subordinates) {
+            s += dfs(j);
+        }
+        return s;
+    };
+    return dfs(id);
 };
 ```
 

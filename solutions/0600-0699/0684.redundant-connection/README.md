@@ -1,66 +1,75 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0684.Redundant%20Connection/README.md
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Graph
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [684. Redundant Connection](https://leetcode.com/problems/redundant-connection)
+# [684. 冗余连接](https://leetcode.cn/problems/redundant-connection)
 
-## Description
+[English Version](/solution/0600-0699/0684.Redundant%20Connection/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>In this problem, a tree is an <strong>undirected graph</strong> that is connected and has no cycles.</p>
+<p>树可以看成是一个连通且 <strong>无环&nbsp;</strong>的&nbsp;<strong>无向&nbsp;</strong>图。</p>
 
-<p>You are given a graph that started as a tree with <code>n</code> nodes labeled from <code>1</code> to <code>n</code>, with one additional edge added. The added edge has two <strong>different</strong> vertices chosen from <code>1</code> to <code>n</code>, and was not an edge that already existed. The graph is represented as an array <code>edges</code> of length <code>n</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the graph.</p>
+<p>给定往一棵&nbsp;<code>n</code> 个节点 (节点值&nbsp;<code>1～n</code>) 的树中添加一条边后的图。添加的边的两个顶点包含在 <code>1</code> 到 <code>n</code>&nbsp;中间，且这条附加的边不属于树中已存在的边。图的信息记录于长度为 <code>n</code> 的二维数组 <code>edges</code>&nbsp;，<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示图中在 <code>ai</code> 和 <code>bi</code> 之间存在一条边。</p>
 
-<p>Return <em>an edge that can be removed so that the resulting graph is a tree of </em><code>n</code><em> nodes</em>. If there are multiple answers, return the answer that occurs last in the input.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0684.Redundant%20Connection/images/reduntant1-1-graph.jpg" style="width: 222px; height: 222px;" />
-<pre>
-<strong>Input:</strong> edges = [[1,2],[1,3],[2,3]]
-<strong>Output:</strong> [2,3]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0684.Redundant%20Connection/images/reduntant1-2-graph.jpg" style="width: 382px; height: 222px;" />
-<pre>
-<strong>Input:</strong> edges = [[1,2],[2,3],[3,4],[1,4],[1,5]]
-<strong>Output:</strong> [1,4]
-</pre>
+<p>请找出一条可以删去的边，删除后可使得剩余部分是一个有着 <code>n</code> 个节点的树。如果有多个答案，则返回数组&nbsp;<code>edges</code>&nbsp;中最后出现的那个。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0684.Redundant%20Connection/images/1626676174-hOEVUL-image.png" style="width: 152px; " /></p>
+
+<pre>
+<strong>输入:</strong> edges = [[1,2], [1,3], [2,3]]
+<strong>输出:</strong> [2,3]
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0684.Redundant%20Connection/images/1626676179-kGxcmu-image.png" style="width: 250px; " /></p>
+
+<pre>
+<strong>输入:</strong> edges = [[1,2], [2,3], [3,4], [1,4], [1,5]]
+<strong>输出:</strong> [1,4]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>n == edges.length</code></li>
 	<li><code>3 &lt;= n &lt;= 1000</code></li>
 	<li><code>edges[i].length == 2</code></li>
-	<li><code>1 &lt;= a<sub>i</sub> &lt; b<sub>i</sub> &lt;= edges.length</code></li>
-	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li>There are no repeated edges.</li>
-	<li>The given graph is connected.</li>
+	<li><code>1 &lt;= ai&nbsp;&lt; bi&nbsp;&lt;= edges.length</code></li>
+	<li><code>ai != bi</code></li>
+	<li><code>edges</code> 中无重复元素</li>
+	<li>给定的图是连通的&nbsp;</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Union-Find
+### 方法一：并查集
 
-According to the problem description, we need to find an edge that can be removed so that the remaining part is a tree with $n$ nodes. We can traverse each edge and determine whether the two nodes of this edge are in the same connected component. If they are in the same connected component, it means this edge is redundant and can be removed, so we directly return this edge. Otherwise, we merge the two nodes connected by this edge into the same connected component.
+根据题意，我们需要找到一条可以删去的边，删除后剩余部分是一个有着 $n$ 个节点的树。我们可以遍历每一条边，判断这条边是否在同一个连通分量中。如果在同一个连通分量中，则说明这条边是多余的，可以删除，直接返回这条边即可。否则，我们将这条边所连接的两个节点合并到同一个连通分量中。
 
-The time complexity is $O(n \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of edges.
+时间复杂度 $O(n \log n)$，空间复杂度 $O(n)$。其中 $n$ 为边的数量。
 
 <!-- tabs:start -->
 
@@ -167,22 +176,22 @@ func findRedundantConnection(edges [][]int) []int {
 
 ```ts
 function findRedundantConnection(edges: number[][]): number[] {
-  const n = edges.length;
-  const p: number[] = Array.from({ length: n }, (_, i) => i);
-  const find = (x: number): number => {
-    if (p[x] !== x) {
-      p[x] = find(p[x]);
+    const n = edges.length;
+    const p: number[] = Array.from({ length: n }, (_, i) => i);
+    const find = (x: number): number => {
+        if (p[x] !== x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    };
+    for (let i = 0; ; ++i) {
+        const pa = find(edges[i][0] - 1);
+        const pb = find(edges[i][1] - 1);
+        if (pa === pb) {
+            return edges[i];
+        }
+        p[pa] = pb;
     }
-    return p[x];
-  };
-  for (let i = 0; ; ++i) {
-    const pa = find(edges[i][0] - 1);
-    const pb = find(edges[i][1] - 1);
-    if (pa === pb) {
-      return edges[i];
-    }
-    p[pa] = pb;
-  }
 }
 ```
 
@@ -194,22 +203,22 @@ function findRedundantConnection(edges: number[][]): number[] {
  * @return {number[]}
  */
 var findRedundantConnection = function (edges) {
-  const n = edges.length;
-  const p = Array.from({ length: n }, (_, i) => i);
-  const find = (x) => {
-    if (p[x] !== x) {
-      p[x] = find(p[x]);
+    const n = edges.length;
+    const p = Array.from({ length: n }, (_, i) => i);
+    const find = x => {
+        if (p[x] !== x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    };
+    for (let i = 0; ; ++i) {
+        const pa = find(edges[i][0] - 1);
+        const pb = find(edges[i][1] - 1);
+        if (pa === pb) {
+            return edges[i];
+        }
+        p[pa] = pb;
     }
-    return p[x];
-  };
-  for (let i = 0; ; ++i) {
-    const pa = find(edges[i][0] - 1);
-    const pb = find(edges[i][1] - 1);
-    if (pa === pb) {
-      return edges[i];
-    }
-    p[pa] = pb;
-  }
 };
 ```
 
@@ -219,11 +228,11 @@ var findRedundantConnection = function (edges) {
 
 <!-- solution:start -->
 
-### Solution 2: Union-Find (Template Approach)
+### 方法二：并查集（模板做法）
 
-Here is a template approach using Union-Find for your reference.
+这里给出一个并查集的模板做法，供大家参考。
 
-The time complexity is $O(n \alpha(n))$, and the space complexity is $O(n)$. Here, $n$ is the number of edges, and $\alpha(n)$ is the inverse Ackermann function, which can be considered a very small constant.
+时间复杂度 $O(n \alpha(n))$，空间复杂度 $O(n)$。其中 $n$ 为边的数量，而 $\alpha(n)$ 是阿克曼函数的反函数，可以认为是一个很小的常数。
 
 <!-- tabs:start -->
 
@@ -417,43 +426,43 @@ func findRedundantConnection(edges [][]int) []int {
 
 ```ts
 class UnionFind {
-  p: number[];
-  size: number[];
-  constructor(n: number) {
-    this.p = Array.from({ length: n }, (_, i) => i);
-    this.size = Array(n).fill(1);
-  }
+    p: number[];
+    size: number[];
+    constructor(n: number) {
+        this.p = Array.from({ length: n }, (_, i) => i);
+        this.size = Array(n).fill(1);
+    }
 
-  find(x: number): number {
-    if (this.p[x] !== x) {
-      this.p[x] = this.find(this.p[x]);
+    find(x: number): number {
+        if (this.p[x] !== x) {
+            this.p[x] = this.find(this.p[x]);
+        }
+        return this.p[x];
     }
-    return this.p[x];
-  }
 
-  union(a: number, b: number): boolean {
-    const [pa, pb] = [this.find(a), this.find(b)];
-    if (pa === pb) {
-      return false;
+    union(a: number, b: number): boolean {
+        const [pa, pb] = [this.find(a), this.find(b)];
+        if (pa === pb) {
+            return false;
+        }
+        if (this.size[pa] > this.size[pb]) {
+            this.p[pb] = pa;
+            this.size[pa] += this.size[pb];
+        } else {
+            this.p[pa] = pb;
+            this.size[pb] += this.size[pa];
+        }
+        return true;
     }
-    if (this.size[pa] > this.size[pb]) {
-      this.p[pb] = pa;
-      this.size[pa] += this.size[pb];
-    } else {
-      this.p[pa] = pb;
-      this.size[pb] += this.size[pa];
-    }
-    return true;
-  }
 }
 
 function findRedundantConnection(edges: number[][]): number[] {
-  const uf = new UnionFind(edges.length);
-  for (let i = 0; ; ++i) {
-    if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
-      return edges[i];
+    const uf = new UnionFind(edges.length);
+    for (let i = 0; ; ++i) {
+        if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
+            return edges[i];
+        }
     }
-  }
 }
 ```
 
@@ -461,33 +470,33 @@ function findRedundantConnection(edges: number[][]): number[] {
 
 ```js
 class UnionFind {
-  constructor(n) {
-    this.p = Array.from({ length: n }, (_, i) => i);
-    this.size = Array(n).fill(1);
-  }
+    constructor(n) {
+        this.p = Array.from({ length: n }, (_, i) => i);
+        this.size = Array(n).fill(1);
+    }
 
-  find(x) {
-    if (this.p[x] !== x) {
-      this.p[x] = this.find(this.p[x]);
+    find(x) {
+        if (this.p[x] !== x) {
+            this.p[x] = this.find(this.p[x]);
+        }
+        return this.p[x];
     }
-    return this.p[x];
-  }
 
-  union(a, b) {
-    const pa = this.find(a);
-    const pb = this.find(b);
-    if (pa === pb) {
-      return false;
+    union(a, b) {
+        const pa = this.find(a);
+        const pb = this.find(b);
+        if (pa === pb) {
+            return false;
+        }
+        if (this.size[pa] > this.size[pb]) {
+            this.p[pb] = pa;
+            this.size[pa] += this.size[pb];
+        } else {
+            this.p[pa] = pb;
+            this.size[pb] += this.size[pa];
+        }
+        return true;
     }
-    if (this.size[pa] > this.size[pb]) {
-      this.p[pb] = pa;
-      this.size[pa] += this.size[pb];
-    } else {
-      this.p[pa] = pb;
-      this.size[pb] += this.size[pa];
-    }
-    return true;
-  }
 }
 
 /**
@@ -495,12 +504,12 @@ class UnionFind {
  * @return {number[]}
  */
 var findRedundantConnection = function (edges) {
-  const uf = new UnionFind(edges.length);
-  for (let i = 0; i < edges.length; i++) {
-    if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
-      return edges[i];
+    const uf = new UnionFind(edges.length);
+    for (let i = 0; i < edges.length; i++) {
+        if (!uf.union(edges[i][0] - 1, edges[i][1] - 1)) {
+            return edges[i];
+        }
     }
-  }
 };
 ```
 

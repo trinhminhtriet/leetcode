@@ -1,54 +1,59 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1157.Online%20Majority%20Element%20In%20Subarray/README.md
 rating: 2205
-source: Weekly Contest 149 Q4
+source: 第 149 场周赛 Q4
 tags:
-  - Design
-  - Binary Indexed Tree
-  - Segment Tree
-  - Array
-  - Binary Search
+    - 设计
+    - 树状数组
+    - 线段树
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [1157. Online Majority Element In Subarray](https://leetcode.com/problems/online-majority-element-in-subarray)
+# [1157. 子数组中占绝大多数的元素](https://leetcode.cn/problems/online-majority-element-in-subarray)
 
-## Description
+[English Version](/solution/1100-1199/1157.Online%20Majority%20Element%20In%20Subarray/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Design a data structure that efficiently finds the <strong>majority element</strong> of a given subarray.</p>
+<p>设计一个数据结构，有效地找到给定子数组的 <strong>多数元素</strong> 。</p>
 
-<p>The <strong>majority element</strong> of a subarray is an element that occurs <code>threshold</code> times or more in the subarray.</p>
+<p>子数组的 <strong>多数元素</strong> 是在子数组中出现&nbsp;<code>threshold</code>&nbsp;次数或次数以上的元素。</p>
 
-<p>Implementing the <code>MajorityChecker</code> class:</p>
+<p>实现 <code>MajorityChecker</code> 类:</p>
 
 <ul>
-	<li><code>MajorityChecker(int[] arr)</code> Initializes the instance of the class with the given array <code>arr</code>.</li>
-	<li><code>int query(int left, int right, int threshold)</code> returns the element in the subarray <code>arr[left...right]</code> that occurs at least <code>threshold</code> times, or <code>-1</code> if no such element exists.</li>
+	<li><code>MajorityChecker(int[] arr)</code>&nbsp;会用给定的数组 <code>arr</code>&nbsp;对&nbsp;<code>MajorityChecker</code> 初始化。</li>
+	<li><code>int query(int left, int right, int threshold)</code>&nbsp;返回子数组中的元素 &nbsp;<code>arr[left...right]</code>&nbsp;至少出现&nbsp;<code>threshold</code>&nbsp;次数，如果不存在这样的元素则返回 <code>-1</code>。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;MajorityChecker&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;]
+<strong>输入:</strong>
+["MajorityChecker", "query", "query", "query"]
 [[[1, 1, 2, 2, 1, 1]], [0, 5, 4], [0, 3, 3], [2, 3, 2]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null, 1, -1, 2]
 
-<strong>Explanation</strong>
-MajorityChecker majorityChecker = new MajorityChecker([1, 1, 2, 2, 1, 1]);
-majorityChecker.query(0, 5, 4); // return 1
-majorityChecker.query(0, 3, 3); // return -1
-majorityChecker.query(2, 3, 2); // return 2
+<b>解释：</b>
+MajorityChecker majorityChecker = new MajorityChecker([1,1,2,2,1,1]);
+majorityChecker.query(0,5,4); // 返回 1
+majorityChecker.query(0,3,3); // 返回 -1
+majorityChecker.query(2,3,2); // 返回 2
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 2 * 10<sup>4</sup></code></li>
@@ -56,37 +61,37 @@ majorityChecker.query(2, 3, 2); // return 2
 	<li><code>0 &lt;= left &lt;= right &lt; arr.length</code></li>
 	<li><code>threshold &lt;= right - left + 1</code></li>
 	<li><code>2 * threshold &gt; right - left + 1</code></li>
-	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>query</code>.</li>
+	<li>调用&nbsp;<code>query</code>&nbsp;的次数最多为&nbsp;<code>10<sup>4</sup></code>&nbsp;</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Segment Tree + Boyer-Moore Voting Algorithm + Binary Search
+### 方法一：线段树 + 摩尔投票 + 二分查找
 
-We notice that the problem requires us to find the possible majority element in a specific interval, so we consider using a segment tree to maintain the candidate majority element and its occurrence in each interval.
+我们注意到，题目需要我们找出特定区间内可能的众数，考虑使用线段树来维护每个区间内的候选众数以及其出现的次数。
 
-We define each node of the segment tree as `Node`, each node contains the following attributes:
+我们定义线段树的每个节点为 `Node`，每个节点包含如下属性：
 
-- `l`: The left endpoint of the node, the index starts from $1$.
-- `r`: The right endpoint of the node, the index starts from $1$.
-- `x`: The candidate majority element of the node.
-- `cnt`: The occurrence of the candidate majority element of the node.
+-   `l`：节点的左端点，下标从 $1$ 开始。
+-   `r`：节点的右端点，下标从 $1$ 开始。
+-   `x`：节点的候选众数。
+-   `cnt`：节点的候选众数出现的次数。
 
-The segment tree mainly has the following operations:
+线段树主要有以下几个操作：
 
-- `build(u, l, r)`: Build the segment tree.
-- `pushup(u)`: Use the information of the child nodes to update the information of the parent node.
-- `query(u, l, r)`: Query the interval sum.
+-   `build(u, l, r)`：建立线段树。
+-   `pushup(u)`：用子节点的信息更新父节点的信息。
+-   `query(u, l, r)`：查询区间和。
 
-In the initialization method of the main function, we first create a segment tree, and use a hash table $d$ to record all indexes of each element in the array.
+在主函数的初始化方法中，我们先创建一个线段树，并且用哈希表 $d$ 记录每个元素在数组中的所有下标。
 
-In the `query(left, right, threshold)` method, we directly call the `query` method of the segment tree to get the candidate majority element $x$. Then use binary search to find the first index $l$ in the array that is greater than or equal to $left$, and the first index $r$ that is greater than $right$. If $r - l \ge threshold$, return $x$, otherwise return $-1$.
+在 `query(left, right, threshold)` 方法中，我们直接调用线段树的 `query` 方法，得到候选众数 $x$。然后使用二分查找，找到 $x$ 在数组中第一个大于等于 $left$ 的下标 $l$，以及第一个大于 $right$ 的下标 $r$。如果 $r - l \ge threshold$，则返回 $x$，否则返回 $-1$。
 
-In terms of time complexity, the time complexity of the initialization method is $O(n)$, and the time complexity of the query method is $O(\log n)$. The space complexity is $O(n)$. Here, $n$ is the length of the array.
+时间复杂度方面，初始化方法的时间复杂度为 $O(n)$，查询方法的时间复杂度为 $O(\log n)$。空间复杂度为 $O(n)$。其中 $n$ 为数组的长度。
 
 <!-- tabs:start -->
 

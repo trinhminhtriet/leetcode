@@ -1,62 +1,65 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2511.Maximum%20Enemy%20Forts%20That%20Can%20Be%20Captured/README.md
 rating: 1450
-source: Biweekly Contest 94 Q1
+source: 第 94 场双周赛 Q1
 tags:
-  - Array
-  - Two Pointers
+    - 数组
+    - 双指针
 ---
 
 <!-- problem:start -->
 
-# [2511. Maximum Enemy Forts That Can Be Captured](https://leetcode.com/problems/maximum-enemy-forts-that-can-be-captured)
+# [2511. 最多可以摧毁的敌人城堡数目](https://leetcode.cn/problems/maximum-enemy-forts-that-can-be-captured)
 
-## Description
+[English Version](/solution/2500-2599/2511.Maximum%20Enemy%20Forts%20That%20Can%20Be%20Captured/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>forts</code> of length <code>n</code> representing the positions of several forts. <code>forts[i]</code> can be <code>-1</code>, <code>0</code>, or <code>1</code> where:</p>
+<p>给你一个长度为 <code>n</code>&nbsp;，下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>forts</code>&nbsp;，表示一些城堡。<code>forts[i]</code> 可以是&nbsp;<code>-1</code>&nbsp;，<code>0</code>&nbsp;或者&nbsp;<code>1</code>&nbsp;，其中：</p>
 
 <ul>
-	<li><code>-1</code> represents there is <strong>no fort</strong> at the <code>i<sup>th</sup></code> position.</li>
-	<li><code>0</code> indicates there is an <strong>enemy</strong> fort at the <code>i<sup>th</sup></code> position.</li>
-	<li><code>1</code> indicates the fort at the <code>i<sup>th</sup></code> the position is under your command.</li>
+	<li><code>-1</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个位置 <strong>没有</strong>&nbsp;城堡。</li>
+	<li><code>0</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个位置有一个 <strong>敌人</strong>&nbsp;的城堡。</li>
+	<li><code>1</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个位置有一个你控制的城堡。</li>
 </ul>
 
-<p>Now you have decided to move your army from one of your forts at position <code>i</code> to an empty position <code>j</code> such that:</p>
+<p>现在，你需要决定，将你的军队从某个你控制的城堡位置&nbsp;<code>i</code>&nbsp;移动到一个空的位置&nbsp;<code>j</code>&nbsp;，满足：</p>
 
 <ul>
 	<li><code>0 &lt;= i, j &lt;= n - 1</code></li>
-	<li>The army travels over enemy forts <strong>only</strong>. Formally, for all <code>k</code> where <code>min(i,j) &lt; k &lt; max(i,j)</code>, <code>forts[k] == 0.</code></li>
+	<li>军队经过的位置 <strong>只有</strong>&nbsp;敌人的城堡。正式的，对于所有&nbsp;<code>min(i,j) &lt; k &lt; max(i,j)</code>&nbsp;的&nbsp;<code>k</code>&nbsp;，都满足&nbsp;<code>forts[k] == 0</code>&nbsp;。</li>
 </ul>
 
-<p>While moving the army, all the enemy forts that come in the way are <strong>captured</strong>.</p>
+<p>当军队移动时，所有途中经过的敌人城堡都会被 <strong>摧毁</strong> 。</p>
 
-<p>Return<em> the <strong>maximum</strong> number of enemy forts that can be captured</em>. In case it is <strong>impossible</strong> to move your army, or you do not have any fort under your command, return <code>0</code><em>.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> forts = [1,0,0,-1,0,0,0,0,1]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong>
-- Moving the army from position 0 to position 3 captures 2 enemy forts, at 1 and 2.
-- Moving the army from position 8 to position 3 captures 4 enemy forts.
-Since 4 is the maximum number of enemy forts that can be captured, we return 4.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> forts = [0,0,1,-1]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Since no enemy fort can be captured, 0 is returned.
-</pre>
+<p>请你返回 <strong>最多</strong>&nbsp;可以摧毁的敌人城堡数目。如果 <strong>无法</strong>&nbsp;移动你的军队，或者没有你控制的城堡，请返回 <code>0</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>forts = [1,0,0,-1,0,0,0,0,1]
+<b>输出：</b>4
+<strong>解释：</strong>
+- 将军队从位置 0 移动到位置 3 ，摧毁 2 个敌人城堡，位置分别在 1 和 2 。
+- 将军队从位置 8 移动到位置 3 ，摧毁 4 个敌人城堡。
+4 是最多可以摧毁的敌人城堡数目，所以我们返回 4 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>forts = [0,0,1,-1]
+<b>输出：</b>0
+<b>解释：</b>由于无法摧毁敌人的城堡，所以返回 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= forts.length &lt;= 1000</code></li>
@@ -65,11 +68,15 @@ Since 4 is the maximum number of enemy forts that can be captured, we return 4.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：双指针
+
+我们用指针 $i$ 遍历数组 $forts$，指针 $j$ 从 $i$ 的下一个位置开始遍历，直到遇到第一个非 $0$ 的位置，即 $forts[j] \neq 0$。如果 $forts[i] + forts[j] = 0$，那么我们可以将军队在 $i$ 和 $j$ 之间移动，摧毁 $j - i - 1$ 个敌人城堡。我们用变量 $ans$ 记录最多可以摧毁的敌人城堡数目即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 `forts` 的长度。
 
 <!-- tabs:start -->
 
@@ -166,22 +173,22 @@ func captureForts(forts []int) (ans int) {
 
 ```ts
 function captureForts(forts: number[]): number {
-  const n = forts.length;
-  let ans = 0;
-  let i = 0;
-  while (i < n) {
-    let j = i + 1;
-    if (forts[i] !== 0) {
-      while (j < n && forts[j] === 0) {
-        j++;
-      }
-      if (j < n && forts[i] + forts[j] === 0) {
-        ans = Math.max(ans, j - i - 1);
-      }
+    const n = forts.length;
+    let ans = 0;
+    let i = 0;
+    while (i < n) {
+        let j = i + 1;
+        if (forts[i] !== 0) {
+            while (j < n && forts[j] === 0) {
+                j++;
+            }
+            if (j < n && forts[i] + forts[j] === 0) {
+                ans = Math.max(ans, j - i - 1);
+            }
+        }
+        i = j;
     }
-    i = j;
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -216,7 +223,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

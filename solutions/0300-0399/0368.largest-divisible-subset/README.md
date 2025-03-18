@@ -1,62 +1,77 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0368.Largest%20Divisible%20Subset/README.md
 tags:
-  - Array
-  - Math
-  - Dynamic Programming
-  - Sorting
+    - 数组
+    - 数学
+    - 动态规划
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [368. Largest Divisible Subset](https://leetcode.com/problems/largest-divisible-subset)
+# [368. 最大整除子集](https://leetcode.cn/problems/largest-divisible-subset)
 
-## Description
+[English Version](/solution/0300-0399/0368.Largest%20Divisible%20Subset/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a set of <strong>distinct</strong> positive integers <code>nums</code>, return the largest subset <code>answer</code> such that every pair <code>(answer[i], answer[j])</code> of elements in this subset satisfies:</p>
+给你一个由 <strong>无重复</strong> 正整数组成的集合 <code>nums</code> ，请你找出并返回其中最大的整除子集 <code>answer</code> ，子集中每一元素对 <code>(answer[i], answer[j])</code> 都应当满足：
 
 <ul>
-	<li><code>answer[i] % answer[j] == 0</code>, or</li>
+	<li><code>answer[i] % answer[j] == 0</code> ，或</li>
 	<li><code>answer[j] % answer[i] == 0</code></li>
 </ul>
 
-<p>If there are multiple solutions, return any of them.</p>
+<p>如果存在多个有效解子集，返回其中任何一个均可。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2,3]
-<strong>Output:</strong> [1,2]
-<strong>Explanation:</strong> [1,3] is also accepted.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,4,8]
-<strong>Output:</strong> [1,2,4,8]
+<strong>输入：</strong>nums = [1,2,3]
+<strong>输出：</strong>[1,2]
+<strong>解释：</strong>[1,3] 也会被视为正确答案。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,4,8]
+<strong>输出：</strong>[1,2,4,8]
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 2 * 10<sup>9</sup></code></li>
-	<li>All the integers in <code>nums</code> are <strong>unique</strong>.</li>
+	<li><code>1 <= nums.length <= 1000</code></li>
+	<li><code>1 <= nums[i] <= 2 * 10<sup>9</sup></code></li>
+	<li><code>nums</code> 中的所有整数 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：排序 + 动态规划
+
+我们先对数组进行排序，这样可以保证对于任意的 $i \lt j$，如果 $nums[i]$ 可以整除 $nums[j]$，那么 $nums[i]$ 一定在 $nums[j]$ 的左边。
+
+接下来，我们定义 $f[i]$ 表示以 $nums[i]$ 为最大元素的最大整除子集的大小，初始时 $f[i]=1$。
+
+对于每一个 $i$，我们从左往右枚举 $j$，如果 $nums[i]$ 可以被 $nums[j]$ 整除，那么 $f[i]$ 可以从 $f[j]$ 转移而来，我们更新 $f[i]=max(f[i], f[j]+1)$。过程中，我们记录 $f[i]$ 的最大值的下标 $k$ 以及对应的子集大小 $m$。
+
+最后，我们从 $k$ 开始倒序遍历，如果 $nums[k]$ 可以被 $nums[i]$ 整除，且 $f[i]=m$，那么 $nums[i]$ 就是一个整除子集的元素，我们将 $nums[i]$ 加入答案，并将 $m$ 减 $1$，同时更新 $k=i$。继续倒序遍历，直到 $m=0$。
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 

@@ -1,79 +1,111 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2266.Count%20Number%20of%20Texts/README.md
 rating: 1856
-source: Weekly Contest 292 Q3
+source: 第 292 场周赛 Q3
 tags:
-  - Hash Table
-  - Math
-  - String
-  - Dynamic Programming
+    - 哈希表
+    - 数学
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2266. Count Number of Texts](https://leetcode.com/problems/count-number-of-texts)
+# [2266. 统计打字方案数](https://leetcode.cn/problems/count-number-of-texts)
 
-## Description
+[English Version](/solution/2200-2299/2266.Count%20Number%20of%20Texts/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Alice is texting Bob using her phone. The <strong>mapping</strong> of digits to letters is shown in the figure below.</p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2266.Count%20Number%20of%20Texts/images/1200px-telephone-keypad2svg.png" style="width: 200px; height: 162px;" />
-<p>In order to <strong>add</strong> a letter, Alice has to <strong>press</strong> the key of the corresponding digit <code>i</code> times, where <code>i</code> is the position of the letter in the key.</p>
+<p>Alice 在给 Bob 用手机打字。数字到字母的 <strong>对应</strong>&nbsp;如下图所示。</p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2266.Count%20Number%20of%20Texts/images/1722224025-gsUAIv-image.png" style="width: 200px; height: 162px;" /></p>
+
+<p>为了 <strong>打出</strong>&nbsp;一个字母，Alice 需要 <strong>按</strong>&nbsp;对应字母 <code>i</code>&nbsp;次，<code>i</code>&nbsp;是该字母在这个按键上所处的位置。</p>
 
 <ul>
-	<li>For example, to add the letter <code>&#39;s&#39;</code>, Alice has to press <code>&#39;7&#39;</code> four times. Similarly, to add the letter <code>&#39;k&#39;</code>, Alice has to press <code>&#39;5&#39;</code> twice.</li>
-	<li>Note that the digits <code>&#39;0&#39;</code> and <code>&#39;1&#39;</code> do not map to any letters, so Alice <strong>does not</strong> use them.</li>
+	<li>比方说，为了按出字母&nbsp;<code>'s'</code>&nbsp;，Alice 需要按&nbsp;<code>'7'</code>&nbsp;四次。类似的， Alice 需要按&nbsp;<code>'5'</code>&nbsp;两次得到字母&nbsp;&nbsp;<code>'k'</code>&nbsp;。</li>
+	<li>注意，数字&nbsp;<code>'0'</code> 和&nbsp;<code>'1'</code>&nbsp;不映射到任何字母，所以&nbsp;Alice <strong>不</strong>&nbsp;使用它们。</li>
 </ul>
 
-<p>However, due to an error in transmission, Bob did not receive Alice&#39;s text message but received a <strong>string of pressed keys</strong> instead.</p>
+<p>但是，由于传输的错误，Bob 没有收到 Alice 打字的字母信息，反而收到了 <strong>按键的字符串信息</strong>&nbsp;。</p>
 
 <ul>
-	<li>For example, when Alice sent the message <code>&quot;bob&quot;</code>, Bob received the string <code>&quot;2266622&quot;</code>.</li>
+	<li>比方说，Alice 发出的信息为&nbsp;<code>"bob"</code>&nbsp;，Bob 将收到字符串&nbsp;<code>"2266622"</code>&nbsp;。</li>
 </ul>
 
-<p>Given a string <code>pressedKeys</code> representing the string received by Bob, return <em>the <strong>total number of possible text messages</strong> Alice could have sent</em>.</p>
+<p>给你一个字符串&nbsp;<code>pressedKeys</code>&nbsp;，表示 Bob 收到的字符串，请你返回 Alice <strong>总共可能发出多少种文字信息</strong>&nbsp;。</p>
 
-<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> pressedKeys = &quot;22233&quot;
-<strong>Output:</strong> 8
-<strong>Explanation:</strong>
-The possible text messages Alice could have sent are:
-&quot;aaadd&quot;, &quot;abdd&quot;, &quot;badd&quot;, &quot;cdd&quot;, &quot;aaae&quot;, &quot;abe&quot;, &quot;bae&quot;, and &quot;ce&quot;.
-Since there are 8 possible messages, we return 8.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> pressedKeys = &quot;222222222222222222222222222222222222&quot;
-<strong>Output:</strong> 82876089
-<strong>Explanation:</strong>
-There are 2082876103 possible text messages Alice could have sent.
-Since we need to return the answer modulo 10<sup>9</sup> + 7, we return 2082876103 % (10<sup>9</sup> + 7) = 82876089.
-</pre>
+<p>由于答案可能很大，将它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong> 后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>pressedKeys = "22233"
+<b>输出：</b>8
+<strong>解释：</strong>
+Alice 可能发出的文字信息包括：
+"aaadd", "abdd", "badd", "cdd", "aaae", "abe", "bae" 和 "ce" 。
+由于总共有 8 种可能的信息，所以我们返回 8 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>pressedKeys = "222222222222222222222222222222222222"
+<b>输出：</b>82876089
+<strong>解释：</strong>
+总共有 2082876103 种 Alice 可能发出的文字信息。
+由于我们需要将答案对 10<sup>9</sup> + 7 取余，所以我们返回 2082876103 % (10<sup>9</sup> + 7) = 82876089 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= pressedKeys.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>pressedKeys</code> only consists of digits from <code>&#39;2&#39;</code> - <code>&#39;9&#39;</code>.</li>
+	<li><code>pressedKeys</code> 只包含数字&nbsp;<code>'2'</code>&nbsp;到&nbsp;<code>'9'</code>&nbsp;。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：分组 + 动态规划
+
+根据题目描述，对于字符串 $\textit{pressedKeys}$ 中连续的相同字符，可以将其分为一组，然后分别计算每组的方案数，最后将所有组的方案数相乘即可。
+
+问题的关键在于如何计算每组的方案数。
+
+如果一组字符为 '7' 或 '9'，我们可以分别将该组的末尾 $1$, $2$, $3$, $4$ 个字符视为一个字母，然后将该组字符规模缩小，转化为规模更小的子问题。
+
+同样地，如果一组字符为 '2', '3', '4', '5', '6', '8'，我们可以将该组的末尾 $1$, $2$, $3$ 个字符视为一个字母，然后将该组字符规模缩小，转化为规模更小的子问题。
+
+因此，我们定义 $f[i]$ 表示长度为 $i$ 的连续相同字符，且字符不为 '7' 或 '9' 的方案数，定义 $g[i]$ 表示长度为 $i$ 的连续相同字符，且字符为 '7' 或 '9' 的方案数。
+
+初始时 $f[0] = f[1] = 1$, $f[2] = 2$, $f[3] = 4$, $g[0] = g[1] = 1$, $g[2] = 2$, $g[3] = 4$。
+
+对于 $i \ge 4$，有：
+
+$$
+\begin{aligned}
+f[i] & = f[i-1] + f[i-2] + f[i-3] \\
+g[i] & = g[i-1] + g[i-2] + g[i-3] + g[i-4]
+\end{aligned}
+$$
+
+最后，我们遍历 $\textit{pressedKeys}$，将连续相同字符分组，然后计算每组的方案数，最后将所有组的方案数相乘即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $\textit{pressedKeys}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -91,9 +123,9 @@ for _ in range(100000):
 class Solution:
     def countTexts(self, pressedKeys: str) -> int:
         ans = 1
-        for ch, s in groupby(pressedKeys):
+        for c, s in groupby(pressedKeys):
             m = len(list(s))
-            ans = ans * (g[m] if ch in "79" else f[m]) % mod
+            ans = ans * (g[m] if c in "79" else f[m]) % mod
         return ans
 ```
 
@@ -106,12 +138,10 @@ class Solution {
     private static long[] f = new long[N];
     private static long[] g = new long[N];
     static {
-        f[0] = 1;
-        f[1] = 1;
+        f[0] = f[1] = 1;
         f[2] = 2;
         f[3] = 4;
-        g[0] = 1;
-        g[1] = 1;
+        g[0] = g[1] = 1;
         g[2] = 2;
         g[3] = 4;
         for (int i = 4; i < N; ++i) {
@@ -123,10 +153,11 @@ class Solution {
     public int countTexts(String pressedKeys) {
         long ans = 1;
         for (int i = 0, n = pressedKeys.length(); i < n; ++i) {
-            int j = i;
             char c = pressedKeys.charAt(i);
-            for (; j + 1 < n && pressedKeys.charAt(j + 1) == c; ++j)
-                ;
+            int j = i;
+            while (j + 1 < n && pressedKeys.charAt(j + 1) == c) {
+                ++j;
+            }
             int cnt = j - i + 1;
             ans = c == '7' || c == '9' ? ans * g[cnt] : ans * f[cnt];
             ans %= MOD;
@@ -135,6 +166,45 @@ class Solution {
         return (int) ans;
     }
 }
+```
+
+#### C++
+
+```cpp
+const int mod = 1e9 + 7;
+const int n = 1e5 + 10;
+long long f[n], g[n];
+
+int init = []() {
+    f[0] = g[0] = 1;
+    f[1] = g[1] = 1;
+    f[2] = g[2] = 2;
+    f[3] = g[3] = 4;
+    for (int i = 4; i < n; ++i) {
+        f[i] = (f[i - 1] + f[i - 2] + f[i - 3]) % mod;
+        g[i] = (g[i - 1] + g[i - 2] + g[i - 3] + g[i - 4]) % mod;
+    }
+    return 0;
+}();
+
+class Solution {
+public:
+    int countTexts(string pressedKeys) {
+        long long ans = 1;
+        for (int i = 0, n = pressedKeys.length(); i < n; ++i) {
+            char c = pressedKeys[i];
+            int j = i;
+            while (j + 1 < n && pressedKeys[j + 1] == c) {
+                ++j;
+            }
+            int cnt = j - i + 1;
+            ans = c == '7' || c == '9' ? ans * g[cnt] : ans * f[cnt];
+            ans %= mod;
+            i = j;
+        }
+        return ans;
+    }
+};
 ```
 
 #### Go

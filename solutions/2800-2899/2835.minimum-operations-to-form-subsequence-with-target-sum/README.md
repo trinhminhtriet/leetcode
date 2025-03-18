@@ -1,92 +1,97 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2835.Minimum%20Operations%20to%20Form%20Subsequence%20With%20Target%20Sum/README.md
 rating: 2207
-source: Weekly Contest 360 Q3
+source: 第 360 场周赛 Q3
 tags:
-  - Greedy
-  - Bit Manipulation
-  - Array
+    - 贪心
+    - 位运算
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [2835. Minimum Operations to Form Subsequence With Target Sum](https://leetcode.com/problems/minimum-operations-to-form-subsequence-with-target-sum)
+# [2835. 使子序列的和等于目标的最少操作次数](https://leetcode.cn/problems/minimum-operations-to-form-subsequence-with-target-sum)
 
-## Description
+[English Version](/solution/2800-2899/2835.Minimum%20Operations%20to%20Form%20Subsequence%20With%20Target%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array <code>nums</code> consisting of <strong>non-negative</strong> powers of <code>2</code>, and an integer <code>target</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的数组&nbsp;<code>nums</code>&nbsp;，它包含 <strong>非负</strong>&nbsp;整数，且全部为 <code>2</code>&nbsp;的幂，同时给你一个整数&nbsp;<code>target</code>&nbsp;。</p>
 
-<p>In one operation, you must apply the following changes to the array:</p>
+<p>一次操作中，你必须对数组做以下修改：</p>
 
 <ul>
-	<li>Choose any element of the array <code>nums[i]</code> such that <code>nums[i] &gt; 1</code>.</li>
-	<li>Remove <code>nums[i]</code> from the array.</li>
-	<li>Add <strong>two</strong> occurrences of <code>nums[i] / 2</code> to the <strong>end</strong> of <code>nums</code>.</li>
+	<li>选择数组中一个元素&nbsp;<code>nums[i]</code>&nbsp;，满足&nbsp;<code>nums[i] &gt; 1</code>&nbsp;。</li>
+	<li>将&nbsp;<code>nums[i]</code>&nbsp;从数组中删除。</li>
+	<li>在 <code>nums</code>&nbsp;的 <strong>末尾</strong>&nbsp;添加 <strong>两个</strong>&nbsp;数，值都为&nbsp;<code>nums[i] / 2</code>&nbsp;。</li>
 </ul>
 
-<p>Return the <em><strong>minimum number of operations</strong> you need to perform so that </em><code>nums</code><em> contains a <strong>subsequence</strong> whose elements sum to</em> <code>target</code>. If it is impossible to obtain such a subsequence, return <code>-1</code>.</p>
+<p>你的目标是让 <code>nums</code>&nbsp;的一个 <strong>子序列</strong>&nbsp;的元素和等于&nbsp;<code>target</code>&nbsp;，请你返回达成这一目标的 <strong>最少操作次数</strong>&nbsp;。如果无法得到这样的子序列，请你返回 <code>-1</code>&nbsp;。</p>
 
-<p>A <strong>subsequence</strong> is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,8], target = 7
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> In the first operation, we choose element nums[2]. The array becomes equal to nums = [1,2,4,4].
-At this stage, nums contains the subsequence [1,2,4] which sums up to 7.
-It can be shown that there is no shorter sequence of operations that results in a subsequnce that sums up to 7.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,32,1,2], target = 12
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> In the first operation, we choose element nums[1]. The array becomes equal to nums = [1,1,2,16,16].
-In the second operation, we choose element nums[3]. The array becomes equal to nums = [1,1,2,16,8,8]
-At this stage, nums contains the subsequence [1,1,2,8] which sums up to 12.
-It can be shown that there is no shorter sequence of operations that results in a subsequence that sums up to 12.</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,32,1], target = 35
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It can be shown that no sequence of operations results in a subsequence that sums up to 35.
-</pre>
+<p>数组中一个 <strong>子序列</strong>&nbsp;是通过删除原数组中一些元素，并且不改变剩余元素顺序得到的剩余数组。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,2,8], target = 7
+<b>输出：</b>1
+<b>解释：</b>第一次操作中，我们选择元素 nums[2] 。数组变为 nums = [1,2,4,4] 。
+这时候，nums 包含子序列 [1,2,4] ，和为 7 。
+无法通过更少的操作得到和为 7 的子序列。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,32,1,2], target = 12
+<b>输出：</b>2
+<b>解释：</b>第一次操作中，我们选择元素 nums[1] 。数组变为 nums = [1,1,2,16,16] 。
+第二次操作中，我们选择元素 nums[3] 。数组变为 nums = [1,1,2,16,8,8] 。
+这时候，nums 包含子序列 [1,1,2,8] ，和为 12 。
+无法通过更少的操作得到和为 12 的子序列。</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,32,1], target = 35
+<b>输出：</b>-1
+<b>解释：</b>无法得到和为 35 的子序列。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 2<sup>30</sup></code></li>
-	<li><code>nums</code> consists only of non-negative powers of two.</li>
+	<li><code>nums</code>&nbsp;只包含非负整数，且均为 2 的幂。</li>
 	<li><code>1 &lt;= target &lt; 2<sup>31</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Bit Manipulation
+### 方法一：贪心 + 位运算
 
-Observing the operation in the problem, we find that each operation actually splits a number greater than $1$ into two equal numbers, which means that the sum of the elements in the array will not change after the operation. Therefore, if the sum of the elements in the array $s$ is less than $target$, it is impossible to obtain a subsequence with a sum of $target$ through the operation described in the problem, and we can directly return $-1$. Otherwise, we can definitely make the sum of some subsequences in the array equal to $target$ through the split operation.
+观察题目中的操作，我们发现，每次操作实际上是把一个大于 $1$ 的数拆分为两个相等的数，这意味着操作后数组的元素和不会发生变化。因此，如果数组的元素和 $s$ 小于 $target$，则无法通过题目描述的操作得到和为 $target$ 的子序列，直接返回 $-1$ 即可。否则，我们一定可以通过拆分操作，使得数组某个子序列的元素和等于 $target$。
 
-In addition, the split operation will actually set the binary high bit of the number to $0$ and add $2$ to the lower bit. Therefore, we first use an array of length $32$ to record the number of times $1$ appears on each binary bit in the binary representation of all elements in the array $nums$.
+另外，拆分操作实际上会把二进制高位为 $1$ 的数置为 $0$，并把低一位的数加上 $2$。因此，我们先用一个长度为 $32$ 的数组记录数组 $nums$ 所有元素的二进制表示中每个二进制位上 $1$ 的出现次数。
 
-Next, starting from the low bit of $target$, for the $i$th bit of $target$, if the current bit number is $0$, skip it directly, that is, $i = i + 1$. If the current bit number is $1$, we need to find the smallest number $j$ (where $j \ge i$) in the array $cnt$ such that $cnt[j] > 0$, and then we split the number $1$ at this bit to the lower bit $i$, that is, subtract $1$ from $cnt[j]$, and set each bit from $i$ to $j-1$ in $cnt$ to $1$, and the number of operations is $j-i$. Next, we let $j = i$, and then $i = i + 1$. Repeat the above operation until $i$ exceeds the index range of the array $cnt$, and return the number of operations at this time.
+接下来，从 $target$ 的低位开始遍历，对于 $target$ 的第 $i$ 位，如果当前位数字为 $0$，则直接跳过，即 $i = i + 1$。如果当前位数字为 $1$，我们需要在数组 $cnt$ 中，找到最小的数字 $j$（其中 $j \ge i$），使得 $cnt[j] \gt 0$，然后我们将该位的数字 $1$ 往低位 $i$ 拆分，即把 $cnt[j]$ 减 $1$，而 $cnt[i..j-1]$ 的每一位置为 $1$，操作次数为 $j-i$。接下来，我们令 $j = i$，然后 $i = i + 1$。重复上述操作，直到 $i$ 超出数组 $cnt$ 的下标范围，返回此时的操作次数。
 
-Note that if $j < i$, actually two lower bits of $1$ can be combined into a higher bit of $1$. Therefore, if $j < i$, we add $\frac{cnt[j]}{2}$ to $cnt[j+1]$, and take $cnt[j]$ modulo $2$, then let $j = j + 1$, and continue the above operation.
+注意，如果 $j \lt i$，实际上两个低位的 $1$ 可以合并成一个高一位的 $1$。因此，如果 $j \lt i$，我们将 $\frac{cnt[j]}{2}$ 加到 $cnt[j+1]$ 中，并将 $cnt[j]$ 取模 $2$，然后令 $j = j + 1$，继续上述操作。
 
-The time complexity is $O(n \times \log M)$, and the space complexity is $O(\log M)$. Here, $n$ is the length of the array $nums$, and $M$ is the maximum value in the array $nums$.
+时间复杂度 $O(n \times \log M)$，空间复杂度 $O(\log M)$。其中 $n$ 是数组 $nums$ 的长度，而 $M$ 是数组 $nums$ 中的最大值。
 
 <!-- tabs:start -->
 
@@ -261,41 +266,41 @@ func minOperations(nums []int, target int) (ans int) {
 
 ```ts
 function minOperations(nums: number[], target: number): number {
-  let s = 0;
-  const cnt: number[] = Array(32).fill(0);
-  for (const x of nums) {
-    s += x;
-    for (let i = 0; i < 32; ++i) {
-      if ((x >> i) & 1) {
-        ++cnt[i];
-      }
+    let s = 0;
+    const cnt: number[] = Array(32).fill(0);
+    for (const x of nums) {
+        s += x;
+        for (let i = 0; i < 32; ++i) {
+            if ((x >> i) & 1) {
+                ++cnt[i];
+            }
+        }
     }
-  }
-  if (s < target) {
-    return -1;
-  }
-  let [ans, i, j] = [0, 0, 0];
-  while (1) {
-    while (i < 32 && ((target >> i) & 1) === 0) {
-      ++i;
+    if (s < target) {
+        return -1;
     }
-    if (i === 32) {
-      return ans;
+    let [ans, i, j] = [0, 0, 0];
+    while (1) {
+        while (i < 32 && ((target >> i) & 1) === 0) {
+            ++i;
+        }
+        if (i === 32) {
+            return ans;
+        }
+        while (j < i) {
+            cnt[j + 1] += cnt[j] >> 1;
+            cnt[j] %= 2;
+            ++j;
+        }
+        while (cnt[j] == 0) {
+            cnt[j] = 1;
+            j++;
+        }
+        ans += j - i;
+        cnt[j]--;
+        j = i;
+        i++;
     }
-    while (j < i) {
-      cnt[j + 1] += cnt[j] >> 1;
-      cnt[j] %= 2;
-      ++j;
-    }
-    while (cnt[j] == 0) {
-      cnt[j] = 1;
-      j++;
-    }
-    ans += j - i;
-    cnt[j]--;
-    j = i;
-    i++;
-  }
 }
 ```
 

@@ -1,70 +1,79 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0451.Sort%20Characters%20By%20Frequency/README.md
 tags:
-  - Hash Table
-  - String
-  - Bucket Sort
-  - Counting
-  - Sorting
-  - Heap (Priority Queue)
+    - 哈希表
+    - 字符串
+    - 桶排序
+    - 计数
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [451. Sort Characters By Frequency](https://leetcode.com/problems/sort-characters-by-frequency)
+# [451. 根据字符出现频率排序](https://leetcode.cn/problems/sort-characters-by-frequency)
 
-## Description
+[English Version](/solution/0400-0499/0451.Sort%20Characters%20By%20Frequency/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, sort it in <strong>decreasing order</strong> based on the <strong>frequency</strong> of the characters. The <strong>frequency</strong> of a character is the number of times it appears in the string.</p>
+<p>给定一个字符串 <code>s</code> ，根据字符出现的 <strong>频率</strong> 对其进行 <strong>降序排序</strong> 。一个字符出现的 <strong>频率</strong> 是它出现在字符串中的次数。</p>
 
-<p>Return <em>the sorted string</em>. If there are multiple answers, return <em>any of them</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;tree&quot;
-<strong>Output:</strong> &quot;eert&quot;
-<strong>Explanation:</strong> &#39;e&#39; appears twice while &#39;r&#39; and &#39;t&#39; both appear once.
-So &#39;e&#39; must appear before both &#39;r&#39; and &#39;t&#39;. Therefore &quot;eetr&quot; is also a valid answer.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;cccaaa&quot;
-<strong>Output:</strong> &quot;aaaccc&quot;
-<strong>Explanation:</strong> Both &#39;c&#39; and &#39;a&#39; appear three times, so both &quot;cccaaa&quot; and &quot;aaaccc&quot; are valid answers.
-Note that &quot;cacaca&quot; is incorrect, as the same characters must be together.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;Aabb&quot;
-<strong>Output:</strong> &quot;bbAa&quot;
-<strong>Explanation:</strong> &quot;bbaA&quot; is also a valid answer, but &quot;Aabb&quot; is incorrect.
-Note that &#39;A&#39; and &#39;a&#39; are treated as two different characters.
-</pre>
+<p>返回 <em>已排序的字符串&nbsp;</em>。如果有多个答案，返回其中任何一个。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1:</strong></p>
+
+<pre>
+<strong>输入: </strong>s = "tree"
+<strong>输出: </strong>"eert"
+<strong>解释: </strong>'e'出现两次，'r'和't'都只出现一次。
+因此'e'必须出现在'r'和't'之前。此外，"eetr"也是一个有效的答案。
+</pre>
+
+<p><strong class="example">示例 2:</strong></p>
+
+<pre>
+<strong>输入: </strong>s = "cccaaa"
+<strong>输出: </strong>"cccaaa"
+<strong>解释: </strong>'c'和'a'都出现三次。此外，"aaaccc"也是有效的答案。
+注意"cacaca"是不正确的，因为相同的字母必须放在一起。
+</pre>
+
+<p><strong class="example">示例 3:</strong></p>
+
+<pre>
+<strong>输入: </strong>s = "Aabb"
+<strong>输出: </strong>"bbAa"
+<strong>解释: </strong>此外，"bbaA"也是一个有效的答案，但"Aabb"是不正确的。
+注意'A'和'a'被认为是两种不同的字符。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 5 * 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of uppercase and lowercase English letters and digits.</li>
+	<li><code>s</code>&nbsp;由大小写英文字母和数字组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表 + 排序
+
+我们用哈希表 $\textit{cnt}$ 统计字符串 $s$ 中每个字符出现的次数，然后将 $\textit{cnt}$ 中的键值对按照出现次数降序排序，最后按照排序后的顺序拼接字符串即可。
+
+时间复杂度 $O(n + k \times \log k)$，空间复杂度 $O(n + k)$，其中 $n$ 为字符串 $s$ 的长度，而 $k$ 为不同字符的个数。
 
 <!-- tabs:start -->
 
@@ -150,16 +159,16 @@ func frequencySort(s string) string {
 
 ```ts
 function frequencySort(s: string): string {
-  const cnt: Map<string, number> = new Map();
-  for (const c of s) {
-    cnt.set(c, (cnt.get(c) || 0) + 1);
-  }
-  const cs = Array.from(cnt.keys()).sort((a, b) => cnt.get(b)! - cnt.get(a)!);
-  const ans: string[] = [];
-  for (const c of cs) {
-    ans.push(c.repeat(cnt.get(c)!));
-  }
-  return ans.join("");
+    const cnt: Map<string, number> = new Map();
+    for (const c of s) {
+        cnt.set(c, (cnt.get(c) || 0) + 1);
+    }
+    const cs = Array.from(cnt.keys()).sort((a, b) => cnt.get(b)! - cnt.get(a)!);
+    const ans: string[] = [];
+    for (const c of cs) {
+        ans.push(c.repeat(cnt.get(c)!));
+    }
+    return ans.join('');
 }
 ```
 
@@ -191,15 +200,16 @@ class Solution {
      * @return String
      */
     function frequencySort($s) {
-        for ($i = 0; $i < strlen($s); $i++) {
-            $hashtable[$s[$i]] += 1;
+        $cnt = array_count_values(str_split($s));
+        $cs = array_keys($cnt);
+        usort($cs, function ($a, $b) use ($cnt) {
+            return $cnt[$b] <=> $cnt[$a];
+        });
+        $ans = '';
+        foreach ($cs as $c) {
+            $ans .= str_repeat($c, $cnt[$c]);
         }
-        arsort($hashtable);
-        $keys = array_keys($hashtable);
-        for ($j = 0; $j < count($keys); $j++) {
-            $rs = $rs . str_repeat($keys[$j], $hashtable[$keys[$j]]);
-        }
-        return $rs;
+        return $ans;
     }
 }
 ```

@@ -1,64 +1,69 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0061.Rotate%20List/README.md
 tags:
-  - Linked List
-  - Two Pointers
+    - 链表
+    - 双指针
 ---
 
 <!-- problem:start -->
 
-# [61. Rotate List](https://leetcode.com/problems/rotate-list)
+# [61. 旋转链表](https://leetcode.cn/problems/rotate-list)
 
-## Description
+[English Version](/solution/0000-0099/0061.Rotate%20List/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>head</code> of a linked&nbsp;list, rotate the list to the right by <code>k</code> places.</p>
+<p>给你一个链表的头节点 <code>head</code> ，旋转链表，将链表每个节点向右移动&nbsp;<code>k</code><em>&nbsp;</em>个位置。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0061.Rotate%20List/images/rotate1.jpg" style="width: 450px; height: 191px;" />
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0061.Rotate%20List/images/rotate1.jpg" style="width: 450px;" />
 <pre>
-<strong>Input:</strong> head = [1,2,3,4,5], k = 2
-<strong>Output:</strong> [4,5,1,2,3]
+<strong>输入：</strong>head = [1,2,3,4,5], k = 2
+<strong>输出：</strong>[4,5,1,2,3]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0061.Rotate%20List/images/roate2.jpg" style="width: 305px; height: 350px;" />
 <pre>
-<strong>Input:</strong> head = [0,1,2], k = 4
-<strong>Output:</strong> [2,0,1]
+<strong>输入：</strong>head = [0,1,2], k = 4
+<strong>输出：</strong>[2,0,1]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the list is in the range <code>[0, 500]</code>.</li>
+	<li>链表中节点的数目在范围 <code>[0, 500]</code> 内</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 	<li><code>0 &lt;= k &lt;= 2 * 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Fast and Slow Pointers + Link List Concatenation
+### 方法一：快慢指针 + 链表拼接
 
-First, we check whether the number of nodes in the linked list is less than $2$. If so, we directly return $head$.
+我们先判断链表节点数是否小于 $2$，如果是，直接返回 $head$ 即可。
 
-Otherwise, we first count the number of nodes $n$ in the linked list, and then take the modulus of $k$ by $n$ to get the effective value of $k$.
+否则，我们先统计链表节点数 $n$，然后将 $k$ 对 $n$ 取模，得到 $k$ 的有效值。
 
-If the effective value of $k$ is $0$, it means that the linked list does not need to be rotated, and we can directly return $head$.
+如果 $k$ 的有效值为 $0$，说明链表不需要旋转，直接返回 $head$ 即可。
 
-Otherwise, we use fast and slow pointers, let the fast pointer move $k$ steps first, and then let the fast and slow pointers move together until the fast pointer moves to the end of the linked list. At this time, the next node of the slow pointer is the new head node of the linked list.
+否则，我们用快慢指针，让快指针先走 $k$ 步，然后快慢指针同时走，直到快指针走到链表尾部，此时慢指针的下一个节点就是新的链表头节点。
 
-Finally, we concatenate the linked list.
+最后，我们将链表拼接起来即可。
 
-The time complexity is $O(n)$, where $n$ is the number of nodes in the linked list. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是链表节点数，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -238,32 +243,32 @@ func rotateRight(head *ListNode, k int) *ListNode {
  */
 
 function rotateRight(head: ListNode | null, k: number): ListNode | null {
-  if (!head || !head.next) {
-    return head;
-  }
-  let cur = head;
-  let n = 0;
-  while (cur) {
-    cur = cur.next;
-    ++n;
-  }
-  k %= n;
-  if (k === 0) {
-    return head;
-  }
-  let fast = head;
-  let slow = head;
-  while (k--) {
-    fast = fast.next;
-  }
-  while (fast.next) {
-    fast = fast.next;
-    slow = slow.next;
-  }
-  const ans = slow.next;
-  slow.next = null;
-  fast.next = head;
-  return ans;
+    if (!head || !head.next) {
+        return head;
+    }
+    let cur = head;
+    let n = 0;
+    while (cur) {
+        cur = cur.next;
+        ++n;
+    }
+    k %= n;
+    if (k === 0) {
+        return head;
+    }
+    let fast = head;
+    let slow = head;
+    while (k--) {
+        fast = fast.next;
+    }
+    while (fast.next) {
+        fast = fast.next;
+        slow = slow.next;
+    }
+    const ans = slow.next;
+    slow.next = null;
+    fast.next = head;
+    return ans;
 }
 ```
 

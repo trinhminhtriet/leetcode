@@ -1,48 +1,51 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1895.Largest%20Magic%20Square/README.md
 rating: 1781
-source: Biweekly Contest 54 Q3
+source: 第 54 场双周赛 Q3
 tags:
-  - Array
-  - Matrix
-  - Prefix Sum
+    - 数组
+    - 矩阵
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1895. Largest Magic Square](https://leetcode.com/problems/largest-magic-square)
+# [1895. 最大的幻方](https://leetcode.cn/problems/largest-magic-square)
 
-## Description
+[English Version](/solution/1800-1899/1895.Largest%20Magic%20Square/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <code>k x k</code> <strong>magic square</strong> is a <code>k x k</code> grid filled with integers such that every row sum, every column sum, and both diagonal sums are <strong>all equal</strong>. The integers in the magic square <strong>do not have to be distinct</strong>. Every <code>1 x 1</code> grid is trivially a <strong>magic square</strong>.</p>
+<p>一个 <code>k x k</code> 的<strong> 幻方</strong> 指的是一个 <code>k x k</code> 填满整数的方格阵，且每一行、每一列以及两条对角线的和 <strong>全部</strong><strong>相等</strong> 。幻方中的整数 <strong>不需要互不相同</strong> 。显然，每个 <code>1 x 1</code> 的方格都是一个幻方。</p>
 
-<p>Given an <code>m x n</code> integer <code>grid</code>, return <em>the <strong>size</strong> (i.e., the side length </em><code>k</code><em>) of the <strong>largest magic square</strong> that can be found within this grid</em>.</p>
+<p>给你一个 <code>m x n</code> 的整数矩阵 <code>grid</code> ，请你返回矩阵中 <strong>最大幻方</strong> 的 <strong>尺寸</strong> （即边长 <code>k</code>）。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1895.Largest%20Magic%20Square/images/magicsquare-grid.jpg" style="width: 413px; height: 335px;" />
-<pre>
-<strong>Input:</strong> grid = [[7,1,4,5,6],[2,5,1,6,4],[1,5,4,3,2],[1,2,7,3,4]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The largest magic square has a size of 3.
-Every row sum, column sum, and diagonal sum of this magic square is equal to 12.
-- Row sums: 5+1+6 = 5+4+3 = 2+7+3 = 12
-- Column sums: 5+5+2 = 1+4+7 = 6+3+3 = 12
-- Diagonal sums: 5+4+3 = 6+4+2 = 12
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1895.Largest%20Magic%20Square/images/magicsquare-grid.jpg" style="width: 413px; height: 335px;">
+<pre><b>输入：</b>grid = [[7,1,4,5,6],[2,5,1,6,4],[1,5,4,3,2],[1,2,7,3,4]]
+<b>输出：</b>3
+<b>解释：</b>最大幻方尺寸为 3 。
+每一行，每一列以及两条对角线的和都等于 12 。
+- 每一行的和：5+1+6 = 5+4+3 = 2+7+3 = 12
+- 每一列的和：5+5+2 = 1+4+7 = 6+3+3 = 12
+- 对角线的和：5+4+3 = 6+4+2 = 12
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1895.Largest%20Magic%20Square/images/magicsquare2-grid.jpg" style="width: 333px; height: 255px;" />
-<pre>
-<strong>Input:</strong> grid = [[5,1,3,1],[9,3,3,1],[1,3,3,8]]
-<strong>Output:</strong> 2
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1895.Largest%20Magic%20Square/images/magicsquare2-grid.jpg" style="width: 333px; height: 255px;">
+<pre><b>输入：</b>grid = [[5,1,3,1],[9,3,3,1],[1,3,3,8]]
+<b>输出：</b>2
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -53,11 +56,11 @@ Every row sum, column sum, and diagonal sum of this magic square is equal to 12.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -286,77 +289,75 @@ func check(grid, rowsum, colsum [][]int, x1, y1, x2, y2 int) bool {
 
 ```ts
 function largestMagicSquare(grid: number[][]): number {
-  let m = grid.length,
-    n = grid[0].length;
-  // 前缀和
-  let rowSum = Array.from({ length: m + 1 }, (v, i) =>
-      new Array(n + 1).fill(0)
-    ),
-    colSum = Array.from({ length: m + 1 }, (v) => new Array(n + 1).fill(0));
-  for (let i = 0; i < m; i++) {
-    rowSum[i + 1][1] = grid[i][0];
-    for (let j = 1; j < n; j++) {
-      rowSum[i + 1][j + 1] = rowSum[i + 1][j] + grid[i][j];
-    }
-  }
-
-  for (let j = 0; j < n; j++) {
-    colSum[1][j + 1] = grid[0][j];
-    for (let i = 1; i < m; i++) {
-      colSum[i + 1][j + 1] = colSum[i][j + 1] + grid[i][j];
-    }
-  }
-  // console.log(rowSum, colSum)
-  // 寻找最大k
-  for (let k = Math.min(m, n); k > 1; k--) {
-    for (let i = 0; i + k - 1 < m; i++) {
-      for (let j = 0; j + k - 1 < n; j++) {
-        let x2 = i + k - 1,
-          y2 = j + k - 1;
-        if (valid(grid, rowSum, colSum, i, j, x2, y2)) {
-          return k;
+    let m = grid.length,
+        n = grid[0].length;
+    // 前缀和
+    let rowSum = Array.from({ length: m + 1 }, (v, i) => new Array(n + 1).fill(0)),
+        colSum = Array.from({ length: m + 1 }, v => new Array(n + 1).fill(0));
+    for (let i = 0; i < m; i++) {
+        rowSum[i + 1][1] = grid[i][0];
+        for (let j = 1; j < n; j++) {
+            rowSum[i + 1][j + 1] = rowSum[i + 1][j] + grid[i][j];
         }
-      }
     }
-  }
-  return 1;
+
+    for (let j = 0; j < n; j++) {
+        colSum[1][j + 1] = grid[0][j];
+        for (let i = 1; i < m; i++) {
+            colSum[i + 1][j + 1] = colSum[i][j + 1] + grid[i][j];
+        }
+    }
+    // console.log(rowSum, colSum)
+    // 寻找最大k
+    for (let k = Math.min(m, n); k > 1; k--) {
+        for (let i = 0; i + k - 1 < m; i++) {
+            for (let j = 0; j + k - 1 < n; j++) {
+                let x2 = i + k - 1,
+                    y2 = j + k - 1;
+                if (valid(grid, rowSum, colSum, i, j, x2, y2)) {
+                    return k;
+                }
+            }
+        }
+    }
+    return 1;
 }
 
 function valid(
-  grid: number[][],
-  rowSum: number[][],
-  colSum: number[][],
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number
+    grid: number[][],
+    rowSum: number[][],
+    colSum: number[][],
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
 ): boolean {
-  let diff = rowSum[x1 + 1][y2 + 1] - rowSum[x1 + 1][y1];
-  // 行
-  for (let i = x1 + 1; i <= x2; i++) {
-    if (diff != rowSum[i + 1][y2 + 1] - rowSum[i + 1][y1]) {
-      return false;
+    let diff = rowSum[x1 + 1][y2 + 1] - rowSum[x1 + 1][y1];
+    // 行
+    for (let i = x1 + 1; i <= x2; i++) {
+        if (diff != rowSum[i + 1][y2 + 1] - rowSum[i + 1][y1]) {
+            return false;
+        }
     }
-  }
-  // 列
-  for (let j = y1; j <= y2; j++) {
-    if (diff != colSum[x2 + 1][j + 1] - colSum[x1][j + 1]) {
-      return false;
+    // 列
+    for (let j = y1; j <= y2; j++) {
+        if (diff != colSum[x2 + 1][j + 1] - colSum[x1][j + 1]) {
+            return false;
+        }
     }
-  }
-  // 主队对角线
-  let mainSum = diff;
-  for (let i = x1, j = y1; i <= x2; i++, j++) {
-    mainSum -= grid[i][j];
-  }
-  if (mainSum != 0) return false;
-  // 副对角线
-  let subSum = diff;
-  for (let i = x1, j = y2; i <= x2; i++, j--) {
-    subSum -= grid[i][j];
-  }
-  if (subSum != 0) return false;
-  return true;
+    // 主队对角线
+    let mainSum = diff;
+    for (let i = x1, j = y1; i <= x2; i++, j++) {
+        mainSum -= grid[i][j];
+    }
+    if (mainSum != 0) return false;
+    // 副对角线
+    let subSum = diff;
+    for (let i = x1, j = y2; i <= x2; i++, j--) {
+        subSum -= grid[i][j];
+    }
+    if (subSum != 0) return false;
+    return true;
 }
 ```
 

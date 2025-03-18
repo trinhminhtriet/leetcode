@@ -1,91 +1,77 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/README.md
 rating: 1766
-source: Weekly Contest 247 Q2
+source: 第 247 场周赛 Q2
 tags:
-  - Array
-  - Matrix
-  - Simulation
+    - 数组
+    - 矩阵
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1914. Cyclically Rotating a Grid](https://leetcode.com/problems/cyclically-rotating-a-grid)
+# [1914. 循环轮转矩阵](https://leetcode.cn/problems/cyclically-rotating-a-grid)
 
-## Description
+[English Version](/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> integer matrix <code>grid</code>​​​, where <code>m</code> and <code>n</code> are both <strong>even</strong> integers, and an integer <code>k</code>.</p>
+<p>给你一个大小为 <code>m x n</code> 的整数矩阵 <code>grid</code>​​​ ，其中 <code>m</code> 和 <code>n</code> 都是 <strong>偶数</strong> ；另给你一个整数 <code>k</code> 。</p>
 
-<p>The matrix is composed of several layers, which is shown in the below image, where each color is its own layer:</p>
+<p>矩阵由若干层组成，如下图所示，每种颜色代表一层：</p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/ringofgrid.png" style="width: 231px; height: 258px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/ringofgrid.png" style="width: 231px; height: 258px;"></p>
 
-<p>A cyclic rotation of the matrix is done by cyclically rotating <strong>each layer</strong> in the matrix. To cyclically rotate a layer once, each element in the layer will take the place of the adjacent element in the <strong>counter-clockwise</strong> direction. An example rotation is shown below:</p>
+<p>矩阵的循环轮转是通过分别循环轮转矩阵中的每一层完成的。在对某一层进行一次循环旋转操作时，层中的每一个元素将会取代其 <strong>逆时针 </strong>方向的相邻元素。轮转示例如下：</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/explanation_grid.jpg" style="width: 500px; height: 268px;">
+<p>返回执行 <code>k</code> 次循环轮转操作后的矩阵。</p>
 
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/explanation_grid.jpg" style="width: 500px; height: 268px;" />
+<p> </p>
 
-<p>Return <em>the matrix after applying </em><code>k</code> <em>cyclic rotations to it</em>.</p>
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/rod2.png" style="width: 421px; height: 191px;">
+<pre><strong>输入：</strong>grid = [[40,10],[30,20]], k = 1
+<strong>输出：</strong>[[10,20],[40,30]]
+<strong>解释：</strong>上图展示了矩阵在执行循环轮转操作时每一步的状态。</pre>
 
-<p>&nbsp;</p>
+<p><strong>示例 2：</strong></p>
+<strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/ringofgrid5.png" style="width: 231px; height: 262px;"></strong> <strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/ringofgrid6.png" style="width: 231px; height: 262px;"></strong> <strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/ringofgrid7.png" style="width: 231px; height: 262px;"></strong>
 
-<p><strong class="example">Example 1:</strong></p>
-
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/rod2.png" style="width: 421px; height: 191px;" />
-
-<pre>
-
-<strong>Input:</strong> grid = [[40,10],[30,20]], k = 1
-
-<strong>Output:</strong> [[10,20],[40,30]]
-
-<strong>Explanation:</strong> The figures above represent the grid at every state.
-
+<pre><strong>输入：</strong>grid = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]], k = 2
+<strong>输出：</strong>[[3,4,8,12],[2,11,10,16],[1,7,6,15],[5,9,13,14]]
+<strong>解释：</strong>上图展示了矩阵在执行循环轮转操作时每一步的状态。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p> </p>
 
-<strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/ringofgrid5.png" style="width: 231px; height: 262px;" /></strong> <strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/ringofgrid6.png" style="width: 231px; height: 262px;" /></strong> <strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1914.Cyclically%20Rotating%20a%20Grid/images/ringofgrid7.png" style="width: 231px; height: 262px;" /></strong>
-
-<pre>
-
-<strong>Input:</strong> grid = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]], k = 2
-
-<strong>Output:</strong> [[3,4,8,12],[2,11,10,16],[1,7,6,15],[5,9,13,14]]
-
-<strong>Explanation:</strong> The figures above represent the grid at every state.
-
-</pre>
-
-<p>&nbsp;</p>
-
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>m == grid.length</code></li>
-
-    <li><code>n == grid[i].length</code></li>
-
-    <li><code>2 &lt;= m, n &lt;= 50</code></li>
-
-    <li>Both <code>m</code> and <code>n</code> are <strong>even</strong> integers.</li>
-
-    <li><code>1 &lt;= grid[i][j] &lt;=<sup> </sup>5000</code></li>
-
-    <li><code>1 &lt;= k &lt;= 10<sup>9</sup></code></li>
-
+	<li><code>m == grid.length</code></li>
+	<li><code>n == grid[i].length</code></li>
+	<li><code>2 &lt;= m, n &lt;= 50</code></li>
+	<li><code>m</code> 和 <code>n</code> 都是 <strong>偶数</strong></li>
+	<li><code>1 &lt;= grid[i][j] &lt;=<sup> </sup>5000</code></li>
+	<li><code>1 &lt;= k &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：逐层模拟
+
+我们先计算得到矩阵的层数 $p$，然后从外到内逐层模拟循环轮转的过程。
+
+对于每一层，我们按照顺时针方向，将上、右、下、左四条边的元素依次放入数组 $nums$ 中。记数组 $nums$ 的长度为 $l$。接下来，我们将 $k$ 模 $l$。然后从数组的第 $k$ 个位置开始，将数组中的元素依次放回矩阵的上、右、下、左四条边。
+
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -282,44 +268,44 @@ func rotateGrid(grid [][]int, k int) [][]int {
 
 ```ts
 function rotateGrid(grid: number[][], k: number): number[][] {
-  const m = grid.length;
-  const n = grid[0].length;
-  const rotate = (p: number, k: number) => {
-    const nums: number[] = [];
-    for (let j = p; j < n - p - 1; ++j) {
-      nums.push(grid[p][j]);
+    const m = grid.length;
+    const n = grid[0].length;
+    const rotate = (p: number, k: number) => {
+        const nums: number[] = [];
+        for (let j = p; j < n - p - 1; ++j) {
+            nums.push(grid[p][j]);
+        }
+        for (let i = p; i < m - p - 1; ++i) {
+            nums.push(grid[i][n - p - 1]);
+        }
+        for (let j = n - p - 1; j > p; --j) {
+            nums.push(grid[m - p - 1][j]);
+        }
+        for (let i = m - p - 1; i > p; --i) {
+            nums.push(grid[i][p]);
+        }
+        const l = nums.length;
+        k %= l;
+        if (k === 0) {
+            return;
+        }
+        for (let j = p; j < n - p - 1; ++j) {
+            grid[p][j] = nums[k++ % l];
+        }
+        for (let i = p; i < m - p - 1; ++i) {
+            grid[i][n - p - 1] = nums[k++ % l];
+        }
+        for (let j = n - p - 1; j > p; --j) {
+            grid[m - p - 1][j] = nums[k++ % l];
+        }
+        for (let i = m - p - 1; i > p; --i) {
+            grid[i][p] = nums[k++ % l];
+        }
+    };
+    for (let p = 0; p < Math.min(m, n) >> 1; ++p) {
+        rotate(p, k);
     }
-    for (let i = p; i < m - p - 1; ++i) {
-      nums.push(grid[i][n - p - 1]);
-    }
-    for (let j = n - p - 1; j > p; --j) {
-      nums.push(grid[m - p - 1][j]);
-    }
-    for (let i = m - p - 1; i > p; --i) {
-      nums.push(grid[i][p]);
-    }
-    const l = nums.length;
-    k %= l;
-    if (k === 0) {
-      return;
-    }
-    for (let j = p; j < n - p - 1; ++j) {
-      grid[p][j] = nums[k++ % l];
-    }
-    for (let i = p; i < m - p - 1; ++i) {
-      grid[i][n - p - 1] = nums[k++ % l];
-    }
-    for (let j = n - p - 1; j > p; --j) {
-      grid[m - p - 1][j] = nums[k++ % l];
-    }
-    for (let i = m - p - 1; i > p; --i) {
-      grid[i][p] = nums[k++ % l];
-    }
-  };
-  for (let p = 0; p < Math.min(m, n) >> 1; ++p) {
-    rotate(p, k);
-  }
-  return grid;
+    return grid;
 }
 ```
 

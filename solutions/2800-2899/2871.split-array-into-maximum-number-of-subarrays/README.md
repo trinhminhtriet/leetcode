@@ -1,62 +1,67 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2871.Split%20Array%20Into%20Maximum%20Number%20of%20Subarrays/README.md
 rating: 1749
-source: Biweekly Contest 114 Q3
+source: 第 114 场双周赛 Q3
 tags:
-  - Greedy
-  - Bit Manipulation
-  - Array
+    - 贪心
+    - 位运算
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [2871. Split Array Into Maximum Number of Subarrays](https://leetcode.com/problems/split-array-into-maximum-number-of-subarrays)
+# [2871. 将数组分割成最多数目的子数组](https://leetcode.cn/problems/split-array-into-maximum-number-of-subarrays)
 
-## Description
+[English Version](/solution/2800-2899/2871.Split%20Array%20Into%20Maximum%20Number%20of%20Subarrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>nums</code> consisting of <strong>non-negative</strong> integers.</p>
+<p>给你一个只包含 <strong>非负</strong>&nbsp;整数的数组&nbsp;<code>nums</code>&nbsp;。</p>
 
-<p>We define the score of subarray <code>nums[l..r]</code> such that <code>l &lt;= r</code> as <code>nums[l] AND nums[l + 1] AND ... AND nums[r]</code> where <strong>AND</strong> is the bitwise <code>AND</code> operation.</p>
+<p>我们定义满足 <code>l &lt;= r</code>&nbsp;的子数组&nbsp;<code>nums[l..r]</code>&nbsp;的分数为&nbsp;<code>nums[l] AND nums[l + 1] AND ... AND nums[r]</code>&nbsp;，其中&nbsp;<strong>AND</strong>&nbsp;是按位与运算。</p>
 
-<p>Consider splitting the array into one or more subarrays such that the following conditions are satisfied:</p>
+<p>请你将数组分割成一个或者更多子数组，满足：</p>
 
 <ul>
-	<li><strong>E</strong><strong>ach</strong> element of the array belongs to <strong>exactly</strong> one subarray.</li>
-	<li>The sum of scores of the subarrays is the <strong>minimum</strong> possible.</li>
+	<li><strong>每个</strong> 元素都&nbsp;<strong>只</strong>&nbsp;属于一个子数组。</li>
+	<li>子数组分数之和尽可能<strong>&nbsp;小</strong>&nbsp;。</li>
 </ul>
 
-<p>Return <em>the <strong>maximum</strong> number of subarrays in a split that satisfies the conditions above.</em></p>
+<p>请你在满足以上要求的条件下，返回<strong>&nbsp;最多</strong>&nbsp;可以得到多少个子数组。</p>
 
-<p>A <strong>subarray</strong> is a contiguous part of an array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,0,2,0,1,2]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We can split the array into the following subarrays:
-- [1,0]. The score of this subarray is 1 AND 0 = 0.
-- [2,0]. The score of this subarray is 2 AND 0 = 0.
-- [1,2]. The score of this subarray is 1 AND 2 = 0.
-The sum of scores is 0 + 0 + 0 = 0, which is the minimum possible score that we can obtain.
-It can be shown that we cannot split the array into more than 3 subarrays with a total score of 0. So we return 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [5,7,1,3]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> We can split the array into one subarray: [5,7,1,3] with a score of 1, which is the minimum possible score that we can obtain.
-It can be shown that we cannot split the array into more than 1 subarray with a total score of 1. So we return 1.
-</pre>
+<p>一个 <strong>子数组</strong>&nbsp;是一个数组中一段连续的元素。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,0,2,0,1,2]
+<b>输出：</b>3
+<strong>解释：</strong>我们可以将数组分割成以下子数组：
+- [1,0] 。子数组分数为 1 AND 0 = 0 。
+- [2,0] 。子数组分数为 2 AND 0 = 0 。
+- [1,2] 。子数组分数为 1 AND 2 = 0 。
+分数之和为 0 + 0 + 0 = 0 ，是我们可以得到的最小分数之和。
+在分数之和为 0 的前提下，最多可以将数组分割成 3 个子数组。所以返回 3 。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [5,7,1,3]
+<b>输出：</b>1
+<b>解释：</b>我们可以将数组分割成一个子数组：[5,7,1,3] ，分数为 1 ，这是可以得到的最小总分数。
+在总分数为 1 的前提下，最多可以将数组分割成 1 个子数组。所以返回 1 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -65,15 +70,15 @@ It can be shown that we cannot split the array into more than 1 subarray with a 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Bitwise Operation
+### 方法一：贪心 + 位运算
 
-We initialize a variable $score$ to record the score of the current subarray, and set $score=-1$ initially. Then we traverse the array, for each element $num$, we perform a bitwise AND operation between $score$ and $num$, and assign the result to $score$. If $score=0$, it means the score of the current subarray is 0, so we can split the current subarray and reset $score$ to $-1$. Finally, we return the number of split subarrays.
+我们初始化一个变量 $score$，用来记录当前子数组的分数，初始时 $score = -1$。然后我们遍历数组，对于每个元素 $num$，我们将 $score$ 与 $num$ 进行按位与运算，然后将结果赋值给 $score$。如果 $score = 0$，说明当前子数组的分数为 $0$，我们就可以将当前子数组分割出来，然后将 $score$ 重置为 $-1$。最后我们返回分割出的子数组的个数。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -152,15 +157,15 @@ func maxSubarrays(nums []int) int {
 
 ```ts
 function maxSubarrays(nums: number[]): number {
-  let [ans, score] = [1, -1];
-  for (const num of nums) {
-    score &= num;
-    if (score === 0) {
-      --score;
-      ++ans;
+    let [ans, score] = [1, -1];
+    for (const num of nums) {
+        score &= num;
+        if (score === 0) {
+            --score;
+            ++ans;
+        }
     }
-  }
-  return ans == 1 ? 1 : ans - 1;
+    return ans == 1 ? 1 : ans - 1;
 }
 ```
 

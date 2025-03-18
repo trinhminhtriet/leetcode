@@ -1,68 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0107.Binary%20Tree%20Level%20Order%20Traversal%20II/README.md
 tags:
-  - Tree
-  - Breadth-First Search
-  - Binary Tree
+    - 树
+    - 广度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [107. Binary Tree Level Order Traversal II](https://leetcode.com/problems/binary-tree-level-order-traversal-ii)
+# [107. 二叉树的层序遍历 II](https://leetcode.cn/problems/binary-tree-level-order-traversal-ii)
 
-## Description
+[English Version](/solution/0100-0199/0107.Binary%20Tree%20Level%20Order%20Traversal%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, return <em>the bottom-up level order traversal of its nodes&#39; values</em>. (i.e., from left to right, level by level from leaf to root).</p>
+<p>给你二叉树的根节点 <code>root</code> ，返回其节点值 <strong>自底向上的层序遍历</strong> 。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0107.Binary%20Tree%20Level%20Order%20Traversal%20II/images/tree1.jpg" style="width: 277px; height: 302px;" />
 <pre>
-<strong>Input:</strong> root = [3,9,20,null,null,15,7]
-<strong>Output:</strong> [[15,7],[9,20],[3]]
+<strong>输入：</strong>root = [3,9,20,null,null,15,7]
+<strong>输出：</strong>[[15,7],[9,20],[3]]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> root = [1]
-<strong>Output:</strong> [[1]]
+<strong>输入：</strong>root = [1]
+<strong>输出：</strong>[[1]]
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> root = []
-<strong>Output:</strong> []
+<strong>输入：</strong>root = []
+<strong>输出：</strong>[]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[0, 2000]</code>.</li>
+	<li>树中节点数目在范围 <code>[0, 2000]</code> 内</li>
 	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-We can use the BFS (Breadth-First Search) method to solve this problem. First, enqueue the root node, then continuously perform the following operations until the queue is empty:
+我们可以使用 BFS 的方法来解决这道题。首先将根节点入队，然后不断地进行以下操作，直到队列为空：
 
-- Traverse all nodes in the current queue, store their values in a temporary array $t$, and then enqueue their child nodes.
-- Store the temporary array $t$ in the answer array.
+-   遍历当前队列中的所有节点，将它们的值存储到一个临时数组 $t$ 中，然后将它们的孩子节点入队。
+-   将临时数组 $t$ 存储到答案数组中。
 
-Finally, return the reversed answer array.
+最后将答案数组反转后返回即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -238,23 +243,23 @@ func levelOrderBottom(root *TreeNode) (ans [][]int) {
  */
 
 function levelOrderBottom(root: TreeNode | null): number[][] {
-  const ans: number[][] = [];
-  if (!root) {
-    return ans;
-  }
-  const q: TreeNode[] = [root];
-  while (q.length) {
-    const t: number[] = [];
-    const qq: TreeNode[] = [];
-    for (const { val, left, right } of q) {
-      t.push(val);
-      left && qq.push(left);
-      right && qq.push(right);
+    const ans: number[][] = [];
+    if (!root) {
+        return ans;
     }
-    ans.push(t);
-    q.splice(0, q.length, ...qq);
-  }
-  return ans.reverse();
+    const q: TreeNode[] = [root];
+    while (q.length) {
+        const t: number[] = [];
+        const qq: TreeNode[] = [];
+        for (const { val, left, right } of q) {
+            t.push(val);
+            left && qq.push(left);
+            right && qq.push(right);
+        }
+        ans.push(t);
+        q.splice(0, q.length, ...qq);
+    }
+    return ans.reverse();
 }
 ```
 
@@ -325,23 +330,23 @@ impl Solution {
  * @return {number[][]}
  */
 var levelOrderBottom = function (root) {
-  const ans = [];
-  if (!root) {
-    return ans;
-  }
-  const q = [root];
-  while (q.length) {
-    const t = [];
-    const qq = [];
-    for (const { val, left, right } of q) {
-      t.push(val);
-      left && qq.push(left);
-      right && qq.push(right);
+    const ans = [];
+    if (!root) {
+        return ans;
     }
-    ans.push(t);
-    q.splice(0, q.length, ...qq);
-  }
-  return ans.reverse();
+    const q = [root];
+    while (q.length) {
+        const t = [];
+        const qq = [];
+        for (const { val, left, right } of q) {
+            t.push(val);
+            left && qq.push(left);
+            right && qq.push(right);
+        }
+        ans.push(t);
+        q.splice(0, q.length, ...qq);
+    }
+    return ans.reverse();
 };
 ```
 

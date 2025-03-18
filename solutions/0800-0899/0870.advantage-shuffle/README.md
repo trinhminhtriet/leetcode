@@ -1,35 +1,47 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0870.Advantage%20Shuffle/README.md
 tags:
-  - Greedy
-  - Array
-  - Two Pointers
-  - Sorting
+    - 贪心
+    - 数组
+    - 双指针
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [870. Advantage Shuffle](https://leetcode.com/problems/advantage-shuffle)
+# [870. 优势洗牌](https://leetcode.cn/problems/advantage-shuffle)
 
-## Description
+[English Version](/solution/0800-0899/0870.Advantage%20Shuffle/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two integer arrays <code>nums1</code> and <code>nums2</code> both of the same length. The <strong>advantage</strong> of <code>nums1</code> with respect to <code>nums2</code> is the number of indices <code>i</code> for which <code>nums1[i] &gt; nums2[i]</code>.</p>
+<p>给定两个长度相等的数组&nbsp;<code>nums1</code>&nbsp;和&nbsp;<code>nums2</code>，<code>nums1</code>&nbsp;相对于 <code>nums2</code> 的<em>优势</em>可以用满足&nbsp;<code>nums1[i] &gt; nums2[i]</code>&nbsp;的索引 <code>i</code>&nbsp;的数目来描述。</p>
 
-<p>Return <em>any permutation of </em><code>nums1</code><em> that maximizes its <strong>advantage</strong> with respect to </em><code>nums2</code>.</p>
+<p>返回 <code>nums1</code> 的&nbsp;<strong>任意&nbsp;</strong>排列，使其相对于 <code>nums2</code>&nbsp;的优势最大化。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> nums1 = [2,7,11,15], nums2 = [1,10,4,11]
-<strong>Output:</strong> [2,11,7,15]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> nums1 = [12,24,8,32], nums2 = [13,25,32,11]
-<strong>Output:</strong> [24,32,8,12]
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [2,7,11,15], nums2 = [1,10,4,11]
+<strong>输出：</strong>[2,11,7,15]
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [12,24,8,32], nums2 = [13,25,32,11]
+<strong>输出：</strong>[24,32,8,12]
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length &lt;= 10<sup>5</sup></code></li>
@@ -39,11 +51,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心 + 排序
+
+类似田忌赛马。将 $nums1$, $nums2$ 按照升序排列。然后遍历 $nums1$ 中的每个元素 $v$，若在 $nums2[i..j]$ 中找不到比 $v$ 小的，则将 $v$ 与当前 $nums2[i..j]$ 中的最大元素匹配。
+
+时间复杂度 $O(nlogn)$。
 
 <!-- tabs:start -->
 
@@ -149,24 +165,24 @@ func advantageCount(nums1 []int, nums2 []int) []int {
 
 ```ts
 function advantageCount(nums1: number[], nums2: number[]): number[] {
-  const n = nums1.length;
-  const idx = Array.from({ length: n }, (_, i) => i);
-  idx.sort((i, j) => nums2[i] - nums2[j]);
-  nums1.sort((a, b) => a - b);
+    const n = nums1.length;
+    const idx = Array.from({ length: n }, (_, i) => i);
+    idx.sort((i, j) => nums2[i] - nums2[j]);
+    nums1.sort((a, b) => a - b);
 
-  const ans = new Array(n).fill(0);
-  let left = 0;
-  let right = n - 1;
-  for (let i = 0; i < n; i++) {
-    if (nums1[i] > nums2[idx[left]]) {
-      ans[idx[left]] = nums1[i];
-      left++;
-    } else {
-      ans[idx[right]] = nums1[i];
-      right--;
+    const ans = new Array(n).fill(0);
+    let left = 0;
+    let right = n - 1;
+    for (let i = 0; i < n; i++) {
+        if (nums1[i] > nums2[idx[left]]) {
+            ans[idx[left]] = nums1[i];
+            left++;
+        } else {
+            ans[idx[right]] = nums1[i];
+            right--;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

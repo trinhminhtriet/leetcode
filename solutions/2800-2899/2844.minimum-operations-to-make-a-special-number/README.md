@@ -1,85 +1,91 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2844.Minimum%20Operations%20to%20Make%20a%20Special%20Number/README.md
 rating: 1588
-source: Weekly Contest 361 Q2
+source: 第 361 场周赛 Q2
 tags:
-  - Greedy
-  - Math
-  - String
-  - Enumeration
+    - 贪心
+    - 数学
+    - 字符串
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2844. Minimum Operations to Make a Special Number](https://leetcode.com/problems/minimum-operations-to-make-a-special-number)
+# [2844. 生成特殊数字的最少操作](https://leetcode.cn/problems/minimum-operations-to-make-a-special-number)
 
-## Description
+[English Version](/solution/2800-2899/2844.Minimum%20Operations%20to%20Make%20a%20Special%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> string <code>num</code> representing a non-negative integer.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>num</code> ，表示一个非负整数。</p>
 
-<p>In one operation, you can pick any digit of <code>num</code> and delete it. Note that if you delete all the digits of <code>num</code>, <code>num</code> becomes <code>0</code>.</p>
+<p>在一次操作中，您可以选择 <code>num</code> 的任意一位数字并将其删除。请注意，如果你删除 <code>num</code> 中的所有数字，则 <code>num</code> 变为 <code>0</code>。</p>
 
-<p>Return <em>the <strong>minimum number of operations</strong> required to make</em> <code>num</code> <i>special</i>.</p>
+<p>返回最少需要多少次操作可以使 <code>num</code> 变成特殊数字。</p>
 
-<p>An integer <code>x</code> is considered <strong>special</strong> if it is divisible by <code>25</code>.</p>
+<p>如果整数 <code>x</code> 能被 <code>25</code> 整除，则该整数 <code>x</code> 被认为是特殊数字。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p>&nbsp;</p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> num = &quot;2245047&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Delete digits num[5] and num[6]. The resulting number is &quot;22450&quot; which is special since it is divisible by 25.
-It can be shown that 2 is the minimum number of operations required to get a special number.</pre>
+<strong>输入：</strong>num = "2245047"
+<strong>输出：</strong>2
+<strong>解释：</strong>删除数字 num[5] 和 num[6] ，得到数字 "22450" ，可以被 25 整除。
+可以证明要使数字变成特殊数字，最少需要删除 2 位数字。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = &quot;2908305&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> Delete digits num[3], num[4], and num[6]. The resulting number is &quot;2900&quot; which is special since it is divisible by 25.
-It can be shown that 3 is the minimum number of operations required to get a special number.</pre>
-
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> num = &quot;10&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> Delete digit num[0]. The resulting number is &quot;0&quot; which is special since it is divisible by 25.
-It can be shown that 1 is the minimum number of operations required to get a special number.
+<strong>输入：</strong>num = "2908305"
+<strong>输出：</strong>3
+<strong>解释：</strong>删除 num[3]、num[4] 和 num[6] ，得到数字 "2900" ，可以被 25 整除。
+可以证明要使数字变成特殊数字，最少需要删除 3 位数字。</pre>
 
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>num = "10"
+<strong>输出：</strong>1
+<strong>解释：</strong>删除 num[0] ，得到数字 "0" ，可以被 25 整除。
+可以证明要使数字变成特殊数字，最少需要删除 1 位数字。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num.length &lt;= 100</code></li>
-	<li><code>num</code> only consists of digits <code>&#39;0&#39;</code> through <code>&#39;9&#39;</code>.</li>
-	<li><code>num</code> does not contain any leading zeros.</li>
+	<li><code>num</code> 仅由数字 <code>'0'</code> 到 <code>'9'</code> 组成</li>
+	<li><code>num</code> 不含任何前导零</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-We notice that an integer $x$ can be divisible by $25$, i.e., $x \bmod 25 = 0$. Therefore, we can design a function $dfs(i, k)$, which represents the minimum number of digits to be deleted to make the number a special number, starting from the $i$th digit of the string $num$, and the current number modulo $25$ is $k$. The answer is $dfs(0, 0)$.
+我们注意到，整数 $x$ 要能被 $25$ 整除，即 $x \bmod 25 = 0$。因此，我们可以设计一个函数 $dfs(i, k)$，表示从字符串 $num$ 的第 $i$ 位开始，且当前数字模 $25$ 的结果为 $k$ 的情况下，要使得数字变成特殊数字，最少需要删除多少位数字。那么答案为 $dfs(0, 0)$。
 
-The execution logic of the function $dfs(i, k)$ is as follows:
+函数 $dfs(i, k)$ 的执行逻辑如下：
 
-- If $i = n$, i.e., all digits of the string $num$ have been processed, then if $k = 0$, the current number can be divisible by $25$, return $0$, otherwise return $n$;
-- Otherwise, the $i$th digit can be deleted, in this case one digit needs to be deleted, i.e., $dfs(i + 1, k) + 1$; if the $i$th digit is not deleted, then the value of $k$ becomes $(k \times 10 + \textit{num}[i]) \bmod 25$, i.e., $dfs(i + 1, (k \times 10 + \textit{num}[i]) \bmod 25)$. Take the minimum of these two.
+-   如果 $i = n$，即已经处理完字符串 $num$ 的所有位，那么如果 $k = 0$，则当前数字可以被 $25$ 整除，返回 $0$，否则返回 $n$；
+-   否则，第 $i$ 位可以被删除，此时需要删除一位，即 $dfs(i + 1, k) + 1$；第 $i$ 位不删除，那么 $k$ 的值变为 $(k \times 10 + \textit{num}[i]) \bmod 25$，即 $dfs(i + 1, (k \times 10 + \textit{num}[i]) \bmod 25)$。取这两者的最小值即可。
 
-To prevent repeated calculations, we can use memoization to optimize the time complexity.
+为了防止重复计算，我们可以使用记忆化的方法优化时间复杂度。
 
-The time complexity is $O(n \times 25)$, and the space complexity is $O(n \times 25)$. Here, $n$ is the length of the string $num$.
+时间复杂度 $O(n \times 25)$，空间复杂度 $O(n \times 25)$。其中 $n$ 是字符串 $num$ 的长度。
 
 <!-- tabs:start -->
 
@@ -138,18 +144,18 @@ public:
         int n = num.size();
         int f[n][25];
         memset(f, -1, sizeof(f));
-        auto dfs = [&](auto&& dfs, int i, int k) -> int {
+        auto dfs = [&](this auto&& dfs, int i, int k) -> int {
             if (i == n) {
                 return k == 0 ? 0 : n;
             }
             if (f[i][k] != -1) {
                 return f[i][k];
             }
-            f[i][k] = dfs(dfs, i + 1, k) + 1;
-            f[i][k] = min(f[i][k], dfs(dfs, i + 1, (k * 10 + num[i] - '0') % 25));
+            f[i][k] = dfs(i + 1, k) + 1;
+            f[i][k] = min(f[i][k], dfs(i + 1, (k * 10 + num[i] - '0') % 25));
             return f[i][k];
         };
-        return dfs(dfs, 0, 0);
+        return dfs(0, 0);
     }
 };
 ```
@@ -188,22 +194,20 @@ func minimumOperations(num string) int {
 
 ```ts
 function minimumOperations(num: string): number {
-  const n = num.length;
-  const f: number[][] = Array.from({ length: n }, () =>
-    Array.from({ length: 25 }, () => -1)
-  );
-  const dfs = (i: number, k: number): number => {
-    if (i === n) {
-      return k === 0 ? 0 : n;
-    }
-    if (f[i][k] !== -1) {
-      return f[i][k];
-    }
-    f[i][k] = dfs(i + 1, k) + 1;
-    f[i][k] = Math.min(f[i][k], dfs(i + 1, (k * 10 + Number(num[i])) % 25));
-    return f[i][k];
-  };
-  return dfs(0, 0);
+    const n = num.length;
+    const f: number[][] = Array.from({ length: n }, () => Array.from({ length: 25 }, () => -1));
+    const dfs = (i: number, k: number): number => {
+        if (i === n) {
+            return k === 0 ? 0 : n;
+        }
+        if (f[i][k] !== -1) {
+            return f[i][k];
+        }
+        f[i][k] = dfs(i + 1, k) + 1;
+        f[i][k] = Math.min(f[i][k], dfs(i + 1, (k * 10 + Number(num[i])) % 25));
+        return f[i][k];
+    };
+    return dfs(0, 0);
 }
 ```
 

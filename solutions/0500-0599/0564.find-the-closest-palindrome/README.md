@@ -1,56 +1,61 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0564.Find%20the%20Closest%20Palindrome/README.md
 tags:
-  - Math
-  - String
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [564. Find the Closest Palindrome](https://leetcode.com/problems/find-the-closest-palindrome)
+# [564. 寻找最近的回文数](https://leetcode.cn/problems/find-the-closest-palindrome)
 
-## Description
+[English Version](/solution/0500-0599/0564.Find%20the%20Closest%20Palindrome/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>n</code> representing an integer, return <em>the closest integer (not including itself), which is a palindrome</em>. If there is a tie, return <em><strong>the smaller one</strong></em>.</p>
+<p>给定一个表示整数的字符串&nbsp;<code>n</code> ，返回与它最近的回文整数（不包括自身）。如果不止一个，返回较小的那个。</p>
 
-<p>The closest is defined as the absolute difference minimized between two integers.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = &quot;123&quot;
-<strong>Output:</strong> &quot;121&quot;
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = &quot;1&quot;
-<strong>Output:</strong> &quot;0&quot;
-<strong>Explanation:</strong> 0 and 2 are the closest palindromes but we return the smallest which is 0.
-</pre>
+<p>“最近的”定义为两个整数<strong>差的绝对值</strong>最小。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> n = "123"
+<strong>输出:</strong> "121"
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> n = "1"
+<strong>输出:</strong> "0"
+<strong>解释:</strong> 0 和 2是最近的回文，但我们返回最小的，也就是 0。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n.length &lt;= 18</code></li>
-	<li><code>n</code> consists of only digits.</li>
-	<li><code>n</code> does not have leading zeros.</li>
-	<li><code>n</code> is representing an integer in the range <code>[1, 10<sup>18</sup> - 1]</code>.</li>
+	<li><code>n</code>&nbsp;只由数字组成</li>
+	<li><code>n</code>&nbsp;不含前导 0</li>
+	<li><code>n</code>&nbsp;代表在&nbsp;<code>[1, 10<sup>18</sup>&nbsp;- 1]</code> 范围内的整数</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -193,49 +198,49 @@ func abs(x int) int {
  */
 
 function nearestPalindromic(n) {
-  const x = BigInt(n);
-  let ans = null;
+    const x = BigInt(n);
+    let ans = null;
 
-  for (const t of getCandidates(n)) {
-    if (
-      ans === null ||
-      absDiff(t, x) < absDiff(ans, x) ||
-      (absDiff(t, x) === absDiff(ans, x) && t < ans)
-    ) {
-      ans = t;
+    for (const t of getCandidates(n)) {
+        if (
+            ans === null ||
+            absDiff(t, x) < absDiff(ans, x) ||
+            (absDiff(t, x) === absDiff(ans, x) && t < ans)
+        ) {
+            ans = t;
+        }
     }
-  }
 
-  return ans.toString();
+    return ans.toString();
 }
 
 function getCandidates(n) {
-  const length = n.length;
-  const res = new Set();
+    const length = n.length;
+    const res = new Set();
 
-  res.add(BigInt(Math.pow(10, length - 1) - 1));
-  res.add(BigInt(Math.pow(10, length) + 1));
+    res.add(BigInt(Math.pow(10, length - 1) - 1));
+    res.add(BigInt(Math.pow(10, length) + 1));
 
-  const left = BigInt(n.substring(0, Math.ceil(length / 2)));
+    const left = BigInt(n.substring(0, Math.ceil(length / 2)));
 
-  for (let i = left - 1n; i <= left + 1n; i++) {
-    const prefix = i.toString();
-    const t =
-      prefix +
-      prefix
-        .split("")
-        .reverse()
-        .slice(length % 2)
-        .join("");
-    res.add(BigInt(t));
-  }
+    for (let i = left - 1n; i <= left + 1n; i++) {
+        const prefix = i.toString();
+        const t =
+            prefix +
+            prefix
+                .split('')
+                .reverse()
+                .slice(length % 2)
+                .join('');
+        res.add(BigInt(t));
+    }
 
-  res.delete(BigInt(n));
-  return res;
+    res.delete(BigInt(n));
+    return res;
 }
 
 function absDiff(a, b) {
-  return a > b ? a - b : b - a;
+    return a > b ? a - b : b - a;
 }
 ```
 

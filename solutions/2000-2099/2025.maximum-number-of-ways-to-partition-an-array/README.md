@@ -1,68 +1,70 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2025.Maximum%20Number%20of%20Ways%20to%20Partition%20an%20Array/README.md
 rating: 2217
-source: Biweekly Contest 62 Q4
+source: 第 62 场双周赛 Q4
 tags:
-  - Array
-  - Hash Table
-  - Counting
-  - Enumeration
-  - Prefix Sum
+    - 数组
+    - 哈希表
+    - 计数
+    - 枚举
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2025. Maximum Number of Ways to Partition an Array](https://leetcode.com/problems/maximum-number-of-ways-to-partition-an-array)
+# [2025. 分割数组的最多方案数](https://leetcode.cn/problems/maximum-number-of-ways-to-partition-an-array)
 
-## Description
+[English Version](/solution/2000-2099/2025.Maximum%20Number%20of%20Ways%20to%20Partition%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code>. The number of ways to <strong>partition</strong> <code>nums</code> is the number of <code>pivot</code> indices that satisfy both conditions:</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始且长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;。<strong>分割</strong>&nbsp;数组 <code>nums</code>&nbsp;的方案数定义为符合以下两个条件的 <code>pivot</code>&nbsp;数目：</p>
 
 <ul>
 	<li><code>1 &lt;= pivot &lt; n</code></li>
 	<li><code>nums[0] + nums[1] + ... + nums[pivot - 1] == nums[pivot] + nums[pivot + 1] + ... + nums[n - 1]</code></li>
 </ul>
 
-<p>You are also given an integer <code>k</code>. You can choose to change the value of <strong>one</strong> element of <code>nums</code> to <code>k</code>, or to leave the array <strong>unchanged</strong>.</p>
+<p>同时给你一个整数&nbsp;<code>k</code>&nbsp;。你可以将&nbsp;<code>nums</code>&nbsp;中&nbsp;<strong>一个</strong>&nbsp;元素变为&nbsp;<code>k</code>&nbsp;或&nbsp;<strong>不改变</strong>&nbsp;数组。</p>
 
-<p>Return <em>the <strong>maximum</strong> possible number of ways to <strong>partition</strong> </em><code>nums</code><em> to satisfy both conditions after changing <strong>at most</strong> one element</em>.</p>
+<p>请你返回在 <strong>至多</strong>&nbsp;改变一个元素的前提下，<strong>最多</strong>&nbsp;有多少种方法 <strong>分割</strong>&nbsp;<code>nums</code>&nbsp;使得上述两个条件都满足。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [2,-1,2], k = 3
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> One optimal approach is to change nums[0] to k. The array becomes [<strong><u>3</u></strong>,-1,2].
-There is one way to partition the array:
-- For pivot = 2, we have the partition [3,-1 | 2]: 3 + -1 == 2.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums = [2,-1,2], k = 3
+<b>输出：</b>1
+<b>解释：</b>一个最优的方案是将 nums[0] 改为 k&nbsp;。数组变为 [<em><strong>3</strong></em>,-1,2] 。
+有一种方法分割数组：
+- pivot = 2 ，我们有分割 [3,-1 | 2]：3 + -1 == 2 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [0,0,0], k = 1
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The optimal approach is to leave the array unchanged.
-There are two ways to partition the array:
-- For pivot = 1, we have the partition [0 | 0,0]: 0 == 0 + 0.
-- For pivot = 2, we have the partition [0,0 | 0]: 0 + 0 == 0.
+<pre><b>输入：</b>nums = [0,0,0], k = 1
+<b>输出：</b>2
+<b>解释：</b>一个最优的方案是不改动数组。
+有两种方法分割数组：
+- pivot = 1 ，我们有分割 [0 | 0,0]：0 == 0 + 0 。
+- pivot = 2 ，我们有分割 [0,0 | 0]: 0 + 0 == 0 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [22,4,-25,-20,-15,15,-16,7,19,-10,0,-13,-14], k = -33
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> One optimal approach is to change nums[2] to k. The array becomes [22,4,<u><strong>-33</strong></u>,-20,-15,15,-16,7,19,-10,0,-13,-14].
-There are four ways to partition the array.
+<pre><b>输入：</b>nums = [22,4,-25,-20,-15,15,-16,7,19,-10,0,-13,-14], k = -33
+<b>输出：</b>4
+<b>解释：</b>一个最优的方案是将 nums[2] 改为 k 。数组变为 [22,4,<em><strong>-33</strong></em>,-20,-15,15,-16,7,19,-10,0,-13,-14] 。
+有四种方法分割数组。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -72,21 +74,21 @@ There are four ways to partition the array.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Hash Table
+### 方法一：前缀和 + 哈希表
 
-We can preprocess to get the prefix sum array $s$ corresponding to the array $nums$, where $s[i]$ represents the sum of the array $nums[0,...i-1]$. Therefore, the sum of all elements in the array is $s[n - 1]$.
+我们可以先预处理得到数组 $nums$ 对应的前缀和数组 $s$，其中 $s[i]$ 表示数组 $nums[0,...i-1]$ 的和。那么数组所有元素之和为 $s[n - 1]$。
 
-If we do not modify the array $nums$, the condition for the sums of the two subarrays to be equal is that $s[n - 1]$ must be even. If $s[n - 1]$ is even, then we calculate $ans = \frac{right[s[n - 1] / 2]}{2}$.
+如果不修改数组 $nums$，那么两个子数组的和相等的条件是 $s[n - 1]$ 必须为偶数，如果 $s[n - 1]$ 为偶数，那么我们求出 $ans = \frac{right[s[n - 1] / 2]}{2}$。
 
-If we modify the array $nums$, we can enumerate each modification position $i$, change $nums[i]$ to $k$, then the change in the total sum of the array is $d = k - nums[i]$. At this time, the sum of the left part of $i$ remains unchanged, so the legal split must satisfy $s[i] = s[n - 1] + d - s[i]$, that is, $s[i] = \frac{s[n - 1] + d}{2}$. Each prefix sum of the right part has increased by $d$, so the legal split must satisfy $s[i] + d = s[n - 1] + d - (s[i] + d)$, that is, $s[i] = \frac{s[n - 1] - d}{2}$. We use hash tables $left$ and $right$ to record the number of times each prefix sum appears in the left and right parts, respectively. Then we can calculate $ans = max(ans, left[\frac{s[n - 1] + d}{2}]) + right[\frac{s[n - 1] - d}{2}]$.
+如果修改数组 $nums$，那么我们可以枚举每一个修改的位置 $i$，将 $nums[i]$ 修改为 $k$，那么数组总和的变化量 $d = k - nums[i]$，此时 $i$ 左侧部分的和保持不变，那么合法的分割要满足 $s[i] = s[n - 1] + d - s[i]$，即 $s[i] = \frac{s[n - 1] + d}{2}$；而右侧部分的每个前缀和都增加了 $d$，那么合法的分割要满足 $s[i] + d = s[n - 1] + d - (s[i] + d)$，即 $s[i] = \frac{s[n - 1] - d}{2}$。我们用哈希表 $left$ 和 $right$ 分别记录左侧部分和右侧部分每个前缀和出现的次数，那么我们可以求出 $ans = max(ans, left[\frac{s[n - 1] + d}{2}]) + right[\frac{s[n - 1] - d}{2}]$。
 
-Finally, we return $ans$.
+最后，我们返回 $ans$ 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 

@@ -1,47 +1,50 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2706.Buy%20Two%20Chocolates/README.md
 rating: 1207
-source: Biweekly Contest 105 Q1
+source: 第 105 场双周赛 Q1
 tags:
-  - Greedy
-  - Array
-  - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2706. Buy Two Chocolates](https://leetcode.com/problems/buy-two-chocolates)
+# [2706. 购买两块巧克力](https://leetcode.cn/problems/buy-two-chocolates)
 
-## Description
+[English Version](/solution/2700-2799/2706.Buy%20Two%20Chocolates/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>prices</code> representing the prices of various chocolates in a store. You are also given a single integer <code>money</code>, which represents your initial amount of money.</p>
+<p>给你一个整数数组&nbsp;<code>prices</code>&nbsp;，它表示一个商店里若干巧克力的价格。同时给你一个整数&nbsp;<code>money</code>&nbsp;，表示你一开始拥有的钱数。</p>
 
-<p>You must buy <strong>exactly</strong> two chocolates in such a way that you still have some <strong>non-negative</strong> leftover money. You would like to minimize the sum of the prices of the two chocolates you buy.</p>
+<p>你必须购买 <strong>恰好&nbsp;</strong>两块巧克力，而且剩余的钱数必须是 <strong>非负数</strong>&nbsp;。同时你想最小化购买两块巧克力的总花费。</p>
 
-<p>Return <em>the amount of money you will have leftover after buying the two chocolates</em>. If there is no way for you to buy two chocolates without ending up in debt, return <code>money</code>. Note that the leftover must be non-negative.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> prices = [1,2,2], money = 3
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Purchase the chocolates priced at 1 and 2 units respectively. You will have 3 - 3 = 0 units of money afterwards. Thus, we return 0.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> prices = [3,2,3], money = 3
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> You cannot buy 2 chocolates without going in debt, so we return 3.
-</pre>
+<p>请你返回在购买两块巧克力后，最多能剩下多少钱。如果购买任意两块巧克力都超过了你拥有的钱，请你返回 <code>money</code>&nbsp;。注意剩余钱数必须是非负数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>prices = [1,2,2], money = 3
+<b>输出：</b>0
+<b>解释：</b>分别购买价格为 1 和 2 的巧克力。你剩下 3 - 3 = 0 块钱。所以我们返回 0 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>prices = [3,2,3], money = 3
+<b>输出：</b>3
+<b>解释：</b>购买任意 2 块巧克力都会超过你拥有的钱数，所以我们返回 3 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= prices.length &lt;= 50</code></li>
@@ -51,15 +54,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-We can sort the prices of the chocolates in ascending order, and then add the first two prices to get the minimum cost $cost$ of buying two chocolates. If this cost is greater than the money we have, then we return `money`. Otherwise, we return `money - cost`.
+我们可以将巧克力的价格从小到大排序，然后取前两个价格相加，就是我们购买两块巧克力的最小花费 $cost$。如果这个花费大于我们拥有的钱数，那么我们就返回 `money`，否则返回 `money - cost`。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Where $n$ is the length of the array `prices`.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 `prices` 的长度。
 
 <!-- tabs:start -->
 
@@ -115,9 +118,9 @@ func buyChoco(prices []int, money int) int {
 
 ```ts
 function buyChoco(prices: number[], money: number): number {
-  prices.sort((a, b) => a - b);
-  const cost = prices[0] + prices[1];
-  return money < cost ? money : money - cost;
+    prices.sort((a, b) => a - b);
+    const cost = prices[0] + prices[1];
+    return money < cost ? money : money - cost;
 }
 ```
 
@@ -142,11 +145,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: One-pass Traversal
+### 方法二：一次遍历
 
-We can find the two smallest prices in one pass, and then calculate the cost.
+我们可以在一次遍历中找到最小的两个价格，然后计算花费。
 
-The time complexity is $O(n)$, where $n$ is the length of the array `prices`. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 `prices` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -230,17 +233,17 @@ func buyChoco(prices []int, money int) int {
 
 ```ts
 function buyChoco(prices: number[], money: number): number {
-  let [a, b] = [1000, 1000];
-  for (const x of prices) {
-    if (x < a) {
-      b = a;
-      a = x;
-    } else if (x < b) {
-      b = x;
+    let [a, b] = [1000, 1000];
+    for (const x of prices) {
+        if (x < a) {
+            b = a;
+            a = x;
+        } else if (x < b) {
+            b = x;
+        }
     }
-  }
-  const cost = a + b;
-  return money < cost ? money : money - cost;
+    const cost = a + b;
+    return money < cost ? money : money - cost;
 }
 ```
 

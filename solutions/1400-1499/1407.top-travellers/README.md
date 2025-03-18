@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1407.Top%20Travellers/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1407. Top Travellers](https://leetcode.com/problems/top-travellers)
+# [1407. 排名靠前的旅行者](https://leetcode.cn/problems/top-travellers)
 
-## Description
+[English Version](/solution/1400-1499/1407.Top%20Travellers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Users</code></p>
+<p>表：<code>Users</code></p>
 
 <pre>
 +---------------+---------+
@@ -22,13 +25,12 @@ tags:
 | id            | int     |
 | name          | varchar |
 +---------------+---------+
-id is the column with unique values for this table.
-name is the name of the user.
-</pre>
+id 是该表中具有唯一值的列。
+name 是用户名字。</pre>
 
 <p>&nbsp;</p>
 
-<p>Table: <code>Rides</code></p>
+<p>表：<code>Rides</code></p>
 
 <pre>
 +---------------+---------+
@@ -38,24 +40,25 @@ name is the name of the user.
 | user_id       | int     |
 | distance      | int     |
 +---------------+---------+
-id is the column with unique values for this table.
-user_id is the id of the user who traveled the distance &quot;distance&quot;.
+id 是该表中具有唯一值的列。
+user_id 是本次行程的用户的 id, 而该用户此次行程距离为 distance 。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution&nbsp;to report the distance traveled by each user.</p>
+<p>编写解决方案，报告每个用户的旅行距离。</p>
 
-<p>Return the result table ordered by <code>travelled_distance</code> in <strong>descending order</strong>, if two or more users traveled the same distance, order them by their <code>name</code> in <strong>ascending order</strong>.</p>
+<p>返回的结果表单，以&nbsp;<code>travelled_distance</code>&nbsp;<strong>降序排列</strong> ，如果有两个或者更多的用户旅行了相同的距离,&nbsp;那么再以&nbsp;<code>name</code>&nbsp;<strong>升序排列</strong> 。</p>
 
-<p>The&nbsp;result format is in the following example.</p>
+<p>返回结果格式如下例所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Users table:
+<strong>输入：</strong>
+Users 表：
 +------+-----------+
 | id   | name      |
 +------+-----------+
@@ -67,7 +70,8 @@ Users table:
 | 13   | Jonathan  |
 | 19   | Elvis     |
 +------+-----------+
-Rides table:
+
+Rides 表：
 +------+----------+----------+
 | id   | user_id  | distance |
 +------+----------+----------+
@@ -81,7 +85,7 @@ Rides table:
 | 8    | 19       | 400      |
 | 9    | 7        | 230      |
 +------+----------+----------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +----------+--------------------+
 | name     | travelled_distance |
 +----------+--------------------+
@@ -93,21 +97,21 @@ Rides table:
 | Alice    | 120                |
 | Donald   | 0                  |
 +----------+--------------------+
-<strong>Explanation:</strong> 
-Elvis and Lee traveled 450 miles, Elvis is the top traveler as his name is alphabetically smaller than Lee.
-Bob, Jonathan, Alex, and Alice have only one ride and we just order them by the total distances of the ride.
-Donald did not have any rides, the distance traveled by him is 0.
+<strong>解释：</strong>
+Elvis 和 Lee 旅行了 450 英里，Elvis 是排名靠前的旅行者，因为他的名字在字母表上的排序比 Lee 更小。
+Bob, Jonathan, Alex 和 Alice 只有一次行程，我们只按此次行程的全部距离对他们排序。
+Donald 没有任何行程, 他的旅行距离为 0。
 </pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: LEFT JOIN + GROUP BY
+### 方法一：左连接 + 分组统计
 
-We can use a left join to join the `Users` table with the `Rides` table on the condition of user id, and then group by user id to calculate the travel distance for each user. Note that if a user has no travel records, the travel distance is $0$.
+我们可以使用左连接，将 `Users` 表与 `Rides` 表按照用户 id 连接，然后按照用户 id 分组，统计每个用户的旅行距离。注意，如果用户没有旅行记录，那么旅行距离为 $0$。
 
 <!-- tabs:start -->
 

@@ -1,75 +1,65 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0606.Construct%20String%20from%20Binary%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - String
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 字符串
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [606. Construct String from Binary Tree](https://leetcode.com/problems/construct-string-from-binary-tree)
+# [606. 根据二叉树创建字符串](https://leetcode.cn/problems/construct-string-from-binary-tree)
 
-## Description
+[English Version](/solution/0600-0699/0606.Construct%20String%20from%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> node of a binary tree, your task is to create a string representation of the tree following a specific set of formatting rules. The representation should be based on a preorder traversal of the binary tree and must adhere to the following guidelines:</p>
+<p>给你二叉树的根节点 <code>root</code> ，请你采用前序遍历的方式，将二叉树转化为一个由括号和整数组成的字符串，返回构造出的字符串。</p>
 
-<ul>
-	<li>
-	<p><strong>Node Representation</strong>: Each node in the tree should be represented by its integer value.</p>
-	</li>
-	<li>
-	<p><strong>Parentheses for Children</strong>: If a node has at least one child (either left or right), its children should be represented inside parentheses. Specifically:</p>
+<p>空节点使用一对空括号对 <code>"()"</code> 表示，转化后需要省略所有不影响字符串与原始二叉树之间的一对一映射关系的空括号对。</p>
 
-    <ul>
-    	<li>If a node has a left child, the value of the left child should be enclosed in parentheses immediately following the node&#39;s value.</li>
-    	<li>If a node has a right child, the value of the right child should also be enclosed in parentheses. The parentheses for the right child should follow those of the left child.</li>
-    </ul>
-    </li>
-    <li>
-    <p><strong>Omitting Empty Parentheses</strong>: Any empty parentheses pairs (i.e., <code>()</code>) should be omitted from the final string representation of the tree, with one specific exception: when a node has a right child but no left child. In such cases, you must include an empty pair of parentheses to indicate the absence of the left child. This ensures that the one-to-one mapping between the string representation and the original binary tree structure is maintained.</p>
-
-    <p>In summary, empty parentheses pairs should be omitted when a node has only a left child or no children. However, when a node has a right child but no left child, an empty pair of parentheses must precede the representation of the right child to reflect the tree&#39;s structure accurately.</p>
-    </li>
-
-</ul>
-
+<div class="original__bRMd">
+<div>
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0606.Construct%20String%20from%20Binary%20Tree/images/cons1-tree.jpg" style="padding: 10px; background: #fff; border-radius: .5rem;" />
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0606.Construct%20String%20from%20Binary%20Tree/images/cons1-tree.jpg" style="width: 292px; height: 301px;" />
 <pre>
-<strong>Input:</strong> root = [1,2,3,4]
-<strong>Output:</strong> &quot;1(2(4))(3)&quot;
-<strong>Explanation:</strong> Originally, it needs to be &quot;1(2(4)())(3()())&quot;, but you need to omit all the empty parenthesis pairs. And it will be &quot;1(2(4))(3)&quot;.
+<strong>输入：</strong>root = [1,2,3,4]
+<strong>输出：</strong>"1(2(4))(3)"
+<strong>解释：</strong>初步转化后得到 "1(2(4)())(3()())" ，但省略所有不必要的空括号对后，字符串应该是"1(2(4))(3)" 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0606.Construct%20String%20from%20Binary%20Tree/images/cons2-tree.jpg" style="padding: 10px; background: #fff; border-radius: .5rem;" />
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0606.Construct%20String%20from%20Binary%20Tree/images/cons2-tree.jpg" style="width: 207px; height: 293px;" />
 <pre>
-<strong>Input:</strong> root = [1,2,3,null,4]
-<strong>Output:</strong> &quot;1(2()(4))(3)&quot;
-<strong>Explanation:</strong> Almost the same as the first example, except the <code>()</code> after <code>2</code> is necessary to indicate the absence of a left child for <code>2</code> and the presence of a right child.
-</pre>
+<strong>输入：</strong>root = [1,2,3,null,4]
+<strong>输出：</strong>"1(2()(4))(3)"
+<strong>解释：</strong>和第一个示例类似，但是无法省略第一个空括号对，否则会破坏输入与输出一一映射的关系。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li>树中节点的数目范围是 <code>[1, 10<sup>4</sup>]</code></li>
 	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
+</div>
+</div>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -198,15 +188,15 @@ func tree2str(root *TreeNode) string {
  */
 
 function tree2str(root: TreeNode | null): string {
-  if (root == null) {
-    return "";
-  }
-  if (root.left == null && root.right == null) {
-    return `${root.val}`;
-  }
-  return `${root.val}(${root.left ? tree2str(root.left) : ""})${
-    root.right ? `(${tree2str(root.right)})` : ""
-  }`;
+    if (root == null) {
+        return '';
+    }
+    if (root.left == null && root.right == null) {
+        return `${root.val}`;
+    }
+    return `${root.val}(${root.left ? tree2str(root.left) : ''})${
+        root.right ? `(${tree2str(root.right)})` : ''
+    }`;
 }
 ```
 

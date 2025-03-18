@@ -1,67 +1,70 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0384.Shuffle%20an%20Array/README.md
 tags:
-  - Array
-  - Math
-  - Randomized
+    - 设计
+    - 数组
+    - 数学
+    - 随机化
 ---
 
 <!-- problem:start -->
 
-# [384. Shuffle an Array](https://leetcode.com/problems/shuffle-an-array)
+# [384. 打乱数组](https://leetcode.cn/problems/shuffle-an-array)
 
-## Description
+[English Version](/solution/0300-0399/0384.Shuffle%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code>, design an algorithm to randomly shuffle the array. All permutations of the array should be <strong>equally likely</strong> as a result of the shuffling.</p>
+<p>给你一个整数数组 <code>nums</code> ，设计算法来打乱一个没有重复元素的数组。打乱后，数组的所有排列应该是&nbsp;<strong>等可能</strong>&nbsp;的。</p>
 
-<p>Implement the <code>Solution</code> class:</p>
+<p>实现 <code>Solution</code> class:</p>
 
 <ul>
-	<li><code>Solution(int[] nums)</code> Initializes the object with the integer array <code>nums</code>.</li>
-	<li><code>int[] reset()</code> Resets the array to its original configuration and returns it.</li>
-	<li><code>int[] shuffle()</code> Returns a random shuffling of the array.</li>
+	<li><code>Solution(int[] nums)</code> 使用整数数组 <code>nums</code> 初始化对象</li>
+	<li><code>int[] reset()</code> 重设数组到它的初始状态并返回</li>
+	<li><code>int[] shuffle()</code> 返回数组随机打乱后的结果</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;Solution&quot;, &quot;shuffle&quot;, &quot;reset&quot;, &quot;shuffle&quot;]
+<strong>输入</strong>
+["Solution", "shuffle", "reset", "shuffle"]
 [[[1, 2, 3]], [], [], []]
-<strong>Output</strong>
+<strong>输出</strong>
 [null, [3, 1, 2], [1, 2, 3], [1, 3, 2]]
 
-<strong>Explanation</strong>
+<strong>解释</strong>
 Solution solution = new Solution([1, 2, 3]);
-solution.shuffle();    // Shuffle the array [1,2,3] and return its result.
-                       // Any permutation of [1,2,3] must be equally likely to be returned.
-                       // Example: return [3, 1, 2]
-solution.reset();      // Resets the array back to its original configuration [1,2,3]. Return [1, 2, 3]
-solution.shuffle();    // Returns the random shuffling of array [1,2,3]. Example: return [1, 3, 2]
-
+solution.shuffle();    // 打乱数组 [1,2,3] 并返回结果。任何 [1,2,3]的排列返回的概率应该相同。例如，返回 [3, 1, 2]
+solution.reset();      // 重设数组到它的初始状态 [1, 2, 3] 。返回 [1, 2, 3]
+solution.shuffle();    // 随机返回数组 [1, 2, 3] 打乱后的结果。例如，返回 [1, 3, 2]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 50</code></li>
 	<li><code>-10<sup>6</sup> &lt;= nums[i] &lt;= 10<sup>6</sup></code></li>
-	<li>All the elements of <code>nums</code> are <strong>unique</strong>.</li>
-	<li>At most <code>10<sup>4</sup></code> calls <strong>in total</strong> will be made to <code>reset</code> and <code>shuffle</code>.</li>
+	<li><code>nums</code> 中的所有元素都是 <strong>唯一的</strong></li>
+	<li>最多可以调用 <code>10<sup>4</sup></code> 次 <code>reset</code> 和 <code>shuffle</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -204,25 +207,25 @@ func (this *Solution) Shuffle() []int {
 
 ```ts
 class Solution {
-  private nums: number[];
+    private nums: number[];
 
-  constructor(nums: number[]) {
-    this.nums = nums;
-  }
-
-  reset(): number[] {
-    return this.nums;
-  }
-
-  shuffle(): number[] {
-    const n = this.nums.length;
-    const res = [...this.nums];
-    for (let i = 0; i < n; i++) {
-      const j = Math.floor(Math.random() * n);
-      [res[i], res[j]] = [res[j], res[i]];
+    constructor(nums: number[]) {
+        this.nums = nums;
     }
-    return res;
-  }
+
+    reset(): number[] {
+        return this.nums;
+    }
+
+    shuffle(): number[] {
+        const n = this.nums.length;
+        const res = [...this.nums];
+        for (let i = 0; i < n; i++) {
+            const j = Math.floor(Math.random() * n);
+            [res[i], res[j]] = [res[j], res[i]];
+        }
+        return res;
+    }
 }
 
 /**
@@ -273,7 +276,7 @@ impl Solution {
  * @param {number[]} nums
  */
 const Solution = function (nums) {
-  this.nums = nums || [];
+    this.nums = nums || [];
 };
 
 /**
@@ -281,7 +284,7 @@ const Solution = function (nums) {
  * @return {number[]}
  */
 Solution.prototype.reset = function () {
-  return this.nums;
+    return this.nums;
 };
 
 /**
@@ -289,14 +292,14 @@ Solution.prototype.reset = function () {
  * @return {number[]}
  */
 Solution.prototype.shuffle = function () {
-  let a = this.nums.slice();
-  for (let i = 0; i < a.length; i++) {
-    let rand = Math.floor(Math.random() * (a.length - i)) + i;
-    let tmp = a[i];
-    a[i] = a[rand];
-    a[rand] = tmp;
-  }
-  return a;
+    let a = this.nums.slice();
+    for (let i = 0; i < a.length; i++) {
+        let rand = Math.floor(Math.random() * (a.length - i)) + i;
+        let tmp = a[i];
+        a[i] = a[rand];
+        a[rand] = tmp;
+    }
+    return a;
 };
 
 /**

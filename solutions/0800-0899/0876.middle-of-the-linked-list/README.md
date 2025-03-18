@@ -1,55 +1,66 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0876.Middle%20of%20the%20Linked%20List/README.md
 tags:
-  - Linked List
-  - Two Pointers
+    - 链表
+    - 双指针
 ---
 
 <!-- problem:start -->
 
-# [876. Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list)
+# [876. 链表的中间结点](https://leetcode.cn/problems/middle-of-the-linked-list)
 
-## Description
+[English Version](/solution/0800-0899/0876.Middle%20of%20the%20Linked%20List/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>head</code> of a singly linked list, return <em>the middle node of the linked list</em>.</p>
+<p>给你单链表的头结点 <code>head</code> ，请你找出并返回链表的中间结点。</p>
 
-<p>If there are two middle nodes, return <strong>the second middle</strong> node.</p>
+<p>如果有两个中间结点，则返回第二个中间结点。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0876.Middle%20of%20the%20Linked%20List/images/lc-midlist1.jpg" style="width: 544px; height: 65px;" />
 <pre>
-<strong>Input:</strong> head = [1,2,3,4,5]
-<strong>Output:</strong> [3,4,5]
-<strong>Explanation:</strong> The middle node of the list is node 3.
+<strong>输入：</strong>head = [1,2,3,4,5]
+<strong>输出：</strong>[3,4,5]
+<strong>解释：</strong>链表只有一个中间结点，值为 3 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0876.Middle%20of%20the%20Linked%20List/images/lc-midlist2.jpg" style="width: 664px; height: 65px;" />
 <pre>
-<strong>Input:</strong> head = [1,2,3,4,5,6]
-<strong>Output:</strong> [4,5,6]
-<strong>Explanation:</strong> Since the list has two middle nodes with values 3 and 4, we return the second one.
+<strong>输入：</strong>head = [1,2,3,4,5,6]
+<strong>输出：</strong>[4,5,6]
+<strong>解释：</strong>该链表有两个中间结点，值分别为 3 和 4 ，返回第二个结点。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the list is in the range <code>[1, 100]</code>.</li>
+	<li>链表的结点数范围是 <code>[1, 100]</code></li>
 	<li><code>1 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：快慢指针
+
+定义快慢指针 `fast` 和 `slow`，初始时均指向链表的头结点。
+
+快指针 `fast` 每次走两步，慢指针 `slow` 每次走一步。当快指针走到链表的尾部时，慢指针所指的结点即为中间结点。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 是链表的长度。
 
 <!-- tabs:start -->
 
@@ -155,13 +166,13 @@ func middleNode(head *ListNode) *ListNode {
  */
 
 function middleNode(head: ListNode | null): ListNode | null {
-  let fast = head,
-    slow = head;
-  while (fast != null && fast.next != null) {
-    fast = fast.next.next;
-    slow = slow.next;
-  }
-  return slow;
+    let fast = head,
+        slow = head;
+    while (fast != null && fast.next != null) {
+        fast = fast.next.next;
+        slow = slow.next;
+    }
+    return slow;
 }
 ```
 

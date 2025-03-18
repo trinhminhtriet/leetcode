@@ -1,55 +1,57 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2444.Count%20Subarrays%20With%20Fixed%20Bounds/README.md
 rating: 2092
-source: Weekly Contest 315 Q4
+source: 第 315 场周赛 Q4
 tags:
-  - Queue
-  - Array
-  - Sliding Window
-  - Monotonic Queue
+    - 队列
+    - 数组
+    - 滑动窗口
+    - 单调队列
 ---
 
 <!-- problem:start -->
 
-# [2444. Count Subarrays With Fixed Bounds](https://leetcode.com/problems/count-subarrays-with-fixed-bounds)
+# [2444. 统计定界子数组的数目](https://leetcode.cn/problems/count-subarrays-with-fixed-bounds)
 
-## Description
+[English Version](/solution/2400-2499/2444.Count%20Subarrays%20With%20Fixed%20Bounds/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> and two integers <code>minK</code> and <code>maxK</code>.</p>
+<p>给你一个整数数组 <code>nums</code> 和两个整数 <code>minK</code> 以及 <code>maxK</code> 。</p>
 
-<p>A <strong>fixed-bound subarray</strong> of <code>nums</code> is a subarray that satisfies the following conditions:</p>
+<p><code>nums</code> 的定界子数组是满足下述条件的一个子数组：</p>
 
 <ul>
-	<li>The <strong>minimum</strong> value in the subarray is equal to <code>minK</code>.</li>
-	<li>The <strong>maximum</strong> value in the subarray is equal to <code>maxK</code>.</li>
+	<li>子数组中的 <strong>最小值</strong> 等于 <code>minK</code> 。</li>
+	<li>子数组中的 <strong>最大值</strong> 等于 <code>maxK</code> 。</li>
 </ul>
 
-<p>Return <em>the <strong>number</strong> of fixed-bound subarrays</em>.</p>
+<p>返回定界子数组的数目。</p>
 
-<p>A <strong>subarray</strong> is a <strong>contiguous</strong> part of an array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,3,5,2,7,5], minK = 1, maxK = 5
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The fixed-bound subarrays are [1,3,5] and [1,3,5,2].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,1,1,1], minK = 1, maxK = 1
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> Every subarray of nums is a fixed-bound subarray. There are 10 possible subarrays.
-</pre>
+<p>子数组是数组中的一个连续部分。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [1,3,5,2,7,5], minK = 1, maxK = 5
+<strong>输出：</strong>2
+<strong>解释：</strong>定界子数组是 [1,3,5] 和 [1,3,5,2] 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>nums = [1,1,1,1], minK = 1, maxK = 1
+<strong>输出：</strong>10
+<strong>解释：</strong>nums 的每个子数组都是一个定界子数组。共有 10 个子数组。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -58,23 +60,23 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration of Right Endpoint
+### 方法一：枚举右端点
 
-From the problem description, we know that all elements of the bounded subarray are in the interval `[minK, maxK]`, and the minimum value must be `minK`, and the maximum value must be `maxK`.
+由题意，我们可以知道，定界子数组的所有元素都在区间 `[minK, maxK]` 中，且最小值一定为 `minK`，最大值一定为 `maxK`。
 
-We traverse the array $nums$, count the number of bounded subarrays with `nums[i]` as the right endpoint, and then add all the counts.
+我们遍历数组 $nums$，统计以 `nums[i]` 为右端点的定界子数组的个数，然后将所有的个数相加即可。
 
-The specific implementation logic is as follows:
+具体实现逻辑如下：
 
-1. Maintain the index $k$ of the most recent element not in the interval `[minK, maxK]`, initially set to $-1$. Therefore, the left endpoint of the current element `nums[i]` must be greater than $k$.
-1. Maintain the index $j_1$ of the most recent element with a value of `minK`, and the index $j_2$ of the most recent element with a value of `maxK`, both initially set to $-1$. Therefore, the left endpoint of the current element `nums[i]` must be less than or equal to $\min(j_1, j_2)$.
-1. In summary, the number of bounded subarrays with the current element as the right endpoint is $\max(0, \min(j_1, j_2) - k)$. Add up all the counts to get the result.
+1. 维护最近一个不在区间 `[minK, maxK]` 中的元素的下标 $k$，初始值为 $-1$。那么当前元素 `nums[i]` 的左端点一定大于 $k$。
+1. 维护最近一个值为 `minK` 的下标 $j_1$，最近一个值为 `maxK` 的下标 $j_2$，初始值均为 $-1$。那么当前元素 `nums[i]` 的左端点一定小于等于 $\min(j_1, j_2)$。
+1. 综上可知，以当前元素为右端点的定界子数组的个数为 $\max(0, \min(j_1, j_2) - k)$。累加所有的个数即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -165,23 +167,23 @@ func countSubarrays(nums []int, minK int, maxK int) int64 {
 
 ```ts
 function countSubarrays(nums: number[], minK: number, maxK: number): number {
-  let res = 0;
-  let minIndex = -1;
-  let maxIndex = -1;
-  let k = -1;
-  nums.forEach((num, i) => {
-    if (num === minK) {
-      minIndex = i;
-    }
-    if (num === maxK) {
-      maxIndex = i;
-    }
-    if (num < minK || num > maxK) {
-      k = i;
-    }
-    res += Math.max(Math.min(minIndex, maxIndex) - k, 0);
-  });
-  return res;
+    let res = 0;
+    let minIndex = -1;
+    let maxIndex = -1;
+    let k = -1;
+    nums.forEach((num, i) => {
+        if (num === minK) {
+            minIndex = i;
+        }
+        if (num === maxK) {
+            maxIndex = i;
+        }
+        if (num < minK || num > maxK) {
+            k = i;
+        }
+        res += Math.max(Math.min(minIndex, maxIndex) - k, 0);
+    });
+    return res;
 }
 ```
 

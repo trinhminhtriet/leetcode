@@ -1,52 +1,57 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1282.Group%20the%20People%20Given%20the%20Group%20Size%20They%20Belong%20To/README.md
 rating: 1267
-source: Weekly Contest 166 Q2
+source: 第 166 场周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Hash Table
+    - 贪心
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [1282. Group the People Given the Group Size They Belong To](https://leetcode.com/problems/group-the-people-given-the-group-size-they-belong-to)
+# [1282. 用户分组](https://leetcode.cn/problems/group-the-people-given-the-group-size-they-belong-to)
 
-## Description
+[English Version](/solution/1200-1299/1282.Group%20the%20People%20Given%20the%20Group%20Size%20They%20Belong%20To/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> people&nbsp;that are split into some unknown number of groups. Each person is labeled with a&nbsp;<strong>unique ID</strong>&nbsp;from&nbsp;<code>0</code>&nbsp;to&nbsp;<code>n - 1</code>.</p>
+<p>有&nbsp;<code>n</code>&nbsp;个人被分成数量未知的组。每个人都被标记为一个从 <code>0</code> 到 <code>n - 1</code> 的<strong>唯一ID</strong>&nbsp;。</p>
 
-<p>You are given an integer array&nbsp;<code>groupSizes</code>, where <code>groupSizes[i]</code>&nbsp;is the size of the group that person&nbsp;<code>i</code>&nbsp;is in. For example, if&nbsp;<code>groupSizes[1] = 3</code>, then&nbsp;person&nbsp;<code>1</code>&nbsp;must be in a&nbsp;group of size&nbsp;<code>3</code>.</p>
+<p>给定一个整数数组 <code>groupSizes</code> ，其中<meta charset="UTF-8" />&nbsp;<code>groupSizes[i]</code>&nbsp;是第 <code>i</code> 个人所在的组的大小。例如，如果&nbsp;<code>groupSizes[1] = 3</code>&nbsp;，则第 <code>1</code> 个人必须位于大小为 <code>3</code> 的组中。</p>
 
-<p>Return&nbsp;<em>a list of groups&nbsp;such that&nbsp;each person&nbsp;<code>i</code>&nbsp;is in a group of size&nbsp;<code>groupSizes[i]</code></em>.</p>
+<p>返回一个组列表，使每个人 <code>i</code> 都在一个大小为<meta charset="UTF-8" /><em>&nbsp;<code>groupSizes[i]</code>&nbsp;</em>的组中。</p>
 
-<p>Each person should&nbsp;appear in&nbsp;<strong>exactly one group</strong>,&nbsp;and every person must be in a group. If there are&nbsp;multiple answers, <strong>return any of them</strong>. It is <strong>guaranteed</strong> that there will be <strong>at least one</strong> valid solution for the given input.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> groupSizes = [3,3,3,3,3,1,3]
-<strong>Output:</strong> [[5],[0,1,2],[3,4,6]]
-<b>Explanation:</b> 
-The first group is [5]. The size is 1, and groupSizes[5] = 1.
-The second group is [0,1,2]. The size is 3, and groupSizes[0] = groupSizes[1] = groupSizes[2] = 3.
-The third group is [3,4,6]. The size is 3, and groupSizes[3] = groupSizes[4] = groupSizes[6] = 3.
-Other possible solutions are [[2,1,6],[5],[0,4,3]] and [[5],[0,6,2],[4,3,1]].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> groupSizes = [2,1,3,3,3,2]
-<strong>Output:</strong> [[1],[0,5],[2,3,4]]
-</pre>
+<p>每个人应该&nbsp;<strong>恰好只&nbsp;</strong>出现在&nbsp;<strong>一个组&nbsp;</strong>中，并且每个人必须在一个组中。如果有多个答案，返回其中&nbsp;<strong>任何&nbsp;</strong>一个。可以&nbsp;<strong>保证&nbsp;</strong>给定输入&nbsp;<strong>至少有一个&nbsp;</strong>有效的解。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>groupSizes = [3,3,3,3,3,1,3]
+<strong>输出：</strong>[[5],[0,1,2],[3,4,6]]
+<strong>解释：
+</strong>第一组是 [5]，大小为 1，groupSizes[5] = 1。
+第二组是 [0,1,2]，大小为 3，groupSizes[0] = groupSizes[1] = groupSizes[2] = 3。
+第三组是 [3,4,6]，大小为 3，groupSizes[3] = groupSizes[4] = groupSizes[6] = 3。 
+其他可能的解决方案有 [[2,1,6],[5],[0,4,3]] 和 [[5],[0,6,2],[4,3,1]]。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>groupSizes = [2,1,3,3,3,2]
+<strong>输出：</strong>[[1],[0,5],[2,3,4]]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>groupSizes.length == n</code></li>
@@ -56,17 +61,17 @@ Other possible solutions are [[2,1,6],[5],[0,4,3]] and [[5],[0,6,2],[4,3,1]].
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table or Array
+### 方法一：哈希表或数组
 
-We use a hash table $g$ to store which people are in each group size $groupSize$. Then we partition each group size into $k$ equal parts, with each part containing $groupSize$ people.
+我们用一个哈希表 $g$ 来存放每个 $groupSize$ 都有哪些人。然后对每个 $groupSize$ 中的人划分为 $k$ 等份，每一等份有 $groupSize$ 个人。
 
-Since the range of $n$ in the problem is small, we can also directly create an array of size $n+1$ to store the data, which is more efficient.
+由于题目中的 $n$ 范围较小，我们也可以直接创建一个大小为 $n+1$ 的数组来存放数据，运行效率较高。
 
-Time complexity is $O(n)$, and space complexity is $O(n)$. Here, $n$ is the length of $groupSizes$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为 $groupSizes$ 的长度。
 
 <!-- tabs:start -->
 
@@ -150,23 +155,23 @@ func groupThePeople(groupSizes []int) [][]int {
 
 ```ts
 function groupThePeople(groupSizes: number[]): number[][] {
-  const n: number = groupSizes.length;
-  const g: number[][] = Array.from({ length: n + 1 }, () => []);
+    const n: number = groupSizes.length;
+    const g: number[][] = Array.from({ length: n + 1 }, () => []);
 
-  for (let i = 0; i < groupSizes.length; i++) {
-    const size: number = groupSizes[i];
-    g[size].push(i);
-  }
-  const ans: number[][] = [];
-  for (let i = 1; i <= n; i++) {
-    const group: number[] = [];
-    for (let j = 0; j < g[i].length; j += i) {
-      group.push(...g[i].slice(j, j + i));
-      ans.push([...group]);
-      group.length = 0;
+    for (let i = 0; i < groupSizes.length; i++) {
+        const size: number = groupSizes[i];
+        g[size].push(i);
     }
-  }
-  return ans;
+    const ans: number[][] = [];
+    for (let i = 1; i <= n; i++) {
+        const group: number[] = [];
+        for (let j = 0; j < g[i].length; j += i) {
+            group.push(...g[i].slice(j, j + i));
+            ans.push([...group]);
+            group.length = 0;
+        }
+    }
+    return ans;
 }
 ```
 

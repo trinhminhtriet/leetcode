@@ -1,42 +1,49 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0042.Trapping%20Rain%20Water/README.md
 tags:
-  - Stack
-  - Array
-  - Two Pointers
-  - Dynamic Programming
-  - Monotonic Stack
+    - 栈
+    - 数组
+    - 双指针
+    - 动态规划
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water)
+# [42. 接雨水](https://leetcode.cn/problems/trapping-rain-water)
 
-## Description
+[English Version](/solution/0000-0099/0042.Trapping%20Rain%20Water/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given <code>n</code> non-negative integers representing an elevation map where the width of each bar is <code>1</code>, compute how much water it can trap after raining.</p>
+<p>给定&nbsp;<code>n</code> 个非负整数表示每个宽度为 <code>1</code> 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0042.Trapping%20Rain%20Water/images/rainwatertrap.png" style="width: 412px; height: 161px;" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0042.Trapping%20Rain%20Water/images/rainwatertrap.png" style="height: 161px; width: 412px;" /></p>
+
 <pre>
-<strong>Input:</strong> height = [0,1,0,2,1,0,1,3,2,1,2,1]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
+<strong>输入：</strong>height = [0,1,0,2,1,0,1,3,2,1,2,1]
+<strong>输出：</strong>6
+<strong>解释：</strong>上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> height = [4,2,0,3,2,5]
-<strong>Output:</strong> 9
+<strong>输入：</strong>height = [4,2,0,3,2,5]
+<strong>输出：</strong>9
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == height.length</code></li>
@@ -46,15 +53,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $left[i]$ as the height of the highest bar to the left of and including the position at index $i$, and $right[i]$ as the height of the highest bar to the right of and including the position at index $i$. Therefore, the amount of rainwater that can be trapped at index $i$ is $min(left[i], right[i]) - height[i]$. We traverse the array to calculate $left[i]$ and $right[i]$, and the final answer is $\sum_{i=0}^{n-1} \min(left[i], right[i]) - height[i]$.
+我们定义 $left[i]$ 表示下标 $i$ 位置及其左边的最高柱子的高度，定义 $right[i]$ 表示下标 $i$ 位置及其右边的最高柱子的高度。那么下标 $i$ 位置能接的雨水量为 $\min(left[i], right[i]) - height[i]$。我们遍历数组，计算出 $left[i]$ 和 $right[i]$，最后答案为 $\sum_{i=0}^{n-1} \min(left[i], right[i]) - height[i]$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
 
 <!-- tabs:start -->
 
@@ -141,18 +148,18 @@ func trap(height []int) (ans int) {
 
 ```ts
 function trap(height: number[]): number {
-  const n = height.length;
-  const left: number[] = new Array(n).fill(height[0]);
-  const right: number[] = new Array(n).fill(height[n - 1]);
-  for (let i = 1; i < n; ++i) {
-    left[i] = Math.max(left[i - 1], height[i]);
-    right[n - i - 1] = Math.max(right[n - i], height[n - i - 1]);
-  }
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    ans += Math.min(left[i], right[i]) - height[i];
-  }
-  return ans;
+    const n = height.length;
+    const left: number[] = new Array(n).fill(height[0]);
+    const right: number[] = new Array(n).fill(height[n - 1]);
+    for (let i = 1; i < n; ++i) {
+        left[i] = Math.max(left[i - 1], height[i]);
+        right[n - i - 1] = Math.max(right[n - i], height[n - i - 1]);
+    }
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        ans += Math.min(left[i], right[i]) - height[i];
+    }
+    return ans;
 }
 ```
 

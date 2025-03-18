@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1174.Immediate%20Food%20Delivery%20II/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1174. Immediate Food Delivery II](https://leetcode.com/problems/immediate-food-delivery-ii)
+# [1174. 即时食物配送 II](https://leetcode.cn/problems/immediate-food-delivery-ii)
 
-## Description
+[English Version](/solution/1100-1199/1174.Immediate%20Food%20Delivery%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Delivery</code></p>
+<p>配送表: <code>Delivery</code></p>
 
 <pre>
 +-----------------------------+---------+
@@ -24,26 +27,27 @@ tags:
 | order_date                  | date    |
 | customer_pref_delivery_date | date    |
 +-----------------------------+---------+
-delivery_id is the column of unique values of this table.
-The table holds information about food delivery to customers that make orders at some date and specify a preferred delivery date (on the same order date or after it).
+delivery_id 是该表中具有唯一值的列。
+该表保存着顾客的食物配送信息，顾客在某个日期下了订单，并指定了一个期望的配送日期（和下单日期相同或者在那之后）。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>If the customer&#39;s preferred delivery date is the same as the order date, then the order is called <strong>immediate;</strong> otherwise, it is called <strong>scheduled</strong>.</p>
+<p>如果顾客期望的配送日期和下单日期相同，则该订单称为 「<strong>即时订单</strong>」，否则称为「<strong>计划订单</strong>」。</p>
 
-<p>The <strong>first order</strong> of a customer is the order with the earliest order date that the customer made. It is guaranteed that a customer has precisely one first order.</p>
+<p>「<strong>首次订单</strong>」是顾客最早创建的订单。我们保证一个顾客只会有一个「首次订单」。</p>
 
-<p>Write a solution to find the percentage of immediate orders in the first orders of all customers, <strong>rounded to 2 decimal places</strong>.</p>
+<p>编写解决方案以获取即时订单在所有用户的首次订单中的比例。<strong>保留两位小数。</strong></p>
 
-<p>The&nbsp;result format is in the following example.</p>
+<p>结果示例如下所示：</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Delivery table:
+<strong>输入：</strong>
+Delivery 表：
 +-------------+-------------+------------+-----------------------------+
 | delivery_id | customer_id | order_date | customer_pref_delivery_date |
 +-------------+-------------+------------+-----------------------------+
@@ -55,29 +59,29 @@ Delivery table:
 | 6           | 2           | 2019-08-11 | 2019-08-13                  |
 | 7           | 4           | 2019-08-09 | 2019-08-09                  |
 +-------------+-------------+------------+-----------------------------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +----------------------+
 | immediate_percentage |
 +----------------------+
 | 50.00                |
 +----------------------+
-<strong>Explanation:</strong> 
-The customer id 1 has a first order with delivery id 1 and it is scheduled.
-The customer id 2 has a first order with delivery id 2 and it is immediate.
-The customer id 3 has a first order with delivery id 5 and it is scheduled.
-The customer id 4 has a first order with delivery id 7 and it is immediate.
-Hence, half the customers have immediate first orders.
+<strong>解释：</strong>
+1 号顾客的 1 号订单是首次订单，并且是计划订单。
+2 号顾客的 2 号订单是首次订单，并且是即时订单。
+3 号顾客的 5 号订单是首次订单，并且是计划订单。
+4 号顾客的 7 号订单是首次订单，并且是即时订单。
+因此，一半顾客的首次订单是即时的。
 </pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Subquery
+### 方法一：子查询
 
-We can use a subquery to first find the first order of each user, and then calculate the proportion of instant orders.
+我们可以使用子查询，先找到每个用户的首次订单，然后再计算即时订单的比例。
 
 <!-- tabs:start -->
 
@@ -102,9 +106,9 @@ WHERE
 
 <!-- solution:start -->
 
-### Solution 2: Window Function
+### 方法二：窗口函数
 
-We can use the `RANK()` window function to rank the orders of each user in ascending order by order date, and then filter out the orders with a rank of $1$, which are the first orders of each user. After that, we can calculate the proportion of instant orders.
+我们可以使用 `RANK()` 窗口函数，按照每个用户的订单日期升序排列，获取到每个用户的订单排名，然后我们筛选出排名为 $1$ 的订单，即为首次订单，再计算即时订单的比例。
 
 <!-- tabs:start -->
 

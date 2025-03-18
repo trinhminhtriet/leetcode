@@ -1,64 +1,75 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1769.Minimum%20Number%20of%20Operations%20to%20Move%20All%20Balls%20to%20Each%20Box/README.md
 rating: 1294
-source: Weekly Contest 229 Q2
+source: 第 229 场周赛 Q2
 tags:
-  - Array
-  - String
-  - Prefix Sum
+    - 数组
+    - 字符串
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1769. Minimum Number of Operations to Move All Balls to Each Box](https://leetcode.com/problems/minimum-number-of-operations-to-move-all-balls-to-each-box)
+# [1769. 移动所有球到每个盒子所需的最小操作数](https://leetcode.cn/problems/minimum-number-of-operations-to-move-all-balls-to-each-box)
 
-## Description
+[English Version](/solution/1700-1799/1769.Minimum%20Number%20of%20Operations%20to%20Move%20All%20Balls%20to%20Each%20Box/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have <code>n</code> boxes. You are given a binary string <code>boxes</code> of length <code>n</code>, where <code>boxes[i]</code> is <code>&#39;0&#39;</code> if the <code>i<sup>th</sup></code> box is <strong>empty</strong>, and <code>&#39;1&#39;</code> if it contains <strong>one</strong> ball.</p>
+<p>有 <code>n</code> 个盒子。给你一个长度为 <code>n</code> 的二进制字符串 <code>boxes</code> ，其中 <code>boxes[i]</code> 的值为 <code>'0'</code> 表示第 <code>i</code> 个盒子是 <strong>空</strong> 的，而 <code>boxes[i]</code> 的值为 <code>'1'</code> 表示盒子里有 <strong>一个</strong> 小球。</p>
 
-<p>In one operation, you can move <strong>one</strong> ball from a box to an adjacent box. Box <code>i</code> is adjacent to box <code>j</code> if <code>abs(i - j) == 1</code>. Note that after doing so, there may be more than one ball in some boxes.</p>
+<p>在一步操作中，你可以将 <strong>一个</strong> 小球从某个盒子移动到一个与之相邻的盒子中。第 <code>i</code> 个盒子和第 <code>j</code> 个盒子相邻需满足 <code>abs(i - j) == 1</code> 。注意，操作执行后，某些盒子中可能会存在不止一个小球。</p>
 
-<p>Return an array <code>answer</code> of size <code>n</code>, where <code>answer[i]</code> is the <strong>minimum</strong> number of operations needed to move all the balls to the <code>i<sup>th</sup></code> box.</p>
+<p>返回一个长度为 <code>n</code> 的数组 <code>answer</code> ，其中 <code>answer[i]</code> 是将所有小球移动到第 <code>i</code> 个盒子所需的 <strong>最小</strong> 操作数。</p>
 
-<p>Each <code>answer[i]</code> is calculated considering the <strong>initial</strong> state of the boxes.</p>
+<p>每个 <code>answer[i]</code> 都需要根据盒子的 <strong>初始状态</strong> 进行计算。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> boxes = &quot;110&quot;
-<strong>Output:</strong> [1,1,3]
-<strong>Explanation:</strong> The answer for each box is as follows:
-1) First box: you will have to move one ball from the second box to the first box in one operation.
-2) Second box: you will have to move one ball from the first box to the second box in one operation.
-3) Third box: you will have to move one ball from the first box to the third box in two operations, and move one ball from the second box to the third box in one operation.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>boxes = "110"
+<strong>输出：</strong>[1,1,3]
+<strong>解释：</strong>每个盒子对应的最小操作数如下：
+1) 第 1 个盒子：将一个小球从第 2 个盒子移动到第 1 个盒子，需要 1 步操作。
+2) 第 2 个盒子：将一个小球从第 1 个盒子移动到第 2 个盒子，需要 1 步操作。
+3) 第 3 个盒子：将一个小球从第 1 个盒子移动到第 3 个盒子，需要 2 步操作。将一个小球从第 2 个盒子移动到第 3 个盒子，需要 1 步操作。共计 3 步操作。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> boxes = &quot;001011&quot;
-<strong>Output:</strong> [11,8,5,4,3,4]</pre>
+<pre><strong>输入：</strong>boxes = "001011"
+<strong>输出：</strong>[11,8,5,4,3,4]</pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == boxes.length</code></li>
 	<li><code>1 &lt;= n &lt;= 2000</code></li>
-	<li><code>boxes[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>boxes[i]</code> 为 <code>'0'</code> 或 <code>'1'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：预处理 + 枚举
+
+我们可以预处理出每个位置 $i$ 左边的小球移动到 $i$ 的操作数，记为 $left[i]$；每个位置 $i$ 右边的小球移动到 $i$ 的操作数，记为 $right[i]$。那么答案数组的第 $i$ 个元素就是 $left[i] + right[i]$。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为 `boxes` 的长度。
+
+我们还可以进一步优化空间复杂度，只用一个答案数组 $ans$ 以及若干个变量即可。
+
+时间复杂度 $O(n)$，忽略答案数组的空间消耗，空间复杂度 $O(1)$。其中 $n$ 为 `boxes` 的长度。
 
 <!-- tabs:start -->
 
@@ -169,22 +180,22 @@ func minOperations(boxes string) []int {
 
 ```ts
 function minOperations(boxes: string): number[] {
-  const n = boxes.length;
-  const left = new Array(n).fill(0);
-  const right = new Array(n).fill(0);
-  for (let i = 1, count = 0; i < n; i++) {
-    if (boxes[i - 1] == "1") {
-      count++;
+    const n = boxes.length;
+    const left = new Array(n).fill(0);
+    const right = new Array(n).fill(0);
+    for (let i = 1, count = 0; i < n; i++) {
+        if (boxes[i - 1] == '1') {
+            count++;
+        }
+        left[i] = left[i - 1] + count;
     }
-    left[i] = left[i - 1] + count;
-  }
-  for (let i = n - 2, count = 0; i >= 0; i--) {
-    if (boxes[i + 1] == "1") {
-      count++;
+    for (let i = n - 2, count = 0; i >= 0; i--) {
+        if (boxes[i + 1] == '1') {
+            count++;
+        }
+        right[i] = right[i + 1] + count;
     }
-    right[i] = right[i + 1] + count;
-  }
-  return left.map((v, i) => v + right[i]);
+    return left.map((v, i) => v + right[i]);
 }
 ```
 
@@ -257,7 +268,7 @@ int* minOperations(char* boxes, int* returnSize) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -356,22 +367,22 @@ func minOperations(boxes string) []int {
 
 ```ts
 function minOperations(boxes: string): number[] {
-  const n = boxes.length;
-  const ans = new Array(n).fill(0);
-  for (let i = 1, count = 0; i < n; i++) {
-    if (boxes[i - 1] === "1") {
-      count++;
+    const n = boxes.length;
+    const ans = new Array(n).fill(0);
+    for (let i = 1, count = 0; i < n; i++) {
+        if (boxes[i - 1] === '1') {
+            count++;
+        }
+        ans[i] = ans[i - 1] + count;
     }
-    ans[i] = ans[i - 1] + count;
-  }
-  for (let i = n - 2, count = 0, sum = 0; i >= 0; i--) {
-    if (boxes[i + 1] === "1") {
-      count++;
+    for (let i = n - 2, count = 0, sum = 0; i >= 0; i--) {
+        if (boxes[i + 1] === '1') {
+            count++;
+        }
+        sum += count;
+        ans[i] += sum;
     }
-    sum += count;
-    ans[i] += sum;
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -428,6 +439,64 @@ int* minOperations(char* boxes, int* returnSize) {
         ans[i] += sum;
     }
     *returnSize = n;
+    return ans;
+}
+```
+
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- solution:start -->
+
+### Solution 3
+
+<!-- tabs:start -->
+
+#### TypeScript
+
+```ts
+function minOperations(boxes: string): number[] {
+    const n = boxes.length;
+    const ans = Array(n).fill(0);
+    const ones: number[] = [];
+
+    for (let i = 0; i < n; i++) {
+        if (+boxes[i]) {
+            ones.push(i);
+        }
+    }
+
+    for (let i = 0; i < n; i++) {
+        for (const j of ones) {
+            ans[i] += Math.abs(i - j);
+        }
+    }
+
+    return ans;
+}
+```
+
+#### JavaScript
+
+```js
+function minOperations(boxes) {
+    const n = boxes.length;
+    const ans = Array(n).fill(0);
+    const ones = [];
+
+    for (let i = 0; i < n; i++) {
+        if (+boxes[i]) {
+            ones.push(i);
+        }
+    }
+
+    for (let i = 0; i < n; i++) {
+        for (const j of ones) {
+            ans[i] += Math.abs(i - j);
+        }
+    }
+
     return ans;
 }
 ```

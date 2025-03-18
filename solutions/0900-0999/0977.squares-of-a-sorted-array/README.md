@@ -1,62 +1,74 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0977.Squares%20of%20a%20Sorted%20Array/README.md
 tags:
-  - Array
-  - Two Pointers
-  - Sorting
+    - 数组
+    - 双指针
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [977. Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array)
+# [977. 有序数组的平方](https://leetcode.cn/problems/squares-of-a-sorted-array)
 
-## Description
+[English Version](/solution/0900-0999/0977.Squares%20of%20a%20Sorted%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> sorted in <strong>non-decreasing</strong> order, return <em>an array of <strong>the squares of each number</strong> sorted in non-decreasing order</em>.</p>
+<p>给你一个按 <strong>非递减顺序</strong> 排序的整数数组 <code>nums</code>，返回 <strong>每个数字的平方</strong> 组成的新数组，要求也按 <strong>非递减顺序</strong> 排序。</p>
+
+<ul>
+</ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [-4,-1,0,3,10]
-<strong>Output:</strong> [0,1,9,16,100]
-<strong>Explanation:</strong> After squaring, the array becomes [16,1,0,9,100].
-After sorting, it becomes [0,1,9,16,100].
-</pre>
+<strong>输入：</strong>nums = [-4,-1,0,3,10]
+<strong>输出：</strong>[0,1,9,16,100]
+<strong>解释：</strong>平方后，数组变为 [16,1,0,9,100]
+排序后，数组变为 [0,1,9,16,100]</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [-7,-3,2,3,11]
-<strong>Output:</strong> [4,9,9,49,121]
+<strong>输入：</strong>nums = [-7,-3,2,3,11]
+<strong>输出：</strong>[4,9,9,49,121]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code><span>1 &lt;= nums.length &lt;= </span>10<sup>4</sup></code></li>
 	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>nums</code> is sorted in <strong>non-decreasing</strong> order.</li>
+	<li><code>nums</code> 已按 <strong>非递减顺序</strong> 排序</li>
 </ul>
 
 <p>&nbsp;</p>
-<strong>Follow up:</strong> Squaring each element and sorting the new array is very trivial, could you find an <code>O(n)</code> solution using a different approach?
+
+<p><strong>进阶：</strong></p>
+
+<ul>
+	<li>请你设计时间复杂度为 <code>O(n)</code> 的算法解决本问题</li>
+</ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-Since the array $nums$ is already sorted in non-decreasing order, the square values of the negative numbers in the array are decreasing, and the square values of the positive numbers are increasing. We can use two pointers, each pointing to the ends of the array. Each time we compare the square values of the elements pointed to by the two pointers, we put the larger square value at the end of the result array.
+由于数组 $nums$ 已经按照非递减顺序排好序，所以数组中负数的平方值是递减的，正数的平方值是递增的。我们可以使用双指针，分别指向数组的两端，每次比较两个指针指向的元素的平方值，将较大的平方值放入结果数组的末尾。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -179,19 +191,19 @@ impl Solution {
  * @return {number[]}
  */
 var sortedSquares = function (nums) {
-  const n = nums.length;
-  const ans = Array(n).fill(0);
-  for (let i = 0, j = n - 1, k = n - 1; i <= j; --k) {
-    const [a, b] = [nums[i] * nums[i], nums[j] * nums[j]];
-    if (a > b) {
-      ans[k] = a;
-      ++i;
-    } else {
-      ans[k] = b;
-      --j;
+    const n = nums.length;
+    const ans = Array(n).fill(0);
+    for (let i = 0, j = n - 1, k = n - 1; i <= j; --k) {
+        const [a, b] = [nums[i] * nums[i], nums[j] * nums[j]];
+        if (a > b) {
+            ans[k] = a;
+            ++i;
+        } else {
+            ans[k] = b;
+            --j;
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 

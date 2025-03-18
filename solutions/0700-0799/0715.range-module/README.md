@@ -1,80 +1,85 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0715.Range%20Module/README.md
 tags:
-  - Design
-  - Segment Tree
-  - Ordered Set
+    - 设计
+    - 线段树
+    - 有序集合
 ---
 
 <!-- problem:start -->
 
-# [715. Range Module](https://leetcode.com/problems/range-module)
+# [715. Range 模块](https://leetcode.cn/problems/range-module)
 
-## Description
+[English Version](/solution/0700-0799/0715.Range%20Module/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A Range Module is a module that tracks ranges of numbers. Design a data structure to track the ranges represented as <strong>half-open intervals</strong> and query about them.</p>
+<p>Range模块是跟踪数字范围的模块。设计一个数据结构来跟踪表示为 <strong>半开区间</strong> 的范围并查询它们。</p>
 
-<p>A <strong>half-open interval</strong> <code>[left, right)</code> denotes all the real numbers <code>x</code> where <code>left &lt;= x &lt; right</code>.</p>
+<p><strong>半开区间</strong>&nbsp;<code>[left, right)</code>&nbsp;表示所有&nbsp;<code>left &lt;= x &lt; right</code>&nbsp;的实数 <code>x</code> 。</p>
 
-<p>Implement the <code>RangeModule</code> class:</p>
+<p>实现 <code>RangeModule</code> 类:</p>
 
 <ul>
-	<li><code>RangeModule()</code> Initializes the object of the data structure.</li>
-	<li><code>void addRange(int left, int right)</code> Adds the <strong>half-open interval</strong> <code>[left, right)</code>, tracking every real number in that interval. Adding an interval that partially overlaps with currently tracked numbers should add any numbers in the interval <code>[left, right)</code> that are not already tracked.</li>
-	<li><code>boolean queryRange(int left, int right)</code> Returns <code>true</code> if every real number in the interval <code>[left, right)</code> is currently being tracked, and <code>false</code> otherwise.</li>
-	<li><code>void removeRange(int left, int right)</code> Stops tracking every real number currently being tracked in the <strong>half-open interval</strong> <code>[left, right)</code>.</li>
+	<li><code>RangeModule()</code>&nbsp;初始化数据结构的对象。</li>
+	<li><code>void addRange(int left, int right)</code> 添加 <strong>半开区间</strong>&nbsp;<code>[left, right)</code>，跟踪该区间中的每个实数。添加与当前跟踪的数字部分重叠的区间时，应当添加在区间&nbsp;<code>[left, right)</code>&nbsp;中尚未跟踪的任何数字到该区间中。</li>
+	<li><code>boolean queryRange(int left, int right)</code>&nbsp;只有在当前正在跟踪区间&nbsp;<code>[left, right)</code>&nbsp;中的每一个实数时，才返回 <code>true</code>&nbsp;，否则返回 <code>false</code> 。</li>
+	<li><code>void removeRange(int left, int right)</code>&nbsp;停止跟踪 <strong>半开区间</strong>&nbsp;<code>[left, right)</code>&nbsp;中当前正在跟踪的每个实数。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;RangeModule&quot;, &quot;addRange&quot;, &quot;removeRange&quot;, &quot;queryRange&quot;, &quot;queryRange&quot;, &quot;queryRange&quot;]
+<strong>输入</strong>
+["RangeModule", "addRange", "removeRange", "queryRange", "queryRange", "queryRange"]
 [[], [10, 20], [14, 16], [10, 14], [13, 15], [16, 17]]
-<strong>Output</strong>
+<strong>输出</strong>
 [null, null, null, true, false, true]
 
-<strong>Explanation</strong>
+<strong>解释</strong>
 RangeModule rangeModule = new RangeModule();
 rangeModule.addRange(10, 20);
 rangeModule.removeRange(14, 16);
-rangeModule.queryRange(10, 14); // return True,(Every number in [10, 14) is being tracked)
-rangeModule.queryRange(13, 15); // return False,(Numbers like 14, 14.03, 14.17 in [13, 15) are not being tracked)
-rangeModule.queryRange(16, 17); // return True, (The number 16 in [16, 17) is still being tracked, despite the remove operation)
+rangeModule.queryRange(10, 14); 返回 true （区间 [10, 14) 中的每个数都正在被跟踪）
+rangeModule.queryRange(13, 15); 返回 false（未跟踪区间 [13, 15) 中像 14, 14.03, 14.17 这样的数字）
+rangeModule.queryRange(16, 17); 返回 true （尽管执行了删除操作，区间 [16, 17) 中的数字 16 仍然会被跟踪）
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= left &lt; right &lt;= 10<sup>9</sup></code></li>
-	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>addRange</code>, <code>queryRange</code>, and <code>removeRange</code>.</li>
+	<li>在单个测试用例中，对&nbsp;<code>addRange</code>&nbsp;、&nbsp; <code>queryRange</code>&nbsp;和 <code>removeRange</code> 的调用总数不超过&nbsp;<code>10<sup>4</sup></code>&nbsp;次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Segment Tree
+### 方法一：线段树
 
-According to the problem description, we need to maintain a set of intervals, supporting operations of interval addition, deletion, and query. For the addition and deletion of intervals, we can use a segment tree to maintain the set of intervals.
+根据题目描述，我们需要维护一个区间集合，支持区间的添加、删除和查询操作。对于区间的添加和删除操作，我们可以使用线段树来维护区间集合。
 
-The segment tree divides the entire interval into multiple non-continuous sub-intervals, the number of which does not exceed $\log(width)$. To update the value of an element, only $\log(width)$ intervals need to be updated, and these intervals are all included in a large interval containing the element. When modifying the interval, we need to use **lazy propagation** to ensure efficiency.
+线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 $\log(width)$。更新某个元素的值，只需要更新 $\log(width)$ 个区间，并且这些区间都包含在一个包含该元素的大区间内。区间修改时，需要使用**懒标记**保证效率。
 
-- Each node of the segment tree represents an interval;
-- The segment tree has a unique root node, representing the entire statistical range, such as $[1,N]$;
-- Each leaf node of the segment tree represents an elementary interval of length $1$, $[x,x]$;
-- For each internal node $[l,r]$, its left child is $[l,mid]$, and the right child is $[mid+1,r]$, where $mid=⌊(l+r)/2⌋$ (rounded down).
+-   线段树的每个节点代表一个区间；
+-   线段树具有唯一的根节点，代表的区间是整个统计范围，如 $[1,N]$；
+-   线段树的每个叶子节点代表一个长度为 $1$ 的元区间 $[x,x]$；
+-   对于每个内部节点 $[l,r]$，它的左儿子是 $[l,mid]$，右儿子是 $[mid+1,r]$, 其中 $mid=⌊(l+r)/2⌋$ (即向下取整)。
 
-Due to the large data range of the problem, we can implement it with a dynamically allocated segment tree. A dynamically allocated segment tree means that we only allocate nodes when needed, instead of allocating all nodes at the beginning. This can save space, but it requires **lazy propagation** to maintain interval modification.
+由于题目数据范围较大，我们可以使用动态开点的线段树来实现。动态开点的线段树是指，我们只在需要的时候才开点，而不是一开始就开好所有的点。这样可以节省空间，但是需要使用**懒标记**来维护区间修改。
 
-In terms of time complexity, the time complexity of each operation is $O(\log n)$. The space complexity is $O(m \times \log n)$. Here, $m$ is the number of operations, and $n$ is the data range.
+时间复杂度方面，每次操作的时间复杂度为 $O(\log n)$。空间复杂度为 $O(m \times \log n)$。其中 $m$ 为操作次数，而 $n$ 为数据范围。
 
 <!-- tabs:start -->
 
@@ -511,131 +516,131 @@ func (this *RangeModule) RemoveRange(left int, right int) {
 
 ```ts
 class Node {
-  left: Node | null;
-  right: Node | null;
-  add: number;
-  v: boolean;
+    left: Node | null;
+    right: Node | null;
+    add: number;
+    v: boolean;
 
-  constructor() {
-    this.left = null;
-    this.right = null;
-    this.add = 0;
-    this.v = false;
-  }
+    constructor() {
+        this.left = null;
+        this.right = null;
+        this.add = 0;
+        this.v = false;
+    }
 }
 
 class SegmentTree {
-  private root: Node;
+    private root: Node;
 
-  constructor() {
-    this.root = new Node();
-  }
-
-  modify(
-    left: number,
-    right: number,
-    v: number,
-    l: number = 1,
-    r: number = 1e9,
-    node: Node | null = null
-  ): void {
-    if (node === null) {
-      node = this.root;
+    constructor() {
+        this.root = new Node();
     }
 
-    if (l >= left && r <= right) {
-      node.v = v === 1;
-      node.add = v;
-      return;
+    modify(
+        left: number,
+        right: number,
+        v: number,
+        l: number = 1,
+        r: number = 1e9,
+        node: Node | null = null,
+    ): void {
+        if (node === null) {
+            node = this.root;
+        }
+
+        if (l >= left && r <= right) {
+            node.v = v === 1;
+            node.add = v;
+            return;
+        }
+
+        this.pushdown(node);
+
+        const mid = (l + r) >> 1;
+
+        if (left <= mid) {
+            this.modify(left, right, v, l, mid, node.left);
+        }
+
+        if (right > mid) {
+            this.modify(left, right, v, mid + 1, r, node.right);
+        }
+
+        this.pushup(node);
     }
 
-    this.pushdown(node);
+    query(
+        left: number,
+        right: number,
+        l: number = 1,
+        r: number = 1e9,
+        node: Node | null = null,
+    ): boolean {
+        if (node === null) {
+            node = this.root;
+        }
 
-    const mid = (l + r) >> 1;
+        if (l >= left && r <= right) {
+            return node.v;
+        }
 
-    if (left <= mid) {
-      this.modify(left, right, v, l, mid, node.left);
+        this.pushdown(node);
+
+        const mid = (l + r) >> 1;
+        let result = true;
+
+        if (left <= mid) {
+            result = result && this.query(left, right, l, mid, node.left);
+        }
+
+        if (right > mid) {
+            result = result && this.query(left, right, mid + 1, r, node.right);
+        }
+
+        return result;
     }
 
-    if (right > mid) {
-      this.modify(left, right, v, mid + 1, r, node.right);
+    pushup(node: Node): void {
+        node.v = !!(node.left && node.left.v && node.right && node.right.v);
     }
 
-    this.pushup(node);
-  }
+    pushdown(node: Node): void {
+        if (node.left === null) {
+            node.left = new Node();
+        }
 
-  query(
-    left: number,
-    right: number,
-    l: number = 1,
-    r: number = 1e9,
-    node: Node | null = null
-  ): boolean {
-    if (node === null) {
-      node = this.root;
+        if (node.right === null) {
+            node.right = new Node();
+        }
+
+        if (node.add !== 0) {
+            node.left.add = node.add;
+            node.right.add = node.add;
+            node.left.v = node.add === 1;
+            node.right.v = node.add === 1;
+            node.add = 0;
+        }
     }
-
-    if (l >= left && r <= right) {
-      return node.v;
-    }
-
-    this.pushdown(node);
-
-    const mid = (l + r) >> 1;
-    let result = true;
-
-    if (left <= mid) {
-      result = result && this.query(left, right, l, mid, node.left);
-    }
-
-    if (right > mid) {
-      result = result && this.query(left, right, mid + 1, r, node.right);
-    }
-
-    return result;
-  }
-
-  pushup(node: Node): void {
-    node.v = !!(node.left && node.left.v && node.right && node.right.v);
-  }
-
-  pushdown(node: Node): void {
-    if (node.left === null) {
-      node.left = new Node();
-    }
-
-    if (node.right === null) {
-      node.right = new Node();
-    }
-
-    if (node.add !== 0) {
-      node.left.add = node.add;
-      node.right.add = node.add;
-      node.left.v = node.add === 1;
-      node.right.v = node.add === 1;
-      node.add = 0;
-    }
-  }
 }
 
 class RangeModule {
-  private tree: SegmentTree;
+    private tree: SegmentTree;
 
-  constructor() {
-    this.tree = new SegmentTree();
-  }
+    constructor() {
+        this.tree = new SegmentTree();
+    }
 
-  addRange(left: number, right: number): void {
-    this.tree.modify(left, right - 1, 1);
-  }
+    addRange(left: number, right: number): void {
+        this.tree.modify(left, right - 1, 1);
+    }
 
-  queryRange(left: number, right: number): boolean {
-    return this.tree.query(left, right - 1);
-  }
+    queryRange(left: number, right: number): boolean {
+        return this.tree.query(left, right - 1);
+    }
 
-  removeRange(left: number, right: number): void {
-    this.tree.modify(left, right - 1, -1);
-  }
+    removeRange(left: number, right: number): void {
+        this.tree.modify(left, right - 1, -1);
+    }
 }
 
 /**

@@ -1,61 +1,68 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2658.Maximum%20Number%20of%20Fish%20in%20a%20Grid/README.md
 rating: 1489
-source: Biweekly Contest 103 Q3
+source: 第 103 场双周赛 Q3
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Array
-  - Matrix
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [2658. Maximum Number of Fish in a Grid](https://leetcode.com/problems/maximum-number-of-fish-in-a-grid)
+# [2658. 网格图中鱼的最大数目](https://leetcode.cn/problems/maximum-number-of-fish-in-a-grid)
 
-## Description
+[English Version](/solution/2600-2699/2658.Maximum%20Number%20of%20Fish%20in%20a%20Grid/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> 2D matrix <code>grid</code> of size <code>m x n</code>, where <code>(r, c)</code> represents:</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始大小为 <code>m x n</code>&nbsp;的二维整数数组&nbsp;<code>grid</code>&nbsp;，其中下标在&nbsp;<code>(r, c)</code>&nbsp;处的整数表示：</p>
 
 <ul>
-	<li>A <strong>land</strong> cell if <code>grid[r][c] = 0</code>, or</li>
-	<li>A <strong>water</strong> cell containing <code>grid[r][c]</code> fish, if <code>grid[r][c] &gt; 0</code>.</li>
+	<li>如果&nbsp;<code>grid[r][c] = 0</code>&nbsp;，那么它是一块 <strong>陆地</strong>&nbsp;。</li>
+	<li>如果&nbsp;<code>grid[r][c] &gt; 0</code>&nbsp;，那么它是一块&nbsp;<strong>水域</strong>&nbsp;，且包含&nbsp;<code>grid[r][c]</code>&nbsp;条鱼。</li>
 </ul>
 
-<p>A fisher can start at any <strong>water</strong> cell <code>(r, c)</code> and can do the following operations any number of times:</p>
+<p>一位渔夫可以从任意 <strong>水域</strong>&nbsp;格子&nbsp;<code>(r, c)</code>&nbsp;出发，然后执行以下操作任意次：</p>
 
 <ul>
-	<li>Catch all the fish at cell <code>(r, c)</code>, or</li>
-	<li>Move to any adjacent <strong>water</strong> cell.</li>
+	<li>捕捞格子&nbsp;<code>(r, c)</code>&nbsp;处所有的鱼，或者</li>
+	<li>移动到相邻的 <strong>水域</strong>&nbsp;格子。</li>
 </ul>
 
-<p>Return <em>the <strong>maximum</strong> number of fish the fisher can catch if he chooses his starting cell optimally, or </em><code>0</code> if no water cell exists.</p>
+<p>请你返回渔夫最优策略下，&nbsp;<strong>最多</strong>&nbsp;可以捕捞多少条鱼。如果没有水域格子，请你返回 <code>0</code>&nbsp;。</p>
 
-<p>An <strong>adjacent</strong> cell of the cell <code>(r, c)</code>, is one of the cells <code>(r, c + 1)</code>, <code>(r, c - 1)</code>, <code>(r + 1, c)</code> or <code>(r - 1, c)</code> if it exists.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2658.Maximum%20Number%20of%20Fish%20in%20a%20Grid/images/example.png" style="width: 241px; height: 161px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,2,1,0],[4,0,0,3],[1,0,0,4],[0,3,2,0]]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> The fisher can start at cell <code>(1,3)</code> and collect 3 fish, then move to cell <code>(2,3)</code>&nbsp;and collect 4 fish.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2658.Maximum%20Number%20of%20Fish%20in%20a%20Grid/images/example2.png" />
-<pre>
-<strong>Input:</strong> grid = [[1,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,1]]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The fisher can start at cells (0,0) or (3,3) and collect a single fish. 
-</pre>
+<p>格子&nbsp;<code>(r, c)</code>&nbsp;<strong>相邻</strong>&nbsp;的格子为&nbsp;<code>(r, c + 1)</code>&nbsp;，<code>(r, c - 1)</code>&nbsp;，<code>(r + 1, c)</code> 和&nbsp;<code>(r - 1, c)</code>&nbsp;，前提是相邻格子在网格图内。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2658.Maximum%20Number%20of%20Fish%20in%20a%20Grid/images/example.png" style="width: 241px; height: 161px;"></p>
+
+<pre><b>输入：</b>grid = [[0,2,1,0],[4,0,0,3],[1,0,0,4],[0,3,2,0]]
+<b>输出：</b>7
+<b>解释：</b>渔夫可以从格子 <code>(1,3)</code> 出发，捕捞 3 条鱼，然后移动到格子 <code>(2,3)</code>&nbsp;，捕捞 4 条鱼。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2658.Maximum%20Number%20of%20Fish%20in%20a%20Grid/images/example2.png"></p>
+
+<pre><b>输入：</b>grid = [[1,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,1]]
+<b>输出：</b>1
+<b>解释：</b>渔夫可以从格子 (0,0) 或者 (3,3) ，捕捞 1 条鱼。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -66,21 +73,21 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-According to the problem description, we only need to find the number of fish in each connected water area and then take the maximum value. Therefore, we can use the depth-first search method to solve this problem.
+根据题目描述，我们只需要找出每块连通的水域中鱼的数目，然后取最大值即可。因此，我们可以使用深度优先搜索的方法来解决本题。
 
-We define a function $dfs(i, j)$, which indicates the maximum number of fish that can be caught starting from the cell in the $i$-th row and the $j$-th column. The execution logic of the function $dfs(i, j)$ is as follows:
+我们定义一个函数 $dfs(i, j)$，表示从网格图中的第 $i$ 行第 $j$ 列的格子出发，可以捕捞到的最大鱼数。函数 $dfs(i, j)$ 的执行逻辑如下：
 
-We use a variable $cnt$ to record the number of fish in the current cell, and then set the number of fish in the current cell to $0$, indicating that it has been fished. Then we traverse the four directions of the current cell, if the cell $(x, y)$ in a certain direction is in the grid and is a water cell, then we recursively call the $dfs(x, y)$ function and add the return value to $cnt$. Finally, return $cnt$.
+我们用一个变量 $cnt$ 来记录当前格子中的鱼的数目，然后将当前格子中的鱼的数目置为 $0$，表示已经捕捞过了。然后我们遍历当前格子的上下左右四个方向，如果某个方向的格子 $(x, y)$ 在网格图内且是水域格子，那么我们就递归调用 $dfs(x, y)$ 函数，将返回值加到 $cnt$ 中。最后返回 $cnt$ 即可。
 
-In the main function, we traverse all the cells $(i, j)$. If the current cell is a water cell, we call the $dfs(i, j)$ function, take the maximum value of the return value as the answer, and return it.
+在主函数中，我们遍历所有的格子 $(i, j)$，如果当前格子是水域格子，那么我们就调用 $dfs(i, j)$ 函数，取返回值的最大值作为答案返回即可。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. where $m$ and $n$ are the number of rows and columns of the grid graph respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格图的行数和列数。
 
 <!-- tabs:start -->
 
@@ -210,32 +217,32 @@ func findMaxFish(grid [][]int) (ans int) {
 
 ```ts
 function findMaxFish(grid: number[][]): number {
-  const m = grid.length;
-  const n = grid[0].length;
+    const m = grid.length;
+    const n = grid[0].length;
 
-  const dirs = [-1, 0, 1, 0, -1];
-  const dfs = (i: number, j: number): number => {
-    let cnt = grid[i][j];
-    grid[i][j] = 0;
-    for (let k = 0; k < 4; ++k) {
-      const x = i + dirs[k];
-      const y = j + dirs[k + 1];
-      if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] > 0) {
-        cnt += dfs(x, y);
-      }
-    }
-    return cnt;
-  };
+    const dirs = [-1, 0, 1, 0, -1];
+    const dfs = (i: number, j: number): number => {
+        let cnt = grid[i][j];
+        grid[i][j] = 0;
+        for (let k = 0; k < 4; ++k) {
+            const x = i + dirs[k];
+            const y = j + dirs[k + 1];
+            if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] > 0) {
+                cnt += dfs(x, y);
+            }
+        }
+        return cnt;
+    };
 
-  let ans = 0;
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (grid[i][j] > 0) {
-        ans = Math.max(ans, dfs(i, j));
-      }
+    let ans = 0;
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (grid[i][j] > 0) {
+                ans = Math.max(ans, dfs(i, j));
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

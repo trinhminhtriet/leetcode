@@ -1,63 +1,80 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0640.Solve%20the%20Equation/README.md
 tags:
-  - Math
-  - String
-  - Simulation
+    - 数学
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [640. Solve the Equation](https://leetcode.com/problems/solve-the-equation)
+# [640. 求解方程](https://leetcode.cn/problems/solve-the-equation)
 
-## Description
+[English Version](/solution/0600-0699/0640.Solve%20the%20Equation/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Solve a given equation and return the value of <code>&#39;x&#39;</code> in the form of a string <code>&quot;x=#value&quot;</code>. The equation contains only <code>&#39;+&#39;</code>, <code>&#39;-&#39;</code> operation, the variable <code>&#39;x&#39;</code> and its coefficient. You should return <code>&quot;No solution&quot;</code> if there is no solution for the equation, or <code>&quot;Infinite solutions&quot;</code> if there are infinite solutions for the equation.</p>
+<p>求解一个给定的方程，将<code>x</code>以字符串 <code>"x=#value"</code>&nbsp;的形式返回。该方程仅包含 <code>'+'</code> ， <code>'-'</code> 操作，变量&nbsp;<code>x</code>&nbsp;和其对应系数。</p>
 
-<p>If there is exactly one solution for the equation, we ensure that the value of <code>&#39;x&#39;</code> is an integer.</p>
+<p>如果方程没有解或存在的解不为整数，请返回&nbsp;<code>"No solution"</code>&nbsp;。如果方程有无限解，则返回 <code>“Infinite solutions”</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> equation = &quot;x+5-3+x=6+x-2&quot;
-<strong>Output:</strong> &quot;x=2&quot;
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> equation = &quot;x=x&quot;
-<strong>Output:</strong> &quot;Infinite solutions&quot;
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> equation = &quot;2x=x&quot;
-<strong>Output:</strong> &quot;x=0&quot;
-</pre>
+<p>题目保证，如果方程中只有一个解，则 <font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.6px"><span style="background-color:#f9f2f4">'x'</span></span></font></font> 的值是一个整数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入:</strong> equation = "x+5-3+x=6+x-2"
+<strong>输出:</strong> "x=2"
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> equation = "x=x"
+<strong>输出:</strong> "Infinite solutions"
+</pre>
+
+<p><strong>示例 3:</strong></p>
+
+<pre>
+<strong>输入:</strong> equation = "2x=x"
+<strong>输出:</strong> "x=0"
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= equation.length &lt;= 1000</code></li>
-	<li><code>equation</code> has exactly one <code>&#39;=&#39;</code>.</li>
-	<li><code>equation</code> consists of integers with an absolute value in the range <code>[0, 100]</code> without any leading zeros, and the variable <code>&#39;x&#39;</code>.</li>
-	<li>The input is generated that if there is a single solution, it will be an integer.</li>
+	<li><code>equation</code>&nbsp;只有一个&nbsp;<code>'='</code>.&nbsp;</li>
+	<li>方程由绝对值在&nbsp;<code>[0, 100]</code>&nbsp; 范围内且无任何前导零的整数和变量 <code>'x'</code>&nbsp;组成。<span style="display:block"><span style="height:0px"><span style="position:absolute">​​​</span></span></span></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：数学
+
+将方程 $equation$ 按照等号 “=” 切分为左右两个式子，分别算出左右两个式子中 "x" 的系数 $x_i$，以及常数的值 $y_i$。
+
+那么方程转换为等式 $x_1 \times x + y_1 = x_2 \times x + y_2$。
+
+-   当 $x_1 = x_2$：若 $y_1 \neq y_2$，方程无解；若 $y_1=y_2$，方程有无限解。
+-   当 $x_1 \neq x_2$：方程有唯一解 $x=\frac{y_2-y_1}{x_1-x_2}$。
+
+相似题目：
+
+-   [592. 分数加减运算](https://github.com/doocs/leetcode/blob/main/solution/0500-0599/0592.Fraction%20Addition%20and%20Subtraction/README.md)
 
 <!-- tabs:start -->
 
@@ -189,59 +206,59 @@ func solveEquation(equation string) string {
 
 ```ts
 function solveEquation(equation: string): string {
-  const [left, right] = equation.split("=");
-  const createExpr = (s: string) => {
-    let x = 0;
-    let n = 0;
-    let i = 0;
-    let sym = 1;
-    let cur = 0;
-    let isX = false;
-    for (const c of s) {
-      if (c === "+" || c === "-") {
+    const [left, right] = equation.split('=');
+    const createExpr = (s: string) => {
+        let x = 0;
+        let n = 0;
+        let i = 0;
+        let sym = 1;
+        let cur = 0;
+        let isX = false;
+        for (const c of s) {
+            if (c === '+' || c === '-') {
+                if (isX) {
+                    if (i === 0 && cur === 0) {
+                        cur = 1;
+                    }
+                    x += cur * sym;
+                } else {
+                    n += cur * sym;
+                }
+                isX = false;
+                cur = 0;
+                i = 0;
+                if (c === '+') {
+                    sym = 1;
+                } else {
+                    sym = -1;
+                }
+            } else if (c === 'x') {
+                isX = true;
+            } else {
+                i++;
+                cur *= 10;
+                cur += Number(c);
+            }
+        }
         if (isX) {
-          if (i === 0 && cur === 0) {
-            cur = 1;
-          }
-          x += cur * sym;
+            if (i === 0 && cur === 0) {
+                cur = 1;
+            }
+            x += cur * sym;
         } else {
-          n += cur * sym;
+            n += cur * sym;
         }
-        isX = false;
-        cur = 0;
-        i = 0;
-        if (c === "+") {
-          sym = 1;
-        } else {
-          sym = -1;
+        return [x, n];
+    };
+    const lExpr = createExpr(left);
+    const rExpr = createExpr(right);
+    if (lExpr[0] === rExpr[0]) {
+        if (lExpr[1] !== rExpr[1]) {
+            return 'No solution';
         }
-      } else if (c === "x") {
-        isX = true;
-      } else {
-        i++;
-        cur *= 10;
-        cur += Number(c);
-      }
+        return 'Infinite solutions';
     }
-    if (isX) {
-      if (i === 0 && cur === 0) {
-        cur = 1;
-      }
-      x += cur * sym;
-    } else {
-      n += cur * sym;
-    }
-    return [x, n];
-  };
-  const lExpr = createExpr(left);
-  const rExpr = createExpr(right);
-  if (lExpr[0] === rExpr[0]) {
-    if (lExpr[1] !== rExpr[1]) {
-      return "No solution";
-    }
-    return "Infinite solutions";
-  }
-  return `x=${(lExpr[1] - rExpr[1]) / (rExpr[0] - lExpr[0])}`;
+    return `x=${(lExpr[1] - rExpr[1]) / (rExpr[0] - lExpr[0])}`;
 }
 ```
 

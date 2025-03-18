@@ -1,71 +1,84 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0971.Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [971. Flip Binary Tree To Match Preorder Traversal](https://leetcode.com/problems/flip-binary-tree-to-match-preorder-traversal)
+# [971. 翻转二叉树以匹配先序遍历](https://leetcode.cn/problems/flip-binary-tree-to-match-preorder-traversal)
 
-## Description
+[English Version](/solution/0900-0999/0971.Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the <code>root</code> of a binary tree with <code>n</code> nodes, where each node is uniquely assigned a value from <code>1</code> to <code>n</code>. You are also given a sequence of <code>n</code> values <code>voyage</code>, which is the <strong>desired</strong> <a href="https://en.wikipedia.org/wiki/Tree_traversal#Pre-order" target="_blank"><strong>pre-order traversal</strong></a> of the binary tree.</p>
+<p>给你一棵二叉树的根节点 <code>root</code> ，树中有 <code>n</code> 个节点，每个节点都有一个不同于其他节点且处于 <code>1</code> 到 <code>n</code> 之间的值。</p>
 
-<p>Any node in the binary tree can be <strong>flipped</strong> by swapping its left and right subtrees. For example, flipping node 1 will have the following effect:</p>
+<p>另给你一个由 <code>n</code> 个值组成的行程序列 <code>voyage</code> ，表示 <strong>预期</strong> 的二叉树 <a href="https://baike.baidu.com/item/%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86/6442839?fr=aladdin" target="_blank"><strong>先序遍历</strong></a> 结果。</p>
+
+<p>通过交换节点的左右子树，可以 <strong>翻转</strong> 该二叉树中的任意节点。例，翻转节点 1 的效果如下：</p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0971.Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal/images/fliptree.jpg" style="width: 400px; height: 187px;" />
-<p>Flip the <strong>smallest</strong> number of nodes so that the <strong>pre-order traversal</strong> of the tree <strong>matches</strong> <code>voyage</code>.</p>
+<p>请翻转 <strong>最少 </strong>的树中节点，使二叉树的 <strong>先序遍历</strong> 与预期的遍历行程 <code>voyage</code> <strong>相匹配</strong> 。 </p>
 
-<p>Return <em>a list of the values of all <strong>flipped</strong> nodes. You may return the answer in <strong>any order</strong>. If it is <strong>impossible</strong> to flip the nodes in the tree to make the pre-order traversal match </em><code>voyage</code><em>, return the list </em><code>[-1]</code>.</p>
+<p>如果可以，则返回 <strong>翻转的</strong> 所有节点的值的列表。你可以按任何顺序返回答案。如果不能，则返回列表 <code>[-1]</code>。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0971.Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal/images/1219-01.png" style="width: 150px; height: 205px;" />
 <pre>
-<strong>Input:</strong> root = [1,2], voyage = [2,1]
-<strong>Output:</strong> [-1]
-<strong>Explanation:</strong> It is impossible to flip the nodes such that the pre-order traversal matches voyage.
+<strong>输入：</strong>root = [1,2], voyage = [2,1]
+<strong>输出：</strong>[-1]
+<strong>解释：</strong>翻转节点无法令先序遍历匹配预期行程。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0971.Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal/images/1219-02.png" style="width: 150px; height: 142px;" />
 <pre>
-<strong>Input:</strong> root = [1,2,3], voyage = [1,3,2]
-<strong>Output:</strong> [1]
-<strong>Explanation:</strong> Flipping node 1 swaps nodes 2 and 3, so the pre-order traversal matches voyage.</pre>
+<strong>输入：</strong>root = [1,2,3], voyage = [1,3,2]
+<strong>输出：</strong>[1]
+<strong>解释：</strong>交换节点 2 和 3 来翻转节点 1 ，先序遍历可以匹配预期行程。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0971.Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal/images/1219-02.png" style="width: 150px; height: 142px;" />
 <pre>
-<strong>Input:</strong> root = [1,2,3], voyage = [1,2,3]
-<strong>Output:</strong> []
-<strong>Explanation:</strong> The tree&#39;s pre-order traversal already matches voyage, so no nodes need to be flipped.
+<strong>输入：</strong>root = [1,2,3], voyage = [1,2,3]
+<strong>输出：</strong>[]
+<strong>解释：</strong>先序遍历已经匹配预期行程，所以不需要翻转节点。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is <code>n</code>.</li>
+	<li>树中的节点数目为 <code>n</code></li>
 	<li><code>n == voyage.length</code></li>
-	<li><code>1 &lt;= n &lt;= 100</code></li>
-	<li><code>1 &lt;= Node.val, voyage[i] &lt;= n</code></li>
-	<li>All the values in the tree are <strong>unique</strong>.</li>
-	<li>All the values in <code>voyage</code> are <strong>unique</strong>.</li>
+	<li><code>1 <= n <= 100</code></li>
+	<li><code>1 <= Node.val, voyage[i] <= n</code></li>
+	<li>树中的所有值 <strong>互不相同</strong></li>
+	<li><code>voyage</code> 中的所有值 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS
+
+我们可以通过深度优先搜索的方式遍历整棵树，用一个下标 $i$ 记录当前遍历到的节点在数组 $\textit{voyage}$ 中的下标，如果当前遍历到的节点的值不等于 $\textit{voyage}[i]$，那么说明翻转后无法匹配，我们标记 $\textit{ok}$ 为 `false`，并直接返回。否则，我们将 $i$ 的值加 $1$，然后判断当前节点是否有左子节点，如果没有，或者左子节点的值等于 $\textit{voyage}[i]$，那么我们递归遍历当前的左右子节点；否则，我们需要翻转当前节点，然后再递归遍历当前的右子节点和左子节点。
+
+搜索结束后，如果 $\textit{ok}$ 为 `true`，那么说明翻转后可以匹配，我们返回答案数组 $\textit{ans}$，否则返回 $[-1]$。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是树中的节点数目。
 
 <!-- tabs:start -->
 
@@ -259,28 +272,28 @@ func flipMatchVoyage(root *TreeNode, voyage []int) []int {
  */
 
 function flipMatchVoyage(root: TreeNode | null, voyage: number[]): number[] {
-  let ok = true;
-  let i = 0;
-  const ans: number[] = [];
-  const dfs = (root: TreeNode | null): void => {
-    if (!root || !ok) {
-      return;
-    }
-    if (root.val !== voyage[i++]) {
-      ok = false;
-      return;
-    }
-    if (!root.left || root.left.val === voyage[i]) {
-      dfs(root.left);
-      dfs(root.right);
-    } else {
-      ans.push(root.val);
-      dfs(root.right);
-      dfs(root.left);
-    }
-  };
-  dfs(root);
-  return ok ? ans : [-1];
+    let ok = true;
+    let i = 0;
+    const ans: number[] = [];
+    const dfs = (root: TreeNode | null): void => {
+        if (!root || !ok) {
+            return;
+        }
+        if (root.val !== voyage[i++]) {
+            ok = false;
+            return;
+        }
+        if (!root.left || root.left.val === voyage[i]) {
+            dfs(root.left);
+            dfs(root.right);
+        } else {
+            ans.push(root.val);
+            dfs(root.right);
+            dfs(root.left);
+        }
+    };
+    dfs(root);
+    return ok ? ans : [-1];
 }
 ```
 

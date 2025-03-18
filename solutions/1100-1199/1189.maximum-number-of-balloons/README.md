@@ -1,76 +1,82 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1189.Maximum%20Number%20of%20Balloons/README.md
 rating: 1181
-source: Weekly Contest 154 Q1
+source: 第 154 场周赛 Q1
 tags:
-  - Hash Table
-  - String
-  - Counting
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1189. Maximum Number of Balloons](https://leetcode.com/problems/maximum-number-of-balloons)
+# [1189. “气球” 的最大数量](https://leetcode.cn/problems/maximum-number-of-balloons)
 
-## Description
+[English Version](/solution/1100-1199/1189.Maximum%20Number%20of%20Balloons/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>text</code>, you want to use the characters of <code>text</code> to form as many instances of the word <strong>&quot;balloon&quot;</strong> as possible.</p>
+<p>给你一个字符串&nbsp;<code>text</code>，你需要使用 <code>text</code> 中的字母来拼凑尽可能多的单词&nbsp;<strong>"balloon"（气球）</strong>。</p>
 
-<p>You can use each character in <code>text</code> <strong>at most once</strong>. Return the maximum number of instances that can be formed.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1189.Maximum%20Number%20of%20Balloons/images/1536_ex1_upd.jpg" style="width: 132px; height: 35px;" /></strong></p>
-
-<pre>
-<strong>Input:</strong> text = &quot;nlaebolko&quot;
-<strong>Output:</strong> 1
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1189.Maximum%20Number%20of%20Balloons/images/1536_ex2_upd.jpg" style="width: 267px; height: 35px;" /></strong></p>
-
-<pre>
-<strong>Input:</strong> text = &quot;loonbalxballpoon&quot;
-<strong>Output:</strong> 2
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> text = &quot;leetcode&quot;
-<strong>Output:</strong> 0
-</pre>
+<p>字符串&nbsp;<code>text</code> 中的每个字母最多只能被使用一次。请你返回最多可以拼凑出多少个单词&nbsp;<strong>"balloon"</strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1189.Maximum%20Number%20of%20Balloons/images/1536_ex1_upd.jpeg" style="height: 35px; width: 154px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>text = "nlaebolko"
+<strong>输出：</strong>1
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1189.Maximum%20Number%20of%20Balloons/images/1536_ex2_upd.jpeg" style="height: 35px; width: 233px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>text = "loonbalxballpoon"
+<strong>输出：</strong>2
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>text = "leetcode"
+<strong>输出：</strong>0
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= text.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>text</code> consists of lower case English letters only.</li>
+	<li><code>text</code>&nbsp;全部由小写英文字母组成</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Note:</strong> This question is the same as <a href="https://leetcode.com/problems/rearrange-characters-to-make-target-string/description/" target="_blank"> 2287: Rearrange Characters to Make Target String.</a></p>
+
+<p><strong>注意：</strong>本题与&nbsp;<a href="https://leetcode.cn/problems/rearrange-characters-to-make-target-string/">2287. 重排字符形成目标字符串</a>&nbsp;相同。</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We count the frequency of each letter in the string `text`, and then divide the frequency of the letters 'o' and 'l' by 2, because the word `balloon` contains the letters 'o' and 'l' twice.
+我们统计字符串 `text` 中每个字母出现的次数，然后将其中字母 `'o'` 和 `'l'` 的出现次数分别除以 2，这是因为单词 `balloon` 中字母 `'o'` 和 `'l'` 都出现了 2 次。
 
-Next, we traverse each letter in the word `balon`, and find the minimum frequency of each letter in the string `text`. This minimum frequency is the maximum number of times the word `balloon` can appear in the string `text`.
+接着，我们遍历单词 `balon` 中的每个字母，统计每个字母在字符串 `text` 中出现的次数的最小值，这个最小值就是单词 `balloon` 在字符串 `text` 中出现的最大次数。
 
-The time complexity is $O(n)$, and the space complexity is $O(C)$. Here, $n$ is the length of the string `text`, and $C$ is the size of the character set. In this problem, $C = 26$.
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为字符串 `text` 的长度；而 $C$ 为字符集大小，本题中 $C = 26$。
 
 <!-- tabs:start -->
 
@@ -151,11 +157,11 @@ func maxNumberOfBalloons(text string) int {
 
 ```ts
 function maxNumberOfBalloons(text: string): number {
-  const cnt = new Array(26).fill(0);
-  for (const c of text) {
-    cnt[c.charCodeAt(0) - 97]++;
-  }
-  return Math.min(cnt[0], cnt[1], cnt[11] >> 1, cnt[14] >> 1, cnt[13]);
+    const cnt = new Array(26).fill(0);
+    for (const c of text) {
+        cnt[c.charCodeAt(0) - 97]++;
+    }
+    return Math.min(cnt[0], cnt[1], cnt[11] >> 1, cnt[14] >> 1, cnt[13]);
 }
 ```
 

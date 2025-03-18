@@ -1,48 +1,55 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0209.Minimum%20Size%20Subarray%20Sum/README.md
 tags:
-  - Array
-  - Binary Search
-  - Prefix Sum
-  - Sliding Window
+    - 数组
+    - 二分查找
+    - 前缀和
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [209. Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum)
+# [209. 长度最小的子数组](https://leetcode.cn/problems/minimum-size-subarray-sum)
 
-## Description
+[English Version](/solution/0200-0299/0209.Minimum%20Size%20Subarray%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of positive integers <code>nums</code> and a positive integer <code>target</code>, return <em>the <strong>minimal length</strong> of a </em><span data-keyword="subarray-nonempty"><em>subarray</em></span><em> whose sum is greater than or equal to</em> <code>target</code>. If there is no such subarray, return <code>0</code> instead.</p>
+<p>给定一个含有&nbsp;<code>n</code><strong>&nbsp;</strong>个正整数的数组和一个正整数 <code>target</code><strong> 。</strong></p>
+
+<p>找出该数组中满足其总和大于等于<strong> </strong><code>target</code><strong> </strong>的长度最小的 <strong><span data-keyword="subarray-nonempty">子数组</span></strong>&nbsp;<code>[nums<sub>l</sub>, nums<sub>l+1</sub>, ..., nums<sub>r-1</sub>, nums<sub>r</sub>]</code> ，并返回其长度<strong>。</strong>如果不存在符合条件的子数组，返回 <code>0</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> target = 7, nums = [2,3,1,2,4,3]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The subarray [4,3] has the minimal length under the problem constraint.
+<strong>输入：</strong>target = 7, nums = [2,3,1,2,4,3]
+<strong>输出：</strong>2
+<strong>解释：</strong>子数组&nbsp;<code>[4,3]</code>&nbsp;是该条件下的长度最小的子数组。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> target = 4, nums = [1,4,4]
-<strong>Output:</strong> 1
+<strong>输入：</strong>target = 4, nums = [1,4,4]
+<strong>输出：</strong>1
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> target = 11, nums = [1,1,1,1,1,1,1,1]
-<strong>Output:</strong> 0
+<strong>输入：</strong>target = 11, nums = [1,1,1,1,1,1,1,1]
+<strong>输出：</strong>0
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= target &lt;= 10<sup>9</sup></code></li>
@@ -51,23 +58,28 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-<strong>Follow up:</strong> If you have figured out the <code>O(n)</code> solution, try coding another solution of which the time complexity is <code>O(n log(n))</code>.
+
+<p><strong>进阶：</strong></p>
+
+<ul>
+	<li>如果你已经实现<em> </em><code>O(n)</code> 时间复杂度的解法, 请尝试设计一个 <code>O(n log(n))</code> 时间复杂度的解法。</li>
+</ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Binary Search
+### 方法一：前缀和 + 二分查找
 
-First, we preprocess the prefix sum array $s$ of the array $nums$, where $s[i]$ represents the sum of the first $i$ elements of the array $nums$. Since all elements in the array $nums$ are positive integers, the array $s$ is also monotonically increasing. Also, we initialize the answer $ans = n + 1$, where $n$ is the length of the array $nums$.
+我们先预处理出数组 $nums$ 的前缀和数组 $s$，其中 $s[i]$ 表示数组 $nums$ 前 $i$ 项元素之和。由于数组 $nums$ 中的元素都是正整数，因此数组 $s$ 也是单调递增的。另外，我们初始化答案 $ans = n + 1$，其中 $n$ 为数组 $nums$ 的长度。
 
-Next, we traverse the prefix sum array $s$. For each element $s[i]$, we can find the smallest index $j$ that satisfies $s[j] \geq s[i] + target$ by binary search. If $j \leq n$, it means that there exists a subarray that satisfies the condition, and we can update the answer, i.e., $ans = min(ans, j - i)$.
+接下来，我们遍历前缀和数组 $s$，对于其中的每个元素 $s[i]$，我们可以通过二分查找的方法找到满足 $s[j] \geq s[i] + target$ 的最小下标 $j$，如果 $j \leq n$，则说明存在满足条件的子数组，我们可以更新答案，即 $ans = min(ans, j - i)$。
 
-Finally, if $ans \leq n$, it means that there exists a subarray that satisfies the condition, return $ans$, otherwise return $0$.
+最后，如果 $ans \leq n$，则说明存在满足条件的子数组，返回 $ans$，否则返回 $0$。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -171,32 +183,32 @@ func minSubArrayLen(target int, nums []int) int {
 
 ```ts
 function minSubArrayLen(target: number, nums: number[]): number {
-  const n = nums.length;
-  const s: number[] = new Array(n + 1).fill(0);
-  for (let i = 0; i < n; ++i) {
-    s[i + 1] = s[i] + nums[i];
-  }
-  let ans = n + 1;
-  const search = (x: number) => {
-    let l = 0;
-    let r = n + 1;
-    while (l < r) {
-      const mid = (l + r) >>> 1;
-      if (s[mid] >= x) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
+    const n = nums.length;
+    const s: number[] = new Array(n + 1).fill(0);
+    for (let i = 0; i < n; ++i) {
+        s[i + 1] = s[i] + nums[i];
     }
-    return l;
-  };
-  for (let i = 0; i <= n; ++i) {
-    const j = search(s[i] + target);
-    if (j <= n) {
-      ans = Math.min(ans, j - i);
+    let ans = n + 1;
+    const search = (x: number) => {
+        let l = 0;
+        let r = n + 1;
+        while (l < r) {
+            const mid = (l + r) >>> 1;
+            if (s[mid] >= x) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l;
+    };
+    for (let i = 0; i <= n; ++i) {
+        const j = search(s[i] + target);
+        if (j <= n) {
+            ans = Math.min(ans, j - i);
+        }
     }
-  }
-  return ans === n + 1 ? 0 : ans;
+    return ans === n + 1 ? 0 : ans;
 }
 ```
 
@@ -252,15 +264,17 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Two Pointers
+### 方法二：双指针
 
-We can use two pointers $j$ and $i$ to maintain a window, where the sum of all elements in the window is less than $target$. Initially, $j = 0$, and the answer $ans = n + 1$, where $n$ is the length of the array $nums$.
+我们注意到，数组 $\textit{nums}$ 中的元素均为正整数，我们可以考虑使用双指针来维护一个滑动窗口。
 
-Next, the pointer $i$ starts to move to the right from $0$, moving one step each time. We add the element corresponding to the pointer $i$ to the window and update the sum of the elements in the window. If the sum of the elements in the window is greater than or equal to $target$, it means that the current subarray satisfies the condition, and we can update the answer, i.e., $ans = \min(ans, i - j + 1)$. Then we continuously remove the element $nums[j]$ from the window until the sum of the elements in the window is less than $target$, and then repeat the above process.
+具体地，我们定义两个指针 $\textit{l}$ 和 $\textit{r}$ 分别表示滑动窗口的左边界和右边界，用一个变量 $\textit{s}$ 代表滑动窗口中的元素和。
 
-Finally, if $ans \leq n$, it means that there exists a subarray that satisfies the condition, return $ans$, otherwise return $0$.
+在每一步操作中，我们移动右指针 $\textit{r}$，使得滑动窗口中加入一个元素，如果此时 $\textit{s} \ge \textit{target}$，我们就更新最小长度 $\textit{ans} = \min(\textit{ans}, \textit{r} - \textit{l} + 1$，并将左指针 $\textit{l}$ 循环向右移动，直至有 $\textit{s} < \textit{target}$。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array $nums$.
+最后，如果最小长度 $\textit{ans}$ 仍为初始值，我们就返回 $0$，否则返回 $\textit{ans}$。
+
+时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -346,16 +360,16 @@ func minSubArrayLen(target int, nums []int) int {
 
 ```ts
 function minSubArrayLen(target: number, nums: number[]): number {
-  const n = nums.length;
-  let [s, ans] = [0, n + 1];
-  for (let l = 0, r = 0; r < n; ++r) {
-    s += nums[r];
-    while (s >= target) {
-      ans = Math.min(ans, r - l + 1);
-      s -= nums[l++];
+    const n = nums.length;
+    let [s, ans] = [0, n + 1];
+    for (let l = 0, r = 0; r < n; ++r) {
+        s += nums[r];
+        while (s >= target) {
+            ans = Math.min(ans, r - l + 1);
+            s -= nums[l++];
+        }
     }
-  }
-  return ans > n ? 0 : ans;
+    return ans > n ? 0 : ans;
 }
 ```
 

@@ -1,80 +1,99 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1519.Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label/README.md
 rating: 1808
-source: Weekly Contest 198 Q2
+source: 第 198 场周赛 Q2
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Hash Table
-  - Counting
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 哈希表
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1519. Number of Nodes in the Sub-Tree With the Same Label](https://leetcode.com/problems/number-of-nodes-in-the-sub-tree-with-the-same-label)
+# [1519. 子树中标签相同的节点数](https://leetcode.cn/problems/number-of-nodes-in-the-sub-tree-with-the-same-label)
 
-## Description
+[English Version](/solution/1500-1599/1519.Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a tree (i.e. a connected, undirected graph that has no cycles) consisting of <code>n</code> nodes numbered from <code>0</code> to <code>n - 1</code> and exactly <code>n - 1</code> <code>edges</code>. The <strong>root</strong> of the tree is the node <code>0</code>, and each node of the tree has <strong>a label</strong> which is a lower-case character given in the string <code>labels</code> (i.e. The node with the number <code>i</code> has the label <code>labels[i]</code>).</p>
+<p>给你一棵树（即，一个连通的无环无向图），这棵树由编号从 <code>0</code>&nbsp; 到 <code>n - 1</code> 的 n 个节点组成，且恰好有 <code>n - 1</code> 条 <code>edges</code> 。树的根节点为节点 <code>0</code> ，树上的每一个节点都有一个标签，也就是字符串 <code>labels</code> 中的一个小写字符（编号为 <code>i</code> 的 节点的标签就是 <code>labels[i]</code> ）</p>
 
-<p>The <code>edges</code> array is given on the form <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>, which means there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree.</p>
+<p>边数组 <code>edges</code> 以 <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 的形式给出，该格式表示节点 <code>a<sub>i</sub></code> 和 <code>b<sub>i</sub></code> 之间存在一条边。</p>
 
-<p>Return <em>an array of size <code>n</code></em> where <code>ans[i]</code> is the number of nodes in the subtree of the <code>i<sup>th</sup></code> node which have the same label as node <code>i</code>.</p>
+<p>返回一个大小为 <em><code>n</code></em> 的数组，其中 <code>ans[i]</code> 表示第 <code>i</code> 个节点的子树中与节点 <code>i</code> 标签相同的节点数。</p>
 
-<p>A subtree of a tree <code>T</code> is the tree consisting of a node in <code>T</code> and all of its descendant nodes.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1519.Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label/images/q3e1.jpg" style="width: 400px; height: 291px;" />
-<pre>
-<strong>Input:</strong> n = 7, edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]], labels = &quot;abaedcd&quot;
-<strong>Output:</strong> [2,1,1,1,1,1,1]
-<strong>Explanation:</strong> Node 0 has label &#39;a&#39; and its sub-tree has node 2 with label &#39;a&#39; as well, thus the answer is 2. Notice that any node is part of its sub-tree.
-Node 1 has a label &#39;b&#39;. The sub-tree of node 1 contains nodes 1,4 and 5, as nodes 4 and 5 have different labels than node 1, the answer is just 1 (the node itself).
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1519.Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label/images/q3e2.jpg" style="width: 300px; height: 253px;" />
-<pre>
-<strong>Input:</strong> n = 4, edges = [[0,1],[1,2],[0,3]], labels = &quot;bbbb&quot;
-<strong>Output:</strong> [4,2,1,1]
-<strong>Explanation:</strong> The sub-tree of node 2 contains only node 2, so the answer is 1.
-The sub-tree of node 3 contains only node 3, so the answer is 1.
-The sub-tree of node 1 contains nodes 1 and 2, both have label &#39;b&#39;, thus the answer is 2.
-The sub-tree of node 0 contains nodes 0, 1, 2 and 3, all with label &#39;b&#39;, thus the answer is 4.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1519.Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label/images/q3e3.jpg" style="width: 300px; height: 253px;" />
-<pre>
-<strong>Input:</strong> n = 5, edges = [[0,1],[0,2],[1,3],[0,4]], labels = &quot;aabab&quot;
-<strong>Output:</strong> [3,2,1,1,1]
-</pre>
+<p>树 <code>T</code> 中的子树是由 <code>T</code> 中的某个节点及其所有后代节点组成的树。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1519.Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label/images/q3e1.jpg" style="height: 321px; width: 441px;" /></p>
+
+<pre>
+<strong>输入：</strong>n = 7, edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]], labels = "abaedcd"
+<strong>输出：</strong>[2,1,1,1,1,1,1]
+<strong>解释：</strong>节点 0 的标签为 'a' ，以 'a' 为根节点的子树中，节点 2 的标签也是 'a' ，因此答案为 2 。注意树中的每个节点都是这棵子树的一部分。
+节点 1 的标签为 'b' ，节点 1 的子树包含节点 1、4 和 5，但是节点 4、5 的标签与节点 1 不同，故而答案为 1（即，该节点本身）。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1519.Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label/images/q3e2.jpg" style="height: 321px; width: 381px;" /></p>
+
+<pre>
+<strong>输入：</strong>n = 4, edges = [[0,1],[1,2],[0,3]], labels = "bbbb"
+<strong>输出：</strong>[4,2,1,1]
+<strong>解释：</strong>节点 2 的子树中只有节点 2 ，所以答案为 1 。
+节点 3 的子树中只有节点 3 ，所以答案为 1 。
+节点 1 的子树中包含节点 1 和 2 ，标签都是 'b' ，因此答案为 2 。
+节点 0 的子树中包含节点 0、1、2 和 3，标签都是 'b'，因此答案为 4 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1519.Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label/images/q3e3.jpg" style="height: 321px; width: 381px;" /></p>
+
+<pre>
+<strong>输入：</strong>n = 5, edges = [[0,1],[0,2],[1,3],[0,4]], labels = "aabab"
+<strong>输出：</strong>[3,2,1,1,1]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= n &lt;= 10^5</code></li>
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>edges[i].length == 2</code></li>
-	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
-	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
+	<li><code>0 &lt;= a<sub>i</sub>,&nbsp;b<sub>i</sub> &lt; n</code></li>
+	<li><code>a<sub>i</sub> !=&nbsp;b<sub>i</sub></code></li>
 	<li><code>labels.length == n</code></li>
-	<li><code>labels</code> is consisting of only of lowercase English letters.</li>
+	<li><code>labels</code> 仅由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS
+
+我们先将边数组转换为邻接表 $g$。
+
+接下来我们从根节点 $0$ 开始遍历其子树，过程中维护一个计数器 $cnt$，用于统计当前各个字母出现的次数。
+
+在访问某个节点 $i$ 时，我们先将 $ans[i]$ 减去 $cnt[labels[i]]$，然后将 $cnt[labels[i]]$ 加 $1$，表示当前节点 $i$ 的标签出现了一次。接下来递归访问其子节点，最后将 $ans[i]$ 加上 $cnt[labels[i]]$。也即是说，我们将每个点离开时的计数器值减去每个点进来时的计数器值，就得到了以该点为根的子树中各个字母出现的次数。
+
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为节点数；而 $C$ 为字符集大小，本题中 $C = 26$。
 
 <!-- tabs:start -->
 
@@ -203,26 +222,26 @@ func countSubTrees(n int, edges [][]int, labels string) []int {
 
 ```ts
 function countSubTrees(n: number, edges: number[][], labels: string): number[] {
-  const dfs = (i: number, fa: number) => {
-    const k = labels.charCodeAt(i) - 97;
-    ans[i] -= cnt[k];
-    cnt[k]++;
-    for (const j of g[i]) {
-      if (j !== fa) {
-        dfs(j, i);
-      }
+    const dfs = (i: number, fa: number) => {
+        const k = labels.charCodeAt(i) - 97;
+        ans[i] -= cnt[k];
+        cnt[k]++;
+        for (const j of g[i]) {
+            if (j !== fa) {
+                dfs(j, i);
+            }
+        }
+        ans[i] += cnt[k];
+    };
+    const ans = new Array(n).fill(0),
+        cnt = new Array(26).fill(0);
+    const g: number[][] = Array.from({ length: n }, () => []);
+    for (const [a, b] of edges) {
+        g[a].push(b);
+        g[b].push(a);
     }
-    ans[i] += cnt[k];
-  };
-  const ans = new Array(n).fill(0),
-    cnt = new Array(26).fill(0);
-  const g: number[][] = Array.from({ length: n }, () => []);
-  for (const [a, b] of edges) {
-    g[a].push(b);
-    g[b].push(a);
-  }
-  dfs(0, -1);
-  return ans;
+    dfs(0, -1);
+    return ans;
 }
 ```
 

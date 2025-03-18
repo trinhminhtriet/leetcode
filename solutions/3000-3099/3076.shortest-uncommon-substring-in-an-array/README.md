@@ -1,80 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3076.Shortest%20Uncommon%20Substring%20in%20an%20Array/README.md
 rating: 1635
-source: Weekly Contest 388 Q3
+source: 第 388 场周赛 Q3
 tags:
-  - Trie
-  - Array
-  - Hash Table
-  - String
+    - 字典树
+    - 数组
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [3076. Shortest Uncommon Substring in an Array](https://leetcode.com/problems/shortest-uncommon-substring-in-an-array)
+# [3076. 数组中的最短非公共子字符串](https://leetcode.cn/problems/shortest-uncommon-substring-in-an-array)
 
-## Description
+[English Version](/solution/3000-3099/3076.Shortest%20Uncommon%20Substring%20in%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>arr</code> of size <code>n</code> consisting of <strong>non-empty</strong> strings.</p>
+<p>给你一个数组 <code>arr</code>&nbsp;，数组中有 <code>n</code>&nbsp;个 <b>非空</b>&nbsp;字符串。</p>
 
-<p>Find a string array <code>answer</code> of size <code>n</code> such that:</p>
+<p>请你求出一个长度为 <code>n</code>&nbsp;的字符串数组&nbsp;<code>answer</code>&nbsp;，满足：</p>
 
 <ul>
-	<li><code>answer[i]</code> is the <strong>shortest</strong> <span data-keyword="substring">substring</span> of <code>arr[i]</code> that does <strong>not</strong> occur as a substring in any other string in <code>arr</code>. If multiple such substrings exist, <code>answer[i]</code> should be the <span data-keyword="lexicographically-smaller-string">lexicographically smallest</span>. And if no such substring exists, <code>answer[i]</code> should be an empty string.</li>
+	<li><code>answer[i]</code>&nbsp;是 <code>arr[i]</code>&nbsp;<strong>最短</strong>&nbsp;的子字符串，且它不是 <code>arr</code>&nbsp;中其他任何字符串的子字符串。如果有多个这样的子字符串存在，<code>answer[i]</code>&nbsp;应该是它们中字典序最小的一个。如果不存在这样的子字符串，<code>answer[i]</code>&nbsp;为空字符串。</li>
 </ul>
 
-<p>Return <em>the array </em><code>answer</code>.</p>
+<p>请你返回数组<em>&nbsp;</em><code>answer</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> arr = [&quot;cab&quot;,&quot;ad&quot;,&quot;bad&quot;,&quot;c&quot;]
-<strong>Output:</strong> [&quot;ab&quot;,&quot;&quot;,&quot;ba&quot;,&quot;&quot;]
-<strong>Explanation:</strong> We have the following:
-- For the string &quot;cab&quot;, the shortest substring that does not occur in any other string is either &quot;ca&quot; or &quot;ab&quot;, we choose the lexicographically smaller substring, which is &quot;ab&quot;.
-- For the string &quot;ad&quot;, there is no substring that does not occur in any other string.
-- For the string &quot;bad&quot;, the shortest substring that does not occur in any other string is &quot;ba&quot;.
-- For the string &quot;c&quot;, there is no substring that does not occur in any other string.
+<b>输入：</b>arr = ["cab","ad","bad","c"]
+<b>输出：</b>["ab","","ba",""]
+<b>解释：</b>求解过程如下：
+- 对于字符串 "cab" ，最短没有在其他字符串中出现过的子字符串是 "ca" 或者 "ab" ，我们选择字典序更小的子字符串，也就是 "ab" 。
+- 对于字符串 "ad" ，不存在没有在其他字符串中出现过的子字符串。
+- 对于字符串 "bad" ，最短没有在其他字符串中出现过的子字符串是 "ba" 。
+- 对于字符串 "c" ，不存在没有在其他字符串中出现过的子字符串。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> arr = [&quot;abc&quot;,&quot;bcd&quot;,&quot;abcd&quot;]
-<strong>Output:</strong> [&quot;&quot;,&quot;&quot;,&quot;abcd&quot;]
-<strong>Explanation:</strong> We have the following:
-- For the string &quot;abc&quot;, there is no substring that does not occur in any other string.
-- For the string &quot;bcd&quot;, there is no substring that does not occur in any other string.
-- For the string &quot;abcd&quot;, the shortest substring that does not occur in any other string is &quot;abcd&quot;.
+<b>输入：</b>arr = ["abc","bcd","abcd"]
+<b>输出：</b>["","","abcd"]
+<b>解释：</b>求解过程如下：
+- 对于字符串 "abc" ，不存在没有在其他字符串中出现过的子字符串。
+- 对于字符串 "bcd" ，不存在没有在其他字符串中出现过的子字符串。
+- 对于字符串 "abcd" ，最短没有在其他字符串中出现过的子字符串是 "abcd" 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == arr.length</code></li>
 	<li><code>2 &lt;= n &lt;= 100</code></li>
 	<li><code>1 &lt;= arr[i].length &lt;= 20</code></li>
-	<li><code>arr[i]</code> consists only of lowercase English letters.</li>
+	<li><code>arr[i]</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-Given the small data scale, we can directly enumerate all substrings of each string and then determine whether it is a substring of other strings.
+我们注意到数据规模很小，所以可以直接枚举每个字符串的所有子串，然后判断是否是其他字符串的子串。
 
-Specifically, we first enumerate each string `arr[i]`, then enumerate the length $j$ of each substring from small to large, and then enumerate the starting position $l$ of each substring. We can get the current substring as `sub = arr[i][l:l+j]`. Then we determine whether `sub` is a substring of other strings. If it is, we skip the current substring; otherwise, we update the answer.
+具体地，我们先枚举每个字符串 `arr[i]`，然后从小到大枚举每个子串的长度 $j$，然后枚举每个子串的起始位置 $l$，可以得到当前子串为 `sub = arr[i][l:l+j]`，然后判断 `sub` 是否是其他字符串的子串，如果是的话，就跳过当前子串，否则更新答案。
 
-The time complexity is $O(n^2 \times m^4)$, and the space complexity is $O(m)$. Where $n$ is the length of the string array `arr`, and $m$ is the maximum length of the string. In this problem, $m \le 20$.
+时间复杂度 $O(n^2 \times m^4)$，空间复杂度 $O(m)$。其中 $n$ 是字符串数组 `arr` 的长度，而 $m$ 是字符串的最大长度，本题中 $m \le 20$。
 
 <!-- tabs:start -->
 
@@ -194,28 +199,28 @@ func shortestSubstrings(arr []string) []string {
 
 ```ts
 function shortestSubstrings(arr: string[]): string[] {
-  const n: number = arr.length;
-  const ans: string[] = Array(n).fill("");
-  for (let i = 0; i < n; ++i) {
-    const m: number = arr[i].length;
-    for (let j = 1; j <= m && ans[i] === ""; ++j) {
-      for (let l = 0; l <= m - j; ++l) {
-        const sub: string = arr[i].slice(l, l + j);
-        if (ans[i] === "" || sub.localeCompare(ans[i]) < 0) {
-          let ok: boolean = true;
-          for (let k = 0; k < n && ok; ++k) {
-            if (k !== i && arr[k].includes(sub)) {
-              ok = false;
+    const n: number = arr.length;
+    const ans: string[] = Array(n).fill('');
+    for (let i = 0; i < n; ++i) {
+        const m: number = arr[i].length;
+        for (let j = 1; j <= m && ans[i] === ''; ++j) {
+            for (let l = 0; l <= m - j; ++l) {
+                const sub: string = arr[i].slice(l, l + j);
+                if (ans[i] === '' || sub.localeCompare(ans[i]) < 0) {
+                    let ok: boolean = true;
+                    for (let k = 0; k < n && ok; ++k) {
+                        if (k !== i && arr[k].includes(sub)) {
+                            ok = false;
+                        }
+                    }
+                    if (ok) {
+                        ans[i] = sub;
+                    }
+                }
             }
-          }
-          if (ok) {
-            ans[i] = sub;
-          }
         }
-      }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

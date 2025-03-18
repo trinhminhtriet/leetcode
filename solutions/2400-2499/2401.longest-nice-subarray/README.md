@@ -1,54 +1,57 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2401.Longest%20Nice%20Subarray/README.md
 rating: 1749
-source: Weekly Contest 309 Q3
+source: 第 309 场周赛 Q3
 tags:
-  - Bit Manipulation
-  - Array
-  - Sliding Window
+    - 位运算
+    - 数组
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2401. Longest Nice Subarray](https://leetcode.com/problems/longest-nice-subarray)
+# [2401. 最长优雅子数组](https://leetcode.cn/problems/longest-nice-subarray)
 
-## Description
+[English Version](/solution/2400-2499/2401.Longest%20Nice%20Subarray/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>nums</code> consisting of <strong>positive</strong> integers.</p>
+<p>给你一个由 <strong>正</strong> 整数组成的数组 <code>nums</code> 。</p>
 
-<p>We call a subarray of <code>nums</code> <strong>nice</strong> if the bitwise <strong>AND</strong> of every pair of elements that are in <strong>different</strong> positions in the subarray is equal to <code>0</code>.</p>
+<p>如果&nbsp;<code>nums</code> 的子数组中位于 <strong>不同</strong> 位置的每对元素按位 <strong>与（AND）</strong>运算的结果等于 <code>0</code> ，则称该子数组为 <strong>优雅</strong> 子数组。</p>
 
-<p>Return <em>the length of the <strong>longest</strong> nice subarray</em>.</p>
+<p>返回 <strong>最长</strong> 的优雅子数组的长度。</p>
 
-<p>A <strong>subarray</strong> is a <strong>contiguous</strong> part of an array.</p>
+<p><strong>子数组</strong> 是数组中的一个 <strong>连续</strong> 部分。</p>
 
-<p><strong>Note</strong> that subarrays of length <code>1</code> are always considered nice.</p>
+<p><strong>注意：</strong>长度为 <code>1</code> 的子数组始终视作优雅子数组。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,3,8,48,10]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The longest nice subarray is [3,8,48]. This subarray satisfies the conditions:
-- 3 AND 8 = 0.
-- 3 AND 48 = 0.
-- 8 AND 48 = 0.
-It can be proven that no longer nice subarray can be obtained, so we return 3.</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><strong>输入：</strong>nums = [1,3,8,48,10]
+<strong>输出：</strong>3
+<strong>解释：</strong>最长的优雅子数组是 [3,8,48] 。子数组满足题目条件：
+- 3 AND 8 = 0
+- 3 AND 48 = 0
+- 8 AND 48 = 0
+可以证明不存在更长的优雅子数组，所以返回 3 。</pre>
 
-<pre>
-<strong>Input:</strong> nums = [3,1,5,11,13]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The length of the longest nice subarray is 1. Any subarray of length 1 can be chosen.
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>nums = [3,1,5,11,13]
+<strong>输出：</strong>1
+<strong>解释：</strong>最长的优雅子数组长度为 1 ，任何长度为 1 的子数组都满足题目条件。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -57,21 +60,21 @@ It can be proven that no longer nice subarray can be obtained, so we return 3.</
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-According to the problem description, the position of the binary $1$ in each element of the subarray must be unique to ensure that the bitwise AND result of any two elements is $0$.
+根据题目描述，子数组的每个元素的二进制位上的 $1$ 的位置不能相同，这样才能保证任意两个元素的按位与结果为 $0$。
 
-Therefore, we can use two pointers, $l$ and $r$, to maintain a sliding window such that the elements within the window satisfy the problem's conditions.
+因此，我们可以使用双指针 $l$ 和 $r$ 维护一个滑动窗口，使得窗口内的元素满足题目条件。
 
-We use a variable $\textit{mask}$ to represent the bitwise OR result of the elements within the window. Next, we traverse each element of the array. For the current element $x$, if the bitwise AND result of $\textit{mask}$ and $x$ is not $0$, it means that the current element $x$ has overlapping binary bits with the elements in the window. At this point, we need to move the left pointer $l$ until the bitwise AND result of $\textit{mask}$ and $x$ is $0$. Then, we assign the bitwise OR result of $\textit{mask}$ and $x$ to $\textit{mask}$ and update the answer $\textit{ans} = \max(\textit{ans}, r - l + 1)$.
+我们用一个变量 $\textit{mask}$ 来表示窗口内的元素的按位或的结果，接下来，遍历数组的每个元素。对于当前元素 $x$，如果 $\textit{mask}$ 和 $x$ 的按位与结果不为 $0$，说明当前元素 $x$ 与窗口内的元素有重复的二进制位，此时需要移动左指针 $l$，直到 $\textit{mask}$ 和 $x$ 的按位与结果为 $0$。然后，我们将 $\textit{mask}$ 和 $x$ 的按位或的结果赋值给 $\textit{mask}$，并更新答案 $\textit{ans} = \max(\textit{ans}, r - l + 1)$。
 
-After the traversal, return the answer $\textit{ans}$.
+遍历结束后，返回答案 $\textit{ans}$ 即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -148,15 +151,15 @@ func longestNiceSubarray(nums []int) (ans int) {
 
 ```ts
 function longestNiceSubarray(nums: number[]): number {
-  let [ans, mask] = [0, 0];
-  for (let l = 0, r = 0; r < nums.length; ++r) {
-    while (mask & nums[r]) {
-      mask ^= nums[l++];
+    let [ans, mask] = [0, 0];
+    for (let l = 0, r = 0; r < nums.length; ++r) {
+        while (mask & nums[r]) {
+            mask ^= nums[l++];
+        }
+        mask |= nums[r];
+        ans = Math.max(ans, r - l + 1);
     }
-    mask |= nums[r];
-    ans = Math.max(ans, r - l + 1);
-  }
-  return ans;
+    return ans;
 }
 ```
 

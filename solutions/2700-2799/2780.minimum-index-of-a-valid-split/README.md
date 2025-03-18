@@ -1,84 +1,95 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2780.Minimum%20Index%20of%20a%20Valid%20Split/README.md
 rating: 1549
-source: Weekly Contest 354 Q3
+source: 第 354 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Sorting
+    - 数组
+    - 哈希表
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2780. Minimum Index of a Valid Split](https://leetcode.com/problems/minimum-index-of-a-valid-split)
+# [2780. 合法分割的最小下标](https://leetcode.cn/problems/minimum-index-of-a-valid-split)
 
-## Description
+[English Version](/solution/2700-2799/2780.Minimum%20Index%20of%20a%20Valid%20Split/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>An element <code>x</code> of an integer array <code>arr</code> of length <code>m</code> is <strong>dominant</strong> if <code>freq(x) * 2 &gt; m</code>, where <code>freq(x)</code> is the number of occurrences of <code>x</code> in <code>arr</code>. Note that this definition implies that <code>arr</code> can have <strong>at most one</strong> dominant element.</p>
+<p>如果在长度为 <code>m</code>&nbsp;的整数数组 <code>arr</code>&nbsp;中 <strong>超过一半</strong> 的元素值为&nbsp;<code>x</code>，那么我们称 <code>x</code>&nbsp;是 <strong>支配元素</strong>&nbsp;。</p>
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code> with one dominant element.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;，数据保证它含有一个 <strong>支配</strong> 元素。</p>
 
-<p>You can split <code>nums</code> at an index <code>i</code> into two arrays <code>nums[0, ..., i]</code> and <code>nums[i + 1, ..., n - 1]</code>, but the split is only <strong>valid</strong> if:</p>
+<p>你需要在下标 <code>i</code>&nbsp;处将&nbsp;<code>nums</code>&nbsp;分割成两个数组&nbsp;<code>nums[0, ..., i]</code> 和&nbsp;<code>nums[i + 1, ..., n - 1]</code>&nbsp;，如果一个分割满足以下条件，我们称它是&nbsp;<strong>合法</strong>&nbsp;的：</p>
 
 <ul>
 	<li><code>0 &lt;= i &lt; n - 1</code></li>
-	<li><code>nums[0, ..., i]</code>, and <code>nums[i + 1, ..., n - 1]</code> have the same dominant element.</li>
+	<li><code>nums[0, ..., i]</code>&nbsp;和&nbsp;<code>nums[i + 1, ..., n - 1]</code>&nbsp;的支配元素相同。</li>
 </ul>
 
-<p>Here, <code>nums[i, ..., j]</code> denotes the subarray of <code>nums</code> starting at index <code>i</code> and ending at index <code>j</code>, both ends being inclusive. Particularly, if <code>j &lt; i</code> then <code>nums[i, ..., j]</code> denotes an empty subarray.</p>
+<p>这里，&nbsp;<code>nums[i, ..., j]</code>&nbsp;表示 <code>nums</code>&nbsp;的一个子数组，它开始于下标&nbsp;<code>i</code>&nbsp;，结束于下标&nbsp;<code>j</code>&nbsp;，两个端点都包含在子数组内。特别地，如果&nbsp;<code>j &lt; i</code>&nbsp;，那么&nbsp;<code>nums[i, ..., j]</code>&nbsp;表示一个空数组。</p>
 
-<p>Return <em>the <strong>minimum</strong> index of a <strong>valid split</strong></em>. If no valid split exists, return <code>-1</code>.</p>
+<p>请你返回一个 <strong>合法分割</strong>&nbsp;的 <strong>最小</strong>&nbsp;下标。如果合法分割不存在，返回 <code>-1</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,2,2]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We can split the array at index 2 to obtain arrays [1,2,2] and [2]. 
-In array [1,2,2], element 2 is dominant since it occurs twice in the array and 2 * 2 &gt; 3. 
-In array [2], element 2 is dominant since it occurs once in the array and 1 * 2 &gt; 1.
-Both [1,2,2] and [2] have the same dominant element as nums, so this is a valid split. 
-It can be shown that index 2 is the minimum index of a valid split. </pre>
+<b>输入：</b>nums = [1,2,2,2]
+<b>输出：</b>2
+<b>解释：</b>我们将数组在下标 2 处分割，得到 [1,2,2] 和 [2] 。
+数组 [1,2,2] 中，元素 2 是支配元素，因为它在数组中出现了 2 次，且 2 * 2 &gt; 3 。
+数组 [2] 中，元素 2 是支配元素，因为它在数组中出现了 1 次，且 1 * 2 &gt; 1 。
+两个数组 [1,2,2] 和 [2] 都有与 nums 一样的支配元素，所以这是一个合法分割。
+下标 2 是合法分割中的最小下标。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2,1,3,1,1,1,7,1,2,1]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> We can split the array at index 4 to obtain arrays [2,1,3,1,1] and [1,7,1,2,1].
-In array [2,1,3,1,1], element 1 is dominant since it occurs thrice in the array and 3 * 2 &gt; 5.
-In array [1,7,1,2,1], element 1 is dominant since it occurs thrice in the array and 3 * 2 &gt; 5.
-Both [2,1,3,1,1] and [1,7,1,2,1] have the same dominant element as nums, so this is a valid split.
-It can be shown that index 4 is the minimum index of a valid split.</pre>
-
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,3,3,3,7,2,2]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It can be shown that there is no valid split.
+<b>输入：</b>nums = [2,1,3,1,1,1,7,1,2,1]
+<b>输出：</b>4
+<b>解释：</b>我们将数组在下标 4 处分割，得到 [2,1,3,1,1] 和 [1,7,1,2,1] 。
+数组 [2,1,3,1,1] 中，元素 1 是支配元素，因为它在数组中出现了 3 次，且 3 * 2 &gt; 5 。
+数组 [1,7,1,2,1] 中，元素 1 是支配元素，因为它在数组中出现了 3 次，且 3 * 2 &gt; 5 。
+两个数组 [2,1,3,1,1] 和 [1,7,1,2,1] 都有与 nums 一样的支配元素，所以这是一个合法分割。
+下标 4 是所有合法分割中的最小下标。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [3,3,3,3,7,2,2]
+<b>输出：</b>-1
+<b>解释：</b>没有合法分割。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
-	<li><code>nums</code> has exactly one dominant element.</li>
+	<li><code>nums</code>&nbsp;有且只有一个支配元素。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表
+
+我们用哈希表统计每个元素出现的次数，然后找出出现次数最多的元素 $x$，即为支配元素。要使得分割后的两个数组中都有支配元素，且支配元素相同，那么支配元素一定是 $x$。
+
+接下来，我们只需要遍历数组 $nums$，累加前缀中 $x$ 的出现次数 $cur$，并判断 $x$ 在后缀中出现的次数是否满足要求即可。如果满足要求，那么当前下标 $i$ 就是一个可行的分割下标，我们只需要选择所有可行分割下标中最小的那个即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -184,24 +195,24 @@ func minimumIndex(nums []int) int {
 
 ```ts
 function minimumIndex(nums: number[]): number {
-  let [x, cnt] = [0, 0];
-  const freq: Map<number, number> = new Map();
-  for (const v of nums) {
-    freq.set(v, (freq.get(v) ?? 0) + 1);
-    if (freq.get(v)! > cnt) {
-      [x, cnt] = [v, freq.get(v)!];
+    let [x, cnt] = [0, 0];
+    const freq: Map<number, number> = new Map();
+    for (const v of nums) {
+        freq.set(v, (freq.get(v) ?? 0) + 1);
+        if (freq.get(v)! > cnt) {
+            [x, cnt] = [v, freq.get(v)!];
+        }
     }
-  }
-  let cur = 0;
-  for (let i = 1; i <= nums.length; ++i) {
-    if (nums[i - 1] === x) {
-      ++cur;
-      if (cur * 2 > i && (cnt - cur) * 2 > nums.length - i) {
-        return i - 1;
-      }
+    let cur = 0;
+    for (let i = 1; i <= nums.length; ++i) {
+        if (nums[i - 1] === x) {
+            ++cur;
+            if (cur * 2 > i && (cnt - cur) * 2 > nums.length - i) {
+                return i - 1;
+            }
+        }
     }
-  }
-  return -1;
+    return -1;
 }
 ```
 

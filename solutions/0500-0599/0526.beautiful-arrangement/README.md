@@ -1,55 +1,60 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0526.Beautiful%20Arrangement/README.md
 tags:
-  - Bit Manipulation
-  - Array
-  - Dynamic Programming
-  - Backtracking
-  - Bitmask
+    - 位运算
+    - 数组
+    - 动态规划
+    - 回溯
+    - 状态压缩
 ---
 
 <!-- problem:start -->
 
-# [526. Beautiful Arrangement](https://leetcode.com/problems/beautiful-arrangement)
+# [526. 优美的排列](https://leetcode.cn/problems/beautiful-arrangement)
 
-## Description
+[English Version](/solution/0500-0599/0526.Beautiful%20Arrangement/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Suppose you have <code>n</code> integers labeled <code>1</code> through <code>n</code>. A permutation of those <code>n</code> integers <code>perm</code> (<strong>1-indexed</strong>) is considered a <strong>beautiful arrangement</strong> if for every <code>i</code> (<code>1 &lt;= i &lt;= n</code>), <strong>either</strong> of the following is true:</p>
+<p>假设有从 1 到 n 的 n 个整数。用这些整数构造一个数组 <code>perm</code>（<strong>下标从 1 开始</strong>），只要满足下述条件 <strong>之一</strong> ，该数组就是一个 <strong>优美的排列</strong> ：</p>
 
 <ul>
-	<li><code>perm[i]</code> is divisible by <code>i</code>.</li>
-	<li><code>i</code> is divisible by <code>perm[i]</code>.</li>
+	<li><code>perm[i]</code> 能够被 <code>i</code> 整除</li>
+	<li><code>i</code> 能够被 <code>perm[i]</code> 整除</li>
 </ul>
 
-<p>Given an integer <code>n</code>, return <em>the <strong>number</strong> of the <strong>beautiful arrangements</strong> that you can construct</em>.</p>
+<p>给你一个整数 <code>n</code> ，返回可以构造的 <strong>优美排列 </strong>的 <strong>数量</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 2
-<strong>Output:</strong> 2
-<b>Explanation:</b> 
-The first beautiful arrangement is [1,2]:
-    - perm[1] = 1 is divisible by i = 1
-    - perm[2] = 2 is divisible by i = 2
-The second beautiful arrangement is [2,1]:
-    - perm[1] = 2 is divisible by i = 1
-    - i = 2 is divisible by perm[2] = 1
+<strong>输入：</strong>n = 2
+<strong>输出：</strong>2
+<b>解释：</b>
+第 1 个优美的排列是 [1,2]：
+    - perm[1] = 1 能被 i = 1 整除
+    - perm[2] = 2 能被 i = 2 整除
+第 2 个优美的排列是 [2,1]:
+    - perm[1] = 2 能被 i = 1 整除
+    - i = 2 能被 perm[2] = 1 整除
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 1
-<strong>Output:</strong> 1
+<strong>输入：</strong>n = 1
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 15</code></li>
@@ -57,11 +62,11 @@ The second beautiful arrangement is [2,1]:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -214,32 +219,32 @@ func countArrangement(n int) int {
 
 ```ts
 function countArrangement(n: number): number {
-  const vis = new Array(n + 1).fill(0);
-  const match = Array.from({ length: n + 1 }, () => []);
-  for (let i = 1; i <= n; i++) {
-    for (let j = 1; j <= n; j++) {
-      if (i % j === 0 || j % i === 0) {
-        match[i].push(j);
-      }
+    const vis = new Array(n + 1).fill(0);
+    const match = Array.from({ length: n + 1 }, () => []);
+    for (let i = 1; i <= n; i++) {
+        for (let j = 1; j <= n; j++) {
+            if (i % j === 0 || j % i === 0) {
+                match[i].push(j);
+            }
+        }
     }
-  }
 
-  let res = 0;
-  const dfs = (i: number, n: number) => {
-    if (i === n + 1) {
-      res++;
-      return;
-    }
-    for (const j of match[i]) {
-      if (!vis[j]) {
-        vis[j] = true;
-        dfs(i + 1, n);
-        vis[j] = false;
-      }
-    }
-  };
-  dfs(1, n);
-  return res;
+    let res = 0;
+    const dfs = (i: number, n: number) => {
+        if (i === n + 1) {
+            res++;
+            return;
+        }
+        for (const j of match[i]) {
+            if (!vis[j]) {
+                vis[j] = true;
+                dfs(i + 1, n);
+                vis[j] = false;
+            }
+        }
+    };
+    dfs(1, n);
+    return res;
 }
 ```
 
@@ -286,7 +291,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

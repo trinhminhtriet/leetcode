@@ -1,68 +1,81 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0830.Positions%20of%20Large%20Groups/README.md
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [830. Positions of Large Groups](https://leetcode.com/problems/positions-of-large-groups)
+# [830. 较大分组的位置](https://leetcode.cn/problems/positions-of-large-groups)
 
-## Description
+[English Version](/solution/0800-0899/0830.Positions%20of%20Large%20Groups/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>In a string <code><font face="monospace">s</font></code>&nbsp;of lowercase letters, these letters form consecutive groups of the same character.</p>
+<p>在一个由小写字母构成的字符串 <code>s</code> 中，包含由一些连续的相同字符所构成的分组。</p>
 
-<p>For example, a string like <code>s = &quot;abbxxxxzyy&quot;</code> has the groups <code>&quot;a&quot;</code>, <code>&quot;bb&quot;</code>, <code>&quot;xxxx&quot;</code>, <code>&quot;z&quot;</code>, and&nbsp;<code>&quot;yy&quot;</code>.</p>
+<p>例如，在字符串 <code>s = "abbxxxxzyy"</code> 中，就含有 <code>"a"</code>, <code>"bb"</code>, <code>"xxxx"</code>, <code>"z"</code> 和 <code>"yy"</code> 这样的一些分组。</p>
 
-<p>A group is identified by an interval&nbsp;<code>[start, end]</code>, where&nbsp;<code>start</code>&nbsp;and&nbsp;<code>end</code>&nbsp;denote the start and end&nbsp;indices (inclusive) of the group. In the above example,&nbsp;<code>&quot;xxxx&quot;</code>&nbsp;has the interval&nbsp;<code>[3,6]</code>.</p>
+<p>分组可以用区间 <code>[start, end]</code> 表示，其中 <code>start</code> 和 <code>end</code> 分别表示该分组的起始和终止位置的下标。上例中的 <code>"xxxx"</code> 分组用区间表示为 <code>[3,6]</code> 。</p>
 
-<p>A group is considered&nbsp;<strong>large</strong>&nbsp;if it has 3 or more characters.</p>
+<p>我们称所有包含大于或等于三个连续字符的分组为 <strong>较大分组</strong> 。</p>
 
-<p>Return&nbsp;<em>the intervals of every <strong>large</strong> group sorted in&nbsp;<strong>increasing order by start index</strong></em>.</p>
+<p>找到每一个 <strong>较大分组</strong> 的区间，<strong>按起始位置下标递增顺序排序后</strong>，返回结果。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s = &quot;abbxxxxzzy&quot;
-<strong>Output:</strong> [[3,6]]
-<strong>Explanation:</strong> <code>&quot;xxxx&quot; is the only </code>large group with start index 3 and end index 6.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;abc&quot;
-<strong>Output:</strong> []
-<strong>Explanation:</strong> We have groups &quot;a&quot;, &quot;b&quot;, and &quot;c&quot;, none of which are large groups.
+<strong>输入：</strong>s = "abbxxxxzzy"
+<strong>输出：</strong>[[3,6]]
+<strong>解释</strong><strong>：</strong><code>"xxxx" 是一个起始于 3 且终止于 6 的较大分组</code>。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;abcdddeeeeaabbbcd&quot;
-<strong>Output:</strong> [[3,5],[6,9],[12,14]]
-<strong>Explanation:</strong> The large groups are &quot;ddd&quot;, &quot;eeee&quot;, and &quot;bbb&quot;.
+<strong>输入：</strong>s = "abc"
+<strong>输出：</strong>[]
+<strong>解释：</strong>"a","b" 和 "c" 均不是符合要求的较大分组。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "abcdddeeeeaabbbcd"
+<strong>输出：</strong>[[3,5],[6,9],[12,14]]
+<strong>解释：</strong>较大分组为 "ddd", "eeee" 和 "bbb"</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aba"
+<strong>输出：</strong>[]
+</pre>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code> contains lowercase English letters only.</li>
+	<li><code>1 <= s.length <= 1000</code></li>
+	<li><code>s</code> 仅含小写英文字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：双指针
+
+我们用双指针 $i$ 和 $j$ 找到每个分组的起始位置和终止位置，然后判断分组长度是否大于等于 $3$，若是则将其加入结果数组。
+
+时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -97,7 +110,7 @@ class Solution {
                 ++j;
             }
             if (j - i >= 3) {
-                ans.add(Arrays.asList(i, j - 1));
+                ans.add(List.of(i, j - 1));
             }
             i = j;
         }
@@ -147,6 +160,28 @@ func largeGroupPositions(s string) [][]int {
 		i = j
 	}
 	return ans
+}
+```
+
+#### TypeScript
+
+```ts
+function largeGroupPositions(s: string): number[][] {
+    const n = s.length;
+    const ans: number[][] = [];
+
+    for (let i = 0; i < n; ) {
+        let j = i;
+        while (j < n && s[j] === s[i]) {
+            ++j;
+        }
+        if (j - i >= 3) {
+            ans.push([i, j - 1]);
+        }
+        i = j;
+    }
+
+    return ans;
 }
 ```
 

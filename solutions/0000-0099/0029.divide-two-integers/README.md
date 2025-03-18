@@ -1,46 +1,49 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0029.Divide%20Two%20Integers/README.md
 tags:
-  - Bit Manipulation
-  - Math
+    - 位运算
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [29. Divide Two Integers](https://leetcode.com/problems/divide-two-integers)
+# [29. 两数相除](https://leetcode.cn/problems/divide-two-integers)
 
-## Description
+[English Version](/solution/0000-0099/0029.Divide%20Two%20Integers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two integers <code>dividend</code> and <code>divisor</code>, divide two integers <strong>without</strong> using multiplication, division, and mod operator.</p>
+<p>给你两个整数，被除数&nbsp;<code>dividend</code>&nbsp;和除数&nbsp;<code>divisor</code>。将两数相除，要求 <strong>不使用</strong> 乘法、除法和取余运算。</p>
 
-<p>The integer division should truncate toward zero, which means losing its fractional part. For example, <code>8.345</code> would be truncated to <code>8</code>, and <code>-2.7335</code> would be truncated to <code>-2</code>.</p>
+<p>整数除法应该向零截断，也就是截去（<code>truncate</code>）其小数部分。例如，<code>8.345</code> 将被截断为 <code>8</code> ，<code>-2.7335</code> 将被截断至 <code>-2</code> 。</p>
 
-<p>Return <em>the <strong>quotient</strong> after dividing </em><code>dividend</code><em> by </em><code>divisor</code>.</p>
+<p>返回被除数&nbsp;<code>dividend</code>&nbsp;除以除数&nbsp;<code>divisor</code>&nbsp;得到的 <strong>商</strong> 。</p>
 
-<p><strong>Note: </strong>Assume we are dealing with an environment that could only store integers within the <strong>32-bit</strong> signed integer range: <code>[&minus;2<sup>31</sup>, 2<sup>31</sup> &minus; 1]</code>. For this problem, if the quotient is <strong>strictly greater than</strong> <code>2<sup>31</sup> - 1</code>, then return <code>2<sup>31</sup> - 1</code>, and if the quotient is <strong>strictly less than</strong> <code>-2<sup>31</sup></code>, then return <code>-2<sup>31</sup></code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> dividend = 10, divisor = 3
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 10/3 = 3.33333.. which is truncated to 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> dividend = 7, divisor = -3
-<strong>Output:</strong> -2
-<strong>Explanation:</strong> 7/-3 = -2.33333.. which is truncated to -2.
-</pre>
+<p><strong>注意：</strong>假设我们的环境只能存储 <strong>32 位</strong> 有符号整数，其数值范围是 <code>[−2<sup>31</sup>,&nbsp; 2<sup>31&nbsp;</sup>− 1]</code> 。本题中，如果商 <strong>严格大于</strong> <code>2<sup>31&nbsp;</sup>− 1</code> ，则返回 <code>2<sup>31&nbsp;</sup>− 1</code> ；如果商 <strong>严格小于</strong> <code>-2<sup>31</sup></code> ，则返回 <code>-2<sup>31</sup></code><sup> </sup>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例&nbsp;1:</strong></p>
+
+<pre>
+<strong>输入:</strong> dividend = 10, divisor = 3
+<strong>输出:</strong> 3
+<strong>解释: </strong>10/3 = 3.33333.. ，向零截断后得到 3 。</pre>
+
+<p><strong>示例&nbsp;2:</strong></p>
+
+<pre>
+<strong>输入:</strong> dividend = 7, divisor = -3
+<strong>输出:</strong> -2
+<strong>解释:</strong> 7/-3 = -2.33333.. ，向零截断后得到 -2 。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>-2<sup>31</sup> &lt;= dividend, divisor &lt;= 2<sup>31</sup> - 1</code></li>
@@ -49,17 +52,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation + Fast Power
+### 方法一：模拟 + 快速幂
 
-Division is essentially subtraction. The problem requires us to calculate the integer result after dividing two numbers, which is actually calculating how many divisors and a number less than the divisor constitute the dividend. However, only one subtraction can be done in one loop, which is too inefficient and will lead to timeout. This can be optimized by using the idea of fast power.
+除法本质上就是减法，题目要求我们计算出两个数相除之后的取整结果，其实就是计算被除数是多少个除数加上一个小于除数的数构成的。但是一次循环只能做一次减法，效率太低会导致超时，可借助快速幂的思想进行优化。
 
-It should be noted that since the problem explicitly requires that only 32-bit signed integers can be used at most, the divisor and dividend need to be converted to negative numbers for calculation. Because converting to positive numbers may cause overflow, such as when the dividend is `INT32_MIN`, it will be greater than `INT32_MAX` when converted to a positive number.
+需要注意的是，由于题目明确要求最大只能使用 32 位有符号整数，所以需要将除数和被除数同时转换为负数进行计算。因为转换正数可能会导致溢出，如当被除数为 `INT32_MIN` 时，转换为正数时会大于 `INT32_MAX`。
 
-Assuming the dividend is $a$ and the divisor is $b$, the time complexity is $O(\log a \times \log b)$, and the space complexity is $O(1)$.
+假设被除数为 $a$，除数为 $b$，则时间复杂度为 $O(\log a \times \log b)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -190,32 +193,32 @@ func divide(a int, b int) int {
 
 ```ts
 function divide(a: number, b: number): number {
-  if (b === 1) {
-    return a;
-  }
-  if (a === -(2 ** 31) && b === -1) {
-    return 2 ** 31 - 1;
-  }
-
-  const sign: boolean = (a > 0 && b > 0) || (a < 0 && b < 0);
-  a = a > 0 ? -a : a;
-  b = b > 0 ? -b : b;
-  let ans: number = 0;
-
-  while (a <= b) {
-    let x: number = b;
-    let cnt: number = 1;
-
-    while (x >= -(2 ** 30) && a <= x << 1) {
-      x <<= 1;
-      cnt <<= 1;
+    if (b === 1) {
+        return a;
+    }
+    if (a === -(2 ** 31) && b === -1) {
+        return 2 ** 31 - 1;
     }
 
-    ans += cnt;
-    a -= x;
-  }
+    const sign: boolean = (a > 0 && b > 0) || (a < 0 && b < 0);
+    a = a > 0 ? -a : a;
+    b = b > 0 ? -b : b;
+    let ans: number = 0;
 
-  return sign ? ans : -ans;
+    while (a <= b) {
+        let x: number = b;
+        let cnt: number = 1;
+
+        while (x >= -(2 ** 30) && a <= x << 1) {
+            x <<= 1;
+            cnt <<= 1;
+        }
+
+        ans += cnt;
+        a -= x;
+    }
+
+    return sign ? ans : -ans;
 }
 ```
 

@@ -1,81 +1,96 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0675.Cut%20Off%20Trees%20for%20Golf%20Event/README.md
 tags:
-  - Breadth-First Search
-  - Array
-  - Matrix
-  - Heap (Priority Queue)
+    - 广度优先搜索
+    - 数组
+    - 矩阵
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [675. Cut Off Trees for Golf Event](https://leetcode.com/problems/cut-off-trees-for-golf-event)
+# [675. 为高尔夫比赛砍树](https://leetcode.cn/problems/cut-off-trees-for-golf-event)
 
-## Description
+[English Version](/solution/0600-0699/0675.Cut%20Off%20Trees%20for%20Golf%20Event/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are asked to cut off all the trees in a forest for a golf event. The forest is represented as an <code>m x n</code> matrix. In this matrix:</p>
+<p>你被请来给一个要举办高尔夫比赛的树林砍树。树林由一个 <code>m x n</code> 的矩阵表示， 在这个矩阵中：</p>
 
 <ul>
-	<li><code>0</code> means the cell cannot be walked through.</li>
-	<li><code>1</code> represents an empty cell that can be walked through.</li>
-	<li>A number greater than <code>1</code> represents a tree in a cell that can be walked through, and this number is the tree&#39;s height.</li>
+	<li><code>0</code> 表示障碍，无法触碰</li>
+	<li><code>1</code> 表示地面，可以行走</li>
+	<li><code>比 1 大的数</code> 表示有树的单元格，可以行走，数值表示树的高度</li>
 </ul>
 
-<p>In one step, you can walk in any of the four directions: north, east, south, and west. If you are standing in a cell with a tree, you can choose whether to cut it off.</p>
+<p>每一步，你都可以向上、下、左、右四个方向之一移动一个单位，如果你站的地方有一棵树，那么你可以决定是否要砍倒它。</p>
 
-<p>You must cut off the trees in order from shortest to tallest. When you cut off a tree, the value at its cell becomes <code>1</code> (an empty cell).</p>
+<p>你需要按照树的高度从低向高砍掉所有的树，每砍过一颗树，该单元格的值变为 <code>1</code>（即变为地面）。</p>
 
-<p>Starting from the point <code>(0, 0)</code>, return <em>the minimum steps you need to walk to cut off all the trees</em>. If you cannot cut off all the trees, return <code>-1</code>.</p>
+<p>你将从 <code>(0, 0)</code> 点开始工作，返回你砍完所有树需要走的最小步数。 如果你无法砍完所有的树，返回 <code>-1</code> 。</p>
 
-<p><strong>Note:</strong> The input is generated such that no two trees have the same height, and there is at least one tree needs to be cut off.</p>
+<p>可以保证的是，没有两棵树的高度是相同的，并且你至少需要砍倒一棵树。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0675.Cut%20Off%20Trees%20for%20Golf%20Event/images/trees1.jpg" style="width: 242px; height: 242px;" />
 <pre>
-<strong>Input:</strong> forest = [[1,2,3],[0,0,4],[7,6,5]]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> Following the path above allows you to cut off the trees from shortest to tallest in 6 steps.
-</pre>
+<strong>输入：</strong>forest = [[1,2,3],[0,0,4],[7,6,5]]
+<strong>输出：</strong>6
+<strong>解释：</strong>沿着上面的路径，你可以用 6 步，按从最矮到最高的顺序砍掉这些树。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0675.Cut%20Off%20Trees%20for%20Golf%20Event/images/trees2.jpg" style="width: 242px; height: 242px;" />
 <pre>
-<strong>Input:</strong> forest = [[1,2,3],[0,0,0],[7,6,5]]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> The trees in the bottom row cannot be accessed as the middle row is blocked.
+<strong>输入：</strong>forest = [[1,2,3],[0,0,0],[7,6,5]]
+<strong>输出：</strong>-1
+<strong>解释：</strong>由于中间一行被障碍阻塞，无法访问最下面一行中的树。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> forest = [[2,3,4],[0,0,5],[8,7,6]]
-<strong>Output:</strong> 6
-<b>Explanation:</b> You can follow the same path as Example 1 to cut off all the trees.
-Note that you can cut off the first tree at (0, 0) before making any steps.
+<strong>输入：</strong>forest = [[2,3,4],[0,0,5],[8,7,6]]
+<strong>输出：</strong>6
+<strong>解释：</strong>可以按与示例 1 相同的路径来砍掉所有的树。
+(0,0) 位置的树，可以直接砍去，不用算步数。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == forest.length</code></li>
 	<li><code>n == forest[i].length</code></li>
-	<li><code>1 &lt;= m, n &lt;= 50</code></li>
-	<li><code>0 &lt;= forest[i][j] &lt;= 10<sup>9</sup></code></li>
-	<li>Heights of all trees are <strong>distinct</strong>.</li>
+	<li><code>1 <= m, n <= 50</code></li>
+	<li><code>0 <= forest[i][j] <= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：BFS + 优先队列（A\* 算法）
+
+题目的一个关键信息是“所有树的高度都不同”，要按照从小到大的顺序依次砍树，因此，我们先遍历树林，找出所有树及对应的坐标点。然后将树按照高度升序排列。
+
+接下来就是找相邻两个点之间的最短距离。可以用 BFS，A\* 算法优化搜索。
+
+A\* 算法主要思想如下：
+
+1. 将 BFS 队列转换为优先队列（小根堆）；
+1. 队列中的每个元素为 `(dist[state] + f(state), state)`，`dist[state]` 表示从起点到当前 state 的距离，`f(state)` 表示从当前 state 到终点的估计距离，这两个距离之和作为堆排序的依据；
+1. 当终点第一次出队时，说明找到了从起点到终点的最短路径，直接返回对应的 step；
+1. `f(state)` 是估价函数，并且估价函数要满足 `f(state) <= g(state)`，其中 `g(state)` 表示 state 到终点的真实距离；
+1. A\* 算法只能保证终点第一次出队时，即找到了一条从起点到终点的最小路径，不能保证其他点出队时也是从起点到当前点的最短路径。
 
 <!-- tabs:start -->
 

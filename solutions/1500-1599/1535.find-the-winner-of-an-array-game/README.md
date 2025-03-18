@@ -1,77 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1535.Find%20the%20Winner%20of%20an%20Array%20Game/README.md
 rating: 1433
-source: Weekly Contest 200 Q2
+source: 第 200 场周赛 Q2
 tags:
-  - Array
-  - Simulation
+    - 数组
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1535. Find the Winner of an Array Game](https://leetcode.com/problems/find-the-winner-of-an-array-game)
+# [1535. 找出数组游戏的赢家](https://leetcode.cn/problems/find-the-winner-of-an-array-game)
 
-## Description
+[English Version](/solution/1500-1599/1535.Find%20the%20Winner%20of%20an%20Array%20Game/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>arr</code> of <strong>distinct</strong> integers and an integer <code>k</code>.</p>
+<p>给你一个由 <strong>不同</strong> 整数组成的整数数组 <code>arr</code> 和一个整数 <code>k</code> 。</p>
 
-<p>A game will be played between the first two elements of the array (i.e. <code>arr[0]</code> and <code>arr[1]</code>). In each round of the game, we compare <code>arr[0]</code> with <code>arr[1]</code>, the larger integer wins and remains at position <code>0</code>, and the smaller integer moves to the end of the array. The game ends when an integer wins <code>k</code> consecutive rounds.</p>
+<p>每回合游戏都在数组的前两个元素（即 <code>arr[0]</code> 和 <code>arr[1]</code> ）之间进行。比较 <code>arr[0]</code> 与 <code>arr[1]</code> 的大小，较大的整数将会取得这一回合的胜利并保留在位置 <code>0</code> ，较小的整数移至数组的末尾。当一个整数赢得 <code>k</code> 个连续回合时，游戏结束，该整数就是比赛的 <strong>赢家</strong> 。</p>
 
-<p>Return <em>the integer which will win the game</em>.</p>
+<p>返回赢得比赛的整数。</p>
 
-<p>It is <strong>guaranteed</strong> that there will be a winner of the game.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [2,1,3,5,4,6,7], k = 2
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> Let&#39;s see the rounds of the game:
-Round |       arr       | winner | win_count
-  1   | [2,1,3,5,4,6,7] | 2      | 1
-  2   | [2,3,5,4,6,7,1] | 3      | 1
-  3   | [3,5,4,6,7,1,2] | 5      | 1
-  4   | [5,4,6,7,1,2,3] | 5      | 2
-So we can see that 4 rounds will be played and 5 is the winner because it wins 2 consecutive games.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [3,2,1], k = 10
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 3 will win the first 10 rounds consecutively.
-</pre>
+<p>题目数据 <strong>保证</strong> 游戏存在赢家。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>arr = [2,1,3,5,4,6,7], k = 2
+<strong>输出：</strong>5
+<strong>解释：</strong>一起看一下本场游戏每回合的情况：
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1535.Find%20the%20Winner%20of%20an%20Array%20Game/images/q-example.png" style="height: 90px; width: 400px;">
+因此将进行 4 回合比赛，其中 5 是赢家，因为它连胜 2 回合。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>arr = [3,2,1], k = 10
+<strong>输出：</strong>3
+<strong>解释：</strong>3 将会在前 10 个回合中连续获胜。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>arr = [1,9,8,2,3,7,6,4,5], k = 7
+<strong>输出：</strong>9
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>arr = [1,11,22,33,44,55,66,77,88,99], k = 1000000000
+<strong>输出：</strong>99
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>2 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= arr[i] &lt;= 10<sup>6</sup></code></li>
-	<li><code>arr</code> contains <strong>distinct</strong> integers.</li>
-	<li><code>1 &lt;= k &lt;= 10<sup>9</sup></code></li>
+	<li><code>2 &lt;= arr.length &lt;= 10^5</code></li>
+	<li><code>1 &lt;= arr[i] &lt;= 10^6</code></li>
+	<li><code>arr</code> 所含的整数 <strong>各不相同</strong> 。</li>
+	<li><code>1 &lt;= k &lt;= 10^9</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Quick Thinking
+### 方法一：脑筋急转弯
 
-We notice that each time the first two elements of the array are compared, regardless of the result, the next comparison will always be between the next element in the array and the current winner. Therefore, if we have looped $n-1$ times, the final winner must be the maximum element in the array. Otherwise, if an element has won consecutively $k$ times, then this element is the final winner.
+我们注意到，每次会比较数组的前两个元素，不管结果怎么样，下一次的比较，一定是轮到了数组中的下一个元素和当前的胜者进行比较。因此，如果循环了 $n-1$ 次，那么最后的胜者一定是数组中的最大元素。否则，如果某个元素连续胜出了 $k$ 次，那么这个元素就是最后的胜者。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
 
-Similar problems:
+相似题目：
 
-- [1535. Find the Winner of an Array Game](https://github.com/doocs/leetcode/blob/main/solution/3100-3199/3175.Find%20The%20First%20Player%20to%20win%20K%20Games%20in%20a%20Row/README_EN.md)
+-   [3175. 找到连续赢 K 场比赛的第一位玩家](https://github.com/doocs/leetcode/blob/main/solution/3100-3199/3175.Find%20The%20First%20Player%20to%20win%20K%20Games%20in%20a%20Row/README.md)
 
 <!-- tabs:start -->
 
@@ -162,20 +173,20 @@ func getWinner(arr []int, k int) int {
 
 ```ts
 function getWinner(arr: number[], k: number): number {
-  let mx = arr[0];
-  let cnt = 0;
-  for (const x of arr.slice(1)) {
-    if (mx < x) {
-      mx = x;
-      cnt = 1;
-    } else {
-      ++cnt;
+    let mx = arr[0];
+    let cnt = 0;
+    for (const x of arr.slice(1)) {
+        if (mx < x) {
+            mx = x;
+            cnt = 1;
+        } else {
+            ++cnt;
+        }
+        if (cnt === k) {
+            break;
+        }
     }
-    if (cnt === k) {
-      break;
-    }
-  }
-  return mx;
+    return mx;
 }
 ```
 

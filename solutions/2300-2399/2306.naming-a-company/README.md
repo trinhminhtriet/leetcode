@@ -1,91 +1,94 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2306.Naming%20a%20Company/README.md
 rating: 2305
-source: Weekly Contest 297 Q4
+source: 第 297 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Array
-  - Hash Table
-  - String
-  - Enumeration
+    - 位运算
+    - 数组
+    - 哈希表
+    - 字符串
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2306. Naming a Company](https://leetcode.com/problems/naming-a-company)
+# [2306. 公司命名](https://leetcode.cn/problems/naming-a-company)
 
-## Description
+[English Version](/solution/2300-2399/2306.Naming%20a%20Company/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of strings <code>ideas</code> that represents a list of names to be used in the process of naming a company. The process of naming a company is as follows:</p>
+<p>给你一个字符串数组 <code>ideas</code> 表示在公司命名过程中使用的名字列表。公司命名流程如下：</p>
 
 <ol>
-	<li>Choose 2 <strong>distinct</strong> names from <code>ideas</code>, call them <code>idea<sub>A</sub></code> and <code>idea<sub>B</sub></code>.</li>
-	<li>Swap the first letters of <code>idea<sub>A</sub></code> and <code>idea<sub>B</sub></code> with each other.</li>
-	<li>If <strong>both</strong> of the new names are not found in the original <code>ideas</code>, then the name <code>idea<sub>A</sub> idea<sub>B</sub></code> (the <strong>concatenation</strong> of <code>idea<sub>A</sub></code> and <code>idea<sub>B</sub></code>, separated by a space) is a valid company name.</li>
-	<li>Otherwise, it is not a valid name.</li>
+	<li>从 <code>ideas</code> 中选择 2 个 <strong>不同</strong> 名字，称为 <code>idea<sub>A</sub></code> 和 <code>idea<sub>B</sub></code> 。</li>
+	<li>交换 <code>idea<sub>A</sub></code> 和 <code>idea<sub>B</sub></code> 的首字母。</li>
+	<li>如果得到的两个新名字 <strong>都</strong> 不在 <code>ideas</code> 中，那么 <code>idea<sub>A</sub> idea<sub>B</sub></code>（<strong>串联</strong> <code>idea<sub>A</sub></code> 和 <code>idea<sub>B</sub></code> ，中间用一个空格分隔）是一个有效的公司名字。</li>
+	<li>否则，不是一个有效的名字。</li>
 </ol>
 
-<p>Return <em>the number of <strong>distinct</strong> valid names for the company</em>.</p>
+<p>返回 <strong>不同</strong> 且有效的公司名字的数目。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> ideas = [&quot;coffee&quot;,&quot;donuts&quot;,&quot;time&quot;,&quot;toffee&quot;]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The following selections are valid:
-- (&quot;coffee&quot;, &quot;donuts&quot;): The company name created is &quot;doffee conuts&quot;.
-- (&quot;donuts&quot;, &quot;coffee&quot;): The company name created is &quot;conuts doffee&quot;.
-- (&quot;donuts&quot;, &quot;time&quot;): The company name created is &quot;tonuts dime&quot;.
-- (&quot;donuts&quot;, &quot;toffee&quot;): The company name created is &quot;tonuts doffee&quot;.
-- (&quot;time&quot;, &quot;donuts&quot;): The company name created is &quot;dime tonuts&quot;.
-- (&quot;toffee&quot;, &quot;donuts&quot;): The company name created is &quot;doffee tonuts&quot;.
-Therefore, there are a total of 6 distinct company names.
+<p><strong>示例 1：</strong></p>
 
-The following are some examples of invalid selections:
-- (&quot;coffee&quot;, &quot;time&quot;): The name &quot;toffee&quot; formed after swapping already exists in the original array.
-- (&quot;time&quot;, &quot;toffee&quot;): Both names are still the same after swapping and exist in the original array.
-- (&quot;coffee&quot;, &quot;toffee&quot;): Both names formed after swapping already exist in the original array.
+<pre><strong>输入：</strong>ideas = ["coffee","donuts","time","toffee"]
+<strong>输出：</strong>6
+<strong>解释：</strong>下面列出一些有效的选择方案：
+- ("coffee", "donuts")：对应的公司名字是 "doffee conuts" 。
+- ("donuts", "coffee")：对应的公司名字是 "conuts doffee" 。
+- ("donuts", "time")：对应的公司名字是 "tonuts dime" 。
+- ("donuts", "toffee")：对应的公司名字是 "tonuts doffee" 。
+- ("time", "donuts")：对应的公司名字是 "dime tonuts" 。
+- ("toffee", "donuts")：对应的公司名字是 "doffee tonuts" 。
+因此，总共有 6 个不同的公司名字。
+
+下面列出一些无效的选择方案：
+- ("coffee", "time")：在原数组中存在交换后形成的名字 "toffee" 。
+- ("time", "toffee")：在原数组中存在交换后形成的两个名字。
+- ("coffee", "toffee")：在原数组中存在交换后形成的两个名字。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> ideas = [&quot;lack&quot;,&quot;back&quot;]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are no valid selections. Therefore, 0 is returned.
+<pre><strong>输入：</strong>ideas = ["lack","back"]
+<strong>输出：</strong>0
+<strong>解释：</strong>不存在有效的选择方案。因此，返回 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= ideas.length &lt;= 5 * 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= ideas[i].length &lt;= 10</code></li>
-	<li><code>ideas[i]</code> consists of lowercase English letters.</li>
-	<li>All the strings in <code>ideas</code> are <strong>unique</strong>.</li>
+	<li><code>ideas[i]</code> 由小写英文字母组成</li>
+	<li><code>ideas</code> 中的所有字符串 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration and Counting
+### 方法一：枚举计数
 
-We define $f[i][j]$ to represent the number of strings in $\textit{ideas}$ that start with the $i$-th letter and, when replaced with the $j$-th letter, do not exist in $\textit{ideas}$. Initially, $f[i][j] = 0$. Additionally, we use a hash table $s$ to record the strings in $\textit{ideas}$, allowing us to quickly determine whether a string is in $\textit{ideas}$.
+我们定义 $f[i][j]$ 表示 $\textit{ideas}$ 中以第 $i$ 个字母开头，替换为第 $j$ 个字母后，不在 $\textit{ideas}$ 中的字符串的个数。初始时 $f[i][j] = 0$。另外，用一个哈希表 $s$ 记录 $\textit{ideas}$ 中的字符串，方便我们快速判断某个字符串是否在 $\textit{ideas}$ 中。
 
-Next, we traverse the strings in $\textit{ideas}$. For the current string $v$, we enumerate the first letter $j$ after replacement. If the string obtained by replacing $v$ is not in $\textit{ideas}$, we update $f[i][j] = f[i][j] + 1$.
+接下来，我们遍历 $\textit{ideas}$ 中字符串，对于当前遍历到的字符串 $v$，我们枚举替换后的第一个字母 $j$，如果 $v$ 替换后的字符串不在 $\textit{ideas}$ 中，那么我们就更新 $f[i][j] = f[i][j] + 1$。
 
-Finally, we traverse the strings in $\textit{ideas}$ again. For the current string $v$, we enumerate the first letter $j$ after replacement. If the string obtained by replacing $v$ is not in $\textit{ideas}$, we update the answer $\textit{ans} = \textit{ans} + f[j][i]$.
+最后，我们再次遍历 $\textit{ideas}$ 中字符串，对于当前遍历到的字符串 $v$，我们枚举替换后的第一个字母 $j$，如果 $v$ 替换后的字符串不在 $\textit{ideas}$ 中，那么我们就更新答案 $\textit{ans} = \textit{ans} + f[j][i]$。
 
-The final answer is $\textit{ans}$.
+最终答案即为 $\textit{ans}$。
 
-The time complexity is $O(n \times m \times |\Sigma|)$, and the space complexity is $O(|\Sigma|^2)$. Here, $n$ and $m$ are the number of strings in $\textit{ideas}$ and the maximum length of the strings, respectively, and $|\Sigma|$ is the character set of the strings, with $|\Sigma| \leq 26$ in this problem.
+时间复杂度 $O(n \times m \times |\Sigma|)$，空间复杂度 $O(|\Sigma|^2)$。其中 $n$ 和 $m$ 分别是 $\textit{ideas}$ 中字符串的个数和字符串的最大长度，而 $|\Sigma|$ 是字符串中出现的字符集，本题中 $|\Sigma| \leq 26$。
 
 <!-- tabs:start -->
 

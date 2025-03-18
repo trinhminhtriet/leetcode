@@ -1,65 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1513.Number%20of%20Substrings%20With%20Only%201s/README.md
 rating: 1351
-source: Weekly Contest 197 Q2
+source: 第 197 场周赛 Q2
 tags:
-  - Math
-  - String
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1513. Number of Substrings With Only 1s](https://leetcode.com/problems/number-of-substrings-with-only-1s)
+# [1513. 仅含 1 的子串数](https://leetcode.cn/problems/number-of-substrings-with-only-1s)
 
-## Description
+[English Version](/solution/1500-1599/1513.Number%20of%20Substrings%20With%20Only%201s/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary string <code>s</code>, return <em>the number of substrings with all characters</em> <code>1</code><em>&#39;s</em>. Since the answer may be too large, return it modulo <code>10<sup>9</sup> + 7</code>.</p>
+<p>给你一个二进制字符串 <code>s</code>（仅由 &#39;0&#39; 和 &#39;1&#39; 组成的字符串）。</p>
+
+<p>返回所有字符都为 1 的子字符串的数目。</p>
+
+<p>由于答案可能很大，请你将它对 10^9 + 7 取模后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;0110111&quot;
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> There are 9 substring in total with only 1&#39;s characters.
-&quot;1&quot; -&gt; 5 times.
-&quot;11&quot; -&gt; 3 times.
-&quot;111&quot; -&gt; 1 time.</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><strong>输入：</strong>s = &quot;0110111&quot;
+<strong>输出</strong>：9
+<strong>解释：</strong>共有 9 个子字符串仅由 &#39;1&#39; 组成
+&quot;1&quot; -&gt; 5 次
+&quot;11&quot; -&gt; 3 次
+&quot;111&quot; -&gt; 1 次</pre>
 
-<pre>
-<strong>Input:</strong> s = &quot;101&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Substring &quot;1&quot; is shown 2 times in s.
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>s = &quot;101&quot;
+<strong>输出：</strong>2
+<strong>解释：</strong>子字符串 &quot;1&quot; 在 s 中共出现 2 次
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;111111&quot;
-<strong>Output:</strong> 21
-<strong>Explanation:</strong> Each substring contains only 1&#39;s characters.
+<pre><strong>输入：</strong>s = &quot;111111&quot;
+<strong>输出：</strong>21
+<strong>解释：</strong>每个子字符串都仅由 &#39;1&#39; 组成
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>s = &quot;000&quot;
+<strong>输出：</strong>0
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>s[i] == &#39;0&#39;</code> 或 <code>s[i] == &#39;1&#39;</code></li>
+	<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：遍历计数
+
+我们遍历字符串 $s$，用变量 $cnt$ 记录当前连续的 1 的个数，用变量 $ans$ 记录答案。当遍历到字符 $s[i]$ 时，如果 $s[i] = 1$，则 $cnt$ 自增 1，否则 $cnt$ 置 0。此时 $ans$ 自增 $cnt$。
+
+遍历结束，返回 $ans$ 即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
+
+相似题目：
+
+-   [413. 等差数列划分](https://github.com/doocs/leetcode/blob/main/solution/0400-0499/0413.Arithmetic%20Slices/README.md)
+-   [2348. 全 0 子数组的数目](https://github.com/doocs/leetcode/blob/main/solution/2300-2399/2348.Number%20of%20Zero-Filled%20Subarrays/README.md)
 
 <!-- tabs:start -->
 
@@ -133,14 +156,14 @@ func numSub(s string) (ans int) {
 
 ```ts
 function numSub(s: string): number {
-  const mod = 10 ** 9 + 7;
-  let ans = 0;
-  let cnt = 0;
-  for (const c of s) {
-    cnt = c == "1" ? cnt + 1 : 0;
-    ans = (ans + cnt) % mod;
-  }
-  return ans;
+    const mod = 10 ** 9 + 7;
+    let ans = 0;
+    let cnt = 0;
+    for (const c of s) {
+        cnt = c == '1' ? cnt + 1 : 0;
+        ans = (ans + cnt) % mod;
+    }
+    return ans;
 }
 ```
 

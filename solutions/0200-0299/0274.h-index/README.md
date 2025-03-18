@@ -1,43 +1,47 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0274.H-Index/README.md
 tags:
-  - Array
-  - Counting Sort
-  - Sorting
+    - 数组
+    - 计数排序
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [274. H-Index](https://leetcode.com/problems/h-index)
+# [274. H 指数](https://leetcode.cn/problems/h-index)
 
-## Description
+[English Version](/solution/0200-0299/0274.H-Index/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of integers <code>citations</code> where <code>citations[i]</code> is the number of citations a researcher received for their <code>i<sup>th</sup></code> paper, return <em>the researcher&#39;s h-index</em>.</p>
+<p>给你一个整数数组 <code>citations</code> ，其中 <code>citations[i]</code> 表示研究者的第 <code>i</code> 篇论文被引用的次数。计算并返回该研究者的 <strong><code>h</code><em>&nbsp;</em>指数</strong>。</p>
 
-<p>According to the <a href="https://en.wikipedia.org/wiki/H-index" target="_blank">definition of h-index on Wikipedia</a>: The h-index is defined as the maximum value of <code>h</code> such that the given researcher has published at least <code>h</code> papers that have each been cited at least <code>h</code> times.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> citations = [3,0,6,1,5]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> [3,0,6,1,5] means the researcher has 5 papers in total and each of them had received 3, 0, 6, 1, 5 citations respectively.
-Since the researcher has 3 papers with at least 3 citations each and the remaining two with no more than 3 citations each, their h-index is 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> citations = [1,3,1]
-<strong>Output:</strong> 1
-</pre>
+<p>根据维基百科上&nbsp;<a href="https://baike.baidu.com/item/h-index/3991452?fr=aladdin" target="_blank">h 指数的定义</a>：<code>h</code> 代表“高引用次数” ，一名科研人员的 <code>h</code><strong> 指数 </strong>是指他（她）至少发表了 <code>h</code> 篇论文，并且&nbsp;<strong>至少&nbsp;</strong>有 <code>h</code> 篇论文被引用次数大于等于 <code>h</code> 。如果 <code>h</code><em> </em>有多种可能的值，<strong><code>h</code> 指数 </strong>是其中最大的那个。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong><code>citations = [3,0,6,1,5]</code>
+<strong>输出：</strong>3 
+<strong>解释：</strong>给定数组表示研究者总共有 <code>5</code> 篇论文，每篇论文相应的被引用了 <code>3, 0, 6, 1, 5</code> 次。
+&nbsp;    由于研究者有 <code>3 </code>篇论文每篇 <strong>至少 </strong>被引用了 <code>3</code> 次，其余两篇论文每篇被引用 <strong>不多于</strong> <code>3</code> 次，所以她的 <em>h </em>指数是 <code>3</code>。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>citations = [1,3,1]
+<strong>输出：</strong>1
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == citations.length</code></li>
@@ -47,15 +51,15 @@ Since the researcher has 3 papers with at least 3 citations each and the remaini
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-We can sort the array `citations` in descending order. Then we enumerate the value $h$ from large to small, if there is an $h$ value satisfying $citations[h-1] \geq h$, it means that there are at least $h$ papers that have been cited at least $h$ times, just return $h$ directly. If we cannot find such an $h$ value, it means that all the papers have not been cited, return $0$.
+我们可以先对数组 `citations` 按照元素值从大到小进行排序。然后我们从大到小枚举 $h$ 值，如果某个 $h$ 值满足 $citations[h-1] \geq h$，则说明有至少 $h$ 篇论文分别被引用了至少 $h$ 次，直接返回 $h$ 即可。如果没有找到这样的 $h$ 值，说明所有的论文都没有被引用，返回 $0$。
 
-Time complexity $O(n \times \log n)$, space complexity $O(\log n)$. Here $n$ is the length of the array `citations`.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 `citations` 的长度。
 
 <!-- tabs:start -->
 
@@ -124,13 +128,13 @@ func hIndex(citations []int) int {
 
 ```ts
 function hIndex(citations: number[]): number {
-  citations.sort((a, b) => b - a);
-  for (let h = citations.length; h; --h) {
-    if (citations[h - 1] >= h) {
-      return h;
+    citations.sort((a, b) => b - a);
+    for (let h = citations.length; h; --h) {
+        if (citations[h - 1] >= h) {
+            return h;
+        }
     }
-  }
-  return 0;
+    return 0;
 }
 ```
 
@@ -162,13 +166,13 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Counting + Sum
+### 方法二：计数 + 求和
 
-We can use an array $cnt$ of length $n+1$, where $cnt[i]$ represents the number of papers with the reference count of $i$. We traverse the array `citations` and treat the papers with the reference count greater than $n$ as papers with a reference count of $n$. Then we use the reference count as the index and add $1$ to the corresponding element of $cnt$ for each paper. In this way, we have counted the number of papers for each reference count.
+我们可以使用一个长度为 $n+1$ 的数组 $cnt$，其中 $cnt[i]$ 表示引用次数为 $i$ 的论文的篇数。我们遍历数组 `citations`，将引用次数大于 $n$ 的论文都当作引用次数为 $n$ 的论文，然后将每篇论文的引用次数作为下标，将 $cnt$ 中对应的元素值加 $1$。这样我们就统计出了每个引用次数对应的论文篇数。
 
-Then we enumerate the value $h$ from large to small, and add the element value of $cnt$ with the index of $h$ to the variable $s$, where $s$ represents the number of papers with a reference count greater than or equal to $h$. If $s \geq h$, it means that at least $h$ papers have been cited at least $h$ times, just return $h$ directly.
+接下来，我们从大到小枚举 $h$ 值，将 $cnt$ 中下标为 $h$ 的元素值加到变量 $s$ 中，其中 $s$ 表示引用次数大于等于 $h$ 的论文篇数。如果 $s \geq h$，说明至少有 $h$ 篇论文分别被引用了至少 $h$ 次，直接返回 $h$ 即可。
 
-Time complexity $O(n)$, space complexity $O(n)$. Here $n$ is the length of the array `citations`.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `citations` 的长度。
 
 <!-- tabs:start -->
 
@@ -252,17 +256,17 @@ func hIndex(citations []int) int {
 
 ```ts
 function hIndex(citations: number[]): number {
-  const n: number = citations.length;
-  const cnt: number[] = new Array(n + 1).fill(0);
-  for (const x of citations) {
-    ++cnt[Math.min(x, n)];
-  }
-  for (let h = n, s = 0; ; --h) {
-    s += cnt[h];
-    if (s >= h) {
-      return h;
+    const n: number = citations.length;
+    const cnt: number[] = new Array(n + 1).fill(0);
+    for (const x of citations) {
+        ++cnt[Math.min(x, n)];
     }
-  }
+    for (let h = n, s = 0; ; --h) {
+        s += cnt[h];
+        if (s >= h) {
+            return h;
+        }
+    }
 }
 ```
 
@@ -272,13 +276,13 @@ function hIndex(citations: number[]): number {
 
 <!-- solution:start -->
 
-### Solution 3: Binary Search
+### 方法三：二分查找
 
-We notice that if there is a $h$ value that satisfies at least $h$ papers are cited at least $h$ times, then for any $h'<h$, at least $h'$ papers are cited at least $h'$ times. Therefore, we can use the binary search method to find the largest $h$ such that at least $h$ papers are cited at least $h$ times.
+我们注意到，如果存在一个 $h$ 值满足至少有 $h$ 篇论文至少被引用 $h$ 次，那么对于任意一个 $h' \lt h$，都有至少 $h'$ 篇论文至少被引用 $h'$ 次。因此我们可以使用二分查找的方法，找到最大的 $h$ 值，使得至少有 $h$ 篇论文至少被引用 $h$ 次。
 
-We define the left boundary of binary search $l=0$ and the right boundary $r=n$. Each time we take $mid = \lfloor \frac{l + r + 1}{2} \rfloor$, where $\lfloor x \rfloor$ represents floor $x$. Then we count the number of elements in array `citations` that are greater than or equal to $mid$, and denote it as $s$. If $s \geq mid$, it means that at least $mid$ papers are cited at least $mid$ times. In this case, we change the left boundary $l$ to $mid$. Otherwise, we change the right boundary $r$ to $mid-1$. When the left boundary $l$ is equal to the right boundary $r$, we find the largest $h$ value, which is $l$ or $r$.
+我们定义二分查找的左边界 $l=0$，右边界 $r=n$。每次我们取 $mid = \lfloor \frac{l + r + 1}{2} \rfloor$，其中 $\lfloor x \rfloor$ 表示对 $x$ 向下取整。然后我们统计数组 `citations` 中大于等于 $mid$ 的元素的个数，记为 $s$。如果 $s \geq mid$，说明至少有 $mid$ 篇论文至少被引用 $mid$ 次，此时我们将左边界 $l$ 变为 $mid$，否则我们将右边界 $r$ 变为 $mid-1$。当左边界 $l$ 等于右边界 $r$ 时，我们找到了最大的 $h$ 值，即为 $l$ 或 $r$。
 
-Time complexity $O(n \times \log n)$, where $n$ is the length of array `citations`. Space complexity $O(1)$.
+时间复杂度 $O(n \times \log n)$，其中 $n$ 是数组 `citations` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -375,23 +379,23 @@ func hIndex(citations []int) int {
 
 ```ts
 function hIndex(citations: number[]): number {
-  let l = 0;
-  let r = citations.length;
-  while (l < r) {
-    const mid = (l + r + 1) >> 1;
-    let s = 0;
-    for (const x of citations) {
-      if (x >= mid) {
-        ++s;
-      }
+    let l = 0;
+    let r = citations.length;
+    while (l < r) {
+        const mid = (l + r + 1) >> 1;
+        let s = 0;
+        for (const x of citations) {
+            if (x >= mid) {
+                ++s;
+            }
+        }
+        if (s >= mid) {
+            l = mid;
+        } else {
+            r = mid - 1;
+        }
     }
-    if (s >= mid) {
-      l = mid;
-    } else {
-      r = mid - 1;
-    }
-  }
-  return l;
+    return l;
 }
 ```
 

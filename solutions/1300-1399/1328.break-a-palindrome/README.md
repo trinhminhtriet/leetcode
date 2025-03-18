@@ -1,66 +1,68 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1328.Break%20a%20Palindrome/README.md
 rating: 1473
-source: Biweekly Contest 18 Q2
+source: 第 18 场双周赛 Q2
 tags:
-  - Greedy
-  - String
+    - 贪心
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1328. Break a Palindrome](https://leetcode.com/problems/break-a-palindrome)
+# [1328. 破坏回文串](https://leetcode.cn/problems/break-a-palindrome)
 
-## Description
+[English Version](/solution/1300-1399/1328.Break%20a%20Palindrome/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a palindromic string of lowercase English letters <code>palindrome</code>, replace <strong>exactly one</strong> character with any lowercase English letter so that the resulting string is <strong>not</strong> a palindrome and that it is the <strong>lexicographically smallest</strong> one possible.</p>
+<p>给你一个由小写英文字母组成的回文字符串&nbsp;<code>palindrome</code> ，请你将其中&nbsp;<strong>一个</strong> 字符用任意小写英文字母替换，使得结果字符串的 <strong>字典序最小</strong> ，且&nbsp;<strong>不是</strong>&nbsp;回文串。</p>
 
-<p>Return <em>the resulting string. If there is no way to replace a character to make it not a palindrome, return an <strong>empty string</strong>.</em></p>
+<p>请你返回结果字符串。如果无法做到，则返回一个 <strong>空串</strong> 。</p>
 
-<p>A string <code>a</code> is lexicographically smaller than a string <code>b</code> (of the same length) if in the first position where <code>a</code> and <code>b</code> differ, <code>a</code> has a character strictly smaller than the corresponding character in <code>b</code>. For example, <code>&quot;abcc&quot;</code> is lexicographically smaller than <code>&quot;abcd&quot;</code> because the first position they differ is at the fourth character, and <code>&#39;c&#39;</code> is smaller than <code>&#39;d&#39;</code>.</p>
+<p>如果两个字符串长度相同，那么字符串 <code>a</code> 字典序比字符串 <code>b</code> 小可以这样定义：在 <code>a</code> 和 <code>b</code> 出现不同的第一个位置上，字符串 <code>a</code> 中的字符严格小于 <code>b</code> 中的对应字符。例如，<code>"abcc”</code> 字典序比 <code>"abcd"</code> 小，因为不同的第一个位置是在第四个字符，显然 <code>'c'</code> 比 <code>'d'</code> 小。</p>
+&nbsp;
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> palindrome = &quot;abccba&quot;
-<strong>Output:</strong> &quot;aaccba&quot;
-<strong>Explanation:</strong> There are many ways to make &quot;abccba&quot; not a palindrome, such as &quot;<u>z</u>bccba&quot;, &quot;a<u>a</u>ccba&quot;, and &quot;ab<u>a</u>cba&quot;.
-Of all the ways, &quot;aaccba&quot; is the lexicographically smallest.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> palindrome = &quot;a&quot;
-<strong>Output:</strong> &quot;&quot;
-<strong>Explanation:</strong> There is no way to replace a single character to make &quot;a&quot; not a palindrome, so return an empty string.
-</pre>
+<strong>输入：</strong>palindrome = "abccba"
+<strong>输出：</strong>"aaccba"
+<strong>解释：</strong>存在多种方法可以使 "abccba" 不是回文，例如 "<em><strong>z</strong></em>bccba", "a<em><strong>a</strong></em>ccba", 和 "ab<em><strong>a</strong></em>cba" 。
+在所有方法中，"aaccba" 的字典序最小。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>palindrome = "a"
+<strong>输出：</strong>""
+<strong>解释：</strong>不存在替换一个字符使 "a" 变成非回文的方法，所以返回空字符串。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= palindrome.length &lt;= 1000</code></li>
-	<li><code>palindrome</code> consists of only lowercase English letters.</li>
+	<li><code>palindrome</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy
+### 方法一：贪心
 
-First, we check if the length of the string is $1$. If it is, we directly return an empty string.
+我们先判断字符串的长度是否为 $1$，若是则直接返回空串。
 
-Otherwise, we traverse the first half of the string from left to right, find the first character that is not `'a'`, and change it to `'a'`. If no such character exists, we change the last character to `'b'`.
+否则，我们从左到右遍历字符串的前半部分，找到第一个不为 `'a'` 的字符，将其改为 `'a'` 即可。如果不存在这样的字符，那么我们将最后一个字符改为 `'b'` 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
 
 <!-- tabs:start -->
 
@@ -92,17 +94,17 @@ class Solution {
         if (n == 1) {
             return "";
         }
-        char[] cs = palindrome.toCharArray();
+        char[] s = palindrome.toCharArray();
         int i = 0;
-        while (i < n / 2 && cs[i] == 'a') {
+        while (i < n / 2 && s[i] == 'a') {
             ++i;
         }
         if (i == n / 2) {
-            cs[n - 1] = 'b';
+            s[n - 1] = 'b';
         } else {
-            cs[i] = 'a';
+            s[i] = 'a';
         }
-        return String.valueOf(cs);
+        return String.valueOf(s);
     }
 }
 ```
@@ -157,21 +159,48 @@ func breakPalindrome(palindrome string) string {
 
 ```ts
 function breakPalindrome(palindrome: string): string {
-  const n = palindrome.length;
-  if (n === 1) {
-    return "";
-  }
-  const s = palindrome.split("");
-  let i = 0;
-  while (i < n >> 1 && s[i] === "a") {
-    i++;
-  }
-  if (i == n >> 1) {
-    s[n - 1] = "b";
-  } else {
-    s[i] = "a";
-  }
-  return s.join("");
+    const n = palindrome.length;
+    if (n === 1) {
+        return '';
+    }
+    const s = palindrome.split('');
+    let i = 0;
+    while (i < n >> 1 && s[i] === 'a') {
+        i++;
+    }
+    if (i == n >> 1) {
+        s[n - 1] = 'b';
+    } else {
+        s[i] = 'a';
+    }
+    return s.join('');
+}
+```
+
+#### Rust
+
+```rust
+impl Solution {
+    pub fn break_palindrome(palindrome: String) -> String {
+        let n = palindrome.len();
+        if n == 1 {
+            return "".to_string();
+        }
+        let mut s: Vec<char> = palindrome.chars().collect();
+        let mut i = 0;
+
+        while i < n / 2 && s[i] == 'a' {
+            i += 1;
+        }
+
+        if i == n / 2 {
+            s[n - 1] = 'b';
+        } else {
+            s[i] = 'a';
+        }
+
+        s.into_iter().collect()
+    }
 }
 ```
 

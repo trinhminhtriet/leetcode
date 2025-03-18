@@ -1,45 +1,47 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1952.Three%20Divisors/README.md
 rating: 1203
-source: Weekly Contest 252 Q1
+source: 第 252 场周赛 Q1
 tags:
-  - Math
-  - Enumeration
-  - Number Theory
+    - 数学
+    - 枚举
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [1952. Three Divisors](https://leetcode.com/problems/three-divisors)
+# [1952. 三除数](https://leetcode.cn/problems/three-divisors)
 
-## Description
+[English Version](/solution/1900-1999/1952.Three%20Divisors/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer <code>n</code>, return <code>true</code><em> if </em><code>n</code><em> has <strong>exactly three positive divisors</strong>. Otherwise, return </em><code>false</code>.</p>
+<p>给你一个整数 <code>n</code> 。如果 <code>n</code> <strong>恰好有三个正除数</strong> ，返回 <code>true</code><em> </em>；否则，返回<em> </em><code>false</code> 。</p>
 
-<p>An integer <code>m</code> is a <strong>divisor</strong> of <code>n</code> if there exists an integer <code>k</code> such that <code>n = k * m</code>.</p>
+<p>如果存在整数 <code>k</code> ，满足 <code>n = k * m</code> ，那么整数 <code>m</code> 就是 <code>n</code> 的一个 <strong>除数</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 2
-<strong>Output:</strong> false
-<strong>Explantion:</strong> 2 has only two divisors: 1 and 2.
-</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><strong>输入：</strong>n = 2
+<strong>输出：</strong>false
+<strong>解释：</strong>2 只有两个除数：1 和 2 。</pre>
 
-<pre>
-<strong>Input:</strong> n = 4
-<strong>Output:</strong> true
-<strong>Explantion:</strong> 4 has three divisors: 1, 2, and 4.
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>n = 4
+<strong>输出：</strong>true
+<strong>解释：</strong>4 有三个除数：1、2 和 4 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -47,11 +49,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：枚举
+
+一个数 $n$ 一定有 $1$ 和 $n$ 两个正除数，因此只需要枚举 $2$ 到 $n-1$ 之间的数，看它们是否是 $n$ 的正除数即可，是则累加计数器，最后判断计数器是否为 $1$ 即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为给定的整数。
 
 <!-- tabs:start -->
 
@@ -116,13 +122,13 @@ func isThree(n int) bool {
  * @return {boolean}
  */
 var isThree = function (n) {
-  let cnt = 0;
-  for (let i = 2; i < n; ++i) {
-    if (n % i == 0) {
-      ++cnt;
+    let cnt = 0;
+    for (let i = 2; i < n; ++i) {
+        if (n % i == 0) {
+            ++cnt;
+        }
     }
-  }
-  return cnt == 1;
+    return cnt == 1;
 };
 ```
 
@@ -132,7 +138,11 @@ var isThree = function (n) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：枚举优化
+
+我们可以枚举 $1$ 到 $\sqrt{n}$ 之间的数 $i$，如果 $n$ 能被 $i$ 整除，并且 $\frac{n}{i}$ 不等于 $i$，那么计数器累加 $2$，否则计数器累加 $1$。最后判断计数器是否为 $3$ 即可。
+
+时间复杂度 $O(\sqrt{n})$，空间复杂度 $O(1)$。其中 $n$ 为给定的整数。
 
 <!-- tabs:start -->
 
@@ -209,13 +219,13 @@ func isThree(n int) bool {
  * @return {boolean}
  */
 var isThree = function (n) {
-  let cnt = 0;
-  for (let i = 1; i <= n / i; ++i) {
-    if (n % i == 0) {
-      cnt += ~~(n / i) == i ? 1 : 2;
+    let cnt = 0;
+    for (let i = 1; i <= n / i; ++i) {
+        if (n % i == 0) {
+            cnt += ~~(n / i) == i ? 1 : 2;
+        }
     }
-  }
-  return cnt == 3;
+    return cnt == 3;
 };
 ```
 

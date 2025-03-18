@@ -1,85 +1,96 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0165.Compare%20Version%20Numbers/README.md
 tags:
-  - Two Pointers
-  - String
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [165. Compare Version Numbers](https://leetcode.com/problems/compare-version-numbers)
+# [165. 比较版本号](https://leetcode.cn/problems/compare-version-numbers)
 
-## Description
+[English Version](/solution/0100-0199/0165.Compare%20Version%20Numbers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two <strong>version strings</strong>, <code>version1</code> and <code>version2</code>, compare them. A version string consists of <strong>revisions</strong> separated by dots <code>&#39;.&#39;</code>. The <strong>value of the revision</strong> is its <strong>integer conversion</strong> ignoring leading zeros.</p>
+<p>给你两个 <strong>版本号字符串</strong>&nbsp;<code>version1</code> 和 <code>version2</code> ，请你比较它们。版本号由被点&nbsp;<code>'.'</code> 分开的修订号组成。<strong>修订号的值</strong> 是它 <strong>转换为整数</strong> 并忽略前导零。</p>
 
-<p>To compare version strings, compare their revision values in <strong>left-to-right order</strong>. If one of the version strings has fewer revisions, treat the missing revision values as <code>0</code>.</p>
+<p>比较版本号时，请按 <strong>从左到右的顺序</strong> 依次比较它们的修订号。如果其中一个版本字符串的修订号较少，则将缺失的修订号视为 <code>0</code>。</p>
 
-<p>Return the following:</p>
+<p>返回规则如下：</p>
 
 <ul>
-	<li>If <code>version1 &lt; version2</code>, return -1.</li>
-	<li>If <code>version1 &gt; version2</code>, return 1.</li>
-	<li>Otherwise, return 0.</li>
+	<li>如果&nbsp;<code><em>version1&nbsp;</em>&lt;&nbsp;<em>version2</em></code> 返回 <code>-1</code>，</li>
+	<li>如果&nbsp;<code><em>version1&nbsp;</em>&gt;&nbsp;<em>version2</em></code>&nbsp;返回&nbsp;<code>1</code>，</li>
+	<li>除此之外返回 <code>0</code>。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">version1 = &quot;1.2&quot;, version2 = &quot;1.10&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">version1 = "1.2", version2 = "1.10"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">-1</span></p>
+<p><strong>输出：</strong><span class="example-io">-1</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>version1&#39;s second revision is &quot;2&quot; and version2&#39;s second revision is &quot;10&quot;: 2 &lt; 10, so version1 &lt; version2.</p>
+<p>version1 的第二个修订号为&nbsp;"2"，version2 的第二个修订号为 "10"：2 &lt; 10，所以 version1 &lt; version2。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">version1 = &quot;1.01&quot;, version2 = &quot;1.001&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">version1 = "1.01", version2 = "1.001"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong><span class="example-io">0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>Ignoring leading zeroes, both &quot;01&quot; and &quot;001&quot; represent the same integer &quot;1&quot;.</p>
+<p>忽略前导零，"01" 和 "001" 都代表相同的整数 "1"。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">version1 = &quot;1.0&quot;, version2 = &quot;1.0.0.0&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">version1 = "1.0", version2 = "1.0.0.0"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong><span class="example-io">0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>version1 has less revisions, which means every missing revision are treated as &quot;0&quot;.</p>
+<p>version1 有更少的修订号，每个缺失的修订号按 "0" 处理。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= version1.length, version2.length &lt;= 500</code></li>
-	<li><code>version1</code> and <code>version2</code>&nbsp;only contain digits and <code>&#39;.&#39;</code>.</li>
-	<li><code>version1</code> and <code>version2</code>&nbsp;<strong>are valid version numbers</strong>.</li>
-	<li>All the given revisions in&nbsp;<code>version1</code> and <code>version2</code>&nbsp;can be stored in&nbsp;a&nbsp;<strong>32-bit integer</strong>.</li>
+	<li><code>version1</code> 和 <code>version2</code> 仅包含数字和 <code>'.'</code></li>
+	<li><code>version1</code> 和 <code>version2</code> 都是 <strong>有效版本号</strong></li>
+	<li><code>version1</code> 和 <code>version2</code> 的所有修订号都可以存储在 <strong>32 位整数</strong> 中</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：双指针
+
+同时遍历两个字符串，用两个指针 $i$ 和 $j$ 分别指向两个字符串的当前位置，初始时 $i = j = 0$。
+
+每次取出两个字符串中对应的修订号，记为 $a$ 和 $b$，比较 $a$ 和 $b$ 的大小，如果 $a \lt b$，则返回 $-1$；如果 $a \gt b$，则返回 $1$；如果 $a = b$，则继续比较下一对修订号。
+
+时间复杂度 $O(\max(m, n))$，空间复杂度 $O(1)$。其中 $m$ 和 $n$ 分别是两个字符串的长度。
 
 <!-- tabs:start -->
 
@@ -181,18 +192,18 @@ func compareVersion(version1 string, version2 string) int {
 
 ```ts
 function compareVersion(version1: string, version2: string): number {
-  const v1 = version1.split(".");
-  const v2 = version2.split(".");
-  for (let i = 0; i < Math.max(v1.length, v2.length); ++i) {
-    const [n1, n2] = [+v1[i] || 0, +v2[i] || 0];
-    if (n1 < n2) {
-      return -1;
+    const v1 = version1.split('.');
+    const v2 = version2.split('.');
+    for (let i = 0; i < Math.max(v1.length, v2.length); ++i) {
+        const [n1, n2] = [+v1[i] || 0, +v2[i] || 0];
+        if (n1 < n2) {
+            return -1;
+        }
+        if (n1 > n2) {
+            return 1;
+        }
     }
-    if (n1 > n2) {
-      return 1;
-    }
-  }
-  return 0;
+    return 0;
 }
 ```
 

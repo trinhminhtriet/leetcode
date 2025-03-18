@@ -1,74 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1146.Snapshot%20Array/README.md
 rating: 1770
-source: Weekly Contest 148 Q3
+source: 第 148 场周赛 Q3
 tags:
-  - Design
-  - Array
-  - Hash Table
-  - Binary Search
+    - 设计
+    - 数组
+    - 哈希表
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [1146. Snapshot Array](https://leetcode.com/problems/snapshot-array)
+# [1146. 快照数组](https://leetcode.cn/problems/snapshot-array)
 
-## Description
+[English Version](/solution/1100-1199/1146.Snapshot%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Implement a SnapshotArray that supports the following interface:</p>
+<p>实现支持下列接口的「快照数组」-&nbsp;SnapshotArray：</p>
 
 <ul>
-	<li><code>SnapshotArray(int length)</code> initializes an array-like data structure with the given length. <strong>Initially, each element equals 0</strong>.</li>
-	<li><code>void set(index, val)</code> sets the element at the given <code>index</code> to be equal to <code>val</code>.</li>
-	<li><code>int snap()</code> takes a snapshot of the array and returns the <code>snap_id</code>: the total number of times we called <code>snap()</code> minus <code>1</code>.</li>
-	<li><code>int get(index, snap_id)</code> returns the value at the given <code>index</code>, at the time we took the snapshot with the given <code>snap_id</code></li>
+	<li><code>SnapshotArray(int length)</code>&nbsp;- 初始化一个与指定长度相等的 类数组 的数据结构。<strong>初始时，每个元素都等于</strong><strong>&nbsp;0</strong>。</li>
+	<li><code>void set(index, val)</code>&nbsp;- 会将指定索引&nbsp;<code>index</code>&nbsp;处的元素设置为&nbsp;<code>val</code>。</li>
+	<li><code>int snap()</code>&nbsp;- 获取该数组的快照，并返回快照的编号&nbsp;<code>snap_id</code>（快照号是调用&nbsp;<code>snap()</code>&nbsp;的总次数减去&nbsp;<code>1</code>）。</li>
+	<li><code>int get(index, snap_id)</code>&nbsp;- 根据指定的&nbsp;<code>snap_id</code>&nbsp;选择快照，并返回该快照指定索引 <code>index</code>&nbsp;的值。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> [&quot;SnapshotArray&quot;,&quot;set&quot;,&quot;snap&quot;,&quot;set&quot;,&quot;get&quot;]
-[[3],[0,5],[],[0,6],[0,0]]
-<strong>Output:</strong> [null,null,0,null,5]
-<strong>Explanation: </strong>
-SnapshotArray snapshotArr = new SnapshotArray(3); // set the length to be 3
-snapshotArr.set(0,5);  // Set array[0] = 5
-snapshotArr.snap();  // Take a snapshot, return snap_id = 0
+<p><strong>示例：</strong></p>
+
+<pre><strong>输入：</strong>[&quot;SnapshotArray&quot;,&quot;set&quot;,&quot;snap&quot;,&quot;set&quot;,&quot;get&quot;]
+     [[3],[0,5],[],[0,6],[0,0]]
+<strong>输出：</strong>[null,null,0,null,5]
+<strong>解释：
+</strong>SnapshotArray snapshotArr = new SnapshotArray(3); // 初始化一个长度为 3 的快照数组
+snapshotArr.set(0,5);  // 令 array[0] = 5
+snapshotArr.snap();  // 获取快照，返回 snap_id = 0
 snapshotArr.set(0,6);
-snapshotArr.get(0,0);  // Get the value of array[0] with snap_id = 0, return 5</pre>
+snapshotArr.get(0,0);  // 获取 snap_id = 0 的快照中 array[0] 的值，返回 5</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= length &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>0 &lt;= index &lt; length</code></li>
-	<li><code>0 &lt;= val &lt;= 10<sup>9</sup></code></li>
-	<li><code>0 &lt;= snap_id &lt; </code>(the total number of times we call <code>snap()</code>)</li>
-	<li>At most <code>5 * 10<sup>4</sup></code> calls will be made to <code>set</code>, <code>snap</code>, and <code>get</code>.</li>
+	<li><code>1 &lt;= length&nbsp;&lt;= 50000</code></li>
+	<li>题目最多进行<code>50000</code> 次<code>set</code>，<code>snap</code>，和&nbsp;<code>get</code>的调用 。</li>
+	<li><code>0 &lt;= index&nbsp;&lt;&nbsp;length</code></li>
+	<li><code>0 &lt;=&nbsp;snap_id &lt;&nbsp;</code>我们调用&nbsp;<code>snap()</code>&nbsp;的总次数</li>
+	<li><code>0 &lt;=&nbsp;val &lt;= 10^9</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Array + Binary Search
+### 方法一：数组 + 二分查找
 
-We maintain an array of length `length`. Each element in the array is a list, which is used to store the value set each time and the corresponding snapshot ID.
+我们维护一个长度为 $\textit{length}$ 的数组，数组中的每个元素是一个列表，用来存储每次设置的值以及对应的快照 ID。
 
-When the `set` method is called, we add the value and snapshot ID to the list at the corresponding index. The time complexity is $O(1)$.
+调用 `set` 方法时，将值和快照 ID 添加到对应索引的列表中。时间复杂度 $O(1)$。
 
-When the `snap` method is called, we first increment the snapshot ID, then return the snapshot ID minus one. The time complexity is $O(1)$.
+调用 `snap` 方法时，我们先将快照 ID 加一，然后返回快照 ID 减一。时间复杂度 $O(1)$。
 
-When the `get` method is called, we use binary search to find the first snapshot ID greater than `snap_id` at the corresponding position, and then return the previous value. If it cannot be found, return 0. The time complexity is $O(\log n)$.
+调用 `get` 方法时，我们使用二分查找找到对应位置的第一个快照 ID 大于 `snap_id` 的值，然后返回前一个的值。如果找不到，则返回 0。时间复杂度 $O(\log n)$。
 
-The space complexity is $O(n)$.
+空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -222,33 +226,33 @@ func (this *SnapshotArray) Get(index int, snap_id int) int {
 
 ```ts
 class SnapshotArray {
-  private arr: [number, number][][];
-  private i: number = 0;
-  constructor(length: number) {
-    this.arr = Array.from({ length }, () => []);
-  }
-
-  set(index: number, val: number): void {
-    this.arr[index].push([this.i, val]);
-  }
-
-  snap(): number {
-    return this.i++;
-  }
-
-  get(index: number, snap_id: number): number {
-    let [l, r] = [0, this.arr[index].length];
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (this.arr[index][mid][0] > snap_id) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
+    private arr: [number, number][][];
+    private i: number = 0;
+    constructor(length: number) {
+        this.arr = Array.from({ length }, () => []);
     }
-    --l;
-    return l < 0 ? 0 : this.arr[index][l][1];
-  }
+
+    set(index: number, val: number): void {
+        this.arr[index].push([this.i, val]);
+    }
+
+    snap(): number {
+        return this.i++;
+    }
+
+    get(index: number, snap_id: number): number {
+        let [l, r] = [0, this.arr[index].length];
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (this.arr[index][mid][0] > snap_id) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        --l;
+        return l < 0 ? 0 : this.arr[index][l][1];
+    }
 }
 
 /**

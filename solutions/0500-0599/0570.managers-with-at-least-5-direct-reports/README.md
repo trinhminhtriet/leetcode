@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0570.Managers%20with%20at%20Least%205%20Direct%20Reports/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [570. Managers with at Least 5 Direct Reports](https://leetcode.com/problems/managers-with-at-least-5-direct-reports)
+# [570. 至少有5名直接下属的经理](https://leetcode.cn/problems/managers-with-at-least-5-direct-reports)
 
-## Description
+[English Version](/solution/0500-0599/0570.Managers%20with%20at%20Least%205%20Direct%20Reports/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Employee</code></p>
+<p>表:&nbsp;<code>Employee</code></p>
 
 <pre>
 +-------------+---------+
@@ -24,53 +27,53 @@ tags:
 | department  | varchar |
 | managerId   | int     |
 +-------------+---------+
-id is the primary key (column with unique values) for this table.
-Each row of this table indicates the name of an employee, their department, and the id of their manager.
-If managerId is null, then the employee does not have a manager.
-No employee will be the manager of themself.
+id 是此表的主键（具有唯一值的列）。
+该表的每一行表示雇员的名字、他们的部门和他们的经理的id。
+如果managerId为空，则该员工没有经理。
+没有员工会成为自己的管理者。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to find managers with at least <strong>five direct reports</strong>.</p>
+<p>编写一个解决方案，找出至少有<strong>五个直接下属</strong>的经理。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
+<p>以 <strong>任意顺序 </strong>返回结果表。</p>
 
-<p>The result format is in the following example.</p>
+<p>查询结果格式如下所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Employee table:
+<strong>输入:</strong> 
+Employee 表:
 +-----+-------+------------+-----------+
 | id  | name  | department | managerId |
 +-----+-------+------------+-----------+
-| 101 | John  | A          | null      |
+| 101 | John  | A          | Null      |
 | 102 | Dan   | A          | 101       |
 | 103 | James | A          | 101       |
 | 104 | Amy   | A          | 101       |
 | 105 | Anne  | A          | 101       |
 | 106 | Ron   | B          | 101       |
 +-----+-------+------------+-----------+
-<strong>Output:</strong> 
+<strong>输出:</strong> 
 +------+
 | name |
 +------+
 | John |
-+------+
-</pre>
++------+</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Grouping and Joining
+### 方法一：分组统计 + 连接
 
-We can first count the number of direct subordinates for each manager, and then join the `Employee` table to find the managers whose number of direct subordinates is greater than or equal to $5$.
+我们可以先统计每个经理的直接下属人数，然后再连接 `Employee` 表，找出直接下属人数大于等于 $5$ 的经理。
 
 <!-- tabs:start -->
 

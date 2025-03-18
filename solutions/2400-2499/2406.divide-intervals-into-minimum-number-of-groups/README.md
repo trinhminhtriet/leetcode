@@ -1,56 +1,60 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2406.Divide%20Intervals%20Into%20Minimum%20Number%20of%20Groups/README.md
 rating: 1713
-source: Weekly Contest 310 Q3
+source: 第 310 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Two Pointers
-  - Prefix Sum
-  - Sorting
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 双指针
+    - 前缀和
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2406. Divide Intervals Into Minimum Number of Groups](https://leetcode.com/problems/divide-intervals-into-minimum-number-of-groups)
+# [2406. 将区间分为最少组数](https://leetcode.cn/problems/divide-intervals-into-minimum-number-of-groups)
 
-## Description
+[English Version](/solution/2400-2499/2406.Divide%20Intervals%20Into%20Minimum%20Number%20of%20Groups/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D integer array <code>intervals</code> where <code>intervals[i] = [left<sub>i</sub>, right<sub>i</sub>]</code> represents the <strong>inclusive</strong> interval <code>[left<sub>i</sub>, right<sub>i</sub>]</code>.</p>
+<p>给你一个二维整数数组&nbsp;<code>intervals</code>&nbsp;，其中&nbsp;<code>intervals[i] = [left<sub>i</sub>, right<sub>i</sub>]</code>&nbsp;表示 <strong>闭</strong>&nbsp;区间&nbsp;<code>[left<sub>i</sub>, right<sub>i</sub>]</code>&nbsp;。</p>
 
-<p>You have to divide the intervals into one or more <strong>groups</strong> such that each interval is in <strong>exactly</strong> one group, and no two intervals that are in the same group <strong>intersect</strong> each other.</p>
+<p>你需要将&nbsp;<code>intervals</code> 划分为一个或者多个区间&nbsp;<strong>组</strong>&nbsp;，每个区间 <b>只</b>&nbsp;属于一个组，且同一个组中任意两个区间 <strong>不相交</strong>&nbsp;。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of groups you need to make</em>.</p>
+<p>请你返回 <strong>最少</strong>&nbsp;需要划分成多少个组。</p>
 
-<p>Two intervals <strong>intersect</strong> if there is at least one common number between them. For example, the intervals <code>[1, 5]</code> and <code>[5, 8]</code> intersect.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> intervals = [[5,10],[6,8],[1,5],[2,3],[1,10]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We can divide the intervals into the following groups:
-- Group 1: [1, 5], [6, 8].
-- Group 2: [2, 3], [5, 10].
-- Group 3: [1, 10].
-It can be proven that it is not possible to divide the intervals into fewer than 3 groups.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> intervals = [[1,3],[5,6],[8,10],[11,13]]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> None of the intervals overlap, so we can put all of them in one group.
-</pre>
+<p>如果两个区间覆盖的范围有重叠（即至少有一个公共数字），那么我们称这两个区间是 <strong>相交</strong>&nbsp;的。比方说区间&nbsp;<code>[1, 5]</code> 和&nbsp;<code>[5, 8]</code>&nbsp;相交。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>intervals = [[5,10],[6,8],[1,5],[2,3],[1,10]]
+<b>输出：</b>3
+<b>解释：</b>我们可以将区间划分为如下的区间组：
+- 第 1 组：[1, 5] ，[6, 8] 。
+- 第 2 组：[2, 3] ，[5, 10] 。
+- 第 3 组：[1, 10] 。
+可以证明无法将区间划分为少于 3 个组。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>intervals = [[1,3],[5,6],[8,10],[11,13]]
+<b>输出：</b>1
+<b>解释：</b>所有区间互不相交，所以我们可以把它们全部放在一个组内。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= intervals.length &lt;= 10<sup>5</sup></code></li>
@@ -60,20 +64,20 @@ It can be proven that it is not possible to divide the intervals into fewer than
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Priority Queue (Min Heap)
+### 方法一：贪心 + 优先队列（小根堆）
 
-First, we sort the intervals by their left endpoints. We use a min heap to maintain the rightmost endpoint of each group (the top of the heap is the minimum of the rightmost endpoints of all groups).
+我们先将区间按左端点排序，用小根堆维护每组的最右端点（堆顶是所有组的最右端点的最小值）。
 
-Next, we traverse each interval:
+接下来，我们遍历每个区间：
 
-- If the left endpoint of the current interval is greater than the top element of the heap, it means the current interval can be added to the group where the top element of the heap is located. We directly pop the top element of the heap, and then put the right endpoint of the current interval into the heap.
-- Otherwise, it means there is currently no group that can accommodate the current interval, so we create a new group and put the right endpoint of the current interval into the heap.
+-   若当前区间左端点大于堆顶元素，说明当前区间可以加入到堆顶元素所在的组中，我们直接弹出堆顶元素，然后将当前区间的右端点放入堆中；
+-   否则，说明当前没有组能容纳当前区间，那么我们就新建一个组，将当前区间的右端点放入堆中。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array `intervals`.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `intervals` 的长度。
 
 <!-- tabs:start -->
 
@@ -157,15 +161,15 @@ func (h *hp) Pop() any {
 
 ```ts
 function minGroups(intervals: number[][]): number {
-  intervals.sort((a, b) => a[0] - b[0]);
-  const q = new PriorityQueue({ compare: (a, b) => a - b });
-  for (const [left, right] of intervals) {
-    if (!q.isEmpty() && q.front() < left) {
-      q.dequeue();
+    intervals.sort((a, b) => a[0] - b[0]);
+    const q = new PriorityQueue({ compare: (a, b) => a - b });
+    for (const [left, right] of intervals) {
+        if (!q.isEmpty() && q.front() < left) {
+            q.dequeue();
+        }
+        q.enqueue(right);
     }
-    q.enqueue(right);
-  }
-  return q.size();
+    return q.size();
 }
 ```
 

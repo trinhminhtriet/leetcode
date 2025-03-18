@@ -1,66 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0658.Find%20K%20Closest%20Elements/README.md
 tags:
-  - Array
-  - Two Pointers
-  - Binary Search
-  - Sorting
-  - Sliding Window
-  - Heap (Priority Queue)
+    - 数组
+    - 双指针
+    - 二分查找
+    - 排序
+    - 滑动窗口
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [658. Find K Closest Elements](https://leetcode.com/problems/find-k-closest-elements)
+# [658. 找到 K 个最接近的元素](https://leetcode.cn/problems/find-k-closest-elements)
 
-## Description
+[English Version](/solution/0600-0699/0658.Find%20K%20Closest%20Elements/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <strong>sorted</strong> integer array <code>arr</code>, two integers <code>k</code> and <code>x</code>, return the <code>k</code> closest integers to <code>x</code> in the array. The result should also be sorted in ascending order.</p>
+<p>给定一个 <strong>排序好</strong> 的数组&nbsp;<code>arr</code> ，两个整数 <code>k</code> 和 <code>x</code> ，从数组中找到最靠近 <code>x</code>（两数之差最小）的 <code>k</code> 个数。返回的结果必须要是按升序排好的。</p>
 
-<p>An integer <code>a</code> is closer to <code>x</code> than an integer <code>b</code> if:</p>
+<p>整数 <code>a</code> 比整数 <code>b</code> 更接近 <code>x</code> 需要满足：</p>
 
 <ul>
-	<li><code>|a - x| &lt; |b - x|</code>, or</li>
-	<li><code>|a - x| == |b - x|</code> and <code>a &lt; b</code></li>
+	<li><code>|a - x| &lt; |b - x|</code> 或者</li>
+	<li><code>|a - x| == |b - x|</code> 且 <code>a &lt; b</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">arr = [1,2,3,4,5], k = 4, x = 3</span></p>
+<p><strong>示例 1：</strong></p>
 
-<p><strong>Output:</strong> <span class="example-io">[1,2,3,4]</span></p>
-</div>
+<pre>
+<strong>输入：</strong>arr = [1,2,3,4,5], k = 4, x = 3
+<strong>输出：</strong>[1,2,3,4]
+</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">arr = [1,1,2,3,4,5], k = 4, x = -1</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[1,1,2,3]</span></p>
-</div>
+<pre>
+<strong>输入：</strong>arr = [1,1,2,3,4,5], k = 4, x = -1
+<strong>输出：</strong>[1,1,2,3]
+</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= arr.length</code></li>
-	<li><code>1 &lt;= arr.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>arr</code> is sorted in <strong>ascending</strong> order.</li>
-	<li><code>-10<sup>4</sup> &lt;= arr[i], x &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= arr.length&nbsp;&lt;= 10<sup>4</sup></code><meta charset="UTF-8" /></li>
+	<li><code>arr</code>&nbsp;按 <strong>升序</strong> 排列</li>
+	<li><code>-10<sup>4</sup>&nbsp;&lt;= arr[i], x &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sort
+### 方法一：排序
+
+将 $arr$ 中的所有元素按照与 $x$ 的距离从小到大进行排列。取前 $k$ 个元素排序后返回。
+
+时间复杂度 $O(nlogn)$。
 
 <!-- tabs:start -->
 
@@ -142,16 +149,16 @@ func abs(x int) int {
 
 ```ts
 function findClosestElements(arr: number[], k: number, x: number): number[] {
-  let l = 0;
-  let r = arr.length;
-  while (r - l > k) {
-    if (x - arr[l] <= arr[r - 1] - x) {
-      --r;
-    } else {
-      ++l;
+    let l = 0;
+    let r = arr.length;
+    while (r - l > k) {
+        if (x - arr[l] <= arr[r - 1] - x) {
+            --r;
+        } else {
+            ++l;
+        }
     }
-  }
-  return arr.slice(l, r);
+    return arr.slice(l, r);
 }
 ```
 
@@ -181,7 +188,13 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Binary search
+### 方法二：双指针
+
+直觉上，有序数组 $arr$ 最靠近 $x$ 的 $k$ 个数必然是一段连续的子数组。
+
+我们可以声明头尾指针，记为 $l$ 和 $r$，然后根据 $x-arr[l]$ 与 $arr[r-1] - x$ 的大小比较结果缩小范围，直到 $r - l = k$。
+
+时间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -260,17 +273,17 @@ func findClosestElements(arr []int, k int, x int) []int {
 
 ```ts
 function findClosestElements(arr: number[], k: number, x: number): number[] {
-  let left = 0;
-  let right = arr.length - k;
-  while (left < right) {
-    const mid = (left + right) >> 1;
-    if (x - arr[mid] <= arr[mid + k] - x) {
-      right = mid;
-    } else {
-      left = mid + 1;
+    let left = 0;
+    let right = arr.length - k;
+    while (left < right) {
+        const mid = (left + right) >> 1;
+        if (x - arr[mid] <= arr[mid + k] - x) {
+            right = mid;
+        } else {
+            left = mid + 1;
+        }
     }
-  }
-  return arr.slice(left, left + k);
+    return arr.slice(left, left + k);
 }
 ```
 
@@ -302,7 +315,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 3
+### 方法三：二分查找
+
+在方法二的基础上，我们更进一步，查找大小为 $k$ 的窗口的左边界。
+
+时间复杂度 $O(logn)$。
 
 <!-- tabs:start -->
 

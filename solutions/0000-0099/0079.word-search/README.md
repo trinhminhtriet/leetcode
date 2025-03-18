@@ -1,80 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0079.Word%20Search/README.md
 tags:
-  - Array
-  - String
-  - Backtracking
-  - Matrix
+    - 深度优先搜索
+    - 数组
+    - 字符串
+    - 回溯
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [79. Word Search](https://leetcode.com/problems/word-search)
+# [79. 单词搜索](https://leetcode.cn/problems/word-search)
 
-## Description
+[English Version](/solution/0000-0099/0079.Word%20Search/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an <code>m x n</code> grid of characters <code>board</code> and a string <code>word</code>, return <code>true</code> <em>if</em> <code>word</code> <em>exists in the grid</em>.</p>
+<p>给定一个 <code>m x n</code> 二维字符网格 <code>board</code> 和一个字符串单词 <code>word</code> 。如果 <code>word</code> 存在于网格中，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
-<p>The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.</p>
+<p>单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0079.Word%20Search/images/word2.jpg" style="width: 322px; height: 242px;" />
 <pre>
-<strong>Input:</strong> board = [[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]], word = &quot;ABCCED&quot;
-<strong>Output:</strong> true
+<strong>输入：</strong>board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+<strong>输出：</strong>true
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0079.Word%20Search/images/word-1.jpg" style="width: 322px; height: 242px;" />
 <pre>
-<strong>Input:</strong> board = [[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]], word = &quot;SEE&quot;
-<strong>Output:</strong> true
+<strong>输入：</strong>board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+<strong>输出：</strong>true
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0079.Word%20Search/images/word3.jpg" style="width: 322px; height: 242px;" />
 <pre>
-<strong>Input:</strong> board = [[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]], word = &quot;ABCB&quot;
-<strong>Output:</strong> false
+<strong>输入：</strong>board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+<strong>输出：</strong>false
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == board.length</code></li>
 	<li><code>n = board[i].length</code></li>
-	<li><code>1 &lt;= m, n &lt;= 6</code></li>
-	<li><code>1 &lt;= word.length &lt;= 15</code></li>
-	<li><code>board</code> and <code>word</code> consists of only lowercase and uppercase English letters.</li>
+	<li><code>1 <= m, n <= 6</code></li>
+	<li><code>1 <= word.length <= 15</code></li>
+	<li><code>board</code> 和 <code>word</code> 仅由大小写英文字母组成</li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong>Follow up:</strong> Could you use search pruning to make your solution faster with a larger <code>board</code>?</p>
+<p> </p>
+
+<p><strong>进阶：</strong>你可以使用搜索剪枝的技术来优化解决方案，使其在 <code>board</code> 更大的情况下可以更快解决问题？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS (Backtracking)
+### 方法一：DFS(回溯)
 
-We can enumerate each position $(i, j)$ in the grid as the starting point of the search, and then start a depth-first search from the starting point. If we can search to the end of the word, it means the word exists, otherwise, it means the word does not exist.
+我们可以枚举网格的每一个位置 $(i, j)$ 作为搜索的起点，然后从起点开始进行深度优先搜索，如果可以搜索到单词的末尾，就说明单词存在，否则说明单词不存在。
 
-Therefore, we design a function $dfs(i, j, k)$, which represents whether we can successfully search from the $(i, j)$ position of the grid, starting from the $k$th character of the word. The execution steps of the function $dfs(i, j, k)$ are as follows:
+因此，我们设计一个函数 $dfs(i, j, k)$，表示从网格的 $(i, j)$ 位置出发，且从单词的第 $k$ 个字符开始搜索，是否能够搜索成功。函数 $dfs(i, j, k)$ 的执行步骤如下：
 
-- If $k = |word|-1$, it means that we have searched to the last character of the word. At this time, we only need to judge whether the character at the $(i, j)$ position of the grid is equal to $word[k]$. If they are equal, it means the word exists, otherwise, it means the word does not exist. Whether the word exists or not, there is no need to continue to search, so return the result directly.
-- Otherwise, if the $word[k]$ character is not equal to the character at the $(i, j)$ position of the grid, it means that the search failed this time, so return `false` directly.
-- Otherwise, we temporarily store the character at the $(i, j)$ position of the grid in $c$, and then modify the character at this position to a special character `'0'`, indicating that the character at this position has been used to prevent it from being reused in subsequent searches. Then we start from the up, down, left, and right directions of the $(i, j)$ position to search for the $k+1$th character in the grid. If any direction is successful, it means the search is successful, otherwise, it means the search failed. At this time, we need to restore the character at the $(i, j)$ position of the grid, that is, put $c$ back to the $(i, j)$ position (backtracking).
+-   如果 $k = |word|-1$，说明已经搜索到单词的最后一个字符，此时只需要判断网格 $(i, j)$ 位置的字符是否等于 $word[k]$，如果相等则说明单词存在，否则说明单词不存在。无论单词是否存在，都无需继续往下搜索，因此直接返回结果。
+-   否则，如果 $word[k]$ 字符不等于网格 $(i, j)$ 位置的字符，说明本次搜索失败，直接返回 `false`。
+-   否则，我们将网格 $(i, j)$ 位置的字符暂存于 $c$ 中，然后将此位置的字符修改为一个特殊字符 `'0'`，代表此位置的字符已经被使用过，防止之后搜索时重复使用。然后我们从 $(i, j)$ 位置的上、下、左、右四个方向分别出发，去搜索网格中第 $k+1$ 个字符，如果四个方向有任何一个方向搜索成功，就说明搜索成功，否则说明搜索失败，此时我们需要还原网格 $(i, j)$ 位置的字符，即把 $c$ 放回网格 $(i, j)$ 位置（回溯）。
 
-In the main function, we enumerate each position $(i, j)$ in the grid as the starting point. If calling $dfs(i, j, 0)$ returns `true`, it means the word exists, otherwise, it means the word does not exist, so return `false`.
+在主函数中，我们枚举网格中的每一个位置 $(i, j)$ 作为起点，如果调用 $dfs(i, j, 0)$ 返回 `true`，就说明单词存在，否则说明单词不存在，返回 `false`。
 
-The time complexity is $O(m \times n \times 3^k)$, and the space complexity is $O(\min(m \times n, k))$. Here, $m$ and $n$ are the number of rows and columns of the grid, respectively; and $k$ is the length of the string $word$.
+时间复杂度 $O(m \times n \times 3^k)$，空间复杂度 $O(\min(m \times n, k))$。其中 $m$ 和 $n$ 分别是网格的行数和列数；而 $k$ 是字符串 $word$ 的长度。
 
 <!-- tabs:start -->
 
@@ -226,35 +233,35 @@ func exist(board [][]byte, word string) bool {
 
 ```ts
 function exist(board: string[][], word: string): boolean {
-  const [m, n] = [board.length, board[0].length];
-  const dirs = [-1, 0, 1, 0, -1];
-  const dfs = (i: number, j: number, k: number): boolean => {
-    if (k === word.length - 1) {
-      return board[i][j] === word[k];
+    const [m, n] = [board.length, board[0].length];
+    const dirs = [-1, 0, 1, 0, -1];
+    const dfs = (i: number, j: number, k: number): boolean => {
+        if (k === word.length - 1) {
+            return board[i][j] === word[k];
+        }
+        if (board[i][j] !== word[k]) {
+            return false;
+        }
+        const c = board[i][j];
+        board[i][j] = '0';
+        for (let u = 0; u < 4; ++u) {
+            const [x, y] = [i + dirs[u], j + dirs[u + 1]];
+            const ok = x >= 0 && x < m && y >= 0 && y < n;
+            if (ok && board[x][y] !== '0' && dfs(x, y, k + 1)) {
+                return true;
+            }
+        }
+        board[i][j] = c;
+        return false;
+    };
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (dfs(i, j, 0)) {
+                return true;
+            }
+        }
     }
-    if (board[i][j] !== word[k]) {
-      return false;
-    }
-    const c = board[i][j];
-    board[i][j] = "0";
-    for (let u = 0; u < 4; ++u) {
-      const [x, y] = [i + dirs[u], j + dirs[u + 1]];
-      const ok = x >= 0 && x < m && y >= 0 && y < n;
-      if (ok && board[x][y] !== "0" && dfs(x, y, k + 1)) {
-        return true;
-      }
-    }
-    board[i][j] = c;
     return false;
-  };
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (dfs(i, j, 0)) {
-        return true;
-      }
-    }
-  }
-  return false;
 }
 ```
 
@@ -262,35 +269,35 @@ function exist(board: string[][], word: string): boolean {
 
 ```js
 function exist(board, word) {
-  const [m, n] = [board.length, board[0].length];
-  const dirs = [-1, 0, 1, 0, -1];
-  const dfs = (i, j, k) => {
-    if (k === word.length - 1) {
-      return board[i][j] === word[k];
+    const [m, n] = [board.length, board[0].length];
+    const dirs = [-1, 0, 1, 0, -1];
+    const dfs = (i, j, k) => {
+        if (k === word.length - 1) {
+            return board[i][j] === word[k];
+        }
+        if (board[i][j] !== word[k]) {
+            return false;
+        }
+        const c = board[i][j];
+        board[i][j] = '0';
+        for (let u = 0; u < 4; ++u) {
+            const [x, y] = [i + dirs[u], j + dirs[u + 1]];
+            const ok = x >= 0 && x < m && y >= 0 && y < n;
+            if (ok && board[x][y] !== '0' && dfs(x, y, k + 1)) {
+                return true;
+            }
+        }
+        board[i][j] = c;
+        return false;
+    };
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (dfs(i, j, 0)) {
+                return true;
+            }
+        }
     }
-    if (board[i][j] !== word[k]) {
-      return false;
-    }
-    const c = board[i][j];
-    board[i][j] = "0";
-    for (let u = 0; u < 4; ++u) {
-      const [x, y] = [i + dirs[u], j + dirs[u + 1]];
-      const ok = x >= 0 && x < m && y >= 0 && y < n;
-      if (ok && board[x][y] !== "0" && dfs(x, y, k + 1)) {
-        return true;
-      }
-    }
-    board[i][j] = c;
     return false;
-  };
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (dfs(i, j, 0)) {
-        return true;
-      }
-    }
-  }
-  return false;
 }
 ```
 

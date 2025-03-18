@@ -1,81 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0994.Rotting%20Oranges/README.md
 tags:
-  - Breadth-First Search
-  - Array
-  - Matrix
+    - 广度优先搜索
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [994. Rotting Oranges](https://leetcode.com/problems/rotting-oranges)
+# [994. 腐烂的橘子](https://leetcode.cn/problems/rotting-oranges)
 
-## Description
+[English Version](/solution/0900-0999/0994.Rotting%20Oranges/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> <code>grid</code> where each cell can have one of three values:</p>
+<p>在给定的&nbsp;<code>m x n</code>&nbsp;网格<meta charset="UTF-8" />&nbsp;<code>grid</code>&nbsp;中，每个单元格可以有以下三个值之一：</p>
 
 <ul>
-	<li><code>0</code> representing an empty cell,</li>
-	<li><code>1</code> representing a fresh orange, or</li>
-	<li><code>2</code> representing a rotten orange.</li>
+	<li>值&nbsp;<code>0</code>&nbsp;代表空单元格；</li>
+	<li>值&nbsp;<code>1</code>&nbsp;代表新鲜橘子；</li>
+	<li>值&nbsp;<code>2</code>&nbsp;代表腐烂的橘子。</li>
 </ul>
 
-<p>Every minute, any fresh orange that is <strong>4-directionally adjacent</strong> to a rotten orange becomes rotten.</p>
+<p>每分钟，腐烂的橘子&nbsp;<strong>周围&nbsp;4 个方向上相邻</strong> 的新鲜橘子都会腐烂。</p>
 
-<p>Return <em>the minimum number of minutes that must elapse until no cell has a fresh orange</em>. If <em>this is impossible, return</em> <code>-1</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0994.Rotting%20Oranges/images/oranges.png" style="width: 650px; height: 137px;" />
-<pre>
-<strong>Input:</strong> grid = [[2,1,1],[1,1,0],[0,1,1]]
-<strong>Output:</strong> 4
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> grid = [[2,1,1],[0,1,1],[1,0,1]]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> The orange in the bottom left corner (row 2, column 0) is never rotten, because rotting only happens 4-directionally.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> grid = [[0,2]]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Since there are already no fresh oranges at minute 0, the answer is just 0.
-</pre>
+<p>返回 <em>直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回&nbsp;<code>-1</code></em>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0994.Rotting%20Oranges/images/oranges.png" style="height: 137px; width: 650px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>grid = [[2,1,1],[1,1,0],[0,1,1]]
+<strong>输出：</strong>4
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>grid = [[2,1,1],[0,1,1],[1,0,1]]
+<strong>输出：</strong>-1
+<strong>解释：</strong>左下角的橘子（第 2 行， 第 0 列）永远不会腐烂，因为腐烂只会发生在 4 个方向上。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>grid = [[0,2]]
+<strong>输出：</strong>0
+<strong>解释：</strong>因为 0 分钟时已经没有新鲜橘子了，所以答案就是 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 10</code></li>
-	<li><code>grid[i][j]</code> is <code>0</code>, <code>1</code>, or <code>2</code>.</li>
+	<li><code>grid[i][j]</code> 仅为&nbsp;<code>0</code>、<code>1</code>&nbsp;或&nbsp;<code>2</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-First, we traverse the entire grid once, count the number of fresh oranges, denoted as $\textit{cnt}$, and add the coordinates of all rotten oranges to the queue $q$.
+我们首先遍历一遍整个网格，统计出新鲜橘子的数量，记为 $\textit{cnt}$，并且将所有腐烂的橘子的坐标加入队列 $q$ 中。
 
-Next, we perform a breadth-first search. In each round of the search, we let all the rotten oranges in the queue rot the fresh oranges in four directions, until the queue is empty or the number of fresh oranges is $0$.
+接下来，我们进行广度优先搜索，每一轮搜索，我们将队列中的所有腐烂的橘子向四个方向腐烂新鲜橘子，直到队列为空或者新鲜橘子的数量为 $0$ 为止。
 
-Finally, if the number of fresh oranges is $0$, we return the current round number, otherwise, we return $-1$.
+最后，如果新鲜橘子的数量为 $0$，则返回当前的轮数，否则返回 $-1$。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows and columns of the grid, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
 
 <!-- tabs:start -->
 
@@ -85,16 +92,16 @@ The time complexity is $O(m \times n)$, and the space complexity is $O(m \times 
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
-        q = deque()
         cnt = 0
+        q = deque()
         for i, row in enumerate(grid):
             for j, x in enumerate(row):
-                if x == 1:
-                    cnt += 1
-                elif x == 2:
+                if x == 2:
                     q.append((i, j))
-        dirs = (-1, 0, 1, 0, -1)
+                elif x == 1:
+                    cnt += 1
         ans = 0
+        dirs = (-1, 0, 1, 0, -1)
         while q and cnt:
             ans += 1
             for _ in range(len(q)):
@@ -105,7 +112,9 @@ class Solution:
                         grid[x][y] = 2
                         q.append((x, y))
                         cnt -= 1
-        return -1 if cnt > 0 else ans
+                        if cnt == 0:
+                            return ans
+        return -1 if cnt else 0
 ```
 
 #### Java
@@ -126,8 +135,7 @@ class Solution {
             }
         }
         final int[] dirs = {-1, 0, 1, 0, -1};
-        int ans = 0;
-        for (; !q.isEmpty() && cnt > 0; ++ans) {
+        for (int ans = 1; !q.isEmpty() && cnt > 0; ++ans) {
             for (int k = q.size(); k > 0; --k) {
                 var p = q.poll();
                 for (int d = 0; d < 4; ++d) {
@@ -135,12 +143,14 @@ class Solution {
                     if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
                         grid[x][y] = 2;
                         q.offer(new int[] {x, y});
-                        --cnt;
+                        if (--cnt == 0) {
+                            return ans;
+                        }
                     }
                 }
             }
         }
-        return cnt > 0 ? -1 : ans;
+        return cnt > 0 ? -1 : 0;
     }
 }
 ```
@@ -163,9 +173,8 @@ public:
                 }
             }
         }
-        int ans = 0;
         const int dirs[5] = {-1, 0, 1, 0, -1};
-        for (; q.size() && cnt; ++ans) {
+        for (int ans = 1; q.size() && cnt; ++ans) {
             for (int k = q.size(); k; --k) {
                 auto [i, j] = q.front();
                 q.pop();
@@ -174,12 +183,14 @@ public:
                     if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
                         grid[x][y] = 2;
                         q.emplace(x, y);
-                        --cnt;
+                        if (--cnt == 0) {
+                            return ans;
+                        }
                     }
                 }
             }
         }
-        return cnt > 0 ? -1 : ans;
+        return cnt > 0 ? -1 : 0;
     }
 };
 ```
@@ -187,7 +198,7 @@ public:
 #### Go
 
 ```go
-func orangesRotting(grid [][]int) (ans int) {
+func orangesRotting(grid [][]int) int {
 	m, n := len(grid), len(grid[0])
 	q := [][2]int{}
 	cnt := 0
@@ -201,7 +212,7 @@ func orangesRotting(grid [][]int) (ans int) {
 		}
 	}
 	dirs := [5]int{-1, 0, 1, 0, -1}
-	for ; len(q) > 0 && cnt > 0; ans++ {
+	for ans := 1; len(q) > 0 && cnt > 0; ans++ {
 		for k := len(q); k > 0; k-- {
 			p := q[0]
 			q = q[1:]
@@ -210,7 +221,9 @@ func orangesRotting(grid [][]int) (ans int) {
 				if x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1 {
 					grid[x][y] = 2
 					q = append(q, [2]int{x, y})
-					cnt--
+					if cnt--; cnt == 0 {
+						return ans
+					}
 				}
 			}
 		}
@@ -218,7 +231,7 @@ func orangesRotting(grid [][]int) (ans int) {
 	if cnt > 0 {
 		return -1
 	}
-	return
+	return 0
 }
 ```
 
@@ -226,36 +239,37 @@ func orangesRotting(grid [][]int) (ans int) {
 
 ```ts
 function orangesRotting(grid: number[][]): number {
-  const m: number = grid.length;
-  const n: number = grid[0].length;
-  const q: number[][] = [];
-  let cnt: number = 0;
-  for (let i: number = 0; i < m; ++i) {
-    for (let j: number = 0; j < n; ++j) {
-      if (grid[i][j] === 1) {
-        cnt++;
-      } else if (grid[i][j] === 2) {
-        q.push([i, j]);
-      }
-    }
-  }
-  let ans: number = 0;
-  const dirs: number[] = [-1, 0, 1, 0, -1];
-  for (; q.length && cnt; ++ans) {
-    const t: number[][] = [];
-    for (const [i, j] of q) {
-      for (let d = 0; d < 4; ++d) {
-        const [x, y] = [i + dirs[d], j + dirs[d + 1]];
-        if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] === 1) {
-          grid[x][y] = 2;
-          t.push([x, y]);
-          cnt--;
+    const m: number = grid.length;
+    const n: number = grid[0].length;
+    const q: number[][] = [];
+    let cnt: number = 0;
+    for (let i: number = 0; i < m; ++i) {
+        for (let j: number = 0; j < n; ++j) {
+            if (grid[i][j] === 1) {
+                cnt++;
+            } else if (grid[i][j] === 2) {
+                q.push([i, j]);
+            }
         }
-      }
     }
-    q.splice(0, q.length, ...t);
-  }
-  return cnt > 0 ? -1 : ans;
+    const dirs: number[] = [-1, 0, 1, 0, -1];
+    for (let ans = 1; q.length && cnt; ++ans) {
+        const t: number[][] = [];
+        for (const [i, j] of q) {
+            for (let d = 0; d < 4; ++d) {
+                const [x, y] = [i + dirs[d], j + dirs[d + 1]];
+                if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] === 1) {
+                    grid[x][y] = 2;
+                    t.push([x, y]);
+                    if (--cnt === 0) {
+                        return ans;
+                    }
+                }
+            }
+        }
+        q.splice(0, q.length, ...t);
+    }
+    return cnt > 0 ? -1 : 0;
 }
 ```
 
@@ -270,49 +284,94 @@ impl Solution {
         let n = grid[0].len();
         let mut q = VecDeque::new();
         let mut cnt = 0;
-
         for i in 0..m {
             for j in 0..n {
                 if grid[i][j] == 1 {
                     cnt += 1;
                 } else if grid[i][j] == 2 {
-                    q.push_back(vec![i as i32, j as i32]);
+                    q.push_back((i, j));
                 }
             }
         }
 
-        let dirs: [i32; 5] = [-1, 0, 1, 0, -1];
-        let mut ans = 0;
-
-        while !q.is_empty() && cnt > 0 {
-            let q_size = q.len();
-            for _ in 0..q_size {
-                let p = q.pop_front().unwrap();
+        let dirs = [-1, 0, 1, 0, -1];
+        for ans in 1.. {
+            if q.is_empty() || cnt == 0 {
+                break;
+            }
+            let mut size = q.len();
+            for _ in 0..size {
+                let (x, y) = q.pop_front().unwrap();
                 for d in 0..4 {
-                    let x = p[0] + dirs[d];
-                    let y = p[1] + dirs[d + 1];
-                    if x >= 0
-                        && x < (m as i32)
-                        && y >= 0
-                        && y < (n as i32)
-                        && grid[x as usize][y as usize] == 1
-                    {
-                        grid[x as usize][y as usize] = 2;
-                        q.push_back(vec![x, y]);
-                        cnt -= 1;
+                    let nx = x as isize + dirs[d] as isize;
+                    let ny = y as isize + dirs[d + 1] as isize;
+                    if nx >= 0 && nx < m as isize && ny >= 0 && ny < n as isize {
+                        let nx = nx as usize;
+                        let ny = ny as usize;
+                        if grid[nx][ny] == 1 {
+                            grid[nx][ny] = 2;
+                            q.push_back((nx, ny));
+                            cnt -= 1;
+                            if cnt == 0 {
+                                return ans;
+                            }
+                        }
                     }
                 }
             }
-            ans += 1;
         }
-
         if cnt > 0 {
-            return -1;
+            -1
+        } else {
+            0
         }
-
-        ans
     }
 }
+```
+
+#### JavaScript
+
+```js
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var orangesRotting = function (grid) {
+    const m = grid.length;
+    const n = grid[0].length;
+    let q = [];
+    let cnt = 0;
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (grid[i][j] === 1) {
+                cnt++;
+            } else if (grid[i][j] === 2) {
+                q.push([i, j]);
+            }
+        }
+    }
+
+    const dirs = [-1, 0, 1, 0, -1];
+    for (let ans = 1; q.length && cnt; ++ans) {
+        let t = [];
+        for (const [i, j] of q) {
+            for (let d = 0; d < 4; ++d) {
+                const x = i + dirs[d];
+                const y = j + dirs[d + 1];
+                if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] === 1) {
+                    grid[x][y] = 2;
+                    t.push([x, y]);
+                    if (--cnt === 0) {
+                        return ans;
+                    }
+                }
+            }
+        }
+        q = [...t];
+    }
+
+    return cnt > 0 ? -1 : 0;
+};
 ```
 
 <!-- tabs:end -->

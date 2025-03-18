@@ -1,81 +1,85 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2663.Lexicographically%20Smallest%20Beautiful%20String/README.md
 rating: 2415
-source: Weekly Contest 343 Q4
+source: 第 343 场周赛 Q4
 tags:
-  - Greedy
-  - String
+    - 贪心
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2663. Lexicographically Smallest Beautiful String](https://leetcode.com/problems/lexicographically-smallest-beautiful-string)
+# [2663. 字典序最小的美丽字符串](https://leetcode.cn/problems/lexicographically-smallest-beautiful-string)
 
-## Description
+[English Version](/solution/2600-2699/2663.Lexicographically%20Smallest%20Beautiful%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A string is <strong>beautiful</strong> if:</p>
+<p>如果一个字符串满足以下条件，则称其为 <strong>美丽字符串</strong> ：</p>
 
 <ul>
-	<li>It consists of the first <code>k</code> letters of the English lowercase alphabet.</li>
-	<li>It does not contain any substring of length <code>2</code> or more which is a palindrome.</li>
+	<li>它由英语小写字母表的前 <code>k</code> 个字母组成。</li>
+	<li>它不包含任何长度为 <code>2</code> 或更长的回文子字符串。</li>
 </ul>
 
-<p>You are given a beautiful string <code>s</code> of length <code>n</code> and a positive integer <code>k</code>.</p>
+<p>给你一个长度为 <code>n</code> 的美丽字符串 <code>s</code> 和一个正整数 <code>k</code> 。</p>
 
-<p>Return <em>the lexicographically smallest string of length </em><code>n</code><em>, which is larger than </em><code>s</code><em> and is <strong>beautiful</strong></em>. If there is no such string, return an empty string.</p>
+<p>请你找出并返回一个长度为 <code>n</code> 的美丽字符串，该字符串还满足：在字典序大于 <code>s</code> 的所有美丽字符串中字典序最小。如果不存在这样的字符串，则返回一个空字符串。</p>
 
-<p>A string <code>a</code> is lexicographically larger than a string <code>b</code> (of the same length) if in the first position where <code>a</code> and <code>b</code> differ, <code>a</code> has a character strictly larger than the corresponding character in <code>b</code>.</p>
+<p>对于长度相同的两个字符串 <code>a</code> 和 <code>b</code> ，如果字符串 <code>a</code> 在与字符串 <code>b</code> 不同的第一个位置上的字符字典序更大，则字符串 <code>a</code> 的字典序大于字符串 <code>b</code> 。</p>
 
 <ul>
-	<li>For example, <code>&quot;abcd&quot;</code> is lexicographically larger than <code>&quot;abcc&quot;</code> because the first position they differ is at the fourth character, and <code>d</code> is greater than <code>c</code>.</li>
+	<li>例如，<code>"abcd"</code> 的字典序比 <code>"abcc"</code> 更大，因为在不同的第一个位置（第四个字符）上 <code>d</code> 的字典序大于 <code>c</code> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;abcz&quot;, k = 26
-<strong>Output:</strong> &quot;abda&quot;
-<strong>Explanation:</strong> The string &quot;abda&quot; is beautiful and lexicographically larger than the string &quot;abcz&quot;.
-It can be proven that there is no string that is lexicographically larger than the string &quot;abcz&quot;, beautiful, and lexicographically smaller than the string &quot;abda&quot;.
+<strong>输入：</strong>s = "abcz", k = 26
+<strong>输出：</strong>"abda"
+<strong>解释：</strong>字符串 "abda" 既是美丽字符串，又满足字典序大于 "abcz" 。
+可以证明不存在字符串同时满足字典序大于 "abcz"、美丽字符串、字典序小于 "abda" 这三个条件。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;dc&quot;, k = 4
-<strong>Output:</strong> &quot;&quot;
-<strong>Explanation:</strong> It can be proven that there is no string that is lexicographically larger than the string &quot;dc&quot; and is beautiful.
-</pre>
+<strong>输入：</strong>s = "dc", k = 4
+<strong>输出：</strong>""
+<strong>解释：</strong>可以证明，不存在既是美丽字符串，又字典序大于 "dc" 的字符串。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == s.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>4 &lt;= k &lt;= 26</code></li>
-	<li><code>s</code> is a beautiful string.</li>
+	<li><code>s</code> 是一个美丽字符串</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy
+### 方法一：贪心
 
-We can find that a palindrome string of length $2$ must have two adjacent characters equal; and a palindrome string of length $3$ must have two characters at the beginning and end equal. Therefore, a beautiful string does not contain any palindrome substring of length $2$ or longer, which means that each character in the string is different from its previous two adjacent characters.
+我们可以发现，一个长度为 $2$ 的回文字符串，其相邻两个字符一定相同；而一个长度为 $3$ 的回文字符串，其首尾两个字符一定相同。因此，一个美丽字符串不包含任何长度为 $2$ 或更长的回文子字符串，意味着该字符串的每个字符与其相邻的前两个字符都不相同。
 
-We can greedily search backwards from the last index of the string, find an index $i$ such that the character at index $i$ can be replaced by a slightly larger character, while ensuring that it is different from its two previous adjacent characters.
+我们可以贪心地从字符串的最后一个下标开始往前查找，找到一个下标 $i$，使得下标 $i$ 处的字符可以被替换为一个比其稍大的字符，同时保证其与其相邻的前两个字符都不相同的字符 $c$。
 
-- If such an index $i$ is found, then we replace $s[i]$ with $c$, and replace the characters from $s[i+1]$ to $s[n-1]$ with the characters in the first $k$ characters of the alphabet in the order of the minimum dictionary that are not the same as the previous two adjacent characters. After the replacement is completed, we obtain a beautiful string that is the smallest in the dictionary and greater than $s$.
-- If such an index $i$ cannot be found, then we cannot construct a beautiful string greater than $s$ in dictionary order, so return an empty string.
+-   若找到了这样的下标 $i$，那么我们将 $s[i]$ 替换为 $c$，并将 $s[i+1]$ 到 $s[n-1]$ 的字符依次替换为字典序尽可能小的、不与前面相邻两个字符相同的、且在字母表前 $k$ 个字符中的字符，替换完成后，我们就得到了一个字典序最小的且大于 $s$ 的美丽字符串。
+-   若找不到这样的下标 $i$，那么我们就无法构造出字典序大于 $s$ 的美丽字符串，因此返回空字符串。
 
-The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是字符串的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -205,30 +209,30 @@ func smallestBeautifulString(s string, k int) string {
 
 ```ts
 function smallestBeautifulString(s: string, k: number): string {
-  const cs: string[] = s.split("");
-  const n = cs.length;
-  for (let i = n - 1; i >= 0; --i) {
-    const p = cs[i].charCodeAt(0) - 97 + 1;
-    for (let j = p; j < k; ++j) {
-      let c = String.fromCharCode(j + 97);
-      if ((i > 0 && cs[i - 1] === c) || (i > 1 && cs[i - 2] === c)) {
-        continue;
-      }
-      cs[i] = c;
-      for (let l = i + 1; l < n; ++l) {
-        for (let m = 0; m < k; ++m) {
-          c = String.fromCharCode(m + 97);
-          if ((l > 0 && cs[l - 1] === c) || (l > 1 && cs[l - 2] === c)) {
-            continue;
-          }
-          cs[l] = c;
-          break;
+    const cs: string[] = s.split('');
+    const n = cs.length;
+    for (let i = n - 1; i >= 0; --i) {
+        const p = cs[i].charCodeAt(0) - 97 + 1;
+        for (let j = p; j < k; ++j) {
+            let c = String.fromCharCode(j + 97);
+            if ((i > 0 && cs[i - 1] === c) || (i > 1 && cs[i - 2] === c)) {
+                continue;
+            }
+            cs[i] = c;
+            for (let l = i + 1; l < n; ++l) {
+                for (let m = 0; m < k; ++m) {
+                    c = String.fromCharCode(m + 97);
+                    if ((l > 0 && cs[l - 1] === c) || (l > 1 && cs[l - 2] === c)) {
+                        continue;
+                    }
+                    cs[l] = c;
+                    break;
+                }
+            }
+            return cs.join('');
         }
-      }
-      return cs.join("");
     }
-  }
-  return "";
+    return '';
 }
 ```
 

@@ -1,49 +1,51 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1480.Running%20Sum%20of%201d%20Array/README.md
 rating: 1104
-source: Weekly Contest 193 Q1
+source: 第 193 场周赛 Q1
 tags:
-  - Array
-  - Prefix Sum
+    - 数组
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1480. Running Sum of 1d Array](https://leetcode.com/problems/running-sum-of-1d-array)
+# [1480. 一维数组的动态和](https://leetcode.cn/problems/running-sum-of-1d-array)
 
-## Description
+[English Version](/solution/1400-1499/1480.Running%20Sum%20of%201d%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array <code>nums</code>. We define a running sum of an array as&nbsp;<code>runningSum[i] = sum(nums[0]&hellip;nums[i])</code>.</p>
+<p>给你一个数组 <code>nums</code> 。数组「动态和」的计算公式为：<code>runningSum[i] = sum(nums[0]&hellip;nums[i])</code> 。</p>
 
-<p>Return the running sum of <code>nums</code>.</p>
+<p>请返回 <code>nums</code> 的动态和。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4]
-<strong>Output:</strong> [1,3,6,10]
-<strong>Explanation:</strong> Running sum is obtained as follows: [1, 1+2, 1+2+3, 1+2+3+4].</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><strong>输入：</strong>nums = [1,2,3,4]
+<strong>输出：</strong>[1,3,6,10]
+<strong>解释：</strong>动态和计算过程为 [1, 1+2, 1+2+3, 1+2+3+4] 。</pre>
 
-<pre>
-<strong>Input:</strong> nums = [1,1,1,1,1]
-<strong>Output:</strong> [1,2,3,4,5]
-<strong>Explanation:</strong> Running sum is obtained as follows: [1, 1+1, 1+1+1, 1+1+1+1, 1+1+1+1+1].</pre>
+<p><strong>示例 2：</strong></p>
 
-<p><strong class="example">Example 3:</strong></p>
+<pre><strong>输入：</strong>nums = [1,1,1,1,1]
+<strong>输出：</strong>[1,2,3,4,5]
+<strong>解释：</strong>动态和计算过程为 [1, 1+1, 1+1+1, 1+1+1+1, 1+1+1+1+1] 。</pre>
 
-<pre>
-<strong>Input:</strong> nums = [3,1,2,10,1]
-<strong>Output:</strong> [3,4,6,16,17]
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>nums = [3,1,2,10,1]
+<strong>输出：</strong>[3,4,6,16,17]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -52,15 +54,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum
+### 方法一：前缀和
 
-We directly traverse the array. For the current element $nums[i]$, we add it with the prefix sum $nums[i-1]$ to get the prefix sum $nums[i]$ of the current element.
+我们直接遍历数组，对于当前元素 $nums[i]$，我们将其与前缀和 $nums[i-1]$ 相加，即可得到当前元素的前缀和 $nums[i]$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -112,10 +114,10 @@ func runningSum(nums []int) []int {
 
 ```ts
 function runningSum(nums: number[]): number[] {
-  for (let i = 1; i < nums.length; ++i) {
-    nums[i] += nums[i - 1];
-  }
-  return nums;
+    for (let i = 1; i < nums.length; ++i) {
+        nums[i] += nums[i - 1];
+    }
+    return nums;
 }
 ```
 

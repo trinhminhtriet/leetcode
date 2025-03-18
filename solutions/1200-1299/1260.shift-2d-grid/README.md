@@ -1,58 +1,67 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1260.Shift%202D%20Grid/README.md
 rating: 1337
-source: Weekly Contest 163 Q1
+source: 第 163 场周赛 Q1
 tags:
-  - Array
-  - Matrix
-  - Simulation
+    - 数组
+    - 矩阵
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1260. Shift 2D Grid](https://leetcode.com/problems/shift-2d-grid)
+# [1260. 二维网格迁移](https://leetcode.cn/problems/shift-2d-grid)
 
-## Description
+[English Version](/solution/1200-1299/1260.Shift%202D%20Grid/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a 2D <code>grid</code> of size <code>m x n</code>&nbsp;and an integer <code>k</code>. You need to shift the <code>grid</code>&nbsp;<code>k</code> times.</p>
+<p>给你一个 <code>m</code> 行 <code>n</code>&nbsp;列的二维网格&nbsp;<code>grid</code>&nbsp;和一个整数&nbsp;<code>k</code>。你需要将&nbsp;<code>grid</code>&nbsp;迁移&nbsp;<code>k</code>&nbsp;次。</p>
 
-<p>In one shift operation:</p>
+<p>每次「迁移」操作将会引发下述活动：</p>
 
 <ul>
-	<li>Element at <code>grid[i][j]</code> moves to <code>grid[i][j + 1]</code>.</li>
-	<li>Element at <code>grid[i][n - 1]</code> moves to <code>grid[i + 1][0]</code>.</li>
-	<li>Element at <code>grid[m&nbsp;- 1][n - 1]</code> moves to <code>grid[0][0]</code>.</li>
+	<li>位于 <code>grid[i][j]</code>（<code>j &lt; n - 1</code>）的元素将会移动到&nbsp;<code>grid[i][j + 1]</code>。</li>
+	<li>位于&nbsp;<code>grid[i][n&nbsp;- 1]</code> 的元素将会移动到&nbsp;<code>grid[i + 1][0]</code>。</li>
+	<li>位于 <code>grid[m&nbsp;- 1][n - 1]</code>&nbsp;的元素将会移动到&nbsp;<code>grid[0][0]</code>。</li>
 </ul>
 
-<p>Return the <em>2D grid</em> after applying shift operation <code>k</code> times.</p>
+<p>请你返回&nbsp;<code>k</code> 次迁移操作后最终得到的 <strong>二维网格</strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1260.Shift%202D%20Grid/images/e1.png" style="width: 400px; height: 178px;" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1260.Shift%202D%20Grid/images/e1-1.png" style="height: 158px; width: 400px;" /></p>
+
 <pre>
-<strong>Input:</strong> <code>grid</code> = [[1,2,3],[4,5,6],[7,8,9]], k = 1
-<strong>Output:</strong> [[9,1,2],[3,4,5],[6,7,8]]
+<code><strong>输入：</strong>grid</code> = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+<strong>输出：</strong>[[9,1,2],[3,4,5],[6,7,8]]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1260.Shift%202D%20Grid/images/e2.png" style="width: 400px; height: 166px;" />
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1260.Shift%202D%20Grid/images/e2-1.png" style="height: 166px; width: 400px;" /></p>
+
 <pre>
-<strong>Input:</strong> <code>grid</code> = [[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]], k = 4
-<strong>Output:</strong> [[12,0,21,13],[3,8,1,9],[19,7,2,5],[4,6,11,10]]
+<code><strong>输入：</strong>grid</code> = [[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]], k = 4
+<strong>输出：</strong>[[12,0,21,13],[3,8,1,9],[19,7,2,5],[4,6,11,10]]
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> <code>grid</code> = [[1,2,3],[4,5,6],[7,8,9]], k = 9
-<strong>Output:</strong> [[1,2,3],[4,5,6],[7,8,9]]
+<code><strong>输入：</strong>grid</code> = [[1,2,3],[4,5,6],[7,8,9]], k = 9
+<strong>输出：</strong>[[1,2,3],[4,5,6],[7,8,9]]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m ==&nbsp;grid.length</code></li>
@@ -65,17 +74,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Flattening the 2D Array
+### 方法一：二维数组展开
 
-According to the problem description, if we flatten the 2D array into a 1D array, then each shift operation is to move the elements in the array one position to the right, with the last element moving to the first position of the array.
+根据题目描述，如果我们将二维数组展开成一维数组，那么每次迁移操作就是将数组中的元素向右移动一个位置，最后一个元素移动到数组的首位。
 
-Therefore, we can flatten the 2D array into a 1D array, then calculate the final position $idx = (x, y)$ of each element, and update the answer array `ans[x][y] = grid[i][j]`.
+因此，我们可以将二维数组展开成一维数组，然后计算每个元素在最后的位置 $idx = (x, y)$，更新答案数组 `ans[x][y] = grid[i][j]` 即可。
 
-The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns in the `grid` array, respectively. We need to traverse the `grid` array once to calculate the final position of each element. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是二维数组 `grid` 的行数和列数。需要遍历二维数组 `grid` 一次，计算每个元素在最后的位置。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -163,18 +172,16 @@ func shiftGrid(grid [][]int, k int) [][]int {
 
 ```ts
 function shiftGrid(grid: number[][], k: number): number[][] {
-  const [m, n] = [grid.length, grid[0].length];
-  const ans: number[][] = Array.from({ length: m }, () =>
-    Array.from({ length: n }, () => 0)
-  );
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      const idx = (i * n + j + k) % (m * n);
-      const [x, y] = [Math.floor(idx / n), idx % n];
-      ans[x][y] = grid[i][j];
+    const [m, n] = [grid.length, grid[0].length];
+    const ans: number[][] = Array.from({ length: m }, () => Array.from({ length: n }, () => 0));
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            const idx = (i * n + j + k) % (m * n);
+            const [x, y] = [Math.floor(idx / n), idx % n];
+            ans[x][y] = grid[i][j];
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

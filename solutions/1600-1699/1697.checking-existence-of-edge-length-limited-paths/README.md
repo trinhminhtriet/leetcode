@@ -1,79 +1,84 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1697.Checking%20Existence%20of%20Edge%20Length%20Limited%20Paths/README.md
 rating: 2300
-source: Weekly Contest 220 Q4
+source: 第 220 场周赛 Q4
 tags:
-  - Union Find
-  - Graph
-  - Array
-  - Two Pointers
-  - Sorting
+    - 并查集
+    - 图
+    - 数组
+    - 双指针
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1697. Checking Existence of Edge Length Limited Paths](https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths)
+# [1697. 检查边长度限制的路径是否存在](https://leetcode.cn/problems/checking-existence-of-edge-length-limited-paths)
 
-## Description
+[English Version](/solution/1600-1699/1697.Checking%20Existence%20of%20Edge%20Length%20Limited%20Paths/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>An undirected graph of <code>n</code> nodes is defined by <code>edgeList</code>, where <code>edgeList[i] = [u<sub>i</sub>, v<sub>i</sub>, dis<sub>i</sub>]</code> denotes an edge between nodes <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> with distance <code>dis<sub>i</sub></code>. Note that there may be <strong>multiple</strong> edges between two nodes.</p>
+<p>给你一个 <code>n</code> 个点组成的无向图边集 <code>edgeList</code> ，其中 <code>edgeList[i] = [u<sub>i</sub>, v<sub>i</sub>, dis<sub>i</sub>]</code> 表示点 <code>u<sub>i</sub></code> 和点 <code>v<sub>i</sub></code> 之间有一条长度为 <code>dis<sub>i</sub></code> 的边。请注意，两个点之间可能有 <strong>超过一条边 </strong>。</p>
 
-<p>Given an array <code>queries</code>, where <code>queries[j] = [p<sub>j</sub>, q<sub>j</sub>, limit<sub>j</sub>]</code>, your task is to determine for each <code>queries[j]</code> whether there is a path between <code>p<sub>j</sub></code> and <code>q<sub>j</sub></code><sub> </sub>such that each edge on the path has a distance <strong>strictly less than</strong> <code>limit<sub>j</sub></code> .</p>
+<p>给你一个查询数组<code>queries</code> ，其中 <code>queries[j] = [p<sub>j</sub>, q<sub>j</sub>, limit<sub>j</sub>]</code> ，你的任务是对于每个查询 <code>queries[j]</code> ，判断是否存在从 <code>p<sub>j</sub></code> 到 <code>q<sub>j</sub></code><sub> </sub>的路径，且这条路径上的每一条边都 <strong>严格小于</strong> <code>limit<sub>j</sub></code> 。</p>
 
-<p>Return <em>a <strong>boolean array</strong> </em><code>answer</code><em>, where </em><code>answer.length == queries.length</code> <em>and the </em><code>j<sup>th</sup></code> <em>value of </em><code>answer</code> <em>is </em><code>true</code><em> if there is a path for </em><code>queries[j]</code><em> is </em><code>true</code><em>, and </em><code>false</code><em> otherwise</em>.</p>
+<p>请你返回一个 <b>布尔数组</b><em> </em><code>answer</code><em> </em>，其中<em> </em><code>answer.length == queries.length</code> ，当 <code>queries[j]</code> 的查询结果为 <code>true</code> 时， <code>answer</code> 第<em> </em><code>j</code> 个值为<em> </em><code>true</code><em> </em>，否则为 <code>false</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1697.Checking%20Existence%20of%20Edge%20Length%20Limited%20Paths/images/h.png" style="width: 267px; height: 262px;" />
 <pre>
-<strong>Input:</strong> n = 3, edgeList = [[0,1,2],[1,2,4],[2,0,8],[1,0,16]], queries = [[0,1,2],[0,2,5]]
-<strong>Output:</strong> [false,true]
-<strong>Explanation:</strong> The above figure shows the given graph. Note that there are two overlapping edges between 0 and 1 with distances 2 and 16.
-For the first query, between 0 and 1 there is no path where each distance is less than 2, thus we return false for this query.
-For the second query, there is a path (0 -&gt; 1 -&gt; 2) of two edges with distances less than 5, thus we return true for this query.
+<b>输入：</b>n = 3, edgeList = [[0,1,2],[1,2,4],[2,0,8],[1,0,16]], queries = [[0,1,2],[0,2,5]]
+<b>输出：</b>[false,true]
+<b>解释：</b>上图为给定的输入数据。注意到 0 和 1 之间有两条重边，分别为 2 和 16 。
+对于第一个查询，0 和 1 之间没有小于 2 的边，所以我们返回 false 。
+对于第二个查询，有一条路径（0 -> 1 -> 2）两条边都小于 5 ，所以这个查询我们返回 true 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1697.Checking%20Existence%20of%20Edge%20Length%20Limited%20Paths/images/q.png" style="width: 390px; height: 358px;" />
 <pre>
-<strong>Input:</strong> n = 5, edgeList = [[0,1,10],[1,2,5],[2,3,9],[3,4,13]], queries = [[0,4,14],[1,4,13]]
-<strong>Output:</strong> [true,false]
-<strong>Explanation:</strong> The above figure shows the given graph.
+<b>输入：</b>n = 5, edgeList = [[0,1,10],[1,2,5],[2,3,9],[3,4,13]], queries = [[0,4,14],[1,4,13]]
+<b>输出：</b>[true,false]
+<b>解释：</b>上图为给定数据。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= edgeList.length, queries.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>2 <= n <= 10<sup>5</sup></code></li>
+	<li><code>1 <= edgeList.length, queries.length <= 10<sup>5</sup></code></li>
 	<li><code>edgeList[i].length == 3</code></li>
 	<li><code>queries[j].length == 3</code></li>
-	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub>, p<sub>j</sub>, q<sub>j</sub> &lt;= n - 1</code></li>
+	<li><code>0 <= u<sub>i</sub>, v<sub>i</sub>, p<sub>j</sub>, q<sub>j</sub> <= n - 1</code></li>
 	<li><code>u<sub>i</sub> != v<sub>i</sub></code></li>
 	<li><code>p<sub>j</sub> != q<sub>j</sub></code></li>
-	<li><code>1 &lt;= dis<sub>i</sub>, limit<sub>j</sub> &lt;= 10<sup>9</sup></code></li>
-	<li>There may be <strong>multiple</strong> edges between two nodes.</li>
+	<li><code>1 <= dis<sub>i</sub>, limit<sub>j</sub> <= 10<sup>9</sup></code></li>
+	<li>两个点之间可能有 <strong>多条</strong> 边。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Offline Queries + Union-Find
+### 方法一：离线查询 + 并查集
 
-According to the problem requirements, we need to judge each query $queries[i]$, that is, to determine whether there is a path with edge weight less than or equal to $limit$ between the two points $a$ and $b$ of the current query.
+根据题目要求，我们需要对每个查询 $queries[i]$ 进行判断，即判断当前查询的两个点 $a$ 和 $b$ 之间是否存在一条边权小于等于 $limit$ 的路径。
 
-The connectivity of two points can be determined by a union-find set. Moreover, since the order of queries does not affect the result, we can sort all queries in ascending order by $limit$, and also sort all edges in ascending order by edge weight.
+判断两点是否连通可以通过并查集来实现。另外，由于查询的顺序对结果没有影响，因此我们可以先将所有查询按照 $limit$ 从小到大排序，所有边也按照边权从小到大排序。
 
-Then for each query, we start from the edge with the smallest weight, add all edges with weights strictly less than $limit$ to the union-find set, and then use the query operation of the union-find set to determine whether the two points are connected.
+然后对于每个查询，我们从边权最小的边开始，将边权严格小于 $limit$ 的所有边加入并查集，接着利用并查集的查询操作判断两点是否连通即可。
 
-The time complexity is $O(m \times \log m + q \times \log q)$, where $m$ and $q$ are the number of edges and queries, respectively.
+时间复杂度 $O(m \times \log m + q \times \log q)$，其中 $m$ 和 $q$ 分别为边数和查询数。
 
 <!-- tabs:start -->
 
@@ -292,20 +297,22 @@ impl Solution {
 
 <!-- tabs:end -->
 
-Union-Find is a tree-like data structure that, as the name suggests, is used to handle some disjoint set **merge** and **query** problems. It supports two operations:
+附并查集相关介绍以及常用模板：
 
-1. Find: Determine which subset an element belongs to. The time complexity of a single operation is $O(\alpha(n))$.
-2. Union: Merge two subsets into one set. The time complexity of a single operation is $O(\alpha(n))$.
+并查集是一种树形的数据结构，顾名思义，它用于处理一些不交集的**合并**及**查询**问题。 它支持两种操作：
 
-Here, $\alpha$ is the inverse Ackermann function, which grows extremely slowly. In other words, the average running time of its single operation can be considered a very small constant.
+1. 查找（Find）：确定某个元素处于哪个子集，单次操作时间复杂度 $O(\alpha(n))$
+1. 合并（Union）：将两个子集合并成一个集合，单次操作时间复杂度 $O(\alpha(n))$
 
-Below is a common template for Union-Find, which needs to be mastered proficiently. Where:
+其中 $\alpha$ 为阿克曼函数的反函数，其增长极其缓慢，也就是说其单次操作的平均运行时间可以认为是一个很小的常数。
 
-- `n` represents the number of nodes.
-- `p` stores the parent node of each point. Initially, the parent node of each point is itself.
-- `size` only makes sense when the node is an ancestor node, indicating the number of points in the set where the ancestor node is located.
-- `find(x)` function is used to find the ancestor node of the set where $x$ is located.
-- `union(a, b)` function is used to merge the sets where $a$ and $b$ are located.
+以下是并查集的常用模板，需要熟练掌握。其中：
+
+-   `n` 表示节点数
+-   `p` 存储每个点的父节点，初始时每个点的父节点都是自己
+-   `size` 只有当节点是祖宗节点时才有意义，表示祖宗节点所在集合中，点的数量
+-   `find(x)` 函数用于查找 $x$ 所在集合的祖宗节点
+-   `union(a, b)` 函数用于合并 $a$ 和 $b$ 所在的集合
 
 <!-- tabs:start -->
 
@@ -317,6 +324,7 @@ size = [1] * n
 
 def find(x):
     if p[x] != x:
+        # 路径压缩
         p[x] = find(p[x])
     return p[x]
 
@@ -341,6 +349,7 @@ for (int i = 0; i < n; ++i) {
 
 int find(int x) {
     if (p[x] != x) {
+        // 路径压缩
         p[x] = find(p[x]);
     }
     return p[x];
@@ -365,6 +374,7 @@ vector<int> size(n, 1);
 
 int find(int x) {
     if (p[x] != x) {
+        // 路径压缩
         p[x] = find(p[x]);
     }
     return p[x];
@@ -390,6 +400,7 @@ for i := range p {
 
 func find(x int) int {
     if p[x] != x {
+        // 路径压缩
         p[x] = find(p[x])
     }
     return p[x]

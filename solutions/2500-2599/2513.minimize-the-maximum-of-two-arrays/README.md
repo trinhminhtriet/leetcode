@@ -1,66 +1,71 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2513.Minimize%20the%20Maximum%20of%20Two%20Arrays/README.md
 rating: 2302
-source: Biweekly Contest 94 Q3
+source: 第 94 场双周赛 Q3
 tags:
-  - Math
-  - Binary Search
-  - Number Theory
+    - 数学
+    - 二分查找
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [2513. Minimize the Maximum of Two Arrays](https://leetcode.com/problems/minimize-the-maximum-of-two-arrays)
+# [2513. 最小化两个数组中的最大值](https://leetcode.cn/problems/minimize-the-maximum-of-two-arrays)
 
-## Description
+[English Version](/solution/2500-2599/2513.Minimize%20the%20Maximum%20of%20Two%20Arrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>We have two arrays <code>arr1</code> and <code>arr2</code> which are initially empty. You need to add positive integers to them such that they satisfy all the following conditions:</p>
+<p>给你两个数组&nbsp;<code>arr1</code> 和&nbsp;<code>arr2</code>&nbsp;，它们一开始都是空的。你需要往它们中添加正整数，使它们满足以下条件：</p>
 
 <ul>
-	<li><code>arr1</code> contains <code>uniqueCnt1</code> <strong>distinct</strong> positive integers, each of which is <strong>not divisible</strong> by <code>divisor1</code>.</li>
-	<li><code>arr2</code> contains <code>uniqueCnt2</code> <strong>distinct</strong> positive integers, each of which is <strong>not divisible</strong> by <code>divisor2</code>.</li>
-	<li><strong>No</strong> integer is present in both <code>arr1</code> and <code>arr2</code>.</li>
+	<li><code>arr1</code>&nbsp;包含&nbsp;<code>uniqueCnt1</code>&nbsp;个<strong>&nbsp;互不相同</strong>&nbsp;的正整数，每个整数都&nbsp;<strong>不能 </strong>被&nbsp;<code>divisor1</code>&nbsp;<strong>整除</strong>&nbsp;。</li>
+	<li><code>arr2</code>&nbsp;包含&nbsp;<code>uniqueCnt2</code>&nbsp;个<strong>&nbsp;互不相同</strong>&nbsp;的正整数，每个整数都&nbsp;<strong>不能</strong>&nbsp;被&nbsp;<code>divisor2</code>&nbsp;<strong>整除</strong>&nbsp;。</li>
+	<li><code>arr1</code> 和&nbsp;<code>arr2</code>&nbsp;中的元素&nbsp;<strong>互不相同</strong>&nbsp;。</li>
 </ul>
 
-<p>Given <code>divisor1</code>, <code>divisor2</code>, <code>uniqueCnt1</code>, and <code>uniqueCnt2</code>, return <em>the <strong>minimum possible maximum</strong> integer that can be present in either array</em>.</p>
+<p>给你&nbsp;<code>divisor1</code>&nbsp;，<code>divisor2</code>&nbsp;，<code>uniqueCnt1</code>&nbsp;和&nbsp;<code>uniqueCnt2</code>&nbsp;，请你返回两个数组中&nbsp;<strong>最大元素</strong>&nbsp;的&nbsp;<strong>最小值</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> divisor1 = 2, divisor2 = 7, uniqueCnt1 = 1, uniqueCnt2 = 3
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> 
-We can distribute the first 4 natural numbers into arr1 and arr2.
-arr1 = [1] and arr2 = [2,3,4].
-We can see that both arrays satisfy all the conditions.
-Since the maximum value is 4, we return it.
+<b>输入：</b>divisor1 = 2, divisor2 = 7, uniqueCnt1 = 1, uniqueCnt2 = 3
+<b>输出：</b>4
+<b>解释：</b>
+我们可以把前 4 个自然数划分到 arr1 和 arr2 中。
+arr1 = [1] 和 arr2 = [2,3,4] 。
+可以看出两个数组都满足条件。
+最大值是 4 ，所以返回 4 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> divisor1 = 3, divisor2 = 5, uniqueCnt1 = 2, uniqueCnt2 = 1
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 
-Here arr1 = [1,2], and arr2 = [3] satisfy all conditions.
-Since the maximum value is 3, we return it.</pre>
+<b>输入：</b>divisor1 = 3, divisor2 = 5, uniqueCnt1 = 2, uniqueCnt2 = 1
+<b>输出：</b>3
+<b>解释：</b>
+arr1 = [1,2] 和 arr2 = [3] 满足所有条件。
+最大值是 3 ，所以返回 3 。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> divisor1 = 2, divisor2 = 4, uniqueCnt1 = 8, uniqueCnt2 = 2
-<strong>Output:</strong> 15
-<strong>Explanation:</strong> 
-Here, the final possible arrays can be arr1 = [1,3,5,7,9,11,13,15], and arr2 = [2,6].
-It can be shown that it is not possible to obtain a lower maximum satisfying all conditions. 
+<b>输入：</b>divisor1 = 2, divisor2 = 4, uniqueCnt1 = 8, uniqueCnt2 = 2
+<b>输出：</b>15
+<b>解释：</b>
+最终数组为 arr1 = [1,3,5,7,9,11,13,15] 和 arr2 = [2,6] 。
+上述方案是满足所有条件的最优解。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= divisor1, divisor2 &lt;= 10<sup>5</sup></code></li>
@@ -70,11 +75,11 @@ It can be shown that it is not possible to obtain a lower maximum satisfying all
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

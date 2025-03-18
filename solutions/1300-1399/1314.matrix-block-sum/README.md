@@ -1,80 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1314.Matrix%20Block%20Sum/README.md
 rating: 1483
-source: Biweekly Contest 17 Q2
+source: 第 17 场双周赛 Q2
 tags:
-  - Array
-  - Matrix
-  - Prefix Sum
+    - 数组
+    - 矩阵
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1314. Matrix Block Sum](https://leetcode.com/problems/matrix-block-sum)
+# [1314. 矩阵区域和](https://leetcode.cn/problems/matrix-block-sum)
 
-## Description
+[English Version](/solution/1300-1399/1314.Matrix%20Block%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <code>m x n</code> matrix <code>mat</code> and an integer <code>k</code>, return <em>a matrix</em> <code>answer</code> <em>where each</em> <code>answer[i][j]</code> <em>is the sum of all elements</em> <code>mat[r][c]</code> <em>for</em>:</p>
+<p>给你一个 <code>m x n</code> 的矩阵 <code>mat</code> 和一个整数 <code>k</code> ，请你返回一个矩阵 <code>answer</code> ，其中每个 <code>answer[i][j]</code> 是所有满足下述条件的元素 <code>mat[r][c]</code> 的和： </p>
 
 <ul>
-	<li><code>i - k &lt;= r &lt;= i + k,</code></li>
-	<li><code>j - k &lt;= c &lt;= j + k</code>, and</li>
-	<li><code>(r, c)</code> is a valid position in the matrix.</li>
+	<li><code>i - k <= r <= i + k, </code></li>
+	<li><code>j - k <= c <= j + k</code> 且</li>
+	<li><code>(r, c)</code> 在矩阵内。</li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> mat = [[1,2,3],[4,5,6],[7,8,9]], k = 1
-<strong>Output:</strong> [[12,21,16],[27,45,33],[24,39,28]]
+<strong>输入：</strong>mat = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+<strong>输出：</strong>[[12,21,16],[27,45,33],[24,39,28]]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> mat = [[1,2,3],[4,5,6],[7,8,9]], k = 2
-<strong>Output:</strong> [[45,45,45],[45,45,45],[45,45,45]]
+<strong>输入：</strong>mat = [[1,2,3],[4,5,6],[7,8,9]], k = 2
+<strong>输出：</strong>[[45,45,45],[45,45,45],[45,45,45]]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>m ==&nbsp;mat.length</code></li>
-	<li><code>n ==&nbsp;mat[i].length</code></li>
-	<li><code>1 &lt;= m, n, k &lt;= 100</code></li>
-	<li><code>1 &lt;= mat[i][j] &lt;= 100</code></li>
+	<li><code>m == mat.length</code></li>
+	<li><code>n == mat[i].length</code></li>
+	<li><code>1 <= m, n, k <= 100</code></li>
+	<li><code>1 <= mat[i][j] <= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two-Dimensional Prefix Sum
+### 方法一：二维前缀和
 
-This problem is a template for two-dimensional prefix sum.
+本题属于二维前缀和模板题。
 
-We define $s[i][j]$ as the sum of the elements in the first $i$ rows and the first $j$ columns of the matrix $mat$. The calculation formula for $s[i][j]$ is:
+我们定义 $s[i][j]$ 表示矩阵 $mat$ 前 $i$ 行，前 $j$ 列的元素和。那么 $s[i][j]$ 的计算公式为：
 
 $$
 s[i][j] = s[i-1][j] + s[i][j-1] - s[i-1][j-1] + mat[i-1][j-1]
 $$
 
-In this way, we can quickly calculate the sum of elements in any rectangular area through the $s$ array.
+这样我们就可以通过 $s$ 数组快速计算出任意矩形区域的元素和。
 
-For a rectangular area with the upper left coordinate $(x_1, y_1)$ and the lower right coordinate $(x_2, y_2)$, we can calculate the sum of its elements through the $s$ array:
+对于一个左上角坐标为 $(x_1, y_1)$，右下角坐标为 $(x_2, y_2)$ 的矩形区域的元素和，我们可以通过 $s$ 数组计算出来：
 
 $$
 s[x_2+1][y_2+1] - s[x_1][y_2+1] - s[x_2+1][y_1] + s[x_1][y_1]
 $$
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows and columns in the matrix, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -197,30 +202,28 @@ func matrixBlockSum(mat [][]int, k int) [][]int {
 
 ```ts
 function matrixBlockSum(mat: number[][], k: number): number[][] {
-  const m: number = mat.length;
-  const n: number = mat[0].length;
+    const m: number = mat.length;
+    const n: number = mat[0].length;
 
-  const s: number[][] = Array.from({ length: m + 1 }, () =>
-    Array(n + 1).fill(0)
-  );
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      s[i + 1][j + 1] = s[i][j + 1] + s[i + 1][j] - s[i][j] + mat[i][j];
+    const s: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            s[i + 1][j + 1] = s[i][j + 1] + s[i + 1][j] - s[i][j] + mat[i][j];
+        }
     }
-  }
 
-  const ans: number[][] = Array.from({ length: m }, () => Array(n).fill(0));
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      const x1: number = Math.max(i - k, 0);
-      const y1: number = Math.max(j - k, 0);
-      const x2: number = Math.min(m - 1, i + k);
-      const y2: number = Math.min(n - 1, j + k);
-      ans[i][j] = s[x2 + 1][y2 + 1] - s[x1][y2 + 1] - s[x2 + 1][y1] + s[x1][y1];
+    const ans: number[][] = Array.from({ length: m }, () => Array(n).fill(0));
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            const x1: number = Math.max(i - k, 0);
+            const y1: number = Math.max(j - k, 0);
+            const x2: number = Math.min(m - 1, i + k);
+            const y2: number = Math.min(n - 1, j + k);
+            ans[i][j] = s[x2 + 1][y2 + 1] - s[x1][y2 + 1] - s[x2 + 1][y1] + s[x1][y1];
+        }
     }
-  }
 
-  return ans;
+    return ans;
 }
 ```
 

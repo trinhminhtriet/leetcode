@@ -1,104 +1,110 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0770.Basic%20Calculator%20IV/README.md
 tags:
-  - Stack
-  - Recursion
-  - Hash Table
-  - Math
-  - String
+    - 栈
+    - 递归
+    - 哈希表
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [770. Basic Calculator IV](https://leetcode.com/problems/basic-calculator-iv)
+# [770. 基本计算器 IV](https://leetcode.cn/problems/basic-calculator-iv)
 
-## Description
+[English Version](/solution/0700-0799/0770.Basic%20Calculator%20IV/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an expression such as <code>expression = &quot;e + 8 - a + 5&quot;</code> and an evaluation map such as <code>{&quot;e&quot;: 1}</code> (given in terms of <code>evalvars = [&quot;e&quot;]</code> and <code>evalints = [1]</code>), return a list of tokens representing the simplified expression, such as <code>[&quot;-1*a&quot;,&quot;14&quot;]</code></p>
+<p>给定一个表达式如&nbsp;<code>expression = "e + 8 - a + 5"</code>&nbsp;和一个求值映射，如&nbsp;<code>{"e": 1}</code>（给定的形式为&nbsp;<code>evalvars = ["e"]</code> 和&nbsp;<code>evalints = [1]</code>），返回表示简化表达式的标记列表，例如 <code>["-1*a","14"]</code></p>
 
 <ul>
-	<li>An expression alternates chunks and symbols, with a space separating each chunk and symbol.</li>
-	<li>A chunk is either an expression in parentheses, a variable, or a non-negative integer.</li>
-	<li>A variable is a string of lowercase letters (not including digits.) Note that variables can be multiple letters, and note that variables never have a leading coefficient or unary operator like <code>&quot;2x&quot;</code> or <code>&quot;-x&quot;</code>.</li>
+	<li>表达式交替使用块和符号，每个块和符号之间有一个空格。</li>
+	<li>块要么是括号中的表达式，要么是变量，要么是非负整数。</li>
+	<li>变量是一个由小写字母组成的字符串（不包括数字）。请注意，变量可以是多个字母，并注意变量从不具有像&nbsp;<code>"2x"</code>&nbsp;或&nbsp;<code>"-x"</code>&nbsp;这样的前导系数或一元运算符&nbsp;。</li>
 </ul>
 
-<p>Expressions are evaluated in the usual order: brackets first, then multiplication, then addition and subtraction.</p>
+<p>表达式按通常顺序进行求值：先是括号，然后求乘法，再计算加法和减法。</p>
 
 <ul>
-	<li>For example, <code>expression = &quot;1 + 2 * 3&quot;</code> has an answer of <code>[&quot;7&quot;]</code>.</li>
+	<li>例如，<code>expression = "1 + 2 * 3"</code>&nbsp;的答案是 <code>["7"]</code>。</li>
 </ul>
 
-<p>The format of the output is as follows:</p>
+<p>输出格式如下：</p>
 
 <ul>
-	<li>For each term of free variables with a non-zero coefficient, we write the free variables within a term in sorted order lexicographically.
+	<li>对于系数非零的每个自变量项，我们按字典排序的顺序将自变量写在一个项中。
 	<ul>
-		<li>For example, we would never write a term like <code>&quot;b*a*c&quot;</code>, only <code>&quot;a*b*c&quot;</code>.</li>
+		<li>例如，我们永远不会写像 <code>“b*a*c”</code> 这样的项，只写 <code>“a*b*c”</code>。</li>
 	</ul>
 	</li>
-	<li>Terms have degrees equal to the number of free variables being multiplied, counting multiplicity. We write the largest degree terms of our answer first, breaking ties by lexicographic order ignoring the leading coefficient of the term.
+	<li>项的次数等于被乘的自变量的数目，并计算重复项。我们先写出答案的最大次数项，用字典顺序打破关系，此时忽略词的前导系数。
 	<ul>
-		<li>For example, <code>&quot;a*a*b*c&quot;</code> has degree <code>4</code>.</li>
+		<li>例如，<code>"a*a*b*c"</code> 的次数为 4。</li>
 	</ul>
 	</li>
-	<li>The leading coefficient of the term is placed directly to the left with an asterisk separating it from the variables (if they exist.) A leading coefficient of 1 is still printed.</li>
-	<li>An example of a well-formatted answer is <code>[&quot;-2*a*a*a&quot;, &quot;3*a*a*b&quot;, &quot;3*b*b&quot;, &quot;4*a&quot;, &quot;5*c&quot;, &quot;-6&quot;]</code>.</li>
-	<li>Terms (including constant terms) with coefficient <code>0</code> are not included.
+	<li>项的前导系数直接放在左边，用星号将它与变量分隔开(如果存在的话)。前导系数 1 仍然要打印出来。</li>
+	<li>格式良好的一个示例答案是&nbsp;<code>["-2*a*a*a", "3*a*a*b", "3*b*b", "4*a", "5*c", "-6"]</code>&nbsp;。</li>
+	<li>系数为 <code>0</code> 的项（包括常数项）不包括在内。
 	<ul>
-		<li>For example, an expression of <code>&quot;0&quot;</code> has an output of <code>[]</code>.</li>
+		<li>例如，<code>“0”</code> 的表达式输出为&nbsp;<code>[]</code>&nbsp;。</li>
 	</ul>
 	</li>
 </ul>
 
-<p><strong>Note:</strong> You may assume that the given expression is always valid. All intermediate results will be in the range of <code>[-2<sup>31</sup>, 2<sup>31</sup> - 1]</code>.</p>
+<p><strong>注意：</strong>你可以假设给定的表达式均有效。所有中间结果都在区间 <code>[-2<sup>31</sup>, 2<sup>31</sup> - 1]</code> 内。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> expression = &quot;e + 8 - a + 5&quot;, evalvars = [&quot;e&quot;], evalints = [1]
-<strong>Output:</strong> [&quot;-1*a&quot;,&quot;14&quot;]
+<strong>输入：</strong>expression = "e + 8 - a + 5", evalvars = ["e"], evalints = [1]
+<strong>输出：</strong>["-1*a","14"]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> expression = &quot;e - 8 + temperature - pressure&quot;, evalvars = [&quot;e&quot;, &quot;temperature&quot;], evalints = [1, 12]
-<strong>Output:</strong> [&quot;-1*pressure&quot;,&quot;5&quot;]
+<strong>输入：</strong>expression = "e - 8 + temperature - pressure",
+evalvars = ["e", "temperature"], evalints = [1, 12]
+<strong>输出：</strong>["-1*pressure","5"]
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> expression = &quot;(e + 8) * (e - 8)&quot;, evalvars = [], evalints = []
-<strong>Output:</strong> [&quot;1*e*e&quot;,&quot;-64&quot;]
+<strong>输入：</strong>expression = "(e + 8) * (e - 8)", evalvars = [], evalints = []
+<strong>输出：</strong>["1*e*e","-64"]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= expression.length &lt;= 250</code></li>
-	<li><code>expression</code> consists of lowercase English letters, digits, <code>&#39;+&#39;</code>, <code>&#39;-&#39;</code>, <code>&#39;*&#39;</code>, <code>&#39;(&#39;</code>, <code>&#39;)&#39;</code>, <code>&#39; &#39;</code>.</li>
-	<li><code>expression</code> does not contain any leading or trailing spaces.</li>
-	<li>All the tokens in <code>expression</code> are separated by a single space.</li>
+	<li><code>expression</code>&nbsp;由小写英文字母，数字&nbsp;<code>'+'</code>,&nbsp;<code>'-'</code>,&nbsp;<code>'*'</code>,&nbsp;<code>'('</code>,&nbsp;<code>')'</code>,&nbsp;<code>' '</code>&nbsp;组成</li>
+	<li><code>expression</code>&nbsp;不包含任何前空格或后空格</li>
+	<li><code>expression</code>&nbsp;中的所有符号都用一个空格隔开</li>
 	<li><code>0 &lt;= evalvars.length &lt;= 100</code></li>
 	<li><code>1 &lt;= evalvars[i].length &lt;= 20</code></li>
-	<li><code>evalvars[i]</code> consists of lowercase English letters.</li>
+	<li><code>evalvars[i]</code>&nbsp;由小写英文字母组成</li>
 	<li><code>evalints.length == evalvars.length</code></li>
 	<li><code>-100 &lt;= evalints[i] &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

@@ -1,95 +1,106 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1462.Course%20Schedule%20IV/README.md
 rating: 1692
-source: Biweekly Contest 27 Q3
+source: 第 27 场双周赛 Q3
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
-  - Topological Sort
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
+    - 拓扑排序
 ---
 
 <!-- problem:start -->
 
-# [1462. Course Schedule IV](https://leetcode.com/problems/course-schedule-iv)
+# [1462. 课程表 IV](https://leetcode.cn/problems/course-schedule-iv)
 
-## Description
+[English Version](/solution/1400-1499/1462.Course%20Schedule%20IV/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are a total of <code>numCourses</code> courses you have to take, labeled from <code>0</code> to <code>numCourses - 1</code>. You are given an array <code>prerequisites</code> where <code>prerequisites[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that you <strong>must</strong> take course <code>a<sub>i</sub></code> first if you want to take course <code>b<sub>i</sub></code>.</p>
+<p>你总共需要上<meta charset="UTF-8" />&nbsp;<code>numCourses</code>&nbsp;门课，课程编号依次为 <code>0</code>&nbsp;到&nbsp;<code>numCourses-1</code>&nbsp;。你会得到一个数组&nbsp;<code>prerequisite</code> ，其中<meta charset="UTF-8" />&nbsp;<code>prerequisites[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示如果你想选<meta charset="UTF-8" />&nbsp;<code>b<sub>i</sub></code> 课程，你<strong> 必须</strong> 先选<meta charset="UTF-8" />&nbsp;<code>a<sub>i</sub></code>&nbsp;课程。</p>
 
 <ul>
-	<li>For example, the pair <code>[0, 1]</code> indicates that you have to take course <code>0</code> before you can take course <code>1</code>.</li>
+	<li>有的课会有直接的先修课程，比如如果想上课程 <code>1</code>&nbsp;，你必须先上课程 <code>0</code>&nbsp;，那么会以 <code>[0,1]</code>&nbsp;数对的形式给出先修课程数对。</li>
 </ul>
 
-<p>Prerequisites can also be <strong>indirect</strong>. If course <code>a</code> is a prerequisite of course <code>b</code>, and course <code>b</code> is a prerequisite of course <code>c</code>, then course <code>a</code> is a prerequisite of course <code>c</code>.</p>
+<p>先决条件也可以是 <strong>间接</strong> 的。如果课程 <code>a</code> 是课程 <code>b</code> 的先决条件，课程 <code>b</code> 是课程 <code>c</code> 的先决条件，那么课程 <code>a</code> 就是课程 <code>c</code> 的先决条件。</p>
 
-<p>You are also given an array <code>queries</code> where <code>queries[j] = [u<sub>j</sub>, v<sub>j</sub>]</code>. For the <code>j<sup>th</sup></code> query, you should answer whether course <code>u<sub>j</sub></code> is a prerequisite of course <code>v<sub>j</sub></code> or not.</p>
+<p>你也得到一个数组<meta charset="UTF-8" />&nbsp;<code>queries</code>&nbsp;，其中<meta charset="UTF-8" />&nbsp;<code>queries[j] = [u<sub>j</sub>, v<sub>j</sub>]</code>。对于第 <code>j</code> 个查询，您应该回答课程<meta charset="UTF-8" />&nbsp;<code>u<sub>j</sub></code>&nbsp;是否是课程<meta charset="UTF-8" />&nbsp;<code>v<sub>j</sub></code>&nbsp;的先决条件。</p>
 
-<p>Return <i>a boolean array </i><code>answer</code><i>, where </i><code>answer[j]</code><i> is the answer to the </i><code>j<sup>th</sup></code><i> query.</i></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1462.Course%20Schedule%20IV/images/courses4-1-graph.jpg" style="width: 222px; height: 62px;" />
-<pre>
-<strong>Input:</strong> numCourses = 2, prerequisites = [[1,0]], queries = [[0,1],[1,0]]
-<strong>Output:</strong> [false,true]
-<strong>Explanation:</strong> The pair [1, 0] indicates that you have to take course 1 before you can take course 0.
-Course 0 is not a prerequisite of course 1, but the opposite is true.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> numCourses = 2, prerequisites = [], queries = [[1,0],[0,1]]
-<strong>Output:</strong> [false,false]
-<strong>Explanation:</strong> There are no prerequisites, and each course is independent.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1462.Course%20Schedule%20IV/images/courses4-3-graph.jpg" style="width: 222px; height: 222px;" />
-<pre>
-<strong>Input:</strong> numCourses = 3, prerequisites = [[1,2],[1,0],[2,0]], queries = [[1,0],[1,2]]
-<strong>Output:</strong> [true,true]
-</pre>
+<p>返回一个布尔数组 <code>answer</code> ，其中 <code>answer[j]</code> 是第 <code>j</code> 个查询的答案。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1462.Course%20Schedule%20IV/images/courses4-1-graph.jpg" /></p>
+
+<pre>
+<strong>输入：</strong>numCourses = 2, prerequisites = [[1,0]], queries = [[0,1],[1,0]]
+<strong>输出：</strong>[false,true]
+<strong>解释：</strong>[1, 0] 数对表示在你上课程 0 之前必须先上课程 1。
+课程 0 不是课程 1 的先修课程，但课程 1 是课程 0 的先修课程。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>numCourses = 2, prerequisites = [], queries = [[1,0],[0,1]]
+<strong>输出：</strong>[false,false]
+<strong>解释：</strong>没有先修课程对，所以每门课程之间是独立的。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1462.Course%20Schedule%20IV/images/courses4-3-graph.jpg" /></p>
+
+<pre>
+<strong>输入：</strong>numCourses = 3, prerequisites = [[1,2],[1,0],[2,0]], queries = [[1,0],[1,2]]
+<strong>输出：</strong>[true,true]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
+
+<p><meta charset="UTF-8" /></p>
 
 <ul>
 	<li><code>2 &lt;= numCourses &lt;= 100</code></li>
 	<li><code>0 &lt;= prerequisites.length &lt;= (numCourses * (numCourses - 1) / 2)</code></li>
 	<li><code>prerequisites[i].length == 2</code></li>
-	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= numCourses - 1</code></li>
-	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li>All the pairs <code>[a<sub>i</sub>, b<sub>i</sub>]</code> are <strong>unique</strong>.</li>
-	<li>The prerequisites graph has no cycles.</li>
+	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub>&nbsp;&lt;= numCourses - 1</code></li>
+	<li><code>a<sub>i</sub>&nbsp;!= b<sub>i</sub></code></li>
+	<li>每一对<meta charset="UTF-8" />&nbsp;<code>[a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;都 <strong>不同</strong></li>
+	<li>先修课程图中没有环。</li>
 	<li><code>1 &lt;= queries.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt;= numCourses - 1</code></li>
-	<li><code>u<sub>i</sub> != v<sub>i</sub></code></li>
+	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub>&nbsp;&lt;= numCourses - 1</code></li>
+	<li><code>u<sub>i</sub>&nbsp;!= v<sub>i</sub></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Floyd's Algorithm
+### 方法一：Floyd 算法
 
-We create a 2D array $f$, where $f[i][j]$ indicates whether node $i$ can reach node $j$.
+我们创建一个二维数组 $f$，其中 $f[i][j]$ 表示节点 $i$ 到节点 $j$ 是否可达。
 
-Next, we iterate through the prerequisites array $prerequisites$. For each item $[a, b]$ in it, we set $f[a][b]$ to $true$.
+接下来，我们遍历先修课程数组 $prerequisites$，对于其中的每一项 $[a, b]$，我们将 $f[a][b]$ 设为 $true$。
 
-Then, we use Floyd's algorithm to compute the reachability between all pairs of nodes.
+然后，我们使用 Floyd 算法计算出所有节点对之间的可达性。
 
-Specifically, we use three nested loops: first enumerating the intermediate node $k$, then the starting node $i$, and finally the ending node $j$. For each iteration, if node $i$ can reach node $k$ and node $k$ can reach node $j$, then node $i$ can also reach node $j$, and we set $f[i][j]$ to $true$.
+具体地，我们使用三重循环，首先枚举中间点 $k$，接下来枚举起点 $i$，最后枚举终点 $j$。对于每一次循环，如果节点 $i$ 到节点 $k$ 可达，且节点 $k$ 到节点 $j$ 可达，那么节点 $i$ 到节点 $j$ 也是可达的，我们将 $f[i][j]$ 设为 $true$。
 
-After computing the reachability between all pairs of nodes, for each query $[a, b]$, we can directly return $f[a][b]$.
+在计算完所有节点对之间的可达性之后，对于每一个查询 $[a, b]$，我们直接返回 $f[a][b]$ 即可。
 
-The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$, where $n$ is the number of nodes.
+时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 为节点数。
 
 <!-- tabs:start -->
 
@@ -191,21 +202,17 @@ func checkIfPrerequisite(n int, prerequisites [][]int, queries [][]int) (ans []b
 #### TypeScript
 
 ```ts
-function checkIfPrerequisite(
-  n: number,
-  prerequisites: number[][],
-  queries: number[][]
-): boolean[] {
-  const f = Array.from({ length: n }, () => Array(n).fill(false));
-  prerequisites.forEach(([a, b]) => (f[a][b] = true));
-  for (let k = 0; k < n; ++k) {
-    for (let i = 0; i < n; ++i) {
-      for (let j = 0; j < n; ++j) {
-        f[i][j] ||= f[i][k] && f[k][j];
-      }
+function checkIfPrerequisite(n: number, prerequisites: number[][], queries: number[][]): boolean[] {
+    const f = Array.from({ length: n }, () => Array(n).fill(false));
+    prerequisites.forEach(([a, b]) => (f[a][b] = true));
+    for (let k = 0; k < n; ++k) {
+        for (let i = 0; i < n; ++i) {
+            for (let j = 0; j < n; ++j) {
+                f[i][j] ||= f[i][k] && f[k][j];
+            }
+        }
     }
-  }
-  return queries.map(([a, b]) => f[a][b]);
+    return queries.map(([a, b]) => f[a][b]);
 }
 ```
 
@@ -215,19 +222,19 @@ function checkIfPrerequisite(
 
 <!-- solution:start -->
 
-### Solution 2: Topological Sorting
+### 方法二：拓扑排序
 
-Similar to Solution 1, we create a 2D array $f$, where $f[i][j]$ indicates whether node $i$ can reach node $j$. Additionally, we create an adjacency list $g$, where $g[i]$ represents all successor nodes of node $i$, and an array $indeg$, where $indeg[i]$ represents the in-degree of node $i$.
+与方法一类似，我们创建一个二维数组 $f$，其中 $f[i][j]$ 表示节点 $i$ 到节点 $j$ 是否可达。另外，我们创建一个邻接表 $g$，其中 $g[i]$ 表示节点 $i$ 的所有后继节点；创建一个数组 $indeg$，其中 $indeg[i]$ 表示节点 $i$ 的入度。
 
-Next, we iterate through the prerequisites array $prerequisites$. For each item $[a, b]$ in it, we update the adjacency list $g$ and the in-degree array $indeg$.
+接下来，我们遍历先修课程数组 $prerequisites$，对于其中的每一项 $[a, b]$，我们更新邻接表 $g$ 和入度数组 $indeg$。
 
-Then, we use topological sorting to compute the reachability between all pairs of nodes.
+然后，我们使用拓扑排序计算出所有节点对之间的可达性。
 
-We define a queue $q$, initially adding all nodes with an in-degree of $0$ to the queue. Then, we continuously perform the following operations: remove the front node $i$ from the queue, then iterate through all nodes $j$ in $g[i]$, setting $f[i][j]$ to $true$. Next, we enumerate node $h$, and if $f[h][i]$ is $true$, we also set $f[h][j]$ to $true$. After this, we decrease the in-degree of $j$ by $1$. If the in-degree of $j$ becomes $0$, we add $j$ to the queue.
+定义一个队列 $q$，初始时将所有入度为 $0$ 的节点加入队列中。随后不断进行以下操作：取出队首节点 $i$，然后遍历 $g[i]$ 中的所有节点 $j$，将 $f[i][j]$ 设为 $true$。接下来，我们枚举节点 $h$，如果 $f[h][i]$ 为 $true$，那么我们也将 $f[h][j]$ 设为 $true$。在这之后，我们将 $j$ 的入度减少 $1$。如果此时 $j$ 的入度为 $0$，那么我们就将 $j$ 加入队列中。
 
-After computing the reachability between all pairs of nodes, for each query $[a, b]$, we can directly return $f[a][b]$.
+在计算完所有节点对之间的可达性之后，对于每一个查询 $[a, b]$，我们直接返回 $f[a][b]$ 即可。
 
-The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$, where $n$ is the number of nodes.
+时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 为节点数。
 
 <!-- tabs:start -->
 
@@ -384,37 +391,33 @@ func checkIfPrerequisite(n int, prerequisites [][]int, queries [][]int) (ans []b
 #### TypeScript
 
 ```ts
-function checkIfPrerequisite(
-  n: number,
-  prerequisites: number[][],
-  queries: number[][]
-): boolean[] {
-  const f = Array.from({ length: n }, () => Array(n).fill(false));
-  const g: number[][] = Array.from({ length: n }, () => []);
-  const indeg: number[] = Array(n).fill(0);
-  for (const [a, b] of prerequisites) {
-    g[a].push(b);
-    ++indeg[b];
-  }
-  const q: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    if (indeg[i] === 0) {
-      q.push(i);
+function checkIfPrerequisite(n: number, prerequisites: number[][], queries: number[][]): boolean[] {
+    const f = Array.from({ length: n }, () => Array(n).fill(false));
+    const g: number[][] = Array.from({ length: n }, () => []);
+    const indeg: number[] = Array(n).fill(0);
+    for (const [a, b] of prerequisites) {
+        g[a].push(b);
+        ++indeg[b];
     }
-  }
-  while (q.length) {
-    const i = q.shift()!;
-    for (const j of g[i]) {
-      f[i][j] = true;
-      for (let h = 0; h < n; ++h) {
-        f[h][j] ||= f[h][i];
-      }
-      if (--indeg[j] === 0) {
-        q.push(j);
-      }
+    const q: number[] = [];
+    for (let i = 0; i < n; ++i) {
+        if (indeg[i] === 0) {
+            q.push(i);
+        }
     }
-  }
-  return queries.map(([a, b]) => f[a][b]);
+    while (q.length) {
+        const i = q.shift()!;
+        for (const j of g[i]) {
+            f[i][j] = true;
+            for (let h = 0; h < n; ++h) {
+                f[h][j] ||= f[h][i];
+            }
+            if (--indeg[j] === 0) {
+                q.push(j);
+            }
+        }
+    }
+    return queries.map(([a, b]) => f[a][b]);
 }
 ```
 

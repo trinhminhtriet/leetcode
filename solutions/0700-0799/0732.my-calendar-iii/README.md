@@ -1,69 +1,89 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0732.My%20Calendar%20III/README.md
 tags:
-  - Design
-  - Segment Tree
-  - Binary Search
-  - Ordered Set
-  - Prefix Sum
+    - 设计
+    - 线段树
+    - 二分查找
+    - 有序集合
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [732. My Calendar III](https://leetcode.com/problems/my-calendar-iii)
+# [732. 我的日程安排表 III](https://leetcode.cn/problems/my-calendar-iii)
 
-## Description
+[English Version](/solution/0700-0799/0732.My%20Calendar%20III/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <code>k</code>-booking happens when <code>k</code> events have some non-empty intersection (i.e., there is some time that is common to all <code>k</code> events.)</p>
+<p>当 <code>k</code> 个日程存在一些非空交集时（即, <code>k</code> 个日程包含了一些相同时间），就会产生 <code>k</code> 次预订。</p>
 
-<p>You are given some events <code>[startTime, endTime)</code>, after each given event, return an integer <code>k</code> representing the maximum <code>k</code>-booking between all the previous events.</p>
+<p>给你一些日程安排 <code>[startTime, endTime)</code> ，请你在每个日程安排添加后，返回一个整数 <code>k</code> ，表示所有先前日程安排会产生的最大 <code>k</code> 次预订。</p>
 
-<p>Implement the <code>MyCalendarThree</code> class:</p>
+<p>实现一个 <code>MyCalendarThree</code> 类来存放你的日程安排，你可以一直添加新的日程安排。</p>
 
 <ul>
-	<li><code>MyCalendarThree()</code> Initializes the object.</li>
-	<li><code>int book(int startTime, int endTime)</code> Returns an integer <code>k</code> representing the largest integer such that there exists a <code>k</code>-booking in the calendar.</li>
+	<li><code>MyCalendarThree()</code> 初始化对象。</li>
+	<li><code>int book(int startTime, int endTime)</code> 返回一个整数 <code>k</code> ，表示日历中存在的 <code>k</code> 次预订的最大值。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;MyCalendarThree&quot;, &quot;book&quot;, &quot;book&quot;, &quot;book&quot;, &quot;book&quot;, &quot;book&quot;, &quot;book&quot;]
+<strong>输入：</strong>
+["MyCalendarThree", "book", "book", "book", "book", "book", "book"]
 [[], [10, 20], [50, 60], [10, 40], [5, 15], [5, 10], [25, 55]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null, 1, 1, 2, 3, 3, 3]
 
-<strong>Explanation</strong>
+<strong>解释：</strong>
 MyCalendarThree myCalendarThree = new MyCalendarThree();
-myCalendarThree.book(10, 20); // return 1
-myCalendarThree.book(50, 60); // return 1
-myCalendarThree.book(10, 40); // return 2
-myCalendarThree.book(5, 15); // return 3
-myCalendarThree.book(5, 10); // return 3
-myCalendarThree.book(25, 55); // return 3
-
+myCalendarThree.book(10, 20); // 返回 1 ，第一个日程安排可以预订并且不存在相交，所以最大 k 次预订是 1 次预订。
+myCalendarThree.book(50, 60); // 返回 1 ，第二个日程安排可以预订并且不存在相交，所以最大 k 次预订是 1 次预订。
+myCalendarThree.book(10, 40); // 返回 2 ，第三个日程安排 [10, 40) 与第一个日程安排相交，所以最大 k 次预订是 2 次预订。
+myCalendarThree.book(5, 15); // 返回 3 ，剩下的日程安排的最大 k 次预订是 3 次预订。
+myCalendarThree.book(5, 10); // 返回 3
+myCalendarThree.book(25, 55); // 返回 3
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= startTime &lt; endTime &lt;= 10<sup>9</sup></code></li>
-	<li>At most <code>400</code> calls will be made to <code>book</code>.</li>
+	<li>每个测试用例，调用 <code>book</code>&nbsp;函数最多不超过&nbsp;<code>400</code>次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：线段树
+
+线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 $log(\text{width})$。更新某个元素的值，只需要更新 $log(\text{width})$ 个区间，并且这些区间都包含在一个包含该元素的大区间内。区间修改时，需要使用**懒标记**保证效率。
+
+-   线段树的每个节点代表一个区间；
+-   线段树具有唯一的根节点，代表的区间是整个统计范围，如 $[1,N]$；
+-   线段树的每个叶子节点代表一个长度为 $1$ 的元区间 $[x, x]$；
+-   对于每个内部节点 $[l,r]$，它的左儿子是 $[l,\text{mid}]$，右儿子是 $[\text{mid}+1,r]$, 其中 $\text{mid} = ⌊(l+r)/2⌋$ (即向下取整)。
+
+对于本题，线段树节点维护的信息有：
+
+1. 区间范围内被预定的次数的最大值 $v$
+1. 懒标记 $\text{add}$
+
+由于时间范围为 $10^9$，非常大，因此我们采用动态开点。
+
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$，其中 $n$ 表示日程安排的数量。
 
 <!-- tabs:start -->
 
@@ -85,7 +105,7 @@ class SegmentTree:
     def __init__(self):
         self.root = Node(1, int(1e9 + 1))
 
-    def modify(self, l, r, v, node=None):
+    def modify(self, l: int, r: int, v: int, node: Node = None):
         if l > r:
             return
         if node is None:
@@ -101,7 +121,7 @@ class SegmentTree:
             self.modify(l, r, v, node.right)
         self.pushup(node)
 
-    def query(self, l, r, node=None):
+    def query(self, l: int, r: int, node: Node = None) -> int:
         if l > r:
             return 0
         if node is None:
@@ -116,10 +136,10 @@ class SegmentTree:
             v = max(v, self.query(l, r, node.right))
         return v
 
-    def pushup(self, node):
+    def pushup(self, node: Node):
         node.v = max(node.left.v, node.right.v)
 
-    def pushdown(self, node):
+    def pushdown(self, node: Node):
         if node.left is None:
             node.left = Node(node.l, node.mid)
         if node.right is None:
@@ -292,15 +312,21 @@ public:
     }
 
     void modify(int l, int r, int v, Node* node) {
-        if (l > r) return;
+        if (l > r) {
+            return;
+        }
         if (node->l >= l && node->r <= r) {
             node->v += v;
             node->add += v;
             return;
         }
         pushdown(node);
-        if (l <= node->mid) modify(l, r, v, node->left);
-        if (r > node->mid) modify(l, r, v, node->right);
+        if (l <= node->mid) {
+            modify(l, r, v, node->left);
+        }
+        if (r > node->mid) {
+            modify(l, r, v, node->right);
+        }
         pushup(node);
     }
 
@@ -309,12 +335,18 @@ public:
     }
 
     int query(int l, int r, Node* node) {
-        if (l > r) return 0;
+        if (l > r) {
+            return 0;
+        }
         if (node->l >= l && node->r <= r) return node->v;
         pushdown(node);
         int v = 0;
-        if (l <= node->mid) v = max(v, query(l, r, node->left));
-        if (r > node->mid) v = max(v, query(l, r, node->right));
+        if (l <= node->mid) {
+            v = max(v, query(l, r, node->left));
+        }
+        if (r > node->mid) {
+            v = max(v, query(l, r, node->right));
+        }
         return v;
     }
 
@@ -323,8 +355,12 @@ public:
     }
 
     void pushdown(Node* node) {
-        if (!node->left) node->left = new Node(node->l, node->mid);
-        if (!node->right) node->right = new Node(node->mid + 1, node->r);
+        if (!node->left) {
+            node->left = new Node(node->l, node->mid);
+        }
+        if (!node->right) {
+            node->right = new Node(node->mid + 1, node->r);
+        }
         if (node->add) {
             Node* left = node->left;
             Node* right = node->right;
@@ -460,6 +496,110 @@ func (this *MyCalendarThree) Book(start int, end int) int {
  * Your MyCalendarThree object will be instantiated and called as such:
  * obj := Constructor();
  * param_1 := obj.Book(start,end);
+ */
+```
+
+#### TypeScript
+
+```ts
+class Node {
+    left: Node | null = null;
+    right: Node | null = null;
+    l: number;
+    r: number;
+    mid: number;
+    v: number = 0;
+    add: number = 0;
+
+    constructor(l: number, r: number) {
+        this.l = l;
+        this.r = r;
+        this.mid = (l + r) >> 1;
+    }
+}
+
+class SegmentTree {
+    private root: Node = new Node(1, 1e9 + 1);
+
+    constructor() {}
+
+    modify(l: number, r: number, v: number, node: Node = this.root): void {
+        if (l > r) {
+            return;
+        }
+        if (node.l >= l && node.r <= r) {
+            node.v += v;
+            node.add += v;
+            return;
+        }
+        this.pushdown(node);
+        if (l <= node.mid) {
+            this.modify(l, r, v, node.left!);
+        }
+        if (r > node.mid) {
+            this.modify(l, r, v, node.right!);
+        }
+        this.pushup(node);
+    }
+
+    query(l: number, r: number, node: Node = this.root): number {
+        if (l > r) {
+            return 0;
+        }
+        if (node.l >= l && node.r <= r) {
+            return node.v;
+        }
+        this.pushdown(node);
+        let v = 0;
+        if (l <= node.mid) {
+            v = Math.max(v, this.query(l, r, node.left!));
+        }
+        if (r > node.mid) {
+            v = Math.max(v, this.query(l, r, node.right!));
+        }
+        return v;
+    }
+
+    private pushup(node: Node): void {
+        node.v = Math.max(node.left!.v, node.right!.v);
+    }
+
+    private pushdown(node: Node): void {
+        if (node.left === null) {
+            node.left = new Node(node.l, node.mid);
+        }
+        if (node.right === null) {
+            node.right = new Node(node.mid + 1, node.r);
+        }
+        if (node.add !== 0) {
+            const left = node.left!;
+            const right = node.right!;
+            left.add += node.add;
+            right.add += node.add;
+            left.v += node.add;
+            right.v += node.add;
+            node.add = 0;
+        }
+    }
+}
+
+class MyCalendarThree {
+    private tree: SegmentTree;
+
+    constructor() {
+        this.tree = new SegmentTree();
+    }
+
+    book(start: number, end: number): number {
+        this.tree.modify(start + 1, end, 1);
+        return this.tree.query(1, 1e9 + 1);
+    }
+}
+
+/**
+ * Your MyCalendarThree object will be instantiated and called as such:
+ * var obj = new MyCalendarThree()
+ * var param_1 = obj.book(startTime, endTime)
  */
 ```
 

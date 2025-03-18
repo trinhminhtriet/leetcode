@@ -1,57 +1,62 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2939.Maximum%20Xor%20Product/README.md
 rating: 2127
-source: Weekly Contest 372 Q3
+source: 第 372 场周赛 Q3
 tags:
-  - Greedy
-  - Bit Manipulation
-  - Math
+    - 贪心
+    - 位运算
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2939. Maximum Xor Product](https://leetcode.com/problems/maximum-xor-product)
+# [2939. 最大异或乘积](https://leetcode.cn/problems/maximum-xor-product)
 
-## Description
+[English Version](/solution/2900-2999/2939.Maximum%20Xor%20Product/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given three integers <code>a</code>, <code>b</code>, and <code>n</code>, return <em>the <strong>maximum value</strong> of</em> <code>(a XOR x) * (b XOR x)</code> <em>where</em> <code>0 &lt;= x &lt; 2<sup>n</sup></code>.</p>
+<p>给你三个整数&nbsp;<code>a</code>&nbsp;，<code>b</code>&nbsp;和&nbsp;<code>n</code>&nbsp;，请你返回&nbsp;<code>(a XOR x) * (b XOR x)</code>&nbsp;的&nbsp;<strong>最大值</strong>&nbsp;且 <code>x</code>&nbsp;需要满足 <code>0 &lt;= x &lt; 2<sup>n</sup></code>。</p>
 
-<p>Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9 </sup>+ 7</code>.</p>
+<p>由于答案可能会很大，返回它对&nbsp;<code>10<sup>9 </sup>+ 7</code>&nbsp;<strong>取余</strong>&nbsp;后的结果。</p>
 
-<p><strong>Note</strong> that <code>XOR</code> is the bitwise XOR operation.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> a = 12, b = 5, n = 4
-<strong>Output:</strong> 98
-<strong>Explanation:</strong> For x = 2, (a XOR x) = 14 and (b XOR x) = 7. Hence, (a XOR x) * (b XOR x) = 98. 
-It can be shown that 98 is the maximum value of (a XOR x) * (b XOR x) for all 0 &lt;= x &lt; 2<sup>n</sup><span style="font-size: 10.8333px;">.</span>
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> a = 6, b = 7 , n = 5
-<strong>Output:</strong> 930
-<strong>Explanation:</strong> For x = 25, (a XOR x) = 31 and (b XOR x) = 30. Hence, (a XOR x) * (b XOR x) = 930.
-It can be shown that 930 is the maximum value of (a XOR x) * (b XOR x) for all 0 &lt;= x &lt; 2<sup>n</sup>.</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> a = 1, b = 6, n = 3
-<strong>Output:</strong> 12
-<strong>Explanation:</strong> For x = 5, (a XOR x) = 4 and (b XOR x) = 3. Hence, (a XOR x) * (b XOR x) = 12.
-It can be shown that 12 is the maximum value of (a XOR x) * (b XOR x) for all 0 &lt;= x &lt; 2<sup>n</sup>.
-</pre>
+<p><strong>注意</strong>，<code>XOR</code>&nbsp;是按位异或操作。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>a = 12, b = 5, n = 4
+<b>输出：</b>98
+<b>解释：</b>当 x = 2 时，(a XOR x) = 14 且 (b XOR x) = 7 。所以，(a XOR x) * (b XOR x) = 98 。
+98 是所有满足 0 &lt;= x &lt; 2<sup>n </sup>中 (a XOR x) * (b XOR x) 的最大值。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>a = 6, b = 7 , n = 5
+<b>输出：</b>930
+<b>解释：</b>当 x = 25 时，(a XOR x) = 31 且 (b XOR x) = 30 。所以，(a XOR x) * (b XOR x) = 930 。
+930 是所有满足 0 &lt;= x &lt; 2<sup>n </sup>中 (a XOR x) * (b XOR x) 的最大值。</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>a = 1, b = 6, n = 3
+<b>输出：</b>12
+<b>解释： </b>当 x = 5 时，(a XOR x) = 4 且 (b XOR x) = 3 。所以，(a XOR x) * (b XOR x) = 12 。
+12 是所有满足 0 &lt;= x &lt; 2<sup>n </sup>中 (a XOR x) * (b XOR x) 的最大值。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= a, b &lt; 2<sup>50</sup></code></li>
@@ -60,23 +65,23 @@ It can be shown that 12 is the maximum value of (a XOR x) * (b XOR x) for all 0 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Bitwise Operation
+### 方法一：贪心 + 位运算
 
-According to the problem description, we can assign a number to the $[0..n)$ bits of $a$ and $b$ in binary at the same time, so that the product of $a$ and $b$ is maximized.
+根据题目描述，我们可以给 $a$ 和 $b$ 在二进制下 $[0..n)$ 位上同时分配一个数字，最终使得 $a$ 和 $b$ 的乘积最大。
 
-Therefore, we first extract the parts of $a$ and $b$ that are higher than the $n$ bits, denoted as $ax$ and $bx$.
+因此，我们首先提取 $a$ 和 $b$ 高于 $n$ 位的部分，分别记为 $ax$ 和 $bx$。
 
-Next, we consider each bit in $[0..n)$ from high to low. We denote the current bits of $a$ and $b$ as $x$ and $y$.
+接下来，从大到小考虑 $[0..n)$ 位上的每一位，我们将 $a$ 和 $b$ 的当前位分别记为 $x$ 和 $y$。
 
-If $x = y$, then we can set the current bit of $ax$ and $bx$ to $1$ at the same time. Therefore, we update $ax = ax \mid 1 << i$ and $bx = bx \mid 1 << i$. Otherwise, if $ax < bx$, to maximize the final product, we should set the current bit of $ax$ to $1$. Otherwise, we can set the current bit of $bx$ to $1$.
+如果 $x = y$，那么我们可以将 $ax$ 和 $bx$ 的当前位同时置为 $1$，因此，我们更新 $ax = ax \mid 1 << i$ 和 $bx = bx \mid 1 << i$。否则，如果 $ax \lt bx$，要使得最终的乘积最大，我们应该让 $ax$ 的当前位置为 $1$，否则我们可以将 $bx$ 的当前位置为 $1$。
 
-Finally, we return $ax \times bx \bmod (10^9 + 7)$ as the answer.
+最后，我们返回 $ax \times bx \bmod (10^9 + 7)$ 即为答案。
 
-The time complexity is $O(n)$, where $n$ is the integer given in the problem. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为题目给定的整数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -181,24 +186,24 @@ func maximumXorProduct(a int64, b int64, n int) int {
 
 ```ts
 function maximumXorProduct(a: number, b: number, n: number): number {
-  const mod = BigInt(1e9 + 7);
-  let ax = (BigInt(a) >> BigInt(n)) << BigInt(n);
-  let bx = (BigInt(b) >> BigInt(n)) << BigInt(n);
-  for (let i = BigInt(n - 1); ~i; --i) {
-    const x = (BigInt(a) >> i) & 1n;
-    const y = (BigInt(b) >> i) & 1n;
-    if (x === y) {
-      ax |= 1n << i;
-      bx |= 1n << i;
-    } else if (ax < bx) {
-      ax |= 1n << i;
-    } else {
-      bx |= 1n << i;
+    const mod = BigInt(1e9 + 7);
+    let ax = (BigInt(a) >> BigInt(n)) << BigInt(n);
+    let bx = (BigInt(b) >> BigInt(n)) << BigInt(n);
+    for (let i = BigInt(n - 1); ~i; --i) {
+        const x = (BigInt(a) >> i) & 1n;
+        const y = (BigInt(b) >> i) & 1n;
+        if (x === y) {
+            ax |= 1n << i;
+            bx |= 1n << i;
+        } else if (ax < bx) {
+            ax |= 1n << i;
+        } else {
+            bx |= 1n << i;
+        }
     }
-  }
-  ax %= mod;
-  bx %= mod;
-  return Number((ax * bx) % mod);
+    ax %= mod;
+    bx %= mod;
+    return Number((ax * bx) % mod);
 }
 ```
 

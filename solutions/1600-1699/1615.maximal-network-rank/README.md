@@ -1,82 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1615.Maximal%20Network%20Rank/README.md
 rating: 1521
-source: Weekly Contest 210 Q2
+source: 第 210 场周赛 Q2
 tags:
-  - Graph
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [1615. Maximal Network Rank](https://leetcode.com/problems/maximal-network-rank)
+# [1615. 最大网络秩](https://leetcode.cn/problems/maximal-network-rank)
 
-## Description
+[English Version](/solution/1600-1699/1615.Maximal%20Network%20Rank/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an infrastructure of <code>n</code> cities with some number of <code>roads</code> connecting these cities. Each <code>roads[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is a bidirectional road between cities <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>.</p>
+<p><code>n</code> 座城市和一些连接这些城市的道路 <code>roads</code> 共同组成一个基础设施网络。每个 <code>roads[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 都表示在城市 <code>a<sub>i</sub></code> 和 <code>b<sub>i</sub></code> 之间有一条双向道路。</p>
 
-<p>The <strong>network rank</strong><em> </em>of <strong>two different cities</strong> is defined as the total number of&nbsp;<strong>directly</strong> connected roads to <strong>either</strong> city. If a road is directly connected to both cities, it is only counted <strong>once</strong>.</p>
+<p>两座不同城市构成的 <strong>城市对</strong> 的 <strong>网络秩</strong> 定义为：与这两座城市 <strong>直接</strong> 相连的道路总数。如果存在一条道路直接连接这两座城市，则这条道路只计算 <strong>一次</strong> 。</p>
 
-<p>The <strong>maximal network rank </strong>of the infrastructure is the <strong>maximum network rank</strong> of all pairs of different cities.</p>
+<p>整个基础设施网络的 <strong>最大网络秩</strong> 是所有不同城市对中的 <strong>最大网络秩</strong> 。</p>
 
-<p>Given the integer <code>n</code> and the array <code>roads</code>, return <em>the <strong>maximal network rank</strong> of the entire infrastructure</em>.</p>
+<p>给你整数 <code>n</code> 和数组 <code>roads</code>，返回整个基础设施网络的 <strong>最大网络秩</strong> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1615.Maximal%20Network%20Rank/images/ex1.png" style="width: 292px; height: 172px;" /></strong></p>
 
 <pre>
-<strong>Input:</strong> n = 4, roads = [[0,1],[0,3],[1,2],[1,3]]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The network rank of cities 0 and 1 is 4 as there are 4 roads that are connected to either 0 or 1. The road between 0 and 1 is only counted once.
+<strong>输入：</strong>n = 4, roads = [[0,1],[0,3],[1,2],[1,3]]
+<strong>输出：</strong>4
+<strong>解释：</strong>城市 0 和 1 的网络秩是 4，因为共有 4 条道路与城市 0 或 1 相连。位于 0 和 1 之间的道路只计算一次。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1615.Maximal%20Network%20Rank/images/ex2.png" style="width: 292px; height: 172px;" /></strong></p>
 
 <pre>
-<strong>Input:</strong> n = 5, roads = [[0,1],[0,3],[1,2],[1,3],[2,3],[2,4]]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> There are 5 roads that are connected to cities 1 or 2.
+<strong>输入：</strong>n = 5, roads = [[0,1],[0,3],[1,2],[1,3],[2,3],[2,4]]
+<strong>输出：</strong>5
+<strong>解释：</strong>共有 5 条道路与城市 1 或 2 相连。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 8, roads = [[0,1],[1,2],[2,3],[2,4],[5,6],[5,7]]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The network rank of 2 and 5 is 5. Notice that all the cities do not have to be connected.
+<strong>输入：</strong>n = 8, roads = [[0,1],[1,2],[2,3],[2,4],[5,6],[5,7]]
+<strong>输出：</strong>5
+<strong>解释：</strong>2 和 5 的网络秩为 5，注意并非所有的城市都需要连接起来。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>2 &lt;= n &lt;= 100</code></li>
-	<li><code>0 &lt;= roads.length &lt;= n * (n - 1) / 2</code></li>
+	<li><code>2 <= n <= 100</code></li>
+	<li><code>0 <= roads.length <= n * (n - 1) / 2</code></li>
 	<li><code>roads[i].length == 2</code></li>
-	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub>&nbsp;&lt;= n-1</code></li>
-	<li><code>a<sub>i</sub>&nbsp;!=&nbsp;b<sub>i</sub></code></li>
-	<li>Each&nbsp;pair of cities has <strong>at most one</strong> road connecting them.</li>
+	<li><code>0 <= a<sub>i</sub>, b<sub>i</sub> <= n-1</code></li>
+	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
+	<li>每对城市之间 <strong>最多只有一条</strong> 道路相连</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We can use a one-dimensional array $\textit{cnt}$ to record the degree of each city and a two-dimensional array $\textit{g}$ to record whether there is a road between each pair of cities. If there is a road between city $a$ and city $b$, then $\textit{g}[a][b] = \textit{g}[b][a] = 1$; otherwise, $\textit{g}[a][b] = \textit{g}[b][a] = 0$.
+我们可以用一维数组 $\textit{cnt}$ 记录每个城市的度，用二维数组 $\textit{g}$ 记录每对城市之间是否有道路相连，如果城市 $a$ 和城市 $b$ 之间有道路相连，则 $\textit{g}[a][b] = \textit{g}[b][a] = 1$，否则 $\textit{g}[a][b] = \textit{g}[b][a] = 0$。
 
-Next, we enumerate each pair of cities $(a, b)$, where $a \lt b$, and calculate their network rank, which is $\textit{cnt}[a] + \textit{cnt}[b] - \textit{g}[a][b]$. The maximum value among these is the answer.
+接下来，我们枚举每对城市 $(a, b)$，其中 $a \lt b$，计算它们的网络秩，即 $\textit{cnt}[a] + \textit{cnt}[b] - \textit{g}[a][b]$，取其中的最大值即为答案。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the number of cities.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是城市的数量。
 
 <!-- tabs:start -->
 
@@ -174,21 +179,21 @@ func maximalNetworkRank(n int, roads [][]int) (ans int) {
 
 ```ts
 function maximalNetworkRank(n: number, roads: number[][]): number {
-  const g: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
-  const cnt: number[] = Array(n).fill(0);
-  for (const [a, b] of roads) {
-    g[a][b] = 1;
-    g[b][a] = 1;
-    ++cnt[a];
-    ++cnt[b];
-  }
-  let ans = 0;
-  for (let a = 0; a < n; ++a) {
-    for (let b = a + 1; b < n; ++b) {
-      ans = Math.max(ans, cnt[a] + cnt[b] - g[a][b]);
+    const g: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
+    const cnt: number[] = Array(n).fill(0);
+    for (const [a, b] of roads) {
+        g[a][b] = 1;
+        g[b][a] = 1;
+        ++cnt[a];
+        ++cnt[b];
     }
-  }
-  return ans;
+    let ans = 0;
+    for (let a = 0; a < n; ++a) {
+        for (let b = a + 1; b < n; ++b) {
+            ans = Math.max(ans, cnt[a] + cnt[b] - g[a][b]);
+        }
+    }
+    return ans;
 }
 ```
 

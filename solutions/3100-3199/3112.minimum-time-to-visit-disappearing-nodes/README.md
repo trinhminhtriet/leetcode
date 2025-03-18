@@ -1,86 +1,91 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3112.Minimum%20Time%20to%20Visit%20Disappearing%20Nodes/README.md
 rating: 1756
-source: Biweekly Contest 128 Q3
+source: 第 128 场双周赛 Q3
 tags:
-  - Graph
-  - Array
-  - Shortest Path
-  - Heap (Priority Queue)
+    - 图
+    - 数组
+    - 最短路
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [3112. Minimum Time to Visit Disappearing Nodes](https://leetcode.com/problems/minimum-time-to-visit-disappearing-nodes)
+# [3112. 访问消失节点的最少时间](https://leetcode.cn/problems/minimum-time-to-visit-disappearing-nodes)
 
-## Description
+[English Version](/solution/3100-3199/3112.Minimum%20Time%20to%20Visit%20Disappearing%20Nodes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an undirected graph of <code>n</code> nodes. You are given a 2D array <code>edges</code>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>, length<sub>i</sub>]</code> describes an edge between node <code>u<sub>i</sub></code> and node <code>v<sub>i</sub></code> with a traversal time of <code>length<sub>i</sub></code> units.</p>
+<p>给你一个二维数组 <code>edges</code>&nbsp;表示一个 <code>n</code>&nbsp;个点的无向图，其中&nbsp;<code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>, length<sub>i</sub>]</code>&nbsp;表示节点&nbsp;<code>u<sub>i</sub></code> 和节点&nbsp;<code>v<sub>i</sub></code>&nbsp;之间有一条需要&nbsp;<code>length<sub>i</sub></code>&nbsp;单位时间通过的无向边。</p>
 
-<p>Additionally, you are given an array <code>disappear</code>, where <code>disappear[i]</code> denotes the time when the node <code>i</code> disappears from the graph and you won&#39;t be able to visit it.</p>
+<p>同时给你一个数组&nbsp;<code>disappear</code>&nbsp;，其中&nbsp;<code>disappear[i]</code>&nbsp;表示节点 <code>i</code>&nbsp;从图中消失的时间点，在那一刻及以后，你无法再访问这个节点。</p>
 
-<p><strong>Note</strong>&nbsp;that the graph might be <em>disconnected</em> and might contain <em>multiple edges</em>.</p>
+<p><strong>注意</strong>，图有可能一开始是不连通的，两个节点之间也可能有多条边。</p>
 
-<p>Return the array <code>answer</code>, with <code>answer[i]</code> denoting the <strong>minimum</strong> units of time required to reach node <code>i</code> from node 0. If node <code>i</code> is <strong>unreachable</strong> from node 0 then <code>answer[i]</code> is <code>-1</code>.</p>
+<p>请你返回数组&nbsp;<code>answer</code>&nbsp;，<code>answer[i]</code>&nbsp;表示从节点 <code>0</code>&nbsp;到节点 <code>i</code>&nbsp;需要的 <strong>最少</strong>&nbsp;单位时间。如果从节点 <code>0</code>&nbsp;出发 <strong>无法</strong> 到达节点 <code>i</code>&nbsp;，那么 <code>answer[i]</code>&nbsp;为 <code>-1</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 3, edges = [[0,1,2],[1,2,1],[0,2,4]], disappear = [1,1,5]</span></p>
+<p><strong class="example">示例 1：</strong></p>
 
-<p><strong>Output:</strong> <span class="example-io">[0,-1,4]</span></p>
+<p><img 10px="" alt="" padding:="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3112.Minimum%20Time%20to%20Visit%20Disappearing%20Nodes/images/example1.png" style="width: 350px; height: 210px;" /></p>
 
-<p><strong>Explanation:</strong></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p style=""><span class="example-io"><b>输入：</b></span><span class="example-io" style="font-size: 0.85rem; font-family: Menlo, sans-serif;">n = 3, edges = [[0,1,2],[1,2,1],[0,2,4]], disappear = [1,1,5]</span></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3112.Minimum%20Time%20to%20Visit%20Disappearing%20Nodes/images/output-onlinepngtools.png" style="width: 350px; height: 210px;" /></p>
+<p style=""><span class="example-io"><b>输出：</b></span><span class="example-io" style="font-size: 0.85rem; font-family: Menlo, sans-serif;">[0,-1,4]</span></p>
 
-<p>We are starting our journey from node 0, and our goal is to find the minimum time required to reach each node before it disappears.</p>
+<p style="font-size: 0.875rem;"><strong>解释：</strong></p>
 
-<ul>
-	<li>For node 0, we don&#39;t need any time as it is our starting point.</li>
-	<li>For node 1, we need at least 2 units of time to traverse <code>edges[0]</code>. Unfortunately, it disappears at that moment, so we won&#39;t be able to visit it.</li>
-	<li>For node 2, we need at least 4 units of time to traverse <code>edges[2]</code>.</li>
+<p style="font-size: 0.875rem;">我们从节点 0 出发，目的是用最少的时间在其他节点消失之前到达它们。</p>
+
+<ul style="font-size: 0.875rem;">
+	<li>对于节点 0 ，我们不需要任何时间，因为它就是我们的起点。</li>
+	<li>对于节点 1 ，我们需要至少 2 单位时间，通过&nbsp;<code>edges[0]</code>&nbsp;到达。但当我们到达的时候，它已经消失了，所以我们无法到达它。</li>
+	<li>对于节点 2 ，我们需要至少 4 单位时间，通过&nbsp;<code>edges[2]</code>&nbsp;到达。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 3, edges = [[0,1,2],[1,2,1],[0,2,4]], disappear = [1,3,5]</span></p>
+<p><img 10px="" alt="" padding:="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3112.Minimum%20Time%20to%20Visit%20Disappearing%20Nodes/images/example2.png" style="width: 350px; height: 210px;" /></p>
 
-<p><strong>Output:</strong> <span class="example-io">[0,2,3]</span></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p style=""><span class="example-io"><b>输入：</b></span><span class="example-io" style="font-size: 0.85rem; font-family: Menlo, sans-serif;">n = 3, edges = [[0,1,2],[1,2,1],[0,2,4]], disappear = [1,3,5]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p style=""><span class="example-io"><b>输出：</b></span><span class="example-io" style="font-size: 0.85rem; font-family: Menlo, sans-serif;">[0,2,3]</span></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3112.Minimum%20Time%20to%20Visit%20Disappearing%20Nodes/images/output-onlinepngtools-1.png" style="width: 350px; height: 210px;" /></p>
+<p style="font-size: 0.875rem;"><strong>解释：</strong></p>
 
-<p>We are starting our journey from node 0, and our goal is to find the minimum time required to reach each node before it disappears.</p>
+<p style="font-size: 0.875rem;">我们从节点 0 出发，目的是用最少的时间在其他节点消失之前到达它们。</p>
 
-<ul>
-	<li>For node 0, we don&#39;t need any time as it is the starting point.</li>
-	<li>For node 1, we need at least 2 units of time to traverse <code>edges[0]</code>.</li>
-	<li>For node 2, we need at least 3 units of time to traverse <code>edges[0]</code> and <code>edges[1]</code>.</li>
+<ul style="font-size: 0.875rem;">
+	<li>对于节点 0 ，我们不需要任何时间，因为它就是我们的起点。</li>
+	<li>对于节点 1 ，我们需要至少 2 单位时间，通过&nbsp;<code>edges[0]</code>&nbsp;到达。</li>
+	<li>对于节点 2&nbsp;，我们需要至少 3&nbsp;单位时间，通过&nbsp;<code>edges[0]</code>&nbsp;和 <code>edges[1]</code>&nbsp;到达。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 2, edges = [[0,1,1]], disappear = [1,1]</span></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><span class="example-io"><b>输入：</b>n = 2, edges = [[0,1,1]], disappear = [1,1]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[0,-1]</span></p>
+<p><span class="example-io"><b>输出：</b>[0,-1]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>Exactly when we reach node 1, it disappears.</p>
+<p>当我们到达节点 1 的时候，它恰好消失，所以我们无法到达节点 1 。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
@@ -94,24 +99,24 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Heap-Optimized Dijkstra
+### 方法一：堆优化的 Dijkstra
 
-First, we create an adjacency list $\textit{g}$ to store the edges of the graph. Then, we create an array $\textit{dist}$ to store the shortest distances from node $0$ to other nodes. Initialize $\textit{dist}[0] = 0$, and the distances for the rest of the nodes are initialized to infinity.
+我们先创建一个邻接表 $\textit{g}$，用于存储图的边。然后创建一个数组 $\textit{dist}$，用于存储从节点 $0$ 到其他节点的最短距离。初始化 $\textit{dist}[0] = 0$，其余节点的距离初始化为无穷大。
 
-Next, we use the Dijkstra algorithm to calculate the shortest distances from node $0$ to other nodes. The specific steps are as follows:
+然后，我们使用 Dijkstra 算法计算从节点 $0$ 到其他节点的最短距离。具体步骤如下：
 
-1. Create a priority queue $\textit{pq}$ to store the distances and node numbers. Initially, add node $0$ to the queue with a distance of $0$.
-2. Remove a node $u$ from the queue. If the distance $du$ of $u$ is greater than $\textit{dist}[u]$, it means $u$ has already been updated, so we skip it directly.
-3. Iterate through all neighbor nodes $v$ of node $u$. If $\textit{dist}[v] > \textit{dist}[u] + w$ and $\textit{dist}[u] + w < \textit{disappear}[v]$, then update $\textit{dist}[v] = \textit{dist}[u] + w$ and add node $v$ to the queue.
-4. Repeat steps 2 and 3 until the queue is empty.
+1. 创建一个优先队列 $\textit{pq}$，用于存储节点的距离和节点编号，初始时将节点 $0$ 加入队列，距离为 $0$。
+2. 从队列中取出一个节点 $u$，如果 $u$ 的距离 $du$ 大于 $\textit{dist}[u]$，说明 $u$ 已经被更新过了，直接跳过。
+3. 遍历节点 $u$ 的所有邻居节点 $v$，如果 $\textit{dist}[v] > \textit{dist}[u] + w$ 且 $\textit{dist}[u] + w < \textit{disappear}[v]$，则更新 $\textit{dist}[v] = \textit{dist}[u] + w$，并将节点 $v$ 加入队列。
+4. 重复步骤 2 和步骤 3，直到队列为空。
 
-Finally, we iterate through the $\textit{dist}$ array. If $\textit{dist}[i] < \textit{disappear}[i]$, then $\textit{answer}[i] = \textit{dist}[i]$; otherwise, $\textit{answer}[i] = -1$.
+最后，我们遍历 $\textit{dist}$ 数组，如果 $\textit{dist}[i] < \textit{disappear}[i]$，则 $\textit{answer}[i] = \textit{dist}[i]$，否则 $\textit{answer}[i] = -1$。
 
-The time complexity is $O(m \times \log m)$, and the space complexity is $O(m)$. Here, $m$ is the number of edges.
+时间复杂度 $O(m \times \log m)$，空间复杂度 $O(m)$。其中 $m$ 是边的数量。
 
 <!-- tabs:start -->
 
@@ -287,35 +292,31 @@ func (h *hp) Pop() any          { a := *h; v := a[len(a)-1]; *h = a[:len(a)-1]; 
 #### TypeScript
 
 ```ts
-function minimumTime(
-  n: number,
-  edges: number[][],
-  disappear: number[]
-): number[] {
-  const g: [number, number][][] = Array.from({ length: n }, () => []);
-  for (const [u, v, w] of edges) {
-    g[u].push([v, w]);
-    g[v].push([u, w]);
-  }
-  const dist = Array.from({ length: n }, () => Infinity);
-  dist[0] = 0;
-  const pq = new PriorityQueue({
-    compare: (a, b) => (a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]),
-  });
-  pq.enqueue([0, 0]);
-  while (pq.size() > 0) {
-    const [du, u] = pq.dequeue()!;
-    if (du > dist[u]) {
-      continue;
+function minimumTime(n: number, edges: number[][], disappear: number[]): number[] {
+    const g: [number, number][][] = Array.from({ length: n }, () => []);
+    for (const [u, v, w] of edges) {
+        g[u].push([v, w]);
+        g[v].push([u, w]);
     }
-    for (const [v, w] of g[u]) {
-      if (dist[v] > dist[u] + w && dist[u] + w < disappear[v]) {
-        dist[v] = dist[u] + w;
-        pq.enqueue([dist[v], v]);
-      }
+    const dist = Array.from({ length: n }, () => Infinity);
+    dist[0] = 0;
+    const pq = new PriorityQueue({
+        compare: (a, b) => (a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]),
+    });
+    pq.enqueue([0, 0]);
+    while (pq.size() > 0) {
+        const [du, u] = pq.dequeue()!;
+        if (du > dist[u]) {
+            continue;
+        }
+        for (const [v, w] of g[u]) {
+            if (dist[v] > dist[u] + w && dist[u] + w < disappear[v]) {
+                dist[v] = dist[u] + w;
+                pq.enqueue([dist[v], v]);
+            }
+        }
     }
-  }
-  return dist.map((a, i) => (a < disappear[i] ? a : -1));
+    return dist.map((a, i) => (a < disappear[i] ? a : -1));
 }
 ```
 

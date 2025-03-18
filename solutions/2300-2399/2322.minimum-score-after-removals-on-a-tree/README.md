@@ -1,69 +1,72 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2322.Minimum%20Score%20After%20Removals%20on%20a%20Tree/README.md
 rating: 2391
-source: Weekly Contest 299 Q4
+source: 第 299 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Tree
-  - Depth-First Search
-  - Array
+    - 位运算
+    - 树
+    - 深度优先搜索
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [2322. Minimum Score After Removals on a Tree](https://leetcode.com/problems/minimum-score-after-removals-on-a-tree)
+# [2322. 从树中删除边的最小分数](https://leetcode.cn/problems/minimum-score-after-removals-on-a-tree)
 
-## Description
+[English Version](/solution/2300-2399/2322.Minimum%20Score%20After%20Removals%20on%20a%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an undirected connected tree with <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code> and <code>n - 1</code> edges.</p>
+<p>存在一棵无向连通树，树中有编号从 <code>0</code> 到 <code>n - 1</code> 的 <code>n</code> 个节点， 以及 <code>n - 1</code> 条边。</p>
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code> where <code>nums[i]</code> represents the value of the <code>i<sup>th</sup></code> node. You are also given a 2D integer array <code>edges</code> of length <code>n - 1</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，长度为 <code>n</code> ，其中 <code>nums[i]</code> 表示第 <code>i</code> 个节点的值。另给你一个二维整数数组 <code>edges</code> ，长度为 <code>n - 1</code> ，其中 <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 表示树中存在一条位于节点 <code>a<sub>i</sub></code> 和 <code>b<sub>i</sub></code> 之间的边。</p>
 
-<p>Remove two <strong>distinct</strong> edges of the tree to form three connected components. For a pair of removed edges, the following steps are defined:</p>
+<p>删除树中两条 <strong>不同</strong> 的边以形成三个连通组件。对于一种删除边方案，定义如下步骤以计算其分数：</p>
 
 <ol>
-	<li>Get the XOR of all the values of the nodes for <strong>each</strong> of the three components respectively.</li>
-	<li>The <strong>difference</strong> between the <strong>largest</strong> XOR value and the <strong>smallest</strong> XOR value is the <strong>score</strong> of the pair.</li>
+	<li>分别获取三个组件 <strong>每个</strong> 组件中所有节点值的异或值。</li>
+	<li><strong>最大</strong> 异或值和 <strong>最小</strong> 异或值的 <strong>差值</strong> 就是这一种删除边方案的分数。</li>
 </ol>
 
 <ul>
-	<li>For example, say the three components have the node values: <code>[4,5,7]</code>, <code>[1,9]</code>, and <code>[3,3,3]</code>. The three XOR values are <code>4 ^ 5 ^ 7 = <u><strong>6</strong></u></code>, <code>1 ^ 9 = <u><strong>8</strong></u></code>, and <code>3 ^ 3 ^ 3 = <u><strong>3</strong></u></code>. The largest XOR value is <code>8</code> and the smallest XOR value is <code>3</code>. The score is then <code>8 - 3 = 5</code>.</li>
+	<li>例如，三个组件的节点值分别是：<code>[4,5,7]</code>、<code>[1,9]</code> 和 <code>[3,3,3]</code> 。三个异或值分别是 <code>4 ^ 5 ^ 7 = <em><strong>6</strong></em></code>、<code>1 ^ 9 = <em><strong>8</strong></em></code> 和 <code>3 ^ 3 ^ 3 = <em><strong>3</strong></em></code> 。最大异或值是 <code>8</code> ，最小异或值是 <code>3</code> ，分数是 <code>8 - 3 = 5</code> 。</li>
 </ul>
 
-<p>Return <em>the <strong>minimum</strong> score of any possible pair of edge removals on the given tree</em>.</p>
+<p>返回在给定树上执行任意删除边方案可能的 <strong>最小</strong> 分数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2322.Minimum%20Score%20After%20Removals%20on%20a%20Tree/images/ex1drawio.png" style="width: 193px; height: 190px;" />
-<pre>
-<strong>Input:</strong> nums = [1,5,5,4,11], edges = [[0,1],[1,2],[1,3],[3,4]]
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> The diagram above shows a way to make a pair of removals.
-- The 1<sup>st</sup> component has nodes [1,3,4] with values [5,4,11]. Its XOR value is 5 ^ 4 ^ 11 = 10.
-- The 2<sup>nd</sup> component has node [0] with value [1]. Its XOR value is 1 = 1.
-- The 3<sup>rd</sup> component has node [2] with value [5]. Its XOR value is 5 = 5.
-The score is the difference between the largest and smallest XOR value which is 10 - 1 = 9.
-It can be shown that no other pair of removals will obtain a smaller score than 9.
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2322.Minimum%20Score%20After%20Removals%20on%20a%20Tree/images/ex1drawio.png" style="width: 193px; height: 190px;">
+<pre><strong>输入：</strong>nums = [1,5,5,4,11], edges = [[0,1],[1,2],[1,3],[3,4]]
+<strong>输出：</strong>9
+<strong>解释：</strong>上图展示了一种删除边方案。
+- 第 1 个组件的节点是 [1,3,4] ，值是 [5,4,11] 。异或值是 5 ^ 4 ^ 11 = 10 。
+- 第 2 个组件的节点是 [0] ，值是 [1] 。异或值是 1 = 1 。
+- 第 3 个组件的节点是 [2] ，值是 [5] 。异或值是 5 = 5 。
+分数是最大异或值和最小异或值的差值，10 - 1 = 9 。
+可以证明不存在分数比 9 小的删除边方案。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2322.Minimum%20Score%20After%20Removals%20on%20a%20Tree/images/ex2drawio.png" style="width: 287px; height: 150px;" />
-<pre>
-<strong>Input:</strong> nums = [5,5,2,4,4,2], edges = [[0,1],[1,2],[5,2],[4,3],[1,3]]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The diagram above shows a way to make a pair of removals.
-- The 1<sup>st</sup> component has nodes [3,4] with values [4,4]. Its XOR value is 4 ^ 4 = 0.
-- The 2<sup>nd</sup> component has nodes [1,0] with values [5,5]. Its XOR value is 5 ^ 5 = 0.
-- The 3<sup>rd</sup> component has nodes [2,5] with values [2,2]. Its XOR value is 2 ^ 2 = 0.
-The score is the difference between the largest and smallest XOR value which is 0 - 0 = 0.
-We cannot obtain a smaller score than 0.
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2322.Minimum%20Score%20After%20Removals%20on%20a%20Tree/images/ex2drawio.png" style="width: 287px; height: 150px;">
+<pre><strong>输入：</strong>nums = [5,5,2,4,4,2], edges = [[0,1],[1,2],[5,2],[4,3],[1,3]]
+<strong>输出：</strong>0
+<strong>解释：</strong>上图展示了一种删除边方案。
+- 第 1 个组件的节点是 [3,4] ，值是 [4,4] 。异或值是 4 ^ 4 = 0 。
+- 第 2 个组件的节点是 [1,0] ，值是 [5,5] 。异或值是 5 ^ 5 = 0 。
+- 第 3 个组件的节点是 [2,5] ，值是 [2,2] 。异或值是 2 ^ 2 = 0 。
+分数是最大异或值和最小异或值的差值，0 - 0 = 0 。
+无法获得比 0 更小的分数 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -73,16 +76,22 @@ We cannot obtain a smaller score than 0.
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li><code>edges</code> represents a valid tree.</li>
+	<li><code>edges</code> 表示一棵有效的树</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS + 子树异或和
+
+枚举 $[0,n)$ 的每个点 $i$ 作为树的根节点，将根节点与某个子节点相连的边作为第一条被删除的边。这样我们就获得了两个连通块，我们记包含根节点 $i$ 的连通块为 $A$，不包含根节点 $i$ 的连通块为 $B$。
+
+在 $A$ 中枚举第二条被删除的边。那么 $A$ 也会被划分成两个连通块 $C$ 和 $D$。
+
+记每个连通块的异或和为 $S_i$，那么对于枚举的每一种情况，得到的分数为 $max(S_B, S_C, S_D)-min(S_B, S_C, S_D)$。求所有情况的最小值作为答案。
 
 <!-- tabs:start -->
 

@@ -1,64 +1,69 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1894.Find%20the%20Student%20that%20Will%20Replace%20the%20Chalk/README.md
 rating: 1355
-source: Biweekly Contest 54 Q2
+source: 第 54 场双周赛 Q2
 tags:
-  - Array
-  - Binary Search
-  - Prefix Sum
-  - Simulation
+    - 数组
+    - 二分查找
+    - 前缀和
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1894. Find the Student that Will Replace the Chalk](https://leetcode.com/problems/find-the-student-that-will-replace-the-chalk)
+# [1894. 找到需要补充粉笔的学生编号](https://leetcode.cn/problems/find-the-student-that-will-replace-the-chalk)
 
-## Description
+[English Version](/solution/1800-1899/1894.Find%20the%20Student%20that%20Will%20Replace%20the%20Chalk/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> students in a class numbered from <code>0</code> to <code>n - 1</code>. The teacher will give each student a problem starting with the student number <code>0</code>, then the student number <code>1</code>, and so on until the teacher reaches the student number <code>n - 1</code>. After that, the teacher will restart the process, starting with the student number <code>0</code> again.</p>
+<p>一个班级里有&nbsp;<code>n</code>&nbsp;个学生，编号为 <code>0</code>&nbsp;到 <code>n - 1</code>&nbsp;。每个学生会依次回答问题，编号为 <code>0</code>&nbsp;的学生先回答，然后是编号为 <code>1</code>&nbsp;的学生，以此类推，直到编号为 <code>n - 1</code>&nbsp;的学生，然后老师会重复这个过程，重新从编号为 <code>0</code>&nbsp;的学生开始回答问题。</p>
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>chalk</code> and an integer <code>k</code>. There are initially <code>k</code> pieces of chalk. When the student number <code>i</code> is given a problem to solve, they will use <code>chalk[i]</code> pieces of chalk to solve that problem. However, if the current number of chalk pieces is <strong>strictly less</strong> than <code>chalk[i]</code>, then the student number <code>i</code> will be asked to <strong>replace</strong> the chalk.</p>
+<p>给你一个长度为 <code>n</code>&nbsp;且下标从 <code>0</code>&nbsp;开始的整数数组&nbsp;<code>chalk</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。一开始粉笔盒里总共有&nbsp;<code>k</code>&nbsp;支粉笔。当编号为&nbsp;<code>i</code>&nbsp;的学生回答问题时，他会消耗 <code>chalk[i]</code>&nbsp;支粉笔。如果剩余粉笔数量 <strong>严格小于</strong>&nbsp;<code>chalk[i]</code>&nbsp;，那么学生 <code>i</code>&nbsp;需要 <strong>补充</strong>&nbsp;粉笔。</p>
 
-<p>Return <em>the <strong>index</strong> of the student that will <strong>replace</strong> the chalk pieces</em>.</p>
+<p>请你返回需要 <strong>补充</strong>&nbsp;粉笔的学生 <strong>编号</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> chalk = [5,1,5], k = 22
-<strong>Output:</strong> 0
-<strong>Explanation: </strong>The students go in turns as follows:
-- Student number 0 uses 5 chalk, so k = 17.
-- Student number 1 uses 1 chalk, so k = 16.
-- Student number 2 uses 5 chalk, so k = 11.
-- Student number 0 uses 5 chalk, so k = 6.
-- Student number 1 uses 1 chalk, so k = 5.
-- Student number 2 uses 5 chalk, so k = 0.
-Student number 0 does not have enough chalk, so they will have to replace it.</pre>
+<b>输入：</b>chalk = [5,1,5], k = 22
+<b>输出：</b>0
+<strong>解释：</strong>学生消耗粉笔情况如下：
+- 编号为 0 的学生使用 5 支粉笔，然后 k = 17 。
+- 编号为 1 的学生使用 1 支粉笔，然后 k = 16 。
+- 编号为 2 的学生使用 5 支粉笔，然后 k = 11 。
+- 编号为 0 的学生使用 5 支粉笔，然后 k = 6 。
+- 编号为 1 的学生使用 1 支粉笔，然后 k = 5 。
+- 编号为 2 的学生使用 5 支粉笔，然后 k = 0 。
+编号为 0 的学生没有足够的粉笔，所以他需要补充粉笔。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> chalk = [3,4,1,2], k = 25
-<strong>Output:</strong> 1
-<strong>Explanation: </strong>The students go in turns as follows:
-- Student number 0 uses 3 chalk so k = 22.
-- Student number 1 uses 4 chalk so k = 18.
-- Student number 2 uses 1 chalk so k = 17.
-- Student number 3 uses 2 chalk so k = 15.
-- Student number 0 uses 3 chalk so k = 12.
-- Student number 1 uses 4 chalk so k = 8.
-- Student number 2 uses 1 chalk so k = 7.
-- Student number 3 uses 2 chalk so k = 5.
-- Student number 0 uses 3 chalk so k = 2.
-Student number 1 does not have enough chalk, so they will have to replace it.
+<b>输入：</b>chalk = [3,4,1,2], k = 25
+<b>输出：</b>1
+<b>解释：</b>学生消耗粉笔情况如下：
+- 编号为 0 的学生使用 3 支粉笔，然后 k = 22 。
+- 编号为 1 的学生使用 4 支粉笔，然后 k = 18 。
+- 编号为 2 的学生使用 1 支粉笔，然后 k = 17 。
+- 编号为 3 的学生使用 2 支粉笔，然后 k = 15 。
+- 编号为 0 的学生使用 3 支粉笔，然后 k = 12 。
+- 编号为 1 的学生使用 4 支粉笔，然后 k = 8 。
+- 编号为 2 的学生使用 1 支粉笔，然后 k = 7 。
+- 编号为 3 的学生使用 2 支粉笔，然后 k = 5 。
+- 编号为 0 的学生使用 3 支粉笔，然后 k = 2 。
+编号为 1 的学生没有足够的粉笔，所以他需要补充粉笔。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>chalk.length == n</code></li>
@@ -69,17 +74,17 @@ Student number 1 does not have enough chalk, so they will have to replace it.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sum and Modulo + Simulation
+### 方法一：求和取余 + 模拟
 
-Since the students' answers are conducted in rounds, we can add up the chalk needed by all students to get a total $s$. Then we take the remainder of $k$ by $s$, which can tell us the remaining number of chalks after the last round.
+由于学生的回答是一轮一轮循环进行的，因此我们可以将所有学生需要消耗的粉笔数加起来，得到一个总数 $s$。然后我们对 $k$ 取 $s$ 的余数，即可知道最后一轮结束后剩余的粉笔数。
 
-Next, we just need to simulate the last round. Initially, the remaining number of chalks is $k$, and the student with the number $0$ starts to answer the question. When the remaining number of chalks is less than the current student needs, the current student needs to replenish the chalk, and we directly return the current student's number $i$. Otherwise, we subtract the chalk needed by the current student from the remaining chalk, and add one to the current student's number $i$ for the next simulation.
+接下来，我们只需要模拟最后一轮即可。初始时，剩余的粉笔数为 $k$，编号为 $0$ 的学生开始回答问题。当剩余的粉笔数小于当前学生需要的粉笔数时，当前学生需要补充粉笔，我们直接返回当前学生的编号 $i$ 即可。否则，我们将剩余的粉笔数减去当前学生需要的粉笔数，并将当前学生的编号 $i$ 加一，进行下一次模拟。
 
-The time complexity is $O(n)$, where $n$ is the number of students. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是学生的数量。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -156,14 +161,14 @@ func chalkReplacer(chalk []int, k int) int {
 
 ```ts
 function chalkReplacer(chalk: number[], k: number): number {
-  const s = chalk.reduce((acc, cur) => acc + cur, 0);
-  k %= s;
-  for (let i = 0; ; ++i) {
-    if (k < chalk[i]) {
-      return i;
+    const s = chalk.reduce((acc, cur) => acc + cur, 0);
+    k %= s;
+    for (let i = 0; ; ++i) {
+        if (k < chalk[i]) {
+            return i;
+        }
+        k -= chalk[i];
     }
-    k -= chalk[i];
-  }
 }
 ```
 

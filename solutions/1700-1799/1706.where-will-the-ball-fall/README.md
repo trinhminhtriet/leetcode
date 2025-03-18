@@ -1,94 +1,99 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1706.Where%20Will%20the%20Ball%20Fall/README.md
 rating: 1764
-source: Weekly Contest 221 Q3
+source: 第 221 场周赛 Q3
 tags:
-  - Array
-  - Matrix
-  - Simulation
+    - 数组
+    - 矩阵
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1706. Where Will the Ball Fall](https://leetcode.com/problems/where-will-the-ball-fall)
+# [1706. 球会落何处](https://leetcode.cn/problems/where-will-the-ball-fall)
 
-## Description
+[English Version](/solution/1700-1799/1706.Where%20Will%20the%20Ball%20Fall/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have a 2-D <code>grid</code> of size <code>m x n</code> representing a box, and you have <code>n</code> balls. The box is open on the top and bottom sides.</p>
+<p>用一个大小为 <code>m x n</code> 的二维网格 <code>grid</code> 表示一个箱子。你有 <code>n</code> 颗球。箱子的顶部和底部都是开着的。</p>
 
-<p>Each cell in the box has a diagonal board spanning two corners of the cell that can redirect a ball to the right or to the left.</p>
+<p>箱子中的每个单元格都有一个对角线挡板，跨过单元格的两个角，可以将球导向左侧或者右侧。</p>
 
 <ul>
-	<li>A board that redirects the ball to the right spans the top-left corner to the bottom-right corner and is represented in the grid as <code>1</code>.</li>
-	<li>A board that redirects the ball to the left spans the top-right corner to the bottom-left corner and is represented in the grid as <code>-1</code>.</li>
+	<li>将球导向右侧的挡板跨过左上角和右下角，在网格中用 <code>1</code> 表示。</li>
+	<li>将球导向左侧的挡板跨过右上角和左下角，在网格中用 <code>-1</code> 表示。</li>
 </ul>
 
-<p>We drop one ball at the top of each column of the box. Each ball can get stuck in the box or fall out of the bottom. A ball gets stuck if it hits a &quot;V&quot; shaped pattern between two boards or if a board redirects the ball into either wall of the box.</p>
+<p>在箱子每一列的顶端各放一颗球。每颗球都可能卡在箱子里或从底部掉出来。如果球恰好卡在两块挡板之间的 "V" 形图案，或者被一块挡导向到箱子的任意一侧边上，就会卡住。</p>
 
-<p>Return <em>an array </em><code>answer</code><em> of size </em><code>n</code><em> where </em><code>answer[i]</code><em> is the column that the ball falls out of at the bottom after dropping the ball from the </em><code>i<sup>th</sup></code><em> column at the top, or <code>-1</code><em> if the ball gets stuck in the box</em>.</em></p>
+<p>返回一个大小为 <code>n</code> 的数组 <code>answer</code> ，其中 <code>answer[i]</code> 是球放在顶部的第 <code>i</code> 列后从底部掉出来的那一列对应的下标，如果球卡在盒子里，则返回 <code>-1</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1706.Where%20Will%20the%20Ball%20Fall/images/ball.jpg" style="width: 500px; height: 385px;" /></strong></p>
 
 <pre>
-<strong>Input:</strong> grid = [[1,1,1,-1,-1],[1,1,1,-1,-1],[-1,-1,-1,1,1],[1,1,1,1,-1],[-1,-1,-1,-1,-1]]
-<strong>Output:</strong> [1,-1,-1,-1,-1]
-<strong>Explanation:</strong> This example is shown in the photo.
-Ball b0 is dropped at column 0 and falls out of the box at column 1.
-Ball b1 is dropped at column 1 and will get stuck in the box between column 2 and 3 and row 1.
-Ball b2 is dropped at column 2 and will get stuck on the box between column 2 and 3 and row 0.
-Ball b3 is dropped at column 3 and will get stuck on the box between column 2 and 3 and row 0.
-Ball b4 is dropped at column 4 and will get stuck on the box between column 2 and 3 and row 1.
+<strong>输入：</strong>grid = [[1,1,1,-1,-1],[1,1,1,-1,-1],[-1,-1,-1,1,1],[1,1,1,1,-1],[-1,-1,-1,-1,-1]]
+<strong>输出：</strong>[1,-1,-1,-1,-1]
+<strong>解释：</strong>示例如图：
+b0 球开始放在第 0 列上，最终从箱子底部第 1 列掉出。
+b1 球开始放在第 1 列上，会卡在第 2、3 列和第 1 行之间的 "V" 形里。
+b2 球开始放在第 2 列上，会卡在第 2、3 列和第 0 行之间的 "V" 形里。
+b3 球开始放在第 3 列上，会卡在第 2、3 列和第 0 行之间的 "V" 形里。
+b4 球开始放在第 4 列上，会卡在第 2、3 列和第 1 行之间的 "V" 形里。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> grid = [[-1]]
-<strong>Output:</strong> [-1]
-<strong>Explanation:</strong> The ball gets stuck against the left wall.
+<strong>输入：</strong>grid = [[-1]]
+<strong>输出：</strong>[-1]
+<strong>解释：</strong>球被卡在箱子左侧边上。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> grid = [[1,1,1,1,1,1],[-1,-1,-1,-1,-1,-1],[1,1,1,1,1,1],[-1,-1,-1,-1,-1,-1]]
-<strong>Output:</strong> [0,1,2,3,4,-1]
+<strong>输入：</strong>grid = [[1,1,1,1,1,1],[-1,-1,-1,-1,-1,-1],[1,1,1,1,1,1],[-1,-1,-1,-1,-1,-1]]
+<strong>输出：</strong>[0,1,2,3,4,-1]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
-	<li><code>1 &lt;= m, n &lt;= 100</code></li>
-	<li><code>grid[i][j]</code> is <code>1</code> or <code>-1</code>.</li>
+	<li><code>1 <= m, n <= 100</code></li>
+	<li><code>grid[i][j]</code> 为 <code>1</code> 或 <code>-1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Case Discussion + DFS
+### 方法一：分情况讨论 + DFS
 
-We can use DFS to simulate the movement of the ball. We design a function $dfs(i, j)$, which represents that the ball starts from the $i$th row and the $j$th column, and finally falls in which column. The ball will get stuck in the following situations:
+我们可以使用 DFS 来模拟球的运动过程，设计一个函数 $\textit{dfs}(i, j)$，表示球从第 $i$ 行第 $j$ 列出发，最终会落在第几列。对于以下情况，球会卡住：
 
-1. The ball is in the leftmost column, and the cell's vane directs the ball to the left.
-2. The ball is in the rightmost column, and the cell's vane directs the ball to the right.
-3. The cell's vane where the ball is located directs the ball to the right, and the vane of the cell adjacent to the right of the ball directs the ball to the left.
-4. The cell's vane where the ball is located directs the ball to the left, and the vane of the cell adjacent to the left of the ball directs the ball to the right.
+1. 球位于最左一列，并且球所在的单元格单元格挡板将球导向左侧
+1. 球位于最右一列，并且此单元格挡板将球导向右侧
+1. 球所在的单元格挡板将球导向右侧，并且球右侧相邻单元格挡板将球导向左侧
+1. 球所在的单元格挡板将球导向左侧，并且球左侧相邻单元格挡板将球导向右侧
 
-If any of the above situations are met, we can judge that the ball will get stuck and return $-1$. Otherwise, we can continue to recursively find the next position of the ball. Finally, if the ball reaches the last row, we can return the current column number.
+如果满足以上任意一种情况，我们就可以判断球会卡住，返回 $-1$。否则，我们就可以继续递归地寻找球的下一个位置。最后，如果球到了最后一行，我们就可以返回当前列的编号。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m)$. Where $m$ and $n$ are the number of rows and columns of the array $grid$, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m)$。其中 $m$ 和 $n$ 分别是数组 $\textit{grid}$ 的行数和列数。
 
 <!-- tabs:start -->
 
@@ -226,29 +231,25 @@ func findBall(grid [][]int) (ans []int) {
 
 ```ts
 function findBall(grid: number[][]): number[] {
-  const m = grid.length;
-  const n = grid[0].length;
-  const dfs = (i: number, j: number) => {
-    if (i === m) {
-      return j;
-    }
-    if (grid[i][j] === 1) {
-      if (j === n - 1 || grid[i][j + 1] === -1) {
-        return -1;
-      }
-      return dfs(i + 1, j + 1);
-    } else {
-      if (j === 0 || grid[i][j - 1] === 1) {
-        return -1;
-      }
-      return dfs(i + 1, j - 1);
-    }
-  };
-  const ans: number[] = [];
-  for (let j = 0; j < n; ++j) {
-    ans.push(dfs(0, j));
-  }
-  return ans;
+    const m = grid.length;
+    const n = grid[0].length;
+    const dfs = (i: number, j: number) => {
+        if (i === m) {
+            return j;
+        }
+        if (grid[i][j] === 1) {
+            if (j === n - 1 || grid[i][j + 1] === -1) {
+                return -1;
+            }
+            return dfs(i + 1, j + 1);
+        } else {
+            if (j === 0 || grid[i][j - 1] === 1) {
+                return -1;
+            }
+            return dfs(i + 1, j - 1);
+        }
+    };
+    return Array.from({ length: n }, (_, j) => dfs(0, j));
 }
 ```
 
@@ -276,13 +277,43 @@ impl Solution {
     pub fn find_ball(grid: Vec<Vec<i32>>) -> Vec<i32> {
         let m = grid.len();
         let n = grid[0].len();
-        let mut res = vec![0; n];
+        let mut ans = vec![0; n];
         for i in 0..n {
-            res[i] = Self::dfs(&grid, 0, i);
+            ans[i] = Self::dfs(&grid, 0, i);
         }
-        res
+        ans
     }
 }
+```
+
+#### JavaScript
+
+```js
+/**
+ * @param {number[][]} grid
+ * @return {number[]}
+ */
+var findBall = function (grid) {
+    const m = grid.length;
+    const n = grid[0].length;
+    const dfs = (i, j) => {
+        if (i === m) {
+            return j;
+        }
+        if (grid[i][j] === 1) {
+            if (j === n - 1 || grid[i][j + 1] === -1) {
+                return -1;
+            }
+            return dfs(i + 1, j + 1);
+        } else {
+            if (j === 0 || grid[i][j - 1] === 1) {
+                return -1;
+            }
+            return dfs(i + 1, j - 1);
+        }
+    };
+    return Array.from({ length: n }, (_, j) => dfs(0, j));
+};
 ```
 
 <!-- tabs:end -->

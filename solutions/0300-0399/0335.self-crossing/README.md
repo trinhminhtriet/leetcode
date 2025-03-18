@@ -1,53 +1,54 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0335.Self%20Crossing/README.md
 tags:
-  - Geometry
-  - Array
-  - Math
+    - 几何
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [335. Self Crossing](https://leetcode.com/problems/self-crossing)
+# [335. 路径交叉](https://leetcode.cn/problems/self-crossing)
 
-## Description
+[English Version](/solution/0300-0399/0335.Self%20Crossing/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of integers <code>distance</code>.</p>
+<p>给你一个整数数组 <code>distance</code><em> </em>。</p>
 
-<p>You start at the point <code>(0, 0)</code> on an <strong>X-Y plane,</strong> and you move <code>distance[0]</code> meters to the north, then <code>distance[1]</code> meters to the west, <code>distance[2]</code> meters to the south, <code>distance[3]</code> meters to the east, and so on. In other words, after each move, your direction changes counter-clockwise.</p>
+<p>从 <strong>X-Y</strong> 平面上的点&nbsp;<code>(0,0)</code>&nbsp;开始，先向北移动 <code>distance[0]</code> 米，然后向西移动 <code>distance[1]</code> 米，向南移动 <code>distance[2]</code> 米，向东移动 <code>distance[3]</code> 米，持续移动。也就是说，每次移动后你的方位会发生逆时针变化。</p>
 
-<p>Return <code>true</code> <em>if your path crosses itself or </em><code>false</code><em> if it does not</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0335.Self%20Crossing/images/11.jpg" style="width: 400px; height: 413px;" />
-<pre>
-<strong>Input:</strong> distance = [2,1,1,2]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The path crosses itself at the point (0, 1).
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0335.Self%20Crossing/images/22.jpg" style="width: 400px; height: 413px;" />
-<pre>
-<strong>Input:</strong> distance = [1,2,3,4]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The path does not cross itself at any point.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0335.Self%20Crossing/images/33.jpg" style="width: 400px; height: 413px;" />
-<pre>
-<strong>Input:</strong> distance = [1,1,1,2,1]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The path crosses itself at the point (0, 0).
-</pre>
+<p>判断你所经过的路径是否相交。如果相交，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0335.Self%20Crossing/images/selfcross1-plane.jpg" style="width: 400px; height: 435px;" />
+<pre>
+<strong>输入：</strong>distance = [2,1,1,2]
+<strong>输出：</strong>true
+</pre>
+
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0335.Self%20Crossing/images/selfcross2-plane.jpg" style="width: 400px; height: 435px;" />
+<pre>
+<strong>输入：</strong>distance = [1,2,3,4]
+<strong>输出：</strong>false
+</pre>
+
+<p><strong>示例 3：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0335.Self%20Crossing/images/selfcross3-plane.jpg" style="width: 400px; height: 435px;" />
+<pre>
+<strong>输入：</strong>distance = [1,1,1,1]
+<strong>输出：</strong>true</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;=&nbsp;distance.length &lt;= 10<sup>5</sup></code></li>
@@ -56,11 +57,11 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

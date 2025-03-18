@@ -1,70 +1,75 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2960.Count%20Tested%20Devices%20After%20Test%20Operations/README.md
 rating: 1169
-source: Weekly Contest 375 Q1
+source: 第 375 场周赛 Q1
 tags:
-  - Array
-  - Counting
-  - Simulation
+    - 数组
+    - 计数
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2960. Count Tested Devices After Test Operations](https://leetcode.com/problems/count-tested-devices-after-test-operations)
+# [2960. 统计已测试设备](https://leetcode.cn/problems/count-tested-devices-after-test-operations)
 
-## Description
+[English Version](/solution/2900-2999/2960.Count%20Tested%20Devices%20After%20Test%20Operations/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>batteryPercentages</code> having length <code>n</code>, denoting the battery percentages of <code>n</code> <strong>0-indexed</strong> devices.</p>
+<p>给你一个长度为 <code>n</code> 、下标从<strong> 0 </strong>开始的整数数组 <code>batteryPercentages</code> ，表示 <code>n</code> 个设备的电池百分比。</p>
 
-<p>Your task is to test each device <code>i</code> <strong>in order</strong> from <code>0</code> to <code>n - 1</code>, by performing the following test operations:</p>
+<p>你的任务是按照顺序测试每个设备 <code>i</code>，执行以下测试操作：</p>
 
 <ul>
-	<li>If <code>batteryPercentages[i]</code> is <strong>greater</strong> than <code>0</code>:
+	<li>如果 <code>batteryPercentages[i]</code> <strong>大于</strong> <code>0</code>：
 
     <ul>
-    	<li><strong>Increment</strong> the count of tested devices.</li>
-    	<li><strong>Decrease</strong> the battery percentage of all devices with indices <code>j</code> in the range <code>[i + 1, n - 1]</code> by <code>1</code>, ensuring their battery percentage <strong>never goes below</strong> <code>0</code>, i.e, <code>batteryPercentages[j] = max(0, batteryPercentages[j] - 1)</code>.</li>
-    	<li>Move to the next device.</li>
+    	<li><strong>增加</strong> 已测试设备的计数。</li>
+    	<li>将下标在 <code>[i + 1, n - 1]</code> 的所有设备的电池百分比减少 <code>1</code>，确保它们的电池百分比<strong> 不会低于</strong> <code>0</code> ，即 <code>batteryPercentages[j] = max(0, batteryPercentages[j] - 1)</code>。</li>
+    	<li>移动到下一个设备。</li>
     </ul>
     </li>
-    <li>Otherwise, move to the next device without performing any test.</li>
+    <li>否则，移动到下一个设备而不执行任何测试。</li>
 
 </ul>
 
-<p>Return <em>an integer denoting the number of devices that will be tested after performing the test operations in order.</em></p>
+<p>返回一个整数，表示按顺序执行测试操作后 <strong>已测试设备</strong> 的数量。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> batteryPercentages = [1,1,2,1,3]
-<strong>Output:</strong> 3
-<strong>Explanation: </strong>Performing the test operations in order starting from device 0:
-At device 0, batteryPercentages[0] &gt; 0, so there is now 1 tested device, and batteryPercentages becomes [1,0,1,0,2].
-At device 1, batteryPercentages[1] == 0, so we move to the next device without testing.
-At device 2, batteryPercentages[2] &gt; 0, so there are now 2 tested devices, and batteryPercentages becomes [1,0,1,0,1].
-At device 3, batteryPercentages[3] == 0, so we move to the next device without testing.
-At device 4, batteryPercentages[4] &gt; 0, so there are now 3 tested devices, and batteryPercentages stays the same.
-So, the answer is 3.
+<strong>输入：</strong>batteryPercentages = [1,1,2,1,3]
+<strong>输出：</strong>3
+<strong>解释：</strong>按顺序从设备 0 开始执行测试操作：
+在设备 0 上，batteryPercentages[0] &gt; 0 ，现在有 1 个已测试设备，batteryPercentages 变为 [1,0,1,0,2] 。
+在设备 1 上，batteryPercentages[1] == 0 ，移动到下一个设备而不进行测试。
+在设备 2 上，batteryPercentages[2] &gt; 0 ，现在有 2 个已测试设备，batteryPercentages 变为 [1,0,1,0,1] 。
+在设备 3 上，batteryPercentages[3] == 0 ，移动到下一个设备而不进行测试。
+在设备 4 上，batteryPercentages[4] &gt; 0 ，现在有 3 个已测试设备，batteryPercentages 保持不变。
+因此，答案是 3 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> batteryPercentages = [0,1,2]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Performing the test operations in order starting from device 0:
-At device 0, batteryPercentages[0] == 0, so we move to the next device without testing.
-At device 1, batteryPercentages[1] &gt; 0, so there is now 1 tested device, and batteryPercentages becomes [0,1,1].
-At device 2, batteryPercentages[2] &gt; 0, so there are now 2 tested devices, and batteryPercentages stays the same.
-So, the answer is 2.
+<strong>输入：</strong>batteryPercentages = [0,1,2]
+<strong>输出：</strong>2
+<strong>解释：</strong>按顺序从设备 0 开始执行测试操作：
+在设备 0 上，batteryPercentages[0] == 0 ，移动到下一个设备而不进行测试。
+在设备 1 上，batteryPercentages[1] &gt; 0 ，现在有 1 个已测试设备，batteryPercentages 变为 [0,1,1] 。
+在设备 2 上，batteryPercentages[2] &gt; 0 ，现在有 2 个已测试设备，batteryPercentages 保持不变。
+因此，答案是 2 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == batteryPercentages.length &lt;= 100 </code></li>
@@ -73,17 +78,17 @@ So, the answer is 2.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-Assume that the current number of devices we have tested is $ans$. When testing a new device $i$, its remaining battery is $\max(0, batteryPercentages[i] - ans)$. If the remaining battery is greater than $0$, it means this device can be tested, and we need to increase $ans$ by $1$.
+假设我们当前已测试的设备数量为 $ans$，当测试新的一台设备 $i$ 时，它的剩余电量为 $\max(0, batteryPercentages[i] - ans)$，如果剩余电量大于 $0$，则说明这台设备可以进行测试，此时我们需要将 $ans$ 增加 $1$。
 
-Finally, return $ans$.
+最后返回 $ans$ 即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -144,11 +149,11 @@ func countTestedDevices(batteryPercentages []int) (ans int) {
 
 ```ts
 function countTestedDevices(batteryPercentages: number[]): number {
-  let ans = 0;
-  for (const x of batteryPercentages) {
-    ans += x > ans ? 1 : 0;
-  }
-  return ans;
+    let ans = 0;
+    for (const x of batteryPercentages) {
+        ans += x > ans ? 1 : 0;
+    }
+    return ans;
 }
 ```
 

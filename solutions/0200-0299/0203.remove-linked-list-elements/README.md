@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0203.Remove%20Linked%20List%20Elements/README.md
 tags:
-  - Recursion
-  - Linked List
+    - 递归
+    - 链表
 ---
 
 <!-- problem:start -->
 
-# [203. Remove Linked List Elements](https://leetcode.com/problems/remove-linked-list-elements)
+# [203. 移除链表元素](https://leetcode.cn/problems/remove-linked-list-elements)
 
-## Description
+[English Version](/solution/0200-0299/0203.Remove%20Linked%20List%20Elements/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>head</code> of a linked list and an integer <code>val</code>, remove all the nodes of the linked list that has <code>Node.val == val</code>, and return <em>the new head</em>.</p>
+给你一个链表的头节点 <code>head</code> 和一个整数 <code>val</code> ，请你删除链表中所有满足 <code>Node.val == val</code> 的节点，并返回 <strong>新的头节点</strong> 。
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0203.Remove%20Linked%20List%20Elements/images/removelinked-list.jpg" style="width: 500px; height: 142px;" />
 <pre>
-<strong>Input:</strong> head = [1,2,6,3,4,5,6], val = 6
-<strong>Output:</strong> [1,2,3,4,5]
+<strong>输入：</strong>head = [1,2,6,3,4,5,6], val = 6
+<strong>输出：</strong>[1,2,3,4,5]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> head = [], val = 1
-<strong>Output:</strong> []
+<strong>输入：</strong>head = [], val = 1
+<strong>输出：</strong>[]
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> head = [7,7,7,7], val = 7
-<strong>Output:</strong> []
+<strong>输入：</strong>head = [7,7,7,7], val = 7
+<strong>输出：</strong>[]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the list is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
-	<li><code>1 &lt;= Node.val &lt;= 50</code></li>
-	<li><code>0 &lt;= val &lt;= 50</code></li>
+	<li>列表中的节点数目在范围 <code>[0, 10<sup>4</sup>]</code> 内</li>
+	<li><code>1 <= Node.val <= 50</code></li>
+	<li><code>0 <= val <= 50</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -160,16 +165,16 @@ func removeElements(head *ListNode, val int) *ListNode {
  */
 
 function removeElements(head: ListNode | null, val: number): ListNode | null {
-  const dummy: ListNode = new ListNode(0, head);
-  let cur: ListNode = dummy;
-  while (cur.next != null) {
-    if (cur.next.val === val) {
-      cur.next = cur.next.next;
-    } else {
-      cur = cur.next;
+    const dummy: ListNode = new ListNode(0, head);
+    let cur: ListNode = dummy;
+    while (cur.next != null) {
+        if (cur.next.val === val) {
+            cur.next = cur.next.next;
+        } else {
+            cur = cur.next;
+        }
     }
-  }
-  return dummy.next;
+    return dummy.next;
 }
 ```
 

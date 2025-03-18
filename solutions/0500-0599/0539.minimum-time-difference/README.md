@@ -1,56 +1,68 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0539.Minimum%20Time%20Difference/README.md
 tags:
-  - Array
-  - Math
-  - String
-  - Sorting
+    - 数组
+    - 数学
+    - 字符串
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [539. Minimum Time Difference](https://leetcode.com/problems/minimum-time-difference)
+# [539. 最小时间差](https://leetcode.cn/problems/minimum-time-difference)
 
-## Description
+[English Version](/solution/0500-0599/0539.Minimum%20Time%20Difference/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-Given a list of 24-hour clock time points in <strong>&quot;HH:MM&quot;</strong> format, return <em>the minimum <b>minutes</b> difference between any two time-points in the list</em>.
+<p>给定一个 24 小时制（小时:分钟 <strong>"HH:MM"</strong>）的时间列表，找出列表中任意两个时间的最小时间差并以分钟数表示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> timePoints = ["23:59","00:00"]
-<strong>Output:</strong> 1
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> timePoints = ["00:00","23:59","00:00"]
-<strong>Output:</strong> 0
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>timePoints = ["23:59","00:00"]
+<strong>输出：</strong>1
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>timePoints = ["00:00","23:59","00:00"]
+<strong>输出：</strong>0
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= timePoints.length &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>timePoints[i]</code> is in the format <strong>&quot;HH:MM&quot;</strong>.</li>
+	<li><code>timePoints[i]</code> 格式为 <strong>"HH:MM"</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-We notice that there can be at most $24 \times 60 = 1440$ distinct time points. Therefore, if the length of $timePoints$ exceeds $1440$, it implies there are duplicate time points, and we can return $0$ early.
+我们注意到，时间点最多只有 $24 \times 60 = 1440$ 个，因此，当 $timePoints$ 长度超过 $1440$，说明有重复的时间点，提前返回 $0$。
 
-Next, we iterate through the list of time points and convert it into a list of minutes $nums$. For example, for the time point `13:14`, we convert it into $13 \times 60 + 14$.
+接下来，我们首先遍历时间列表，将其转换为“分钟制”列表 $nums$，比如，对于时间点 `13:14`，将其转换为 $13 \times 60 + 14$。
 
-Then, we sort the list of minutes in ascending order and append the smallest time $nums[0]$ plus $1440$ to the end of the list. This step is to handle the special case of the difference between the maximum and minimum values.
+接着将“分钟制”列表按升序排列，然后将此列表的最小时间 $nums[0]$ 加上 $1440$ 追加至列表尾部，用于处理最大值、最小值的差值这种特殊情况。
 
-Finally, we iterate through the list of minutes to find the minimum difference between any two adjacent times.
+最后遍历“分钟制”列表，找出相邻两个时间的最小值即可。
 
-The time complexity is $O(n \log n)$, and the space complexity is $O(n)$, where $n$ is the number of time points.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为时间点个数。
 
 <!-- tabs:start -->
 
@@ -151,22 +163,22 @@ func findMinDifference(timePoints []string) int {
 
 ```ts
 function findMinDifference(timePoints: string[]): number {
-  if (timePoints.length > 1440) {
-    return 0;
-  }
-  const n = timePoints.length;
-  const nums: number[] = Array(n + 1);
-  for (let i = 0; i < n; ++i) {
-    const [hours, minutes] = timePoints[i].split(":").map(Number);
-    nums[i] = hours * 60 + minutes;
-  }
-  nums.sort((a, b) => a - b);
-  nums[n] = nums[0] + 1440;
-  let ans = 1 << 30;
-  for (let i = 1; i <= n; ++i) {
-    ans = Math.min(ans, nums[i] - nums[i - 1]);
-  }
-  return ans;
+    if (timePoints.length > 1440) {
+        return 0;
+    }
+    const n = timePoints.length;
+    const nums: number[] = Array(n + 1);
+    for (let i = 0; i < n; ++i) {
+        const [hours, minutes] = timePoints[i].split(':').map(Number);
+        nums[i] = hours * 60 + minutes;
+    }
+    nums.sort((a, b) => a - b);
+    nums[n] = nums[0] + 1440;
+    let ans = 1 << 30;
+    for (let i = 1; i <= n; ++i) {
+        ans = Math.min(ans, nums[i] - nums[i - 1]);
+    }
+    return ans;
 }
 ```
 

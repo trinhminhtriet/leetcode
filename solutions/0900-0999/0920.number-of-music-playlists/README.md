@@ -1,55 +1,60 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0920.Number%20of%20Music%20Playlists/README.md
 tags:
-  - Math
-  - Dynamic Programming
-  - Combinatorics
+    - 数学
+    - 动态规划
+    - 组合数学
 ---
 
 <!-- problem:start -->
 
-# [920. Number of Music Playlists](https://leetcode.com/problems/number-of-music-playlists)
+# [920. 播放列表的数量](https://leetcode.cn/problems/number-of-music-playlists)
 
-## Description
+[English Version](/solution/0900-0999/0920.Number%20of%20Music%20Playlists/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Your music player contains <code>n</code> different songs. You want to listen to <code>goal</code> songs (not necessarily different) during your trip. To avoid boredom, you will create a playlist so that:</p>
+<p>你的音乐播放器里有 <code>n</code> 首不同的歌，在旅途中，你计划听 <code>goal</code> 首歌（不一定不同，即，允许歌曲重复）。你将会按如下规则创建播放列表：</p>
 
 <ul>
-	<li>Every song is played <strong>at least once</strong>.</li>
-	<li>A song can only be played again only if <code>k</code> other songs have been played.</li>
+	<li>每首歌 <strong>至少播放一次</strong> 。</li>
+	<li>一首歌只有在其他 <code>k</code> 首歌播放完之后才能再次播放。</li>
 </ul>
 
-<p>Given <code>n</code>, <code>goal</code>, and <code>k</code>, return <em>the number of possible playlists that you can create</em>. Since the answer can be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>给你 <code>n</code>、<code>goal</code> 和 <code>k</code> ，返回可以满足要求的播放列表的数量。由于答案可能非常大，请返回对 <code>10<sup>9</sup> + 7</code> <strong>取余</strong> 的结果。</p>
+&nbsp;
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 3, goal = 3, k = 1
+<strong>输出：</strong>6
+<strong>解释：</strong>有 6 种可能的播放列表。[1, 2, 3]，[1, 3, 2]，[2, 1, 3]，[2, 3, 1]，[3, 1, 2]，[3, 2, 1] 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 2, goal = 3, k = 0
+<strong>输出：</strong>6
+<strong>解释：</strong>有 6 种可能的播放列表。[1, 1, 2]，[1, 2, 1]，[2, 1, 1]，[2, 2, 1]，[2, 1, 2]，[1, 2, 2] 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 2, goal = 3, k = 1
+<strong>输出：</strong>2
+<strong>解释：</strong>有 2 种可能的播放列表。[1, 2, 1]，[2, 1, 2] 。
+</pre>
+
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 3, goal = 3, k = 1
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> There are 6 possible playlists: [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], and [3, 2, 1].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 2, goal = 3, k = 0
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> There are 6 possible playlists: [1, 1, 2], [1, 2, 1], [2, 1, 1], [2, 2, 1], [2, 1, 2], and [1, 2, 2].
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 2, goal = 3, k = 1
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> There are 2 possible playlists: [1, 2, 1] and [2, 1, 2].
-</pre>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= k &lt; n &lt;= goal &lt;= 100</code></li>
@@ -57,17 +62,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ to be the number of playlists that can be made from $i$ songs with exactly $j$ different songs. We have $f[0][0] = 1$ and the answer is $f[goal][n]$.
+我们定义 $f[i][j]$ 表示听 $i$ 首歌，且这 $i$ 首歌中有 $j$ 首不同歌曲的播放列表的数量。初始时 $f[0][0]=1$。答案为 $f[goal][n]$。
 
-For $f[i][j]$, we can choose a song that we have not listened before, so the previous state is $f[i - 1][j - 1]$, and there are $n - (j - 1) = n - j + 1$ options. Thus, $f[i][j] += f[i - 1][j - 1] \times (n - j + 1)$. We can also choose a song that we have listened before, so the previous state is $f[i - 1][j]$, and there are $j - k$ options. Thus, $f[i][j] += f[i - 1][j] \times (j - k)$, where $j \geq k$.
+对于 $f[i][j]$，我们可以选择没听过的歌，那么上一个状态为 $f[i - 1][j - 1]$，这样的选择有 $n - (j - 1) = n - j + 1$ 种，因此 $f[i][j] += f[i - 1][j - 1] \times (n - j + 1)$。我们也可以选择听过的歌，那么上一个状态为 $f[i - 1][j]$，这样的选择有 $j - k$ 种，因此 $f[i][j] += f[i - 1][j] \times (j - k)$，其中 $j \geq k$。
 
-Therefore, we have the transition equation:
+综上，我们可以得到状态转移方程：
 
 $$
 f[i][j] = \begin{cases}
@@ -76,9 +81,9 @@ f[i - 1][j - 1] \times (n - j + 1) + f[i - 1][j] \times (j - k) & i \geq 1, j \g
 \end{cases}
 $$
 
-The final answer is $f[goal][n]$.
+最终的答案为 $f[goal][n]$。
 
-The time complexity is $O(goal \times n)$, and the space complexity is $O(goal \times n)$. Here, $goal$ and $n$ are the parameters given in the problem.
+时间复杂度 $O(goal \times n)$，空间复杂度 $O(goal \times n)$。其中 $goal$ 和 $n$ 为题目中给定的参数。
 
 <!-- tabs:start -->
 
@@ -172,19 +177,19 @@ func numMusicPlaylists(n int, goal int, k int) int {
 
 ```ts
 function numMusicPlaylists(n: number, goal: number, k: number): number {
-  const mod = 1e9 + 7;
-  const f = new Array(goal + 1).fill(0).map(() => new Array(n + 1).fill(0));
-  f[0][0] = 1;
-  for (let i = 1; i <= goal; ++i) {
-    for (let j = 1; j <= n; ++j) {
-      f[i][j] = f[i - 1][j - 1] * (n - j + 1);
-      if (j > k) {
-        f[i][j] += f[i - 1][j] * (j - k);
-      }
-      f[i][j] %= mod;
+    const mod = 1e9 + 7;
+    const f = new Array(goal + 1).fill(0).map(() => new Array(n + 1).fill(0));
+    f[0][0] = 1;
+    for (let i = 1; i <= goal; ++i) {
+        for (let j = 1; j <= n; ++j) {
+            f[i][j] = f[i - 1][j - 1] * (n - j + 1);
+            if (j > k) {
+                f[i][j] += f[i - 1][j] * (j - k);
+            }
+            f[i][j] %= mod;
+        }
     }
-  }
-  return f[goal][n];
+    return f[goal][n];
 }
 ```
 
@@ -228,9 +233,9 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming (Space Optimization)
+### 方法二：动态规划（空间优化）
 
-We notice that $f[i][j]$ is only related to $f[i - 1][j - 1]$ and $f[i - 1][j]$. Therefore, we can use a rolling array to optimize the space complexity, reducing the space complexity to $O(n)$.
+我们注意到 $f[i][j]$ 只与 $f[i - 1][j - 1]$ 和 $f[i - 1][j]$ 有关，因此我们可以使用滚动数组优化空间复杂度，将空间复杂度优化至 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -328,21 +333,21 @@ func numMusicPlaylists(n int, goal int, k int) int {
 
 ```ts
 function numMusicPlaylists(n: number, goal: number, k: number): number {
-  const mod = 1e9 + 7;
-  let f = new Array(goal + 1).fill(0);
-  f[0] = 1;
-  for (let i = 1; i <= goal; ++i) {
-    const g = new Array(goal + 1).fill(0);
-    for (let j = 1; j <= n; ++j) {
-      g[j] = f[j - 1] * (n - j + 1);
-      if (j > k) {
-        g[j] += f[j] * (j - k);
-      }
-      g[j] %= mod;
+    const mod = 1e9 + 7;
+    let f = new Array(goal + 1).fill(0);
+    f[0] = 1;
+    for (let i = 1; i <= goal; ++i) {
+        const g = new Array(goal + 1).fill(0);
+        for (let j = 1; j <= n; ++j) {
+            g[j] = f[j - 1] * (n - j + 1);
+            if (j > k) {
+                g[j] += f[j] * (j - k);
+            }
+            g[j] %= mod;
+        }
+        f = g;
     }
-    f = g;
-  }
-  return f[n];
+    return f[n];
 }
 ```
 

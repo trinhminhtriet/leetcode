@@ -1,56 +1,59 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2610.Convert%20an%20Array%20Into%20a%202D%20Array%20With%20Conditions/README.md
 rating: 1373
-source: Weekly Contest 339 Q2
+source: 第 339 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [2610. Convert an Array Into a 2D Array With Conditions](https://leetcode.com/problems/convert-an-array-into-a-2d-array-with-conditions)
+# [2610. 转换二维数组](https://leetcode.cn/problems/convert-an-array-into-a-2d-array-with-conditions)
 
-## Description
+[English Version](/solution/2600-2699/2610.Convert%20an%20Array%20Into%20a%202D%20Array%20With%20Conditions/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code>. You need to create a 2D array from <code>nums</code> satisfying the following conditions:</p>
+<p>给你一个整数数组 <code>nums</code> 。请你创建一个满足以下条件的二维数组：</p>
 
 <ul>
-	<li>The 2D array should contain <strong>only</strong> the elements of the array <code>nums</code>.</li>
-	<li>Each row in the 2D array contains <strong>distinct</strong> integers.</li>
-	<li>The number of rows in the 2D array should be <strong>minimal</strong>.</li>
+	<li>二维数组应该 <strong>只</strong> 包含数组 <code>nums</code> 中的元素。</li>
+	<li>二维数组中的每一行都包含 <strong>不同</strong> 的整数。</li>
+	<li>二维数组的行数应尽可能 <strong>少</strong> 。</li>
 </ul>
 
-<p>Return <em>the resulting array</em>. If there are multiple answers, return any of them.</p>
+<p>返回结果数组。如果存在多种答案，则返回其中任何一种。</p>
 
-<p><strong>Note</strong> that the 2D array can have a different number of elements on each row.</p>
+<p>请注意，二维数组的每一行上可以存在不同数量的元素。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,3,4,1,2,3,1]
-<strong>Output:</strong> [[1,3,4,2],[1,3],[1]]
-<strong>Explanation:</strong> We can create a 2D array that contains the following rows:
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [1,3,4,1,2,3,1]
+<strong>输出：</strong>[[1,3,4,2],[1,3],[1]]
+<strong>解释：</strong>根据题目要求可以创建包含以下几行元素的二维数组：
 - 1,3,4,2
 - 1,3
 - 1
-All elements of nums were used, and each row of the 2D array contains distinct integers, so it is a valid answer.
-It can be shown that we cannot have less than 3 rows in a valid array.</pre>
+nums 中的所有元素都有用到，并且每一行都由不同的整数组成，所以这是一个符合题目要求的答案。
+可以证明无法创建少于三行且符合题目要求的二维数组。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4]
-<strong>Output:</strong> [[4,3,2,1]]
-<strong>Explanation:</strong> All elements of the array are distinct, so we can keep all of them in the first row of the 2D array.
+<pre><strong>输入：</strong>nums = [1,2,3,4]
+<strong>输出：</strong>[[4,3,2,1]]
+<strong>解释：</strong>nums 中的所有元素都不同，所以我们可以将其全部保存在二维数组中的第一行。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 200</code></li>
@@ -59,19 +62,19 @@ It can be shown that we cannot have less than 3 rows in a valid array.</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Array or Hash Table
+### 方法一：数组或哈希表
 
-We use an array or hash table $cnt$ to count the number of occurrences of each element in the array $nums$.
+我们先用数组或哈希表 $cnt$ 统计数组 $nums$ 中每个元素出现的次数。
 
-Then we traverse the $cnt$ array, add $x$ to the $0$th row, the $1$st row, the $2$nd row, ..., the ($cnt[x]-1$)th row of the answer list.
+然后遍历 $cnt$，对于每个元素 $x$，我们将其添加到答案列表中的第 $0$ 行，第 $1$ 行，第 $2$ 行，...，第 $cnt[x]-1$ 行。
 
-Finally, return the answer list.
+最后返回答案列表即可。
 
-The time complexity is $O(n)$ and the space complexity is $O(n)$, where $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -166,21 +169,21 @@ func findMatrix(nums []int) (ans [][]int) {
 
 ```ts
 function findMatrix(nums: number[]): number[][] {
-  const ans: number[][] = [];
-  const n = nums.length;
-  const cnt: number[] = new Array(n + 1).fill(0);
-  for (const x of nums) {
-    ++cnt[x];
-  }
-  for (let x = 1; x <= n; ++x) {
-    for (let j = 0; j < cnt[x]; ++j) {
-      if (ans.length <= j) {
-        ans.push([]);
-      }
-      ans[j].push(x);
+    const ans: number[][] = [];
+    const n = nums.length;
+    const cnt: number[] = new Array(n + 1).fill(0);
+    for (const x of nums) {
+        ++cnt[x];
     }
-  }
-  return ans;
+    for (let x = 1; x <= n; ++x) {
+        for (let j = 0; j < cnt[x]; ++j) {
+            if (ans.length <= j) {
+                ans.push([]);
+            }
+            ans[j].push(x);
+        }
+    }
+    return ans;
 }
 ```
 

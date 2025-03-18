@@ -1,84 +1,88 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0010.Regular%20Expression%20Matching/README.md
 tags:
-  - Recursion
-  - String
-  - Dynamic Programming
+    - 递归
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [10. Regular Expression Matching](https://leetcode.com/problems/regular-expression-matching)
+# [10. 正则表达式匹配](https://leetcode.cn/problems/regular-expression-matching)
 
-## Description
+[English Version](/solution/0000-0099/0010.Regular%20Expression%20Matching/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an input string <code>s</code>&nbsp;and a pattern <code>p</code>, implement regular expression matching with support for <code>&#39;.&#39;</code> and <code>&#39;*&#39;</code> where:</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;和一个字符规律&nbsp;<code>p</code>，请你来实现一个支持 <code>'.'</code>&nbsp;和&nbsp;<code>'*'</code>&nbsp;的正则表达式匹配。</p>
 
 <ul>
-	<li><code>&#39;.&#39;</code> Matches any single character.​​​​</li>
-	<li><code>&#39;*&#39;</code> Matches zero or more of the preceding element.</li>
+	<li><code>'.'</code> 匹配任意单个字符</li>
+	<li><code>'*'</code> 匹配零个或多个前面的那一个元素</li>
 </ul>
 
-<p>The matching should cover the <strong>entire</strong> input string (not partial).</p>
+<p>所谓匹配，是要涵盖&nbsp;<strong>整个&nbsp;</strong>字符串&nbsp;<code>s</code> 的，而不是部分字符串。</p>
+&nbsp;
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aa", p = "a"
+<strong>输出：</strong>false
+<strong>解释：</strong>"a" 无法匹配 "aa" 整个字符串。
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aa", p = "a*"
+<strong>输出：</strong>true
+<strong>解释：</strong>因为 '*' 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 'a'。因此，字符串 "aa" 可被视为 'a' 重复了一次。
+</pre>
+
+<p><strong>示例&nbsp;3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "ab", p = ".*"
+<strong>输出：</strong>true
+<strong>解释：</strong>".*" 表示可匹配零个或多个（'*'）任意字符（'.'）。
+</pre>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;aa&quot;, p = &quot;a&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> &quot;a&quot; does not match the entire string &quot;aa&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;aa&quot;, p = &quot;a*&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> &#39;*&#39; means zero or more of the preceding element, &#39;a&#39;. Therefore, by repeating &#39;a&#39; once, it becomes &quot;aa&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;ab&quot;, p = &quot;.*&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> &quot;.*&quot; means &quot;zero or more (*) of any character (.)&quot;.
-</pre>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length&nbsp;&lt;= 20</code></li>
 	<li><code>1 &lt;= p.length&nbsp;&lt;= 20</code></li>
-	<li><code>s</code> contains only lowercase English letters.</li>
-	<li><code>p</code> contains only lowercase English letters, <code>&#39;.&#39;</code>, and&nbsp;<code>&#39;*&#39;</code>.</li>
-	<li>It is guaranteed for each appearance of the character <code>&#39;*&#39;</code>, there will be a previous valid character to match.</li>
+	<li><code>s</code>&nbsp;只包含从&nbsp;<code>a-z</code>&nbsp;的小写字母。</li>
+	<li><code>p</code>&nbsp;只包含从&nbsp;<code>a-z</code>&nbsp;的小写字母，以及字符&nbsp;<code>.</code>&nbsp;和&nbsp;<code>*</code>。</li>
+	<li>保证每次出现字符&nbsp;<code>*</code> 时，前面都匹配到有效的字符</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-We design a function $dfs(i, j)$, which indicates whether the $i$-th character of $s$ matches the $j$-th character of $p$. The answer is $dfs(0, 0)$.
+我们设计一个函数 $dfs(i, j)$，表示从 $s$ 的第 $i$ 个字符开始，和 $p$ 的第 $j$ 个字符开始是否匹配。那么答案就是 $dfs(0, 0)$。
 
-The calculation process of the function $dfs(i, j)$ is as follows:
+函数 $dfs(i, j)$ 的计算过程如下：
 
-- If $j$ has reached the end of $p$, then if $i$ has also reached the end of $s$, the match is successful, otherwise, the match fails.
-- If the next character of $j$ is `'*'`, we can choose to match $0$ $s[i]$ characters, which is $dfs(i, j + 2)$. If $i \lt m$ and $s[i]$ matches $p[j]$, we can choose to match $1$ $s[i]$ character, which is $dfs(i + 1, j)$.
-- If the next character of $j$ is not `'*'`, then if $i \lt m$ and $s[i]$ matches $p[j]$, it is $dfs(i + 1, j + 1)$. Otherwise, the match fails.
+-   如果 $j$ 已经到达 $p$ 的末尾，那么如果 $i$ 也到达了 $s$ 的末尾，那么匹配成功，否则匹配失败。
+-   如果 $j$ 的下一个字符是 `'*'`，我们可以选择匹配 $0$ 个 $s[i]$ 字符，那么就是 $dfs(i, j + 2)$。如果此时 $i \lt m$ 并且 $s[i]$ 和 $p[j]$ 匹配，那么我们可以选择匹配 $1$ 个 $s[i]$ 字符，那么就是 $dfs(i + 1, j)$。
+-   如果 $j$ 的下一个字符不是 `'*'`，那么如果 $i \lt m$ 并且 $s[i]$ 和 $p[j]$ 匹配，那么就是 $dfs(i + 1, j + 1)$。否则匹配失败。
 
-During the process, we can use memoization search to avoid repeated calculations.
+过程中，我们可以使用记忆化搜索，避免重复计算。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the lengths of $s$ and $p$ respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是 $s$ 和 $p$ 的长度。
 
 <!-- tabs:start -->
 
@@ -262,31 +266,28 @@ impl Solution {
  * @return {boolean}
  */
 var isMatch = function (s, p) {
-  const m = s.length;
-  const n = p.length;
-  const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
-  const dfs = (i, j) => {
-    if (j >= n) {
-      return i === m;
-    }
-    if (f[i][j]) {
-      return f[i][j] === 1;
-    }
-    let res = -1;
-    if (j + 1 < n && p[j + 1] === "*") {
-      if (
-        dfs(i, j + 2) ||
-        (i < m && (s[i] === p[j] || p[j] === ".") && dfs(i + 1, j))
-      ) {
-        res = 1;
-      }
-    } else if (i < m && (s[i] === p[j] || p[j] === ".") && dfs(i + 1, j + 1)) {
-      res = 1;
-    }
-    f[i][j] = res;
-    return res === 1;
-  };
-  return dfs(0, 0);
+    const m = s.length;
+    const n = p.length;
+    const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    const dfs = (i, j) => {
+        if (j >= n) {
+            return i === m;
+        }
+        if (f[i][j]) {
+            return f[i][j] === 1;
+        }
+        let res = -1;
+        if (j + 1 < n && p[j + 1] === '*') {
+            if (dfs(i, j + 2) || (i < m && (s[i] === p[j] || p[j] === '.') && dfs(i + 1, j))) {
+                res = 1;
+            }
+        } else if (i < m && (s[i] === p[j] || p[j] === '.') && dfs(i + 1, j + 1)) {
+            res = 1;
+        }
+        f[i][j] = res;
+        return res === 1;
+    };
+    return dfs(0, 0);
 };
 ```
 
@@ -336,18 +337,18 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We can convert the memoization search in Solution 1 into dynamic programming.
+我们可以将方法一中的记忆化搜索转换为动态规划。
 
-Define $f[i][j]$ to represent whether the first $i$ characters of string $s$ match the first $j$ characters of string $p$. The answer is $f[m][n]$. Initialize $f[0][0] = true$, indicating that the empty string and the empty regular expression match.
+定义 $f[i][j]$ 表示字符串 $s$ 的前 $i$ 个字符和字符串 $p$ 的前 $j$ 个字符是否匹配。那么答案就是 $f[m][n]$。初始化 $f[0][0] = true$，表示空字符串和空正则表达式是匹配的。
 
-Similar to Solution 1, we can discuss different cases.
+与方法一类似，我们可以分情况来讨论。
 
-- If $p[j - 1]$ is `'*'`, we can choose to match $0$ $s[i - 1]$ characters, which is $f[i][j] = f[i][j - 2]$. If $s[i - 1]$ matches $p[j - 2]$, we can choose to match $1$ $s[i - 1]$ character, which is $f[i][j] = f[i][j] \lor f[i - 1][j]$.
-- If $p[j - 1]$ is not `'*'`, then if $s[i - 1]$ matches $p[j - 1]$, it is $f[i][j] = f[i - 1][j - 1]$. Otherwise, the match fails.
+-   如果 $p[j - 1]$ 是 `'*'`，那么我们可以选择匹配 $0$ 个 $s[i - 1]$ 字符，那么就是 $f[i][j] = f[i][j - 2]$。如果此时 $s[i - 1]$ 和 $p[j - 2]$ 匹配，那么我们可以选择匹配 $1$ 个 $s[i - 1]$ 字符，那么就是 $f[i][j] = f[i][j] \lor f[i - 1][j]$。
+-   如果 $p[j - 1]$ 不是 `'*'`，那么如果 $s[i - 1]$ 和 $p[j - 1]$ 匹配，那么就是 $f[i][j] = f[i - 1][j - 1]$。否则匹配失败。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the lengths of $s$ and $p$ respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是 $s$ 和 $p$ 的长度。
 
 <!-- tabs:start -->
 
@@ -490,23 +491,23 @@ impl Solution {
  * @return {boolean}
  */
 var isMatch = function (s, p) {
-  const m = s.length;
-  const n = p.length;
-  const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(false));
-  f[0][0] = true;
-  for (let i = 0; i <= m; ++i) {
-    for (let j = 1; j <= n; ++j) {
-      if (p[j - 1] === "*") {
-        f[i][j] = f[i][j - 2];
-        if (i && (p[j - 2] === "." || p[j - 2] === s[i - 1])) {
-          f[i][j] |= f[i - 1][j];
+    const m = s.length;
+    const n = p.length;
+    const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(false));
+    f[0][0] = true;
+    for (let i = 0; i <= m; ++i) {
+        for (let j = 1; j <= n; ++j) {
+            if (p[j - 1] === '*') {
+                f[i][j] = f[i][j - 2];
+                if (i && (p[j - 2] === '.' || p[j - 2] === s[i - 1])) {
+                    f[i][j] |= f[i - 1][j];
+                }
+            } else if (i && (p[j - 1] === '.' || p[j - 1] === s[i - 1])) {
+                f[i][j] = f[i - 1][j - 1];
+            }
         }
-      } else if (i && (p[j - 1] === "." || p[j - 1] === s[i - 1])) {
-        f[i][j] = f[i - 1][j - 1];
-      }
     }
-  }
-  return f[m][n];
+    return f[m][n];
 };
 ```
 

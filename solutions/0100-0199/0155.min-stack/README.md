@@ -1,71 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0155.Min%20Stack/README.md
 tags:
-  - Stack
-  - Design
+    - 栈
+    - 设计
 ---
 
 <!-- problem:start -->
 
-# [155. Min Stack](https://leetcode.com/problems/min-stack)
+# [155. 最小栈](https://leetcode.cn/problems/min-stack)
 
-## Description
+[English Version](/solution/0100-0199/0155.Min%20Stack/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.</p>
+<p>设计一个支持 <code>push</code> ，<code>pop</code> ，<code>top</code> 操作，并能在常数时间内检索到最小元素的栈。</p>
 
-<p>Implement the <code>MinStack</code> class:</p>
+<p>实现 <code>MinStack</code> 类:</p>
 
 <ul>
-	<li><code>MinStack()</code> initializes the stack object.</li>
-	<li><code>void push(int val)</code> pushes the element <code>val</code> onto the stack.</li>
-	<li><code>void pop()</code> removes the element on the top of the stack.</li>
-	<li><code>int top()</code> gets the top element of the stack.</li>
-	<li><code>int getMin()</code> retrieves the minimum element in the stack.</li>
+	<li><code>MinStack()</code> 初始化堆栈对象。</li>
+	<li><code>void push(int val)</code> 将元素val推入堆栈。</li>
+	<li><code>void pop()</code> 删除堆栈顶部的元素。</li>
+	<li><code>int top()</code> 获取堆栈顶部的元素。</li>
+	<li><code>int getMin()</code> 获取堆栈中的最小元素。</li>
 </ul>
 
-<p>You must implement a solution with <code>O(1)</code> time complexity for each function.</p>
-
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;MinStack&quot;,&quot;push&quot;,&quot;push&quot;,&quot;push&quot;,&quot;getMin&quot;,&quot;pop&quot;,&quot;top&quot;,&quot;getMin&quot;]
+<strong>输入：</strong>
+["MinStack","push","push","push","getMin","pop","top","getMin"]
 [[],[-2],[0],[-3],[],[],[],[]]
 
-<strong>Output</strong>
+<strong>输出：</strong>
 [null,null,null,null,-3,null,0,-2]
 
-<strong>Explanation</strong>
+<strong>解释：</strong>
 MinStack minStack = new MinStack();
 minStack.push(-2);
 minStack.push(0);
 minStack.push(-3);
-minStack.getMin(); // return -3
+minStack.getMin();   --&gt; 返回 -3.
 minStack.pop();
-minStack.top();    // return 0
-minStack.getMin(); // return -2
+minStack.top();      --&gt; 返回 0.
+minStack.getMin();   --&gt; 返回 -2.
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>-2<sup>31</sup> &lt;= val &lt;= 2<sup>31</sup> - 1</code></li>
-	<li>Methods <code>pop</code>, <code>top</code> and <code>getMin</code> operations will always be called on <strong>non-empty</strong> stacks.</li>
-	<li>At most <code>3 * 10<sup>4</sup></code> calls will be made to <code>push</code>, <code>pop</code>, <code>top</code>, and <code>getMin</code>.</li>
+	<li><code>-2<sup>31</sup>&nbsp;&lt;= val &lt;= 2<sup>31</sup>&nbsp;- 1</code></li>
+	<li><code>pop</code>、<code>top</code> 和 <code>getMin</code> 操作总是在 <strong>非空栈</strong> 上调用</li>
+	<li><code>push</code>,&nbsp;<code>pop</code>,&nbsp;<code>top</code>, and&nbsp;<code>getMin</code>最多被调用&nbsp;<code>3 * 10<sup>4</sup></code>&nbsp;次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：双栈
+
+我们用两个栈来实现，其中 `stk1` 用来存储数据，`stk2` 用来存储当前栈中的最小值。初始时，`stk2` 中存储一个极大值。
+
+-   当我们向栈中压入一个元素 $x$ 时，我们将 $x$ 压入 `stk1`，并将 `min(x, stk2[-1])` 压入 `stk2`。
+-   当我们从栈中弹出一个元素时，我们将 `stk1` 和 `stk2` 的栈顶元素都弹出。
+-   当我们要获取当前栈中的栈顶元素时，我们只需要返回 `stk1` 的栈顶元素即可。
+-   当我们要获取当前栈中的最小值时，我们只需要返回 `stk2` 的栈顶元素即可。
+
+每个操作的时间复杂度为 $O(1)$。整体的空间复杂度为 $O(n)$，其中 $n$ 为栈中元素的个数。
 
 <!-- tabs:start -->
 
@@ -226,31 +238,31 @@ func (this *MinStack) GetMin() int {
 
 ```ts
 class MinStack {
-  stk1: number[];
-  stk2: number[];
+    stk1: number[];
+    stk2: number[];
 
-  constructor() {
-    this.stk1 = [];
-    this.stk2 = [Infinity];
-  }
+    constructor() {
+        this.stk1 = [];
+        this.stk2 = [Infinity];
+    }
 
-  push(val: number): void {
-    this.stk1.push(val);
-    this.stk2.push(Math.min(val, this.stk2[this.stk2.length - 1]));
-  }
+    push(val: number): void {
+        this.stk1.push(val);
+        this.stk2.push(Math.min(val, this.stk2[this.stk2.length - 1]));
+    }
 
-  pop(): void {
-    this.stk1.pop();
-    this.stk2.pop();
-  }
+    pop(): void {
+        this.stk1.pop();
+        this.stk2.pop();
+    }
 
-  top(): number {
-    return this.stk1[this.stk1.length - 1];
-  }
+    top(): number {
+        return this.stk1[this.stk1.length - 1];
+    }
 
-  getMin(): number {
-    return this.stk2[this.stk2.length - 1];
-  }
+    getMin(): number {
+        return this.stk2[this.stk2.length - 1];
+    }
 }
 
 /**
@@ -312,8 +324,8 @@ impl MinStack {
 
 ```js
 var MinStack = function () {
-  this.stk1 = [];
-  this.stk2 = [Infinity];
+    this.stk1 = [];
+    this.stk2 = [Infinity];
 };
 
 /**
@@ -321,30 +333,30 @@ var MinStack = function () {
  * @return {void}
  */
 MinStack.prototype.push = function (val) {
-  this.stk1.push(val);
-  this.stk2.push(Math.min(this.stk2[this.stk2.length - 1], val));
+    this.stk1.push(val);
+    this.stk2.push(Math.min(this.stk2[this.stk2.length - 1], val));
 };
 
 /**
  * @return {void}
  */
 MinStack.prototype.pop = function () {
-  this.stk1.pop();
-  this.stk2.pop();
+    this.stk1.pop();
+    this.stk2.pop();
 };
 
 /**
  * @return {number}
  */
 MinStack.prototype.top = function () {
-  return this.stk1[this.stk1.length - 1];
+    return this.stk1[this.stk1.length - 1];
 };
 
 /**
  * @return {number}
  */
 MinStack.prototype.getMin = function () {
-  return this.stk2[this.stk2.length - 1];
+    return this.stk2[this.stk2.length - 1];
 };
 
 /**

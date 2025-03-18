@@ -1,42 +1,57 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0412.Fizz%20Buzz/README.md
 tags:
-  - Math
-  - String
-  - Simulation
+    - 数学
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [412. Fizz Buzz](https://leetcode.com/problems/fizz-buzz)
+# [412. Fizz Buzz](https://leetcode.cn/problems/fizz-buzz)
 
-## Description
+[English Version](/solution/0400-0499/0412.Fizz%20Buzz/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer <code>n</code>, return <em>a string array </em><code>answer</code><em> (<strong>1-indexed</strong>) where</em>:</p>
+<p>给你一个整数 <code>n</code> ，找出从 <code>1</code> 到 <code>n</code> 各个整数的 Fizz Buzz 表示，并用字符串数组 <code>answer</code>（<strong>下标从 1 开始</strong>）返回结果，其中：</p>
 
 <ul>
-	<li><code>answer[i] == &quot;FizzBuzz&quot;</code> if <code>i</code> is divisible by <code>3</code> and <code>5</code>.</li>
-	<li><code>answer[i] == &quot;Fizz&quot;</code> if <code>i</code> is divisible by <code>3</code>.</li>
-	<li><code>answer[i] == &quot;Buzz&quot;</code> if <code>i</code> is divisible by <code>5</code>.</li>
-	<li><code>answer[i] == i</code> (as a string) if none of the above conditions are true.</li>
+	<li><code>answer[i] == "FizzBuzz"</code> 如果 <code>i</code> 同时是 <code>3</code> 和 <code>5</code> 的倍数。</li>
+	<li><code>answer[i] == "Fizz"</code> 如果 <code>i</code> 是 <code>3</code> 的倍数。</li>
+	<li><code>answer[i] == "Buzz"</code> 如果 <code>i</code> 是 <code>5</code> 的倍数。</li>
+	<li><code>answer[i] == i</code> （以字符串形式）如果上述条件全不满足。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> n = 3
-<strong>Output:</strong> ["1","2","Fizz"]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> n = 5
-<strong>Output:</strong> ["1","2","Fizz","4","Buzz"]
-</pre><p><strong class="example">Example 3:</strong></p>
-<pre><strong>Input:</strong> n = 15
-<strong>Output:</strong> ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 3
+<strong>输出：</strong>["1","2","Fizz"]
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 5
+<strong>输出：</strong>["1","2","Fizz","4","Buzz"]
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 15
+<strong>输出：</strong>["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -44,15 +59,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We iterate through each integer from 1 to $n$. For each integer, we check whether it is a multiple of both 3 and 5, or just a multiple of 3, or just a multiple of 5. Based on the check result, we add the corresponding string to the answer array.
+我们遍历从 1 到 n 的每个整数，对于每个整数，我们检查它是否是 3 和 5 的倍数，或者只是 3 的倍数，或者只是 5 的倍数。根据检查的结果，我们将相应的字符串添加到答案数组中。
 
-The time complexity is $O(n)$, where $n$ is the integer given in the problem. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是题目给定的整数。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -152,19 +167,19 @@ func fizzBuzz(n int) (ans []string) {
  * @return {string[]}
  */
 var fizzBuzz = function (n) {
-  const ans = [];
-  for (let i = 1; i <= n; ++i) {
-    if (i % 15 === 0) {
-      ans.push("FizzBuzz");
-    } else if (i % 3 === 0) {
-      ans.push("Fizz");
-    } else if (i % 5 === 0) {
-      ans.push("Buzz");
-    } else {
-      ans.push(`${i}`);
+    const ans = [];
+    for (let i = 1; i <= n; ++i) {
+        if (i % 15 === 0) {
+            ans.push('FizzBuzz');
+        } else if (i % 3 === 0) {
+            ans.push('Fizz');
+        } else if (i % 5 === 0) {
+            ans.push('Buzz');
+        } else {
+            ans.push(`${i}`);
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 

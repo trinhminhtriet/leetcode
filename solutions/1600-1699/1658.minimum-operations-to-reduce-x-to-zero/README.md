@@ -1,78 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1658.Minimum%20Operations%20to%20Reduce%20X%20to%20Zero/README.md
 rating: 1817
-source: Weekly Contest 215 Q3
+source: 第 215 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Binary Search
-  - Prefix Sum
-  - Sliding Window
+    - 数组
+    - 哈希表
+    - 二分查找
+    - 前缀和
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1658. Minimum Operations to Reduce X to Zero](https://leetcode.com/problems/minimum-operations-to-reduce-x-to-zero)
+# [1658. 将 x 减到 0 的最小操作数](https://leetcode.cn/problems/minimum-operations-to-reduce-x-to-zero)
 
-## Description
+[English Version](/solution/1600-1699/1658.Minimum%20Operations%20to%20Reduce%20X%20to%20Zero/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> and an integer <code>x</code>. In one operation, you can either remove the leftmost or the rightmost element from the array <code>nums</code> and subtract its value from <code>x</code>. Note that this <strong>modifies</strong> the array for future operations.</p>
+<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>x</code> 。每一次操作时，你应当移除数组 <code>nums</code> 最左边或最右边的元素，然后从 <code>x</code> 中减去该元素的值。请注意，需要 <strong>修改</strong> 数组以供接下来的操作使用。</p>
 
-<p>Return <em>the <strong>minimum number</strong> of operations to reduce </em><code>x</code> <em>to <strong>exactly</strong></em> <code>0</code> <em>if it is possible</em><em>, otherwise, return </em><code>-1</code>.</p>
+<p>如果可以将 <code>x</code> <strong>恰好</strong> 减到 <code>0</code> ，返回<strong> 最小操作数 </strong>；否则，返回 <code>-1</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [1,1,4,2,3], x = 5
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The optimal solution is to remove the last two elements to reduce x to zero.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [5,6,7,8,9], x = 4
-<strong>Output:</strong> -1
+<strong>输入：</strong>nums = [1,1,4,2,3], x = 5
+<strong>输出：</strong>2
+<strong>解释：</strong>最佳解决方案是移除后两个元素，将 x 减到 0 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,2,20,1,1,3], x = 10
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The optimal solution is to remove the last three elements and the first two elements (5 operations in total) to reduce x to zero.
+<strong>输入：</strong>nums = [5,6,7,8,9], x = 4
+<strong>输出：</strong>-1
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [3,2,20,1,1,3], x = 10
+<strong>输出：</strong>5
+<strong>解释：</strong>最佳解决方案是移除后三个元素和前两个元素（总共 5 次操作），将 x 减到 0 。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>1 &lt;= x &lt;= 10<sup>9</sup></code></li>
+	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
+	<li><code>1 <= nums[i] <= 10<sup>4</sup></code></li>
+	<li><code>1 <= x <= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Prefix Sum
+### 方法一：哈希表 + 前缀和
 
-According to the problem description, we need to remove elements from both ends of the array $nums$ so that the sum of the removed elements equals $x$, and the number of removed elements is minimized. We can transform the problem into: find the longest consecutive subarray in the array $nums$ such that the sum of the subarray $s = \sum_{i=0}^{n} nums[i] - x$. In this way, we can transform the problem into finding the length $mx$ of the longest consecutive subarray in the array $nums$ with a sum of $s$, and the answer is $n - mx$.
+根据题目描述，我们需要移除数组 $nums$ 左右两端的元素，使得移除的元素和等于 $x$，且移除的元素个数最少。我们可以将问题转化为：找到数组 $nums$ 中最长的连续子数组，使得子数组的和 $s = \sum_{i=0}^{n} nums[i] - x$。这样，我们就可以将问题转化为求解数组 $nums$ 中和为 $s$ 的最长连续子数组的长度 $mx$，答案即为 $n - mx$。
 
-We initialize $mx = -1$, and then use a hash table $vis$ to store the prefix sum, where the key is the prefix sum and the value is the index corresponding to the prefix sum.
+我们初始化 $mx = -1$，然后使用哈希表 $vis$ 来存储前缀和，键为前缀和，值为前缀和对应的下标。
 
-Traverse the array $nums$, for the current element $nums[i]$, calculate the prefix sum $t$, if $t$ is not in the hash table, add $t$ to the hash table; if $t - s$ is in the hash table, update $mx = \max(mx, i - vis[t - s])$.
+遍历数组 $nums$，对于当前元素 $nums[i]$，计算前缀和 $t$，如果 $t$ 不在哈希表中，则将 $t$ 加入哈希表；如果 $t - s$ 在哈希表中，则更新 $mx = \max(mx, i - vis[t - s])$。
 
-Finally, if $mx = -1$, return $-1$, otherwise return $n - mx$.
+最后，如果 $mx = -1$，则返回 $-1$，否则返回 $n - mx$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -172,20 +177,20 @@ func minOperations(nums []int, x int) int {
 
 ```ts
 function minOperations(nums: number[], x: number): number {
-  const s = nums.reduce((acc, cur) => acc + cur, -x);
-  const vis: Map<number, number> = new Map([[0, -1]]);
-  let [mx, t] = [-1, 0];
-  const n = nums.length;
-  for (let i = 0; i < n; ++i) {
-    t += nums[i];
-    if (!vis.has(t)) {
-      vis.set(t, i);
+    const s = nums.reduce((acc, cur) => acc + cur, -x);
+    const vis: Map<number, number> = new Map([[0, -1]]);
+    let [mx, t] = [-1, 0];
+    const n = nums.length;
+    for (let i = 0; i < n; ++i) {
+        t += nums[i];
+        if (!vis.has(t)) {
+            vis.set(t, i);
+        }
+        if (vis.has(t - s)) {
+            mx = Math.max(mx, i - vis.get(t - s)!);
+        }
     }
-    if (vis.has(t - s)) {
-      mx = Math.max(mx, i - vis.get(t - s)!);
-    }
-  }
-  return ~mx ? n - mx : -1;
+    return ~mx ? n - mx : -1;
 }
 ```
 
@@ -225,17 +230,17 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Two Pointers
+### 方法二：双指针
 
-Based on the analysis of Solution 1, we need to find the length $mx$ of the longest consecutive subarray in the array $nums$ with a sum of $s$. Since all elements in the array $nums$ are positive integers, the prefix sum of the array will only increase monotonically, so we can use two pointers to solve this problem.
+基于方法一的分析，我们需要求解数组 $nums$ 中和为 $s$ 的最长连续子数组的长度 $mx$。由于数组 $nums$ 中的元素都是正整数，数组的前缀和只会单调递增，因此我们可以使用双指针来求解。
 
-We initialize pointer $j = 0$, prefix sum $t = 0$, and the length of the longest consecutive subarray $mx = -1$.
+我们初始化指针 $j = 0$，前缀和 $t = 0$，最长连续子数组的长度 $mx = -1$。
 
-Traverse the array $nums$, for the current element $nums[i]$, calculate the prefix sum $t += nums[i]$. If $t > s$, then move the pointer $j$ until $t \leq s$. If $t = s$, then update $mx = \max(mx, i - j + 1)$.
+遍历数组 $nums$，对于当前元素 $nums[i]$，计算前缀和 $t += nums[i]$，如果 $t > s$，则移动指针 $j$，直到 $t \leq s$。如果 $t = s$，则更新 $mx = \max(mx, i - j + 1)$。
 
-Finally, if $mx = -1$, return $-1$, otherwise return $n - mx$.
+最后，如果 $mx = -1$，则返回 $-1$，否则返回 $n - mx$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -334,19 +339,19 @@ func minOperations(nums []int, x int) int {
 
 ```ts
 function minOperations(nums: number[], x: number): number {
-  const s = nums.reduce((acc, cur) => acc + cur, -x);
-  let [mx, t] = [-1, 0];
-  const n = nums.length;
-  for (let i = 0, j = 0; i < n; ++i) {
-    t += nums[i];
-    while (t > s) {
-      t -= nums[j++];
+    const s = nums.reduce((acc, cur) => acc + cur, -x);
+    let [mx, t] = [-1, 0];
+    const n = nums.length;
+    for (let i = 0, j = 0; i < n; ++i) {
+        t += nums[i];
+        while (t > s) {
+            t -= nums[j++];
+        }
+        if (t === s) {
+            mx = Math.max(mx, i - j + 1);
+        }
     }
-    if (t === s) {
-      mx = Math.max(mx, i - j + 1);
-    }
-  }
-  return ~mx ? n - mx : -1;
+    return ~mx ? n - mx : -1;
 }
 ```
 

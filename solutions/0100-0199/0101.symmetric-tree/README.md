@@ -1,66 +1,72 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0101.Symmetric%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [101. Symmetric Tree](https://leetcode.com/problems/symmetric-tree)
+# [101. 对称二叉树](https://leetcode.cn/problems/symmetric-tree)
 
-## Description
+[English Version](/solution/0100-0199/0101.Symmetric%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, <em>check whether it is a mirror of itself</em> (i.e., symmetric around its center).</p>
+<p>给你一个二叉树的根节点 <code>root</code> ， 检查它是否轴对称。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0101.Symmetric%20Tree/images/symtree1.jpg" style="width: 354px; height: 291px;" />
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0101.Symmetric%20Tree/images/1698026966-JDYPDU-image.png" style="width: 354px; height: 291px;" />
 <pre>
-<strong>Input:</strong> root = [1,2,2,3,4,4,3]
-<strong>Output:</strong> true
+<strong>输入：</strong>root = [1,2,2,3,4,4,3]
+<strong>输出：</strong>true
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0101.Symmetric%20Tree/images/symtree2.jpg" style="width: 308px; height: 258px;" />
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0101.Symmetric%20Tree/images/1698027008-nPFLbM-image.png" style="width: 308px; height: 258px;" />
 <pre>
-<strong>Input:</strong> root = [1,2,2,null,3,null,3]
-<strong>Output:</strong> false
+<strong>输入：</strong>root = [1,2,2,null,3,null,3]
+<strong>输出：</strong>false
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 1000]</code>.</li>
+	<li>树中节点数目在范围 <code>[1, 1000]</code> 内</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<strong>Follow up:</strong> Could you solve it both recursively and iteratively?
+
+<p><strong>进阶：</strong>你可以运用递归和迭代两种方法解决这个问题吗？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Recursion
+### 方法一：递归
 
-We design a function $dfs(root1, root2)$ to determine whether two binary trees are symmetric. The answer is $dfs(root, root)$.
+我们设计一个函数 $\textit{dfs}(\textit{root1}, \textit{root2})$，用于判断两个二叉树是否对称。答案即为 $\textit{dfs}(\textit{root.left}, \textit{root.right})$。
 
-The logic of the function $dfs(root1, root2)$ is as follows:
+函数 $\textit{dfs}(\textit{root1}, \textit{root2})$ 的逻辑如下：
 
-- If both $root1$ and $root2$ are null, then the two binary trees are symmetric, return `true`.
-- If only one of $root1$ and $root2$ is null, or if $root1.val \neq root2.val$, then the two binary trees are not symmetric, return `false`.
-- Otherwise, determine whether the left subtree of $root1$ is symmetric to the right subtree of $root2$, and whether the right subtree of $root1$ is symmetric to the left subtree of $root2$. Here we use recursion.
+-   如果 $\textit{root1}$ 和 $\textit{root2}$ 都为空，则两个二叉树对称，返回 `true`；
+-   如果 $\textit{root1}$ 和 $\textit{root2}$ 中只有一个为空，或者 $\textit{root1.val} \neq \textit{root2.val}$
+-   否则，判断 $\textit{root1}$ 的左子树和 $\textit{root2}$ 的右子树是否对称，以及 $\textit{root1}$ 的右子树和 $\textit{root2}$ 的左子树是否对称，这里使用了递归。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -75,14 +81,14 @@ The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is 
 #         self.right = right
 class Solution:
     def isSymmetric(self, root: Optional[TreeNode]) -> bool:
-        def dfs(root1, root2):
-            if root1 is None and root2 is None:
+        def dfs(root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
+            if root1 == root2:
                 return True
             if root1 is None or root2 is None or root1.val != root2.val:
                 return False
             return dfs(root1.left, root2.right) and dfs(root1.right, root2.left)
 
-        return dfs(root, root)
+        return dfs(root.left, root.right)
 ```
 
 #### Java
@@ -105,11 +111,11 @@ class Solution:
  */
 class Solution {
     public boolean isSymmetric(TreeNode root) {
-        return dfs(root, root);
+        return dfs(root.left, root.right);
     }
 
     private boolean dfs(TreeNode root1, TreeNode root2) {
-        if (root1 == null && root2 == null) {
+        if (root1 == root2) {
             return true;
         }
         if (root1 == null || root2 == null || root1.val != root2.val) {
@@ -137,12 +143,16 @@ class Solution {
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
-        function<bool(TreeNode*, TreeNode*)> dfs = [&](TreeNode* root1, TreeNode* root2) -> bool {
-            if (!root1 && !root2) return true;
-            if (!root1 || !root2 || root1->val != root2->val) return false;
+        auto dfs = [&](this auto&& dfs, TreeNode* root1, TreeNode* root2) -> bool {
+            if (root1 == root2) {
+                return true;
+            }
+            if (!root1 || !root2 || root1->val != root2->val) {
+                return false;
+            }
             return dfs(root1->left, root2->right) && dfs(root1->right, root2->left);
         };
-        return dfs(root, root);
+        return dfs(root->left, root->right);
     }
 };
 ```
@@ -159,9 +169,9 @@ public:
  * }
  */
 func isSymmetric(root *TreeNode) bool {
-	var dfs func(*TreeNode, *TreeNode) bool
+	var dfs func(root1, root2 *TreeNode) bool
 	dfs = func(root1, root2 *TreeNode) bool {
-		if root1 == nil && root2 == nil {
+		if root1 == root2 {
 			return true
 		}
 		if root1 == nil || root2 == nil || root1.Val != root2.Val {
@@ -169,7 +179,7 @@ func isSymmetric(root *TreeNode) bool {
 		}
 		return dfs(root1.Left, root2.Right) && dfs(root1.Right, root2.Left)
 	}
-	return dfs(root, root)
+	return dfs(root.Left, root.Right)
 }
 ```
 
@@ -190,18 +200,17 @@ func isSymmetric(root *TreeNode) bool {
  * }
  */
 
-const dfs = (root1: TreeNode | null, root2: TreeNode | null) => {
-  if (root1 == root2) {
-    return true;
-  }
-  if (root1 == null || root2 == null || root1.val != root2.val) {
-    return false;
-  }
-  return dfs(root1.left, root2.right) && dfs(root1.right, root2.left);
-};
-
 function isSymmetric(root: TreeNode | null): boolean {
-  return dfs(root.left, root.right);
+    const dfs = (root1: TreeNode | null, root2: TreeNode | null): boolean => {
+        if (root1 === root2) {
+            return true;
+        }
+        if (!root1 || !root2 || root1.val !== root2.val) {
+            return false;
+        }
+        return dfs(root1.left, root2.right) && dfs(root1.right, root2.left);
+    };
+    return dfs(root.left, root.right);
 }
 ```
 
@@ -229,23 +238,25 @@ function isSymmetric(root: TreeNode | null): boolean {
 use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
-    fn dfs(root1: &Option<Rc<RefCell<TreeNode>>>, root2: &Option<Rc<RefCell<TreeNode>>>) -> bool {
-        if root1.is_none() && root2.is_none() {
-            return true;
-        }
-        if root1.is_none() || root2.is_none() {
-            return false;
-        }
-        let node1 = root1.as_ref().unwrap().borrow();
-        let node2 = root2.as_ref().unwrap().borrow();
-        node1.val == node2.val
-            && Self::dfs(&node1.left, &node2.right)
-            && Self::dfs(&node1.right, &node2.left)
-    }
-
     pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        let node = root.as_ref().unwrap().borrow();
-        Self::dfs(&node.left, &node.right)
+        fn dfs(root1: Option<Rc<RefCell<TreeNode>>>, root2: Option<Rc<RefCell<TreeNode>>>) -> bool {
+            match (root1, root2) {
+                (Some(node1), Some(node2)) => {
+                    let node1 = node1.borrow();
+                    let node2 = node2.borrow();
+                    node1.val == node2.val
+                        && dfs(node1.left.clone(), node2.right.clone())
+                        && dfs(node1.right.clone(), node2.left.clone())
+                }
+                (None, None) => true,
+                _ => false,
+            }
+        }
+
+        match root {
+            Some(root) => dfs(root.borrow().left.clone(), root.borrow().right.clone()),
+            None => true,
+        }
     }
 }
 ```
@@ -266,75 +277,17 @@ impl Solution {
  * @return {boolean}
  */
 var isSymmetric = function (root) {
-  function dfs(root1, root2) {
-    if (!root1 && !root2) return true;
-    if (!root1 || !root2 || root1.val != root2.val) return false;
-    return dfs(root1.left, root2.right) && dfs(root1.right, root2.left);
-  }
-  return dfs(root, root);
-};
-```
-
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### Solution 2
-
-<!-- tabs:start -->
-
-#### Rust
-
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::collections::VecDeque;
-use std::rc::Rc;
-impl Solution {
-    pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        let root = root.unwrap();
-        let mut node = root.as_ref().borrow_mut();
-        let mut queue = VecDeque::new();
-        queue.push_back([node.left.take(), node.right.take()]);
-        while let Some([root1, root2]) = queue.pop_front() {
-            if root1.is_none() && root2.is_none() {
-                continue;
-            }
-            if root1.is_none() || root2.is_none() {
-                return false;
-            }
-            if let (Some(node1), Some(node2)) = (root1, root2) {
-                let mut node1 = node1.as_ref().borrow_mut();
-                let mut node2 = node2.as_ref().borrow_mut();
-                if node1.val != node2.val {
-                    return false;
-                }
-                queue.push_back([node1.left.take(), node2.right.take()]);
-                queue.push_back([node1.right.take(), node2.left.take()]);
-            }
+    const dfs = (root1, root2) => {
+        if (root1 === root2) {
+            return true;
         }
-        true
-    }
-}
+        if (!root1 || !root2 || root1.val !== root2.val) {
+            return false;
+        }
+        return dfs(root1.left, root2.right) && dfs(root1.right, root2.left);
+    };
+    return dfs(root.left, root.right);
+};
 ```
 
 <!-- tabs:end -->

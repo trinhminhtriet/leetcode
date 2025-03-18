@@ -1,48 +1,53 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2680.Maximum%20OR/README.md
 rating: 1912
-source: Biweekly Contest 104 Q3
+source: 第 104 场双周赛 Q3
 tags:
-  - Greedy
-  - Bit Manipulation
-  - Array
-  - Prefix Sum
+    - 贪心
+    - 位运算
+    - 数组
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2680. Maximum OR](https://leetcode.com/problems/maximum-or)
+# [2680. 最大或值](https://leetcode.cn/problems/maximum-or)
 
-## Description
+[English Version](/solution/2600-2699/2680.Maximum%20OR/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code> and an integer <code>k</code>. In an operation, you can choose an element and multiply it by <code>2</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code> 。每一次操作中，你可以选择一个数并将它乘&nbsp;<code>2</code>&nbsp;。</p>
 
-<p>Return <em>the maximum possible value of </em><code>nums[0] | nums[1] | ... | nums[n - 1]</code> <em>that can be obtained after applying the operation on nums at most </em><code>k</code><em> times</em>.</p>
+<p>你最多可以进行 <code>k</code>&nbsp;次操作，请你返回<em>&nbsp;</em><code>nums[0] | nums[1] | ... | nums[n - 1]</code>&nbsp;的最大值。</p>
 
-<p>Note that <code>a | b</code> denotes the <strong>bitwise or</strong> between two integers <code>a</code> and <code>b</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [12,9], k = 1
-<strong>Output:</strong> 30
-<strong>Explanation:</strong> If we apply the operation to index 1, our new array nums will be equal to [12,18]. Thus, we return the bitwise or of 12 and 18, which is 30.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [8,1,2], k = 2
-<strong>Output:</strong> 35
-<strong>Explanation:</strong> If we apply the operation twice on index 0, we yield a new array of [32,1,2]. Thus, we return 32|1|2 = 35.
-</pre>
+<p><code>a | b</code>&nbsp;表示两个整数 <code>a</code>&nbsp;和 <code>b</code>&nbsp;的 <strong>按位或</strong>&nbsp;运算。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [12,9], k = 1
+<b>输出：</b>30
+<b>解释：</b>如果我们对下标为 1 的元素进行操作，新的数组为 [12,18] 。此时得到最优答案为 12 和 18 的按位或运算的结果，也就是 30 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [8,1,2], k = 2
+<b>输出：</b>35
+<b>解释：</b>如果我们对下标 0 处的元素进行操作，得到新数组 [32,1,2] 。此时得到最优答案为 32|1|2 = 35 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -52,19 +57,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Preprocessing
+### 方法一：贪心 + 预处理
 
-We notice that in order to maximize the answer, we should apply $k$ times of bitwise OR to the same number.
+我们注意到，为了使得答案最大，我们应该将 $k$ 次乘 $2$ 作用于同一个数。
 
-First, we preprocess the suffix OR value array $suf$ of the array $nums$, where $suf[i]$ represents the bitwise OR value of $nums[i], nums[i + 1], \cdots, nums[n - 1]$.
+我们先预处理出数组 $nums$ 的后缀或值数组 $suf$，其中 $suf[i]$ 表示 $nums[i], nums[i + 1], \cdots, nums[n - 1]$ 的按位或值。
 
-Next, we traverse the array $nums$ from left to right, and maintain the current prefix OR value $pre$. For the current position $i$, we perform $k$ times of bitwise left shift on $nums[i]$, i.e., $nums[i] \times 2^k$, and perform bitwise OR operation with $pre$ to obtain the intermediate result. Then, we perform bitwise OR operation with $suf[i + 1]$ to obtain the maximum OR value with $nums[i]$ as the last number. By enumerating all possible positions $i$, we can obtain the final answer.
+接下来，我们从左到右遍历数组 $nums$，同时维护当前的前缀或值 $pre$。对于当前遍历到的位置 $i$，我们将 $nums[i]$ 乘 $2$ 的 $k$ 次方，即 $nums[i] \times 2^k$，与 $pre$ 进行按位或运算，得到的结果再与 $suf[i + 1]$ 进行按位或运算，即可得到以 $nums[i]$ 为最后一个数的最大或值。枚举所有的 $i$，即可得到答案。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -148,20 +153,17 @@ func maximumOr(nums []int, k int) int64 {
 
 ```ts
 function maximumOr(nums: number[], k: number): number {
-  const n = nums.length;
-  const suf: bigint[] = Array(n + 1).fill(0n);
-  for (let i = n - 1; i >= 0; i--) {
-    suf[i] = suf[i + 1] | BigInt(nums[i]);
-  }
-  let [ans, pre] = [0, 0n];
-  for (let i = 0; i < n; i++) {
-    ans = Math.max(
-      Number(ans),
-      Number(pre | (BigInt(nums[i]) << BigInt(k)) | suf[i + 1])
-    );
-    pre |= BigInt(nums[i]);
-  }
-  return ans;
+    const n = nums.length;
+    const suf: bigint[] = Array(n + 1).fill(0n);
+    for (let i = n - 1; i >= 0; i--) {
+        suf[i] = suf[i + 1] | BigInt(nums[i]);
+    }
+    let [ans, pre] = [0, 0n];
+    for (let i = 0; i < n; i++) {
+        ans = Math.max(Number(ans), Number(pre | (BigInt(nums[i]) << BigInt(k)) | suf[i + 1]));
+        pre |= BigInt(nums[i]);
+    }
+    return ans;
 }
 ```
 

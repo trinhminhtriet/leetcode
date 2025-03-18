@@ -1,38 +1,50 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0728.Self%20Dividing%20Numbers/README.md
 tags:
-  - Math
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [728. Self Dividing Numbers](https://leetcode.com/problems/self-dividing-numbers)
+# [728. 自除数](https://leetcode.cn/problems/self-dividing-numbers)
 
-## Description
+[English Version](/solution/0700-0799/0728.Self%20Dividing%20Numbers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <strong>self-dividing number</strong> is a number that is divisible by every digit it contains.</p>
+<p><strong>自除数</strong><em>&nbsp;</em>是指可以被它包含的每一位数整除的数。</p>
 
 <ul>
-	<li>For example, <code>128</code> is <strong>a self-dividing number</strong> because <code>128 % 1 == 0</code>, <code>128 % 2 == 0</code>, and <code>128 % 8 == 0</code>.</li>
+	<li>例如，<code>128</code> 是一个 <strong>自除数</strong> ，因为&nbsp;<code>128 % 1 == 0</code>，<code>128 % 2 == 0</code>，<code>128 % 8 == 0</code>。</li>
 </ul>
 
-<p>A <strong>self-dividing number</strong> is not allowed to contain the digit zero.</p>
+<p><strong>自除数</strong> 不允许包含 0 。</p>
 
-<p>Given two integers <code>left</code> and <code>right</code>, return <em>a list of all the <strong>self-dividing numbers</strong> in the range</em> <code>[left, right]</code> (both <strong>inclusive</strong>).</p>
+<p>给定两个整数&nbsp;<code>left</code>&nbsp;和&nbsp;<code>right</code> ，返回一个列表，<em>列表的元素是范围&nbsp;<code>[left, right]</code>（包括两个端点）内所有的 <strong>自除数</strong></em> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> left = 1, right = 22
-<strong>Output:</strong> [1,2,3,4,5,6,7,8,9,11,12,15,22]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> left = 47, right = 85
-<strong>Output:</strong> [48,55,66,77]
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>left = 1, right = 22
+<strong>输出：</strong>[1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]
 </pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<b>输入：</b>left = 47, right = 85
+<b>输出：</b>[48,55,66,77]
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= left &lt;= right &lt;= 10<sup>4</sup></code></li>
@@ -40,19 +52,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We define a function $\textit{check}(x)$ to determine whether $x$ is a self-dividing number. The implementation idea of the function is as follows:
+我们定义一个函数 $\textit{check}(x)$，用来判断 $x$ 是否是自除数。函数的实现思路如下：
 
-We use $y$ to record the value of $x$, and then continuously divide $y$ by $10$ until $y$ is $0$. During this process, we check whether the last digit of $y$ is $0$, or whether $x$ cannot be divided by the last digit of $y$. If either of these conditions is met, then $x$ is not a self-dividing number, and we return $\text{false}$. Otherwise, after traversing all the digits, we return $\text{true}$.
+我们用 $y$ 来记录 $x$ 的值，然后不断地对 $y$ 除以 $10$，直到 $y$ 为 $0$。在这个过程中，我们判断 $y$ 的末位是否为 $0$，或者 $x$ 是否不能被 $y$ 的末位整除，如果满足这两个条件中的任意一个，那么 $x$ 就不是自除数，返回 $\text{false}$。否则遍历完所有的位数后，返回 $\text{true}$。
 
-Finally, we traverse all the numbers in the interval $[\textit{left}, \textit{right}]$, and for each number, we call $\textit{check}(x)$. If it returns $\text{true}$, we add this number to the answer array.
+最后，我们遍历区间 $[\textit{left}, \textit{right}]$ 中的所有数，对每个数调用 $\textit{check}(x)$，如果返回 $\text{true}$，那么我们就将这个数加入答案数组中。
 
-The time complexity is $O(n \times \log_{10} M)$, where $n$ is the number of elements in the interval $[\textit{left}, \textit{right}]$, and $M = \textit{right}$, which is the maximum value in the interval.
+时间复杂度 $O(n \times \log_{10} M)$，其中 $n$ 是区间 $[\textit{left}, \textit{right}]$ 中的元素个数，而 $M = \textit{right}$，表示区间中的最大值。
 
 <!-- tabs:start -->
 
@@ -147,17 +159,15 @@ func selfDividingNumbers(left int, right int) (ans []int) {
 
 ```ts
 function selfDividingNumbers(left: number, right: number): number[] {
-  const check = (x: number): boolean => {
-    for (let y = x; y; y = Math.floor(y / 10)) {
-      if (y % 10 === 0 || x % (y % 10) !== 0) {
-        return false;
-      }
-    }
-    return true;
-  };
-  return Array.from({ length: right - left + 1 }, (_, i) => i + left).filter(
-    check
-  );
+    const check = (x: number): boolean => {
+        for (let y = x; y; y = Math.floor(y / 10)) {
+            if (y % 10 === 0 || x % (y % 10) !== 0) {
+                return false;
+            }
+        }
+        return true;
+    };
+    return Array.from({ length: right - left + 1 }, (_, i) => i + left).filter(check);
 }
 ```
 

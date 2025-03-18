@@ -1,49 +1,54 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1295.Find%20Numbers%20with%20Even%20Number%20of%20Digits/README.md
 rating: 1139
-source: Weekly Contest 168 Q1
+source: 第 168 场周赛 Q1
 tags:
-  - Array
-  - Math
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [1295. Find Numbers with Even Number of Digits](https://leetcode.com/problems/find-numbers-with-even-number-of-digits)
+# [1295. 统计位数为偶数的数字](https://leetcode.cn/problems/find-numbers-with-even-number-of-digits)
 
-## Description
+[English Version](/solution/1200-1299/1295.Find%20Numbers%20with%20Even%20Number%20of%20Digits/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array <code>nums</code> of integers, return how many of them contain an <strong>even number</strong> of digits.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>，请你返回其中位数为&nbsp;<strong>偶数</strong>&nbsp;的数字的个数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [12,345,2,6,7896]
-<strong>Output:</strong> 2
-<strong>Explanation: 
-</strong>12 contains 2 digits (even number of digits).&nbsp;
-345 contains 3 digits (odd number of digits).&nbsp;
-2 contains 1 digit (odd number of digits).&nbsp;
-6 contains 1 digit (odd number of digits).&nbsp;
-7896 contains 4 digits (even number of digits).&nbsp;
-Therefore only 12 and 7896 contain an even number of digits.
+<strong>输入：</strong>nums = [12,345,2,6,7896]
+<strong>输出：</strong>2
+<strong>解释：
+</strong>12 是 2 位数字（位数为偶数）&nbsp;
+345 是 3 位数字（位数为奇数）&nbsp;&nbsp;
+2 是 1 位数字（位数为奇数）&nbsp;
+6 是 1 位数字 位数为奇数）&nbsp;
+7896 是 4 位数字（位数为偶数）&nbsp;&nbsp;
+因此只有 12 和 7896 是位数为偶数的数字
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [555,901,482,1771]
-<strong>Output:</strong> 1 
-<strong>Explanation: </strong>
-Only 1771 contains an even number of digits.
+<strong>输入：</strong>nums = [555,901,482,1771]
+<strong>输出：</strong>1 
+<strong>解释： </strong>
+只有 1771 是位数为偶数的数字。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 500</code></li>
@@ -52,17 +57,17 @@ Only 1771 contains an even number of digits.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We traverse each element $x$ in the array $\textit{nums}$. For the current element $x$, we directly convert it to a string and then check if its length is even. If it is, we increment the answer by one.
+我们遍历数组 $\textit{nums}$ 中的每个元素，对于当前遍历到的元素 $x$，我们直接将其转换为字符串，然后判断其长度是否为偶数即可。若是则将答案加一。
 
-After the traversal is complete, we return the answer.
+遍历结束后，我们返回答案即可。
 
-The time complexity is $O(n \times \log M)$, and the space complexity is $O(\log M)$. Here, $n$ is the length of the array $\textit{nums}$, and $M$ is the maximum value of the elements in the array $\textit{nums}$.
+时间复杂度 $O(n \times \log M)$，空间复杂度 $O(\log M)$。其中 $n$ 是数组 $\textit{nums}$ 的长度，而 $M$ 是数组 $\textit{nums}$ 中的元素的最大值。
 
 <!-- tabs:start -->
 
@@ -122,7 +127,7 @@ func findNumbers(nums []int) (ans int) {
 
 ```ts
 function findNumbers(nums: number[]): number {
-  return nums.filter((x) => x.toString().length % 2 === 0).length;
+    return nums.filter(x => x.toString().length % 2 === 0).length;
 }
 ```
 
@@ -134,7 +139,7 @@ function findNumbers(nums: number[]): number {
  * @return {number}
  */
 var findNumbers = function (nums) {
-  return nums.filter((x) => x.toString().length % 2 === 0).length;
+    return nums.filter(x => x.toString().length % 2 === 0).length;
 };
 ```
 

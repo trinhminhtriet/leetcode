@@ -1,78 +1,72 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0049.Group%20Anagrams/README.md
 tags:
-  - Array
-  - Hash Table
-  - String
-  - Sorting
+    - 数组
+    - 哈希表
+    - 字符串
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [49. Group Anagrams](https://leetcode.com/problems/group-anagrams)
+# [49. 字母异位词分组](https://leetcode.cn/problems/group-anagrams)
 
-## Description
+[English Version](/solution/0000-0099/0049.Group%20Anagrams/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of strings <code>strs</code>, group the <span data-keyword="anagram">anagrams</span> together. You can return the answer in <strong>any order</strong>.</p>
+<p>给你一个字符串数组，请你将 <strong>字母异位词</strong> 组合在一起。可以按任意顺序返回结果列表。</p>
+
+<p><strong>字母异位词</strong> 是由重新排列源单词的所有字母得到的一个新单词。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">strs = [&quot;eat&quot;,&quot;tea&quot;,&quot;tan&quot;,&quot;ate&quot;,&quot;nat&quot;,&quot;bat&quot;]</span></p>
+<p><strong>示例 1:</strong></p>
 
-<p><strong>Output:</strong> <span class="example-io">[[&quot;bat&quot;],[&quot;nat&quot;,&quot;tan&quot;],[&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;]]</span></p>
+<pre>
+<strong>输入:</strong> strs = <code>["eat", "tea", "tan", "ate", "nat", "bat"]</code>
+<strong>输出: </strong>[["bat"],["nat","tan"],["ate","eat","tea"]]</pre>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>示例 2:</strong></p>
 
-<ul>
-	<li>There is no string in strs that can be rearranged to form <code>&quot;bat&quot;</code>.</li>
-	<li>The strings <code>&quot;nat&quot;</code> and <code>&quot;tan&quot;</code> are anagrams as they can be rearranged to form each other.</li>
-	<li>The strings <code>&quot;ate&quot;</code>, <code>&quot;eat&quot;</code>, and <code>&quot;tea&quot;</code> are anagrams as they can be rearranged to form each other.</li>
-</ul>
-</div>
+<pre>
+<strong>输入:</strong> strs = <code>[""]</code>
+<strong>输出: </strong>[[""]]
+</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 3:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">strs = [&quot;&quot;]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[[&quot;&quot;]]</span></p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">strs = [&quot;a&quot;]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[[&quot;a&quot;]]</span></p>
-</div>
+<pre>
+<strong>输入:</strong> strs = <code>["a"]</code>
+<strong>输出: </strong>[["a"]]</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= strs.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= strs[i].length &lt;= 100</code></li>
-	<li><code>strs[i]</code> consists of lowercase English letters.</li>
+	<li><code>strs[i]</code>&nbsp;仅包含小写字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-1. Traverse the string array, sort each string in **character dictionary order** to get a new string.
-2. Use the new string as `key` and `[str]` as `value`, and store them in the hash table (`HashMap<String, List<String>>`).
-3. When encountering the same `key` during subsequent traversal, add it to the corresponding `value`.
+1. 遍历字符串，对每个字符串按照**字符字典序**排序，得到一个新的字符串。
+2. 以新字符串为 `key`，`[str]` 为 `value`，存入哈希表当中（`HashMap<String, List<String>>`）。
+3. 后续遍历得到相同 `key` 时，将其加入到对应的 `value` 当中即可。
 
-Take `strs = ["eat", "tea", "tan", "ate", "nat", "bat"]` as an example. At the end of the traversal, the state of the hash table is:
+以 `strs = ["eat", "tea", "tan", "ate", "nat", "bat"]` 为例，遍历结束时，哈希表的状况：
 
 | key     | value                   |
 | ------- | ----------------------- |
@@ -80,9 +74,9 @@ Take `strs = ["eat", "tea", "tan", "ate", "nat", "bat"]` as an example. At the e
 | `"ant"` | `["tan", "nat"] `       |
 | `"abt"` | `["bat"] `              |
 
-Finally, return the `value` list of the hash table.
+最后返回哈希表的 `value` 列表即可。
 
-The time complexity is $O(n\times k\times \log k)$, where $n$ and $k$ are the lengths of the string array and the maximum length of the string, respectively.
+时间复杂度 $O(n\times k\times \log k)$。其中 $n$ 和 $k$ 分别是字符串数组的长度和字符串的最大长度。
 
 <!-- tabs:start -->
 
@@ -156,15 +150,15 @@ func groupAnagrams(strs []string) (ans [][]string) {
 
 ```ts
 function groupAnagrams(strs: string[]): string[][] {
-  const d: Map<string, string[]> = new Map();
-  for (const s of strs) {
-    const k = s.split("").sort().join("");
-    if (!d.has(k)) {
-      d.set(k, []);
+    const d: Map<string, string[]> = new Map();
+    for (const s of strs) {
+        const k = s.split('').sort().join('');
+        if (!d.has(k)) {
+            d.set(k, []);
+        }
+        d.get(k)!.push(s);
     }
-    d.get(k)!.push(s);
-  }
-  return Array.from(d.values());
+    return Array.from(d.values());
 }
 ```
 
@@ -256,11 +250,11 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Counting
+### 方法二：计数
 
-We can also change the sorting part in Solution 1 to counting, that is, use the characters in each string $s$ and their occurrence times as `key`, and use the string $s$ as `value` to store in the hash table.
+我们也可以将方法一中的排序部分改为计数，也就是说，将每个字符串 $s$ 中的字符以及出现的次数作为 `key`，将字符串 $s$ 作为 `value` 存入哈希表当中。
 
-The time complexity is $O(n\times (k + C))$, where $n$ and $k$ are the lengths of the string array and the maximum length of the string, respectively, and $C$ is the size of the character set. In this problem, $C = 26$.
+时间复杂度 $O(n\times (k + C))$。其中 $n$ 和 $k$ 分别是字符串数组的长度和字符串的最大长度，而 $C$ 是字符集的大小，本题中 $C = 26$。
 
 <!-- tabs:start -->
 
@@ -352,12 +346,12 @@ func groupAnagrams(strs []string) (ans [][]string) {
 
 ```ts
 function groupAnagrams(strs: string[]): string[][] {
-  const map = new Map<string, string[]>();
-  for (const str of strs) {
-    const k = str.split("").sort().join("");
-    map.set(k, (map.get(k) ?? []).concat([str]));
-  }
-  return [...map.values()];
+    const map = new Map<string, string[]>();
+    for (const str of strs) {
+        const k = str.split('').sort().join('');
+        map.set(k, (map.get(k) ?? []).concat([str]));
+    }
+    return [...map.values()];
 }
 ```
 

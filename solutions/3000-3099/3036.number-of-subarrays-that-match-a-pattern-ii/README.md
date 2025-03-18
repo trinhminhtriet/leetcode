@@ -1,56 +1,61 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3036.Number%20of%20Subarrays%20That%20Match%20a%20Pattern%20II/README.md
 rating: 1894
-source: Weekly Contest 384 Q4
+source: 第 384 场周赛 Q4
 tags:
-  - Array
-  - String Matching
-  - Hash Function
-  - Rolling Hash
+    - 数组
+    - 字符串匹配
+    - 哈希函数
+    - 滚动哈希
 ---
 
 <!-- problem:start -->
 
-# [3036. Number of Subarrays That Match a Pattern II](https://leetcode.com/problems/number-of-subarrays-that-match-a-pattern-ii)
+# [3036. 匹配模式数组的子数组数目 II](https://leetcode.cn/problems/number-of-subarrays-that-match-a-pattern-ii)
 
-## Description
+[English Version](/solution/3000-3099/3036.Number%20of%20Subarrays%20That%20Match%20a%20Pattern%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of size <code>n</code>, and a <strong>0-indexed</strong> integer array <code>pattern</code> of size <code>m</code> consisting of integers <code>-1</code>, <code>0</code>, and <code>1</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;，和一个下标从 <code>0</code>&nbsp;开始长度为 <code>m</code>&nbsp;的整数数组&nbsp;<code>pattern</code>&nbsp;，<code>pattern</code>&nbsp;数组只包含整数&nbsp;<code>-1</code>&nbsp;，<code>0</code>&nbsp;和&nbsp;<code>1</code>&nbsp;。</p>
 
-<p>A <span data-keyword="subarray">subarray</span> <code>nums[i..j]</code> of size <code>m + 1</code> is said to match the <code>pattern</code> if the following conditions hold for each element <code>pattern[k]</code>:</p>
+<p>大小为 <code>m + 1</code>&nbsp;的<span data-keyword="subarray">子数组</span>&nbsp;<code>nums[i..j]</code>&nbsp;如果对于每个元素 <code>pattern[k]</code>&nbsp;都满足以下条件，那么我们说这个子数组匹配模式数组&nbsp;<code>pattern</code>&nbsp;：</p>
 
 <ul>
-	<li><code>nums[i + k + 1] &gt; nums[i + k]</code> if <code>pattern[k] == 1</code>.</li>
-	<li><code>nums[i + k + 1] == nums[i + k]</code> if <code>pattern[k] == 0</code>.</li>
-	<li><code>nums[i + k + 1] &lt; nums[i + k]</code> if <code>pattern[k] == -1</code>.</li>
+	<li>如果 <code>pattern[k] == 1</code> ，那么 <code>nums[i + k + 1] &gt; nums[i + k]</code></li>
+	<li>如果&nbsp;<code>pattern[k] == 0</code>&nbsp;，那么&nbsp;<code>nums[i + k + 1] == nums[i + k]</code></li>
+	<li>如果&nbsp;<code>pattern[k] == -1</code>&nbsp;，那么&nbsp;<code>nums[i + k + 1] &lt; nums[i + k]</code></li>
 </ul>
 
-<p>Return <em>the<strong> count</strong> of subarrays in</em> <code>nums</code> <em>that match the</em> <code>pattern</code>.</p>
+<p>请你返回匹配 <code>pattern</code>&nbsp;的 <code>nums</code>&nbsp;子数组的 <strong>数目</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,3,4,5,6], pattern = [1,1]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The pattern [1,1] indicates that we are looking for strictly increasing subarrays of size 3. In the array nums, the subarrays [1,2,3], [2,3,4], [3,4,5], and [4,5,6] match this pattern.
-Hence, there are 4 subarrays in nums that match the pattern.
+<b>输入：</b>nums = [1,2,3,4,5,6], pattern = [1,1]
+<b>输出：</b>4
+<b>解释：</b>模式 [1,1] 说明我们要找的子数组是长度为 3 且严格上升的。在数组 nums 中，子数组 [1,2,3] ，[2,3,4] ，[3,4,5] 和 [4,5,6] 都匹配这个模式。
+所以 nums 中总共有 4 个子数组匹配这个模式。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,4,4,1,3,5,5,3], pattern = [1,0,-1]
-<strong>Output:</strong> 2
-<strong>Explanation: </strong>Here, the pattern [1,0,-1] indicates that we are looking for a sequence where the first number is smaller than the second, the second is equal to the third, and the third is greater than the fourth. In the array nums, the subarrays [1,4,4,1], and [3,5,5,3] match this pattern.
-Hence, there are 2 subarrays in nums that match the pattern.
+<b>输入：</b>nums = [1,4,4,1,3,5,5,3], pattern = [1,0,-1]
+<b>输出：</b>2
+<strong>解释：</strong>这里，模式数组 [1,0,-1] 说明我们需要找的子数组中，第一个元素小于第二个元素，第二个元素等于第三个元素，第三个元素大于第四个元素。在 nums 中，子数组 [1,4,4,1] 和 [3,5,5,3] 都匹配这个模式。
+所以 nums 中总共有 2 个子数组匹配这个模式。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == nums.length &lt;= 10<sup>6</sup></code></li>
@@ -61,11 +66,11 @@ Hence, there are 2 subarrays in nums that match the pattern.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -160,6 +165,7 @@ class Solution {
         return count;
     }
 }
+
 ```
 
 #### C++
@@ -237,55 +243,55 @@ func countMatchingSubarrays(nums []int, pattern []int) int {
 
 ```ts
 class Solution {
-  countMatchingSubarrays(nums: number[], pattern: number[]): number {
-    for (let i = 0; i < nums.length - 1; i++) {
-      if (nums[i + 1] > nums[i]) nums[i] = 1;
-      else if (nums[i + 1] < nums[i]) nums[i] = -1;
-      else nums[i] = 0;
-    }
-    nums[nums.length - 1] = 2;
-    const n = nums.length;
-    const m = pattern.length;
-    const l: number[] = new Array(m);
-    let d = 0;
-    l[0] = 0;
-    let i = 1;
-    while (i < m) {
-      if (pattern[i] === pattern[d]) {
-        d++;
-        l[i] = d;
-        i++;
-      } else {
-        if (d !== 0) {
-          d = l[d - 1];
-        } else {
-          l[i] = 0;
-          i++;
+    countMatchingSubarrays(nums: number[], pattern: number[]): number {
+        for (let i = 0; i < nums.length - 1; i++) {
+            if (nums[i + 1] > nums[i]) nums[i] = 1;
+            else if (nums[i + 1] < nums[i]) nums[i] = -1;
+            else nums[i] = 0;
         }
-      }
+        nums[nums.length - 1] = 2;
+        const n = nums.length;
+        const m = pattern.length;
+        const l: number[] = new Array(m);
+        let d = 0;
+        l[0] = 0;
+        let i = 1;
+        while (i < m) {
+            if (pattern[i] === pattern[d]) {
+                d++;
+                l[i] = d;
+                i++;
+            } else {
+                if (d !== 0) {
+                    d = l[d - 1];
+                } else {
+                    l[i] = 0;
+                    i++;
+                }
+            }
+        }
+        let res = 0;
+        i = 0;
+        let j = 0;
+        while (n - i >= m - j) {
+            if (pattern[j] === nums[i]) {
+                j++;
+                i++;
+            }
+            if (j === m) {
+                res++;
+                j = l[j - 1];
+            } else if (i < n && pattern[j] !== nums[i]) {
+                if (j !== 0) j = l[j - 1];
+                else i++;
+            }
+        }
+        return res;
     }
-    let res = 0;
-    i = 0;
-    let j = 0;
-    while (n - i >= m - j) {
-      if (pattern[j] === nums[i]) {
-        j++;
-        i++;
-      }
-      if (j === m) {
-        res++;
-        j = l[j - 1];
-      } else if (i < n && pattern[j] !== nums[i]) {
-        if (j !== 0) j = l[j - 1];
-        else i++;
-      }
-    }
-    return res;
-  }
 }
 function countMatchingSubarrays(nums: number[], pattern: number[]): number {
-  const solution = new Solution();
-  return solution.countMatchingSubarrays(nums, pattern);
+    const solution = new Solution();
+    return solution.countMatchingSubarrays(nums, pattern);
 }
 ```
 

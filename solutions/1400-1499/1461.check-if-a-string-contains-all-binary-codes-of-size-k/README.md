@@ -1,73 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1461.Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K/README.md
 rating: 1504
-source: Biweekly Contest 27 Q2
+source: 第 27 场双周赛 Q2
 tags:
-  - Bit Manipulation
-  - Hash Table
-  - String
-  - Hash Function
-  - Rolling Hash
+    - 位运算
+    - 哈希表
+    - 字符串
+    - 哈希函数
+    - 滚动哈希
 ---
 
 <!-- problem:start -->
 
-# [1461. Check If a String Contains All Binary Codes of Size K](https://leetcode.com/problems/check-if-a-string-contains-all-binary-codes-of-size-k)
+# [1461. 检查一个字符串是否包含所有长度为 K 的二进制子串](https://leetcode.cn/problems/check-if-a-string-contains-all-binary-codes-of-size-k)
 
-## Description
+[English Version](/solution/1400-1499/1461.Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary string <code>s</code> and an integer <code>k</code>, return <code>true</code> <em>if every binary code of length</em> <code>k</code> <em>is a substring of</em> <code>s</code>. Otherwise, return <code>false</code>.</p>
+<p>给你一个二进制字符串&nbsp;<code>s</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。如果所有长度为 <code>k</code>&nbsp;的二进制字符串都是 <code>s</code>&nbsp;的子串，请返回 <code>true</code> ，否则请返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;00110110&quot;, k = 2
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The binary codes of length 2 are &quot;00&quot;, &quot;01&quot;, &quot;10&quot; and &quot;11&quot;. They can be all found as substrings at indices 0, 1, 3 and 2 respectively.
+<strong>输入：</strong>s = "00110110", k = 2
+<strong>输出：</strong>true
+<strong>解释：</strong>长度为 2 的二进制串包括 "00"，"01"，"10" 和 "11"。它们分别是 s 中下标为 0，1，3，2 开始的长度为 2 的子串。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;0110&quot;, k = 1
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The binary codes of length 1 are &quot;0&quot; and &quot;1&quot;, it is clear that both exist as a substring. 
+<strong>输入：</strong>s = "0110", k = 1
+<strong>输出：</strong>true
+<strong>解释：</strong>长度为 1 的二进制串包括 "0" 和 "1"，显然它们都是 s 的子串。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;0110&quot;, k = 2
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The binary code &quot;00&quot; is of length 2 and does not exist in the array.
+<strong>输入：</strong>s = "0110", k = 2
+<strong>输出：</strong>false
+<strong>解释：</strong>长度为 2 的二进制串 "00" 没有出现在 s 中。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 5 * 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>s[i]</code> 不是<code>'0'</code> 就是 <code>'1'</code></li>
 	<li><code>1 &lt;= k &lt;= 20</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-First, for a string $s$ of length $n$, the number of substrings of length $k$ is $n - k + 1$. If $n - k + 1 < 2^k$, then there must exist a binary string of length $k$ that is not a substring of $s$, so we return `false`.
+首先，对于一个长度为 $n$ 的字符串 $s$，长度为 $k$ 的子串的个数为 $n - k + 1$，如果 $n - k + 1 < 2^k$，则一定存在长度为 $k$ 的二进制串不是 $s$ 的子串，返回 `false`。
 
-Next, we traverse the string $s$ and store all substrings of length $k$ in a set $ss$. Finally, we check if the size of the set $ss$ is equal to $2^k$.
+接下来，我们遍历字符串 $s$，将所有长度为 $k$ 的子串存入集合 $ss$，最后判断集合 $ss$ 的大小是否等于 $2^k$。
 
-The time complexity is $O(n \times k)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n \times k)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -143,16 +148,16 @@ func hasAllCodes(s string, k int) bool {
 
 ```ts
 function hasAllCodes(s: string, k: number): boolean {
-  const n = s.length;
-  const m = 1 << k;
-  if (n - k + 1 < m) {
-    return false;
-  }
-  const ss = new Set<string>();
-  for (let i = 0; i + k <= n; ++i) {
-    ss.add(s.slice(i, i + k));
-  }
-  return ss.size === m;
+    const n = s.length;
+    const m = 1 << k;
+    if (n - k + 1 < m) {
+        return false;
+    }
+    const ss = new Set<string>();
+    for (let i = 0; i + k <= n; ++i) {
+        ss.add(s.slice(i, i + k));
+    }
+    return ss.size === m;
 }
 ```
 
@@ -162,11 +167,11 @@ function hasAllCodes(s: string, k: number): boolean {
 
 <!-- solution:start -->
 
-### Solution 2: Sliding Window
+### 方法二：滑动窗口
 
-In Solution 1, we stored all distinct substrings of length $k$, and processing each substring requires $O(k)$ time. We can instead use a sliding window, where each time we add the latest character, we remove the leftmost character from the window. During this process, we use an integer $x$ to store the substring.
+方法一中，我们存储了所有长度为 $k$ 的不同子串，子串的处理需要 $O(k)$ 的时间，我们可以改用滑动窗口，每次添加最新字符时，删除窗口最左边的字符。此过程中用一个整型数字 $x$ 来存放子串。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -275,21 +280,21 @@ func hasAllCodes(s string, k int) bool {
 
 ```ts
 function hasAllCodes(s: string, k: number): boolean {
-  const n = s.length;
-  const m = 1 << k;
-  if (n - k + 1 < m) {
-    return false;
-  }
-  let x = +`0b${s.slice(0, k)}`;
-  const ss = new Set<number>();
-  ss.add(x);
-  for (let i = k; i < n; ++i) {
-    const a = +s[i - k] << (k - 1);
-    const b = +s[i];
-    x = ((x - a) << 1) | b;
+    const n = s.length;
+    const m = 1 << k;
+    if (n - k + 1 < m) {
+        return false;
+    }
+    let x = +`0b${s.slice(0, k)}`;
+    const ss = new Set<number>();
     ss.add(x);
-  }
-  return ss.size === m;
+    for (let i = k; i < n; ++i) {
+        const a = +s[i - k] << (k - 1);
+        const b = +s[i];
+        x = ((x - a) << 1) | b;
+        ss.add(x);
+    }
+    return ss.size === m;
 }
 ```
 

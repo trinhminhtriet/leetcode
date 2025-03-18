@@ -1,56 +1,58 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0122.Best%20Time%20to%20Buy%20and%20Sell%20Stock%20II/README.md
 tags:
-  - Greedy
-  - Array
-  - Dynamic Programming
+    - 贪心
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii)
+# [122. 买卖股票的最佳时机 II](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii)
 
-## Description
+[English Version](/solution/0100-0199/0122.Best%20Time%20to%20Buy%20and%20Sell%20Stock%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>prices</code> where <code>prices[i]</code> is the price of a given stock on the <code>i<sup>th</sup></code> day.</p>
+<p>给你一个整数数组 <code>prices</code> ，其中&nbsp;<code>prices[i]</code> 表示某支股票第 <code>i</code> 天的价格。</p>
 
-<p>On each day, you may decide to buy and/or sell the stock. You can only hold <strong>at most one</strong> share of the stock at any time. However, you can buy it then immediately sell it on the <strong>same day</strong>.</p>
+<p>在每一天，你可以决定是否购买和/或出售股票。你在任何时候&nbsp;<strong>最多</strong>&nbsp;只能持有 <strong>一股</strong> 股票。你也可以先购买，然后在 <strong>同一天</strong> 出售。</p>
 
-<p>Find and return <em>the <strong>maximum</strong> profit you can achieve</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> prices = [7,1,5,3,6,4]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.
-Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
-Total profit is 4 + 3 = 7.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> prices = [1,2,3,4,5]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
-Total profit is 4.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> prices = [7,6,4,3,1]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There is no way to make a positive profit, so we never buy the stock to achieve the maximum profit of 0.
-</pre>
+<p>返回 <em>你能获得的 <strong>最大</strong> 利润</em>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>prices = [7,1,5,3,6,4]
+<strong>输出：</strong>7
+<strong>解释：</strong>在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5 - 1 = 4。
+随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6 - 3 = 3。
+最大总利润为 4 + 3 = 7 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>prices = [1,2,3,4,5]
+<strong>输出：</strong>4
+<strong>解释：</strong>在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5 - 1 = 4。
+最大总利润为 4 。</pre>
+
+<p><strong>示例&nbsp;3：</strong></p>
+
+<pre>
+<strong>输入：</strong>prices = [7,6,4,3,1]
+<strong>输出：</strong>0
+<strong>解释：</strong>在这种情况下, 交易无法获得正利润，所以不参与交易可以获得最大利润，最大利润为 0。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= prices.length &lt;= 3 * 10<sup>4</sup></code></li>
@@ -59,15 +61,15 @@ Total profit is 4.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy Algorithm
+### 方法一：贪心
 
-Starting from the second day, if the stock price is higher than the previous day, buy on the previous day and sell on the current day to make a profit. If the stock price is lower than the previous day, do not buy or sell. In other words, buy and sell on all rising trading days, and do not trade on all falling trading days. The final profit will be the maximum.
+从第二天开始，如果当天股价大于前一天股价，则在前一天买入，当天卖出，即可获得利润。如果当天股价小于前一天股价，则不买入，不卖出。也即是说，所有上涨交易日都做买卖，所有下跌交易日都不做买卖，最终获得的利润是最大的。
 
-The time complexity is $O(n)$, where $n$ is the length of the `prices` array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 `prices` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -124,11 +126,11 @@ func maxProfit(prices []int) (ans int) {
 
 ```ts
 function maxProfit(prices: number[]): number {
-  let ans = 0;
-  for (let i = 1; i < prices.length; i++) {
-    ans += Math.max(0, prices[i] - prices[i - 1]);
-  }
-  return ans;
+    let ans = 0;
+    for (let i = 1; i < prices.length; i++) {
+        ans += Math.max(0, prices[i] - prices[i - 1]);
+    }
+    return ans;
 }
 ```
 
@@ -154,11 +156,11 @@ impl Solution {
  * @return {number}
  */
 var maxProfit = function (prices) {
-  let ans = 0;
-  for (let i = 1; i < prices.length; i++) {
-    ans += Math.max(0, prices[i] - prices[i - 1]);
-  }
-  return ans;
+    let ans = 0;
+    for (let i = 1; i < prices.length; i++) {
+        ans += Math.max(0, prices[i] - prices[i - 1]);
+    }
+    return ans;
 };
 ```
 
@@ -182,15 +184,15 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We define $f[i][j]$ as the maximum profit after trading on the $i$th day, where $j$ indicates whether we currently hold the stock. When holding the stock, $j=0$, and when not holding the stock, $j=1$. The initial state is $f[0][0]=-prices[0]$, and all other states are $0$.
+我们设 $f[i][j]$ 表示第 $i$ 天交易完后的最大利润，其中 $j$ 表示当前是否持有股票，持有股票时 $j=0$，不持有股票时 $j=1$。初始状态为 $f[0][0]=-prices[0]$，其余状态均为 $0$。
 
-If we currently hold the stock, it may be that we held the stock the day before and do nothing today, i.e., $f[i][0]=f[i-1][0]$. Or it may be that we did not hold the stock the day before and bought the stock today, i.e., $f[i][0]=f[i-1][1]-prices[i]$.
+如果当前持有股票，那么可能是前一天就持有股票，今天什么都不做，即 $f[i][0]=f[i-1][0]$；也可能是前一天不持有股票，今天买入股票，即 $f[i][0]=f[i-1][1]-prices[i]$。
 
-If we currently do not hold the stock, it may be that we did not hold the stock the day before and do nothing today, i.e., $f[i][1]=f[i-1][1]$. Or it may be that we held the stock the day before and sold the stock today, i.e., $f[i][1]=f[i-1][0]+prices[i]$.
+如果当前不持有股票，那么可能是前一天就不持有股票，今天什么都不做，即 $f[i][1]=f[i-1][1]$；也可能是前一天持有股票，今天卖出股票，即 $f[i][1]=f[i-1][0]+prices[i]$。
 
-Therefore, we can write the state transition equation as:
+因此，我们可以写出状态转移方程：
 
 $$
 \begin{cases}
@@ -199,9 +201,9 @@ f[i][1]=\max(f[i-1][1],f[i-1][0]+prices[i])
 \end{cases}
 $$
 
-The final answer is $f[n-1][1]$, where $n$ is the length of the `prices` array.
+最终的答案即为 $f[n-1][1]$，其中 $n$ 为数组 `prices` 的长度。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the `prices` array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `prices` 的长度。
 
 <!-- tabs:start -->
 
@@ -292,11 +294,11 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 3: Dynamic Programming (Space Optimization)
+### 方法三：动态规划（空间优化）
 
-We can find that in Solution 2, the state of the $i$th day is only related to the state of the $i-1$th day. Therefore, we can use only two variables to maintain the state of the $i-1$th day, thereby optimizing the space complexity to $O(1)$.
+我们可以发现，在方法二中，第 $i$ 天的状态，只与第 $i-1$ 天的状态有关，因此我们可以只用两个变量来维护第 $i-1$ 天的状态，从而将空间复杂度优化到 $O(1)$。
 
-The time complexity is $O(n)$, where $n$ is the length of the `prices` array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 `prices` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

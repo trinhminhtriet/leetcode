@@ -1,78 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1504.Count%20Submatrices%20With%20All%20Ones/README.md
 rating: 1845
-source: Weekly Contest 196 Q3
+source: 第 196 场周赛 Q3
 tags:
-  - Stack
-  - Array
-  - Dynamic Programming
-  - Matrix
-  - Monotonic Stack
+    - 栈
+    - 数组
+    - 动态规划
+    - 矩阵
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [1504. Count Submatrices With All Ones](https://leetcode.com/problems/count-submatrices-with-all-ones)
+# [1504. 统计全 1 子矩形](https://leetcode.cn/problems/count-submatrices-with-all-ones)
 
-## Description
+[English Version](/solution/1500-1599/1504.Count%20Submatrices%20With%20All%20Ones/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an <code>m x n</code> binary matrix <code>mat</code>, <em>return the number of <strong>submatrices</strong> that have all ones</em>.</p>
+<p>给你一个&nbsp;<code>m x n</code>&nbsp;的二进制矩阵&nbsp;<code>mat</code>&nbsp;，请你返回有多少个&nbsp;<strong>子矩形</strong>&nbsp;的元素全部都是 1 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1504.Count%20Submatrices%20With%20All%20Ones/images/ones1-grid.jpg" style="width: 244px; height: 245px;" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1504.Count%20Submatrices%20With%20All%20Ones/images/ones1-grid.jpg" /></p>
+
 <pre>
-<strong>Input:</strong> mat = [[1,0,1],[1,1,0],[1,1,0]]
-<strong>Output:</strong> 13
-<strong>Explanation:</strong> 
-There are 6 rectangles of side 1x1.
-There are 2 rectangles of side 1x2.
-There are 3 rectangles of side 2x1.
-There is 1 rectangle of side 2x2. 
-There is 1 rectangle of side 3x1.
-Total number of rectangles = 6 + 2 + 3 + 1 + 1 = 13.
+<strong>输入：</strong>mat = [[1,0,1],[1,1,0],[1,1,0]]
+<strong>输出：</strong>13
+<strong>解释：
+</strong>有 <strong>6</strong>&nbsp;个 1x1 的矩形。
+有 <strong>2</strong> 个 1x2 的矩形。
+有 <strong>3</strong> 个 2x1 的矩形。
+有 <strong>1</strong> 个 2x2 的矩形。
+有 <strong>1</strong> 个 3x1 的矩形。
+矩形数目总共 = 6 + 2 + 3 + 1 + 1 = <strong>13</strong>&nbsp;。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1504.Count%20Submatrices%20With%20All%20Ones/images/ones2-grid.jpg" style="width: 324px; height: 245px;" />
+<p><strong>示例 2：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1504.Count%20Submatrices%20With%20All%20Ones/images/ones2-grid.jpg" /></p>
+
 <pre>
-<strong>Input:</strong> mat = [[0,1,1,0],[0,1,1,1],[1,1,1,0]]
-<strong>Output:</strong> 24
-<strong>Explanation:</strong> 
-There are 8 rectangles of side 1x1.
-There are 5 rectangles of side 1x2.
-There are 2 rectangles of side 1x3. 
-There are 4 rectangles of side 2x1.
-There are 2 rectangles of side 2x2. 
-There are 2 rectangles of side 3x1. 
-There is 1 rectangle of side 3x2. 
-Total number of rectangles = 8 + 5 + 2 + 4 + 2 + 2 + 1 = 24.
+<strong>输入：</strong>mat = [[0,1,1,0],[0,1,1,1],[1,1,1,0]]
+<strong>输出：</strong>24
+<strong>解释：</strong>
+有 <strong>8</strong> 个 1x1 的子矩形。
+有 <strong>5</strong> 个 1x2 的子矩形。
+有 <strong>2</strong> 个 1x3 的子矩形。
+有 <strong>4</strong> 个 2x1 的子矩形。
+有 <strong>2</strong> 个 2x2 的子矩形。
+有 <strong>2</strong> 个 3x1 的子矩形。
+有 <strong>1</strong> 个 3x2 的子矩形。
+矩形数目总共 = 8 + 5 + 2 + 4 + 2 + 2 + 1 = <strong>24</strong><strong> 。</strong>
+
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m, n &lt;= 150</code></li>
-	<li><code>mat[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>mat[i][j]</code>&nbsp;仅包含&nbsp;<code>0</code>&nbsp;或&nbsp;<code>1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration + Prefix Sum
+### 方法一：枚举 + 前缀和
 
-We can enumerate the bottom-right corner $(i, j)$ of the matrix, and then enumerate the first row $k$ upwards. The width of the matrix with $(i, j)$ as the bottom-right corner in each row is $\min_{k \leq i} \textit{g}[k][j]$, where $\textit{g}[k][j]$ represents the width of the matrix with $(k, j)$ as the bottom-right corner in the $k$-th row.
+我们可以枚举矩阵的右下角 $(i, j)$，然后向上枚举矩阵的第一行 $k$，那么每一行以 $(i, j)$ 为右下角的矩阵的宽度就是 $\min_{k \leq i} \textit{g}[k][j]$，其中 $\textit{g}[k][j]$ 表示第 $k$ 行以 $(k, j)$ 为右下角的矩阵的宽度。
 
-Therefore, we can preprocess a 2D array $g[i][j]$, where $g[i][j]$ represents the number of consecutive $1$s from the $j$-th column to the left in the $i$-th row.
+因此，我们可以预处理得到二维数组 $g[i][j]$，其中 $g[i][j]$ 表示第 $i$ 行中，从第 $j$ 列向左连续的 $1$ 的个数。
 
-The time complexity is $O(m^2 \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns of the matrix, respectively.
+时间复杂度 $O(m^2 \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -191,30 +201,30 @@ func numSubmat(mat [][]int) (ans int) {
 
 ```ts
 function numSubmat(mat: number[][]): number {
-  const m = mat.length;
-  const n = mat[0].length;
-  const g: number[][] = Array.from({ length: m }, () => Array(n).fill(0));
+    const m = mat.length;
+    const n = mat[0].length;
+    const g: number[][] = Array.from({ length: m }, () => Array(n).fill(0));
 
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      if (mat[i][j]) {
-        g[i][j] = j === 0 ? 1 : 1 + g[i][j - 1];
-      }
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (mat[i][j]) {
+                g[i][j] = j === 0 ? 1 : 1 + g[i][j - 1];
+            }
+        }
     }
-  }
 
-  let ans = 0;
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      let col = Infinity;
-      for (let k = i; k >= 0; k--) {
-        col = Math.min(col, g[k][j]);
-        ans += col;
-      }
+    let ans = 0;
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            let col = Infinity;
+            for (let k = i; k >= 0; k--) {
+                col = Math.min(col, g[k][j]);
+                ans += col;
+            }
+        }
     }
-  }
 
-  return ans;
+    return ans;
 }
 ```
 

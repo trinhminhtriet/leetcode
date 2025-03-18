@@ -1,64 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0652.Find%20Duplicate%20Subtrees/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Hash Table
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 哈希表
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [652. Find Duplicate Subtrees](https://leetcode.com/problems/find-duplicate-subtrees)
+# [652. 寻找重复的子树](https://leetcode.cn/problems/find-duplicate-subtrees)
 
-## Description
+[English Version](/solution/0600-0699/0652.Find%20Duplicate%20Subtrees/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code>&nbsp;of a binary tree, return all <strong>duplicate subtrees</strong>.</p>
+<p>给你一棵二叉树的根节点 <code>root</code> ，返回所有 <strong>重复的子树 </strong>。</p>
 
-<p>For each kind of duplicate subtrees, you only need to return the root node of any <b>one</b> of them.</p>
+<p>对于同一类的重复子树，你只需要返回其中任意 <strong>一棵 </strong>的根结点即可。</p>
 
-<p>Two trees are <strong>duplicate</strong> if they have the <strong>same structure</strong> with the <strong>same node values</strong>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0652.Find%20Duplicate%20Subtrees/images/e1.jpg" style="width: 450px; height: 354px;" />
-<pre>
-<strong>Input:</strong> root = [1,2,3,4,null,2,4,null,null,4]
-<strong>Output:</strong> [[2,4],[4]]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0652.Find%20Duplicate%20Subtrees/images/e2.jpg" style="width: 321px; height: 201px;" />
-<pre>
-<strong>Input:</strong> root = [2,1,1]
-<strong>Output:</strong> [[1]]
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0652.Find%20Duplicate%20Subtrees/images/e33.jpg" style="width: 450px; height: 303px;" />
-<pre>
-<strong>Input:</strong> root = [2,2,2,3,null,3,null]
-<strong>Output:</strong> [[2,3],[3]]
-</pre>
+<p>如果两棵树具有<strong> 相同的结构</strong> 和 <strong>相同的结点值 </strong>，则认为二者是 <strong>重复 </strong>的。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0652.Find%20Duplicate%20Subtrees/images/e1.jpg" style="height: 236px; width: 300px;" /></p>
+
+<pre>
+<strong>输入：</strong>root = [1,2,3,4,null,2,4,null,null,4]
+<strong>输出：</strong>[[2,4],[4]]</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0652.Find%20Duplicate%20Subtrees/images/e2.jpg" style="height: 125px; width: 200px;" /></p>
+
+<pre>
+<strong>输入：</strong>root = [2,1,1]
+<strong>输出：</strong>[[1]]</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0652.Find%20Duplicate%20Subtrees/images/e33.jpg" style="height: 202px; width: 300px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>root = [2,2,2,3,null,3,null]
+<strong>输出：</strong>[[2,3],[3]]</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of the nodes in the tree will be in the range <code>[1, 5000]</code></li>
+	<li>树中的结点数在 <code>[1, 5000]</code> 范围内。</li>
 	<li><code>-200 &lt;= Node.val &lt;= 200</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：后序遍历
+
+后序遍历，序列化每个子树，用哈希表判断序列化的字符串出现次数是否等于 `2`，若是，说明这棵子树重复。
 
 <!-- tabs:start -->
 
@@ -216,22 +226,22 @@ func findDuplicateSubtrees(root *TreeNode) []*TreeNode {
  */
 
 function findDuplicateSubtrees(root: TreeNode | null): Array<TreeNode | null> {
-  const map = new Map<string, number>();
-  const res = [];
-  const dfs = (root: TreeNode | null) => {
-    if (root == null) {
-      return "#";
-    }
-    const { val, left, right } = root;
-    const s = `${val},${dfs(left)},${dfs(right)}`;
-    map.set(s, (map.get(s) ?? 0) + 1);
-    if (map.get(s) === 2) {
-      res.push(root);
-    }
-    return s;
-  };
-  dfs(root);
-  return res;
+    const map = new Map<string, number>();
+    const res = [];
+    const dfs = (root: TreeNode | null) => {
+        if (root == null) {
+            return '#';
+        }
+        const { val, left, right } = root;
+        const s = `${val},${dfs(left)},${dfs(right)}`;
+        map.set(s, (map.get(s) ?? 0) + 1);
+        if (map.get(s) === 2) {
+            res.push(root);
+        }
+        return s;
+    };
+    dfs(root);
+    return res;
 }
 ```
 

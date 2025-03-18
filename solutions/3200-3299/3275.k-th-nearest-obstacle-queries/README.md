@@ -1,97 +1,103 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3275.K-th%20Nearest%20Obstacle%20Queries/README.md
 rating: 1419
-source: Weekly Contest 413 Q2
+source: 第 413 场周赛 Q2
 tags:
-  - Array
-  - Heap (Priority Queue)
+    - 数组
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [3275. K-th Nearest Obstacle Queries](https://leetcode.com/problems/k-th-nearest-obstacle-queries)
+# [3275. 第 K 近障碍物查询](https://leetcode.cn/problems/k-th-nearest-obstacle-queries)
 
-## Description
+[English Version](/solution/3200-3299/3275.K-th%20Nearest%20Obstacle%20Queries/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an infinite 2D plane.</p>
+<p>有一个无限大的二维平面。</p>
 
-<p>You are given a positive integer <code>k</code>. You are also given a 2D array <code>queries</code>, which contains the following queries:</p>
+<p>给你一个正整数&nbsp;<code>k</code>&nbsp;，同时给你一个二维数组&nbsp;<code>queries</code>&nbsp;，包含一系列查询：</p>
 
 <ul>
-	<li><code>queries[i] = [x, y]</code>: Build an obstacle at coordinate <code>(x, y)</code> in the plane. It is guaranteed that there is <strong>no</strong> obstacle at this coordinate when this query is made.</li>
+	<li><code>queries[i] = [x, y]</code>&nbsp;：在平面上坐标&nbsp;<code>(x, y)</code>&nbsp;处建一个障碍物，数据保证之前的查询 <strong>不会</strong> 在这个坐标处建立任何障碍物。</li>
 </ul>
 
-<p>After each query, you need to find the <strong>distance</strong> of the <code>k<sup>th</sup></code> <strong>nearest</strong> obstacle from the origin.</p>
+<p>每次查询后，你需要找到离原点第 <code>k</code>&nbsp;<strong>近</strong>&nbsp;障碍物到原点的 <strong>距离</strong>&nbsp;。</p>
 
-<p>Return an integer array <code>results</code> where <code>results[i]</code> denotes the <code>k<sup>th</sup></code> nearest obstacle after query <code>i</code>, or <code>results[i] == -1</code> if there are less than <code>k</code> obstacles.</p>
+<p>请你返回一个整数数组&nbsp;<code>results</code>&nbsp;，其中&nbsp;<code>results[i]</code>&nbsp;表示建立第 <code>i</code>&nbsp;个障碍物以后，离原地第 <code>k</code>&nbsp;近障碍物距离原点的距离。如果少于 <code>k</code>&nbsp;个障碍物，<code>results[i] == -1</code>&nbsp;。</p>
 
-<p><strong>Note</strong> that initially there are <strong>no</strong> obstacles anywhere.</p>
+<p><strong>注意</strong>，一开始&nbsp;<strong>没有</strong>&nbsp;任何障碍物。</p>
 
-<p>The <strong>distance</strong> of an obstacle at coordinate <code>(x, y)</code> from the origin is given by <code>|x| + |y|</code>.</p>
+<p>坐标在&nbsp;<code>(x, y)</code>&nbsp;处的点距离原点的距离定义为&nbsp;<code>|x| + |y|</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">queries = [[1,2],[3,4],[2,3],[-3,0]], k = 2</span></p>
+<p><span class="example-io"><b>输入：</b>queries = [[1,2],[3,4],[2,3],[-3,0]], k = 2</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[-1,7,5,3]</span></p>
+<p><span class="example-io"><b>输出：</b>[-1,7,5,3]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
+
+<p>最初，不存在障碍物。</p>
 
 <ul>
-	<li>Initially, there are 0 obstacles.</li>
-	<li>After <code>queries[0]</code>, there are less than 2 obstacles.</li>
-	<li>After <code>queries[1]</code>, there are obstacles at distances 3 and 7.</li>
-	<li>After <code>queries[2]</code>, there are obstacles at distances 3, 5, and 7.</li>
-	<li>After <code>queries[3]</code>, there are obstacles at distances 3, 3, 5, and 7.</li>
+	<li><code>queries[0]</code>&nbsp;之后，少于 2 个障碍物。</li>
+	<li><code>queries[1]</code>&nbsp;之后，&nbsp;两个障碍物距离原点的距离分别为 3 和 7 。</li>
+	<li><code>queries[2]</code>&nbsp;之后，障碍物距离原点的距离分别为 3 ，5 和 7 。</li>
+	<li><code>queries[3]</code>&nbsp;之后，障碍物距离原点的距离分别为 3，3，5 和 7 。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">queries = [[5,5],[4,4],[3,3]], k = 1</span></p>
+<p><span class="example-io"><b>输入：</b>queries = [[5,5],[4,4],[3,3]], k = 1</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[10,8,6]</span></p>
+<p><span class="example-io"><b>输出：</b>[10,8,6]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><b>解释：</b></p>
 
 <ul>
-	<li>After <code>queries[0]</code>, there is an obstacle at distance 10.</li>
-	<li>After <code>queries[1]</code>, there are obstacles at distances 8 and 10.</li>
-	<li>After <code>queries[2]</code>, there are obstacles at distances 6, 8, and 10.</li>
+	<li><code>queries[0]</code>&nbsp;之后，只有一个障碍物，距离原点距离为 10 。</li>
+	<li><code>queries[1]</code>&nbsp;之后，障碍物距离原点距离分别为 8 和 10 。</li>
+	<li><code>queries[2]</code>&nbsp;之后，障碍物距离原点的距离分别为 6， 8 和10 。</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= queries.length &lt;= 2 * 10<sup>5</sup></code></li>
-	<li>All <code>queries[i]</code> are unique.</li>
+	<li>所有&nbsp;<code>queries[i]</code>&nbsp;互不相同。</li>
 	<li><code>-10<sup>9</sup> &lt;= queries[i][0], queries[i][1] &lt;= 10<sup>9</sup></code></li>
 	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Priority Queue (Max-Heap)
+### 方法一：优先队列（大根堆）
 
-We can use a priority queue (max-heap) to maintain the $k$ obstacles closest to the origin.
+我们可以使用一个优先队列（大根堆）来维护离原点最近的 $k$ 个障碍物。
 
-Traverse $\textit{queries}$, and for each query, calculate the sum of the absolute values of $x$ and $y$, then add it to the priority queue. If the size of the priority queue exceeds $k$, pop the top element. If the current size of the priority queue is equal to $k$, add the top element to the answer array; otherwise, add $-1$ to the answer array.
+遍历 $\textit{queries}$，每次计算 $x$ 和 $y$ 的绝对值之和，然后将其加入优先队列。如果优先队列的大小超过 $k$，则弹出堆顶元素。如果当前优先队列的大小等于 $k$，则将堆顶元素加入答案数组，否则将 $-1$ 加入答案数组。
 
-After the traversal, return the answer array.
+遍历结束后，返回答案数组即可。
 
-The time complexity is $O(n \times \log k)$, and the space complexity is $O(k)$. Here, $n$ is the length of the array $\textit{queries}$.
+时间复杂度 $O(n \times \log k)$，空间复杂度 $O(k)$。其中 $n$ 为数组 $\textit{queries}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -197,16 +203,16 @@ func (h *hp) pop() int   { return heap.Pop(h).(int) }
 
 ```ts
 function resultsArray(queries: number[][], k: number): number[] {
-  const pq = new MaxPriorityQueue();
-  const ans: number[] = [];
-  for (const [x, y] of queries) {
-    pq.enqueue(Math.abs(x) + Math.abs(y));
-    if (pq.size() > k) {
-      pq.dequeue();
+    const pq = new MaxPriorityQueue();
+    const ans: number[] = [];
+    for (const [x, y] of queries) {
+        pq.enqueue(Math.abs(x) + Math.abs(y));
+        if (pq.size() > k) {
+            pq.dequeue();
+        }
+        ans.push(pq.size() === k ? pq.front().element : -1);
     }
-    ans.push(pq.size() === k ? pq.front().element : -1);
-  }
-  return ans;
+    return ans;
 }
 ```
 

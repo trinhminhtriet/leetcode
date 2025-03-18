@@ -1,57 +1,66 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0709.To%20Lower%20Case/README.md
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [709. To Lower Case](https://leetcode.com/problems/to-lower-case)
+# [709. 转换成小写字母](https://leetcode.cn/problems/to-lower-case)
 
-## Description
+[English Version](/solution/0700-0799/0709.To%20Lower%20Case/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, return <em>the string after replacing every uppercase letter with the same lowercase letter</em>.</p>
+<p>给你一个字符串 <code>s</code> ，将该字符串中的大写字母转换成相同的小写字母，返回新的字符串。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s = &quot;Hello&quot;
-<strong>Output:</strong> &quot;hello&quot;
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;here&quot;
-<strong>Output:</strong> &quot;here&quot;
+<strong>输入：</strong>s = "Hello"
+<strong>输出：</strong>"hello"
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;LOVELY&quot;
-<strong>Output:</strong> &quot;lovely&quot;
+<strong>输入：</strong>s = "here"
+<strong>输出：</strong>"here"
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "LOVELY"
+<strong>输出：</strong>"lovely"
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> consists of printable ASCII characters.</li>
+	<li><code>1 <= s.length <= 100</code></li>
+	<li><code>s</code> 由 ASCII 字符集中的可打印字符组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+我们可以遍历字符串，对于每个大写字母，将其转换为小写字母。最后返回转换后的字符串即可。
+
+时间复杂度 $O(n)$，其中 $n$ 为字符串的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -113,7 +122,7 @@ func toLowerCase(s string) string {
 
 ```ts
 function toLowerCase(s: string): string {
-  return s.toLowerCase();
+    return s.toLowerCase();
 }
 ```
 
@@ -147,7 +156,7 @@ char* toLowerCase(char* s) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -155,7 +164,7 @@ char* toLowerCase(char* s) {
 
 ```ts
 function toLowerCase(s: string): string {
-  return [...s].map((c) => String.fromCharCode(c.charCodeAt(0) | 32)).join("");
+    return [...s].map(c => String.fromCharCode(c.charCodeAt(0) | 32)).join('');
 }
 ```
 

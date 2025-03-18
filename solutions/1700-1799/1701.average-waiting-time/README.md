@@ -1,84 +1,89 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1701.Average%20Waiting%20Time/README.md
 rating: 1436
-source: Biweekly Contest 42 Q2
+source: 第 42 场双周赛 Q2
 tags:
-  - Array
-  - Simulation
+    - 数组
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1701. Average Waiting Time](https://leetcode.com/problems/average-waiting-time)
+# [1701. 平均等待时间](https://leetcode.cn/problems/average-waiting-time)
 
-## Description
+[English Version](/solution/1700-1799/1701.Average%20Waiting%20Time/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a restaurant with a single chef. You are given an array <code>customers</code>, where <code>customers[i] = [arrival<sub>i</sub>, time<sub>i</sub>]:</code></p>
+<p>有一个餐厅，只有一位厨师。你有一个顾客数组 <code>customers</code> ，其中 <code>customers[i] = [arrival<sub>i</sub>, time<sub>i</sub>]</code> ：</p>
 
 <ul>
-	<li><code>arrival<sub>i</sub></code> is the arrival time of the <code>i<sup>th</sup></code> customer. The arrival times are sorted in <strong>non-decreasing</strong> order.</li>
-	<li><code>time<sub>i</sub></code> is the time needed to prepare the order of the <code>i<sup>th</sup></code> customer.</li>
+	<li><code>arrival<sub>i</sub></code> 是第 <code>i</code> 位顾客到达的时间，到达时间按 <strong>非递减</strong> 顺序排列。</li>
+	<li><code>time<sub>i</sub></code> 是给第 <code>i</code> 位顾客做菜需要的时间。</li>
 </ul>
 
-<p>When a customer arrives, he gives the chef his order, and the chef starts preparing it once he is idle. The customer waits till the chef finishes preparing his order. The chef does not prepare food for more than one customer at a time. The chef prepares food for customers <strong>in the order they were given in the input</strong>.</p>
+<p>当一位顾客到达时，他将他的订单给厨师，厨师一旦空闲的时候就开始做这位顾客的菜。每位顾客会一直等待到厨师完成他的订单。厨师同时只能做一个人的订单。厨师会严格按照 <strong>订单给他的顺序</strong> 做菜。</p>
 
-<p>Return <em>the <strong>average</strong> waiting time of all customers</em>. Solutions within <code>10<sup>-5</sup></code> from the actual answer are considered accepted.</p>
+<p>请你返回所有顾客需要等待的 <strong>平均 </strong>时间。与标准答案误差在 <code>10<sup>-5</sup></code> 范围以内，都视为正确结果。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> customers = [[1,2],[2,5],[4,3]]
-<strong>Output:</strong> 5.00000
-<strong>Explanation:
-</strong>1) The first customer arrives at time 1, the chef takes his order and starts preparing it immediately at time 1, and finishes at time 3, so the waiting time of the first customer is 3 - 1 = 2.
-2) The second customer arrives at time 2, the chef takes his order and starts preparing it at time 3, and finishes at time 8, so the waiting time of the second customer is 8 - 2 = 6.
-3) The third customer arrives at time 4, the chef takes his order and starts preparing it at time 8, and finishes at time 11, so the waiting time of the third customer is 11 - 4 = 7.
-So the average waiting time = (2 + 6 + 7) / 3 = 5.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> customers = [[5,2],[5,4],[10,3],[20,1]]
-<strong>Output:</strong> 3.25000
-<strong>Explanation:
-</strong>1) The first customer arrives at time 5, the chef takes his order and starts preparing it immediately at time 5, and finishes at time 7, so the waiting time of the first customer is 7 - 5 = 2.
-2) The second customer arrives at time 5, the chef takes his order and starts preparing it at time 7, and finishes at time 11, so the waiting time of the second customer is 11 - 5 = 6.
-3) The third customer arrives at time 10, the chef takes his order and starts preparing it at time 11, and finishes at time 14, so the waiting time of the third customer is 14 - 10 = 4.
-4) The fourth customer arrives at time 20, the chef takes his order and starts preparing it immediately at time 20, and finishes at time 21, so the waiting time of the fourth customer is 21 - 20 = 1.
-So the average waiting time = (2 + 6 + 4 + 1) / 4 = 3.25.
+<b>输入：</b>customers = [[1,2],[2,5],[4,3]]
+<b>输出：</b>5.00000
+<strong>解释：
+</strong>1) 第一位顾客在时刻 1 到达，厨师拿到他的订单并在时刻 1 立马开始做菜，并在时刻 3 完成，第一位顾客等待时间为 3 - 1 = 2 。
+2) 第二位顾客在时刻 2 到达，厨师在时刻 3 开始为他做菜，并在时刻 8 完成，第二位顾客等待时间为 8 - 2 = 6 。
+3) 第三位顾客在时刻 4 到达，厨师在时刻 8 开始为他做菜，并在时刻 11 完成，第三位顾客等待时间为 11 - 4 = 7 。
+平均等待时间为 (2 + 6 + 7) / 3 = 5 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>customers = [[5,2],[5,4],[10,3],[20,1]]
+<b>输出：</b>3.25000
+<strong>解释：
+</strong>1) 第一位顾客在时刻 5 到达，厨师拿到他的订单并在时刻 5 立马开始做菜，并在时刻 7 完成，第一位顾客等待时间为 7 - 5 = 2 。
+2) 第二位顾客在时刻 5 到达，厨师在时刻 7 开始为他做菜，并在时刻 11 完成，第二位顾客等待时间为 11 - 5 = 6 。
+3) 第三位顾客在时刻 10 到达，厨师在时刻 11 开始为他做菜，并在时刻 14 完成，第三位顾客等待时间为 14 - 10 = 4 。
+4) 第四位顾客在时刻 20 到达，厨师拿到他的订单并在时刻 20 立马开始做菜，并在时刻 21 完成，第四位顾客等待时间为 21 - 20 = 1 。
+平均等待时间为 (2 + 6 + 4 + 1) / 4 = 3.25 。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= customers.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= arrival<sub>i</sub>, time<sub>i</sub> &lt;= 10<sup>4</sup></code></li>
-	<li><code>arrival<sub>i&nbsp;</sub>&lt;= arrival<sub>i+1</sub></code></li>
+	<li><code>1 <= customers.length <= 10<sup>5</sup></code></li>
+	<li><code>1 <= arrival<sub>i</sub>, time<sub>i</sub> <= 10<sup>4</sup></code></li>
+	<li><code>arrival<sub>i </sub><= arrival<sub>i+1</sub></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We use a variable `tot` to record the total waiting time of the customers, and a variable `t` to record the time when each customer's order is completed. The initial values of both are $0$.
+我们用变量 `tot` 记录顾客的总等待时间，用变量 `t` 记录做完每个顾客的订单的时间，初始值均为 $0$。
 
-We traverse the customer array `customers`. For each customer:
+遍历顾客数组 `customers`，对于每个顾客：
 
-If the current time `t` is less than or equal to the customer's arrival time `customers[i][0]`, it means that the chef is not cooking, so the chef can start cooking immediately. The time to complete this dish is $t = customers[i][0] + customers[i][1]$, and the customer's waiting time is `customers[i][1]`.
+如果当前时间 `t` 小于等于顾客的到达时间 `customers[i][0]`，说明厨师没有在做菜，那么厨师可以立即开始做菜，做完这道菜的时间为 $t = customers[i][0] + customers[i][1]$，顾客的等待时间为 `customers[i][1]`。
 
-Otherwise, it means that the chef is cooking, so the customer needs to wait for the chef to finish the previous dishes before starting to cook their own dishes. The time to complete this dish is $t = t + customers[i][1]$, and the customer's waiting time is $t - customers[i][0]$.
+否则，说明厨师正在做菜，那么顾客需要等待厨师做完此前的菜，才能开始做自己的菜，做完这道菜的时间为 $t = t + customers[i][1]$，顾客的等待时间为 $t - customers[i][0]$。
 
-The time complexity is $O(n)$, where $n$ is the length of the customer array `customers`. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为顾客数组 `customers` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -147,12 +152,12 @@ func averageWaitingTime(customers [][]int) float64 {
 
 ```ts
 function averageWaitingTime(customers: number[][]): number {
-  let [tot, t] = [0, 0];
-  for (const [a, b] of customers) {
-    t = Math.max(t, a) + b;
-    tot += t - a;
-  }
-  return tot / customers.length;
+    let [tot, t] = [0, 0];
+    for (const [a, b] of customers) {
+        t = Math.max(t, a) + b;
+        tot += t - a;
+    }
+    return tot / customers.length;
 }
 ```
 
@@ -180,12 +185,12 @@ impl Solution {
 
 ```js
 function averageWaitingTime(customers) {
-  let [tot, t] = [0, 0];
-  for (const [a, b] of customers) {
-    t = Math.max(t, a) + b;
-    tot += t - a;
-  }
-  return tot / customers.length;
+    let [tot, t] = [0, 0];
+    for (const [a, b] of customers) {
+        t = Math.max(t, a) + b;
+        tot += t - a;
+    }
+    return tot / customers.length;
 }
 ```
 

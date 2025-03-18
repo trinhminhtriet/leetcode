@@ -1,84 +1,87 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2156.Find%20Substring%20With%20Given%20Hash%20Value/README.md
 rating: 2062
-source: Weekly Contest 278 Q3
+source: 第 278 场周赛 Q3
 tags:
-  - String
-  - Sliding Window
-  - Hash Function
-  - Rolling Hash
+    - 字符串
+    - 滑动窗口
+    - 哈希函数
+    - 滚动哈希
 ---
 
 <!-- problem:start -->
 
-# [2156. Find Substring With Given Hash Value](https://leetcode.com/problems/find-substring-with-given-hash-value)
+# [2156. 查找给定哈希值的子串](https://leetcode.cn/problems/find-substring-with-given-hash-value)
 
-## Description
+[English Version](/solution/2100-2199/2156.Find%20Substring%20With%20Given%20Hash%20Value/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The hash of a <strong>0-indexed</strong> string <code>s</code> of length <code>k</code>, given integers <code>p</code> and <code>m</code>, is computed using the following function:</p>
+<p>给定整数 <code>p</code>&nbsp;和 <code>m</code>&nbsp;，一个长度为 <code>k</code>&nbsp;且下标从 <strong>0</strong>&nbsp;开始的字符串&nbsp;<code>s</code>&nbsp;的哈希值按照如下函数计算：</p>
 
 <ul>
 	<li><code>hash(s, p, m) = (val(s[0]) * p<sup>0</sup> + val(s[1]) * p<sup>1</sup> + ... + val(s[k-1]) * p<sup>k-1</sup>) mod m</code>.</li>
 </ul>
 
-<p>Where <code>val(s[i])</code> represents the index of <code>s[i]</code> in the alphabet from <code>val(&#39;a&#39;) = 1</code> to <code>val(&#39;z&#39;) = 26</code>.</p>
+<p>其中&nbsp;<code>val(s[i])</code>&nbsp;表示&nbsp;<code>s[i]</code>&nbsp;在字母表中的下标，从&nbsp;<code>val('a') = 1</code> 到&nbsp;<code>val('z') = 26</code>&nbsp;。</p>
 
-<p>You are given a string <code>s</code> and the integers <code>power</code>, <code>modulo</code>, <code>k</code>, and <code>hashValue.</code> Return <code>sub</code>,<em> the <strong>first</strong> <strong>substring</strong> of </em><code>s</code><em> of length </em><code>k</code><em> such that </em><code>hash(sub, power, modulo) == hashValue</code>.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;和整数&nbsp;<code>power</code>，<code>modulo</code>，<code>k</code>&nbsp;和&nbsp;<code>hashValue</code>&nbsp;。请你返回 <code>s</code>&nbsp;中 <strong>第一个</strong> 长度为 <code>k</code>&nbsp;的 <strong>子串</strong>&nbsp;<code>sub</code>&nbsp;，满足<em>&nbsp;</em><code>hash(sub, power, modulo) == hashValue</code>&nbsp;。</p>
 
-<p>The test cases will be generated such that an answer always <strong>exists</strong>.</p>
+<p>测试数据保证一定 <strong>存在</strong>&nbsp;至少一个这样的子串。</p>
 
-<p>A <b>substring</b> is a contiguous non-empty sequence of characters within a string.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;leetcode&quot;, power = 7, modulo = 20, k = 2, hashValue = 0
-<strong>Output:</strong> &quot;ee&quot;
-<strong>Explanation:</strong> The hash of &quot;ee&quot; can be computed to be hash(&quot;ee&quot;, 7, 20) = (5 * 1 + 5 * 7) mod 20 = 40 mod 20 = 0. 
-&quot;ee&quot; is the first substring of length 2 with hashValue 0. Hence, we return &quot;ee&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;fbxzaad&quot;, power = 31, modulo = 100, k = 3, hashValue = 32
-<strong>Output:</strong> &quot;fbx&quot;
-<strong>Explanation:</strong> The hash of &quot;fbx&quot; can be computed to be hash(&quot;fbx&quot;, 31, 100) = (6 * 1 + 2 * 31 + 24 * 31<sup>2</sup>) mod 100 = 23132 mod 100 = 32. 
-The hash of &quot;bxz&quot; can be computed to be hash(&quot;bxz&quot;, 31, 100) = (2 * 1 + 24 * 31 + 26 * 31<sup>2</sup>) mod 100 = 25732 mod 100 = 32. 
-&quot;fbx&quot; is the first substring of length 3 with hashValue 32. Hence, we return &quot;fbx&quot;.
-Note that &quot;bxz&quot; also has a hash of 32 but it appears later than &quot;fbx&quot;.
-</pre>
+<p><strong>子串</strong> 定义为一个字符串中连续非空字符组成的序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>s = "leetcode", power = 7, modulo = 20, k = 2, hashValue = 0
+<strong>输出：</strong>"ee"
+<strong>解释：</strong>"ee" 的哈希值为 hash("ee", 7, 20) = (5 * 1 + 5 * 7) mod 20 = 40 mod 20 = 0 。
+"ee" 是长度为 2 的第一个哈希值为 0 的子串，所以我们返回 "ee" 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>s = "fbxzaad", power = 31, modulo = 100, k = 3, hashValue = 32
+<b>输出：</b>"fbx"
+<b>解释：</b>"fbx" 的哈希值为 hash("fbx", 31, 100) = (6 * 1 + 2 * 31 + 24 * 31<sup>2</sup>) mod 100 = 23132 mod 100 = 32 。
+"bxz" 的哈希值为 hash("bxz", 31, 100) = (2 * 1 + 24 * 31 + 26 * 31<sup>2</sup>) mod 100 = 25732 mod 100 = 32 。
+"fbx" 是长度为 3 的第一个哈希值为 32 的子串，所以我们返回 "fbx" 。
+注意，"bxz" 的哈希值也为 32 ，但是它在字符串中比 "fbx" 更晚出现。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= s.length &lt;= 2 * 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= power, modulo &lt;= 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= hashValue &lt; modulo</code></li>
-	<li><code>s</code> consists of lowercase English letters only.</li>
-	<li>The test cases are generated such that an answer always <strong>exists</strong>.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
+	<li>测试数据保证一定 <strong>存在</strong>&nbsp;满足条件的子串。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sliding Window + Reverse Traversal
+### 方法一：滑动窗口 + 倒序遍历
 
-We can maintain a sliding window of length $k$ to calculate the hash value of the substring. Considering that if we traverse the string in the forward order, the calculation of the hash value involves division and modulo operations, which are relatively complicated to handle. Therefore, we can traverse the string in reverse order, so that when calculating the hash value, only multiplication and modulo operations are needed.
+我们可以维护一个长度为 $k$ 的滑动窗口，用来计算子串的哈希值。考虑到如果正序遍历字符串，在哈希值的计算中，涉及到除法取模的操作，处理起来比较麻烦。因此我们可以倒序遍历字符串，这样在计算哈希值的时候，只需要乘法和取模操作。
 
-First, we calculate the hash value of the last $k$ characters of the string, and then start to traverse the string in reverse order from the end of the string. Each time we calculate the hash value of the current window, if it is equal to the given hash value, we find a substring that meets the conditions and update the starting position of the answer string.
+我们首先计算字符串末尾的 $k$ 个字符的哈希值，然后从字符串末尾开始倒序遍历，每次计算当前窗口的哈希值，如果等于给定的哈希值，我们就找到了一个满足条件的子串，更新答案字符串的起始位置。
 
-Finally, return the answer string.
+最后返回答案字符串即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是字符串的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -193,33 +196,33 @@ func subStrHash(s string, power int, modulo int, k int, hashValue int) string {
 
 ```ts
 function subStrHash(
-  s: string,
-  power: number,
-  modulo: number,
-  k: number,
-  hashValue: number
+    s: string,
+    power: number,
+    modulo: number,
+    k: number,
+    hashValue: number,
 ): string {
-  let h: bigint = BigInt(0),
-    p: bigint = BigInt(1);
-  const n: number = s.length;
-  const mod = BigInt(modulo);
-  for (let i: number = n - 1; i >= n - k; --i) {
-    const val: bigint = BigInt(s.charCodeAt(i) - "a".charCodeAt(0) + 1);
-    h = (((h * BigInt(power)) % mod) + val) % mod;
-    if (i !== n - k) {
-      p = (p * BigInt(power)) % mod;
+    let h: bigint = BigInt(0),
+        p: bigint = BigInt(1);
+    const n: number = s.length;
+    const mod = BigInt(modulo);
+    for (let i: number = n - 1; i >= n - k; --i) {
+        const val: bigint = BigInt(s.charCodeAt(i) - 'a'.charCodeAt(0) + 1);
+        h = (((h * BigInt(power)) % mod) + val) % mod;
+        if (i !== n - k) {
+            p = (p * BigInt(power)) % mod;
+        }
     }
-  }
-  let j: number = n - k;
-  for (let i: number = n - k - 1; i >= 0; --i) {
-    const pre: bigint = BigInt(s.charCodeAt(i + k) - "a".charCodeAt(0) + 1);
-    const cur: bigint = BigInt(s.charCodeAt(i) - "a".charCodeAt(0) + 1);
-    h = ((((h - ((pre * p) % mod) + mod) * BigInt(power)) % mod) + cur) % mod;
-    if (Number(h) === hashValue) {
-      j = i;
+    let j: number = n - k;
+    for (let i: number = n - k - 1; i >= 0; --i) {
+        const pre: bigint = BigInt(s.charCodeAt(i + k) - 'a'.charCodeAt(0) + 1);
+        const cur: bigint = BigInt(s.charCodeAt(i) - 'a'.charCodeAt(0) + 1);
+        h = ((((h - ((pre * p) % mod) + mod) * BigInt(power)) % mod) + cur) % mod;
+        if (Number(h) === hashValue) {
+            j = i;
+        }
     }
-  }
-  return s.substring(j, j + k);
+    return s.substring(j, j + k);
 }
 ```
 
@@ -235,27 +238,27 @@ function subStrHash(
  * @return {string}
  */
 var subStrHash = function (s, power, modulo, k, hashValue) {
-  let h = BigInt(0),
-    p = BigInt(1);
-  const n = s.length;
-  const mod = BigInt(modulo);
-  for (let i = n - 1; i >= n - k; --i) {
-    const val = BigInt(s.charCodeAt(i) - "a".charCodeAt(0) + 1);
-    h = (((h * BigInt(power)) % mod) + val) % mod;
-    if (i !== n - k) {
-      p = (p * BigInt(power)) % mod;
+    let h = BigInt(0),
+        p = BigInt(1);
+    const n = s.length;
+    const mod = BigInt(modulo);
+    for (let i = n - 1; i >= n - k; --i) {
+        const val = BigInt(s.charCodeAt(i) - 'a'.charCodeAt(0) + 1);
+        h = (((h * BigInt(power)) % mod) + val) % mod;
+        if (i !== n - k) {
+            p = (p * BigInt(power)) % mod;
+        }
     }
-  }
-  let j = n - k;
-  for (let i = n - k - 1; i >= 0; --i) {
-    const pre = BigInt(s.charCodeAt(i + k) - "a".charCodeAt(0) + 1);
-    const cur = BigInt(s.charCodeAt(i) - "a".charCodeAt(0) + 1);
-    h = ((((h - ((pre * p) % mod) + mod) * BigInt(power)) % mod) + cur) % mod;
-    if (Number(h) === hashValue) {
-      j = i;
+    let j = n - k;
+    for (let i = n - k - 1; i >= 0; --i) {
+        const pre = BigInt(s.charCodeAt(i + k) - 'a'.charCodeAt(0) + 1);
+        const cur = BigInt(s.charCodeAt(i) - 'a'.charCodeAt(0) + 1);
+        h = ((((h - ((pre * p) % mod) + mod) * BigInt(power)) % mod) + cur) % mod;
+        if (Number(h) === hashValue) {
+            j = i;
+        }
     }
-  }
-  return s.substring(j, j + k);
+    return s.substring(j, j + k);
 };
 ```
 

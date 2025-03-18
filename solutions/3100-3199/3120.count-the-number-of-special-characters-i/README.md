@@ -1,83 +1,88 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3120.Count%20the%20Number%20of%20Special%20Characters%20I/README.md
 rating: 1205
-source: Weekly Contest 394 Q1
+source: 第 394 场周赛 Q1
 tags:
-  - Hash Table
-  - String
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [3120. Count the Number of Special Characters I](https://leetcode.com/problems/count-the-number-of-special-characters-i)
+# [3120. 统计特殊字母的数量 I](https://leetcode.cn/problems/count-the-number-of-special-characters-i)
 
-## Description
+[English Version](/solution/3100-3199/3120.Count%20the%20Number%20of%20Special%20Characters%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>word</code>. A letter is called <strong>special</strong> if it appears <strong>both</strong> in lowercase and uppercase in <code>word</code>.</p>
+<p>给你一个字符串 <code>word</code>。如果 <code>word</code> 中同时存在某个字母的小写形式和大写形式，则称这个字母为 <strong>特殊字母</strong> 。</p>
 
-<p>Return the number of<em> </em><strong>special</strong> letters in<em> </em><code>word</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">word = &quot;aaAbcBC&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The special characters in <code>word</code> are <code>&#39;a&#39;</code>, <code>&#39;b&#39;</code>, and <code>&#39;c&#39;</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">word = &quot;abc&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>No character in <code>word</code> appears in uppercase.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">word = &quot;abBCab&quot;</span></p>
-
-<p><strong>Output:</strong> 1</p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The only special character in <code>word</code> is <code>&#39;b&#39;</code>.</p>
-</div>
+<p>返回 <code>word</code> 中<strong> </strong><strong>特殊字母 </strong>的数量。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1:</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">word = "aaAbcBC"</span></p>
+
+<p><strong>输出：</strong><span class="example-io">3</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p><code>word</code> 中的特殊字母是 <code>'a'</code>、<code>'b'</code> 和 <code>'c'</code>。</p>
+</div>
+
+<p><strong class="example">示例 2:</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">word = "abc"</span></p>
+
+<p><strong>输出：</strong><span class="example-io">0</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p><code>word</code> 中不存在大小写形式同时出现的字母。</p>
+</div>
+
+<p><strong class="example">示例 3:</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">word = "abBCab"</span></p>
+
+<p><strong>输出：</strong>1</p>
+
+<p><strong>解释：</strong></p>
+
+<p><code>word</code> 中唯一的特殊字母是 <code>'b'</code>。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length &lt;= 50</code></li>
-	<li><code>word</code> consists of only lowercase and uppercase English letters.</li>
+	<li><code>word</code> 仅由小写和大写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table or Array
+### 方法一：哈希表或数组
 
-We use a hash table or array $s$ to record the characters that appear in the string $word$. Then we traverse the 26 letters. If both the lowercase and uppercase letters appear in $s$, the count of special characters is incremented by one.
+我们用一个哈希表或数组 $s$ 来记录字符串 $word$ 中出现的字符。然后遍历 $26$ 个字母，如果小写字母和大写字母都在 $s$ 中出现，则特殊字符的数量加一。
 
-Finally, return the count of special characters.
+最后返回特殊字符的数量即可。
 
-The time complexity is $O(n + |\Sigma|)$, and the space complexity is $O(|\Sigma|)$. Where $n$ is the length of the string $word$, and $|\Sigma|$ is the size of the character set. In this problem, $|\Sigma| \leq 128$.
+时间复杂度 $O(n + |\Sigma|)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 为字符串 $word$ 的长度；而 $|\Sigma|$ 为字符集大小，本题中 $|\Sigma| \leq 128$。
 
 <!-- tabs:start -->
 
@@ -150,20 +155,17 @@ func numberOfSpecialChars(word string) (ans int) {
 
 ```ts
 function numberOfSpecialChars(word: string): number {
-  const s: boolean[] = Array.from(
-    { length: "z".charCodeAt(0) + 1 },
-    () => false
-  );
-  for (let i = 0; i < word.length; ++i) {
-    s[word.charCodeAt(i)] = true;
-  }
-  let ans: number = 0;
-  for (let i = 0; i < 26; ++i) {
-    if (s["a".charCodeAt(0) + i] && s["A".charCodeAt(0) + i]) {
-      ++ans;
+    const s: boolean[] = Array.from({ length: 'z'.charCodeAt(0) + 1 }, () => false);
+    for (let i = 0; i < word.length; ++i) {
+        s[word.charCodeAt(i)] = true;
     }
-  }
-  return ans;
+    let ans: number = 0;
+    for (let i = 0; i < 26; ++i) {
+        if (s['a'.charCodeAt(0) + i] && s['A'.charCodeAt(0) + i]) {
+            ++ans;
+        }
+    }
+    return ans;
 }
 ```
 

@@ -1,74 +1,79 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3195.Find%20the%20Minimum%20Area%20to%20Cover%20All%20Ones%20I/README.md
 rating: 1348
-source: Weekly Contest 403 Q2
+source: 第 403 场周赛 Q2
 tags:
-  - Array
-  - Matrix
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [3195. Find the Minimum Area to Cover All Ones I](https://leetcode.com/problems/find-the-minimum-area-to-cover-all-ones-i)
+# [3195. 包含所有 1 的最小矩形面积 I](https://leetcode.cn/problems/find-the-minimum-area-to-cover-all-ones-i)
 
-## Description
+[English Version](/solution/3100-3199/3195.Find%20the%20Minimum%20Area%20to%20Cover%20All%20Ones%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D <strong>binary</strong> array <code>grid</code>. Find a rectangle with horizontal and vertical sides with the<strong> smallest</strong> area, such that all the 1&#39;s in <code>grid</code> lie inside this rectangle.</p>
+<p>给你一个二维 <strong>二进制 </strong>数组 <code>grid</code>。请你找出一个边在水平方向和竖直方向上、面积 <strong>最小</strong> 的矩形，并且满足 <code>grid</code> 中所有的 1 都在矩形的内部。</p>
 
-<p>Return the <strong>minimum</strong> possible area of the rectangle.</p>
+<p>返回这个矩形可能的 <strong>最小 </strong>面积。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[0,1,0],[1,0,1]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">grid = [[0,1,0],[1,0,1]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">6</span></p>
+<p><strong>输出：</strong> <span class="example-io">6</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3195.Find%20the%20Minimum%20Area%20to%20Cover%20All%20Ones%20I/images/examplerect0.png" style="padding: 10px; background: rgb(255, 255, 255); border-radius: 0.5rem; width: 279px; height: 198px;" /></p>
 
-<p>The smallest rectangle has a height of 2 and a width of 3, so it has an area of <code>2 * 3 = 6</code>.</p>
+<p>这个最小矩形的高度为 2，宽度为 3，因此面积为 <code>2 * 3 = 6</code>。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[1,0],[0,0]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">grid = [[0,0],[1,0]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
+<p><strong>输出：</strong> <span class="example-io">1</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3195.Find%20the%20Minimum%20Area%20to%20Cover%20All%20Ones%20I/images/examplerect1.png" style="padding: 10px; background: rgb(255, 255, 255); border-radius: 0.5rem; width: 204px; height: 201px;" /></p>
 
-<p>The smallest rectangle has both height and width 1, so its area is <code>1 * 1 = 1</code>.</p>
+<p>这个最小矩形的高度和宽度都是 1，因此面积为 <code>1 * 1 = 1</code>。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= grid.length, grid[i].length &lt;= 1000</code></li>
-	<li><code>grid[i][j]</code> is either 0 or 1.</li>
-	<li>The input is generated such that there is at least one 1 in <code>grid</code>.</li>
+	<li><code>grid[i][j]</code> 是 0 或 1。</li>
+	<li>输入保证 <code>grid</code> 中至少有一个 1 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Find Minimum and Maximum Boundaries
+### 方法一：求最小边界和最大边界
 
-We can traverse `grid`, finding the minimum boundary of all `1`s, denoted as $(x_1, y_1)$, and the maximum boundary, denoted as $(x_2, y_2)$. Then, the area of the minimum rectangle is $(x_2 - x_1 + 1) \times (y_2 - y_1 + 1)$.
+我们可以遍历 `grid`，找到所有 `1` 的最小边界，记为 $(x_1, y_1)$，最大边界，记为 $(x_2, y_2)$，那么最小矩形的面积就是 $(x_2 - x_1 + 1) \times (y_2 - y_1 + 1)$。
 
-The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns in `grid`, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是 `grid` 的行数和列数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -158,20 +163,20 @@ func minimumArea(grid [][]int) int {
 
 ```ts
 function minimumArea(grid: number[][]): number {
-  const [m, n] = [grid.length, grid[0].length];
-  let [x1, y1] = [m, n];
-  let [x2, y2] = [0, 0];
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (grid[i][j] === 1) {
-        x1 = Math.min(x1, i);
-        y1 = Math.min(y1, j);
-        x2 = Math.max(x2, i);
-        y2 = Math.max(y2, j);
-      }
+    const [m, n] = [grid.length, grid[0].length];
+    let [x1, y1] = [m, n];
+    let [x2, y2] = [0, 0];
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (grid[i][j] === 1) {
+                x1 = Math.min(x1, i);
+                y1 = Math.min(y1, j);
+                x2 = Math.max(x2, i);
+                y2 = Math.max(y2, j);
+            }
+        }
     }
-  }
-  return (x2 - x1 + 1) * (y2 - y1 + 1);
+    return (x2 - x1 + 1) * (y2 - y1 + 1);
 }
 ```
 

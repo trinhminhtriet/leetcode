@@ -1,57 +1,61 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0630.Course%20Schedule%20III/README.md
 tags:
-  - Greedy
-  - Array
-  - Sorting
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [630. Course Schedule III](https://leetcode.com/problems/course-schedule-iii)
+# [630. 课程表 III](https://leetcode.cn/problems/course-schedule-iii)
 
-## Description
+[English Version](/solution/0600-0699/0630.Course%20Schedule%20III/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> different online courses numbered from <code>1</code> to <code>n</code>. You are given an array <code>courses</code> where <code>courses[i] = [duration<sub>i</sub>, lastDay<sub>i</sub>]</code> indicate that the <code>i<sup>th</sup></code> course should be taken <b>continuously</b> for <code>duration<sub>i</sub></code> days and must be finished before or on <code>lastDay<sub>i</sub></code>.</p>
+<p>这里有 <code>n</code> 门不同的在线课程，按从 <code>1</code> 到 <code>n</code>&nbsp;编号。给你一个数组 <code>courses</code> ，其中 <code>courses[i] = [duration<sub>i</sub>, lastDay<sub>i</sub>]</code> 表示第 <code>i</code> 门课将会 <strong>持续</strong> 上 <code>duration<sub>i</sub></code> 天课，并且必须在不晚于 <code>lastDay<sub>i</sub></code> 的时候完成。</p>
 
-<p>You will start on the <code>1<sup>st</sup></code> day and you cannot take two or more courses simultaneously.</p>
+<p>你的学期从第 <code>1</code> 天开始。且不能同时修读两门及两门以上的课程。</p>
 
-<p>Return <em>the maximum number of courses that you can take</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> courses = [[100,200],[200,1300],[1000,1250],[2000,3200]]
-<strong>Output:</strong> 3
-Explanation: 
-There are totally 4 courses, but you can take 3 courses at most:
-First, take the 1<sup>st</sup> course, it costs 100 days so you will finish it on the 100<sup>th</sup> day, and ready to take the next course on the 101<sup>st</sup> day.
-Second, take the 3<sup>rd</sup> course, it costs 1000 days so you will finish it on the 1100<sup>th</sup> day, and ready to take the next course on the 1101<sup>st</sup> day. 
-Third, take the 2<sup>nd</sup> course, it costs 200 days so you will finish it on the 1300<sup>th</sup> day. 
-The 4<sup>th</sup> course cannot be taken now, since you will finish it on the 3300<sup>th</sup> day, which exceeds the closed date.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> courses = [[1,2]]
-<strong>Output:</strong> 1
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> courses = [[3,2],[4,3]]
-<strong>Output:</strong> 0
-</pre>
+<p>返回你最多可以修读的课程数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>courses = [[100, 200], [200, 1300], [1000, 1250], [2000, 3200]]
+<strong>输出：</strong>3
+<strong>解释：</strong>
+这里一共有 4 门课程，但是你最多可以修 3 门：
+首先，修第 1 门课，耗费 100 天，在第 100 天完成，在第 101 天开始下门课。
+第二，修第 3 门课，耗费 1000 天，在第 1100 天完成，在第 1101 天开始下门课程。
+第三，修第 2 门课，耗时 200 天，在第 1300 天完成。
+第 4 门课现在不能修，因为将会在第 3300 天完成它，这已经超出了关闭日期。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>courses = [[1,2]]
+<strong>输出：</strong>1
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>courses = [[3,2],[4,3]]
+<strong>输出：</strong>0
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= courses.length &lt;= 10<sup>4</sup></code></li>
@@ -60,11 +64,19 @@ The 4<sup>th</sup> course cannot be taken now, since you will finish it on the 3
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心 + 优先队列（大根堆）
+
+我们可以按照课程的结束时间进行升序排序，每次选择结束时间最早的课程进行上课。
+
+如果已选择的课程的总时间 $s$ 超过了当前课程的结束时间 $last$，那么我们就将此前选择的课程中耗时最长的课程去掉，直到能够满足当前课程的结束时间为止。这里我们使用一个优先队列（大根堆） $pq$ 来维护当前已经选择的课程的耗时，每次我们都从优先队列中取出耗时最长的课程进行去除。
+
+最后，优先队列中的元素个数即为我们能够选择的课程数目。
+
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是课程数目。
 
 <!-- tabs:start -->
 
@@ -166,17 +178,17 @@ func (h *hp) pop() int   { return heap.Pop(h).(int) }
 
 ```ts
 function scheduleCourse(courses: number[][]): number {
-  courses.sort((a, b) => a[1] - b[1]);
-  const pq = new MaxPriorityQueue();
-  let s = 0;
-  for (const [duration, last] of courses) {
-    pq.enqueue(duration);
-    s += duration;
-    while (s > last) {
-      s -= pq.dequeue().element;
+    courses.sort((a, b) => a[1] - b[1]);
+    const pq = new MaxPriorityQueue();
+    let s = 0;
+    for (const [duration, last] of courses) {
+        pq.enqueue(duration);
+        s += duration;
+        while (s > last) {
+            s -= pq.dequeue().element;
+        }
     }
-  }
-  return pq.size();
+    return pq.size();
 }
 ```
 

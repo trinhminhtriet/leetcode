@@ -1,74 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0654.Maximum%20Binary%20Tree/README.md
 tags:
-  - Stack
-  - Tree
-  - Array
-  - Divide and Conquer
-  - Binary Tree
-  - Monotonic Stack
+    - 栈
+    - 树
+    - 数组
+    - 分治
+    - 二叉树
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [654. Maximum Binary Tree](https://leetcode.com/problems/maximum-binary-tree)
+# [654. 最大二叉树](https://leetcode.cn/problems/maximum-binary-tree)
 
-## Description
+[English Version](/solution/0600-0699/0654.Maximum%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> with no duplicates. A <strong>maximum binary tree</strong> can be built recursively from <code>nums</code> using the following algorithm:</p>
+<p>给定一个不重复的整数数组&nbsp;<code>nums</code> 。&nbsp;<strong>最大二叉树</strong>&nbsp;可以用下面的算法从&nbsp;<code>nums</code> 递归地构建:</p>
 
 <ol>
-	<li>Create a root node whose value is the maximum value in <code>nums</code>.</li>
-	<li>Recursively build the left subtree on the <strong>subarray prefix</strong> to the <strong>left</strong> of the maximum value.</li>
-	<li>Recursively build the right subtree on the <strong>subarray suffix</strong> to the <strong>right</strong> of the maximum value.</li>
+	<li>创建一个根节点，其值为&nbsp;<code>nums</code> 中的最大值。</li>
+	<li>递归地在最大值&nbsp;<strong>左边</strong>&nbsp;的&nbsp;<strong>子数组前缀上</strong>&nbsp;构建左子树。</li>
+	<li>递归地在最大值 <strong>右边</strong> 的&nbsp;<strong>子数组后缀上</strong>&nbsp;构建右子树。</li>
 </ol>
 
-<p>Return <em>the <strong>maximum binary tree</strong> built from </em><code>nums</code>.</p>
+<p>返回&nbsp;<em><code>nums</code> 构建的 </em><strong><em>最大二叉树</em> </strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0654.Maximum%20Binary%20Tree/images/tree1.jpg" style="width: 302px; height: 421px;" />
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0654.Maximum%20Binary%20Tree/images/tree1.jpg" />
 <pre>
-<strong>Input:</strong> nums = [3,2,1,6,0,5]
-<strong>Output:</strong> [6,3,5,null,2,0,null,null,1]
-<strong>Explanation:</strong> The recursive calls are as follow:
-- The largest value in [3,2,1,6,0,5] is 6. Left prefix is [3,2,1] and right suffix is [0,5].
-    - The largest value in [3,2,1] is 3. Left prefix is [] and right suffix is [2,1].
-        - Empty array, so no child.
-        - The largest value in [2,1] is 2. Left prefix is [] and right suffix is [1].
-            - Empty array, so no child.
-            - Only one element, so child is a node with value 1.
-    - The largest value in [0,5] is 5. Left prefix is [0] and right suffix is [].
-        - Only one element, so child is a node with value 0.
-        - Empty array, so no child.
+<strong>输入：</strong>nums = [3,2,1,6,0,5]
+<strong>输出：</strong>[6,3,5,null,2,0,null,null,1]
+<strong>解释：</strong>递归调用如下所示：
+- [3,2,1,6,0,5] 中的最大值是 6 ，左边部分是 [3,2,1] ，右边部分是 [0,5] 。
+    - [3,2,1] 中的最大值是 3 ，左边部分是 [] ，右边部分是 [2,1] 。
+        - 空数组，无子节点。
+        - [2,1] 中的最大值是 2 ，左边部分是 [] ，右边部分是 [1] 。
+            - 空数组，无子节点。
+            - 只有一个元素，所以子节点是一个值为 1 的节点。
+    - [0,5] 中的最大值是 5 ，左边部分是 [0] ，右边部分是 [] 。
+        - 只有一个元素，所以子节点是一个值为 0 的节点。
+        - 空数组，无子节点。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0654.Maximum%20Binary%20Tree/images/tree2.jpg" style="width: 182px; height: 301px;" />
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0654.Maximum%20Binary%20Tree/images/tree2.jpg" />
 <pre>
-<strong>Input:</strong> nums = [3,2,1]
-<strong>Output:</strong> [3,null,2,null,1]
+<strong>输入：</strong>nums = [3,2,1]
+<strong>输出：</strong>[3,null,2,null,1]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>0 &lt;= nums[i] &lt;= 1000</code></li>
-	<li>All integers in <code>nums</code> are <strong>unique</strong>.</li>
+	<li><code>nums</code> 中的所有整数 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：递归
+
+先找到数组 $nums$ 的最大元素所在的位置 $i$，将 $nums[i]$ 作为根节点，然后递归左右两侧的子数组，构建左右子树。
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$，其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -226,16 +235,16 @@ func constructMaximumBinaryTree(nums []int) *TreeNode {
  */
 
 function constructMaximumBinaryTree(nums: number[]): TreeNode | null {
-  const n = nums.length;
-  if (n === 0) {
-    return null;
-  }
-  const [val, i] = nums.reduce((r, v, i) => (r[0] < v ? [v, i] : r), [-1, 0]);
-  return new TreeNode(
-    val,
-    constructMaximumBinaryTree(nums.slice(0, i)),
-    constructMaximumBinaryTree(nums.slice(i + 1))
-  );
+    const n = nums.length;
+    if (n === 0) {
+        return null;
+    }
+    const [val, i] = nums.reduce((r, v, i) => (r[0] < v ? [v, i] : r), [-1, 0]);
+    return new TreeNode(
+        val,
+        constructMaximumBinaryTree(nums.slice(0, i)),
+        constructMaximumBinaryTree(nums.slice(i + 1)),
+    );
 }
 ```
 
@@ -330,7 +339,11 @@ struct TreeNode* constructMaximumBinaryTree(int* nums, int numsSize) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：线段树
+
+方法一中，每次查找区间最大值，需要 $O(n)$ 的时间，我们可以借助线段树，将每次查询区间最大值的时间降至 $O(\log n)$。
+
+最多需要查询 $n$ 次，因此，总的时间复杂度为 $O(n \times \log n)$，空间复杂度 $O(n)$，其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -676,7 +689,19 @@ func (t *segmentTree) pushup(u int) {
 
 <!-- solution:start -->
 
-### Solution 3
+### 方法三：单调栈
+
+题目表达了一个意思：如果 $nums$ 中间有一个数字 $v$，找出它左右两侧最大的数，这两个最大的数应该比 $v$ 小。
+
+了解单调栈的朋友，或许会注意到：
+
+当我们尝试向栈中压入一个数字 $v$ 时，如果栈顶元素比 $v$ 小，则循环弹出栈顶元素，并记录最后一个弹出的元素 $last$。那么循环结束，$last$ 必须位于 $v$ 的左侧，因为 $last$ 是 $v$ 的左侧最大的数。令 $node(val=v).left$ 指向 $last$。
+
+如果此时存在栈顶元素，栈顶元素一定大于 $v$。$v$ 成为栈顶元素的候选右子树节点。令 $stk.top().right$ 指向 $v$。然后 $v$ 入栈。
+
+遍历结束，栈底元素成为树的根节点。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 

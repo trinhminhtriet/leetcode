@@ -1,83 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1143.Longest%20Common%20Subsequence/README.md
 tags:
-  - String
-  - Dynamic Programming
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1143. Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence)
+# [1143. 最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence)
 
-## Description
+[English Version](/solution/1100-1199/1143.Longest%20Common%20Subsequence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two strings <code>text1</code> and <code>text2</code>, return <em>the length of their longest <strong>common subsequence</strong>. </em>If there is no <strong>common subsequence</strong>, return <code>0</code>.</p>
+<p>给定两个字符串 <code>text1</code> 和 <code>text2</code>，返回这两个字符串的最长 <strong>公共子序列</strong> 的长度。如果不存在 <strong>公共子序列</strong> ，返回 <code>0</code> 。</p>
 
-<p>A <strong>subsequence</strong> of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.</p>
+<p>一个字符串的 <strong>子序列</strong><em> </em>是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。</p>
 
 <ul>
-	<li>For example, <code>&quot;ace&quot;</code> is a subsequence of <code>&quot;abcde&quot;</code>.</li>
+	<li>例如，<code>"ace"</code> 是 <code>"abcde"</code> 的子序列，但 <code>"aec"</code> 不是 <code>"abcde"</code> 的子序列。</li>
 </ul>
 
-<p>A <strong>common subsequence</strong> of two strings is a subsequence that is common to both strings.</p>
+<p>两个字符串的 <strong>公共子序列</strong> 是这两个字符串所共同拥有的子序列。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> text1 = &quot;abcde&quot;, text2 = &quot;ace&quot; 
-<strong>Output:</strong> 3  
-<strong>Explanation:</strong> The longest common subsequence is &quot;ace&quot; and its length is 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> text1 = &quot;abc&quot;, text2 = &quot;abc&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The longest common subsequence is &quot;abc&quot; and its length is 3.
+<strong>输入：</strong>text1 = "abcde", text2 = "ace" 
+<strong>输出：</strong>3  
+<strong>解释：</strong>最长公共子序列是 "ace" ，它的长度为 3 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> text1 = &quot;abc&quot;, text2 = &quot;def&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There is no such common subsequence, so the result is 0.
+<strong>输入：</strong>text1 = "abc", text2 = "abc"
+<strong>输出：</strong>3
+<strong>解释：</strong>最长公共子序列是 "abc" ，它的长度为 3 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>text1 = "abc", text2 = "def"
+<strong>输出：</strong>0
+<strong>解释：</strong>两个字符串没有公共子序列，返回 0 。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= text1.length, text2.length &lt;= 1000</code></li>
-	<li><code>text1</code> and <code>text2</code> consist of only lowercase English characters.</li>
+	<li><code>1 <= text1.length, text2.length <= 1000</code></li>
+	<li><code>text1</code> 和 <code>text2</code> 仅由小写英文字符组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ as the length of the longest common subsequence of the first $i$ characters of $text1$ and the first $j$ characters of $text2$. Therefore, the answer is $f[m][n]$, where $m$ and $n$ are the lengths of $text1$ and $text2$, respectively.
+我们定义 $f[i][j]$ 表示 $text1$ 的前 $i$ 个字符和 $text2$ 的前 $j$ 个字符的最长公共子序列的长度。那么答案为 $f[m][n]$，其中 $m$ 和 $n$ 分别为 $text1$ 和 $text2$ 的长度。
 
-If the $i$th character of $text1$ and the $j$th character of $text2$ are the same, then $f[i][j] = f[i - 1][j - 1] + 1$; if the $i$th character of $text1$ and the $j$th character of $text2$ are different, then $f[i][j] = max(f[i - 1][j], f[i][j - 1])$. The state transition equation is:
+如果 $text1$ 的第 $i$ 个字符和 $text2$ 的第 $j$ 个字符相同，则 $f[i][j] = f[i - 1][j - 1] + 1$；如果 $text1$ 的第 $i$ 个字符和 $text2$ 的第 $j$ 个字符不同，则 $f[i][j] = max(f[i - 1][j], f[i][j - 1])$。即状态转移方程为：
 
 $$
 f[i][j] =
 \begin{cases}
-f[i - 1][j - 1] + 1, & \textit{if } text1[i - 1] = text2[j - 1] \\
-\max(f[i - 1][j], f[i][j - 1]), & \textit{if } text1[i - 1] \neq text2[j - 1]
+f[i - 1][j - 1] + 1, & text1[i - 1] = text2[j - 1] \\
+\max(f[i - 1][j], f[i][j - 1]), & text1[i - 1] \neq text2[j - 1]
 \end{cases}
 $$
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the lengths of $text1$ and $text2$, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为 $text1$ 和 $text2$ 的长度。
 
 <!-- tabs:start -->
 
@@ -167,19 +172,19 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 
 ```ts
 function longestCommonSubsequence(text1: string, text2: string): number {
-  const m = text1.length;
-  const n = text2.length;
-  const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      if (text1[i - 1] === text2[j - 1]) {
-        f[i][j] = f[i - 1][j - 1] + 1;
-      } else {
-        f[i][j] = Math.max(f[i - 1][j], f[i][j - 1]);
-      }
+    const m = text1.length;
+    const n = text2.length;
+    const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+            if (text1[i - 1] === text2[j - 1]) {
+                f[i][j] = f[i - 1][j - 1] + 1;
+            } else {
+                f[i][j] = Math.max(f[i - 1][j], f[i][j - 1]);
+            }
+        }
     }
-  }
-  return f[m][n];
+    return f[m][n];
 }
 ```
 
@@ -214,19 +219,19 @@ impl Solution {
  * @return {number}
  */
 var longestCommonSubsequence = function (text1, text2) {
-  const m = text1.length;
-  const n = text2.length;
-  const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
-  for (let i = 1; i <= m; ++i) {
-    for (let j = 1; j <= n; ++j) {
-      if (text1[i - 1] == text2[j - 1]) {
-        f[i][j] = f[i - 1][j - 1] + 1;
-      } else {
-        f[i][j] = Math.max(f[i - 1][j], f[i][j - 1]);
-      }
+    const m = text1.length;
+    const n = text2.length;
+    const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    for (let i = 1; i <= m; ++i) {
+        for (let j = 1; j <= n; ++j) {
+            if (text1[i - 1] == text2[j - 1]) {
+                f[i][j] = f[i - 1][j - 1] + 1;
+            } else {
+                f[i][j] = Math.max(f[i - 1][j], f[i][j - 1]);
+            }
+        }
     }
-  }
-  return f[m][n];
+    return f[m][n];
 };
 ```
 

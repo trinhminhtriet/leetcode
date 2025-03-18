@@ -1,100 +1,102 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0026.Remove%20Duplicates%20from%20Sorted%20Array/README.md
 tags:
-  - Array
-  - Two Pointers
+    - 数组
+    - 双指针
 ---
 
 <!-- problem:start -->
 
-# [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array)
+# [26. 删除有序数组中的重复项](https://leetcode.cn/problems/remove-duplicates-from-sorted-array)
 
-## Description
+[English Version](/solution/0000-0099/0026.Remove%20Duplicates%20from%20Sorted%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> sorted in <strong>non-decreasing order</strong>, remove the duplicates <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank"><strong>in-place</strong></a> such that each unique element appears only <strong>once</strong>. The <strong>relative order</strong> of the elements should be kept the <strong>same</strong>. Then return <em>the number of unique elements in </em><code>nums</code>.</p>
+<p>给你一个 <strong>非严格递增排列</strong> 的数组 <code>nums</code> ，请你<strong><a href="http://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95" target="_blank"> 原地</a></strong> 删除重复出现的元素，使每个元素 <strong>只出现一次</strong> ，返回删除后数组的新长度。元素的 <strong>相对顺序</strong> 应该保持 <strong>一致</strong> 。然后返回 <code>nums</code> 中唯一元素的个数。</p>
 
-<p>Consider the number of unique elements of <code>nums</code> to be <code>k</code>, to get accepted, you need to do the following things:</p>
+<p>考虑 <code>nums</code> 的唯一元素的数量为 <code>k</code> ，你需要做以下事情确保你的题解可以被通过：</p>
 
 <ul>
-	<li>Change the array <code>nums</code> such that the first <code>k</code> elements of <code>nums</code> contain the unique elements in the order they were present in <code>nums</code> initially. The remaining elements of <code>nums</code> are not important as well as the size of <code>nums</code>.</li>
-	<li>Return <code>k</code>.</li>
+	<li>更改数组 <code>nums</code> ，使 <code>nums</code> 的前 <code>k</code> 个元素包含唯一元素，并按照它们最初在 <code>nums</code> 中出现的顺序排列。<code>nums</code>&nbsp;的其余元素与 <code>nums</code> 的大小不重要。</li>
+	<li>返回 <code>k</code>&nbsp;。</li>
 </ul>
 
-<p><strong>Custom Judge:</strong></p>
+<p><strong>判题标准:</strong></p>
 
-<p>The judge will test your solution with the following code:</p>
+<p>系统会用下面的代码来测试你的题解:</p>
 
 <pre>
-int[] nums = [...]; // Input array
-int[] expectedNums = [...]; // The expected answer with correct length
+int[] nums = [...]; // 输入数组
+int[] expectedNums = [...]; // 长度正确的期望答案
 
-int k = removeDuplicates(nums); // Calls your implementation
+int k = removeDuplicates(nums); // 调用
 
 assert k == expectedNums.length;
 for (int i = 0; i &lt; k; i++) {
     assert nums[i] == expectedNums[i];
-}
-</pre>
+}</pre>
 
-<p>If all assertions pass, then your solution will be <strong>accepted</strong>.</p>
+<p>如果所有断言都通过，那么您的题解将被 <strong>通过</strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,1,2]
-<strong>Output:</strong> 2, nums = [1,2,_]
-<strong>Explanation:</strong> Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
+<strong>输入：</strong>nums = [1,1,2]
+<strong>输出：</strong>2, nums = [1,2,_]
+<strong>解释：</strong>函数应该返回新的长度 <strong><code>2</code></strong> ，并且原数组 <em>nums </em>的前两个元素被修改为 <strong><code>1</code></strong>, <strong><code>2 </code></strong><code>。</code>不需要考虑数组中超出新长度后面的元素。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [0,0,1,1,1,2,2,3,3,4]
-<strong>Output:</strong> 5, nums = [0,1,2,3,4,_,_,_,_,_]
-<strong>Explanation:</strong> Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
+<strong>输入：</strong>nums = [0,0,1,1,1,2,2,3,3,4]
+<strong>输出：</strong>5, nums = [0,1,2,3,4]
+<strong>解释：</strong>函数应该返回新的长度 <strong><code>5</code></strong> ， 并且原数组 <em>nums </em>的前五个元素被修改为 <strong><code>0</code></strong>, <strong><code>1</code></strong>, <strong><code>2</code></strong>, <strong><code>3</code></strong>, <strong><code>4</code></strong> 。不需要考虑数组中超出新长度后面的元素。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li>
-	<li><code>-100 &lt;= nums[i] &lt;= 100</code></li>
-	<li><code>nums</code> is sorted in <strong>non-decreasing</strong> order.</li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>nums</code> 已按 <strong>非严格递增</strong>&nbsp;排列</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Single Pass
+### 方法一：一次遍历
 
-We use a variable $k$ to record the current length of the processed array. Initially, $k=0$ represents an empty array.
+我们用一个变量 $k$ 记录当前已经处理好的数组的长度，初始时 $k=0$，表示空数组。
 
-Then we traverse the array from left to right. For each element $x$ we encounter, if $k=0$ or $x \neq nums[k-1]$, we place $x$ in the position of $nums[k]$, and then increment $k$ by $1$. Otherwise, $x$ is the same as $nums[k-1]$, so we skip this element. Continue to traverse until the entire array is traversed.
+然后我们从左到右遍历数组，对于遍历到的每个元素 $x$，如果 $k=0$ 或者 $x \neq nums[k-1]$，我们就将 $x$ 放到 $nums[k]$ 的位置，然后 $k$ 自增 $1$。否则，$x$ 与 $nums[k-1]$ 相同，我们直接跳过这个元素。继续遍历，直到遍历完整个数组。
 
-In this way, when the traversal ends, the first $k$ elements in $nums$ are the answer we are looking for, and $k$ is the length of the answer.
+这样，当遍历结束时，$nums$ 中前 $k$ 个元素就是我们要求的答案，且 $k$ 就是答案的长度。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组的长度。
 
-Supplement:
+补充：
 
-The original problem requires that the same number appear at most once. We can extend it to keep at most $k$ identical numbers.
+原问题要求最多相同的数字最多出现 $1$ 次，我们可以扩展至相同的数字最多保留 $k$ 个。
 
-- Since the same number can be kept at most $k$ times, we can directly keep the first $k$ elements of the original array;
-- For the following numbers, the premise of being able to keep them is: the current number $x$ is compared with the last $k$th element of the previously retained numbers. If they are different, keep them, otherwise skip them.
+-   由于相同的数字最多保留 $k$ 个，那么原数组的前 $k$ 个元素我们可以直接保留；
+-   对于后面的数字，能够保留的前提是：当前数字 $x$ 与前面已保留的数字的倒数第 $k$ 个元素比较，不同则保留，相同则跳过。
 
-Similar problems:
+相似题目：
 
-- [80. Remove Duplicates from Sorted Array II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0080.Remove%20Duplicates%20from%20Sorted%20Array%20II/README_EN.md)
+-   [80. 删除有序数组中的重复项 II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0080.Remove%20Duplicates%20from%20Sorted%20Array%20II/README.md)
 
 <!-- tabs:start -->
 
@@ -163,13 +165,13 @@ func removeDuplicates(nums []int) int {
 
 ```ts
 function removeDuplicates(nums: number[]): number {
-  let k: number = 0;
-  for (const x of nums) {
-    if (k === 0 || x !== nums[k - 1]) {
-      nums[k++] = x;
+    let k: number = 0;
+    for (const x of nums) {
+        if (k === 0 || x !== nums[k - 1]) {
+            nums[k++] = x;
+        }
     }
-  }
-  return k;
+    return k;
 }
 ```
 
@@ -198,13 +200,13 @@ impl Solution {
  * @return {number}
  */
 var removeDuplicates = function (nums) {
-  let k = 0;
-  for (const x of nums) {
-    if (k === 0 || x !== nums[k - 1]) {
-      nums[k++] = x;
+    let k = 0;
+    for (const x of nums) {
+        if (k === 0 || x !== nums[k - 1]) {
+            nums[k++] = x;
+        }
     }
-  }
-  return k;
+    return k;
 };
 ```
 
@@ -242,28 +244,6 @@ class Solution {
         return $k;
     }
 }
-```
-
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### Solution 2
-
-<!-- tabs:start -->
-
-#### C++
-
-```cpp
-class Solution {
-public:
-    int removeDuplicates(vector<int>& nums) {
-        nums.erase(unique(nums.begin(), nums.end()), nums.end());
-        return nums.size();
-    }
-};
 ```
 
 <!-- tabs:end -->

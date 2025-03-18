@@ -1,106 +1,125 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1373.Maximum%20Sum%20BST%20in%20Binary%20Tree/README.md
 rating: 1913
-source: Biweekly Contest 21 Q4
+source: 第 21 场双周赛 Q4
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Search Tree
-  - Dynamic Programming
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉搜索树
+    - 动态规划
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [1373. Maximum Sum BST in Binary Tree](https://leetcode.com/problems/maximum-sum-bst-in-binary-tree)
+# [1373. 二叉搜索子树的最大键值和](https://leetcode.cn/problems/maximum-sum-bst-in-binary-tree)
 
-## Description
+[English Version](/solution/1300-1399/1373.Maximum%20Sum%20BST%20in%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <strong>binary tree</strong> <code>root</code>, return <em>the maximum sum of all keys of <strong>any</strong> sub-tree which is also a Binary Search Tree (BST)</em>.</p>
+<p>给你一棵以 <code>root</code> 为根的 <strong>二叉树</strong> ，请你返回 <strong>任意</strong> 二叉搜索子树的最大键值和。</p>
 
-<p>Assume a BST is defined as follows:</p>
+<p>二叉搜索树的定义如下：</p>
 
 <ul>
-	<li>The left subtree of a node contains only nodes with keys <strong>less than</strong> the node&#39;s key.</li>
-	<li>The right subtree of a node contains only nodes with keys <strong>greater than</strong> the node&#39;s key.</li>
-	<li>Both the left and right subtrees must also be binary search trees.</li>
+	<li>任意节点的左子树中的键值都 <strong>小于</strong> 此节点的键值。</li>
+	<li>任意节点的右子树中的键值都 <strong>大于</strong> 此节点的键值。</li>
+	<li>任意节点的左子树和右子树都是二叉搜索树。</li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1373.Maximum%20Sum%20BST%20in%20Binary%20Tree/images/sample_1_1709.png" style="width: 320px; height: 250px;" /></p>
+<p><strong>示例 1：</strong></p>
 
-<pre>
-<strong>Input:</strong> root = [1,4,3,2,4,2,5,null,null,null,null,null,null,4,6]
-<strong>Output:</strong> 20
-<strong>Explanation:</strong> Maximum sum in a valid Binary search tree is obtained in root node with key equal to 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1373.Maximum%20Sum%20BST%20in%20Binary%20Tree/images/sample_2_1709.png" style="width: 134px; height: 180px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1373.Maximum%20Sum%20BST%20in%20Binary%20Tree/images/sample_1_1709.png" style="height: 250px; width: 320px;" /></p>
 
 <pre>
-<strong>Input:</strong> root = [4,3,null,1,2]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Maximum sum in a valid Binary search tree is obtained in a single root node with key equal to 2.
+<strong>输入：</strong>root = [1,4,3,2,4,2,5,null,null,null,null,null,null,4,6]
+<strong>输出：</strong>20
+<strong>解释：</strong>键值为 3 的子树是和最大的二叉搜索树。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1373.Maximum%20Sum%20BST%20in%20Binary%20Tree/images/sample_2_1709.png" style="height: 180px; width: 134px;" /></p>
 
 <pre>
-<strong>Input:</strong> root = [-4,-2,-5]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> All values are negatives. Return an empty BST.
+<strong>输入：</strong>root = [4,3,null,1,2]
+<strong>输出：</strong>2
+<strong>解释：</strong>键值为 2 的单节点子树是和最大的二叉搜索树。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>root = [-4,-2,-5]
+<strong>输出：</strong>0
+<strong>解释：</strong>所有节点键值都为负数，和最大的二叉搜索树为空。
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>root = [2,1,3]
+<strong>输出：</strong>6
+</pre>
+
+<p><strong>示例 5：</strong></p>
+
+<pre>
+<strong>输入：</strong>root = [5,4,8,3,null,6,3]
+<strong>输出：</strong>7
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 4 * 10<sup>4</sup>]</code>.</li>
-	<li><code>-4 * 10<sup>4</sup> &lt;= Node.val &lt;= 4 * 10<sup>4</sup></code></li>
+	<li>每棵树有 <code>1</code> 到 <code>40000</code> 个节点。</li>
+	<li>每个节点的键值在 <code>[-4 * 10^4 , 4 * 10^4]</code> 之间。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-To determine whether a tree is a binary search tree, it needs to meet the following four conditions:
+判断一棵树是否是二叉搜索树，需要满足以下四个条件：
 
-- The left subtree is a binary search tree;
-- The right subtree is a binary search tree;
-- The maximum value of the left subtree is less than the value of the root node;
-- The minimum value of the right subtree is greater than the value of the root node.
+-   左子树是二叉搜索树；
+-   右子树是二叉搜索树；
+-   左子树的最大值小于根节点的值；
+-   右子树的最小值大于根节点的值。
 
-Therefore, we design a function $dfs(root)$, the return value of the function is a quadruple $(bst, mi, mx, s)$, where:
+因此，我们设计一个函数 $dfs(root)$，函数的返回值是一个四元组 $(bst, mi, mx, s)$，其中：
 
-- The number $bst$ indicates whether the tree with $root$ as the root is a binary search tree. If it is a binary search tree, then $bst = 1$; otherwise $bst = 0$;
-- The number $mi$ represents the minimum value of the tree with $root$ as the root;
-- The number $mx$ represents the maximum value of the tree with $root$ as the root;
-- The number $s$ represents the sum of all nodes of the tree with $root$ as the root.
+-   数字 $bst$ 表示以 $root$ 为根的树是否是二叉搜索树。如果是二叉搜索树，则 $bst = 1$；否则 $bst = 0$；
+-   数字 $mi$ 表示以 $root$ 为根的树的最小值；
+-   数字 $mx$ 表示以 $root$ 为根的树的最大值；
+-   数字 $s$ 表示以 $root$ 为根的树的所有节点的和。
 
-The execution logic of the function $dfs(root)$ is as follows:
+函数 $dfs(root)$ 的执行逻辑如下：
 
-If $root$ is an empty node, return $(1, +\infty, -\infty, 0)$, indicating that the empty tree is a binary search tree, the minimum value and maximum value are positive infinity and negative infinity respectively, and the sum of nodes is $0$.
+如果 $root$ 为空节点，则返回 $(1, +\infty, -\infty, 0)$，表示空树是二叉搜索树，最小值和最大值分别为正无穷和负无穷，节点和为 $0$。
 
-Otherwise, recursively calculate the left subtree and right subtree of $root$, and get $(lbst, lmi, lmx, ls)$ and $(rbst, rmi, rmx, rs)$ respectively, then judge whether the $root$ node meets the conditions of the binary search tree.
+否则，递归计算 $root$ 的左子树和右子树，分别得到 $(lbst, lmi, lmx, ls)$ 和 $(rbst, rmi, rmx, rs)$，然后判断 $root$ 节点是否满足二叉搜索树的条件。
 
-If $lbst = 1$ and $rbst = 1$ and $lmx < root.val < rmi$, then the tree with $root$ as the root is a binary search tree, and the sum of nodes $s= ls + rs + root.val$. We update the answer $ans = \max(ans, s)$, and return $(1, \min(lmi, root.val), \max(rmx, root.val), s)$.
+如果满足 $lbst = 1$ 且 $rbst = 1$ 且 $lmx \lt root.val \lt rmi$，则以 $root$ 为根的树是二叉搜索树，节点和 $s= ls + rs + root.val$。我们更新答案 $ans = \max(ans, s)$，并返回 $(1, \min(lmi, root.val), \max(rmx, root.val), s)$。
 
-Otherwise, the tree with $root$ as the root is not a binary search tree, we return $(0, 0, 0, 0)$.
+否则，以 $root$ 为根的树不是二叉搜索树，我们返回 $(0, 0, 0, 0)$。
 
-We call $dfs(root)$ in the main function. After execution, the answer is $ans$.
+我们在主函数中调用 $dfs(root)$，执行完毕后，答案即为 $ans$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -195,10 +214,9 @@ public:
     int maxSumBST(TreeNode* root) {
         int ans = 0;
         const int inf = 1 << 30;
-
-        function<vector<int>(TreeNode*)> dfs = [&](TreeNode* root) {
+        auto dfs = [&](this auto&& dfs, TreeNode* root) -> array<int, 4> {
             if (!root) {
-                return vector<int>{1, inf, -inf, 0};
+                return {1, inf, -inf, 0};
             }
             auto l = dfs(root->left);
             auto r = dfs(root->right);
@@ -206,9 +224,9 @@ public:
             if (l[0] && r[0] && l[2] < v && v < r[1]) {
                 int s = l[3] + r[3] + v;
                 ans = max(ans, s);
-                return vector<int>{1, min(l[1], v), max(r[2], v), s};
+                return {1, min(l[1], v), max(r[2], v), s};
             }
-            return vector<int>(4);
+            return {0};
         };
         dfs(root);
         return ans;
@@ -265,23 +283,23 @@ func maxSumBST(root *TreeNode) (ans int) {
  */
 
 function maxSumBST(root: TreeNode | null): number {
-  const inf = 1 << 30;
-  let ans = 0;
-  const dfs = (root: TreeNode | null): [boolean, number, number, number] => {
-    if (!root) {
-      return [true, inf, -inf, 0];
-    }
-    const [lbst, lmi, lmx, ls] = dfs(root.left);
-    const [rbst, rmi, rmx, rs] = dfs(root.right);
-    if (lbst && rbst && lmx < root.val && root.val < rmi) {
-      const s = ls + rs + root.val;
-      ans = Math.max(ans, s);
-      return [true, Math.min(lmi, root.val), Math.max(rmx, root.val), s];
-    }
-    return [false, 0, 0, 0];
-  };
-  dfs(root);
-  return ans;
+    const inf = 1 << 30;
+    let ans = 0;
+    const dfs = (root: TreeNode | null): [boolean, number, number, number] => {
+        if (!root) {
+            return [true, inf, -inf, 0];
+        }
+        const [lbst, lmi, lmx, ls] = dfs(root.left);
+        const [rbst, rmi, rmx, rs] = dfs(root.right);
+        if (lbst && rbst && lmx < root.val && root.val < rmi) {
+            const s = ls + rs + root.val;
+            ans = Math.max(ans, s);
+            return [true, Math.min(lmi, root.val), Math.max(rmx, root.val), s];
+        }
+        return [false, 0, 0, 0];
+    };
+    dfs(root);
+    return ans;
 }
 ```
 

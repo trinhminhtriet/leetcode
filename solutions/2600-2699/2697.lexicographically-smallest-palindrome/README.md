@@ -1,76 +1,80 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2697.Lexicographically%20Smallest%20Palindrome/README.md
 rating: 1303
-source: Weekly Contest 346 Q2
+source: 第 346 场周赛 Q2
 tags:
-  - Greedy
-  - Two Pointers
-  - String
+    - 贪心
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2697. Lexicographically Smallest Palindrome](https://leetcode.com/problems/lexicographically-smallest-palindrome)
+# [2697. 字典序最小回文串](https://leetcode.cn/problems/lexicographically-smallest-palindrome)
 
-## Description
+[English Version](/solution/2600-2699/2697.Lexicographically%20Smallest%20Palindrome/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code node="[object Object]">s</code> consisting of <strong>lowercase English letters</strong>, and you are allowed to perform operations on it. In one operation, you can <strong>replace</strong> a character in <code node="[object Object]">s</code> with another lowercase English letter.</p>
+<p>给你一个由 <strong>小写英文字母</strong> 组成的字符串 <code>s</code> ，你可以对其执行一些操作。在一步操作中，你可以用其他小写英文字母 <strong>替换</strong>&nbsp; <code>s</code> 中的一个字符。</p>
 
-<p>Your task is to make <code node="[object Object]">s</code> a <strong>palindrome</strong> with the <strong>minimum</strong> <strong>number</strong> <strong>of operations</strong> possible. If there are <strong>multiple palindromes</strong> that can be <meta charset="utf-8" />made using the <strong>minimum</strong> number of operations, <meta charset="utf-8" />make the <strong>lexicographically smallest</strong> one.</p>
+<p>请你执行 <strong>尽可能少的操作</strong> ，使 <code>s</code> 变成一个 <strong>回文串</strong> 。如果执行 <strong>最少</strong> 操作次数的方案不止一种，则只需选取 <strong>字典序最小</strong> 的方案。</p>
 
-<p>A string <code>a</code> is lexicographically smaller than a string <code>b</code> (of the same length) if in the first position where <code>a</code> and <code>b</code> differ, string <code>a</code> has a letter that appears earlier in the alphabet than the corresponding letter in <code>b</code>.</p>
+<p>对于两个长度相同的字符串 <code>a</code> 和 <code>b</code> ，在 <code>a</code> 和 <code>b</code> 出现不同的第一个位置，如果该位置上 <code>a</code> 中对应字母比 <code>b</code> 中对应字母在字母表中出现顺序更早，则认为 <code>a</code> 的字典序比 <code>b</code> 的字典序要小。</p>
 
-<p>Return <em>the resulting palindrome string.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;egcfe&quot;
-<strong>Output:</strong> &quot;efcfe&quot;
-<strong>Explanation:</strong> The minimum number of operations to make &quot;egcfe&quot; a palindrome is 1, and the lexicographically smallest palindrome string we can get by modifying one character is &quot;efcfe&quot;, by changing &#39;g&#39;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;abcd&quot;
-<strong>Output:</strong> &quot;abba&quot;
-<strong>Explanation:</strong> The minimum number of operations to make &quot;abcd&quot; a palindrome is 2, and the lexicographically smallest palindrome string we can get by modifying two characters is &quot;abba&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;seven&quot;
-<strong>Output:</strong> &quot;neven&quot;
-<strong>Explanation:</strong> The minimum number of operations to make &quot;seven&quot; a palindrome is 1, and the lexicographically smallest palindrome string we can get by modifying one character is &quot;neven&quot;.
-</pre>
+<p>返回最终的回文字符串。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "egcfe"
+<strong>输出：</strong>"efcfe"
+<strong>解释：</strong>将 "egcfe" 变成回文字符串的最小操作次数为 1 ，修改 1 次得到的字典序最小回文字符串是 "efcfe"，只需将 'g' 改为 'f' 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "abcd"
+<strong>输出：</strong>"abba"
+<strong>解释：</strong>将 "abcd" 变成回文字符串的最小操作次数为 2 ，修改 2 次得到的字典序最小回文字符串是 "abba" 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "seven"
+<strong>输出：</strong>"neven"
+<strong>解释：</strong>将 "seven" 变成回文字符串的最小操作次数为 1 ，修改 1 次得到的字典序最小回文字符串是 "neven" 。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code>&nbsp;consists of only lowercase English letters<b>.</b></li>
+	<li><code>s</code> 仅由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Two Pointers
+### 方法一：贪心 + 双指针
 
-We use two pointers $i$ and $j$ to point to the beginning and end of the string, initially $i = 0$, $j = n - 1$.
+我们用两个指针 $i$ 和 $j$ 分别指向字符串的首尾，初始时 $i = 0$, $j = n - 1$。
 
-Next, each time we greedily modify $s[i]$ and $s[j]$ to their smaller value to make them equal. Then we move $i$ one step forward and $j$ one step backward, and continue this process until $i \ge j$. At this point, we have obtained the smallest palindrome string.
+接下来，我们每一次都贪心地将 $s[i]$ 和 $s[j]$ 修改为它们中的较小值，使得它们相等。然后将 $i$ 向后移动一位，将 $j$ 向前移动一位，继续进行这一过程，直到 $i \ge j$ 为止。此时，我们就得到了最小的回文串。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串的长度。
 
 <!-- tabs:start -->
 
@@ -132,11 +136,11 @@ func makeSmallestPalindrome(s string) string {
 
 ```ts
 function makeSmallestPalindrome(s: string): string {
-  const cs = s.split("");
-  for (let i = 0, j = s.length - 1; i < j; ++i, --j) {
-    cs[i] = cs[j] = s[i] < s[j] ? s[i] : s[j];
-  }
-  return cs.join("");
+    const cs = s.split('');
+    for (let i = 0, j = s.length - 1; i < j; ++i, --j) {
+        cs[i] = cs[j] = s[i] < s[j] ? s[i] : s[j];
+    }
+    return cs.join('');
 }
 ```
 

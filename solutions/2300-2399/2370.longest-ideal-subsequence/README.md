@@ -1,68 +1,81 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2370.Longest%20Ideal%20Subsequence/README.md
 rating: 1834
-source: Weekly Contest 305 Q4
+source: 第 305 场周赛 Q4
 tags:
-  - Hash Table
-  - String
-  - Dynamic Programming
+    - 哈希表
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2370. Longest Ideal Subsequence](https://leetcode.com/problems/longest-ideal-subsequence)
+# [2370. 最长理想子序列](https://leetcode.cn/problems/longest-ideal-subsequence)
 
-## Description
+[English Version](/solution/2300-2399/2370.Longest%20Ideal%20Subsequence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> consisting of lowercase letters and an integer <code>k</code>. We call a string <code>t</code> <strong>ideal</strong> if the following conditions are satisfied:</p>
+<p>给你一个由小写字母组成的字符串 <code>s</code> ，和一个整数 <code>k</code> 。如果满足下述条件，则可以将字符串 <code>t</code> 视作是 <strong>理想字符串</strong> ：</p>
 
 <ul>
-	<li><code>t</code> is a <strong>subsequence</strong> of the string <code>s</code>.</li>
-	<li>The absolute difference in the alphabet order of every two <strong>adjacent</strong> letters in <code>t</code> is less than or equal to <code>k</code>.</li>
+	<li><code>t</code> 是字符串 <code>s</code> 的一个子序列。</li>
+	<li><code>t</code> 中每两个 <strong>相邻</strong> 字母在字母表中位次的绝对差值小于或等于 <code>k</code> 。</li>
 </ul>
 
-<p>Return <em>the length of the <strong>longest</strong> ideal string</em>.</p>
+<p>返回 <strong>最长</strong> 理想字符串的长度。</p>
 
-<p>A <strong>subsequence</strong> is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters.</p>
+<p>字符串的子序列同样是一个字符串，并且子序列还满足：可以经由其他字符串删除某些字符（也可以不删除）但不改变剩余字符的顺序得到。</p>
 
-<p><strong>Note</strong> that the alphabet order is not cyclic. For example, the absolute difference in the alphabet order of <code>&#39;a&#39;</code> and <code>&#39;z&#39;</code> is <code>25</code>, not <code>1</code>.</p>
+<p><strong>注意：</strong>字母表顺序不会循环。例如，<code>'a'</code> 和 <code>'z'</code> 在字母表中位次的绝对差值是 <code>25</code> ，而不是 <code>1</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;acfgbd&quot;, k = 2
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The longest ideal string is &quot;acbd&quot;. The length of this string is 4, so 4 is returned.
-Note that &quot;acfgbd&quot; is not ideal because &#39;c&#39; and &#39;f&#39; have a difference of 3 in alphabet order.</pre>
+<strong>输入：</strong>s = "acfgbd", k = 2
+<strong>输出：</strong>4
+<strong>解释：</strong>最长理想字符串是 "acbd" 。该字符串长度为 4 ，所以返回 4 。
+注意 "acfgbd" 不是理想字符串，因为 'c' 和 'f' 的字母表位次差值为 3 。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;abcd&quot;, k = 3
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The longest ideal string is &quot;abcd&quot;. The length of this string is 4, so 4 is returned.
+<strong>输入：</strong>s = "abcd", k = 3
+<strong>输出：</strong>4
+<strong>解释：</strong>最长理想字符串是 "abcd" ，该字符串长度为 4 ，所以返回 4 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= k &lt;= 25</code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code> 由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：动态规划
+
+设 $dp[i]$ 表示以字符 $s[i]$ 结尾的最长理想子序列的长度，利用哈希表 $d$ 记录每个字符最新出现的位置。初始时 $dp[0]=1$, $d[s[0]]=0$。
+
+在 $[1,..n-1]$ 范围内的每个字符 $s[i]$，获取它所有前一个合法字符的位置 $j$，那么 $dp[i]=max(dp[i], dp[j]+1)$。
+
+答案为 $dp$ 中的最大值。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -172,19 +185,19 @@ func longestIdealString(s string, k int) int {
 
 ```ts
 function longestIdealString(s: string, k: number): number {
-  const dp = new Array(26).fill(0);
-  for (const c of s) {
-    const x = c.charCodeAt(0) - "a".charCodeAt(0);
-    let t = 0;
-    for (let i = 0; i < 26; i++) {
-      if (Math.abs(x - i) <= k) {
-        t = Math.max(t, dp[i] + 1);
-      }
+    const dp = new Array(26).fill(0);
+    for (const c of s) {
+        const x = c.charCodeAt(0) - 'a'.charCodeAt(0);
+        let t = 0;
+        for (let i = 0; i < 26; i++) {
+            if (Math.abs(x - i) <= k) {
+                t = Math.max(t, dp[i] + 1);
+            }
+        }
+        dp[x] = Math.max(dp[x], t);
     }
-    dp[x] = Math.max(dp[x], t);
-  }
 
-  return dp.reduce((r, c) => Math.max(r, c), 0);
+    return dp.reduce((r, c) => Math.max(r, c), 0);
 }
 ```
 

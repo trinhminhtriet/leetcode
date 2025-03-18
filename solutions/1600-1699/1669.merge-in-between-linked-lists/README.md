@@ -1,47 +1,54 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1669.Merge%20In%20Between%20Linked%20Lists/README.md
 rating: 1428
-source: Biweekly Contest 40 Q2
+source: 第 40 场双周赛 Q2
 tags:
-  - Linked List
+    - 链表
 ---
 
 <!-- problem:start -->
 
-# [1669. Merge In Between Linked Lists](https://leetcode.com/problems/merge-in-between-linked-lists)
+# [1669. 合并两个链表](https://leetcode.cn/problems/merge-in-between-linked-lists)
 
-## Description
+[English Version](/solution/1600-1699/1669.Merge%20In%20Between%20Linked%20Lists/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two linked lists: <code>list1</code> and <code>list2</code> of sizes <code>n</code> and <code>m</code> respectively.</p>
+<p>给你两个链表&nbsp;<code>list1</code> 和&nbsp;<code>list2</code>&nbsp;，它们包含的元素分别为&nbsp;<code>n</code> 个和&nbsp;<code>m</code> 个。</p>
 
-<p>Remove <code>list1</code>&#39;s nodes from the <code>a<sup>th</sup></code> node to the <code>b<sup>th</sup></code> node, and put <code>list2</code> in their place.</p>
+<p>请你将&nbsp;<code>list1</code>&nbsp;中下标从 <code>a</code> 到 <code>b</code> 的全部节点都删除，并将<code>list2</code>&nbsp;接在被删除节点的位置。</p>
 
-<p>The blue edges and nodes in the following figure indicate the result:</p>
+<p>下图中蓝色边和节点展示了操作后的结果：</p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1669.Merge%20In%20Between%20Linked%20Lists/images/fig1.png" style="height: 130px; width: 504px;" />
-<p><em>Build the result list and return its head.</em></p>
+<p>请你返回结果链表的头指针。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1669.Merge%20In%20Between%20Linked%20Lists/images/ll.png" style="width: 609px; height: 210px;" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1669.Merge%20In%20Between%20Linked%20Lists/images/1709608717-NVGojm-image.png" style="width: 450px; height: 155px;" /></p>
+
 <pre>
-<strong>Input:</strong> list1 = [10,1,13,6,9,5], a = 3, b = 4, list2 = [1000000,1000001,1000002]
-<strong>Output:</strong> [10,1,13,1000000,1000001,1000002,5]
-<strong>Explanation:</strong> We remove the nodes 3 and 4 and put the entire list2 in their place. The blue edges and nodes in the above figure indicate the result.
+<b>输入：</b>list1 = [10,1,13,6,9,5], a = 3, b = 4, list2 = [1000000,1000001,1000002]
+<b>输出：</b>[10,1,13,1000000,1000001,1000002,5]
+<b>解释：</b>我们删除 list1 中下标为 3 和 4 的两个节点，并将 list2 接在该位置。上图中蓝色的边和节点为答案链表。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1669.Merge%20In%20Between%20Linked%20Lists/images/merge_linked_list_ex2.png" style="width: 463px; height: 140px;" />
 <pre>
-<strong>Input:</strong> list1 = [0,1,2,3,4,5,6], a = 2, b = 5, list2 = [1000000,1000001,1000002,1000003,1000004]
-<strong>Output:</strong> [0,1,1000000,1000001,1000002,1000003,1000004,6]
-<strong>Explanation:</strong> The blue edges and nodes in the above figure indicate the result.
+<b>输入：</b>list1 = [0,1,2,3,4,5,6], a = 2, b = 5, list2 = [1000000,1000001,1000002,1000003,1000004]
+<b>输出：</b>[0,1,1000000,1000001,1000002,1000003,1000004,6]
+<b>解释：</b>上图中蓝色的边和节点为答案链表。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= list1.length &lt;= 10<sup>4</sup></code></li>
@@ -51,19 +58,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can directly simulate the operations described in the problem.
+直接模拟题目中的操作即可。
 
-In the implementation, we use two pointers $p$ and $q$, both initially pointing to the head node of `list1`.
+在实现上，我们使用两个指针 $p$ 和 $q$，初始时均指向链表 `list1` 的头节点。
 
-Then we move pointers $p$ and $q$ forward, until pointer $p$ points to the node before the $a$-th node in `list1`, and pointer $q$ points to the $b$-th node in `list1`. At this point, we set the `next` pointer of $p$ to the head node of `list2`, and set the `next` pointer of the tail node of `list2` to the node pointed to by the `next` pointer of $q$. This completes the operation required by the problem.
+然后我们向后移动指针 $p$ 和 $q$，直到指针 $p$ 指向链表 `list1` 中第 $a$ 个节点的前一个节点，指针 $q$ 指向链表 `list1` 中第 $b$ 个节点。此时我们将 $p$ 的 `next` 指针指向链表 `list2` 的头节点，将链表 `list2` 的尾节点的 `next` 指针指向 $q$ 的 `next` 指针指向的节点，即可完成题目要求。
 
-The time complexity is $O(m + n)$, and the space complexity is $O(1)$. Where $m$ and $n$ are the lengths of `list1` and `list2` respectively.
+时间复杂度 $O(m + n)$，空间复杂度 $O(1)$。其中 $m$ 和 $n$ 分别为链表 `list1` 和 `list2` 的长度。
 
 <!-- tabs:start -->
 
@@ -203,26 +210,26 @@ func mergeInBetween(list1 *ListNode, a int, b int, list2 *ListNode) *ListNode {
  */
 
 function mergeInBetween(
-  list1: ListNode | null,
-  a: number,
-  b: number,
-  list2: ListNode | null
+    list1: ListNode | null,
+    a: number,
+    b: number,
+    list2: ListNode | null,
 ): ListNode | null {
-  let p = list1;
-  let q = list1;
-  while (--a > 0) {
-    p = p.next;
-  }
-  while (b-- > 0) {
-    q = q.next;
-  }
-  p.next = list2;
-  while (p.next) {
-    p = p.next;
-  }
-  p.next = q.next;
-  q.next = null;
-  return list1;
+    let p = list1;
+    let q = list1;
+    while (--a > 0) {
+        p = p.next;
+    }
+    while (b-- > 0) {
+        q = q.next;
+    }
+    p.next = list2;
+    while (p.next) {
+        p = p.next;
+    }
+    p.next = q.next;
+    q.next = null;
+    return list1;
 }
 ```
 

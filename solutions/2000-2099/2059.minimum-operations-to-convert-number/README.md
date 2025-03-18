@@ -1,83 +1,92 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2059.Minimum%20Operations%20to%20Convert%20Number/README.md
 rating: 1849
-source: Weekly Contest 265 Q3
+source: 第 265 场周赛 Q3
 tags:
-  - Breadth-First Search
-  - Array
+    - 广度优先搜索
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [2059. Minimum Operations to Convert Number](https://leetcode.com/problems/minimum-operations-to-convert-number)
+# [2059. 转化数字的最小运算数](https://leetcode.cn/problems/minimum-operations-to-convert-number)
 
-## Description
+[English Version](/solution/2000-2099/2059.Minimum%20Operations%20to%20Convert%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> containing <strong>distinct</strong> numbers, an integer <code>start</code>, and an integer <code>goal</code>. There is an integer <code>x</code> that is initially set to <code>start</code>, and you want to perform operations on <code>x</code> such that it is converted to <code>goal</code>. You can perform the following operation repeatedly on the number <code>x</code>:</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，该数组由 <strong>互不相同</strong> 的数字组成。另给你两个整数 <code>start</code> 和 <code>goal</code> 。</p>
 
-<p>If <code>0 &lt;= x &lt;= 1000</code>, then for any index <code>i</code> in the array (<code>0 &lt;= i &lt; nums.length</code>), you can set <code>x</code> to any of the following:</p>
+<p>整数 <code>x</code> 的值最开始设为 <code>start</code> ，你打算执行一些运算使 <code>x</code> 转化为 <code>goal</code> 。你可以对数字 <code>x</code> 重复执行下述运算：</p>
+
+<p>如果 <code>0 &lt;= x &lt;= 1000</code> ，那么，对于数组中的任一下标 <code>i</code>（<code>0 &lt;= i &lt; nums.length</code>），可以将 <code>x</code> 设为下述任一值：</p>
 
 <ul>
 	<li><code>x + nums[i]</code></li>
 	<li><code>x - nums[i]</code></li>
-	<li><code>x ^ nums[i]</code> (bitwise-XOR)</li>
+	<li><code>x ^ nums[i]</code>（按位异或 XOR）</li>
 </ul>
 
-<p>Note that you can use each <code>nums[i]</code> any number of times in any order. Operations that set <code>x</code> to be out of the range <code>0 &lt;= x &lt;= 1000</code> are valid, but no more operations can be done afterward.</p>
+<p>注意，你可以按任意顺序使用每个 <code>nums[i]</code> 任意次。使 <code>x</code> 越过 <code>0 &lt;= x &lt;= 1000</code> 范围的运算同样可以生效，但该该运算执行后将不能执行其他运算。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of operations needed to convert </em><code>x = start</code><em> into </em><code>goal</code><em>, and </em><code>-1</code><em> if it is not possible</em>.</p>
+<p>返回将 <code>x = start</code><em> </em>转化为<em> </em><code>goal</code><em> </em>的最小操作数；如果无法完成转化，则返回<em> </em><code>-1</code><em> </em>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,4,12], start = 2, goal = 12
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We can go from 2 &rarr; 14 &rarr; 12 with the following 2 operations.
+<strong>输入：</strong>nums = [2,4,12], start = 2, goal = 12
+<strong>输出：</strong>2
+<strong>解释：</strong>
+可以按 2 → 14 → 12 的转化路径进行，只需执行下述 2 次运算：
 - 2 + 12 = 14
 - 14 - 2 = 12
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,5,7], start = 0, goal = -4
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We can go from 0 &rarr; 3 &rarr; -4 with the following 2 operations. 
+<strong>输入：</strong>nums = [3,5,7], start = 0, goal = -4
+<strong>输出：</strong>2
+<strong>解释：</strong>
+可以按 0 → 3 → -4 的转化路径进行，只需执行下述 2 次运算：
 - 0 + 3 = 3
 - 3 - 7 = -4
-Note that the last operation sets x out of the range 0 &lt;= x &lt;= 1000, which is valid.
+注意，最后一步运算使 x 超过范围 0 &lt;= x &lt;= 1000 ，但该运算仍然可以生效。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,8,16], start = 0, goal = 1
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> There is no way to convert 0 into 1.
-</pre>
+<strong>输入：</strong>nums = [2,8,16], start = 0, goal = 1
+<strong>输出：</strong>-1
+<strong>解释：</strong>
+无法将 0 转化为 1</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>-10<sup>9</sup> &lt;= nums[i], goal &lt;= 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= start &lt;= 1000</code></li>
 	<li><code>start != goal</code></li>
-	<li>All the integers in <code>nums</code> are distinct.</li>
+	<li><code>nums</code> 中的所有整数互不相同</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -214,41 +223,37 @@ func minimumOperations(nums []int, start int, goal int) int {
 #### TypeScript
 
 ```ts
-function minimumOperations(
-  nums: number[],
-  start: number,
-  goal: number
-): number {
-  const n = nums.length;
-  const op1 = function (x: number, y: number): number {
-    return x + y;
-  };
-  const op2 = function (x: number, y: number): number {
-    return x - y;
-  };
-  const op3 = function (x: number, y: number): number {
-    return x ^ y;
-  };
-  const ops = [op1, op2, op3];
-  let vis = new Array(1001).fill(false);
-  let quenue: Array<Array<number>> = [[start, 0]];
-  vis[start] = true;
-  while (quenue.length) {
-    let [x, step] = quenue.shift();
-    for (let i = 0; i < n; i++) {
-      for (let j = 0; j < ops.length; j++) {
-        const nx = ops[j](x, nums[i]);
-        if (nx == goal) {
-          return step + 1;
+function minimumOperations(nums: number[], start: number, goal: number): number {
+    const n = nums.length;
+    const op1 = function (x: number, y: number): number {
+        return x + y;
+    };
+    const op2 = function (x: number, y: number): number {
+        return x - y;
+    };
+    const op3 = function (x: number, y: number): number {
+        return x ^ y;
+    };
+    const ops = [op1, op2, op3];
+    let vis = new Array(1001).fill(false);
+    let quenue: Array<Array<number>> = [[start, 0]];
+    vis[start] = true;
+    while (quenue.length) {
+        let [x, step] = quenue.shift();
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < ops.length; j++) {
+                const nx = ops[j](x, nums[i]);
+                if (nx == goal) {
+                    return step + 1;
+                }
+                if (nx >= 0 && nx <= 1000 && !vis[nx]) {
+                    vis[nx] = true;
+                    quenue.push([nx, step + 1]);
+                }
+            }
         }
-        if (nx >= 0 && nx <= 1000 && !vis[nx]) {
-          vis[nx] = true;
-          quenue.push([nx, step + 1]);
-        }
-      }
     }
-  }
-  return -1;
+    return -1;
 }
 ```
 
@@ -258,7 +263,7 @@ function minimumOperations(
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -408,7 +413,7 @@ func minimumOperations(nums []int, start int, goal int) int {
 
 <!-- solution:start -->
 
-### Solution 3
+### 方法三
 
 <!-- tabs:start -->
 

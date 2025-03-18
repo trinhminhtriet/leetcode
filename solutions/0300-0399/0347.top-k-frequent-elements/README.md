@@ -1,63 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0347.Top%20K%20Frequent%20Elements/README.md
 tags:
-  - Array
-  - Hash Table
-  - Divide and Conquer
-  - Bucket Sort
-  - Counting
-  - Quickselect
-  - Sorting
-  - Heap (Priority Queue)
+    - 数组
+    - 哈希表
+    - 分治
+    - 桶排序
+    - 计数
+    - 快速选择
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [347. Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements)
+# [347. 前 K 个高频元素](https://leetcode.cn/problems/top-k-frequent-elements)
 
-## Description
+[English Version](/solution/0300-0399/0347.Top%20K%20Frequent%20Elements/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the</em> <code>k</code> <em>most frequent elements</em>. You may return the answer in <strong>any order</strong>.</p>
+<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> ，请你返回其中出现频率前 <code>k</code> 高的元素。你可以按 <strong>任意顺序</strong> 返回答案。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> nums = [1,1,1,2,2,3], k = 2
-<strong>Output:</strong> [1,2]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> nums = [1], k = 1
-<strong>Output:</strong> [1]
+<p> </p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入: </strong>nums = [1,1,1,2,2,3], k = 2
+<strong>输出: </strong>[1,2]
 </pre>
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入: </strong>nums = [1], k = 1
+<strong>输出: </strong>[1]</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>k</code> is in the range <code>[1, the number of unique elements in the array]</code>.</li>
-	<li>It is <strong>guaranteed</strong> that the answer is <strong>unique</strong>.</li>
+	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
+	<li><code>k</code> 的取值范围是 <code>[1, 数组中不相同的元素的个数]</code></li>
+	<li>题目数据保证答案唯一，换句话说，数组中前 <code>k</code> 个高频元素的集合是唯一的</li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong>Follow up:</strong> Your algorithm&#39;s time complexity must be better than <code>O(n log n)</code>, where n is the array&#39;s size.</p>
+<p> </p>
+
+<p><strong>进阶：</strong>你所设计算法的时间复杂度 <strong>必须</strong> 优于 <code>O(n log n)</code> ，其中 <code>n</code><em> </em>是数组大小。</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Priority Queue (Min Heap)
+### 方法一：哈希表 + 优先队列（小根堆）
 
-We can use a hash table $\textit{cnt}$ to count the occurrence of each element, and then use a min heap (priority queue) to store the top $k$ frequent elements.
+我们可以使用一个哈希表 $\textit{cnt}$ 统计每个元素出现的次数，然后使用一个小根堆（优先队列）来保存前 $k$ 个高频元素。
 
-First, we traverse the array once to count the occurrence of each element. Then, we iterate through the hash table, storing each element and its count into the min heap. If the size of the min heap exceeds $k$, we pop the top element of the heap to ensure the heap size is always $k$.
+我们首先遍历一遍数组，统计每个元素出现的次数，然后遍历哈希表，将元素和出现次数存入小根堆中。如果小根堆的大小超过了 $k$，我们就将堆顶元素弹出，保证堆的大小始终为 $k$。
 
-Finally, we pop the elements from the min heap one by one and place them into the result array.
+最后，我们将小根堆中的元素依次弹出，放入结果数组中即可。
 
-The time complexity is $O(n \log k)$, and the space complexity is $O(k)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n \times \log k)$，空间复杂度 $O(k)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -156,18 +167,18 @@ func (h *hp) Pop() any          { a := *h; v := a[len(a)-1]; *h = a[:len(a)-1]; 
 
 ```ts
 function topKFrequent(nums: number[], k: number): number[] {
-  const cnt = new Map<number, number>();
-  for (const x of nums) {
-    cnt.set(x, (cnt.get(x) ?? 0) + 1);
-  }
-  const pq = new MinPriorityQueue();
-  for (const [x, c] of cnt) {
-    pq.enqueue(x, c);
-    if (pq.size() > k) {
-      pq.dequeue();
+    const cnt = new Map<number, number>();
+    for (const x of nums) {
+        cnt.set(x, (cnt.get(x) ?? 0) + 1);
     }
-  }
-  return pq.toArray().map((x) => x.element);
+    const pq = new MinPriorityQueue();
+    for (const [x, c] of cnt) {
+        pq.enqueue(x, c);
+        if (pq.size() > k) {
+            pq.dequeue();
+        }
+    }
+    return pq.toArray().map(x => x.element);
 }
 ```
 

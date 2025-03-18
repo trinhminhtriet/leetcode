@@ -1,44 +1,48 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0188.Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV/README.md
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [188. Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv)
+# [188. 买卖股票的最佳时机 IV](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv)
 
-## Description
+[English Version](/solution/0100-0199/0188.Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>prices</code> where <code>prices[i]</code> is the price of a given stock on the <code>i<sup>th</sup></code> day, and an integer <code>k</code>.</p>
+<p>给你一个整数数组&nbsp;<code>prices</code> 和一个整数 <code>k</code> ，其中 <code>prices[i]</code> 是某支给定的股票在第 <code>i</code><em> </em>天的价格。</p>
 
-<p>Find the maximum profit you can achieve. You may complete at most <code>k</code> transactions: i.e. you may buy at most <code>k</code> times and sell at most <code>k</code> times.</p>
+<p>设计一个算法来计算你所能获取的最大利润。你最多可以完成 <code>k</code> 笔交易。也就是说，你最多可以买 <code>k</code> 次，卖 <code>k</code> 次。</p>
 
-<p><strong>Note:</strong> You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> k = 2, prices = [2,4,1]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> k = 2, prices = [3,2,6,5,0,3]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-2 = 4. Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
-</pre>
+<p><strong>注意：</strong>你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>k = 2, prices = [2,4,1]
+<strong>输出：</strong>2
+<strong>解释：</strong>在第 1 天 (股票价格 = 2) 的时候买入，在第 2 天 (股票价格 = 4) 的时候卖出，这笔交易所能获得利润 = 4-2 = 2 。</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>k = 2, prices = [3,2,6,5,0,3]
+<strong>输出：</strong>7
+<strong>解释：</strong>在第 2 天 (股票价格 = 2) 的时候买入，在第 3 天 (股票价格 = 6) 的时候卖出, 这笔交易所能获得利润 = 6-2 = 4 。
+     随后，在第 5 天 (股票价格 = 0) 的时候买入，在第 6 天 (股票价格 = 3) 的时候卖出, 这笔交易所能获得利润 = 3-0 = 3 。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= 100</code></li>
@@ -48,26 +52,26 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-We design a function $dfs(i, j, k)$ to represent the maximum profit that can be obtained when starting from day $i$, completing at most $j$ transactions, and holding the stock with the current state $k$ (not holding the stock is represented by $0$, and holding the stock is represented by $1$). The answer is $dfs(0, k, 0)$.
+我们设计一个函数 $dfs(i, j, k)$，表示从第 $i$ 天开始，最多完成 $j$ 笔交易，以及当前持有股票的状态为 $k$（不持有股票用 $0$ 表示，持有股票用 $1$ 表示）时，所能获得的最大利润。答案即为 $dfs(0, k, 0)$。
 
-The execution logic of the function $dfs(i, j, k)$ is as follows:
+函数 $dfs(i, j, k)$ 的执行逻辑如下：
 
-- If $i$ is greater than or equal to $n$, return $0$ directly.
-- The i-th day can choose not to do anything, then $dfs(i, j, k) = dfs(i + 1, j, k)$.
-- If $k > 0$, the i-th day can choose to sell the stock, then $dfs(i, j, k) = \max(dfs(i + 1, j - 1, 0) + prices[i], dfs(i + 1, j, k))$.
-- Otherwise, if $j > 0$, the i-th day can choose to buy the stock, then $dfs(i, j, k) = \max(dfs(i + 1, j - 1, 1) - prices[i], dfs(i + 1, j, k))$.
+-   如果 $i$ 大于等于 $n$，直接返回 $0$；
+-   第 $i$ 天可以不进行任何操作，那么 $dfs(i, j, k) = dfs(i + 1, j, k)$；
+-   如果 $k \gt 0$，那么第 $i$ 天可以选择卖出股票，那么 $dfs(i, j, k) = \max(dfs(i + 1, j - 1, 0) + prices[i], dfs(i + 1, j, k))$；
+-   否则，如果 $j \gt 0$，那么第 $i$ 天可以选择买入股票，那么 $dfs(i, j, k) = \max(dfs(i + 1, j - 1, 1) - prices[i], dfs(i + 1, j, k))$。
 
-The value of $dfs(i, j, k)$ is the maximum value of the above three cases.
+取上述三种情况的最大值即为 $dfs(i, j, k)$ 的值。
 
-During the process, we can use memoization search to save the results of each calculation to avoid repeated calculations.
+过程中，我们可以使用记忆化搜索的方法，将每次计算的结果保存下来，避免重复计算。
 
-The time complexity is $O(n \times k)$, and the space complexity is $O(n \times k)$, where $n$ and $k$ are the length of the prices array and the value of $k$, respectively.
+时间复杂度 $O(n \times k)$，空间复杂度 $O(n \times k)$。其中 $n$ 和 $k$ 分别为数组 $prices$ 的长度和 $k$ 的值。
 
 <!-- tabs:start -->
 
@@ -189,26 +193,26 @@ func maxProfit(k int, prices []int) int {
 
 ```ts
 function maxProfit(k: number, prices: number[]): number {
-  const n = prices.length;
-  const f = Array.from({ length: n }, () =>
-    Array.from({ length: k + 1 }, () => Array.from({ length: 2 }, () => -1))
-  );
-  const dfs = (i: number, j: number, k: number): number => {
-    if (i >= n) {
-      return 0;
-    }
-    if (f[i][j][k] !== -1) {
-      return f[i][j][k];
-    }
-    let ans = dfs(i + 1, j, k);
-    if (k) {
-      ans = Math.max(ans, prices[i] + dfs(i + 1, j, 0));
-    } else if (j) {
-      ans = Math.max(ans, -prices[i] + dfs(i + 1, j - 1, 1));
-    }
-    return (f[i][j][k] = ans);
-  };
-  return dfs(0, k, 0);
+    const n = prices.length;
+    const f = Array.from({ length: n }, () =>
+        Array.from({ length: k + 1 }, () => Array.from({ length: 2 }, () => -1)),
+    );
+    const dfs = (i: number, j: number, k: number): number => {
+        if (i >= n) {
+            return 0;
+        }
+        if (f[i][j][k] !== -1) {
+            return f[i][j][k];
+        }
+        let ans = dfs(i + 1, j, k);
+        if (k) {
+            ans = Math.max(ans, prices[i] + dfs(i + 1, j, 0));
+        } else if (j) {
+            ans = Math.max(ans, -prices[i] + dfs(i + 1, j - 1, 1));
+        }
+        return (f[i][j][k] = ans);
+    };
+    return dfs(0, k, 0);
 }
 ```
 
@@ -258,18 +262,18 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We can also use dynamic programming to define $f[i][j][k]$ as the maximum profit that can be obtained when completing at most j transactions (here we define the number of transactions as the number of purchases), and holding the stock with the current state k on the i-th day. The initial value of $f[i][j][k]$ is 0. The answer is $f[n - 1][k][0]$.
+我们也可以使用动态规划的方法，定义 $f[i][j][k]$ 表示到第 $i$ 天时，最多交易 $j$ 次（这里我们规定交易次数等于买入次数），且当前持有股票的状态为 $k$ 时，所能获得的最大利润。初始时 $f[i][j][k]=0$。答案即为 $f[n - 1][k][0]$。
 
-When $i = 0$, the stock price is $prices[0]$. For any $j$ \in [1, k]$, we have $f[0][j][1] = -prices[0]$, which means buying the stock on the 0-th day with a profit of $-prices[0]$.
+当 $i = 0$ 时，股票价格为 $prices[0]$，那么对任意 $j \in [1, k]$，我们有 $f[0][j][1] = -prices[0]$，表示第 $0$ 天买入股票，此时利润为 $-prices[0]$。
 
-When $i > 0$:
+当 $i \gt 0$ 时：
 
-- If the i-th day does not hold the stock, it may be that the stock was held on the i-1-th day and sold on the i-th day, or the stock was not held on the i-1-th day and no operation was performed on the i-th day. Therefore, $f[i][j][0] = \max(f[i - 1][j][1] + prices[i], f[i - 1][j][0])$.
-- If the i-th day holds the stock, it may be that the stock was not held on the i-1-th day and bought on the i-th day, or the stock was held on the i-1-th day and no operation was performed on the i-th day. Therefore, $f[i][j][1] = max(f[i - 1][j - 1][0] - prices[i], f[i - 1][j][1])$.
+-   如果第 $i$ 天不持有股票，可能是第 $i-1$ 天持有股票并且在第 $i$ 天卖出；或者第 $i-1$ 天没持有股票并且第 $i$ 天不进行任何操作。因此 $f[i][j][0] = \max(f[i - 1][j][1] + prices[i], f[i - 1][j][0])$；
+-   如果第 $i$ 天持有股票，可能是第 $i-1$ 天没持有股票并且在第 $i$ 天买入；或者第 $i-1$ 天持有股票并且第 $i$ 天不进行任何操作。因此 $f[i][j][1] = \max(f[i - 1][j - 1][0] - prices[i], f[i - 1][j][1])$。
 
-Therefore, when $i > 0$, we can get the state transition equation:
+综上，当 $i \gt 0$ 时，我们可以得到状态转移方程：
 
 $$
 \begin{aligned}
@@ -278,11 +282,11 @@ f[i][j][1] &= \max(f[i - 1][j - 1][0] - prices[i], f[i - 1][j][1])
 \end{aligned}
 $$
 
-The final answer is $f[n - 1][k][0]$.
+最后答案即为 $f[n - 1][k][0]$。
 
-The time complexity is $O(n \times k)$, and the space complexity is $O(n \times k)$, where $n$ and $k$ are the length of the prices array and the value of $k$, respectively.
+时间复杂度 $O(n \times k)$，空间复杂度 $O(n \times k)$。其中 $n$ 和 $k$ 分别为数组 $prices$ 的长度和 $k$ 的值。
 
-We notice that the state $f[i][]$ only depends on the state $f[i - 1][]$, so we can optimize the first dimension of the space and reduce the space complexity to $O(k)$.
+我们注意到，状态 $f[i][]$ 只与状态 $f[i - 1][]$ 有关，因此我们可以优化掉第一维的空间，将空间复杂度降至 $O(k)$。
 
 <!-- tabs:start -->
 
@@ -372,20 +376,20 @@ func maxProfit(k int, prices []int) int {
 
 ```ts
 function maxProfit(k: number, prices: number[]): number {
-  const n = prices.length;
-  const f = Array.from({ length: n }, () =>
-    Array.from({ length: k + 1 }, () => Array.from({ length: 2 }, () => 0))
-  );
-  for (let j = 1; j <= k; ++j) {
-    f[0][j][1] = -prices[0];
-  }
-  for (let i = 1; i < n; ++i) {
+    const n = prices.length;
+    const f = Array.from({ length: n }, () =>
+        Array.from({ length: k + 1 }, () => Array.from({ length: 2 }, () => 0)),
+    );
     for (let j = 1; j <= k; ++j) {
-      f[i][j][0] = Math.max(f[i - 1][j][1] + prices[i], f[i - 1][j][0]);
-      f[i][j][1] = Math.max(f[i - 1][j - 1][0] - prices[i], f[i - 1][j][1]);
+        f[0][j][1] = -prices[0];
     }
-  }
-  return f[n - 1][k][0];
+    for (let i = 1; i < n; ++i) {
+        for (let j = 1; j <= k; ++j) {
+            f[i][j][0] = Math.max(f[i - 1][j][1] + prices[i], f[i - 1][j][0]);
+            f[i][j][1] = Math.max(f[i - 1][j - 1][0] - prices[i], f[i - 1][j][1]);
+        }
+    }
+    return f[n - 1][k][0];
 }
 ```
 
@@ -416,7 +420,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 3
+### 方法三
 
 <!-- tabs:start -->
 
@@ -501,19 +505,17 @@ func maxProfit(k int, prices []int) int {
 
 ```ts
 function maxProfit(k: number, prices: number[]): number {
-  const f = Array.from({ length: k + 1 }, () =>
-    Array.from({ length: 2 }, () => 0)
-  );
-  for (let j = 1; j <= k; ++j) {
-    f[j][1] = -prices[0];
-  }
-  for (const x of prices.slice(1)) {
-    for (let j = k; j; --j) {
-      f[j][0] = Math.max(f[j][1] + x, f[j][0]);
-      f[j][1] = Math.max(f[j - 1][0] - x, f[j][1]);
+    const f = Array.from({ length: k + 1 }, () => Array.from({ length: 2 }, () => 0));
+    for (let j = 1; j <= k; ++j) {
+        f[j][1] = -prices[0];
     }
-  }
-  return f[k][0];
+    for (const x of prices.slice(1)) {
+        for (let j = k; j; --j) {
+            f[j][0] = Math.max(f[j][1] + x, f[j][0]);
+            f[j][1] = Math.max(f[j - 1][0] - x, f[j][1]);
+        }
+    }
+    return f[k][0];
 }
 ```
 

@@ -1,95 +1,100 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0468.Validate%20IP%20Address/README.md
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [468. Validate IP Address](https://leetcode.com/problems/validate-ip-address)
+# [468. 验证IP地址](https://leetcode.cn/problems/validate-ip-address)
 
-## Description
+[English Version](/solution/0400-0499/0468.Validate%20IP%20Address/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>queryIP</code>, return <code>&quot;IPv4&quot;</code> if IP is a valid IPv4 address, <code>&quot;IPv6&quot;</code> if IP is a valid IPv6 address or <code>&quot;Neither&quot;</code> if IP is not a correct IP of any type.</p>
+<p>给定一个字符串&nbsp;<code>queryIP</code>。如果是有效的 IPv4 地址，返回 <code>"IPv4"</code> ；如果是有效的 IPv6 地址，返回 <code>"IPv6"</code> ；如果不是上述类型的 IP 地址，返回 <code>"Neither"</code> 。</p>
 
-<p><strong>A valid IPv4</strong> address is an IP in the form <code>&quot;x<sub>1</sub>.x<sub>2</sub>.x<sub>3</sub>.x<sub>4</sub>&quot;</code> where <code>0 &lt;= x<sub>i</sub> &lt;= 255</code> and <code>x<sub>i</sub></code> <strong>cannot contain</strong> leading zeros. For example, <code>&quot;192.168.1.1&quot;</code> and <code>&quot;192.168.1.0&quot;</code> are valid IPv4 addresses while <code>&quot;192.168.01.1&quot;</code>, <code>&quot;192.168.1.00&quot;</code>, and <code>&quot;192.168@1.1&quot;</code> are invalid IPv4 addresses.</p>
+<p><strong>有效的IPv4地址</strong> 是 <code>“x1.x2.x3.x4”</code> 形式的IP地址。 其中&nbsp;<code>0 &lt;= x<sub>i</sub>&nbsp;&lt;= 255</code>&nbsp;且&nbsp;<code>x<sub>i</sub></code>&nbsp;<strong>不能包含</strong> 前导零。例如:&nbsp;<code>“192.168.1.1”</code>&nbsp;、 <code>“192.168.1.0”</code> 为有效IPv4地址， <code>“192.168.01.1”</code> 为无效IPv4地址; <code>“192.168.1.00”</code> 、 <code>“192.168@1.1”</code> 为无效IPv4地址。</p>
 
-<p><strong>A valid IPv6</strong> address is an IP in the form <code>&quot;x<sub>1</sub>:x<sub>2</sub>:x<sub>3</sub>:x<sub>4</sub>:x<sub>5</sub>:x<sub>6</sub>:x<sub>7</sub>:x<sub>8</sub>&quot;</code> where:</p>
+<p><strong>一个有效的IPv6地址&nbsp;</strong>是一个格式为<code>“x1:x2:x3:x4:x5:x6:x7:x8”</code> 的IP地址，其中:</p>
 
 <ul>
 	<li><code>1 &lt;= x<sub>i</sub>.length &lt;= 4</code></li>
-	<li><code>x<sub>i</sub></code> is a <strong>hexadecimal string</strong> which may contain digits, lowercase English letter (<code>&#39;a&#39;</code> to <code>&#39;f&#39;</code>) and upper-case English letters (<code>&#39;A&#39;</code> to <code>&#39;F&#39;</code>).</li>
-	<li>Leading zeros are allowed in <code>x<sub>i</sub></code>.</li>
+	<li><code>x<sub>i</sub></code>&nbsp;是一个 <strong>十六进制字符串</strong> ，可以包含数字、小写英文字母( <code>'a'</code> 到 <code>'f'</code> )和大写英文字母( <code>'A'</code> 到 <code>'F'</code> )。</li>
+	<li>在&nbsp;<code>x<sub>i</sub></code>&nbsp;中允许前导零。</li>
 </ul>
 
-<p>For example, &quot;<code>2001:0db8:85a3:0000:0000:8a2e:0370:7334&quot;</code> and &quot;<code>2001:db8:85a3:0:0:8A2E:0370:7334&quot;</code> are valid IPv6 addresses, while &quot;<code>2001:0db8:85a3::8A2E:037j:7334&quot;</code> and &quot;<code>02001:0db8:85a3:0000:0000:8a2e:0370:7334&quot;</code> are invalid IPv6 addresses.</p>
+<p>例如 <code>"2001:0db8:85a3:0000:0000:8a2e:0370:7334"</code> 和 <code>"2001:db8:85a3:0:0:8A2E:0370:7334"</code> 是有效的 IPv6 地址，而 <code>"2001:0db8:85a3::8A2E:037j:7334"</code> 和 <code>"02001:0db8:85a3:0000:0000:8a2e:0370:7334"</code> 是无效的 IPv6 地址。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> queryIP = &quot;172.16.254.1&quot;
-<strong>Output:</strong> &quot;IPv4&quot;
-<strong>Explanation:</strong> This is a valid IPv4 address, return &quot;IPv4&quot;.
+<strong>输入：</strong>queryIP = "172.16.254.1"
+<strong>输出：</strong>"IPv4"
+<strong>解释：</strong>有效的 IPv4 地址，返回 "IPv4"
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> queryIP = &quot;2001:0db8:85a3:0:0:8A2E:0370:7334&quot;
-<strong>Output:</strong> &quot;IPv6&quot;
-<strong>Explanation:</strong> This is a valid IPv6 address, return &quot;IPv6&quot;.
+<strong>输入：</strong>queryIP = "2001:0db8:85a3:0:0:8A2E:0370:7334"
+<strong>输出：</strong>"IPv6"
+<strong>解释：</strong>有效的 IPv6 地址，返回 "IPv6"
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> queryIP = &quot;256.256.256.256&quot;
-<strong>Output:</strong> &quot;Neither&quot;
-<strong>Explanation:</strong> This is neither a IPv4 address nor a IPv6 address.
+<strong>输入：</strong>queryIP = "256.256.256.256"
+<strong>输出：</strong>"Neither"
+<strong>解释：</strong>既不是 IPv4 地址，又不是 IPv6 地址
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>queryIP</code> consists only of English letters, digits and the characters <code>&#39;.&#39;</code> and <code>&#39;:&#39;</code>.</li>
+	<li><code>queryIP</code> 仅由英文字母，数字，字符 <code>'.'</code> 和 <code>':'</code> 组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can define two functions `isIPv4` and `isIPv6` to determine whether a string is a valid IPv4 address and IPv6 address.
+我们可以定义两个函数 `isIPv4` 和 `isIPv6` 来判断一个字符串是否是有效的 IPv4 地址和 IPv6 地址。
 
-The implementation of the function `isIPv4` is as follows:
+函数 `isIPv4` 的实现如下：
 
-1. We first check if the string `s` ends with `.`. If so, `s` is not a valid IPv4 address, and we directly return `false`.
-1. Then we split the string `s` by `.` into a string array `ss`. If the length of `ss` is not `4`, `s` is not a valid IPv4 address, and we directly return `false`.
-1. For each string `t` in the array `ss`, we check:
-   - If the length of `t` is greater than `1` and the first character of `t` is `0`, `t` is not a valid IPv4 address, and we directly return `false`.
-   - If `t` is not a number or `t` is not in the range of `0` to `255`, `t` is not a valid IPv4 address, and we directly return `false`.
-1. If none of the above conditions are met, `s` is a valid IPv4 address, and we return `true`.
+1. 我们首先判断字符串 `s` 是否以 `.` 结尾，如果是的话，说明 `s` 不是一个有效的 IPv4 地址，直接返回 `false`。
+1. 然后我们将字符串 `s` 以 `.` 分割成一个字符串数组 `ss`，如果 `ss` 的长度不等于 `4`，说明 `s` 不是一个有效的 IPv4 地址，直接返回 `false`。
+1. 对于数组 `ss` 中的每个字符串 `t`，我们判断：
+    - 如果 `t` 的长度大于 `1` 且 `t` 的第一个字符是 `0`，说明 `t` 不是一个有效的 IPv4 地址，直接返回 `false`。
+    - 如果 `t` 不是一个数字或者 `t` 不在 `0` 到 `255` 的范围内，说明 `t` 不是一个有效的 IPv4 地址，直接返回 `false`。
+1. 如果上述条件都不满足，说明 `s` 是一个有效的 IPv4 地址，返回 `true`。
 
-The implementation of the function `isIPv6` is as follows:
+函数 `isIPv6` 的实现如下：
 
-1. We first check if the string `s` ends with `:`. If so, `s` is not a valid IPv6 address, and we directly return `false`.
-1. Then we split the string `s` by `:` into a string array `ss`. If the length of `ss` is not `8`, `s` is not a valid IPv6 address, and we directly return `false`.
-1. For each string `t` in the array `ss`, we check:
-   - If the length of `t` is less than `1` or greater than `4`, `t` is not a valid IPv6 address, and we directly return `false`.
-   - If the characters in `t` are not all between `0` and `9` and `a` and `f` (case insensitive), `t` is not a valid IPv6 address, and we directly return `false`.
-1. If none of the above conditions are met, `s` is a valid IPv6 address, and we return `true`.
+1. 我们首先判断字符串 `s` 是否以 `:` 结尾，如果是的话，说明 `s` 不是一个有效的 IPv6 地址，直接返回 `false`。
+1. 然后我们将字符串 `s` 以 `:` 分割成一个字符串数组 `ss`，如果 `ss` 的长度不等于 `8`，说明 `s` 不是一个有效的 IPv6 地址，直接返回 `false`。
+1. 对于数组 `ss` 中的每个字符串 `t`，我们判断：
+    - 如果 `t` 的长度小于 `1` 或大于 `4`，说明 `t` 不是一个有效的 IPv6 地址，直接返回 `false`。
+    - 如果 `t` 中的字符不全是 `0` 到 `9` 和 `a` 到 `f`（不区分大小写），说明 `t` 不是一个有效的 IPv6 地址，直接返回 `false`。
+1. 如果上述条件都不满足，说明 `s` 是一个有效的 IPv6 地址，返回 `true`。
 
-Finally, we call the `isIPv4` and `isIPv6` functions to determine if `queryIP` is a valid IPv4 address or IPv6 address. If it is neither, we return `Neither`.
+最后，我们调用 `isIPv4` 和 `isIPv6` 函数判断 `queryIP` 是不是一个有效的 IPv4 地址或 IPv6 地址，如果都不是，返回 `Neither`。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string `queryIP`.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 `queryIP` 的长度。
 
 <!-- tabs:start -->
 
@@ -355,78 +360,76 @@ func convert(s string) int {
 
 ```ts
 function validIPAddress(queryIP: string): string {
-  if (isIPv4(queryIP)) {
-    return "IPv4";
-  }
-  if (isIPv6(queryIP)) {
-    return "IPv6";
-  }
-  return "Neither";
+    if (isIPv4(queryIP)) {
+        return 'IPv4';
+    }
+    if (isIPv6(queryIP)) {
+        return 'IPv6';
+    }
+    return 'Neither';
 }
 
 function isIPv4(s: string): boolean {
-  if (s.endsWith(".")) {
-    return false;
-  }
-  const ss = s.split(".");
-  if (ss.length !== 4) {
-    return false;
-  }
-  for (const t of ss) {
-    if (t.length === 0 || (t.length > 1 && t[0] === "0")) {
-      return false;
+    if (s.endsWith('.')) {
+        return false;
     }
-    const x = convert(t);
-    if (x < 0 || x > 255) {
-      return false;
+    const ss = s.split('.');
+    if (ss.length !== 4) {
+        return false;
     }
-  }
-  return true;
+    for (const t of ss) {
+        if (t.length === 0 || (t.length > 1 && t[0] === '0')) {
+            return false;
+        }
+        const x = convert(t);
+        if (x < 0 || x > 255) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function isIPv6(s: string): boolean {
-  if (s.endsWith(":")) {
-    return false;
-  }
-  const ss = s.split(":");
-  if (ss.length !== 8) {
-    return false;
-  }
-  for (const t of ss) {
-    if (t.length < 1 || t.length > 4) {
-      return false;
-    }
-    for (const c of t) {
-      if (!isHexDigit(c)) {
+    if (s.endsWith(':')) {
         return false;
-      }
     }
-  }
-  return true;
+    const ss = s.split(':');
+    if (ss.length !== 8) {
+        return false;
+    }
+    for (const t of ss) {
+        if (t.length < 1 || t.length > 4) {
+            return false;
+        }
+        for (const c of t) {
+            if (!isHexDigit(c)) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 function convert(s: string): number {
-  let x = 0;
-  for (const c of s) {
-    if (!isDigit(c)) {
-      return -1;
+    let x = 0;
+    for (const c of s) {
+        if (!isDigit(c)) {
+            return -1;
+        }
+        x = x * 10 + (c.charCodeAt(0) - '0'.charCodeAt(0));
+        if (x > 255) {
+            return x;
+        }
     }
-    x = x * 10 + (c.charCodeAt(0) - "0".charCodeAt(0));
-    if (x > 255) {
-      return x;
-    }
-  }
-  return x;
+    return x;
 }
 
 function isDigit(c: string): boolean {
-  return c >= "0" && c <= "9";
+    return c >= '0' && c <= '9';
 }
 
 function isHexDigit(c: string): boolean {
-  return (
-    (c >= "0" && c <= "9") || (c >= "a" && c <= "f") || (c >= "A" && c <= "F")
-  );
+    return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
 }
 ```
 

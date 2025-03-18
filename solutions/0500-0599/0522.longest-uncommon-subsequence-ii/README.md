@@ -1,62 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0522.Longest%20Uncommon%20Subsequence%20II/README.md
 tags:
-  - Array
-  - Hash Table
-  - Two Pointers
-  - String
-  - Sorting
+    - 数组
+    - 哈希表
+    - 双指针
+    - 字符串
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [522. Longest Uncommon Subsequence II](https://leetcode.com/problems/longest-uncommon-subsequence-ii)
+# [522. 最长特殊序列 II](https://leetcode.cn/problems/longest-uncommon-subsequence-ii)
 
-## Description
+[English Version](/solution/0500-0599/0522.Longest%20Uncommon%20Subsequence%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of strings <code>strs</code>, return <em>the length of the <strong>longest uncommon subsequence</strong> between them</em>. If the longest uncommon subsequence does not exist, return <code>-1</code>.</p>
+<p>给定字符串列表&nbsp;<code>strs</code> ，返回其中 <strong>最长的特殊序列</strong>&nbsp;的长度。如果最长特殊序列不存在，返回 <code>-1</code> 。</p>
 
-<p>An <strong>uncommon subsequence</strong> between an array of strings is a string that is a <strong>subsequence of one string but not the others</strong>.</p>
+<p><strong>特殊序列</strong> 定义如下：该序列为某字符串 <strong>独有的子序列（即不能是其他字符串的子序列）</strong>。</p>
 
-<p>A <strong>subsequence</strong> of a string <code>s</code> is a string that can be obtained after deleting any number of characters from <code>s</code>.</p>
+<p>&nbsp;<code>s</code>&nbsp;的&nbsp;<strong>子序列</strong>可以通过删去字符串&nbsp;<code>s</code>&nbsp;中的某些字符实现。</p>
 
 <ul>
-	<li>For example, <code>&quot;abc&quot;</code> is a subsequence of <code>&quot;aebdc&quot;</code> because you can delete the underlined characters in <code>&quot;a<u>e</u>b<u>d</u>c&quot;</code> to get <code>&quot;abc&quot;</code>. Other subsequences of <code>&quot;aebdc&quot;</code> include <code>&quot;aebdc&quot;</code>, <code>&quot;aeb&quot;</code>, and <code>&quot;&quot;</code> (empty string).</li>
+	<li>例如，<code>"abc"</code>&nbsp;是 <code>"aebdc"</code>&nbsp;的子序列，因为您可以删除<code>"a<u>e</u>b<u>d</u>c"</code>中的下划线字符来得到 <code>"abc"</code>&nbsp;。<code>"aebdc"</code>的子序列还包括<code>"aebdc"</code>、 <code>"aeb"</code>&nbsp;和 <font color="#c7254e" face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size: 12.6px; background-color: rgb(249, 242, 244);">""</span></font>&nbsp;(空字符串)。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> strs = ["aba","cdc","eae"]
-<strong>Output:</strong> 3
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> strs = ["aaa","aaa","aa"]
-<strong>Output:</strong> -1
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入:</strong> strs = ["aba","cdc","eae"]
+<strong>输出:</strong> 3
 </pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> strs = ["aaa","aaa","aa"]
+<strong>输出:</strong> -1
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= strs.length &lt;= 50</code></li>
 	<li><code>1 &lt;= strs[i].length &lt;= 10</code></li>
-	<li><code>strs[i]</code> consists of lowercase English letters.</li>
+	<li><code>strs[i]</code>&nbsp;只包含小写英文字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Subsequence Judgment
+### 方法一：判断子序列
 
-We define a function $check(s, t)$ to determine whether string $s$ is a subsequence of string $t$. We can use a two-pointer approach, initializing two pointers $i$ and $j$ to point to the beginning of strings $s$ and $t$ respectively, then continuously move pointer $j$. If $s[i]$ equals $t[j]$, then move pointer $i$. Finally, check if $i$ equals the length of $s$. If $i$ equals the length of $s$, it means $s$ is a subsequence of $t$.
+我们定义一个函数 $check(s, t)$，用于判断字符串 $s$ 是否是字符串 $t$ 的子序列。我们可以使用双指针的方法，初始化两个指针 $i$ 和 $j$ 分别指向字符串 $s$ 和字符串 $t$ 的开头，然后不断移动指针 $j$，如果 $s[i]$ 和 $t[j]$ 相等，则移动指针 $i$，最后判断 $i$ 是否等于 $s$ 的长度即可。若 $i$ 等于 $s$ 的长度，则说明 $s$ 是 $t$ 的子序列。
 
-To determine if string $s$ is unique, we only need to take string $s$ itself and compare it with other strings in the list. If there exists a string for which $s$ is a subsequence, then $s$ is not unique. Otherwise, string $s$ is unique. We take the longest string among all unique strings.
+判断字符串 $s$ 是否独有，只需要取字符串 $s$ 本身，与字符串列表的其他字符串比较即可。如果存在 $s$ 是其他字符串的子序列，则 $s$ 不是独有的。否则，字符串 $s$ 是独有的。我们取所有独有字符串中长度最长的字符串即可。
 
-The time complexity is $O(n^2 \times m)$, where $n$ is the length of the list of strings, and $m$ is the average length of the strings. The space complexity is $O(1)$.
+时间复杂度 $O(n^2 \times m)$，其中 $n$ 是字符串列表的长度，而 $m$ 是字符串的平均长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -182,29 +194,29 @@ func findLUSlength(strs []string) int {
 
 ```ts
 function findLUSlength(strs: string[]): number {
-  const n = strs.length;
-  let ans = -1;
-  const check = (s: string, t: string): boolean => {
-    const [m, n] = [s.length, t.length];
-    let i = 0;
-    for (let j = 0; i < m && j < n; ++j) {
-      if (s[i] === t[j]) {
-        ++i;
-      }
+    const n = strs.length;
+    let ans = -1;
+    const check = (s: string, t: string): boolean => {
+        const [m, n] = [s.length, t.length];
+        let i = 0;
+        for (let j = 0; i < m && j < n; ++j) {
+            if (s[i] === t[j]) {
+                ++i;
+            }
+        }
+        return i === m;
+    };
+    for (let i = 0; i < n; ++i) {
+        let x = strs[i].length;
+        for (let j = 0; j < n; ++j) {
+            if (i !== j && check(strs[i], strs[j])) {
+                x = -1;
+                break;
+            }
+        }
+        ans = Math.max(ans, x);
     }
-    return i === m;
-  };
-  for (let i = 0; i < n; ++i) {
-    let x = strs[i].length;
-    for (let j = 0; j < n; ++j) {
-      if (i !== j && check(strs[i], strs[j])) {
-        x = -1;
-        break;
-      }
-    }
-    ans = Math.max(ans, x);
-  }
-  return ans;
+    return ans;
 }
 ```
 

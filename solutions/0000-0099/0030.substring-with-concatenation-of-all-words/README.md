@@ -1,95 +1,92 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0030.Substring%20with%20Concatenation%20of%20All%20Words/README.md
 tags:
-  - Hash Table
-  - String
-  - Sliding Window
+    - 哈希表
+    - 字符串
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [30. Substring with Concatenation of All Words](https://leetcode.com/problems/substring-with-concatenation-of-all-words)
+# [30. 串联所有单词的子串](https://leetcode.cn/problems/substring-with-concatenation-of-all-words)
 
-## Description
+[English Version](/solution/0000-0099/0030.Substring%20with%20Concatenation%20of%20All%20Words/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> and an array of strings <code>words</code>. All the strings of <code>words</code> are of <strong>the same length</strong>.</p>
+<p>给定一个字符串&nbsp;<code>s</code><strong>&nbsp;</strong>和一个字符串数组&nbsp;<code>words</code><strong>。</strong>&nbsp;<code>words</code>&nbsp;中所有字符串 <strong>长度相同</strong>。</p>
 
-<p>A <strong>concatenated string</strong> is a string that exactly contains all the strings of any permutation of <code>words</code> concatenated.</p>
+<p>&nbsp;<code>s</code><strong>&nbsp;</strong>中的 <strong>串联子串</strong> 是指一个包含&nbsp;&nbsp;<code>words</code>&nbsp;中所有字符串以任意顺序排列连接起来的子串。</p>
 
 <ul>
-	<li>For example, if <code>words = [&quot;ab&quot;,&quot;cd&quot;,&quot;ef&quot;]</code>, then <code>&quot;abcdef&quot;</code>, <code>&quot;abefcd&quot;</code>, <code>&quot;cdabef&quot;</code>, <code>&quot;cdefab&quot;</code>, <code>&quot;efabcd&quot;</code>, and <code>&quot;efcdab&quot;</code> are all concatenated strings. <code>&quot;acdbef&quot;</code> is not a concatenated string because it is not the concatenation of any permutation of <code>words</code>.</li>
+	<li>例如，如果&nbsp;<code>words = ["ab","cd","ef"]</code>， 那么&nbsp;<code>"abcdef"</code>，&nbsp;<code>"abefcd"</code>，<code>"cdabef"</code>，&nbsp;<code>"cdefab"</code>，<code>"efabcd"</code>， 和&nbsp;<code>"efcdab"</code> 都是串联子串。&nbsp;<code>"acdbef"</code> 不是串联子串，因为他不是任何&nbsp;<code>words</code>&nbsp;排列的连接。</li>
 </ul>
 
-<p>Return an array of <em>the starting indices</em> of all the concatenated substrings in <code>s</code>. You can return the answer in <strong>any order</strong>.</p>
+<p>返回所有串联子串在&nbsp;<code>s</code><strong>&nbsp;</strong>中的开始索引。你可以以 <strong>任意顺序</strong> 返回答案。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;barfoothefoobarman&quot;, words = [&quot;foo&quot;,&quot;bar&quot;]</span></p>
+<p><strong>示例 1：</strong></p>
 
-<p><strong>Output:</strong> <span class="example-io">[0,9]</span></p>
+<pre>
+<strong>输入：</strong>s = "barfoothefoobarman", words = ["foo","bar"]
+<strong>输出：</strong><code>[0,9]</code>
+<strong>解释：</strong>因为 words.length == 2 同时 words[i].length == 3，连接的子字符串的长度必须为 6。
+子串 "barfoo" 开始位置是 0。它是 words 中以 ["bar","foo"] 顺序排列的连接。
+子串 "foobar" 开始位置是 9。它是 words 中以 ["foo","bar"] 顺序排列的连接。
+输出顺序无关紧要。返回 [9,0] 也是可以的。
+</pre>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<p>The substring starting at 0 is <code>&quot;barfoo&quot;</code>. It is the concatenation of <code>[&quot;bar&quot;,&quot;foo&quot;]</code> which is a permutation of <code>words</code>.<br />
-The substring starting at 9 is <code>&quot;foobar&quot;</code>. It is the concatenation of <code>[&quot;foo&quot;,&quot;bar&quot;]</code> which is a permutation of <code>words</code>.</p>
-</div>
+<pre>
+<strong>输入：</strong>s = "wordgoodgoodgoodbestword", words = ["word","good","best","word"]
+<code><strong>输出：</strong>[]</code>
+<strong>解释：</strong>因为<strong> </strong>words.length == 4 并且 words[i].length == 4，所以串联子串的长度必须为 16。
+s 中没有子串长度为 16 并且等于 words 的任何顺序排列的连接。
+所以我们返回一个空数组。
+</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;wordgoodgoodgoodbestword&quot;, words = [&quot;word&quot;,&quot;good&quot;,&quot;best&quot;,&quot;word&quot;]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[]</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>There is no concatenated substring.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;barfoofoobarthefoobarman&quot;, words = [&quot;bar&quot;,&quot;foo&quot;,&quot;the&quot;]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[6,9,12]</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The substring starting at 6 is <code>&quot;foobarthe&quot;</code>. It is the concatenation of <code>[&quot;foo&quot;,&quot;bar&quot;,&quot;the&quot;]</code>.<br />
-The substring starting at 9 is <code>&quot;barthefoo&quot;</code>. It is the concatenation of <code>[&quot;bar&quot;,&quot;the&quot;,&quot;foo&quot;]</code>.<br />
-The substring starting at 12 is <code>&quot;thefoobar&quot;</code>. It is the concatenation of <code>[&quot;the&quot;,&quot;foo&quot;,&quot;bar&quot;]</code>.</p>
-</div>
+<pre>
+<strong>输入：</strong>s = "barfoofoobarthefoobarman", words = ["bar","foo","the"]
+<strong>输出：</strong>[6,9,12]
+<strong>解释：</strong>因为 words.length == 3 并且 words[i].length == 3，所以串联子串的长度必须为 9。
+子串 "foobarthe" 开始位置是 6。它是 words 中以 ["foo","bar","the"] 顺序排列的连接。
+子串 "barthefoo" 开始位置是 9。它是 words 中以 ["bar","the","foo"] 顺序排列的连接。
+子串 "thefoobar" 开始位置是 12。它是 words 中以 ["the","foo","bar"] 顺序排列的连接。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= words.length &lt;= 5000</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 30</code></li>
-	<li><code>s</code> and <code>words[i]</code> consist of lowercase English letters.</li>
+	<li><code>words[i]</code>&nbsp;和&nbsp;<code>s</code> 由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Sliding Window
+### 方法一：哈希表 + 滑动窗口
 
-We use a hash table $cnt$ to count the number of times each word appears in $words$, and use a hash table $cnt1$ to count the number of times each word appears in the current sliding window. We denote the length of the string $s$ as $m$, the number of words in the string array $words$ as $n$, and the length of each word as $k$.
+我们用哈希表 $cnt$ 统计 $words$ 中每个单词出现的次数，用哈希表 $cnt1$ 统计当前滑动窗口中每个单词出现的次数。我们记字符串 $s$ 的长度为 $m$，字符串数组 $words$ 中单词的数量为 $n$，每个单词的长度为 $k$。
 
-We can enumerate the starting point $i$ of the sliding window, where $0 \lt i < k$. For each starting point, we maintain a sliding window with the left boundary as $l$, the right boundary as $r$, and the number of words in the sliding window as $t$. Additionally, we use a hash table $cnt1$ to count the number of times each word appears in the sliding window.
+我们可以枚举滑动窗口的起点 $i$，其中 $0 \lt i \lt k$。对于每个起点，我们维护一个滑动窗口，左边界为 $l$，右边界为 $r$，滑动窗口中的单词个数为 $t$，另外用一个哈希表 $cnt1$ 统计滑动窗口中每个单词出现的次数。
 
-Each time, we extract the string $s[r:r+k]$. If $s[r:r+k]$ is not in the hash table $cnt$, it means that the words in the current sliding window are not valid. We update the left boundary $l$ to $r$, clear the hash table $cnt1$, and reset the word count $t$ to 0. If $s[r:r+k]$ is in the hash table $cnt$, it means that the words in the current sliding window are valid. We increase the word count $t$ by 1, and increase the count of $s[r:r+k]$ in the hash table $cnt1$ by 1. If $cnt1[s[r:r+k]]$ is greater than $cnt[s[r:r+k]]$, it means that $s[r:r+k]$ appears too many times in the current sliding window. We need to move the left boundary $l$ to the right until $cnt1[s[r:r+k]] = cnt[s[r:r+k]]$. If $t = n$, it means that the words in the current sliding window are exactly valid, and we add the left boundary $l$ to the answer array.
+每一次，我们提取字符串 $s[r:r+k]$，如果 $s[r:r+k]$ 不在哈希表 $cnt$ 中，说明当前滑动窗口中的单词不合法，我们将左边界 $l$ 更新为 $r$，同时将哈希表 $cnt1$ 清空，单词个数 $t$ 重置为 0。如果 $s[r:r+k]$ 在哈希表 $cnt$ 中，说明当前滑动窗口中的单词合法，我们将单词个数 $t$ 加 1，将哈希表 $cnt1$ 中 $s[r:r+k]$ 的次数加 1。如果 $cnt1[s[r:r+k]]$ 大于 $cnt[s[r:r+k]]$，说明当前滑动窗口中 $s[r:r+k]$ 出现的次数过多，我们需要将左边界 $l$ 右移，直到 $cnt1[s[r:r+k]] = cnt[s[r:r+k]]$。如果 $t = n$，说明当前滑动窗口中的单词正好合法，我们将左边界 $l$ 加入答案数组。
 
-The time complexity is $O(m \times k)$, and the space complexity is $O(n \times k)$. Here, $m$ and $n$ are the lengths of the string $s$ and the string array $words$ respectively, and $k$ is the length of the words in the string array $words$.
+时间复杂度 $O(m \times k)$，空间复杂度 $O(n \times k)$。其中 $m$ 和 $n$ 分别是字符串 $s$ 和字符串数组 $words$ 的长度，而 $k$ 是字符串数组 $words$ 中单词的长度。
 
 <!-- tabs:start -->
 
@@ -103,25 +100,21 @@ class Solution:
         k = len(words[0])
         ans = []
         for i in range(k):
-            cnt1 = Counter()
             l = r = i
-            t = 0
+            cnt1 = Counter()
             while r + k <= m:
-                w = s[r : r + k]
+                t = s[r : r + k]
                 r += k
-                if w not in cnt:
+                if cnt[t] == 0:
                     l = r
                     cnt1.clear()
-                    t = 0
                     continue
-                cnt1[w] += 1
-                t += 1
-                while cnt1[w] > cnt[w]:
-                    remove = s[l : l + k]
+                cnt1[t] += 1
+                while cnt1[t] > cnt[t]:
+                    rem = s[l : l + k]
                     l += k
-                    cnt1[remove] -= 1
-                    t -= 1
-                if t == n:
+                    cnt1[rem] -= 1
+                if r - l == n * k:
                     ans.append(l)
         return ans
 ```
@@ -132,34 +125,31 @@ class Solution:
 class Solution {
     public List<Integer> findSubstring(String s, String[] words) {
         Map<String, Integer> cnt = new HashMap<>();
-        for (String w : words) {
+        for (var w : words) {
             cnt.merge(w, 1, Integer::sum);
         }
-        int m = s.length(), n = words.length;
-        int k = words[0].length();
         List<Integer> ans = new ArrayList<>();
+        int m = s.length(), n = words.length, k = words[0].length();
         for (int i = 0; i < k; ++i) {
-            Map<String, Integer> cnt1 = new HashMap<>();
             int l = i, r = i;
-            int t = 0;
+            Map<String, Integer> cnt1 = new HashMap<>();
             while (r + k <= m) {
-                String w = s.substring(r, r + k);
+                var t = s.substring(r, r + k);
                 r += k;
-                if (!cnt.containsKey(w)) {
+                if (!cnt.containsKey(t)) {
                     cnt1.clear();
                     l = r;
-                    t = 0;
                     continue;
                 }
-                cnt1.merge(w, 1, Integer::sum);
-                ++t;
-                while (cnt1.get(w) > cnt.get(w)) {
-                    String remove = s.substring(l, l + k);
+                cnt1.merge(t, 1, Integer::sum);
+                while (cnt1.get(t) > cnt.get(t)) {
+                    String w = s.substring(l, l + k);
+                    if (cnt1.merge(w, -1, Integer::sum) == 0) {
+                        cnt1.remove(w);
+                    }
                     l += k;
-                    cnt1.merge(remove, -1, Integer::sum);
-                    --t;
                 }
-                if (t == n) {
+                if (r - l == n * k) {
                     ans.add(l);
                 }
             }
@@ -176,37 +166,42 @@ class Solution {
 public:
     vector<int> findSubstring(string s, vector<string>& words) {
         unordered_map<string, int> cnt;
-        for (auto& w : words) {
-            ++cnt[w];
+        for (const auto& w : words) {
+            cnt[w]++;
         }
-        int m = s.size(), n = words.size(), k = words[0].size();
+
         vector<int> ans;
+        int m = s.length(), n = words.size(), k = words[0].length();
+
         for (int i = 0; i < k; ++i) {
-            unordered_map<string, int> cnt1;
             int l = i, r = i;
-            int t = 0;
+            unordered_map<string, int> cnt1;
             while (r + k <= m) {
-                string w = s.substr(r, k);
+                string t = s.substr(r, k);
                 r += k;
-                if (!cnt.count(w)) {
+
+                if (!cnt.contains(t)) {
                     cnt1.clear();
                     l = r;
-                    t = 0;
                     continue;
                 }
-                ++cnt1[w];
-                ++t;
-                while (cnt1[w] > cnt[w]) {
-                    string remove = s.substr(l, k);
+
+                cnt1[t]++;
+
+                while (cnt1[t] > cnt[t]) {
+                    string w = s.substr(l, k);
+                    if (--cnt1[w] == 0) {
+                        cnt1.erase(w);
+                    }
                     l += k;
-                    --cnt1[remove];
-                    --t;
                 }
-                if (t == n) {
+
+                if (r - l == n * k) {
                     ans.push_back(l);
                 }
             }
         }
+
         return ans;
     }
 };
@@ -216,30 +211,33 @@ public:
 
 ```go
 func findSubstring(s string, words []string) (ans []int) {
-	cnt := map[string]int{}
+	cnt := make(map[string]int)
 	for _, w := range words {
 		cnt[w]++
 	}
 	m, n, k := len(s), len(words), len(words[0])
 	for i := 0; i < k; i++ {
-		cnt1 := map[string]int{}
-		l, r, t := i, i, 0
+		l, r := i, i
+		cnt1 := make(map[string]int)
 		for r+k <= m {
-			w := s[r : r+k]
+			t := s[r : r+k]
 			r += k
-			if _, ok := cnt[w]; !ok {
-				l, t = r, 0
-				cnt1 = map[string]int{}
+
+			if _, exists := cnt[t]; !exists {
+				cnt1 = make(map[string]int)
+				l = r
 				continue
 			}
-			cnt1[w]++
-			t++
-			for cnt1[w] > cnt[w] {
-				cnt1[s[l:l+k]]--
+			cnt1[t]++
+			for cnt1[t] > cnt[t] {
+				w := s[l : l+k]
+				cnt1[w]--
+				if cnt1[w] == 0 {
+					delete(cnt1, w)
+				}
 				l += k
-				t--
 			}
-			if t == n {
+			if r-l == n*k {
 				ans = append(ans, l)
 			}
 		}
@@ -252,42 +250,38 @@ func findSubstring(s string, words []string) (ans []int) {
 
 ```ts
 function findSubstring(s: string, words: string[]): number[] {
-  const cnt: Map<string, number> = new Map();
-  for (const w of words) {
-    cnt.set(w, (cnt.get(w) || 0) + 1);
-  }
-  const m = s.length;
-  const n = words.length;
-  const k = words[0].length;
-  const ans: number[] = [];
-  for (let i = 0; i < k; ++i) {
-    const cnt1: Map<string, number> = new Map();
-    let l = i;
-    let r = i;
-    let t = 0;
-    while (r + k <= m) {
-      const w = s.slice(r, r + k);
-      r += k;
-      if (!cnt.has(w)) {
-        cnt1.clear();
-        l = r;
-        t = 0;
-        continue;
-      }
-      cnt1.set(w, (cnt1.get(w) || 0) + 1);
-      ++t;
-      while (cnt1.get(w)! - cnt.get(w)! > 0) {
-        const remove = s.slice(l, l + k);
-        cnt1.set(remove, cnt1.get(remove)! - 1);
-        l += k;
-        --t;
-      }
-      if (t === n) {
-        ans.push(l);
-      }
+    const cnt: Map<string, number> = new Map();
+    for (const w of words) {
+        cnt.set(w, (cnt.get(w) || 0) + 1);
     }
-  }
-  return ans;
+    const ans: number[] = [];
+    const [m, n, k] = [s.length, words.length, words[0].length];
+    for (let i = 0; i < k; i++) {
+        let [l, r] = [i, i];
+        const cnt1: Map<string, number> = new Map();
+        while (r + k <= m) {
+            const t = s.substring(r, r + k);
+            r += k;
+            if (!cnt.has(t)) {
+                cnt1.clear();
+                l = r;
+                continue;
+            }
+            cnt1.set(t, (cnt1.get(t) || 0) + 1);
+            while (cnt1.get(t)! > cnt.get(t)!) {
+                const w = s.substring(l, l + k);
+                cnt1.set(w, cnt1.get(w)! - 1);
+                if (cnt1.get(w) === 0) {
+                    cnt1.delete(w);
+                }
+                l += k;
+            }
+            if (r - l === n * k) {
+                ans.push(l);
+            }
+        }
+    }
+    return ans;
 }
 ```
 
@@ -298,40 +292,50 @@ public class Solution {
     public IList<int> FindSubstring(string s, string[] words) {
         var cnt = new Dictionary<string, int>();
         foreach (var w in words) {
-            if (!cnt.ContainsKey(w)) {
-                cnt[w] = 0;
+            if (cnt.ContainsKey(w)) {
+                cnt[w]++;
+            } else {
+                cnt[w] = 1;
             }
-            ++cnt[w];
         }
-        int m = s.Length, n = words.Length, k = words[0].Length;
+
         var ans = new List<int>();
+        int m = s.Length, n = words.Length, k = words[0].Length;
+
         for (int i = 0; i < k; ++i) {
+            int l = i, r = i;
             var cnt1 = new Dictionary<string, int>();
-            int l = i, r = i, t = 0;
             while (r + k <= m) {
-                var w = s.Substring(r, k);
+                var t = s.Substring(r, k);
                 r += k;
-                if (!cnt.ContainsKey(w)) {
+
+                if (!cnt.ContainsKey(t)) {
                     cnt1.Clear();
-                    t = 0;
                     l = r;
                     continue;
                 }
-                if (!cnt1.ContainsKey(w)) {
-                    cnt1[w] = 0;
+
+                if (cnt1.ContainsKey(t)) {
+                    cnt1[t]++;
+                } else {
+                    cnt1[t] = 1;
                 }
-                ++cnt1[w];
-                ++t;
-                while (cnt1[w] > cnt[w]) {
-                    --cnt1[s.Substring(l, k)];
+
+                while (cnt1[t] > cnt[t]) {
+                    var w = s.Substring(l, k);
+                    cnt1[w]--;
+                    if (cnt1[w] == 0) {
+                        cnt1.Remove(w);
+                    }
                     l += k;
-                    --t;
                 }
-                if (t == n) {
+
+                if (r - l == n * k) {
                     ans.Add(l);
                 }
             }
         }
+
         return ans;
     }
 }
@@ -349,90 +353,56 @@ class Solution {
     function findSubstring($s, $words) {
         $cnt = [];
         foreach ($words as $w) {
-            if (!isset($cnt[$w])) {
-                $cnt[$w] = 1;
-            } else {
+            if (isset($cnt[$w])) {
                 $cnt[$w]++;
+            } else {
+                $cnt[$w] = 1;
             }
         }
+
+        $ans = [];
         $m = strlen($s);
         $n = count($words);
         $k = strlen($words[0]);
-        $ans = [];
-        for ($i = 0; $i < $k; ++$i) {
-            $cnt1 = [];
+
+        for ($i = 0; $i < $k; $i++) {
             $l = $i;
             $r = $i;
-            $t = 0;
+            $cnt1 = [];
             while ($r + $k <= $m) {
-                $w = substr($s, $r, $k);
+                $t = substr($s, $r, $k);
                 $r += $k;
-                if (!array_key_exists($w, $cnt)) {
+
+                if (!isset($cnt[$t])) {
                     $cnt1 = [];
                     $l = $r;
-                    $t = 0;
                     continue;
                 }
-                if (!isset($cnt1[$w])) {
-                    $cnt1[$w] = 1;
+
+                if (isset($cnt1[$t])) {
+                    $cnt1[$t]++;
                 } else {
-                    $cnt1[$w]++;
+                    $cnt1[$t] = 1;
                 }
-                ++$t;
-                while ($cnt1[$w] > $cnt[$w]) {
-                    $remove = substr($s, $l, $k);
+
+                while ($cnt1[$t] > $cnt[$t]) {
+                    $w = substr($s, $l, $k);
+                    $cnt1[$w]--;
+                    if ($cnt1[$w] == 0) {
+                        unset($cnt1[$w]);
+                    }
                     $l += $k;
-                    $cnt1[$remove]--;
-                    $t--;
                 }
-                if ($t == $n) {
+
+                if ($r - $l == $n * $k) {
                     $ans[] = $l;
                 }
             }
         }
+
         return $ans;
     }
 }
-```
-
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### Solution 2
-
-<!-- tabs:start -->
-
-#### C++
-
-```cpp
-class Solution {
-public:
-    vector<int> findSubstring(string s, vector<string>& words) {
-        unordered_map<string, int> d;
-        for (auto& w : words) ++d[w];
-        vector<int> ans;
-        int n = s.size(), m = words.size(), k = words[0].size();
-        for (int i = 0; i < k; ++i) {
-            int cnt = 0;
-            unordered_map<string, int> t;
-            for (int j = i; j <= n; j += k) {
-                if (j - i >= m * k) {
-                    auto s1 = s.substr(j - m * k, k);
-                    --t[s1];
-                    cnt -= d[s1] > t[s1];
-                }
-                auto s2 = s.substr(j, k);
-                ++t[s2];
-                cnt += d[s2] >= t[s2];
-                if (cnt == m) ans.emplace_back(j - (m - 1) * k);
-            }
-        }
-        return ans;
-    }
-};
 ```
 
 <!-- tabs:end -->

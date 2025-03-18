@@ -1,67 +1,79 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0466.Count%20The%20Repetitions/README.md
 tags:
-  - String
-  - Dynamic Programming
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [466. Count The Repetitions](https://leetcode.com/problems/count-the-repetitions)
+# [466. 统计重复个数](https://leetcode.cn/problems/count-the-repetitions)
 
-## Description
+[English Version](/solution/0400-0499/0466.Count%20The%20Repetitions/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>We define <code>str = [s, n]</code> as the string <code>str</code> which consists of the string <code>s</code> concatenated <code>n</code> times.</p>
+<p>定义 <code>str = [s, n]</code> 表示 <code>str</code> 由 <code>n</code> 个字符串 <code>s</code> 连接构成。</p>
 
 <ul>
-	<li>For example, <code>str == [&quot;abc&quot;, 3] ==&quot;abcabcabc&quot;</code>.</li>
+	<li>例如，<code>str == ["abc", 3] =="abcabcabc"</code> 。</li>
 </ul>
 
-<p>We define that string <code>s1</code> can be obtained from string <code>s2</code> if we can remove some characters from <code>s2</code> such that it becomes <code>s1</code>.</p>
+<p>如果可以从 <code>s2</code><sub> </sub>中删除某些字符使其变为 <code>s1</code>，则称字符串 <code>s1</code><sub> </sub>可以从字符串 <code>s2</code> 获得。</p>
 
 <ul>
-	<li>For example, <code>s1 = &quot;abc&quot;</code> can be obtained from <code>s2 = &quot;ab<strong><u>dbe</u></strong>c&quot;</code> based on our definition by removing the bolded underlined characters.</li>
+	<li>例如，根据定义，<code>s1 = "abc"</code> 可以从 <code>s2 = "ab<em><strong>dbe</strong></em>c"</code> 获得，仅需要删除加粗且用斜体标识的字符。</li>
 </ul>
 
-<p>You are given two strings <code>s1</code> and <code>s2</code> and two integers <code>n1</code> and <code>n2</code>. You have the two strings <code>str1 = [s1, n1]</code> and <code>str2 = [s2, n2]</code>.</p>
+<p>现在给你两个字符串 <code>s1</code> 和 <code>s2</code> 和两个整数 <code>n1</code> 和 <code>n2</code> 。由此构造得到两个字符串，其中 <code>str1 = [s1, n1]</code>、<code>str2 = [s2, n2]</code> 。</p>
 
-<p>Return <em>the maximum integer </em><code>m</code><em> such that </em><code>str = [str2, m]</code><em> can be obtained from </em><code>str1</code>.</p>
+<p>请你找出一个最大整数 <code>m</code> ，以满足 <code>str = [str2, m]</code> 可以从 <code>str1</code> 获得。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> s1 = "acb", n1 = 4, s2 = "ab", n2 = 2
-<strong>Output:</strong> 2
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> s1 = "acb", n1 = 1, s2 = "acb", n2 = 1
-<strong>Output:</strong> 1
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s1 = "acb", n1 = 4, s2 = "ab", n2 = 2
+<strong>输出：</strong>2
 </pre>
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s1 = "acb", n1 = 1, s2 = "acb", n2 = 1
+<strong>输出：</strong>1
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s1.length, s2.length &lt;= 100</code></li>
-	<li><code>s1</code> and <code>s2</code> consist of lowercase English letters.</li>
-	<li><code>1 &lt;= n1, n2 &lt;= 10<sup>6</sup></code></li>
+	<li><code>1 <= s1.length, s2.length <= 100</code></li>
+	<li><code>s1</code> 和 <code>s2</code> 由小写英文字母组成</li>
+	<li><code>1 <= n1, n2 <= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Preprocessing + Iteration
+### 方法一：预处理 + 递推
 
-We preprocess the string $s_2$ such that for each starting position $i$, we calculate the next position $j$ and the count of $s_2$ after matching a complete $s_1$, i.e., $d[i] = (cnt, j)$, where $cnt$ represents the count of $s_2$, and $j$ represents the next position in the string $s_2$.
+我们预处理出以字符串 $s_2$ 的每个位置 $i$ 开始匹配一个完整的 $s_1$ 后，下一个位置 $j$ 以及经过了多少个 $s_2$，即 $d[i] = (cnt, j)$，其中 $cnt$ 表示匹配了多少个 $s_2$，而 $j$ 表示字符串 $s_2$ 的下一个位置。
 
-Next, we initialize $j=0$, and then loop $n1$ times. Each time, we add $d[j][0]$ to the answer, and then update $j=d[j][1]$.
+接下来，我们初始化 $j=0$，然后循环 $n1$ 次，每一次将 $d[j][0]$ 加到答案中，然后更新 $j=d[j][1]$。
 
-The final answer is the count of $s_2$ that can be matched by $n1$ $s_1$, divided by $n2$.
+最后得到的答案就是 $n1$ 个 $s_1$ 所能匹配的 $s_2$ 的个数，除以 $n2$ 即可得到答案。
 
-The time complexity is $O(m \times n + n_1)$, and the space complexity is $O(n)$. Where $m$ and $n$ are the lengths of $s_1$ and $s_2$ respectively.
+时间复杂度 $O(m \times n + n_1)$，空间复杂度 $O(n)$。其中 $m$ 和 $n$ 分别是 $s_1$ 和 $s_2$ 的长度。
 
 <!-- tabs:start -->
 
@@ -184,33 +196,28 @@ func getMaxRepetitions(s1 string, n1 int, s2 string, n2 int) (ans int) {
 #### TypeScript
 
 ```ts
-function getMaxRepetitions(
-  s1: string,
-  n1: number,
-  s2: string,
-  n2: number
-): number {
-  const n = s2.length;
-  const d: number[][] = new Array(n).fill(0).map(() => new Array(2).fill(0));
-  for (let i = 0; i < n; ++i) {
-    let j = i;
-    let cnt = 0;
-    for (const c of s1) {
-      if (c === s2[j]) {
-        if (++j === n) {
-          j = 0;
-          ++cnt;
+function getMaxRepetitions(s1: string, n1: number, s2: string, n2: number): number {
+    const n = s2.length;
+    const d: number[][] = new Array(n).fill(0).map(() => new Array(2).fill(0));
+    for (let i = 0; i < n; ++i) {
+        let j = i;
+        let cnt = 0;
+        for (const c of s1) {
+            if (c === s2[j]) {
+                if (++j === n) {
+                    j = 0;
+                    ++cnt;
+                }
+            }
         }
-      }
+        d[i] = [cnt, j];
     }
-    d[i] = [cnt, j];
-  }
-  let ans = 0;
-  for (let j = 0; n1 > 0; --n1) {
-    ans += d[j][0];
-    j = d[j][1];
-  }
-  return Math.floor(ans / n2);
+    let ans = 0;
+    for (let j = 0; n1 > 0; --n1) {
+        ans += d[j][0];
+        j = d[j][1];
+    }
+    return Math.floor(ans / n2);
 }
 ```
 

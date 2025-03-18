@@ -1,74 +1,76 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0066.Plus%20One/README.md
 tags:
-  - Array
-  - Math
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [66. Plus One](https://leetcode.com/problems/plus-one)
+# [66. 加一](https://leetcode.cn/problems/plus-one)
 
-## Description
+[English Version](/solution/0000-0099/0066.Plus%20One/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>large integer</strong> represented as an integer array <code>digits</code>, where each <code>digits[i]</code> is the <code>i<sup>th</sup></code> digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading <code>0</code>&#39;s.</p>
+<p>给定一个由 <strong>整数 </strong>组成的<strong> 非空</strong> 数组所表示的非负整数，在该数的基础上加一。</p>
 
-<p>Increment the large integer by one and return <em>the resulting array of digits</em>.</p>
+<p>最高位数字存放在数组的首位， 数组中每个元素只存储<strong>单个</strong>数字。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> digits = [1,2,3]
-<strong>Output:</strong> [1,2,4]
-<strong>Explanation:</strong> The array represents the integer 123.
-Incrementing by one gives 123 + 1 = 124.
-Thus, the result should be [1,2,4].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> digits = [4,3,2,1]
-<strong>Output:</strong> [4,3,2,2]
-<strong>Explanation:</strong> The array represents the integer 4321.
-Incrementing by one gives 4321 + 1 = 4322.
-Thus, the result should be [4,3,2,2].
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> digits = [9]
-<strong>Output:</strong> [1,0]
-<strong>Explanation:</strong> The array represents the integer 9.
-Incrementing by one gives 9 + 1 = 10.
-Thus, the result should be [1,0].
-</pre>
+<p>你可以假设除了整数 0 之外，这个整数不会以零开头。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例&nbsp;1：</strong></p>
+
+<pre>
+<strong>输入：</strong>digits = [1,2,3]
+<strong>输出：</strong>[1,2,4]
+<strong>解释：</strong>输入数组表示数字 123。
+</pre>
+
+<p><strong>示例&nbsp;2：</strong></p>
+
+<pre>
+<strong>输入：</strong>digits = [4,3,2,1]
+<strong>输出：</strong>[4,3,2,2]
+<strong>解释：</strong>输入数组表示数字 4321。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>digits = [9]
+<strong>输出：</strong>[1,0]
+<strong>解释：</strong>输入数组表示数字 9。
+加 1 得到了 9 + 1 = 10。
+因此，结果应该是 [1,0]。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= digits.length &lt;= 100</code></li>
 	<li><code>0 &lt;= digits[i] &lt;= 9</code></li>
-	<li><code>digits</code> does not contain any leading <code>0</code>&#39;s.</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We start traversing from the last element of the array, add one to the current element, and then take the modulus by $10$. If the result is not $0$, it means that there is no carry for the current element, and we can directly return the array. Otherwise, the current element is $0$ and needs to be carried over. We continue to traverse the previous element and repeat the above operation. If we still haven't returned after traversing the array, it means that all elements in the array are $0$, and we need to insert a $1$ at the beginning of the array.
+我们从数组的最后一个元素开始遍历，将当前元素加一，然后对 $10$ 取模，如果取模后的结果不为 $0$，说明当前元素没有进位，直接返回数组即可。否则，当前元素为 $0$，需要进位，继续遍历前一个元素，重复上述操作。如果遍历完数组后，仍然没有返回，说明数组中所有元素都为 $0$，需要在数组的头部插入一个 $1$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -143,14 +145,14 @@ func plusOne(digits []int) []int {
 
 ```ts
 function plusOne(digits: number[]): number[] {
-  const n = digits.length;
-  for (let i = n - 1; i >= 0; i--) {
-    if (10 > ++digits[i]) {
-      return digits;
+    const n = digits.length;
+    for (let i = n - 1; i >= 0; i--) {
+        if (10 > ++digits[i]) {
+            return digits;
+        }
+        digits[i] %= 10;
     }
-    digits[i] %= 10;
-  }
-  return [1, ...digits];
+    return [1, ...digits];
 }
 ```
 
@@ -181,14 +183,14 @@ impl Solution {
  * @return {number[]}
  */
 var plusOne = function (digits) {
-  for (let i = digits.length - 1; i >= 0; --i) {
-    ++digits[i];
-    digits[i] %= 10;
-    if (digits[i] != 0) {
-      return digits;
+    for (let i = digits.length - 1; i >= 0; --i) {
+        ++digits[i];
+        digits[i] %= 10;
+        if (digits[i] != 0) {
+            return digits;
+        }
     }
-  }
-  return [1, ...digits];
+    return [1, ...digits];
 };
 ```
 

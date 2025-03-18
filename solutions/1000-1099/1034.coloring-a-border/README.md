@@ -1,48 +1,66 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1034.Coloring%20A%20Border/README.md
 rating: 1578
-source: Weekly Contest 134 Q2
+source: 第 134 场周赛 Q2
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Array
-  - Matrix
+    - 深度优先搜索
+    - 广度优先搜索
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [1034. Coloring A Border](https://leetcode.com/problems/coloring-a-border)
+# [1034. 边界着色](https://leetcode.cn/problems/coloring-a-border)
 
-## Description
+[English Version](/solution/1000-1099/1034.Coloring%20A%20Border/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> integer matrix <code>grid</code>, and three integers <code>row</code>, <code>col</code>, and <code>color</code>. Each value in the grid represents the color of the grid square at that location.</p>
+<p>给你一个大小为 <code>m x n</code> 的整数矩阵 <code>grid</code> ，表示一个网格。另给你三个整数&nbsp;<code>row</code>、<code>col</code> 和 <code>color</code> 。网格中的每个值表示该位置处的网格块的颜色。</p>
 
-<p>Two squares are called <strong>adjacent</strong> if they are next to each other in any of the 4 directions.</p>
+<p>如果两个方块在任意 4 个方向上相邻，则称它们&nbsp;<strong>相邻 </strong>。</p>
 
-<p>Two squares belong to the same <strong>connected component</strong> if they have the same color and they are adjacent.</p>
+<p>如果两个方块具有相同的颜色且相邻，它们则属于同一个 <strong>连通分量</strong> 。</p>
 
-<p>The <strong>border of a connected component</strong> is all the squares in the connected component that are either adjacent to (at least) a square not in the component, or on the boundary of the grid (the first or last row or column).</p>
+<p><strong>连通分量的边界</strong><strong> </strong>是指连通分量中满足下述条件之一的所有网格块：</p>
 
-<p>You should color the <strong>border</strong> of the <strong>connected component</strong> that contains the square <code>grid[row][col]</code> with <code>color</code>.</p>
+<ul>
+	<li>在上、下、左、右任意一个方向上与不属于同一连通分量的网格块相邻</li>
+	<li>在网格的边界上（第一行/列或最后一行/列）</li>
+</ul>
 
-<p>Return <em>the final grid</em>.</p>
+<p>请你使用指定颜色&nbsp;<code>color</code> 为所有包含网格块&nbsp;<code>grid[row][col]</code> 的 <strong>连通分量的边界</strong> 进行着色。</p>
+
+<p>并返回最终的网格&nbsp;<code>grid</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> grid = [[1,1],[1,2]], row = 0, col = 0, color = 3
-<strong>Output:</strong> [[3,3],[3,2]]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> grid = [[1,2,2],[2,3,2]], row = 0, col = 1, color = 3
-<strong>Output:</strong> [[1,3,3],[2,3,3]]
-</pre><p><strong class="example">Example 3:</strong></p>
-<pre><strong>Input:</strong> grid = [[1,1,1],[1,1,1],[1,1,1]], row = 1, col = 1, color = 2
-<strong>Output:</strong> [[2,2,2],[2,1,2],[2,2,2]]
-</pre>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>grid = [[1,1],[1,2]], row = 0, col = 0, color = 3
+<strong>输出：</strong>[[3,3],[3,2]]</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>grid = [[1,2,2],[2,3,2]], row = 0, col = 1, color = 3
+<strong>输出：</strong>[[1,3,3],[2,3,3]]</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>grid = [[1,1,1],[1,1,1],[1,1,1]], row = 1, col = 1, color = 2
+<strong>输出：</strong>[[2,2,2],[2,1,2],[2,2,2]]</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -55,11 +73,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS
+
+我们从位置 $(row, col)$ 出发，利用 DFS 搜索所有颜色为 $grid[row][col]$ 的网格块，如果该网格块的某个相邻位置的颜色不为 $grid[row][col]$，或者该网格块在网格的边界上，则将该网格块的颜色改为 $color$。
+
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
 
 <!-- tabs:start -->
 
@@ -201,36 +223,31 @@ func colorBorder(grid [][]int, row int, col int, color int) [][]int {
 #### TypeScript
 
 ```ts
-function colorBorder(
-  grid: number[][],
-  row: number,
-  col: number,
-  color: number
-): number[][] {
-  const m = grid.length;
-  const n = grid[0].length;
-  const vis = new Array(m).fill(0).map(() => new Array(n).fill(false));
-  const dirs = [-1, 0, 1, 0, -1];
-  const dfs = (i: number, j: number, c: number) => {
-    vis[i][j] = true;
-    for (let k = 0; k < 4; ++k) {
-      const x = i + dirs[k];
-      const y = j + dirs[k + 1];
-      if (x >= 0 && x < m && y >= 0 && y < n) {
-        if (!vis[x][y]) {
-          if (grid[x][y] == c) {
-            dfs(x, y, c);
-          } else {
-            grid[i][j] = color;
-          }
+function colorBorder(grid: number[][], row: number, col: number, color: number): number[][] {
+    const m = grid.length;
+    const n = grid[0].length;
+    const vis = new Array(m).fill(0).map(() => new Array(n).fill(false));
+    const dirs = [-1, 0, 1, 0, -1];
+    const dfs = (i: number, j: number, c: number) => {
+        vis[i][j] = true;
+        for (let k = 0; k < 4; ++k) {
+            const x = i + dirs[k];
+            const y = j + dirs[k + 1];
+            if (x >= 0 && x < m && y >= 0 && y < n) {
+                if (!vis[x][y]) {
+                    if (grid[x][y] == c) {
+                        dfs(x, y, c);
+                    } else {
+                        grid[i][j] = color;
+                    }
+                }
+            } else {
+                grid[i][j] = color;
+            }
         }
-      } else {
-        grid[i][j] = color;
-      }
-    }
-  };
-  dfs(row, col, grid[row][col]);
-  return grid;
+    };
+    dfs(row, col, grid[row][col]);
+    return grid;
 }
 ```
 

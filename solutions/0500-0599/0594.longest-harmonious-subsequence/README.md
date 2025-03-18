@@ -1,65 +1,72 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0594.Longest%20Harmonious%20Subsequence/README.md
 tags:
-  - Array
-  - Hash Table
-  - Counting
-  - Sorting
-  - Sliding Window
+    - 数组
+    - 哈希表
+    - 计数
+    - 排序
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [594. Longest Harmonious Subsequence](https://leetcode.com/problems/longest-harmonious-subsequence)
+# [594. 最长和谐子序列](https://leetcode.cn/problems/longest-harmonious-subsequence)
 
-## Description
+[English Version](/solution/0500-0599/0594.Longest%20Harmonious%20Subsequence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>We define a harmonious array as an array where the difference between its maximum value and its minimum value is <b>exactly</b> <code>1</code>.</p>
+<p>和谐数组是指一个数组里元素的最大值和最小值之间的差别 <strong>正好是 <code>1</code></strong> 。</p>
 
-<p>Given an integer array <code>nums</code>, return the length of its longest harmonious <span data-keyword="subsequence-array">subsequence</span> among all its possible subsequences.</p>
+<p>给你一个整数数组 <code>nums</code> ，请你在所有可能的 <span data-keyword="subsequence-array">子序列</span> 中找到最长的和谐子序列的长度。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,3,2,2,5,2,3,7]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">5</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The longest harmonious subsequence is <code>[3,2,2,2,3]</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The longest harmonious subsequences are <code>[1,2]</code>, <code>[2,3]</code>, and <code>[3,4]</code>, all of which have a length of 2.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,1,1,1]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>No harmonic subsequence exists.</p>
-</div>
+<p>数组的 <strong>子序列</strong> 是一个由数组派生出来的序列，它可以通过删除一些元素或不删除元素、且不改变其余元素的顺序而得到。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">nums = [1,3,2,2,5,2,3,7]</span></p>
+
+<p><span class="example-io"><b>输出：</b>5</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>最长和谐子序列是&nbsp;<code>[3,2,2,2,3]</code>。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>nums = [1,2,3,4]</span></p>
+
+<p><span class="example-io"><b>输出：</b>2</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>最长和谐子序列是&nbsp;<code>[1,2]</code>，<code>[2,3]</code>&nbsp;和&nbsp;<code>[3,4]</code>，长度都为 2。</p>
+</div>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">nums = [1,1,1,1]</span></p>
+
+<p><span class="example-io"><b>输出：</b>0</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>不存在和谐子序列。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
@@ -68,15 +75,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We can use a hash table $\textit{cnt}$ to record the occurrence count of each element in the array $\textit{nums}$. Then, we iterate through each key-value pair $(x, c)$ in the hash table. If the key $x + 1$ exists in the hash table, then the sum of occurrences of elements $x$ and $x + 1$, $c + \textit{cnt}[x + 1]$, forms a harmonious subsequence. We just need to find the maximum length among all harmonious subsequences.
+我们可以用一个哈希表 $\textit{cnt}$ 记录数组 $\textit{nums}$ 中每个元素出现的次数，然后遍历哈希表中的每个键值对 $(x, c)$，如果哈希表中存在键 $x + 1$，那么 $\textit{nums}$ 中元素 $x$ 和 $x + 1$ 出现的次数之和 $c + \textit{cnt}[x + 1]$ 就是一个和谐子序列，我们只需要在所有和谐子序列中找到最大的长度即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -152,18 +159,18 @@ func findLHS(nums []int) (ans int) {
 
 ```ts
 function findLHS(nums: number[]): number {
-  const cnt: Record<number, number> = {};
-  for (const x of nums) {
-    cnt[x] = (cnt[x] || 0) + 1;
-  }
-  let ans = 0;
-  for (const [x, c] of Object.entries(cnt)) {
-    const y = +x + 1;
-    if (cnt[y]) {
-      ans = Math.max(ans, c + cnt[y]);
+    const cnt: Record<number, number> = {};
+    for (const x of nums) {
+        cnt[x] = (cnt[x] || 0) + 1;
     }
-  }
-  return ans;
+    let ans = 0;
+    for (const [x, c] of Object.entries(cnt)) {
+        const y = +x + 1;
+        if (cnt[y]) {
+            ans = Math.max(ans, c + cnt[y]);
+        }
+    }
+    return ans;
 }
 ```
 

@@ -1,78 +1,83 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3272.Find%20the%20Count%20of%20Good%20Integers/README.md
 rating: 2382
-source: Biweekly Contest 138 Q3
+source: 第 138 场双周赛 Q3
 tags:
-  - Hash Table
-  - Math
-  - Combinatorics
-  - Enumeration
+    - 哈希表
+    - 数学
+    - 组合数学
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [3272. Find the Count of Good Integers](https://leetcode.com/problems/find-the-count-of-good-integers)
+# [3272. 统计好整数的数目](https://leetcode.cn/problems/find-the-count-of-good-integers)
 
-## Description
+[English Version](/solution/3200-3299/3272.Find%20the%20Count%20of%20Good%20Integers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>positive</strong> integers <code>n</code> and <code>k</code>.</p>
+<p>给你两个 <strong>正</strong>&nbsp;整数&nbsp;<code>n</code> 和&nbsp;<code>k</code>&nbsp;。</p>
 
-<p>An integer <code>x</code> is called <strong>k-palindromic</strong> if:</p>
-
-<ul>
-	<li><code>x</code> is a <span data-keyword="palindrome-integer">palindrome</span>.</li>
-	<li><code>x</code> is divisible by <code>k</code>.</li>
-</ul>
-
-<p>An integer is called <strong>good</strong> if its digits can be <em>rearranged</em> to form a <strong>k-palindromic</strong> integer. For example, for <code>k = 2</code>, 2020 can be rearranged to form the <em>k-palindromic</em> integer 2002, whereas 1010 cannot be rearranged to form a <em>k-palindromic</em> integer.</p>
-
-<p>Return the count of <strong>good</strong> integers containing <code>n</code> digits.</p>
-
-<p><strong>Note</strong> that <em>any</em> integer must <strong>not</strong> have leading zeros, <strong>neither</strong> before <strong>nor</strong> after rearrangement. For example, 1010 <em>cannot</em> be rearranged to form 101.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 3, k = 5</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">27</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p><em>Some</em> of the good integers are:</p>
+<p>如果一个整数&nbsp;<code>x</code>&nbsp;满足以下条件，那么它被称为 <strong>k</strong><strong>&nbsp;回文</strong>&nbsp;整数&nbsp;。</p>
 
 <ul>
-	<li>551 because it can be rearranged to form 515.</li>
-	<li>525 because it is already k-palindromic.</li>
+	<li><code>x</code>&nbsp;是一个&nbsp;<span data-keyword="palindrome-integer">回文整数 。</span></li>
+	<li><code>x</code>&nbsp;能被 <code>k</code>&nbsp;整除。</li>
+</ul>
+
+<p>如果一个整数的数位重新排列后能得到一个 <strong>k 回文整数</strong>&nbsp;，那么我们称这个整数为&nbsp;<strong>好 </strong>整数。比方说，<code>k = 2</code>&nbsp;，那么&nbsp;2020 可以重新排列得到 2002 ，2002 是一个 k 回文串，所以 2020 是一个好整数。而 1010 无法重新排列数位得到一个 k 回文整数。</p>
+
+<p>请你返回 <code>n</code>&nbsp;个数位的整数中，有多少个 <strong>好</strong>&nbsp;整数。</p>
+
+<p><b>注意</b>&nbsp;，任何整数在重新排列数位之前或者之后 <strong>都不能</strong> 有前导 0 。比方说 1010 不能重排列得到&nbsp;101 。</p>
+
+<p>&nbsp;</p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>n = 3, k = 5</span></p>
+
+<p><span class="example-io"><b>输出：</b>27</span></p>
+
+<p><b>解释：</b></p>
+
+<p>部分好整数如下：</p>
+
+<ul>
+	<li>551 ，因为它可以重排列得到 515 。</li>
+	<li>525 ，因为它已经是一个 k 回文整数。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 1, k = 4</span></p>
+<p><span class="example-io"><b>输入：</b>n = 1, k = 4</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><span class="example-io"><b>输出：</b>2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The two good integers are 4 and 8.</p>
+<p>两个好整数分别是 4 和 8 。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 5, k = 6</span></p>
+<p><span class="example-io"><b>输入：</b>n = 5, k = 6</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2468</span></p>
+<p><span class="example-io"><b>输出：</b>2468</span></p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10</code></li>
@@ -81,11 +86,11 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -266,59 +271,59 @@ func reverseString(s string) string {
 
 ```ts
 function factorial(n: number): number[] {
-  const fac = Array(n + 1).fill(1);
-  for (let i = 1; i <= n; i++) {
-    fac[i] = fac[i - 1] * i;
-  }
-  return fac;
+    const fac = Array(n + 1).fill(1);
+    for (let i = 1; i <= n; i++) {
+        fac[i] = fac[i - 1] * i;
+    }
+    return fac;
 }
 
 function reverseString(s: string): string {
-  return s.split("").reverse().join("");
+    return s.split('').reverse().join('');
 }
 
 function countGoodIntegers(n: number, k: number): number {
-  const fac = factorial(n);
-  let ans = 0;
-  const vis = new Set<string>();
-  const base = Math.pow(10, Math.floor((n - 1) / 2));
+    const fac = factorial(n);
+    let ans = 0;
+    const vis = new Set<string>();
+    const base = Math.pow(10, Math.floor((n - 1) / 2));
 
-  for (let i = base; i < base * 10; i++) {
-    let s = i.toString();
-    const rev = reverseString(s);
-    if (n % 2 === 1) {
-      s += rev.substring(1);
-    } else {
-      s += rev;
+    for (let i = base; i < base * 10; i++) {
+        let s = i.toString();
+        const rev = reverseString(s);
+        if (n % 2 === 1) {
+            s += rev.substring(1);
+        } else {
+            s += rev;
+        }
+
+        const num = parseInt(s, 10);
+        if (num % k !== 0) {
+            continue;
+        }
+
+        const bs = Array.from(s).sort();
+        const t = bs.join('');
+
+        if (vis.has(t)) {
+            continue;
+        }
+
+        vis.add(t);
+
+        const cnt = Array(10).fill(0);
+        for (const c of t) {
+            cnt[+c]++;
+        }
+
+        let res = (n - cnt[0]) * fac[n - 1];
+        for (const x of cnt) {
+            res /= fac[x];
+        }
+        ans += res;
     }
 
-    const num = parseInt(s, 10);
-    if (num % k !== 0) {
-      continue;
-    }
-
-    const bs = Array.from(s).sort();
-    const t = bs.join("");
-
-    if (vis.has(t)) {
-      continue;
-    }
-
-    vis.add(t);
-
-    const cnt = Array(10).fill(0);
-    for (const c of t) {
-      cnt[+c]++;
-    }
-
-    let res = (n - cnt[0]) * fac[n - 1];
-    for (const x of cnt) {
-      res /= fac[x];
-    }
-    ans += res;
-  }
-
-  return ans;
+    return ans;
 }
 ```
 

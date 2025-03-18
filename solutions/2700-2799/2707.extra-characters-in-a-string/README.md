@@ -1,82 +1,84 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2707.Extra%20Characters%20in%20a%20String/README.md
 rating: 1735
-source: Biweekly Contest 105 Q2
+source: 第 105 场双周赛 Q2
 tags:
-  - Trie
-  - Array
-  - Hash Table
-  - String
-  - Dynamic Programming
+    - 字典树
+    - 数组
+    - 哈希表
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2707. Extra Characters in a String](https://leetcode.com/problems/extra-characters-in-a-string)
+# [2707. 字符串中的额外字符](https://leetcode.cn/problems/extra-characters-in-a-string)
 
-## Description
+[English Version](/solution/2700-2799/2707.Extra%20Characters%20in%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> string <code>s</code> and a dictionary of words <code>dictionary</code>. You have to break <code>s</code> into one or more <strong>non-overlapping</strong> substrings such that each substring is present in <code>dictionary</code>. There may be some <strong>extra characters</strong> in <code>s</code> which are not present in any of the substrings.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的字符串&nbsp;<code>s</code>&nbsp;和一个单词字典&nbsp;<code>dictionary</code>&nbsp;。你需要将&nbsp;<code>s</code>&nbsp;分割成若干个 <strong>互不重叠</strong>&nbsp;的子字符串，每个子字符串都在&nbsp;<code>dictionary</code>&nbsp;中出现过。<code>s</code>&nbsp;中可能会有一些&nbsp;<strong>额外的字符</strong>&nbsp;不在任何子字符串中。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of extra characters left over if you break up </em><code>s</code><em> optimally.</em></p>
+<p>请你采取最优策略分割 <code>s</code>&nbsp;，使剩下的字符 <strong>最少</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;leetscode&quot;, dictionary = [&quot;leet&quot;,&quot;code&quot;,&quot;leetcode&quot;]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> We can break s in two substrings: &quot;leet&quot; from index 0 to 3 and &quot;code&quot; from index 5 to 8. There is only 1 unused character (at index 4), so we return 1.
+<p><strong>示例 1：</strong></p>
 
+<pre><b>输入：</b>s = "leetscode", dictionary = ["leet","code","leetcode"]
+<b>输出：</b>1
+<b>解释：</b>将 s 分成两个子字符串：下标从 0 到 3 的 "leet" 和下标从 5 到 8 的 "code" 。只有 1 个字符没有使用（下标为 4），所以我们返回 1 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;sayhelloworld&quot;, dictionary = [&quot;hello&quot;,&quot;world&quot;]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We can break s in two substrings: &quot;hello&quot; from index 3 to 7 and &quot;world&quot; from index 8 to 12. The characters at indices 0, 1, 2 are not used in any substring and thus are considered as extra characters. Hence, we return 3.
+<pre><b>输入：</b>s = "sayhelloworld", dictionary = ["hello","world"]
+<b>输出：</b>3
+<b>解释：</b>将 s 分成两个子字符串：下标从 3 到 7 的 "hello" 和下标从 8 到 12 的 "world" 。下标为 0 ，1 和 2 的字符没有使用，所以我们返回 3 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 50</code></li>
 	<li><code>1 &lt;= dictionary.length &lt;= 50</code></li>
 	<li><code>1 &lt;= dictionary[i].length &lt;= 50</code></li>
-	<li><code>dictionary[i]</code>&nbsp;and <code>s</code> consists of only lowercase English letters</li>
-	<li><code>dictionary</code> contains distinct words</li>
+	<li><code>dictionary[i]</code>&nbsp;和&nbsp;<code>s</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>dictionary</code>&nbsp;中的单词互不相同。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Dynamic Programming
+### 方法一：哈希表 + 动态规划
 
-We can use a hash table $ss$ to record all words in the dictionary, which allows us to quickly determine whether a string is in the dictionary.
+我们可以用一个哈希表 $ss$ 记录字段中的所有单词，方便我们快速判断一个字符串是否在字典中。
 
-Next, we define $f[i]$ to represent the minimum number of extra characters in the first $i$ characters of string $s$, initially $f[0] = 0$.
+接下来，我们定义 $f[i]$ 表示字符串 $s$ 的前 $i$ 个字符的最小额外字符数，初始时 $f[0] = 0$。
 
-When $i \ge 1$, the $i$th character $s[i - 1]$ can be an extra character, in which case $f[i] = f[i - 1] + 1$. If there exists an index $j \in [0, i - 1]$ such that $s[j..i)$ is in the hash table $ss$, then we can take $s[j..i)$ as a word, in which case $f[i] = f[j]$.
+当 $i \ge 1$ 时，第 $i$ 个字符 $s[i - 1]$ 可以作为一个额外字符，此时 $f[i] = f[i - 1] + 1$，如果在 $j \in [0, i - 1]$ 中存在一个下标 $j$，使得 $s[j..i)$ 在哈希表 $ss$ 中，那么我们可以将 $s[j..i)$ 作为一个单词，此时 $f[i] = f[j]$。
 
-In summary, we can get the state transition equation:
+综上，我们可以得到状态转移方程：
 
 $$
 f[i] = \min \{ f[i - 1] + 1, \min_{j \in [0, i - 1]} f[j] \}
 $$
 
-where $i \ge 1$, and $j \in [0, i - 1]$ and $s[j..i)$ is in the hash table $ss$.
+其中 $i \ge 1$，而 $j \in [0, i - 1]$ 且 $s[j..i)$ 在哈希表 $ss$ 中。
 
-The final answer is $f[n]$.
+最终答案为 $f[n]$。
 
-The time complexity is $O(n^3 + L)$, and the space complexity is $O(n + L)$. Here, $n$ is the length of string $s$, and $L$ is the sum of the lengths of all words in the dictionary.
+时间复杂度 $O(n^3 + L)$，空间复杂度 $O(n + L)$。其中 $n$ 是字符串 $s$ 的长度，而 $L$ 是字典中所有单词的长度之和。
 
 <!-- tabs:start -->
 
@@ -170,18 +172,18 @@ func minExtraChar(s string, dictionary []string) int {
 
 ```ts
 function minExtraChar(s: string, dictionary: string[]): number {
-  const ss = new Set(dictionary);
-  const n = s.length;
-  const f = new Array(n + 1).fill(0);
-  for (let i = 1; i <= n; ++i) {
-    f[i] = f[i - 1] + 1;
-    for (let j = 0; j < i; ++j) {
-      if (ss.has(s.substring(j, i))) {
-        f[i] = Math.min(f[i], f[j]);
-      }
+    const ss = new Set(dictionary);
+    const n = s.length;
+    const f = new Array(n + 1).fill(0);
+    for (let i = 1; i <= n; ++i) {
+        f[i] = f[i - 1] + 1;
+        for (let j = 0; j < i; ++j) {
+            if (ss.has(s.substring(j, i))) {
+                f[i] = Math.min(f[i], f[j]);
+            }
+        }
     }
-  }
-  return f[n];
+    return f[n];
 }
 ```
 
@@ -217,18 +219,18 @@ impl Solution {
  * @return {number}
  */
 var minExtraChar = function (s, dictionary) {
-  const ss = new Set(dictionary);
-  const n = s.length;
-  const f = Array(n + 1).fill(0);
-  for (let i = 1; i <= n; ++i) {
-    f[i] = f[i - 1] + 1;
-    for (let j = 0; j < i; ++j) {
-      if (ss.has(s.slice(j, i))) {
-        f[i] = Math.min(f[i], f[j]);
-      }
+    const ss = new Set(dictionary);
+    const n = s.length;
+    const f = Array(n + 1).fill(0);
+    for (let i = 1; i <= n; ++i) {
+        f[i] = f[i - 1] + 1;
+        for (let j = 0; j < i; ++j) {
+            if (ss.has(s.slice(j, i))) {
+                f[i] = Math.min(f[i], f[j]);
+            }
+        }
     }
-  }
-  return f[n];
+    return f[n];
 };
 ```
 
@@ -238,15 +240,15 @@ var minExtraChar = function (s, dictionary) {
 
 <!-- solution:start -->
 
-### Solution 2: Trie + Dynamic Programming
+### 方法二：字典树 + 动态规划
 
-We can use a trie to optimize the time complexity of Solution 1.
+我们可以借助字典树来优化方法一的时间复杂度。
 
-Specifically, we first insert each word in the dictionary into the trie $root$ in reverse order, then we define $f[i]$ to represent the minimum number of extra characters in the first $i$ characters of string $s$, initially $f[0] = 0$.
+具体地，我们首先将字典中的每个单词逆序插入到字典树 $root$ 中，然后我们定义 $f[i]$ 表示字符串 $s$ 的前 $i$ 个字符的最小额外字符数，初始时 $f[0] = 0$。
 
-When $i \ge 1$, the $i$th character $s[i - 1]$ can be an extra character, in which case $f[i] = f[i - 1] + 1$. We can also enumerate the index $j$ in reverse order in the range $[0..i-1]$, and determine whether $s[j..i)$ is in the trie $root$. If it exists, then we can take $s[j..i)$ as a word, in which case $f[i] = f[j]$.
+当 $i \ge 1$ 时，第 $i$ 个字符 $s[i - 1]$ 可以作为一个额外字符，此时 $f[i] = f[i - 1] + 1$；我们也可以在 $[0..i-1]$ 的范围内逆序枚举下标 $j$，判断 $s[j..i)$ 是否在字典树 $root$ 中，如果存在，那么我们可以将 $s[j..i)$ 作为一个单词，此时 $f[i] = f[j]$。
 
-The time complexity is $O(n^2 + L)$, and the space complexity is $O(n + L \times |\Sigma|)$. Here, $n$ is the length of string $s$, and $L$ is the sum of the lengths of all words in the dictionary. Additionally, $|\Sigma|$ is the size of the character set. In this problem, the character set is lowercase English letters, so $|\Sigma| = 26$.
+时间复杂度 $O(n^2 + L)$，空间复杂度 $O(n + L \times |\Sigma|)$。其中 $n$ 是字符串 $s$ 的长度，而 $L$ 是字典中所有单词的长度之和，另外 $|\Sigma|$ 是字符集的大小，本题中字符集为小写英文字母，因此 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -423,42 +425,41 @@ func minExtraChar(s string, dictionary []string) int {
 
 ```ts
 class Node {
-  children: (Node | null)[] = Array(26).fill(null);
-  isEnd: boolean = false;
+    children: (Node | null)[] = Array(26).fill(null);
+    isEnd: boolean = false;
 }
 
 function minExtraChar(s: string, dictionary: string[]): number {
-  const root = new Node();
-  for (const w of dictionary) {
-    let node = root;
-    for (let k = w.length - 1; ~k; --k) {
-      const i = w.charCodeAt(k) - "a".charCodeAt(0);
-      if (node.children[i] === null) {
-        node.children[i] = new Node();
-      }
-      node = node.children[i] as Node;
+    const root = new Node();
+    for (const w of dictionary) {
+        let node = root;
+        for (let k = w.length - 1; ~k; --k) {
+            const i = w.charCodeAt(k) - 'a'.charCodeAt(0);
+            if (node.children[i] === null) {
+                node.children[i] = new Node();
+            }
+            node = node.children[i] as Node;
+        }
+        node.isEnd = true;
     }
-    node.isEnd = true;
-  }
 
-  const n = s.length;
-  const f: number[] = Array(n + 1).fill(0);
-  for (let i = 1; i <= n; ++i) {
-    f[i] = f[i - 1] + 1;
-    let node = root;
-    for (let j = i - 1; ~j; --j) {
-      node =
-        (node.children[s.charCodeAt(j) - "a".charCodeAt(0)] as Node) || null;
-      if (node === null) {
-        break;
-      }
-      if (node.isEnd && f[j] < f[i]) {
-        f[i] = f[j];
-      }
+    const n = s.length;
+    const f: number[] = Array(n + 1).fill(0);
+    for (let i = 1; i <= n; ++i) {
+        f[i] = f[i - 1] + 1;
+        let node = root;
+        for (let j = i - 1; ~j; --j) {
+            node = (node.children[s.charCodeAt(j) - 'a'.charCodeAt(0)] as Node) || null;
+            if (node === null) {
+                break;
+            }
+            if (node.isEnd && f[j] < f[i]) {
+                f[i] = f[j];
+            }
+        }
     }
-  }
 
-  return f[n];
+    return f[n];
 }
 ```
 

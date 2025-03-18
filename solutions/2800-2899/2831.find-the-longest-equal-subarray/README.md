@@ -1,56 +1,61 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2831.Find%20the%20Longest%20Equal%20Subarray/README.md
 rating: 1975
-source: Weekly Contest 359 Q4
+source: 第 359 场周赛 Q4
 tags:
-  - Array
-  - Hash Table
-  - Binary Search
-  - Sliding Window
+    - 数组
+    - 哈希表
+    - 二分查找
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2831. Find the Longest Equal Subarray](https://leetcode.com/problems/find-the-longest-equal-subarray)
+# [2831. 找出最长等值子数组](https://leetcode.cn/problems/find-the-longest-equal-subarray)
 
-## Description
+[English Version](/solution/2800-2899/2831.Find%20the%20Longest%20Equal%20Subarray/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>k</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 和一个整数 <code>k</code> 。</p>
 
-<p>A subarray is called <strong>equal</strong> if all of its elements are equal. Note that the empty subarray is an <strong>equal</strong> subarray.</p>
+<p>如果子数组中所有元素都相等，则认为子数组是一个 <strong>等值子数组</strong> 。注意，空数组是 <strong>等值子数组</strong> 。</p>
 
-<p>Return <em>the length of the <strong>longest</strong> possible equal subarray after deleting <strong>at most</strong> </em><code>k</code><em> elements from </em><code>nums</code>.</p>
+<p>从 <code>nums</code> 中删除最多 <code>k</code> 个元素后，返回可能的最长等值子数组的长度。</p>
 
-<p>A <b>subarray</b> is a contiguous, possibly empty sequence of elements within an array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,3,2,3,1,3], k = 3
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> It&#39;s optimal to delete the elements at index 2 and index 4.
-After deleting them, nums becomes equal to [1, 3, 3, 3].
-The longest equal subarray starts at i = 1 and ends at j = 3 with length equal to 3.
-It can be proven that no longer equal subarrays can be created.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,1,2,2,1,1], k = 2
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> It&#39;s optimal to delete the elements at index 2 and index 3.
-After deleting them, nums becomes equal to [1, 1, 1, 1].
-The array itself is an equal subarray, so the answer is 4.
-It can be proven that no longer equal subarrays can be created.
-</pre>
+<p><strong>子数组</strong> 是数组中一个连续且可能为空的元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,3,2,3,1,3], k = 3
+<strong>输出：</strong>3
+<strong>解释：</strong>最优的方案是删除下标 2 和下标 4 的元素。
+删除后，nums 等于 [1, 3, 3, 3] 。
+最长等值子数组从 i = 1 开始到 j = 3 结束，长度等于 3 。
+可以证明无法创建更长的等值子数组。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,1,2,2,1,1], k = 2
+<strong>输出：</strong>4
+<strong>解释：</strong>最优的方案是删除下标 2 和下标 3 的元素。 
+删除后，nums 等于 [1, 1, 1, 1] 。 
+数组自身就是等值子数组，长度等于 4 。 
+可以证明无法创建更长的等值子数组。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -60,21 +65,21 @@ It can be proven that no longer equal subarrays can be created.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Two Pointers
+### 方法一：哈希表 + 双指针
 
-We use two pointers to maintain a monotonically variable length window, and a hash table to maintain the number of occurrences of each element in the window.
+我们用双指针维护一个单调变长的窗口，用哈希表维护窗口中每个元素出现的次数。
 
-The number of all elements in the window minus the number of the most frequently occurring element in the window is the number of elements that need to be deleted from the window.
+窗口中的所有元素个数减去窗口中出现次数最多的元素个数，就是窗口中需要删除的元素个数。
 
-Each time, we add the element pointed to by the right pointer to the window, then update the hash table, and also update the number of the most frequently occurring element in the window. When the number of elements that need to be deleted from the window exceeds $k$, we move the left pointer once, and then update the hash table.
+每一次，我们将右指针指向的元素加入窗口，然后更新哈希表，同时更新窗口中出现次数最多的元素个数。当窗口中需要删除的元素个数超过了 $k$ 时，我们就移动一次左指针，然后更新哈希表。
 
-After the traversal, return the number of the most frequently occurring element.
+遍历结束后，返回出现次数最多的元素个数即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -155,18 +160,18 @@ func longestEqualSubarray(nums []int, k int) int {
 
 ```ts
 function longestEqualSubarray(nums: number[], k: number): number {
-  const cnt: Map<number, number> = new Map();
-  let mx = 0;
-  let l = 0;
-  for (let r = 0; r < nums.length; ++r) {
-    cnt.set(nums[r], (cnt.get(nums[r]) ?? 0) + 1);
-    mx = Math.max(mx, cnt.get(nums[r])!);
-    if (r - l + 1 - mx > k) {
-      cnt.set(nums[l], cnt.get(nums[l])! - 1);
-      ++l;
+    const cnt: Map<number, number> = new Map();
+    let mx = 0;
+    let l = 0;
+    for (let r = 0; r < nums.length; ++r) {
+        cnt.set(nums[r], (cnt.get(nums[r]) ?? 0) + 1);
+        mx = Math.max(mx, cnt.get(nums[r])!);
+        if (r - l + 1 - mx > k) {
+            cnt.set(nums[l], cnt.get(nums[l])! - 1);
+            ++l;
+        }
     }
-  }
-  return mx;
+    return mx;
 }
 ```
 
@@ -174,15 +179,15 @@ function longestEqualSubarray(nums: number[], k: number): number {
 
 <!-- solution:end -->
 
-<!-- source:start -->
+<!-- solution:start -->
 
-### Solution 2: Hash Table + Two Pointers (Method 2)
+### 方法二：哈希表 + 双指针（写法二）
 
-We can use a hash table $g$ to maintain the index list of each element.
+我们可以用一个哈希表 $g$ 维护每个元素的下标列表。
 
-Next, we enumerate each element as the equal value element. We take out the index list $ids$ of this element from the hash table $g$. Then we define two pointers $l$ and $r$ to maintain a window, so that the number of elements in the window minus the number of equal value elements does not exceed $k$. Therefore, we only need to find the largest window that meets the condition.
+接下来，我们枚举每个元素作为等值元素，我们从哈希表 $g$ 中取出这个元素的下标列表 $ids$，然后我们定义两个指针 $l$ 和 $r$，用于维护一个窗口，使得窗口内的元素个数减去等值元素的个数，结果不超过 $k$。那么我们只需要求出最大的满足条件的窗口即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -281,22 +286,22 @@ func longestEqualSubarray(nums []int, k int) (ans int) {
 
 ```ts
 function longestEqualSubarray(nums: number[], k: number): number {
-  const n = nums.length;
-  const g: number[][] = Array.from({ length: n + 1 }, () => []);
-  for (let i = 0; i < n; ++i) {
-    g[nums[i]].push(i);
-  }
-  let ans = 0;
-  for (const ids of g) {
-    let l = 0;
-    for (let r = 0; r < ids.length; ++r) {
-      while (ids[r] - ids[l] - (r - l) > k) {
-        ++l;
-      }
-      ans = Math.max(ans, r - l + 1);
+    const n = nums.length;
+    const g: number[][] = Array.from({ length: n + 1 }, () => []);
+    for (let i = 0; i < n; ++i) {
+        g[nums[i]].push(i);
     }
-  }
-  return ans;
+    let ans = 0;
+    for (const ids of g) {
+        let l = 0;
+        for (let r = 0; r < ids.length; ++r) {
+            while (ids[r] - ids[l] - (r - l) > k) {
+                ++l;
+            }
+            ans = Math.max(ans, r - l + 1);
+        }
+    }
+    return ans;
 }
 ```
 

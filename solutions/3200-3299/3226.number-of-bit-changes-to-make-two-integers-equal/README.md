@@ -1,63 +1,69 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3226.Number%20of%20Bit%20Changes%20to%20Make%20Two%20Integers%20Equal/README.md
 rating: 1247
-source: Weekly Contest 407 Q1
+source: 第 407 场周赛 Q1
 tags:
-  - Bit Manipulation
+    - 位运算
 ---
 
 <!-- problem:start -->
 
-# [3226. Number of Bit Changes to Make Two Integers Equal](https://leetcode.com/problems/number-of-bit-changes-to-make-two-integers-equal)
+# [3226. 使两个整数相等的位更改次数](https://leetcode.cn/problems/number-of-bit-changes-to-make-two-integers-equal)
 
-## Description
+[English Version](/solution/3200-3299/3226.Number%20of%20Bit%20Changes%20to%20Make%20Two%20Integers%20Equal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two positive integers <code>n</code> and <code>k</code>.</p>
+<p>给你两个正整数 <code>n</code> 和 <code>k</code>。</p>
 
-<p>You can choose <strong>any</strong> bit in the <strong>binary representation</strong> of <code>n</code> that is equal to 1 and change it to 0.</p>
+<p>你可以选择 <code>n</code> 的 <strong>二进制表示</strong> 中任意一个值为 1 的位，并将其改为 0。</p>
 
-<p>Return the <em>number of changes</em> needed to make <code>n</code> equal to <code>k</code>. If it is impossible, return -1.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 13, k = 4</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
-
-<p><strong>Explanation:</strong><br />
-Initially, the binary representations of <code>n</code> and <code>k</code> are <code>n = (1101)<sub>2</sub></code> and <code>k = (0100)<sub>2</sub></code>.<br />
-We can change the first and fourth bits of <code>n</code>. The resulting integer is <code>n = (<u><strong>0</strong></u>10<u><strong>0</strong></u>)<sub>2</sub> = k</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 21, k = 21</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
-
-<p><strong>Explanation:</strong><br />
-<code>n</code> and <code>k</code> are already equal, so no changes are needed.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 14, k = 13</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">-1</span></p>
-
-<p><strong>Explanation:</strong><br />
-It is not possible to make <code>n</code> equal to <code>k</code>.</p>
-</div>
+<p>返回使得 <code>n</code> 等于 <code>k</code> 所需要的更改次数。如果无法实现，返回 -1。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">n = 13, k = 4</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">2</span></p>
+
+<p><strong>解释：</strong><br />
+最初，<code>n</code> 和 <code>k</code> 的二进制表示分别为 <code>n = (1101)<sub>2</sub></code> 和 <code>k = (0100)<sub>2</sub></code>，</p>
+
+<p>我们可以改变 <code>n</code> 的第一位和第四位。结果整数为 <code>n = (<u><strong>0</strong></u>10<u><strong>0</strong></u>)<sub>2</sub> = k</code>。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">n = 21, k = 21</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">0</span></p>
+
+<p><strong>解释：</strong><br />
+<code>n</code> 和 <code>k</code> 已经相等，因此不需要更改。</p>
+</div>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">n = 14, k = 13</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">-1</span></p>
+
+<p><strong>解释：</strong><br />
+无法使 <code>n</code> 等于 <code>k</code>。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, k &lt;= 10<sup>6</sup></code></li>
@@ -65,15 +71,15 @@ It is not possible to make <code>n</code> equal to <code>k</code>.</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Bit Manipulation
+### 方法一：位运算
 
-If the bitwise AND result of $n$ and $k$ is not equal to $k$, it indicates that there exists at least one bit where $k$ is $1$ and the corresponding bit in $n$ is $0$. In this case, it is impossible to modify a bit in $n$ to make $n$ equal to $k$, and we return $-1$. Otherwise, we count the number of $1$s in the binary representation of $n \oplus k$.
+如果 $n$ 和 $k$ 的按位与结果不等于 $k$，说明 $k$ 存在某一位为 $1$，而 $n$ 对应的位为 $0$，此时无法通过改变 $n$ 的某一位使得 $n$ 等于 $k$，返回 $-1$；否则，我们统计 $n \oplus k$ 的二进制表示中 $1$ 的个数即可。
 
-The time complexity is $O(\log n)$, and the space complexity is $O(1)$.
+时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -121,16 +127,16 @@ func minChanges(n int, k int) int {
 
 ```ts
 function minChanges(n: number, k: number): number {
-  return (n & k) !== k ? -1 : bitCount(n ^ k);
+    return (n & k) !== k ? -1 : bitCount(n ^ k);
 }
 
 function bitCount(i: number): number {
-  i = i - ((i >>> 1) & 0x55555555);
-  i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
-  i = (i + (i >>> 4)) & 0x0f0f0f0f;
-  i = i + (i >>> 8);
-  i = i + (i >>> 16);
-  return i & 0x3f;
+    i = i - ((i >>> 1) & 0x55555555);
+    i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
+    i = (i + (i >>> 4)) & 0x0f0f0f0f;
+    i = i + (i >>> 8);
+    i = i + (i >>> 16);
+    return i & 0x3f;
 }
 ```
 

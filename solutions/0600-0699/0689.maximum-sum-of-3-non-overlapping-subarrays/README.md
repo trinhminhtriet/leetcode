@@ -1,42 +1,47 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0689.Maximum%20Sum%20of%203%20Non-Overlapping%20Subarrays/README.md
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [689. Maximum Sum of 3 Non-Overlapping Subarrays](https://leetcode.com/problems/maximum-sum-of-3-non-overlapping-subarrays)
+# [689. 三个无重叠子数组的最大和](https://leetcode.cn/problems/maximum-sum-of-3-non-overlapping-subarrays)
 
-## Description
+[English Version](/solution/0600-0699/0689.Maximum%20Sum%20of%203%20Non-Overlapping%20Subarrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> and an integer <code>k</code>, find three non-overlapping subarrays of length <code>k</code> with maximum sum and return them.</p>
+<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> ，找出三个长度为 <code>k</code> 、互不重叠、且全部数字和最大的子数组，并返回这三个子数组。</p>
 
-<p>Return the result as a list of indices representing the starting position of each interval (<strong>0-indexed</strong>). If there are multiple answers, return the lexicographically smallest one.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,1,2,6,7,5,1], k = 2
-<strong>Output:</strong> [0,3,5]
-<strong>Explanation:</strong> Subarrays [1, 2], [2, 6], [7, 5] correspond to the starting indices [0, 3, 5].
-We could have also taken [2, 1], but an answer of [1, 3, 5] would be lexicographically larger.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,1,2,1,2,1,2,1], k = 2
-<strong>Output:</strong> [0,2,4]
-</pre>
+<p>以下标的数组形式返回结果，数组中的每一项分别指示每个子数组的起始位置（下标从 <strong>0</strong> 开始）。如果有多个结果，返回字典序最小的一个。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,1,2,6,7,5,1], k = 2
+<strong>输出：</strong>[0,3,5]
+<strong>解释：</strong>子数组 [1, 2], [2, 6], [7, 5] 对应的起始下标为 [0, 3, 5]。
+也可以取 [2, 1], 但是结果 [1, 3, 5] 在字典序上更小。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,1,2,1,2,1,2,1], k = 2
+<strong>输出：</strong>[0,2,4]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
@@ -46,15 +51,15 @@ We could have also taken [2, 1], but an answer of [1, 3, 5] would be lexicograph
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sliding Window
+### 方法一：滑动窗口
 
-We use a sliding window to enumerate the position of the third subarray, while maintaining the maximum sum and its position of the first two non-overlapping subarrays.
+滑动窗口，枚举第三个子数组的位置，同时维护前两个无重叠子数组的最大和及其位置。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -201,52 +206,52 @@ func maxSumOfThreeSubarrays(nums []int, k int) []int {
 
 ```ts
 function maxSumOfThreeSubarrays(nums: number[], k: number): number[] {
-  const n: number = nums.length;
-  const s: number[] = Array(n + 1).fill(0);
+    const n: number = nums.length;
+    const s: number[] = Array(n + 1).fill(0);
 
-  for (let i = 0; i < n; ++i) {
-    s[i + 1] = s[i] + nums[i];
-  }
-
-  const pre: number[][] = Array(n)
-    .fill([])
-    .map(() => new Array(2).fill(0));
-  const suf: number[][] = Array(n)
-    .fill([])
-    .map(() => new Array(2).fill(0));
-
-  for (let i = 0, t = 0, idx = 0; i < n - k + 1; ++i) {
-    const cur: number = s[i + k] - s[i];
-    if (cur > t) {
-      pre[i + k - 1] = [cur, i];
-      t = cur;
-      idx = i;
-    } else {
-      pre[i + k - 1] = [t, idx];
+    for (let i = 0; i < n; ++i) {
+        s[i + 1] = s[i] + nums[i];
     }
-  }
 
-  for (let i = n - k, t = 0, idx = 0; i >= 0; --i) {
-    const cur: number = s[i + k] - s[i];
-    if (cur >= t) {
-      suf[i] = [cur, i];
-      t = cur;
-      idx = i;
-    } else {
-      suf[i] = [t, idx];
+    const pre: number[][] = Array(n)
+        .fill([])
+        .map(() => new Array(2).fill(0));
+    const suf: number[][] = Array(n)
+        .fill([])
+        .map(() => new Array(2).fill(0));
+
+    for (let i = 0, t = 0, idx = 0; i < n - k + 1; ++i) {
+        const cur: number = s[i + k] - s[i];
+        if (cur > t) {
+            pre[i + k - 1] = [cur, i];
+            t = cur;
+            idx = i;
+        } else {
+            pre[i + k - 1] = [t, idx];
+        }
     }
-  }
 
-  let ans: number[] = [];
-  for (let i = k, t = 0; i < n - 2 * k + 1; ++i) {
-    const cur: number = s[i + k] - s[i] + pre[i - 1][0] + suf[i + k][0];
-    if (cur > t) {
-      ans = [pre[i - 1][1], i, suf[i + k][1]];
-      t = cur;
+    for (let i = n - k, t = 0, idx = 0; i >= 0; --i) {
+        const cur: number = s[i + k] - s[i];
+        if (cur >= t) {
+            suf[i] = [cur, i];
+            t = cur;
+            idx = i;
+        } else {
+            suf[i] = [t, idx];
+        }
     }
-  }
 
-  return ans;
+    let ans: number[] = [];
+    for (let i = k, t = 0; i < n - 2 * k + 1; ++i) {
+        const cur: number = s[i + k] - s[i] + pre[i - 1][0] + suf[i + k][0];
+        if (cur > t) {
+            ans = [pre[i - 1][1], i, suf[i + k][1]];
+            t = cur;
+        }
+    }
+
+    return ans;
 }
 ```
 
@@ -256,15 +261,15 @@ function maxSumOfThreeSubarrays(nums: number[], k: number): number[] {
 
 <!-- solution:start -->
 
-### Solution 2: Preprocessing Prefix and Suffix + Enumerating Middle Subarray
+### 方法二：预处理前后缀 + 枚举中间子数组
 
-We can preprocess to get the prefix sum array $s$ of the array $nums$, where $s[i] = \sum_{j=0}^{i-1} nums[j]$. Then for any $i$, $j$, $s[j] - s[i]$ is the sum of the subarray $[i, j)$.
+我们可以预处理得到数组 $nums$ 的前缀和数组 $s$，其中 $s[i] = \sum_{j=0}^{i-1} nums[j]$，那么对于任意的 $i$，$j$，$s[j] - s[i]$ 就是子数组 $[i, j)$ 的和。
 
-Next, we use dynamic programming to maintain two arrays $pre$ and $suf$ of length $n$, where $pre[i]$ represents the maximum sum and its starting position of the subarray of length $k$ within the range $[0, i]$, and $suf[i]$ represents the maximum sum and its starting position of the subarray of length $k$ within the range $[i, n)$.
+接下来，我们使用动态规划的方法，维护两个长度为 $n$ 的数组 $pre$ 和 $suf$，其中 $pre[i]$ 表示 $[0, i]$ 范围内长度为 $k$ 的子数组的最大和及其起始位置，$suf[i]$ 表示 $[i, n)$ 范围内长度为 $k$ 的子数组的最大和及其起始位置。
 
-Then, we enumerate the starting position $i$ of the middle subarray. The sum of the three subarrays is $pre[i-1][0] + suf[i+k][0] + (s[i+k] - s[i])$, where $pre[i-1][0]$ represents the maximum sum of the subarray of length $k$ within the range $[0, i-1]$, $suf[i+k][0]$ represents the maximum sum of the subarray of length $k$ within the range $[i+k, n)$, and $(s[i+k] - s[i])$ represents the sum of the subarray of length $k$ within the range $[i, i+k)$. We find the starting positions of the three subarrays corresponding to the maximum sum.
+然后，我们枚举中间子数组的起始位置 $i$，那么三个子数组的和就是 $pre[i-1][0] + suf[i+k][0] + (s[i+k] - s[i])$，其中 $pre[i-1][0]$ 表示 $[0, i-1]$ 范围内长度为 $k$ 的子数组的最大和，$suf[i+k][0]$ 表示 $[i+k, n)$ 范围内长度为 $k$ 的子数组的最大和，$(s[i+k] - s[i])$ 表示 $[i, i+k)$ 范围内长度为 $k$ 的子数组的和。我们找出和的最大值对应的三个子数组的起始位置即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 

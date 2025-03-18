@@ -1,67 +1,72 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1094.Car%20Pooling/README.md
 rating: 1441
-source: Weekly Contest 142 Q2
+source: 第 142 场周赛 Q2
 tags:
-  - Array
-  - Prefix Sum
-  - Sorting
-  - Simulation
-  - Heap (Priority Queue)
+    - 数组
+    - 前缀和
+    - 排序
+    - 模拟
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1094. Car Pooling](https://leetcode.com/problems/car-pooling)
+# [1094. 拼车](https://leetcode.cn/problems/car-pooling)
 
-## Description
+[English Version](/solution/1000-1099/1094.Car%20Pooling/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a car with <code>capacity</code> empty seats. The vehicle only drives east (i.e., it cannot turn around and drive west).</p>
+<p>车上最初有&nbsp;<code>capacity</code>&nbsp;个空座位。车&nbsp;<strong>只能&nbsp;</strong>向一个方向行驶（也就是说，<strong>不允许掉头或改变方向</strong>）</p>
 
-<p>You are given the integer <code>capacity</code> and an array <code>trips</code> where <code>trips[i] = [numPassengers<sub>i</sub>, from<sub>i</sub>, to<sub>i</sub>]</code> indicates that the <code>i<sup>th</sup></code> trip has <code>numPassengers<sub>i</sub></code> passengers and the locations to pick them up and drop them off are <code>from<sub>i</sub></code> and <code>to<sub>i</sub></code> respectively. The locations are given as the number of kilometers due east from the car&#39;s initial location.</p>
+<p>给定整数&nbsp;<code>capacity</code>&nbsp;和一个数组 <code>trips</code> , &nbsp;<code>trip[i] = [numPassengers<sub>i</sub>, from<sub>i</sub>, to<sub>i</sub>]</code>&nbsp;表示第 <code>i</code> 次旅行有&nbsp;<code>numPassengers<sub>i</sub></code>&nbsp;乘客，接他们和放他们的位置分别是&nbsp;<code>from<sub>i</sub></code>&nbsp;和&nbsp;<code>to<sub>i</sub></code>&nbsp;。这些位置是从汽车的初始位置向东的公里数。</p>
 
-<p>Return <code>true</code><em> if it is possible to pick up and drop off all passengers for all the given trips, or </em><code>false</code><em> otherwise</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> trips = [[2,1,5],[3,3,7]], capacity = 4
-<strong>Output:</strong> false
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> trips = [[2,1,5],[3,3,7]], capacity = 5
-<strong>Output:</strong> true
-</pre>
+<p>当且仅当你可以在所有给定的行程中接送所有乘客时，返回&nbsp;<code>true</code>，否则请返回 <code>false</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>trips = [[2,1,5],[3,3,7]], capacity = 4
+<strong>输出：</strong>false
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>trips = [[2,1,5],[3,3,7]], capacity = 5
+<strong>输出：</strong>true
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= trips.length &lt;= 1000</code></li>
 	<li><code>trips[i].length == 3</code></li>
-	<li><code>1 &lt;= numPassengers<sub>i</sub> &lt;= 100</code></li>
-	<li><code>0 &lt;= from<sub>i</sub> &lt; to<sub>i</sub> &lt;= 1000</code></li>
+	<li><code>1 &lt;= numPassengers<sub>i</sub>&nbsp;&lt;= 100</code></li>
+	<li><code>0 &lt;= from<sub>i</sub>&nbsp;&lt; to<sub>i</sub>&nbsp;&lt;= 1000</code></li>
 	<li><code>1 &lt;= capacity &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Difference Array
+### 方法一：差分数组
 
-We can use the idea of a difference array, adding the number of passengers to the starting point of each trip and subtracting from the end point. Finally, we just need to check whether the prefix sum of the difference array does not exceed the maximum passenger capacity of the car.
+我们可以利用差分数组的思想，将每个行程的乘客数加到起点，减去终点，最后我们只需要判断差分数组的前缀和是否都不大于车的最大载客量即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(M)$. Here, $n$ is the number of trips, and $M$ is the maximum end point in the trips. In this problem, $M \le 1000$.
+时间复杂度 $O(n)$，空间复杂度 $O(M)$。其中 $n$ 是行程数，而 $M$ 是行程中最大的终点，本题中 $M \le 1000$。
 
 <!-- tabs:start -->
 
@@ -150,20 +155,20 @@ func carPooling(trips [][]int, capacity int) bool {
 
 ```ts
 function carPooling(trips: number[][], capacity: number): boolean {
-  const mx = Math.max(...trips.map(([, , t]) => t));
-  const d = Array(mx + 1).fill(0);
-  for (const [x, f, t] of trips) {
-    d[f] += x;
-    d[t] -= x;
-  }
-  let s = 0;
-  for (const x of d) {
-    s += x;
-    if (s > capacity) {
-      return false;
+    const mx = Math.max(...trips.map(([, , t]) => t));
+    const d = Array(mx + 1).fill(0);
+    for (const [x, f, t] of trips) {
+        d[f] += x;
+        d[t] -= x;
     }
-  }
-  return true;
+    let s = 0;
+    for (const x of d) {
+        s += x;
+        if (s > capacity) {
+            return false;
+        }
+    }
+    return true;
 }
 ```
 
@@ -198,20 +203,20 @@ impl Solution {
  * @return {boolean}
  */
 var carPooling = function (trips, capacity) {
-  const mx = Math.max(...trips.map(([, , t]) => t));
-  const d = Array(mx + 1).fill(0);
-  for (const [x, f, t] of trips) {
-    d[f] += x;
-    d[t] -= x;
-  }
-  let s = 0;
-  for (const x of d) {
-    s += x;
-    if (s > capacity) {
-      return false;
+    const mx = Math.max(...trips.map(([, , t]) => t));
+    const d = Array(mx + 1).fill(0);
+    for (const [x, f, t] of trips) {
+        d[f] += x;
+        d[t] -= x;
     }
-  }
-  return true;
+    let s = 0;
+    for (const x of d) {
+        s += x;
+        if (s > capacity) {
+            return false;
+        }
+    }
+    return true;
 };
 ```
 

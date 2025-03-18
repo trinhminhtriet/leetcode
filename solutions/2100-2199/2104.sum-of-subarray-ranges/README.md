@@ -1,68 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2104.Sum%20of%20Subarray%20Ranges/README.md
 rating: 1504
-source: Weekly Contest 271 Q2
+source: 第 271 场周赛 Q2
 tags:
-  - Stack
-  - Array
-  - Monotonic Stack
+    - 栈
+    - 数组
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [2104. Sum of Subarray Ranges](https://leetcode.com/problems/sum-of-subarray-ranges)
+# [2104. 子数组范围和](https://leetcode.cn/problems/sum-of-subarray-ranges)
 
-## Description
+[English Version](/solution/2100-2199/2104.Sum%20of%20Subarray%20Ranges/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code>. The <strong>range</strong> of a subarray of <code>nums</code> is the difference between the largest and smallest element in the subarray.</p>
+<p>给你一个整数数组 <code>nums</code> 。<code>nums</code> 中，子数组的 <strong>范围</strong> 是子数组中最大元素和最小元素的差值。</p>
 
-<p>Return <em>the <strong>sum of all</strong> subarray ranges of </em><code>nums</code><em>.</em></p>
+<p>返回 <code>nums</code> 中 <strong>所有</strong> 子数组范围的 <strong>和</strong> <em>。</em></p>
 
-<p>A subarray is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The 6 subarrays of nums are the following:
-[1], range = largest - smallest = 1 - 1 = 0 
-[2], range = 2 - 2 = 0
-[3], range = 3 - 3 = 0
-[1,2], range = 2 - 1 = 1
-[2,3], range = 3 - 2 = 1
-[1,2,3], range = 3 - 1 = 2
-So the sum of all ranges is 0 + 0 + 0 + 1 + 1 + 2 = 4.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,3,3]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The 6 subarrays of nums are the following:
-[1], range = largest - smallest = 1 - 1 = 0
-[3], range = 3 - 3 = 0
-[3], range = 3 - 3 = 0
-[1,3], range = 3 - 1 = 2
-[3,3], range = 3 - 3 = 0
-[1,3,3], range = 3 - 1 = 2
-So the sum of all ranges is 0 + 0 + 0 + 2 + 0 + 2 = 4.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [4,-2,-3,4,1]
-<strong>Output:</strong> 59
-<strong>Explanation:</strong> The sum of all subarray ranges of nums is 59.
-</pre>
+<p>子数组是数组中一个连续 <strong>非空</strong> 的元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,3]
+<strong>输出：</strong>4
+<strong>解释：</strong>nums 的 6 个子数组如下所示：
+[1]，范围 = 最大 - 最小 = 1 - 1 = 0 
+[2]，范围 = 2 - 2 = 0
+[3]，范围 = 3 - 3 = 0
+[1,2]，范围 = 2 - 1 = 1
+[2,3]，范围 = 3 - 2 = 1
+[1,2,3]，范围 = 3 - 1 = 2
+所有范围的和是 0 + 0 + 0 + 1 + 1 + 2 = 4</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,3,3]
+<strong>输出：</strong>4
+<strong>解释：</strong>nums 的 6 个子数组如下所示：
+[1]，范围 = 最大 - 最小 = 1 - 1 = 0
+[3]，范围 = 3 - 3 = 0
+[3]，范围 = 3 - 3 = 0
+[1,3]，范围 = 3 - 1 = 2
+[3,3]，范围 = 3 - 3 = 0
+[1,3,3]，范围 = 3 - 1 = 2
+所有范围的和是 0 + 0 + 0 + 2 + 0 + 2 = 4
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [4,-2,-3,4,1]
+<strong>输出：</strong>59
+<strong>解释：</strong>nums 中所有子数组范围的和是 59
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -70,15 +75,22 @@ So the sum of all ranges is 0 + 0 + 0 + 2 + 0 + 2 = 4.
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Follow-up:</strong> Could you find a solution with <code>O(n)</code> time complexity?</p>
+
+<p><strong>进阶：</strong>你可以设计一种时间复杂度为 <code>O(n)</code> 的解决方案吗？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：暴力枚举
+
+循环遍历 $i$，作为子数组的起始位置。对于每个 $i$，遍历每个 $j$ 作为子数组的终止位置，此过程中不断求解子数组的最大值、最小值，然后累加差值到结果 `ans` 中。
+
+最后返回 `ans` 即可。
+
+时间复杂度 $O(n^2)$。
 
 <!-- tabs:start -->
 
@@ -160,18 +172,18 @@ func subArrayRanges(nums []int) int64 {
 
 ```ts
 function subArrayRanges(nums: number[]): number {
-  const n = nums.length;
-  let res = 0;
-  for (let i = 0; i < n - 1; i++) {
-    let min = nums[i];
-    let max = nums[i];
-    for (let j = i + 1; j < n; j++) {
-      min = Math.min(min, nums[j]);
-      max = Math.max(max, nums[j]);
-      res += max - min;
+    const n = nums.length;
+    let res = 0;
+    for (let i = 0; i < n - 1; i++) {
+        let min = nums[i];
+        let max = nums[i];
+        for (let j = i + 1; j < n; j++) {
+            min = Math.min(min, nums[j]);
+            max = Math.max(max, nums[j]);
+            res += max - min;
+        }
     }
-  }
-  return res;
+    return res;
 }
 ```
 
@@ -202,7 +214,19 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：单调栈
+
+枚举每个元素 `nums[i]` 作为最大值出现在了多少个子数组中，以及作为最小值出现在多少个子数组中。
+
+其中 `nums[i]` 作为最大值的贡献为正，作为最小值的贡献为负。
+
+我们以 `nums[i]` 作为最大值为例。找出左侧第一个比 `nums[i]` 大的位置 `left[i]`，右侧第一个大于等于 `nums[i]` 的位置 `right[i]`。计算每个 `nums[i]` 的贡献 $(i - left[i])\times (right[i] - i)\times arr[i]$，累加得到结果。
+
+时间复杂度 $O(n)$。
+
+相似题目：
+
+-   [907. 子数组的最小值之和](https://github.com/doocs/leetcode/blob/main/solution/0900-0999/0907.Sum%20of%20Subarray%20Minimums/README.md)
 
 <!-- tabs:start -->
 

@@ -1,78 +1,90 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1252.Cells%20with%20Odd%20Values%20in%20a%20Matrix/README.md
 rating: 1283
-source: Weekly Contest 162 Q1
+source: 第 162 场周赛 Q1
 tags:
-  - Array
-  - Math
-  - Simulation
+    - 数组
+    - 数学
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1252. Cells with Odd Values in a Matrix](https://leetcode.com/problems/cells-with-odd-values-in-a-matrix)
+# [1252. 奇数值单元格的数目](https://leetcode.cn/problems/cells-with-odd-values-in-a-matrix)
 
-## Description
+[English Version](/solution/1200-1299/1252.Cells%20with%20Odd%20Values%20in%20a%20Matrix/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an <code>m x n</code> matrix that is initialized to all <code>0</code>&#39;s. There is also a 2D array <code>indices</code> where each <code>indices[i] = [r<sub>i</sub>, c<sub>i</sub>]</code> represents a <strong>0-indexed location</strong> to perform some increment operations on the matrix.</p>
+<p>给你一个 <code>m x n</code> 的矩阵，最开始的时候，每个单元格中的值都是 <code>0</code>。</p>
 
-<p>For each location <code>indices[i]</code>, do <strong>both</strong> of the following:</p>
+<p>另有一个二维索引数组 <code>indices</code>，<code>indices[i] = [ri, ci]</code> 指向矩阵中的某个位置，其中 <code>ri</code> 和 <code>ci</code> 分别表示指定的行和列（<strong>从 <code>0</code> 开始编号</strong>）。</p>
+
+<p>对 <code>indices[i]</code> 所指向的每个位置，应同时执行下述增量操作：</p>
 
 <ol>
-	<li>Increment <strong>all</strong> the cells on row <code>r<sub>i</sub></code>.</li>
-	<li>Increment <strong>all</strong> the cells on column <code>c<sub>i</sub></code>.</li>
+	<li><code>r<sub>i</sub></code> 行上的所有单元格，加 <code>1</code> 。</li>
+	<li><code>c<sub>i</sub></code> 列上的所有单元格，加 <code>1</code> 。</li>
 </ol>
 
-<p>Given <code>m</code>, <code>n</code>, and <code>indices</code>, return <em>the <strong>number of odd-valued cells</strong> in the matrix after applying the increment to all locations in </em><code>indices</code>.</p>
+<p>给你 <code>m</code>、<code>n</code> 和 <code>indices</code> 。请你在执行完所有 <code>indices</code> 指定的增量操作后，返回矩阵中 <strong>奇数值单元格</strong> 的数目。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1252.Cells%20with%20Odd%20Values%20in%20a%20Matrix/images/e1.png" style="width: 600px; height: 118px;" />
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1252.Cells%20with%20Odd%20Values%20in%20a%20Matrix/images/e1.png" style="height: 118px; width: 600px;" /></p>
+
 <pre>
-<strong>Input:</strong> m = 2, n = 3, indices = [[0,1],[1,1]]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> Initial matrix = [[0,0,0],[0,0,0]].
-After applying first increment it becomes [[1,2,1],[0,1,0]].
-The final matrix is [[1,3,1],[1,3,1]], which contains 6 odd numbers.
+<strong>输入：</strong>m = 2, n = 3, indices = [[0,1],[1,1]]
+<strong>输出：</strong>6
+<strong>解释：</strong>最开始的矩阵是 [[0,0,0],[0,0,0]]。
+第一次增量操作后得到 [[1,2,1],[0,1,0]]。
+最后的矩阵是 [[1,3,1],[1,3,1]]，里面有 6 个奇数。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1252.Cells%20with%20Odd%20Values%20in%20a%20Matrix/images/e2.png" style="width: 600px; height: 150px;" />
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1252.Cells%20with%20Odd%20Values%20in%20a%20Matrix/images/e2.png" style="height: 150px; width: 600px;" /></p>
+
 <pre>
-<strong>Input:</strong> m = 2, n = 2, indices = [[1,1],[0,0]]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Final matrix = [[2,2],[2,2]]. There are no odd numbers in the final matrix.
+<strong>输入：</strong>m = 2, n = 2, indices = [[1,1],[0,0]]
+<strong>输出：</strong>0
+<strong>解释：</strong>最后的矩阵是 [[2,2],[2,2]]，里面没有奇数。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= m, n &lt;= 50</code></li>
-	<li><code>1 &lt;= indices.length &lt;= 100</code></li>
-	<li><code>0 &lt;= r<sub>i</sub> &lt; m</code></li>
-	<li><code>0 &lt;= c<sub>i</sub> &lt; n</code></li>
+	<li><code>1 <= m, n <= 50</code></li>
+	<li><code>1 <= indices.length <= 100</code></li>
+	<li><code>0 <= r<sub>i</sub> < m</code></li>
+	<li><code>0 <= c<sub>i</sub> < n</code></li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong>Follow up:</strong> Could you solve this in <code>O(n + m + indices.length)</code> time with only <code>O(n + m)</code> extra space?</p>
+<p> </p>
+
+<p><strong>进阶：</strong>你可以设计一个时间复杂度为 <code>O(n + m + indices.length)</code> 且仅用 <code>O(n + m)</code> 额外空间的算法来解决此问题吗？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We create a matrix $g$ to store the result of operations. For each pair $(r_i, c_i)$ in $\textit{indices}$, we add $1$ to all numbers in the $r_i$-th row of the matrix and add $1$ to all elements in the $c_i$-th column.
+我们创建一个矩阵 $g$ 来存放操作的结果。对于 $\textit{indices}$ 中的每一对 $(r_i, c_i)$，我们将矩阵第 $r_i$ 行的所有数加 $1$，第 $c_i$ 列的所有元素加 $1$。
 
-After the simulation ends, we traverse the matrix and count the number of odd numbers.
+模拟结束后，遍历矩阵，统计奇数的个数。
 
-The time complexity is $O(k \times (m + n) + m \times n)$, and the space complexity is $O(m \times n)$. Here, $k$ is the length of $\textit{indices}$.
+时间复杂度 $O(k \times (m + n) + m \times n)$，空间复杂度 $O(m \times n)$。其中 $k$ 为 $\textit{indices}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -176,13 +188,13 @@ func oddCells(m int, n int, indices [][]int) int {
 
 <!-- solution:start -->
 
-### Solution 2: Space Optimization
+### 方法二：空间优化
 
-We can use a row array $\textit{row}$ and a column array $\textit{col}$ to record the number of times each row and column is incremented. For each pair $(r_i, c_i)$ in $\textit{indices}$, we add $1$ to $\textit{row}[r_i]$ and $\textit{col}[c_i]$ respectively.
+我们可以使用行数组 $\textit{row}$ 和列数组 $\textit{col}$ 来记录每一行、每一列被增加的次数。对于 $\textit{indices}$ 中的每一对 $(r_i, c_i)$，我们将 $\textit{row}[r_i]$ 和 $\textit{col}[c_i]$ 分别加 $1$。
 
-After the operations are completed, the count at position $(i, j)$ can be calculated as $\textit{row}[i] + \textit{col}[j]$. We traverse the matrix and count the number of odd numbers.
+操作结束后，可以算出 $(i, j)$ 位置的计数为 $\textit{row}[i]+\textit{col}[j]$。遍历矩阵，统计奇数的个数。
 
-The time complexity is $O(k + m \times n)$, and the space complexity is $O(m + n)$. Here, $k$ is the length of $\textit{indices}$.
+时间复杂度 $O(k + m \times n)$，空间复杂度 $O(m + n)$。其中 $k$ 为 $\textit{indices}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -273,13 +285,13 @@ func oddCells(m int, n int, indices [][]int) int {
 
 <!-- solution:start -->
 
-### Solution 3: Mathematical Optimization
+### 方法三：数学优化
 
-We notice that a number at position $(i, j)$ in the matrix will be odd only when exactly one of $\textit{row}[i]$ and $\textit{col}[j]$ is odd and the other is even.
+我们注意到，只有当 $\textit{row}[i]$ 和 $\textit{col}[j]$ 中恰好为“一奇一偶”时，矩阵 $(i, j)$ 位置的数才会是奇数。
 
-We count the number of odd numbers in $\textit{row}$, denoted as $\textit{cnt1}$, and the number of odd numbers in $\textit{col}$, denoted as $\textit{cnt2}$. Therefore, the final count of odd numbers is $\textit{cnt1} \times (n - \textit{cnt2}) + \textit{cnt2} \times (m - \textit{cnt1})$.
+我们统计 $\textit{row}$ 中的奇数个数，记为 $\textit{cnt1}$；而 $\textit{col}$ 中的奇数个数，记为 $\textit{cnt2}$。那么最终得到的奇数个数为 $\textit{cnt1} \times (n - \textit{cnt2}) + \textit{cnt2} \times (m - \textit{cnt1})$。
 
-The time complexity is $O(k + m + n)$, and the space complexity is $O(m + n)$. Here, $k$ is the length of $\textit{indices}$.
+时间复杂度 $O(k + m + n)$，空间复杂度 $O(m + n)$。其中 $k$ 为 $\textit{indices}$ 的长度。
 
 <!-- tabs:start -->
 

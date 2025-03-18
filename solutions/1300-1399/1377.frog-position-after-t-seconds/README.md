@@ -1,82 +1,103 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1377.Frog%20Position%20After%20T%20Seconds/README.md
 rating: 1823
-source: Weekly Contest 179 Q4
+source: 第 179 场周赛 Q4
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [1377. Frog Position After T Seconds](https://leetcode.com/problems/frog-position-after-t-seconds)
+# [1377. T 秒后青蛙的位置](https://leetcode.cn/problems/frog-position-after-t-seconds)
 
-## Description
+[English Version](/solution/1300-1399/1377.Frog%20Position%20After%20T%20Seconds/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an undirected tree consisting of <code>n</code> vertices numbered from <code>1</code> to <code>n</code>. A frog starts jumping from <strong>vertex 1</strong>. In one second, the frog jumps from its current vertex to another <strong>unvisited</strong> vertex if they are directly connected. The frog can not jump back to a visited vertex. In case the frog can jump to several vertices, it jumps randomly to one of them with the same probability. Otherwise, when the frog can not jump to any unvisited vertex, it jumps forever on the same vertex.</p>
+<p>给你一棵由 <code>n</code> 个顶点组成的无向树，顶点编号从 <code>1</code> 到 <code>n</code>。青蛙从 <strong>顶点 1</strong> 开始起跳。规则如下：</p>
 
-<p>The edges of the undirected tree are given in the array <code>edges</code>, where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> means that exists an edge connecting the vertices <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>.</p>
+<ul>
+	<li>在一秒内，青蛙从它所在的当前顶点跳到另一个 <strong>未访问</strong> 过的顶点（如果它们直接相连）。</li>
+	<li>青蛙无法跳回已经访问过的顶点。</li>
+	<li>如果青蛙可以跳到多个不同顶点，那么它跳到其中任意一个顶点上的机率都相同。</li>
+	<li>如果青蛙不能跳到任何未访问过的顶点上，那么它每次跳跃都会停留在原地。</li>
+</ul>
 
-<p><em>Return the probability that after <code>t</code> seconds the frog is on the vertex <code>target</code>. </em>Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</p>
+<p>无向树的边用数组 <code>edges</code> 描述，其中 <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 意味着存在一条直接连通 <code>a<sub>i</sub></code> 和 <code>b<sub>i</sub></code> 两个顶点的边。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1377.Frog%20Position%20After%20T%20Seconds/images/frog1.jpg" style="width: 338px; height: 304px;" />
-<pre>
-<strong>Input:</strong> n = 7, edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]], t = 2, target = 4
-<strong>Output:</strong> 0.16666666666666666 
-<strong>Explanation:</strong> The figure above shows the given graph. The frog starts at vertex 1, jumping with 1/3 probability to the vertex 2 after <strong>second 1</strong> and then jumping with 1/2 probability to vertex 4 after <strong>second 2</strong>. Thus the probability for the frog is on the vertex 4 after 2 seconds is 1/3 * 1/2 = 1/6 = 0.16666666666666666. 
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1377.Frog%20Position%20After%20T%20Seconds/images/frog2.jpg" style="width: 304px; height: 304px;" /></strong>
-
-<pre>
-<strong>Input:</strong> n = 7, edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]], t = 1, target = 7
-<strong>Output:</strong> 0.3333333333333333
-<strong>Explanation: </strong>The figure above shows the given graph. The frog starts at vertex 1, jumping with 1/3 = 0.3333333333333333 probability to the vertex 7 after <strong>second 1</strong>. 
-</pre>
+<p>返回青蛙在 <em><code>t</code></em> 秒后位于目标顶点 <em><code>target</code> </em>上的概率。与实际答案相差不超过 <code>10<sup>-5</sup></code> 的结果将被视为正确答案。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1377.Frog%20Position%20After%20T%20Seconds/images/frog1.jpg" /></p>
+
+<pre>
+<strong>输入：</strong>n = 7, edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]], t = 2, target = 4
+<strong>输出：</strong>0.16666666666666666 
+<strong>解释：</strong>上图显示了青蛙的跳跃路径。青蛙从顶点 1 起跳，第 <strong>1 秒</strong> 有 1/3 的概率跳到顶点 2 ，然后第 <strong>2 秒</strong> 有 1/2 的概率跳到顶点 4，因此青蛙在 2 秒后位于顶点 4 的概率是 1/3 * 1/2 = 1/6 = 0.16666666666666666 。 
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1377.Frog%20Position%20After%20T%20Seconds/images/frog2.jpg" /></p>
+
+<pre>
+<strong>输入：</strong>n = 7, edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]], t = 1, target = 7
+<strong>输出：</strong>0.3333333333333333
+<strong>解释：</strong>上图显示了青蛙的跳跃路径。青蛙从顶点 1 起跳，有 1/3 = 0.3333333333333333 的概率能够 <strong>1 秒</strong> 后跳到顶点 7 。 
+</pre>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>edges[i].length == 2</code></li>
-	<li><code>1 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n</code></li>
+	<li><code>1 &lt;= a<sub>i</sub>, b<sub>i</sub>&nbsp;&lt;= n</code></li>
 	<li><code>1 &lt;= t &lt;= 50</code></li>
 	<li><code>1 &lt;= target &lt;= n</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-First, based on the undirected tree edges given in the problem, we construct an adjacency list $g$, where $g[u]$ represents all adjacent vertices of vertex $u$.
+我们先根据题目给出的无向树的边，建立一个邻接表 $g$，其中 $g[u]$ 表示顶点 $u$ 的所有相邻顶点。
 
-Then, we define the following data structures:
+然后，我们定义以下数据结构：
 
-- Queue $q$, used to store the vertices and their probabilities for each round of search. Initially, $q = [(1, 1.0)]$, indicating that the probability of the frog being at vertex $1$ is $1.0$;
-- Array $vis$, used to record whether each vertex has been visited. Initially, $vis[1] = true$, and all other elements are $false$.
+-   队列 $q$，用于存储每一轮搜索的顶点及其概率，初始时 $q = [(1, 1.0)]$，表示青蛙在顶点 $1$ 的概率为 $1.0$；
+-   数组 $vis$，用于记录每个顶点是否被访问过，初始时 $vis[1] = true$，其余元素均为 $false$。
 
-Next, we start the breadth-first search.
+接下来，我们开始进行广度优先搜索。
 
-In each round of search, we take out the head element $(u, p)$ of the queue, where $u$ and $p$ represent the current vertex and its probability, respectively. The number of unvisited adjacent vertices of the current vertex $u$ is denoted as $cnt$.
+在每一轮搜索中，我们每次取出队首元素 $(u, p)$，其中 $u$ 和 $p$ 分别表示当前顶点及其概率。当前顶点 $u$ 的相邻顶点中未被访问过的顶点的个数记为 $cnt$。
 
-- If $u = target$, it means that the frog has reached the target vertex. At this time, we judge whether the frog reaches the target vertex in $t$ seconds, or it reaches the target vertex in less than $t$ seconds but cannot jump to other vertices (i.e., $t=0$ or $cnt=0$). If so, return $p$, otherwise return $0$.
-- If $u \neq target$, we evenly distribute the probability $p$ to all unvisited adjacent vertices of $u$, then add these vertices to the queue $q$, and mark these vertices as visited.
+-   如果 $u = target$，说明青蛙已经到达目标顶点，此时我们判断青蛙是否在 $t$ 秒到达目标顶点，或者不到 $t$ 秒到达目标顶点但是无法再跳跃到其它顶点（即 $t=0$ 或者 $cnt=0$）。如果是，则返回 $p$，否则返回 $0$。
+-   如果 $u \neq target$，那么我们将概率 $p$ 均分给 $u$ 的所有未被访问过的相邻顶点，然后将这些顶点加入队列 $q$ 中，并且将这些顶点标记为已访问。
 
-At the end of a round of search, we decrease $t$ by $1$, and then continue the next round of search until the queue is empty or $t \lt 0$.
+在一轮搜索结束后，我们将 $t$ 减少 $1$，然后继续进行下一轮搜索，直到队列为空或者 $t \lt 0$。
+
+最后，若青蛙仍然没有到达目标顶点，那么我们返回 $0$。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是无向树的顶点数。
 
 <!-- tabs:start -->
 
@@ -229,36 +250,31 @@ func frogPosition(n int, edges [][]int, t int, target int) float64 {
 #### TypeScript
 
 ```ts
-function frogPosition(
-  n: number,
-  edges: number[][],
-  t: number,
-  target: number
-): number {
-  const g: number[][] = Array.from({ length: n + 1 }, () => []);
-  for (const [u, v] of edges) {
-    g[u].push(v);
-    g[v].push(u);
-  }
-  const q: number[][] = [[1, 1]];
-  const vis: boolean[] = Array.from({ length: n + 1 }, () => false);
-  vis[1] = true;
-  for (; q.length > 0 && t >= 0; --t) {
-    for (let k = q.length; k > 0; --k) {
-      const [u, p] = q.shift()!;
-      const cnt = g[u].length - (u === 1 ? 0 : 1);
-      if (u === target) {
-        return cnt * t === 0 ? p : 0;
-      }
-      for (const v of g[u]) {
-        if (!vis[v]) {
-          vis[v] = true;
-          q.push([v, p / cnt]);
-        }
-      }
+function frogPosition(n: number, edges: number[][], t: number, target: number): number {
+    const g: number[][] = Array.from({ length: n + 1 }, () => []);
+    for (const [u, v] of edges) {
+        g[u].push(v);
+        g[v].push(u);
     }
-  }
-  return 0;
+    const q: number[][] = [[1, 1]];
+    const vis: boolean[] = Array.from({ length: n + 1 }, () => false);
+    vis[1] = true;
+    for (; q.length > 0 && t >= 0; --t) {
+        for (let k = q.length; k > 0; --k) {
+            const [u, p] = q.shift()!;
+            const cnt = g[u].length - (u === 1 ? 0 : 1);
+            if (u === target) {
+                return cnt * t === 0 ? p : 0;
+            }
+            for (const v of g[u]) {
+                if (!vis[v]) {
+                    vis[v] = true;
+                    q.push([v, p / cnt]);
+                }
+            }
+        }
+    }
+    return 0;
 }
 ```
 

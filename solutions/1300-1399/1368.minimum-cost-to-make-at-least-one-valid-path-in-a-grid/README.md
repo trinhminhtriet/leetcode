@@ -1,91 +1,110 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1368.Minimum%20Cost%20to%20Make%20at%20Least%20One%20Valid%20Path%20in%20a%20Grid/README.md
 rating: 2068
-source: Weekly Contest 178 Q4
+source: 第 178 场周赛 Q4
 tags:
-  - Breadth-First Search
-  - Graph
-  - Array
-  - Matrix
-  - Shortest Path
-  - Heap (Priority Queue)
+    - 广度优先搜索
+    - 图
+    - 数组
+    - 矩阵
+    - 最短路
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1368. Minimum Cost to Make at Least One Valid Path in a Grid](https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid)
+# [1368. 使网格图至少有一条有效路径的最小代价](https://leetcode.cn/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid)
 
-## Description
+[English Version](/solution/1300-1399/1368.Minimum%20Cost%20to%20Make%20at%20Least%20One%20Valid%20Path%20in%20a%20Grid/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an <code>m x n</code> grid. Each cell of the grid has a sign pointing to the next cell you should visit if you are currently in this cell. The sign of <code>grid[i][j]</code> can be:</p>
+<p>给你一个 m x n 的网格图&nbsp;<code>grid</code>&nbsp;。&nbsp;<code>grid</code>&nbsp;中每个格子都有一个数字，对应着从该格子出发下一步走的方向。&nbsp;<code>grid[i][j]</code>&nbsp;中的数字可能为以下几种情况：</p>
 
 <ul>
-	<li><code>1</code> which means go to the cell to the right. (i.e go from <code>grid[i][j]</code> to <code>grid[i][j + 1]</code>)</li>
-	<li><code>2</code> which means go to the cell to the left. (i.e go from <code>grid[i][j]</code> to <code>grid[i][j - 1]</code>)</li>
-	<li><code>3</code> which means go to the lower cell. (i.e go from <code>grid[i][j]</code> to <code>grid[i + 1][j]</code>)</li>
-	<li><code>4</code> which means go to the upper cell. (i.e go from <code>grid[i][j]</code> to <code>grid[i - 1][j]</code>)</li>
+	<li><strong>1</strong>&nbsp;，下一步往右走，也就是你会从 <code>grid[i][j]</code>&nbsp;走到 <code>grid[i][j + 1]</code></li>
+	<li><strong>2</strong>&nbsp;，下一步往左走，也就是你会从 <code>grid[i][j]</code>&nbsp;走到 <code>grid[i][j - 1]</code></li>
+	<li><strong>3</strong>&nbsp;，下一步往下走，也就是你会从 <code>grid[i][j]</code>&nbsp;走到 <code>grid[i + 1][j]</code></li>
+	<li><strong>4</strong>&nbsp;，下一步往上走，也就是你会从 <code>grid[i][j]</code>&nbsp;走到 <code>grid[i - 1][j]</code></li>
 </ul>
 
-<p>Notice that there could be some signs on the cells of the grid that point outside the grid.</p>
+<p>注意网格图中可能会有&nbsp;<strong>无效数字</strong>&nbsp;，因为它们可能指向&nbsp;<code>grid</code>&nbsp;以外的区域。</p>
 
-<p>You will initially start at the upper left cell <code>(0, 0)</code>. A valid path in the grid is a path that starts from the upper left cell <code>(0, 0)</code> and ends at the bottom-right cell <code>(m - 1, n - 1)</code> following the signs on the grid. The valid path does not have to be the shortest.</p>
+<p>一开始，你会从最左上角的格子&nbsp;<code>(0,0)</code>&nbsp;出发。我们定义一条&nbsp;<strong>有效路径</strong>&nbsp;为从格子&nbsp;<code>(0,0)</code>&nbsp;出发，每一步都顺着数字对应方向走，最终在最右下角的格子&nbsp;<code>(m - 1, n - 1)</code>&nbsp;结束的路径。有效路径&nbsp;<strong>不需要是最短路径</strong>&nbsp;。</p>
 
-<p>You can modify the sign on a cell with <code>cost = 1</code>. You can modify the sign on a cell <strong>one time only</strong>.</p>
+<p>你可以花费&nbsp;<code>cost = 1</code>&nbsp;的代价修改一个格子中的数字，但每个格子中的数字&nbsp;<strong>只能修改一次</strong>&nbsp;。</p>
 
-<p>Return <em>the minimum cost to make the grid have at least one valid path</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1368.Minimum%20Cost%20to%20Make%20at%20Least%20One%20Valid%20Path%20in%20a%20Grid/images/grid1.png" style="width: 400px; height: 390px;" />
-<pre>
-<strong>Input:</strong> grid = [[1,1,1,1],[2,2,2,2],[1,1,1,1],[2,2,2,2]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> You will start at point (0, 0).
-The path to (3, 3) is as follows. (0, 0) --&gt; (0, 1) --&gt; (0, 2) --&gt; (0, 3) change the arrow to down with cost = 1 --&gt; (1, 3) --&gt; (1, 2) --&gt; (1, 1) --&gt; (1, 0) change the arrow to down with cost = 1 --&gt; (2, 0) --&gt; (2, 1) --&gt; (2, 2) --&gt; (2, 3) change the arrow to down with cost = 1 --&gt; (3, 3)
-The total cost = 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1368.Minimum%20Cost%20to%20Make%20at%20Least%20One%20Valid%20Path%20in%20a%20Grid/images/grid2.png" style="width: 350px; height: 341px;" />
-<pre>
-<strong>Input:</strong> grid = [[1,1,3],[3,2,2],[1,1,4]]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> You can follow the path from (0, 0) to (2, 2).
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1368.Minimum%20Cost%20to%20Make%20at%20Least%20One%20Valid%20Path%20in%20a%20Grid/images/grid3.png" style="width: 200px; height: 192px;" />
-<pre>
-<strong>Input:</strong> grid = [[1,2],[4,3]]
-<strong>Output:</strong> 1
-</pre>
+<p>请你返回让网格图至少有一条有效路径的最小代价。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1368.Minimum%20Cost%20to%20Make%20at%20Least%20One%20Valid%20Path%20in%20a%20Grid/images/grid1.png" style="height: 528px; width: 542px;"></p>
+
+<pre><strong>输入：</strong>grid = [[1,1,1,1],[2,2,2,2],[1,1,1,1],[2,2,2,2]]
+<strong>输出：</strong>3
+<strong>解释：</strong>你将从点 (0, 0) 出发。
+到达 (3, 3) 的路径为： (0, 0) --&gt; (0, 1) --&gt; (0, 2) --&gt; (0, 3) 花费代价 cost = 1 使方向向下 --&gt; (1, 3) --&gt; (1, 2) --&gt; (1, 1) --&gt; (1, 0) 花费代价 cost = 1 使方向向下 --&gt; (2, 0) --&gt; (2, 1) --&gt; (2, 2) --&gt; (2, 3) 花费代价 cost = 1 使方向向下 --&gt; (3, 3)
+总花费为 cost = 3.
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1368.Minimum%20Cost%20to%20Make%20at%20Least%20One%20Valid%20Path%20in%20a%20Grid/images/grid2.png" style="height: 408px; width: 419px;"></p>
+
+<pre><strong>输入：</strong>grid = [[1,1,3],[3,2,2],[1,1,4]]
+<strong>输出：</strong>0
+<strong>解释：</strong>不修改任何数字你就可以从 (0, 0) 到达 (2, 2) 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1368.Minimum%20Cost%20to%20Make%20at%20Least%20One%20Valid%20Path%20in%20a%20Grid/images/grid3.png" style="height: 302px; width: 314px;"></p>
+
+<pre><strong>输入：</strong>grid = [[1,2],[4,3]]
+<strong>输出：</strong>1
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>grid = [[2,2,2],[2,2,2]]
+<strong>输出：</strong>3
+</pre>
+
+<p><strong>示例 5：</strong></p>
+
+<pre><strong>输入：</strong>grid = [[4]]
+<strong>输出：</strong>0
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 100</code></li>
-	<li><code>1 &lt;= grid[i][j] &lt;= 4</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Double-ended Queue BFS
+### 方法一：双端队列 BFS
 
-This problem is essentially a shortest path model, but what we are looking for is the minimum number of direction changes.
+本题实际上也是最短路模型，只不过求解的是改变方向的最小次数。
 
-In an undirected graph where the edge weights are only 0 and 1, we can use a double-ended queue for BFS. The principle is that when the weight of the point that can be expanded currently is 0, it is added to the front of the queue; when the weight is 1, it is added to the end of the queue.
+在一个边权只有 0、1 的无向图中搜索最短路径可以使用双端队列进行 BFS。其原理是当前可以扩展到的点的权重为 0 时，将其加入队首；权重为 1 时，将其加入队尾。
 
-> If the weight of an edge is 0, then the weight of the newly expanded node is the same as the weight of the current queue head node. Obviously, it can be used as the starting point for the next expansion.
+> 如果某条边权值为 0，那么新拓展出的节点权值就和当前队首节点权值相同，显然可以作为下一次拓展的起点。
 
 <!-- tabs:start -->
 
@@ -227,34 +246,34 @@ func minCost(grid [][]int) int {
 
 ```ts
 function minCost(grid: number[][]): number {
-  const m = grid.length,
-    n = grid[0].length;
-  let ans = Array.from({ length: m }, (v) => new Array(n).fill(Infinity));
-  ans[0][0] = 0;
-  let queue = [[0, 0]];
-  const dirs = [
-    [0, 1],
-    [0, -1],
-    [1, 0],
-    [-1, 0],
-  ];
-  while (queue.length) {
-    let [x, y] = queue.shift();
-    for (let step = 1; step < 5; step++) {
-      let [dx, dy] = dirs[step - 1];
-      let [i, j] = [x + dx, y + dy];
-      if (i < 0 || i >= m || j < 0 || j >= n) continue;
-      let cost = ~~(grid[x][y] != step) + ans[x][y];
-      if (cost >= ans[i][j]) continue;
-      ans[i][j] = cost;
-      if (grid[x][y] == step) {
-        queue.unshift([i, j]);
-      } else {
-        queue.push([i, j]);
-      }
+    const m = grid.length,
+        n = grid[0].length;
+    let ans = Array.from({ length: m }, v => new Array(n).fill(Infinity));
+    ans[0][0] = 0;
+    let queue = [[0, 0]];
+    const dirs = [
+        [0, 1],
+        [0, -1],
+        [1, 0],
+        [-1, 0],
+    ];
+    while (queue.length) {
+        let [x, y] = queue.shift();
+        for (let step = 1; step < 5; step++) {
+            let [dx, dy] = dirs[step - 1];
+            let [i, j] = [x + dx, y + dy];
+            if (i < 0 || i >= m || j < 0 || j >= n) continue;
+            let cost = ~~(grid[x][y] != step) + ans[x][y];
+            if (cost >= ans[i][j]) continue;
+            ans[i][j] = cost;
+            if (grid[x][y] == step) {
+                queue.unshift([i, j]);
+            } else {
+                queue.push([i, j]);
+            }
+        }
     }
-  }
-  return ans[m - 1][n - 1];
+    return ans[m - 1][n - 1];
 }
 ```
 

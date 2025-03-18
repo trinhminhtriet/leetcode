@@ -1,113 +1,118 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2637.Promise%20Time%20Limit/README.md
 tags:
-  - JavaScript
+    - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2637. Promise Time Limit](https://leetcode.com/problems/promise-time-limit)
+# [2637. 有时间限制的 Promise 对象](https://leetcode.cn/problems/promise-time-limit)
 
-## Description
+[English Version](/solution/2600-2699/2637.Promise%20Time%20Limit/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an&nbsp;asynchronous function&nbsp;<code>fn</code>&nbsp;and a time <code>t</code>&nbsp;in milliseconds, return&nbsp;a new&nbsp;<strong>time limited</strong>&nbsp;version of the input function. <code>fn</code> takes arguments provided to the&nbsp;<strong>time limited&nbsp;</strong>function.</p>
+<p>请你编写一个函数，它接受一个异步函数 <code>fn</code>&nbsp;和一个以毫秒为单位的时间 <code>t</code>。它应根据限时函数返回一个有 <strong>限时</strong> 效果的函数。函数 <code>fn</code> 接受提供给 <strong>限时</strong> 函数的参数。</p>
 
-<p>The <strong>time limited</strong> function should follow these rules:</p>
+<p><strong>限时</strong> 函数应遵循以下规则：</p>
 
 <ul>
-	<li>If the <code>fn</code> completes within the time limit of <code>t</code> milliseconds, the <strong>time limited</strong> function should&nbsp;resolve with the result.</li>
-	<li>If the execution of the <code>fn</code> exceeds the time limit, the <strong>time limited</strong> function should reject with the string <code>&quot;Time Limit Exceeded&quot;</code>.</li>
+	<li>如果 <code>fn</code> 在 <code>t</code> 毫秒的时间限制内完成，<strong>限时</strong> 函数应返回结果。</li>
+	<li>如果 <code>fn</code> 的执行超过时间限制，<strong>限时&nbsp;</strong>函数应拒绝并返回字符串 <code>"Time Limit Exceeded"</code> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><b>示例 1：</b></p>
 
 <pre>
-<strong>Input:</strong> 
+<strong>输入：</strong>
 fn = async (n) =&gt; { 
 &nbsp; await new Promise(res =&gt; setTimeout(res, 100)); 
 &nbsp; return n * n; 
 }
 inputs = [5]
 t = 50
-<strong>Output:</strong> {&quot;rejected&quot;:&quot;Time Limit Exceeded&quot;,&quot;time&quot;:50}
-<strong>Explanation:</strong>
+<strong>输出：</strong>{"rejected":"Time Limit Exceeded","time":50}
+<strong>解释：</strong>
 const limited = timeLimit(fn, t)
 const start = performance.now()
 let result;
 try {
 &nbsp; &nbsp;const res = await limited(...inputs)
-&nbsp; &nbsp;result = {&quot;resolved&quot;: res, &quot;time&quot;: Math.floor(performance.now() - start)};
+&nbsp; &nbsp;result = {"resolved": res, "time": Math.floor(performance.now() - start)};
 } catch (err) {
-&nbsp;  result = {&quot;rejected&quot;: err, &quot;time&quot;: Math.floor(performance.now() - start)};
+&nbsp;  result = {"rejected": err, "time": Math.floor(performance.now() - start)};
 }
-console.log(result) // Output
-
-The provided function is set to resolve after 100ms. However, the time limit is set to 50ms. It rejects at t=50ms because the time limit was reached.
+console.log(result) // 输出结果
+<b>
+</b>提供的函数设置在 100ms 后执行完成，但是设置的超时时间为 50ms，所以在 t=50ms 时拒绝因为达到了超时时间。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><b>示例 2：</b></p>
 
 <pre>
-<strong>Input:</strong> 
+<strong>输入：</strong>
 fn = async (n) =&gt; { 
 &nbsp; await new Promise(res =&gt; setTimeout(res, 100)); 
 &nbsp; return n * n; 
 }
 inputs = [5]
 t = 150
-<strong>Output:</strong> {&quot;resolved&quot;:25,&quot;time&quot;:100}
-<strong>Explanation:</strong>
-The function resolved 5 * 5 = 25 at t=100ms. The time limit is never reached.
+<strong>输出：</strong>{"resolved":25,"time":100}
+<strong>解释：</strong>
+在 t=100ms 时执行 5*5=25 ，没有达到超时时间。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><b>示例 3：</b></p>
 
 <pre>
-<strong>Input:</strong> 
+<strong>输入：</strong>
 fn = async (a, b) =&gt; { 
 &nbsp; await new Promise(res =&gt; setTimeout(res, 120)); 
 &nbsp; return a + b; 
 }
 inputs = [5,10]
 t = 150
-<strong>Output:</strong> {&quot;resolved&quot;:15,&quot;time&quot;:120}
-<strong>Explanation:</strong>
-​​​​The function resolved 5 + 10 = 15 at t=120ms. The time limit is never reached.
+<strong>输出：</strong>{"resolved":15,"time":120}
+<strong>解释：</strong><b>
+</b>在 t=120ms 时执行 5+10=15，没有达到超时时间。
 </pre>
 
-<p><strong class="example">Example 4:</strong></p>
+<p><b>示例 4：</b></p>
 
 <pre>
-<strong>Input:</strong> 
+<strong>输入：</strong>
 fn = async () =&gt; { 
-&nbsp; throw &quot;Error&quot;;
+&nbsp; throw "Error";
 }
 inputs = []
 t = 1000
-<strong>Output:</strong> {&quot;rejected&quot;:&quot;Error&quot;,&quot;time&quot;:0}
-<strong>Explanation:</strong>
-The function immediately throws an error.</pre>
+<strong>输出：</strong>{"rejected":"Error","time":0}
+<strong>解释：</strong>
+此函数始终丢出 Error</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><b>提示：</b></p>
 
 <ul>
 	<li><code>0 &lt;= inputs.length &lt;= 10</code></li>
 	<li><code>0 &lt;= t &lt;= 1000</code></li>
-	<li><code>fn</code> returns a promise</li>
+	<li><code>fn</code> 返回一个 Promise 对象</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -117,14 +122,12 @@ The function immediately throws an error.</pre>
 type Fn = (...params: any[]) => Promise<any>;
 
 function timeLimit(fn: Fn, t: number): Fn {
-  return async function (...args) {
-    return Promise.race([
-      fn(...args),
-      new Promise((_, reject) =>
-        setTimeout(() => reject("Time Limit Exceeded"), t)
-      ),
-    ]);
-  };
+    return async function (...args) {
+        return Promise.race([
+            fn(...args),
+            new Promise((_, reject) => setTimeout(() => reject('Time Limit Exceeded'), t)),
+        ]);
+    };
 }
 
 /**

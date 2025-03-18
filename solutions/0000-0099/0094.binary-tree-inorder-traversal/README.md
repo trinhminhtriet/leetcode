@@ -1,86 +1,73 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0094.Binary%20Tree%20Inorder%20Traversal/README.md
 tags:
-  - Stack
-  - Tree
-  - Depth-First Search
-  - Binary Tree
+    - 栈
+    - 树
+    - 深度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [94. Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal)
+# [94. 二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal)
 
-## Description
+[English Version](/solution/0000-0099/0094.Binary%20Tree%20Inorder%20Traversal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, return <em>the inorder traversal of its nodes&#39; values</em>.</p>
+<p>给定一个二叉树的根节点 <code>root</code> ，返回 <em>它的 <strong>中序</strong>&nbsp;遍历</em> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">root = [1,null,2,3]</span></p>
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0094.Binary%20Tree%20Inorder%20Traversal/images/inorder_1.jpg" style="height: 200px; width: 125px;" />
+<pre>
+<strong>输入：</strong>root = [1,null,2,3]
+<strong>输出：</strong>[1,3,2]
+</pre>
 
-<p><strong>Output:</strong> <span class="example-io">[1,3,2]</span></p>
+<p><strong>示例 2：</strong></p>
 
-<p><strong>Explanation:</strong></p>
+<pre>
+<strong>输入：</strong>root = []
+<strong>输出：</strong>[]
+</pre>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0094.Binary%20Tree%20Inorder%20Traversal/images/screenshot-2024-08-29-202743.png" style="width: 200px; height: 264px;" /></p>
-</div>
+<p><strong>示例 3：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">root = [1,2,3,4,5,null,8,null,null,6,7,9]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[4,2,6,5,7,1,3,9,8]</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0094.Binary%20Tree%20Inorder%20Traversal/images/tree_2.png" style="width: 350px; height: 286px;" /></p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">root = []</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[]</span></p>
-</div>
-
-<p><strong class="example">Example 4:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">root = [1]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[1]</span></p>
-</div>
+<pre>
+<strong>输入：</strong>root = [1]
+<strong>输出：</strong>[1]
+</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[0, 100]</code>.</li>
+	<li>树中节点数目在范围 <code>[0, 100]</code> 内</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<strong>Follow up:</strong> Recursive solution is trivial, could you do it iteratively?
+
+<p><strong>进阶:</strong>&nbsp;递归算法很简单，你可以通过迭代算法完成吗？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Recursive Traversal
+### 方法一：递归遍历
 
-We first recursively traverse the left subtree, then visit the root node, and finally recursively traverse the right subtree.
+我们先递归左子树，再访问根节点，接着递归右子树。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree, and the space complexity mainly depends on the stack space of the recursive call.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数，空间复杂度主要取决于递归调用的栈空间。
 
 <!-- tabs:start -->
 
@@ -220,17 +207,17 @@ func inorderTraversal(root *TreeNode) (ans []int) {
  */
 
 function inorderTraversal(root: TreeNode | null): number[] {
-  const ans: number[] = [];
-  const dfs = (root: TreeNode | null) => {
-    if (!root) {
-      return;
-    }
-    dfs(root.left);
-    ans.push(root.val);
-    dfs(root.right);
-  };
-  dfs(root);
-  return ans;
+    const ans: number[] = [];
+    const dfs = (root: TreeNode | null) => {
+        if (!root) {
+            return;
+        }
+        dfs(root.left);
+        ans.push(root.val);
+        dfs(root.right);
+    };
+    dfs(root);
+    return ans;
 }
 ```
 
@@ -292,17 +279,17 @@ impl Solution {
  * @return {number[]}
  */
 var inorderTraversal = function (root) {
-  const ans = [];
-  const dfs = (root) => {
-    if (!root) {
-      return;
-    }
-    dfs(root.left);
-    ans.push(root.val);
-    dfs(root.right);
-  };
-  dfs(root);
-  return ans;
+    const ans = [];
+    const dfs = root => {
+        if (!root) {
+            return;
+        }
+        dfs(root.left);
+        ans.push(root.val);
+        dfs(root.right);
+    };
+    dfs(root);
+    return ans;
 };
 ```
 
@@ -312,16 +299,16 @@ var inorderTraversal = function (root) {
 
 <!-- solution:start -->
 
-### Solution 2: Stack Implementation for Non-recursive Traversal
+### 方法二：栈实现非递归遍历
 
-The non-recursive approach is as follows:
+非递归的思路如下：
 
-1. Define a stack `stk`.
-2. Push the left nodes of the tree into the stack in sequence.
-3. When the left node is null, pop and process the top element of the stack.
-4. Repeat steps 2-3.
+1. 定义一个栈 $stk$
+2. 将树的左节点依次入栈
+3. 左节点为空时，弹出栈顶元素并处理
+4. 重复 2-3 的操作
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree, and the space complexity mainly depends on the stack space.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数，空间复杂度主要取决于栈空间。
 
 <!-- tabs:start -->
 
@@ -466,19 +453,19 @@ func inorderTraversal(root *TreeNode) (ans []int) {
  */
 
 function inorderTraversal(root: TreeNode | null): number[] {
-  const stk: TreeNode[] = [];
-  const ans: number[] = [];
-  while (root || stk.length > 0) {
-    if (root) {
-      stk.push(root);
-      root = root.left;
-    } else {
-      root = stk.pop();
-      ans.push(root.val);
-      root = root.right;
+    const stk: TreeNode[] = [];
+    const ans: number[] = [];
+    while (root || stk.length > 0) {
+        if (root) {
+            stk.push(root);
+            root = root.left;
+        } else {
+            root = stk.pop();
+            ans.push(root.val);
+            root = root.right;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -542,19 +529,19 @@ impl Solution {
  * @return {number[]}
  */
 var inorderTraversal = function (root) {
-  const stk = [];
-  const ans = [];
-  while (root || stk.length > 0) {
-    if (root) {
-      stk.push(root);
-      root = root.left;
-    } else {
-      root = stk.pop();
-      ans.push(root.val);
-      root = root.right;
+    const stk = [];
+    const ans = [];
+    while (root || stk.length > 0) {
+        if (root) {
+            stk.push(root);
+            root = root.left;
+        } else {
+            root = stk.pop();
+            ans.push(root.val);
+            root = root.right;
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 
@@ -564,19 +551,19 @@ var inorderTraversal = function (root) {
 
 <!-- solution:start -->
 
-### Solution 3: Morris Implementation for In-order Traversal
+### 方法三：Morris 实现中序遍历
 
-Morris traversal does not require a stack, so the space complexity is $O(1)$. The core idea is:
+Morris 遍历无需使用栈，空间复杂度为 $O(1)$。核心思想是：
 
-Traverse the binary tree nodes,
+遍历二叉树节点，
 
-1. If the left subtree of the current node `root` is null, **add the current node value to the result list `ans`**, and update the current node to `root.right`.
-2. If the left subtree of the current node `root` is not null, find the rightmost node `prev` of the left subtree (which is the predecessor node of the `root` node in in-order traversal):
-   - If the right subtree of the predecessor node `prev` is null, point the right subtree of the predecessor node to the current node `root`, and update the current node to `root.left`.
-   - If the right subtree of the predecessor node `prev` is not null, **add the current node value to the result list `ans`**, then point the right subtree of the predecessor node to null (i.e., disconnect `prev` and `root`), and update the current node to `root.right`.
-3. Repeat the above steps until the binary tree node is null, and the traversal ends.
+1. 若当前节点 root 的左子树为空，**将当前节点值添加至结果列表 ans** 中，并将当前节点更新为 `root.right`
+2. 若当前节点 root 的左子树不为空，找到左子树的最右节点 prev（也即是 root 节点在中序遍历下的前驱节点）：
+    - 若前驱节点 prev 的右子树为空，将前驱节点的右子树指向当前节点 root，并将当前节点更新为 `root.left`。
+    - 若前驱节点 prev 的右子树不为空，**将当前节点值添加至结果列表 ans** 中，然后将前驱节点右子树指向空（即解除 prev 与 root 的指向关系），并将当前节点更新为 `root.right`。
+3. 循环以上步骤，直至二叉树节点为空，遍历结束。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -750,27 +737,27 @@ func inorderTraversal(root *TreeNode) (ans []int) {
  */
 
 function inorderTraversal(root: TreeNode | null): number[] {
-  const ans: number[] = [];
-  while (root) {
-    if (!root.left) {
-      ans.push(root.val);
-      root = root.right;
-    } else {
-      let prev = root.left;
-      while (prev.right && prev.right != root) {
-        prev = prev.right;
-      }
-      if (!prev.right) {
-        prev.right = root;
-        root = root.left;
-      } else {
-        ans.push(root.val);
-        prev.right = null;
-        root = root.right;
-      }
+    const ans: number[] = [];
+    while (root) {
+        if (!root.left) {
+            ans.push(root.val);
+            root = root.right;
+        } else {
+            let prev = root.left;
+            while (prev.right && prev.right != root) {
+                prev = prev.right;
+            }
+            if (!prev.right) {
+                prev.right = root;
+                root = root.left;
+            } else {
+                ans.push(root.val);
+                prev.right = null;
+                root = root.right;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -790,27 +777,27 @@ function inorderTraversal(root: TreeNode | null): number[] {
  * @return {number[]}
  */
 var inorderTraversal = function (root) {
-  const ans = [];
-  while (root) {
-    if (!root.left) {
-      ans.push(root.val);
-      root = root.right;
-    } else {
-      let prev = root.left;
-      while (prev.right && prev.right != root) {
-        prev = prev.right;
-      }
-      if (!prev.right) {
-        prev.right = root;
-        root = root.left;
-      } else {
-        ans.push(root.val);
-        prev.right = null;
-        root = root.right;
-      }
+    const ans = [];
+    while (root) {
+        if (!root.left) {
+            ans.push(root.val);
+            root = root.right;
+        } else {
+            let prev = root.left;
+            while (prev.right && prev.right != root) {
+                prev = prev.right;
+            }
+            if (!prev.right) {
+                prev.right = root;
+                root = root.left;
+            } else {
+                ans.push(root.val);
+                prev.right = null;
+                root = root.right;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 

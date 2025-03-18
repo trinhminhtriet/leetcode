@@ -1,73 +1,64 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1139.Largest%201-Bordered%20Square/README.md
 rating: 1744
-source: Weekly Contest 147 Q3
+source: 第 147 场周赛 Q3
 tags:
-  - Array
-  - Dynamic Programming
-  - Matrix
+    - 数组
+    - 动态规划
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [1139. Largest 1-Bordered Square](https://leetcode.com/problems/largest-1-bordered-square)
+# [1139. 最大的以 1 为边界的正方形](https://leetcode.cn/problems/largest-1-bordered-square)
 
-## Description
+[English Version](/solution/1100-1199/1139.Largest%201-Bordered%20Square/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a 2D <code>grid</code> of <code>0</code>s and <code>1</code>s, return the number of elements in&nbsp;the largest <strong>square</strong>&nbsp;subgrid that has all <code>1</code>s on its <strong>border</strong>, or <code>0</code> if such a subgrid&nbsp;doesn&#39;t exist in the <code>grid</code>.</p>
+<p>给你一个由若干 <code>0</code> 和 <code>1</code> 组成的二维网格&nbsp;<code>grid</code>，请你找出边界全部由 <code>1</code> 组成的最大 <strong>正方形</strong> 子网格，并返回该子网格中的元素数量。如果不存在，则返回 <code>0</code>。</p>
 
 <p>&nbsp;</p>
 
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1：</strong></p>
 
-<pre>
-
-<strong>Input:</strong> grid = [[1,1,1],[1,0,1],[1,1,1]]
-
-<strong>Output:</strong> 9
-
+<pre><strong>输入：</strong>grid = [[1,1,1],[1,0,1],[1,1,1]]
+<strong>输出：</strong>9
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-
-<strong>Input:</strong> grid = [[1,1,0,0]]
-
-<strong>Output:</strong> 1
-
+<pre><strong>输入：</strong>grid = [[1,1,0,0]]
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>1 &lt;= grid.length &lt;= 100</code></li>
-
-    <li><code>1 &lt;= grid[0].length &lt;= 100</code></li>
-
-    <li><code>grid[i][j]</code> is <code>0</code> or <code>1</code></li>
-
+	<li><code>1 &lt;= grid.length &lt;= 100</code></li>
+	<li><code>1 &lt;= grid[0].length &lt;= 100</code></li>
+	<li><code>grid[i][j]</code> 为&nbsp;<code>0</code>&nbsp;或&nbsp;<code>1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Enumeration
+### 方法一：前缀和 + 枚举
 
-We can use the prefix sum method to preprocess the number of consecutive 1s down and to the right of each position, denoted as `down[i][j]` and `right[i][j]`.
+我们可以使用前缀和的方法预处理出每个位置向下和向右的连续 $1$ 的个数，记为 `down[i][j]` 和 `right[i][j]`。
 
-Then we enumerate the side length $k$ of the square, starting from the largest side length. Then we enumerate the upper left corner position $(i, j)$ of the square. If it meets the condition, we can return $k^2$.
+然后我们枚举正方形的边长 $k$，从最大的边长开始枚举，然后枚举正方形的左上角位置 $(i, j)$，如果满足条件，即可返回 $k^2$。
 
-The time complexity is $O(m \times n \times \min(m, n))$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns of the grid, respectively.
+时间复杂度 $O(m \times n \times \min(m, n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
 
 <!-- tabs:start -->
 

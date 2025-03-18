@@ -1,57 +1,62 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2535.Difference%20Between%20Element%20Sum%20and%20Digit%20Sum%20of%20an%20Array/README.md
 rating: 1222
-source: Weekly Contest 328 Q1
+source: 第 328 场周赛 Q1
 tags:
-  - Array
-  - Math
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2535. Difference Between Element Sum and Digit Sum of an Array](https://leetcode.com/problems/difference-between-element-sum-and-digit-sum-of-an-array)
+# [2535. 数组元素和与数字和的绝对差](https://leetcode.cn/problems/difference-between-element-sum-and-digit-sum-of-an-array)
 
-## Description
+[English Version](/solution/2500-2599/2535.Difference%20Between%20Element%20Sum%20and%20Digit%20Sum%20of%20an%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a positive integer array <code>nums</code>.</p>
+<p>给你一个正整数数组 <code>nums</code> 。</p>
 
 <ul>
-	<li>The <strong>element sum</strong> is the sum of all the elements in <code>nums</code>.</li>
-	<li>The <strong>digit sum</strong> is the sum of all the digits (not necessarily distinct) that appear in <code>nums</code>.</li>
+	<li><strong>元素和</strong> 是 <code>nums</code> 中的所有元素相加求和。</li>
+	<li><strong>数字和</strong> 是&nbsp;<code>nums</code> 中每一个元素的每一数位（重复数位需多次求和）相加求和。</li>
 </ul>
 
-<p>Return <em>the <strong>absolute</strong> difference between the <strong>element sum</strong> and <strong>digit sum</strong> of </em><code>nums</code>.</p>
+<p>返回 <strong>元素和</strong> 与 <strong>数字和</strong> 的绝对差。</p>
 
-<p><strong>Note</strong> that the absolute difference between two integers <code>x</code> and <code>y</code> is defined as <code>|x - y|</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,15,6,3]
-<strong>Output:</strong> 9
-<strong>Explanation:</strong> 
-The element sum of nums is 1 + 15 + 6 + 3 = 25.
-The digit sum of nums is 1 + 1 + 5 + 6 + 3 = 16.
-The absolute difference between the element sum and digit sum is |25 - 16| = 9.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong>
-The element sum of nums is 1 + 2 + 3 + 4 = 10.
-The digit sum of nums is 1 + 2 + 3 + 4 = 10.
-The absolute difference between the element sum and digit sum is |10 - 10| = 0.
-</pre>
+<p><strong>注意：</strong>两个整数 <code>x</code> 和 <code>y</code> 的绝对差定义为 <code>|x - y|</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,15,6,3]
+<strong>输出：</strong>9
+<strong>解释：</strong>
+nums 的元素和是 1 + 15 + 6 + 3 = 25 。
+nums 的数字和是 1 + 1 + 5 + 6 + 3 = 16 。
+元素和与数字和的绝对差是 |25 - 16| = 9 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,3,4]
+<strong>输出：</strong>0
+<strong>解释：</strong>
+nums 的元素和是 1 + 2 + 3 + 4 = 10 。
+nums 的数字和是 1 + 2 + 3 + 4 = 10 。
+元素和与数字和的绝对差是 |10 - 10| = 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2000</code></li>
@@ -60,14 +65,15 @@ The absolute difference between the element sum and digit sum is |10 - 10| = 0.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-Solution 1: Simulation
-We traverse the array $\textit{nums}$, calculate the sum of the elements $x$ and the sum of the digits $y$, and finally return $|x - y|$. Since $x$ is always greater than or equal to $y$, we can directly return $x - y$.
+### 方法一：模拟
 
-The time complexity is $O(n \times \log_{10} M)$, where $n$ and $M$ are the length of the array $\textit{nums}$ and the maximum value of the elements in the array, respectively. The space complexity is $O(1)$.
+我们遍历数组 $\textit{nums}$，计算元素和 $x$ 和数字和 $y$，最后返回 $|x - y|$ 即可。由于 $x$ 一定大于等于 $y$，所以我们也可以直接返回 $x - y$。
+
+时间复杂度 $O(n \times \log_{10} M)$，其中 $n$ 和 $M$ 分别是数组 $\textit{nums}$ 的长度和数组中元素的最大值。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -139,14 +145,14 @@ func differenceOfSum(nums []int) int {
 
 ```ts
 function differenceOfSum(nums: number[]): number {
-  let [x, y] = [0, 0];
-  for (let v of nums) {
-    x += v;
-    for (; v; v = Math.floor(v / 10)) {
-      y += v % 10;
+    let [x, y] = [0, 0];
+    for (let v of nums) {
+        x += v;
+        for (; v; v = Math.floor(v / 10)) {
+            y += v % 10;
+        }
     }
-  }
-  return x - y;
+    return x - y;
 }
 ```
 

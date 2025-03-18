@@ -1,82 +1,89 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1023.Camelcase%20Matching/README.md
 rating: 1537
-source: Weekly Contest 131 Q3
+source: 第 131 场周赛 Q3
 tags:
-  - Trie
-  - Array
-  - Two Pointers
-  - String
-  - String Matching
+    - 字典树
+    - 数组
+    - 双指针
+    - 字符串
+    - 字符串匹配
 ---
 
 <!-- problem:start -->
 
-# [1023. Camelcase Matching](https://leetcode.com/problems/camelcase-matching)
+# [1023. 驼峰式匹配](https://leetcode.cn/problems/camelcase-matching)
 
-## Description
+[English Version](/solution/1000-1099/1023.Camelcase%20Matching/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of strings <code>queries</code> and a string <code>pattern</code>, return a boolean array <code>answer</code> where <code>answer[i]</code> is <code>true</code> if <code>queries[i]</code> matches <code>pattern</code>, and <code>false</code> otherwise.</p>
+<p>给你一个字符串数组 <code>queries</code>，和一个表示模式的字符串&nbsp;<code>pattern</code>，请你返回一个布尔数组 <code>answer</code> 。只有在待查项&nbsp;<code>queries[i]</code> 与模式串&nbsp;<code>pattern</code> 匹配时，&nbsp;<code>answer[i]</code>&nbsp;才为 <code>true</code>，否则为 <code>false</code>。</p>
 
-<p>A query word <code>queries[i]</code> matches <code>pattern</code> if you can insert lowercase English letters pattern so that it equals the query. You may insert each character at any position and you may not insert any characters.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> queries = [&quot;FooBar&quot;,&quot;FooBarTest&quot;,&quot;FootBall&quot;,&quot;FrameBuffer&quot;,&quot;ForceFeedBack&quot;], pattern = &quot;FB&quot;
-<strong>Output:</strong> [true,false,true,true,false]
-<strong>Explanation:</strong> &quot;FooBar&quot; can be generated like this &quot;F&quot; + &quot;oo&quot; + &quot;B&quot; + &quot;ar&quot;.
-&quot;FootBall&quot; can be generated like this &quot;F&quot; + &quot;oot&quot; + &quot;B&quot; + &quot;all&quot;.
-&quot;FrameBuffer&quot; can be generated like this &quot;F&quot; + &quot;rame&quot; + &quot;B&quot; + &quot;uffer&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> queries = [&quot;FooBar&quot;,&quot;FooBarTest&quot;,&quot;FootBall&quot;,&quot;FrameBuffer&quot;,&quot;ForceFeedBack&quot;], pattern = &quot;FoBa&quot;
-<strong>Output:</strong> [true,false,true,false,false]
-<strong>Explanation:</strong> &quot;FooBar&quot; can be generated like this &quot;Fo&quot; + &quot;o&quot; + &quot;Ba&quot; + &quot;r&quot;.
-&quot;FootBall&quot; can be generated like this &quot;Fo&quot; + &quot;ot&quot; + &quot;Ba&quot; + &quot;ll&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> queries = [&quot;FooBar&quot;,&quot;FooBarTest&quot;,&quot;FootBall&quot;,&quot;FrameBuffer&quot;,&quot;ForceFeedBack&quot;], pattern = &quot;FoBaT&quot;
-<strong>Output:</strong> [false,true,false,false,false]
-<strong>Explanation:</strong> &quot;FooBarTest&quot; can be generated like this &quot;Fo&quot; + &quot;o&quot; + &quot;Ba&quot; + &quot;r&quot; + &quot;T&quot; + &quot;est&quot;.
-</pre>
+<p>如果可以将&nbsp;<strong>小写字母&nbsp;</strong>插入模式串&nbsp;<code>pattern</code>&nbsp;得到待查询项&nbsp;<code>queries[i]</code>，那么待查询项与给定模式串匹配。您可以在模式串中的任何位置插入字符，也可以选择不插入任何字符。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>queries = ["FooBar","FooBarTest","FootBall","FrameBuffer","ForceFeedBack"], pattern = "FB"
+<strong>输出：</strong>[true,false,true,true,false]
+<strong>示例：</strong>
+"FooBar" 可以这样生成："F" + "oo" + "B" + "ar"。
+"FootBall" 可以这样生成："F" + "oot" + "B" + "all".
+"FrameBuffer" 可以这样生成："F" + "rame" + "B" + "uffer".</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>queries = ["FooBar","FooBarTest","FootBall","FrameBuffer","ForceFeedBack"], pattern = "FoBa"
+<strong>输出：</strong>[true,false,true,false,false]
+<strong>解释：</strong>
+"FooBar" 可以这样生成："Fo" + "o" + "Ba" + "r".
+"FootBall" 可以这样生成："Fo" + "ot" + "Ba" + "ll".
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>queries = ["FooBar","FooBarTest","FootBall","FrameBuffer","ForceFeedBack"], pattern = "FoBaT"
+<strong>输出：</strong>[false,true,false,false,false]
+<strong>解释： </strong>
+"FooBarTest" 可以这样生成："Fo" + "o" + "Ba" + "r" + "T" + "est".
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= pattern.length, queries.length &lt;= 100</code></li>
 	<li><code>1 &lt;= queries[i].length &lt;= 100</code></li>
-	<li><code>queries[i]</code> and <code>pattern</code> consist of English letters.</li>
+	<li><code>queries[i]</code> 和 <code>pattern</code> 由英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-We can traverse every string in `queries` and check whether it matches `pattern` or not. If it matches, we add `true` to the answer array, otherwise we add `false`.
+我们可以遍历 `queries` 中的每个字符串，判断其是否与 `pattern` 匹配，若匹配则将 `true` 加入答案数组，否则加入 `false`。
 
-Next, we implement a function $check(s, t)$ to check whether the string $s$ matches the string $t$.
+接下来，我们实现一个 $check(s, t)$ 函数，用于判断字符串 $s$ 和 $t$ 是否匹配。
 
-We can use two pointers $i$ and $j$ to traverse the two strings. If the characters pointed to by $i$ and $j$ are not the same and $s[i]$ is a lowercase letter, then we move the pointer $i$ to the next position.
+我们可以使用双指针 $i$ 和 $j$，分别指向两个字符串的首字符，然后遍历两个字符串。如果指针 $i$ 和 $j$ 指向的字符不同，并且 $s[i]$ 为小写字母，则指针 $i$ 循环向后移动一位。
 
-If the pointer $i$ has reached the end of the string $s$ or the characters pointed to by $i$ and $j$ are not the same, we return `false`. Otherwise, we move both pointers $i$ and $j$ to the next position. When the pointer $j$ reaches the end of the string $t$, we need to check if the remaining characters in the string $s$ are all lowercase letters. If so, we return `true`, otherwise we return `false`.
+如果指针 $i$ 已经到达字符串 $s$ 的末尾，或者指针 $i$ 和 $j$ 指向的字符不同，则返回 `false`。否则，指针 $i$ 和 $j$ 同时向后移动一位。当指针 $j$ 到达字符串 $t$ 的末尾时，我们需要判断字符串 $s$ 中剩余的字符是否都为小写字母，若是则返回 `true`，否则返回 `false`。
 
-Time complexity $(n \times m)$, where $n$ and $m$ are the length of the array `queries` and the string `pattern` respectively.
+时间复杂度 $(n \times m)$，其中 $n$ 和 $m$ 分别为数组 `queries` 的长度和字符串 `pattern` 的长度。
 
 <!-- tabs:start -->
 
@@ -194,29 +201,29 @@ func camelMatch(queries []string, pattern string) (ans []bool) {
 
 ```ts
 function camelMatch(queries: string[], pattern: string): boolean[] {
-  const check = (s: string, t: string) => {
-    const m = s.length;
-    const n = t.length;
-    let i = 0;
-    let j = 0;
-    for (; j < n; ++i, ++j) {
-      while (i < m && s[i] !== t[j] && s[i].codePointAt(0) >= 97) {
-        ++i;
-      }
-      if (i === m || s[i] !== t[j]) {
-        return false;
-      }
+    const check = (s: string, t: string) => {
+        const m = s.length;
+        const n = t.length;
+        let i = 0;
+        let j = 0;
+        for (; j < n; ++i, ++j) {
+            while (i < m && s[i] !== t[j] && s[i].codePointAt(0) >= 97) {
+                ++i;
+            }
+            if (i === m || s[i] !== t[j]) {
+                return false;
+            }
+        }
+        while (i < m && s[i].codePointAt(0) >= 97) {
+            ++i;
+        }
+        return i == m;
+    };
+    const ans: boolean[] = [];
+    for (const q of queries) {
+        ans.push(check(q, pattern));
     }
-    while (i < m && s[i].codePointAt(0) >= 97) {
-      ++i;
-    }
-    return i == m;
-  };
-  const ans: boolean[] = [];
-  for (const q of queries) {
-    ans.push(check(q, pattern));
-  }
-  return ans;
+    return ans;
 }
 ```
 

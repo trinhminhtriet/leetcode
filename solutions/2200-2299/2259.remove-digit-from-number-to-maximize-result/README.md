@@ -1,70 +1,79 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2259.Remove%20Digit%20From%20Number%20to%20Maximize%20Result/README.md
 rating: 1331
-source: Weekly Contest 291 Q1
+source: 第 291 场周赛 Q1
 tags:
-  - Greedy
-  - String
-  - Enumeration
+    - 贪心
+    - 字符串
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2259. Remove Digit From Number to Maximize Result](https://leetcode.com/problems/remove-digit-from-number-to-maximize-result)
+# [2259. 移除指定数字得到的最大结果](https://leetcode.cn/problems/remove-digit-from-number-to-maximize-result)
 
-## Description
+[English Version](/solution/2200-2299/2259.Remove%20Digit%20From%20Number%20to%20Maximize%20Result/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>number</code> representing a <strong>positive integer</strong> and a character <code>digit</code>.</p>
+<p>给你一个表示某个正整数的字符串 <code>number</code> 和一个字符 <code>digit</code> 。</p>
 
-<p>Return <em>the resulting string after removing <strong>exactly one occurrence</strong> of </em><code>digit</code><em> from </em><code>number</code><em> such that the value of the resulting string in <strong>decimal</strong> form is <strong>maximized</strong></em>. The test cases are generated such that <code>digit</code> occurs at least once in <code>number</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> number = &quot;123&quot;, digit = &quot;3&quot;
-<strong>Output:</strong> &quot;12&quot;
-<strong>Explanation:</strong> There is only one &#39;3&#39; in &quot;123&quot;. After removing &#39;3&#39;, the result is &quot;12&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> number = &quot;1231&quot;, digit = &quot;1&quot;
-<strong>Output:</strong> &quot;231&quot;
-<strong>Explanation:</strong> We can remove the first &#39;1&#39; to get &quot;231&quot; or remove the second &#39;1&#39; to get &quot;123&quot;.
-Since 231 &gt; 123, we return &quot;231&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> number = &quot;551&quot;, digit = &quot;5&quot;
-<strong>Output:</strong> &quot;51&quot;
-<strong>Explanation:</strong> We can remove either the first or second &#39;5&#39; from &quot;551&quot;.
-Both result in the string &quot;51&quot;.
-</pre>
+<p>从 <code>number</code> 中 <strong>恰好</strong> 移除 <strong>一个</strong> 等于&nbsp;<code>digit</code> 的字符后，找出并返回按 <strong>十进制</strong> 表示 <strong>最大</strong> 的结果字符串。生成的测试用例满足 <code>digit</code> 在 <code>number</code> 中出现至少一次。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>number = "123", digit = "3"
+<strong>输出：</strong>"12"
+<strong>解释：</strong>"123" 中只有一个 '3' ，在移除 '3' 之后，结果为 "12" 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>number = "1231", digit = "1"
+<strong>输出：</strong>"231"
+<strong>解释：</strong>可以移除第一个 '1' 得到 "231" 或者移除第二个 '1' 得到 "123" 。
+由于 231 &gt; 123 ，返回 "231" 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>number = "551", digit = "5"
+<strong>输出：</strong>"51"
+<strong>解释：</strong>可以从 "551" 中移除第一个或者第二个 '5' 。
+两种方案的结果都是 "51" 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= number.length &lt;= 100</code></li>
-	<li><code>number</code> consists of digits from <code>&#39;1&#39;</code> to <code>&#39;9&#39;</code>.</li>
-	<li><code>digit</code> is a digit from <code>&#39;1&#39;</code> to <code>&#39;9&#39;</code>.</li>
-	<li><code>digit</code> occurs at least once in <code>number</code>.</li>
+	<li><code>number</code> 由数字 <code>'1'</code> 到 <code>'9'</code> 组成</li>
+	<li><code>digit</code> 是 <code>'1'</code> 到 <code>'9'</code> 中的一个数字</li>
+	<li><code>digit</code> 在 <code>number</code> 中出现至少一次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：暴力枚举
+
+我们可以枚举字符串 $\textit{number}$ 的所有位置 $\textit{i}$，如果 $\textit{number}[i] = \textit{digit}$，那么我们取 $\textit{number}$ 的前缀 $\textit{number}[0:i]$ 和后缀 $\textit{number}[i+1:]$ 拼接起来，即为移除 $\textit{number}[i]$ 后的结果。我们取所有可能的结果中最大的即可。
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $\textit{number}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -140,17 +149,17 @@ func removeDigit(number string, digit byte) string {
 
 ```ts
 function removeDigit(number: string, digit: string): string {
-  const n = number.length;
-  let last = -1;
-  for (let i = 0; i < n; ++i) {
-    if (number[i] === digit) {
-      last = i;
-      if (i + 1 < n && number[i] < number[i + 1]) {
-        break;
-      }
+    const n = number.length;
+    let last = -1;
+    for (let i = 0; i < n; ++i) {
+        if (number[i] === digit) {
+            last = i;
+            if (i + 1 < n && number[i] < number[i + 1]) {
+                break;
+            }
+        }
     }
-  }
-  return number.substring(0, last) + number.substring(last + 1);
+    return number.substring(0, last) + number.substring(last + 1);
 }
 ```
 
@@ -184,7 +193,13 @@ class Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：贪心
+
+我们可以枚举字符串 $\textit{number}$ 的所有位置 $\textit{i}$，如果 $\textit{number}[i] = \textit{digit}$，记录 $\textit{digit}$ 最后一次出现的位置 $\textit{last}$，并且如果 $\textit{i} + 1 < \textit{n}$ 且 $\textit{number}[i] < \textit{number}[i + 1]$，那么我们可以直接返回 $\textit{number}[0:i] + \textit{number}[i+1:]$，即为移除 $\textit{number}[i]$ 后的结果。这是因为如果 $\textit{number}[i] < \textit{number}[i + 1]$，那么移除 $\textit{number}[i]$ 后，结果一定会更大。
+
+遍历结束，我们返回 $\textit{number}[0:\textit{last}] + \textit{number}[\textit{last}+1:]$ 即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $\textit{number}$ 的长度。
 
 <!-- tabs:start -->
 

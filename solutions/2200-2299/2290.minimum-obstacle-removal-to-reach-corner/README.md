@@ -1,74 +1,95 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2290.Minimum%20Obstacle%20Removal%20to%20Reach%20Corner/README.md
 rating: 2137
-source: Weekly Contest 295 Q4
+source: 第 295 场周赛 Q4
 tags:
-  - Breadth-First Search
-  - Graph
-  - Array
-  - Matrix
-  - Shortest Path
-  - Heap (Priority Queue)
+    - 广度优先搜索
+    - 图
+    - 数组
+    - 矩阵
+    - 最短路
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2290. Minimum Obstacle Removal to Reach Corner](https://leetcode.com/problems/minimum-obstacle-removal-to-reach-corner)
+# [2290. 到达角落需要移除障碍物的最小数目](https://leetcode.cn/problems/minimum-obstacle-removal-to-reach-corner)
 
-## Description
+[English Version](/solution/2200-2299/2290.Minimum%20Obstacle%20Removal%20to%20Reach%20Corner/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> 2D integer array <code>grid</code> of size <code>m x n</code>. Each cell has one of two values:</p>
+<p>给你一个下标从 <strong>0</strong> 开始的二维整数数组 <code>grid</code> ，数组大小为 <code>m x n</code> 。每个单元格都是两个值之一：</p>
 
 <ul>
-	<li><code>0</code> represents an <strong>empty</strong> cell,</li>
-	<li><code>1</code> represents an <strong>obstacle</strong> that may be removed.</li>
+	<li><code>0</code> 表示一个 <strong>空</strong> 单元格，</li>
+	<li><code>1</code> 表示一个可以移除的 <strong>障碍物</strong> 。</li>
 </ul>
 
-<p>You can move up, down, left, or right from and to an empty cell.</p>
+<p>你可以向上、下、左、右移动，从一个空单元格移动到另一个空单元格。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of <strong>obstacles</strong> to <strong>remove</strong> so you can move from the upper left corner </em><code>(0, 0)</code><em> to the lower right corner </em><code>(m - 1, n - 1)</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2290.Minimum%20Obstacle%20Removal%20to%20Reach%20Corner/images/example1drawio-1.png" style="width: 605px; height: 246px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,1,1],[1,1,0],[1,1,0]]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We can remove the obstacles at (0, 1) and (0, 2) to create a path from (0, 0) to (2, 2).
-It can be shown that we need to remove at least 2 obstacles, so we return 2.
-Note that there may be other ways to remove 2 obstacles to create a path.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2290.Minimum%20Obstacle%20Removal%20to%20Reach%20Corner/images/example1drawio.png" style="width: 405px; height: 246px;" />
-<pre>
-<strong>Input:</strong> grid = [[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0]]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> We can move from (0, 0) to (2, 4) without removing any obstacles, so we return 0.
-</pre>
+<p>现在你需要从左上角&nbsp;<code>(0, 0)</code> 移动到右下角 <code>(m - 1, n - 1)</code> ，返回需要移除的障碍物的 <strong>最小</strong> 数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2290.Minimum%20Obstacle%20Removal%20to%20Reach%20Corner/images/example1drawio-1.png" style="width: 605px; height: 246px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = [[0,1,1],[1,1,0],[1,1,0]]
+<strong>输出：</strong>2
+<strong>解释：</strong>可以移除位于 (0, 1) 和 (0, 2) 的障碍物来创建从 (0, 0) 到 (2, 2) 的路径。
+可以证明我们至少需要移除两个障碍物，所以返回 2 。
+注意，可能存在其他方式来移除 2 个障碍物，创建出可行的路径。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2290.Minimum%20Obstacle%20Removal%20to%20Reach%20Corner/images/example1drawio.png" style="width: 405px; height: 246px;" /></p>
+
+<pre>
+<strong>输入：</strong>grid = [[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0]]
+<strong>输出：</strong>0
+<strong>解释：</strong>不移除任何障碍物就能从 (0, 0) 到 (2, 4) ，所以返回 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 10<sup>5</sup></code></li>
 	<li><code>2 &lt;= m * n &lt;= 10<sup>5</sup></code></li>
-	<li><code>grid[i][j]</code> is either <code>0</code> <strong>or</strong> <code>1</code>.</li>
+	<li><code>grid[i][j]</code> 为 <code>0</code> <strong>或</strong> <code>1</code></li>
 	<li><code>grid[0][0] == grid[m - 1][n - 1] == 0</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：双端队列 BFS
+
+本题实际上也是最短路模型，只不过求解的是移除障碍物的最小数目。
+
+在一个边权只有 $0$, $1$ 的无向图中搜索最短路径可以使用双端队列进行 $BFS$。其原理是当前可以扩展到的点的权重为 $0$ 时，将其加入队首；权重为 $1$ 时，将其加入队尾。
+
+> 如果某条边权值为 $0$，那么新拓展出的节点权值就和当前队首节点权值相同，显然可以作为下一次拓展的起点。
+
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
+
+相似题目：
+
+-   [1368. 使网格图至少有一条有效路径的最小代价](https://github.com/doocs/leetcode/blob/main/solution/1300-1399/1368.Minimum%20Cost%20to%20Make%20at%20Least%20One%20Valid%20Path%20in%20a%20Grid/README.md)
 
 <!-- tabs:start -->
 
@@ -211,29 +232,29 @@ func minimumObstacles(grid [][]int) int {
 
 ```ts
 function minimumObstacles(grid: number[][]): number {
-  const m = grid.length,
-    n = grid[0].length;
-  const dirs = [
-    [0, 1],
-    [0, -1],
-    [1, 0],
-    [-1, 0],
-  ];
-  let ans = Array.from({ length: m }, (v) => new Array(n).fill(Infinity));
-  ans[0][0] = 0;
-  let deque = [[0, 0]];
-  while (deque.length) {
-    let [x, y] = deque.shift();
-    for (let [dx, dy] of dirs) {
-      let [i, j] = [x + dx, y + dy];
-      if (i < 0 || i > m - 1 || j < 0 || j > n - 1) continue;
-      const cost = grid[i][j];
-      if (ans[x][y] + cost >= ans[i][j]) continue;
-      ans[i][j] = ans[x][y] + cost;
-      deque.push([i, j]);
+    const m = grid.length,
+        n = grid[0].length;
+    const dirs = [
+        [0, 1],
+        [0, -1],
+        [1, 0],
+        [-1, 0],
+    ];
+    let ans = Array.from({ length: m }, v => new Array(n).fill(Infinity));
+    ans[0][0] = 0;
+    let deque = [[0, 0]];
+    while (deque.length) {
+        let [x, y] = deque.shift();
+        for (let [dx, dy] of dirs) {
+            let [i, j] = [x + dx, y + dy];
+            if (i < 0 || i > m - 1 || j < 0 || j > n - 1) continue;
+            const cost = grid[i][j];
+            if (ans[x][y] + cost >= ans[i][j]) continue;
+            ans[i][j] = ans[x][y] + cost;
+            deque.push([i, j]);
+        }
     }
-  }
-  return ans[m - 1][n - 1];
+    return ans[m - 1][n - 1];
 }
 ```
 

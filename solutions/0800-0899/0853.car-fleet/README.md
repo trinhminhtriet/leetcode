@@ -1,94 +1,105 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0853.Car%20Fleet/README.md
 tags:
-  - Stack
-  - Array
-  - Sorting
-  - Monotonic Stack
+    - 栈
+    - 数组
+    - 排序
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [853. Car Fleet](https://leetcode.com/problems/car-fleet)
+# [853. 车队](https://leetcode.cn/problems/car-fleet)
 
-## Description
+[English Version](/solution/0800-0899/0853.Car%20Fleet/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> cars at given miles away from the starting mile 0, traveling to reach the mile <code>target</code>.</p>
+<p>在一条单行道上，有 <code>n</code> 辆车开往同一目的地。目的地是几英里以外的&nbsp;<code>target</code>&nbsp;。</p>
 
-<p>You are given two integer array <code>position</code> and <code>speed</code>, both of length <code>n</code>, where <code>position[i]</code> is the starting mile of the <code>i<sup>th</sup></code> car and <code>speed[i]</code> is the speed of the <code>i<sup>th</sup></code> car in miles per hour.</p>
+<p>给定两个整数数组&nbsp;<code>position</code>&nbsp;和&nbsp;<code>speed</code>&nbsp;，长度都是 <code>n</code> ，其中&nbsp;<code>position[i]</code>&nbsp;是第 <code>i</code> 辆车的位置，&nbsp;<code>speed[i]</code>&nbsp;是第 <code>i</code> 辆车的速度(单位是英里/小时)。</p>
 
-<p>A car cannot pass another car, but it can catch up and then travel next to it at the speed of the slower car.</p>
+<p>一辆车永远不会超过前面的另一辆车，但它可以追上去，并以较慢车的速度在另一辆车旁边行驶。</p>
 
-<p>A <strong>car fleet</strong> is a car or cars driving next to each other. The speed of the car fleet is the <strong>minimum</strong> speed of any car in the fleet.</p>
+<p><strong>车队 </strong>是指并排行驶的一辆或几辆汽车。车队的速度是车队中 <strong>最慢</strong> 的车的速度。</p>
 
-<p>If a car catches up to a car fleet at the mile <code>target</code>, it will still be considered as part of the car fleet.</p>
+<p>即便一辆车在&nbsp;<code>target</code> 才赶上了一个车队，它们仍然会被视作是同一个车队。</p>
 
-<p>Return the number of car fleets that will arrive at the destination.</p>
+<p>返回到达目的地的车队数量 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">target = 12, position = [10,8,0,5,3], speed = [2,4,1,1,3]</span></p>
+<p><span class="example-io"><b>输入：</b>target = 12, position = [10,8,0,5,3], speed = [2,4,1,1,3]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
+<p><span class="example-io"><b>输出：</b>3</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li>The cars starting at 10 (speed 2) and 8 (speed 4) become a fleet, meeting each other at 12. The fleet forms at <code>target</code>.</li>
-	<li>The car starting at 0 (speed 1) does not catch up to any other car, so it is a fleet by itself.</li>
-	<li>The cars starting at 5 (speed 1) and 3 (speed 3) become a fleet, meeting each other at 6. The fleet moves at speed 1 until it reaches <code>target</code>.</li>
+	<li>从 10（速度为 2）和 8（速度为 4）开始的车会组成一个车队，它们在 12 相遇。车队在&nbsp;<code>target</code>&nbsp;形成。</li>
+	<li>从 0（速度为 1）开始的车不会追上其它任何车，所以它自己是一个车队。</li>
+	<li>从 5（速度为 1） 和 3（速度为 3）开始的车组成一个车队，在 6 相遇。车队以速度 1 移动直到它到达&nbsp;<code>target</code>。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">target = 10, position = [3], speed = [3]</span></p>
+<p><span class="example-io"><b>输入：</b></span><span class="example-io">target = 10, position = [3], speed = [3]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
+<p><span class="example-io"><b>输出：</b></span><span class="example-io">1</span></p>
 
-<p><strong>Explanation:</strong></p>
-There is only one car, hence there is only one fleet.</div>
+<p><strong>解释：</strong></p>
+只有一辆车，因此只有一个车队。</div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">target = 100, position = [0,2,4], speed = [4,2,1]</span></p>
+<p><span class="example-io"><b>输入：</b></span><span class="example-io">target = 100, position = [0,2,4], speed = [4,2,1]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
+<p><span class="example-io"><b>输出：</b></span><span class="example-io">1</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li>The cars starting at 0 (speed 4) and 2 (speed 2) become a fleet, meeting each other at 4. The car starting at 4 (speed 1) travels to 5.</li>
-	<li>Then, the fleet at 4 (speed 2) and the car at position 5 (speed 1) become one fleet, meeting each other at 6. The fleet moves at speed 1 until it reaches <code>target</code>.</li>
+	<li>从 0（速度为 4） 和 2（速度为 2）开始的车组成一个车队，在 4&nbsp;相遇。从 4 开始的车（速度为 1）移动到了 5。</li>
+	<li>然后，在 4（速度为 2）的车队和在 5（速度为 1）的车成为一个车队，在 6 相遇。车队以速度 1 移动直到它到达&nbsp;<code>target</code>。</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == position.length == speed.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt; target &lt;= 10<sup>6</sup></code></li>
 	<li><code>0 &lt;= position[i] &lt; target</code></li>
-	<li>All the values of <code>position</code> are <strong>unique</strong>.</li>
+	<li><code>position</code>&nbsp;中每个值都 <strong>不同</strong></li>
 	<li><code>0 &lt; speed[i] &lt;= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：排序
+
+我们将车辆按照位置降序排序，这样我们只需要比较相邻两辆车的到达时间即可。
+
+我们初始化一个变量 $pre$ 表示上一辆车到达终点的时间，如果当前车辆到达终点的时间大于 $pre$，说明当前车辆无法追上前面的车辆，因此需要另外开一个车队，否则当前车辆会与前面的车辆组成一个车队。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是车辆的数量。
 
 <!-- tabs:start -->
 
@@ -184,21 +195,21 @@ func carFleet(target int, position []int, speed []int) (ans int) {
 
 ```ts
 function carFleet(target: number, position: number[], speed: number[]): number {
-  const n = position.length;
-  const idx = Array(n)
-    .fill(0)
-    .map((_, i) => i)
-    .sort((i, j) => position[j] - position[i]);
-  let ans = 0;
-  let pre = 0;
-  for (const i of idx) {
-    const t = (target - position[i]) / speed[i];
-    if (t > pre) {
-      ++ans;
-      pre = t;
+    const n = position.length;
+    const idx = Array(n)
+        .fill(0)
+        .map((_, i) => i)
+        .sort((i, j) => position[j] - position[i]);
+    let ans = 0;
+    let pre = 0;
+    for (const i of idx) {
+        const t = (target - position[i]) / speed[i];
+        if (t > pre) {
+            ++ans;
+            pre = t;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

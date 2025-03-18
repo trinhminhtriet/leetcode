@@ -1,49 +1,52 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2428.Maximum%20Sum%20of%20an%20Hourglass/README.md
 rating: 1289
-source: Weekly Contest 313 Q2
+source: 第 313 场周赛 Q2
 tags:
-  - Array
-  - Matrix
-  - Prefix Sum
+    - 数组
+    - 矩阵
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2428. Maximum Sum of an Hourglass](https://leetcode.com/problems/maximum-sum-of-an-hourglass)
+# [2428. 沙漏的最大总和](https://leetcode.cn/problems/maximum-sum-of-an-hourglass)
 
-## Description
+[English Version](/solution/2400-2499/2428.Maximum%20Sum%20of%20an%20Hourglass/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> integer matrix <code>grid</code>.</p>
+<p>给你一个大小为 <code>m x n</code> 的整数矩阵 <code>grid</code> 。</p>
 
-<p>We define an <strong>hourglass</strong> as a part of the matrix with the following form:</p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2428.Maximum%20Sum%20of%20an%20Hourglass/images/img.jpg" style="width: 243px; height: 243px;" />
-<p>Return <em>the <strong>maximum</strong> sum of the elements of an hourglass</em>.</p>
+<p>按以下形式将矩阵的一部分定义为一个 <strong>沙漏</strong> ：</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2428.Maximum%20Sum%20of%20an%20Hourglass/images/img.jpg" style="width: 243px; height: 243px;">
+<p>返回沙漏中元素的 <strong>最大</strong> 总和。</p>
 
-<p><strong>Note</strong> that an hourglass cannot be rotated and must be entirely contained within the matrix.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2428.Maximum%20Sum%20of%20an%20Hourglass/images/1.jpg" style="width: 323px; height: 323px;" />
-<pre>
-<strong>Input:</strong> grid = [[6,2,1,3],[4,2,1,5],[9,2,8,7],[4,1,2,9]]
-<strong>Output:</strong> 30
-<strong>Explanation:</strong> The cells shown above represent the hourglass with the maximum sum: 6 + 2 + 1 + 2 + 9 + 2 + 8 = 30.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2428.Maximum%20Sum%20of%20an%20Hourglass/images/2.jpg" style="width: 243px; height: 243px;" />
-<pre>
-<strong>Input:</strong> grid = [[1,2,3],[4,5,6],[7,8,9]]
-<strong>Output:</strong> 35
-<strong>Explanation:</strong> There is only one hourglass in the matrix, with the sum: 1 + 2 + 3 + 5 + 7 + 8 + 9 = 35.
-</pre>
+<p><strong>注意：</strong>沙漏无法旋转且必须整个包含在矩阵中。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2428.Maximum%20Sum%20of%20an%20Hourglass/images/1.jpg" style="width: 323px; height: 323px;">
+<pre><strong>输入：</strong>grid = [[6,2,1,3],[4,2,1,5],[9,2,8,7],[4,1,2,9]]
+<strong>输出：</strong>30
+<strong>解释：</strong>上图中的单元格表示元素总和最大的沙漏：6 + 2 + 1 + 2 + 9 + 2 + 8 = 30 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2428.Maximum%20Sum%20of%20an%20Hourglass/images/2.jpg" style="width: 243px; height: 243px;">
+<pre><strong>输入：</strong>grid = [[1,2,3],[4,5,6],[7,8,9]]
+<strong>输出：</strong>35
+<strong>解释：</strong>上图中的单元格表示元素总和最大的沙漏：1 + 2 + 3 + 5 + 7 + 8 + 9 = 35 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -54,15 +57,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We observe from the problem statement that each hourglass is a $3 \times 3$ matrix with the first and last elements of the middle row removed. Therefore, we can start from the top left corner, enumerate the middle coordinate $(i, j)$ of each hourglass, then calculate the sum of the elements in the hourglass, and take the maximum value.
+我们观察题目发现，每个沙漏就是一个 $3 \times 3$ 的矩阵挖去中间行的首尾两个元素。因此，我们可以从左上角开始，枚举每个沙漏的中间坐标 $(i, j)$，然后计算沙漏的元素和，取其中的最大值即可。
 
-The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是矩阵的行数和列数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -154,21 +157,21 @@ func maxSum(grid [][]int) (ans int) {
 
 ```ts
 function maxSum(grid: number[][]): number {
-  const m = grid.length;
-  const n = grid[0].length;
-  let ans = 0;
-  for (let i = 1; i < m - 1; ++i) {
-    for (let j = 1; j < n - 1; ++j) {
-      let s = -grid[i][j - 1] - grid[i][j + 1];
-      for (let x = i - 1; x <= i + 1; ++x) {
-        for (let y = j - 1; y <= j + 1; ++y) {
-          s += grid[x][y];
+    const m = grid.length;
+    const n = grid[0].length;
+    let ans = 0;
+    for (let i = 1; i < m - 1; ++i) {
+        for (let j = 1; j < n - 1; ++j) {
+            let s = -grid[i][j - 1] - grid[i][j + 1];
+            for (let x = i - 1; x <= i + 1; ++x) {
+                for (let y = j - 1; y <= j + 1; ++y) {
+                    s += grid[x][y];
+                }
+            }
+            ans = Math.max(ans, s);
         }
-      }
-      ans = Math.max(ans, s);
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

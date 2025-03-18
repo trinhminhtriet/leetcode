@@ -1,15 +1,18 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2887.Fill%20Missing%20Data/README.md
 tags:
-  - Pandas
+    - Pandas
 ---
 
 <!-- problem:start -->
 
-# [2887. Fill Missing Data](https://leetcode.com/problems/fill-missing-data)
+# [2887. 填充缺失值](https://leetcode.cn/problems/fill-missing-data)
 
-## Description
+[English Version](/solution/2800-2899/2887.Fill%20Missing%20Data/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
@@ -24,40 +27,42 @@ DataFrame <code>products</code>
 +-------------+--------+
 </pre>
 
-<p>Write a solution to fill in the missing value as <code><strong>0</strong></code> in the <code>quantity</code> column.</p>
+<p>编写一个解决方案，在 <code>quantity</code> 列中将缺失的值填充为&nbsp;<code><strong>0</strong></code>。</p>
 
-<p>The result format is in the following example.</p>
+<p>返回结果如下示例所示。</p>
 
 <p>&nbsp;</p>
+<strong class="example">示例 1：</strong>
+
 <pre>
-<strong class="example">Example 1:</strong>
-<strong>Input:</strong>+-----------------+----------+-------+
-| name            | quantity | price |
-+-----------------+----------+-------+
-| Wristwatch      | None     | 135   |
-| WirelessEarbuds | None     | 821   |
-| GolfClubs       | 779      | 9319  |
-| Printer         | 849      | 3051  |
-+-----------------+----------+-------+
-<strong>Output:
+<strong>输入：
 </strong>+-----------------+----------+-------+
 | name            | quantity | price |
 +-----------------+----------+-------+
-| Wristwatch      | 0        | 135   |
-| WirelessEarbuds | 0        | 821   |
-| GolfClubs       | 779      | 9319  |
+| Wristwatch      | 32       | 135   |
+| WirelessEarbuds | None     | 821   |
+| GolfClubs       | None     | 9319  |
 | Printer         | 849      | 3051  |
 +-----------------+----------+-------+
-<strong>Explanation:</strong> 
-The quantity for Wristwatch and WirelessEarbuds are filled by 0.</pre>
+<strong>输出：
+</strong>+-----------------+----------+-------+
+| name            | quantity | price |
++-----------------+----------+-------+
+| Wristwatch      | 32       | 135   |
+| WirelessEarbuds | 0        | 821   |
+| GolfClubs       | 0        | 9319  |
+| Printer         | 849      | 3051  |
++-----------------+----------+-------+
+<b>解释：</b>
+Toaster 和 Headphones 的数量被填充为 0。</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

@@ -1,48 +1,55 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0688.Knight%20Probability%20in%20Chessboard/README.md
 tags:
-  - Dynamic Programming
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [688. Knight Probability in Chessboard](https://leetcode.com/problems/knight-probability-in-chessboard)
+# [688. 骑士在棋盘上的概率](https://leetcode.cn/problems/knight-probability-in-chessboard)
 
-## Description
+[English Version](/solution/0600-0699/0688.Knight%20Probability%20in%20Chessboard/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>On an <code>n x n</code> chessboard, a knight starts at the cell <code>(row, column)</code> and attempts to make exactly <code>k</code> moves. The rows and columns are <strong>0-indexed</strong>, so the top-left cell is <code>(0, 0)</code>, and the bottom-right cell is <code>(n - 1, n - 1)</code>.</p>
+<p>在一个&nbsp;<code>n x n</code>&nbsp;的国际象棋棋盘上，一个骑士从单元格 <code>(row, column)</code>&nbsp;开始，并尝试进行 <code>k</code> 次移动。行和列是 <strong>从 0 开始</strong> 的，所以左上单元格是 <code>(0,0)</code> ，右下单元格是 <code>(n - 1, n - 1)</code> 。</p>
 
-<p>A chess knight has eight possible moves it can make, as illustrated below. Each move is two cells in a cardinal direction, then one cell in an orthogonal direction.</p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0688.Knight%20Probability%20in%20Chessboard/images/knight.png" style="width: 300px; height: 300px;" />
-<p>Each time the knight is to move, it chooses one of eight possible moves uniformly at random (even if the piece would go off the chessboard) and moves there.</p>
+<p>象棋骑士有8种可能的走法，如下图所示。每次移动在基本方向上是两个单元格，然后在正交方向上是一个单元格。</p>
 
-<p>The knight continues moving until it has made exactly <code>k</code> moves or has moved off the chessboard.</p>
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0688.Knight%20Probability%20in%20Chessboard/images/knight.png" style="height: 300px; width: 300px;" /></p>
 
-<p>Return <em>the probability that the knight remains on the board after it has stopped moving</em>.</p>
+<p>每次骑士要移动时，它都会随机从8种可能的移动中选择一种(即使棋子会离开棋盘)，然后移动到那里。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>骑士继续移动，直到它走了 <code>k</code> 步或离开了棋盘。</p>
 
-<pre>
-<strong>Input:</strong> n = 3, k = 2, row = 0, column = 0
-<strong>Output:</strong> 0.06250
-<strong>Explanation:</strong> There are two moves (to (1,2), (2,1)) that will keep the knight on the board.
-From each of those positions, there are also two moves that will keep the knight on the board.
-The total probability the knight stays on the board is 0.0625.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 1, k = 0, row = 0, column = 0
-<strong>Output:</strong> 1.00000
-</pre>
+<p>返回 <em>骑士在棋盘停止移动后仍留在棋盘上的概率</em> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入:</strong> n = 3, k = 2, row = 0, column = 0
+<strong>输出:</strong> 0.0625
+<strong>解释:</strong> 有两步(到(1,2)，(2,1))可以让骑士留在棋盘上。
+在每一个位置上，也有两种移动可以让骑士留在棋盘上。
+骑士留在棋盘上的总概率是0.0625。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入:</strong> n = 1, k = 0, row = 0, column = 0
+<strong>输出:</strong> 1.00000
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 25</code></li>
@@ -52,27 +59,27 @@ The total probability the knight stays on the board is 0.0625.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-Let $f[h][i][j]$ denotes the probability that the knight is still on the chessboard after $h$ steps starting from the position $(i, j)$. Then the final answer is $f[k][row][column]$.
+我们定义 $f[h][i][j]$ 表示骑士从 $(i, j)$ 位置出发，走了 $h$ 步以后还留在棋盘上的概率。那么最终答案就是 $f[k][\textit{row}][\textit{column}]$。
 
-When $h = 0$, the knight is always on the chessboard, so $f[0][i][j] = 1$.
+当 $h=0$ 时，骑士一定在棋盘上，概率为 $1$，即 $f[0][i][j]=1$。
 
-When $h \gt 0$, the probability that the knight is on the position $(i, j)$ can be transferred from the probability on its $8$ adjacent positions, which are:
+当 $h \gt 0$ 时，骑士在 $(i, j)$ 位置上的概率可以由其上一步的 $8$ 个位置上的概率转移得到，即：
 
 $$
-f[h][i][j] = \sum_{a, b} f[h - 1][a][b] \times \frac{1}{8}
+f[h][i][j] = \sum_{x, y} f[h - 1][x][y] \times \frac{1}{8}
 $$
 
-where $(a, b)$ is one of the $8$ adjacent positions.
+其中 $(x, y)$ 是从 $(i, j)$ 位置可以走到的 $8$ 个位置中的一个。
 
-The final answer is $f[k][row][column]$.
+最终答案即为 $f[k][\textit{row}][\textit{column}]$。
 
-The time complexity is $O(k \times n^2)$, and the space complexity is $O(k \times n^2)$. Here $k$ and $n$ are the given steps and the chessboard size, respectively.
+时间复杂度 $O(k \times n^2)$，空间复杂度 $O(k \times n^2)$。其中 $k$ 和 $n$ 分别是给定的步数和棋盘大小。
 
 <!-- tabs:start -->
 
@@ -189,90 +196,69 @@ func knightProbability(n int, k int, row int, column int) float64 {
 #### TypeScript
 
 ```ts
-function knightProbability(
-  n: number,
-  k: number,
-  row: number,
-  column: number
-): number {
-  const f = new Array(k + 1)
-    .fill(0)
-    .map(() => new Array(n).fill(0).map(() => new Array(n).fill(0)));
-  for (let i = 0; i < n; ++i) {
-    for (let j = 0; j < n; ++j) {
-      f[0][i][j] = 1;
-    }
-  }
-  const dirs = [-2, -1, 2, 1, -2, 1, 2, -1, -2];
-  for (let h = 1; h <= k; ++h) {
+function knightProbability(n: number, k: number, row: number, column: number): number {
+    const f = Array.from({ length: k + 1 }, () =>
+        Array.from({ length: n }, () => Array(n).fill(0)),
+    );
     for (let i = 0; i < n; ++i) {
-      for (let j = 0; j < n; ++j) {
-        for (let p = 0; p < 8; ++p) {
-          const x = i + dirs[p];
-          const y = j + dirs[p + 1];
-          if (x >= 0 && x < n && y >= 0 && y < n) {
-            f[h][i][j] += f[h - 1][x][y] / 8;
-          }
+        for (let j = 0; j < n; ++j) {
+            f[0][i][j] = 1;
         }
-      }
     }
-  }
-  return f[k][row][column];
+    const dirs = [-2, -1, 2, 1, -2, 1, 2, -1, -2];
+    for (let h = 1; h <= k; ++h) {
+        for (let i = 0; i < n; ++i) {
+            for (let j = 0; j < n; ++j) {
+                for (let p = 0; p < 8; ++p) {
+                    const x = i + dirs[p];
+                    const y = j + dirs[p + 1];
+                    if (x >= 0 && x < n && y >= 0 && y < n) {
+                        f[h][i][j] += f[h - 1][x][y] / 8;
+                    }
+                }
+            }
+        }
+    }
+    return f[k][row][column];
 }
 ```
 
 #### Rust
 
 ```rust
-const DIR: [(i32, i32); 8] = [
-    (-2, -1),
-    (2, -1),
-    (-1, -2),
-    (1, -2),
-    (2, 1),
-    (-2, 1),
-    (1, 2),
-    (-1, 2),
-];
-const P: f64 = 1.0 / 8.0;
-
 impl Solution {
-    #[allow(dead_code)]
     pub fn knight_probability(n: i32, k: i32, row: i32, column: i32) -> f64 {
-        // Here dp[i][j][k] represents through `i` steps, the probability that the knight stays on the board
-        // Starts from row: `j`, column: `k`
-        let mut dp: Vec<Vec<Vec<f64>>> =
-            vec![vec![vec![0 as f64; n as usize]; n as usize]; k as usize + 1];
+        let n = n as usize;
+        let k = k as usize;
 
-        // Initialize the dp vector, since dp[0][j][k] should be 1
-        for j in 0..n as usize {
-            for k in 0..n as usize {
-                dp[0][j][k] = 1.0;
+        let mut f = vec![vec![vec![0.0; n]; n]; k + 1];
+
+        for i in 0..n {
+            for j in 0..n {
+                f[0][i][j] = 1.0;
             }
         }
 
-        // Begin the actual dp process
-        for i in 1..=k {
-            for j in 0..n {
-                for k in 0..n {
-                    for (dx, dy) in DIR {
-                        let x = j + dx;
-                        let y = k + dy;
-                        if Self::check_bounds(x, y, n, n) {
-                            dp[i as usize][j as usize][k as usize] +=
-                                P * dp[(i as usize) - 1][x as usize][y as usize];
+        let dirs = [-2, -1, 2, 1, -2, 1, 2, -1, -2];
+
+        for h in 1..=k {
+            for i in 0..n {
+                for j in 0..n {
+                    for p in 0..8 {
+                        let x = i as isize + dirs[p];
+                        let y = j as isize + dirs[p + 1];
+
+                        if x >= 0 && x < n as isize && y >= 0 && y < n as isize {
+                            let x = x as usize;
+                            let y = y as usize;
+                            f[h][i][j] += f[h - 1][x][y] / 8.0;
                         }
                     }
                 }
             }
         }
 
-        dp[k as usize][row as usize][column as usize]
-    }
-
-    #[allow(dead_code)]
-    fn check_bounds(i: i32, j: i32, n: i32, m: i32) -> bool {
-        i >= 0 && i < n && j >= 0 && j < m
+        f[k][row as usize][column as usize]
     }
 }
 ```

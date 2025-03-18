@@ -1,75 +1,78 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2234.Maximum%20Total%20Beauty%20of%20the%20Gardens/README.md
 rating: 2561
-source: Weekly Contest 288 Q4
+source: 第 288 场周赛 Q4
 tags:
-  - Greedy
-  - Array
-  - Two Pointers
-  - Binary Search
-  - Sorting
+    - 贪心
+    - 数组
+    - 双指针
+    - 二分查找
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2234. Maximum Total Beauty of the Gardens](https://leetcode.com/problems/maximum-total-beauty-of-the-gardens)
+# [2234. 花园的最大总美丽值](https://leetcode.cn/problems/maximum-total-beauty-of-the-gardens)
 
-## Description
+[English Version](/solution/2200-2299/2234.Maximum%20Total%20Beauty%20of%20the%20Gardens/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Alice is a caretaker of <code>n</code> gardens and she wants to plant flowers to maximize the total beauty of all her gardens.</p>
+<p>Alice 是&nbsp;<code>n</code>&nbsp;个花园的园丁，她想通过种花，最大化她所有花园的总美丽值。</p>
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>flowers</code> of size <code>n</code>, where <code>flowers[i]</code> is the number of flowers already planted in the <code>i<sup>th</sup></code> garden. Flowers that are already planted <strong>cannot</strong> be removed. You are then given another integer <code>newFlowers</code>, which is the <strong>maximum</strong> number of flowers that Alice can additionally plant. You are also given the integers <code>target</code>, <code>full</code>, and <code>partial</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始大小为 <code>n</code>&nbsp;的整数数组&nbsp;<code>flowers</code>&nbsp;，其中&nbsp;<code>flowers[i]</code>&nbsp;是第 <code>i</code>&nbsp;个花园里已经种的花的数目。已经种了的花 <strong>不能</strong>&nbsp;移走。同时给你&nbsp;<code>newFlowers</code>&nbsp;，表示 Alice 额外可以种花的&nbsp;<strong>最大数目</strong>&nbsp;。同时给你的还有整数&nbsp;<code>target</code>&nbsp;，<code>full</code>&nbsp;和&nbsp;<code>partial</code>&nbsp;。</p>
 
-<p>A garden is considered <strong>complete</strong> if it has <strong>at least</strong> <code>target</code> flowers. The <strong>total beauty</strong> of the gardens is then determined as the <strong>sum</strong> of the following:</p>
+<p>如果一个花园有 <strong>至少</strong>&nbsp;<code>target</code>&nbsp;朵花，那么这个花园称为 <strong>完善的</strong>&nbsp;，花园的 <strong>总美丽值</strong>&nbsp;为以下分数之 <strong>和</strong> ：</p>
 
 <ul>
-	<li>The number of <strong>complete</strong> gardens multiplied by <code>full</code>.</li>
-	<li>The <strong>minimum</strong> number of flowers in any of the <strong>incomplete</strong> gardens multiplied by <code>partial</code>. If there are no incomplete gardens, then this value will be <code>0</code>.</li>
+	<li><b>完善</b> 花园数目乘以&nbsp;<code>full</code>.</li>
+	<li>剩余 <strong>不完善</strong>&nbsp;花园里，花的 <strong>最少数目</strong>&nbsp;乘以&nbsp;<code>partial</code>&nbsp;。如果没有不完善花园，那么这一部分的值为&nbsp;<code>0</code>&nbsp;。</li>
 </ul>
 
-<p>Return <em>the <strong>maximum</strong> total beauty that Alice can obtain after planting at most </em><code>newFlowers</code><em> flowers.</em></p>
+<p>请你返回 Alice 种最多 <code>newFlowers</code>&nbsp;朵花以后，能得到的<strong>&nbsp;最大</strong>&nbsp;总美丽值。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> flowers = [1,3,1,1], newFlowers = 7, target = 6, full = 12, partial = 1
-<strong>Output:</strong> 14
-<strong>Explanation:</strong> Alice can plant
-- 2 flowers in the 0<sup>th</sup> garden
-- 3 flowers in the 1<sup>st</sup> garden
-- 1 flower in the 2<sup>nd</sup> garden
-- 1 flower in the 3<sup>rd</sup> garden
-The gardens will then be [3,6,2,2]. She planted a total of 2 + 3 + 1 + 1 = 7 flowers.
-There is 1 garden that is complete.
-The minimum number of flowers in the incomplete gardens is 2.
-Thus, the total beauty is 1 * 12 + 2 * 1 = 12 + 2 = 14.
-No other way of planting flowers can obtain a total beauty higher than 14.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>flowers = [1,3,1,1], newFlowers = 7, target = 6, full = 12, partial = 1
+<b>输出：</b>14
+<b>解释：</b>Alice 可以按以下方案种花
+- 在第 0 个花园种 2 朵花
+- 在第 1 个花园种 3 朵花
+- 在第 2 个花园种 1 朵花
+- 在第 3 个花园种 1 朵花
+花园里花的数目为 [3,6,2,2] 。总共种了 2 + 3 + 1 + 1 = 7 朵花。
+只有 1 个花园是完善的。
+不完善花园里花的最少数目是 2 。
+所以总美丽值为 1 * 12 + 2 * 1 = 12 + 2 = 14 。
+没有其他方案可以让花园总美丽值超过 14 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> flowers = [2,4,5,3], newFlowers = 10, target = 5, full = 2, partial = 6
-<strong>Output:</strong> 30
-<strong>Explanation:</strong> Alice can plant
-- 3 flowers in the 0<sup>th</sup> garden
-- 0 flowers in the 1<sup>st</sup> garden
-- 0 flowers in the 2<sup>nd</sup> garden
-- 2 flowers in the 3<sup>rd</sup> garden
-The gardens will then be [5,4,5,5]. She planted a total of 3 + 0 + 0 + 2 = 5 flowers.
-There are 3 gardens that are complete.
-The minimum number of flowers in the incomplete gardens is 4.
-Thus, the total beauty is 3 * 2 + 4 * 6 = 6 + 24 = 30.
-No other way of planting flowers can obtain a total beauty higher than 30.
-Note that Alice could make all the gardens complete but in this case, she would obtain a lower total beauty.
+<pre><b>输入：</b>flowers = [2,4,5,3], newFlowers = 10, target = 5, full = 2, partial = 6
+<b>输出：</b>30
+<b>解释：</b>Alice 可以按以下方案种花
+- 在第 0 个花园种 3 朵花
+- 在第 1 个花园种 0 朵花
+- 在第 2 个花园种 0 朵花
+- 在第 3 个花园种 2 朵花
+花园里花的数目为 [5,4,5,5] 。总共种了 3 + 0 + 0 + 2 = 5 朵花。
+有 3 个花园是完善的。
+不完善花园里花的最少数目为 4 。
+所以总美丽值为 3 * 2 + 4 * 6 = 6 + 24 = 30 。
+没有其他方案可以让花园总美丽值超过 30 。
+注意，Alice可以让所有花园都变成完善的，但这样她的总美丽值反而更小。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= flowers.length &lt;= 10<sup>5</sup></code></li>
@@ -80,11 +83,23 @@ Note that Alice could make all the gardens complete but in this case, she would 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：枚举 + 二分查找
+
+我们注意到，如果一个花园中种的花的数目已经大于等于 $\textit{target}$，那么这个花园就已经是完善的花园，不能再改变。而不完善的花园中，可以通过种更多的花来使得这个花园变成完善的花园。
+
+我们不妨枚举有多少个花园最终成为完善的花园，假设初始时有 $x$ 个完善的花园，那么我们可以在 $[x, n]$ 范围内枚举。我们应该选择哪些不完善花园变成完善花园呢？实际上，我们应该选择那么花的数目较多的花园，这样才能使得最终剩下的可额外种植的花更多，将这些花用于提升不完善花园的最小值。因此，我们对数组 $\textit{flowers}$ 进行排序。
+
+接下来，我们枚举完善花园的数目 $x$，那么当前要变成完善花园的是 $\textit{target}[n-x]$，需要种植的花的数量为 $\max(0, \textit{target} - \textit{flowers}[n - x])$。
+
+我们更新剩余可种植的花 $\textit{newFlowers}$，如果小于 $0$，说明已经不能将更多的花园变成完善花园了，直接退出枚举。
+
+否则，我们在 $[0,..n-x-1]$ 范围内，二分查找可以把不完善花园变成完善花园的最大下标。记下标为 $l$，那么所需要种植的花的数量为 $\textit{cost} = \textit{flowers}[l] \times (l + 1) - s[l + 1]$，其中 $s[i]$ 是 $\textit{flowers}$ 数组中前 $i$ 个数之和。如果此时还能提升最小值的大小，我们算出能提升的幅度 $\frac{\textit{newFlowers} - \textit{cost}}{l + 1}$，并且保证最终的最小值不超过 $\textit{target}-1$。即最小值 $y = \min(\textit{flowers}[l] + \frac{\textit{newFlowers} - \textit{cost}}{l + 1}, \textit{target} - 1)$。那么此时花园的美丽值为 $x \times \textit{full} + y \times \textit{partial}$。答案为所有美丽值的最大值。
+
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{flowers}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -248,46 +263,43 @@ func maximumBeauty(flowers []int, newFlowers int64, target int, full int, partia
 
 ```ts
 function maximumBeauty(
-  flowers: number[],
-  newFlowers: number,
-  target: number,
-  full: number,
-  partial: number
+    flowers: number[],
+    newFlowers: number,
+    target: number,
+    full: number,
+    partial: number,
 ): number {
-  flowers.sort((a, b) => a - b);
-  const n = flowers.length;
-  const s: number[] = Array(n + 1).fill(0);
-  for (let i = 1; i <= n; i++) {
-    s[i] = s[i - 1] + flowers[i - 1];
-  }
-  let x = flowers.filter((f) => f >= target).length;
-  let ans = 0;
-  for (; x <= n; ++x) {
-    newFlowers -= x === 0 ? 0 : Math.max(target - flowers[n - x], 0);
-    if (newFlowers < 0) {
-      break;
+    flowers.sort((a, b) => a - b);
+    const n = flowers.length;
+    const s: number[] = Array(n + 1).fill(0);
+    for (let i = 1; i <= n; i++) {
+        s[i] = s[i - 1] + flowers[i - 1];
     }
-    let l = 0;
-    let r = n - x - 1;
-    while (l < r) {
-      const mid = (l + r + 1) >> 1;
-      if (flowers[mid] * (mid + 1) - s[mid + 1] <= newFlowers) {
-        l = mid;
-      } else {
-        r = mid - 1;
-      }
+    let x = flowers.filter(f => f >= target).length;
+    let ans = 0;
+    for (; x <= n; ++x) {
+        newFlowers -= x === 0 ? 0 : Math.max(target - flowers[n - x], 0);
+        if (newFlowers < 0) {
+            break;
+        }
+        let l = 0;
+        let r = n - x - 1;
+        while (l < r) {
+            const mid = (l + r + 1) >> 1;
+            if (flowers[mid] * (mid + 1) - s[mid + 1] <= newFlowers) {
+                l = mid;
+            } else {
+                r = mid - 1;
+            }
+        }
+        let y = 0;
+        if (r !== -1) {
+            const cost = flowers[l] * (l + 1) - s[l + 1];
+            y = Math.min(flowers[l] + Math.floor((newFlowers - cost) / (l + 1)), target - 1);
+        }
+        ans = Math.max(ans, x * full + y * partial);
     }
-    let y = 0;
-    if (r !== -1) {
-      const cost = flowers[l] * (l + 1) - s[l + 1];
-      y = Math.min(
-        flowers[l] + Math.floor((newFlowers - cost) / (l + 1)),
-        target - 1
-      );
-    }
-    ans = Math.max(ans, x * full + y * partial);
-  }
-  return ans;
+    return ans;
 }
 ```
 

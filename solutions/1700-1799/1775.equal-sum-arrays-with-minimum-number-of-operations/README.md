@@ -1,62 +1,64 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1775.Equal%20Sum%20Arrays%20With%20Minimum%20Number%20of%20Operations/README.md
 rating: 1850
-source: Weekly Contest 230 Q3
+source: 第 230 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Hash Table
-  - Counting
+    - 贪心
+    - 数组
+    - 哈希表
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1775. Equal Sum Arrays With Minimum Number of Operations](https://leetcode.com/problems/equal-sum-arrays-with-minimum-number-of-operations)
+# [1775. 通过最少操作次数使数组的和相等](https://leetcode.cn/problems/equal-sum-arrays-with-minimum-number-of-operations)
 
-## Description
+[English Version](/solution/1700-1799/1775.Equal%20Sum%20Arrays%20With%20Minimum%20Number%20of%20Operations/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two arrays of integers <code>nums1</code> and <code><font face="monospace">nums2</font></code>, possibly of different lengths. The values in the arrays are between <code>1</code> and <code>6</code>, inclusive.</p>
+<p>给你两个长度可能不等的整数数组 <code>nums1</code> 和 <code>nums2</code> 。两个数组中的所有值都在 <code>1</code> 到 <code>6</code> 之间（包含 <code>1</code> 和 <code>6</code>）。</p>
 
-<p>In one operation, you can change any integer&#39;s value in <strong>any </strong>of the arrays to <strong>any</strong> value between <code>1</code> and <code>6</code>, inclusive.</p>
+<p>每次操作中，你可以选择 <strong>任意</strong> 数组中的任意一个整数，将它变成 <code>1</code> 到 <code>6</code> 之间 <strong>任意</strong> 的值（包含 <code>1</code> 和 <code><span style="">6</span></code>）。</p>
 
-<p>Return <em>the minimum number of operations required to make the sum of values in </em><code>nums1</code><em> equal to the sum of values in </em><code>nums2</code><em>.</em> Return <code>-1</code>​​​​​ if it is not possible to make the sum of the two arrays equal.</p>
+<p>请你返回使 <code>nums1</code> 中所有数的和与 <code>nums2</code> 中所有数的和相等的最少操作次数。如果无法使两个数组的和相等，请返回 <code>-1</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums1 = [1,2,3,4,5,6], nums2 = [1,1,2,2,2,2]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> You can make the sums of nums1 and nums2 equal with 3 operations. All indices are 0-indexed.
-- Change nums2[0] to 6. nums1 = [1,2,3,4,5,6], nums2 = [<u><strong>6</strong></u>,1,2,2,2,2].
-- Change nums1[5] to 1. nums1 = [1,2,3,4,5,<strong><u>1</u></strong>], nums2 = [6,1,2,2,2,2].
-- Change nums1[2] to 2. nums1 = [1,2,<strong><u>2</u></strong>,4,5,1], nums2 = [6,1,2,2,2,2].
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums1 = [1,2,3,4,5,6], nums2 = [1,1,2,2,2,2]
+<b>输出：</b>3
+<b>解释：</b>你可以通过 3 次操作使 nums1 中所有数的和与 nums2 中所有数的和相等。以下数组下标都从 0 开始。
+- 将 nums2[0] 变为 6 。 nums1 = [1,2,3,4,5,6], nums2 = [<strong>6</strong>,1,2,2,2,2] 。
+- 将 nums1[5] 变为 1 。 nums1 = [1,2,3,4,5,<strong>1</strong>], nums2 = [6,1,2,2,2,2] 。
+- 将 nums1[2] 变为 2 。 nums1 = [1,2,<strong>2</strong>,4,5,1], nums2 = [6,1,2,2,2,2] 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums1 = [1,1,1,1,1,1,1], nums2 = [6]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> There is no way to decrease the sum of nums1 or to increase the sum of nums2 to make them equal.
+<pre><b>输入：</b>nums1 = [1,1,1,1,1,1,1], nums2 = [6]
+<b>输出：</b>-1
+<b>解释：</b>没有办法减少 nums1 的和或者增加 nums2 的和使二者相等。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums1 = [6,6], nums2 = [1]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> You can make the sums of nums1 and nums2 equal with 3 operations. All indices are 0-indexed. 
-- Change nums1[0] to 2. nums1 = [<strong><u>2</u></strong>,6], nums2 = [1].
-- Change nums1[1] to 2. nums1 = [2,<strong><u>2</u></strong>], nums2 = [1].
-- Change nums2[0] to 4. nums1 = [2,2], nums2 = [<strong><u>4</u></strong>].
+<pre><b>输入：</b>nums1 = [6,6], nums2 = [1]
+<b>输出：</b>3
+<b>解释：</b>你可以通过 3 次操作使 nums1 中所有数的和与 nums2 中所有数的和相等。以下数组下标都从 0 开始。
+- 将 nums1[0] 变为 2 。 nums1 = [<strong>2</strong>,6], nums2 = [1] 。
+- 将 nums1[1] 变为 2 。 nums1 = [2,<strong>2</strong>], nums2 = [1] 。
+- 将 nums2[0] 变为 4 。 nums1 = [2,2], nums2 = [<strong>4</strong>] 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 10<sup>5</sup></code></li>
@@ -65,11 +67,27 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心 + 排序
+
+我们用 $s_1$ 和 $s_2$ 分别表示数组 `nums1` 和 `nums2` 的和。
+
+如果 $s_1 = s_2$，则不需要任何操作，直接返回 $0$。否则，我们不妨设 $s_1 \lt s_2$，即 $nums_1$ 中的元素和小于 $nums_2$ 中的元素和，那么两个数组元素和的差值 $d=s_2-s_1$。
+
+要使得两个数组元素和相等，我们需要对 `nums1` 中的元素进行增大操作，对 `nums2` 中的元素进行减小操作。
+
+对于 `nums1` 中的每个元素 $v$，我们最多可以将其增大到 $6$，那么 $v$ 可以增大的量为 $6-v$。对于 `nums2` 中的每个元素 $v$，我们最多可以将其减小到 $1$，那么 $v$ 可以减小的量为 $v-1$。
+
+我们将每个元素的变化量放入数组 `arr` 中，然后对数组 `arr` 进行降序排列。
+
+接下来，我们从数组 `arr` 的第一个元素开始，贪心地将 $d$ 减去每个元素的变化量，直到 $d \leq 0$，返回此时的操作次数即可。
+
+遍历结束后，如果 $d \gt 0$，说明无法使得两个数组元素和相等，返回 $-1$。
+
+时间复杂度 $O((m+n) \times \log (m + n))$，空间复杂度 $O(m+n)$。其中 $m$ 和 $n$ 分别为数组 `nums1` 和 `nums2` 的长度。
 
 <!-- tabs:start -->
 
@@ -194,7 +212,13 @@ func sum(nums []int) (s int) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：贪心 + 计数排序
+
+方法一中，我们需要创建数组 `arr` 并进行排序，时空复杂度较高。由于数组 `arr` 中元素的范围为 $[0,..5]$，因此我们创建一个长度为 $6$ 的数组 `cnt`，用于统计数组 `arr` 中每个元素的数量，也即每个最大变化量的元素的数量。
+
+接下来，我们从最大变化量 $i=5$ 开始，贪心地将 $d$ 减去最大变化量，直到 $d \leq 0$，返回此时的操作次数即可。
+
+时间复杂度 $O(m+n)$，空间复杂度 $O(C)$。其中 $m$ 和 $n$ 分别为数组 `nums1` 和 `nums2` 的长度。本题中 $C=6$。
 
 <!-- tabs:start -->
 

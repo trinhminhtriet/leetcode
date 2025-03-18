@@ -1,54 +1,56 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2404.Most%20Frequent%20Even%20Element/README.md
 rating: 1259
-source: Weekly Contest 310 Q1
+source: 第 310 场周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - Counting
+    - 数组
+    - 哈希表
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2404. Most Frequent Even Element](https://leetcode.com/problems/most-frequent-even-element)
+# [2404. 出现最频繁的偶数元素](https://leetcode.cn/problems/most-frequent-even-element)
 
-## Description
+[English Version](/solution/2400-2499/2404.Most%20Frequent%20Even%20Element/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code>, return <em>the most frequent even element</em>.</p>
+<p>给你一个整数数组 <code>nums</code> ，返回出现最频繁的偶数元素。</p>
 
-<p>If there is a tie, return the <strong>smallest</strong> one. If there is no such element, return <code>-1</code>.</p>
+<p>如果存在多个满足条件的元素，只需要返回 <strong>最小</strong> 的一个。如果不存在这样的元素，返回 <code>-1</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [0,1,2,2,4,4,1]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong>
-The even elements are 0, 2, and 4. Of these, 2 and 4 appear the most.
-We return the smallest one, which is 2.</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><strong>输入：</strong>nums = [0,1,2,2,4,4,1]
+<strong>输出：</strong>2
+<strong>解释：</strong>
+数组中的偶数元素为 0、2 和 4 ，在这些元素中，2 和 4 出现次数最多。
+返回最小的那个，即返回 2 。</pre>
 
-<pre>
-<strong>Input:</strong> nums = [4,4,4,9,2,4]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> 4 is the even element appears the most.
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>nums = [4,4,4,9,2,4]
+<strong>输出：</strong>4
+<strong>解释：</strong>4 是出现最频繁的偶数元素。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [29,47,21,41,13,37,25,7]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> There is no even element.
+<pre><strong>输入：</strong>nums = [29,47,21,41,13,37,25,7]
+<strong>输出：</strong>-1
+<strong>解释：</strong>不存在偶数元素。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2000</code></li>
@@ -57,15 +59,15 @@ We return the smallest one, which is 2.</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We use a hash table $cnt$ to count the occurrence of all even elements, and then find the even element with the highest occurrence and the smallest value.
+我们用哈希表 $cnt$ 统计所有偶数元素出现的次数，然后找出出现次数最多且值最小的偶数元素。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -154,21 +156,21 @@ func mostFrequentEven(nums []int) int {
 
 ```ts
 function mostFrequentEven(nums: number[]): number {
-  const cnt: Map<number, number> = new Map();
-  for (const x of nums) {
-    if (x % 2 === 0) {
-      cnt.set(x, (cnt.get(x) ?? 0) + 1);
+    const cnt: Map<number, number> = new Map();
+    for (const x of nums) {
+        if (x % 2 === 0) {
+            cnt.set(x, (cnt.get(x) ?? 0) + 1);
+        }
     }
-  }
-  let ans = -1;
-  let mx = 0;
-  for (const [x, v] of cnt) {
-    if (mx < v || (mx === v && ans > x)) {
-      ans = x;
-      mx = v;
+    let ans = -1;
+    let mx = 0;
+    for (const [x, v] of cnt) {
+        if (mx < v || (mx === v && ans > x)) {
+            ans = x;
+            mx = v;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

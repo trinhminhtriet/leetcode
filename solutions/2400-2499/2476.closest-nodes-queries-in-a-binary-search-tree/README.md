@@ -1,61 +1,70 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2476.Closest%20Nodes%20Queries%20in%20a%20Binary%20Search%20Tree/README.md
 rating: 1596
-source: Weekly Contest 320 Q2
+source: 第 320 场周赛 Q2
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Search Tree
-  - Array
-  - Binary Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉搜索树
+    - 数组
+    - 二分查找
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [2476. Closest Nodes Queries in a Binary Search Tree](https://leetcode.com/problems/closest-nodes-queries-in-a-binary-search-tree)
+# [2476. 二叉搜索树最近节点查询](https://leetcode.cn/problems/closest-nodes-queries-in-a-binary-search-tree)
 
-## Description
+[English Version](/solution/2400-2499/2476.Closest%20Nodes%20Queries%20in%20a%20Binary%20Search%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the <code>root</code> of a <strong>binary search tree </strong>and an array <code>queries</code> of size <code>n</code> consisting of positive integers.</p>
+<p>给你一个 <strong>二叉搜索树</strong> 的根节点 <code>root</code> ，和一个由正整数组成、长度为 <code>n</code> 的数组 <code>queries</code> 。</p>
 
-<p>Find a <strong>2D</strong> array <code>answer</code> of size <code>n</code> where <code>answer[i] = [min<sub>i</sub>, max<sub>i</sub>]</code>:</p>
+<p>请你找出一个长度为 <code>n</code> 的 <strong>二维</strong> 答案数组 <code>answer</code> ，其中 <code>answer[i] = [min<sub>i</sub>, max<sub>i</sub>]</code> ：</p>
 
 <ul>
-	<li><code>min<sub>i</sub></code> is the <strong>largest</strong> value in the tree that is smaller than or equal to <code>queries[i]</code>. If a such value does not exist, add <code>-1</code> instead.</li>
-	<li><code>max<sub>i</sub></code> is the <strong>smallest</strong> value in the tree that is greater than or equal to <code>queries[i]</code>. If a such value does not exist, add <code>-1</code> instead.</li>
+	<li><code>min<sub>i</sub></code> 是树中小于等于&nbsp;<code>queries[i]</code> 的 <strong>最大值</strong> 。如果不存在这样的值，则使用 <code>-1</code> 代替。</li>
+	<li><code>max<sub>i</sub></code> 是树中大于等于&nbsp;<code>queries[i]</code> 的 <strong>最小值</strong> 。如果不存在这样的值，则使用 <code>-1</code> 代替。</li>
 </ul>
 
-<p>Return <em>the array</em> <code>answer</code>.</p>
+<p>返回数组 <code>answer</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2476.Closest%20Nodes%20Queries%20in%20a%20Binary%20Search%20Tree/images/bstreeedrawioo.png" style="width: 261px; height: 281px;" />
+
+<p><strong>示例 1 ：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2476.Closest%20Nodes%20Queries%20in%20a%20Binary%20Search%20Tree/images/bstreeedrawioo.png" style="width: 261px; height: 281px;" /></p>
+
 <pre>
-<strong>Input:</strong> root = [6,2,13,1,4,9,15,null,null,null,null,null,null,14], queries = [2,5,16]
-<strong>Output:</strong> [[2,2],[4,6],[15,-1]]
-<strong>Explanation:</strong> We answer the queries in the following way:
-- The largest number that is smaller or equal than 2 in the tree is 2, and the smallest number that is greater or equal than 2 is still 2. So the answer for the first query is [2,2].
-- The largest number that is smaller or equal than 5 in the tree is 4, and the smallest number that is greater or equal than 5 is 6. So the answer for the second query is [4,6].
-- The largest number that is smaller or equal than 16 in the tree is 15, and the smallest number that is greater or equal than 16 does not exist. So the answer for the third query is [15,-1].
+<strong>输入：</strong>root = [6,2,13,1,4,9,15,null,null,null,null,null,null,14], queries = [2,5,16]
+<strong>输出：</strong>[[2,2],[4,6],[15,-1]]
+<strong>解释：</strong>按下面的描述找出并返回查询的答案：
+- 树中小于等于 2 的最大值是 2 ，且大于等于 2 的最小值也是 2 。所以第一个查询的答案是 [2,2] 。
+- 树中小于等于 5 的最大值是 4 ，且大于等于 5 的最小值是 6 。所以第二个查询的答案是 [4,6] 。
+- 树中小于等于 16 的最大值是 15 ，且大于等于 16 的最小值不存在。所以第三个查询的答案是 [15,-1] 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2476.Closest%20Nodes%20Queries%20in%20a%20Binary%20Search%20Tree/images/bstttreee.png" style="width: 101px; height: 121px;" />
+<p><strong>示例 2 ：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2476.Closest%20Nodes%20Queries%20in%20a%20Binary%20Search%20Tree/images/bstttreee.png" style="width: 101px; height: 121px;" /></p>
+
 <pre>
-<strong>Input:</strong> root = [4,null,9], queries = [3]
-<strong>Output:</strong> [[-1,4]]
-<strong>Explanation:</strong> The largest number that is smaller or equal to 3 in the tree does not exist, and the smallest number that is greater or equal to 3 is 4. So the answer for the query is [-1,4].
+<strong>输入：</strong>root = [4,null,9], queries = [3]
+<strong>输出：</strong>[[-1,4]]
+<strong>解释：</strong>树中不存在小于等于 3 的最大值，且大于等于 3 的最小值是 4 。所以查询的答案是 [-1,4] 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[2, 10<sup>5</sup>]</code>.</li>
+	<li>树中节点的数目在范围 <code>[2, 10<sup>5</sup>]</code> 内</li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>6</sup></code></li>
 	<li><code>n == queries.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -64,15 +73,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: In-order Traversal + Binary Search
+### 方法一：中序遍历 + 二分查找
 
-Since the problem provides a binary search tree, we can obtain a sorted array through in-order traversal. Then for each query, we can find the maximum value less than or equal to the query value and the minimum value greater than or equal to the query value through binary search.
+由于题目中给出的是一棵二叉搜索树，因此我们可以通过中序遍历得到一个有序数组，然后对于每个查询，我们可以通过二分查找得到小于等于该查询值的最大值和大于等于该查询值的最小值。
 
-The time complexity is $O(n + m \times \log n)$, and the space complexity is $O(n)$. Here, $n$ and $m$ are the number of nodes in the binary search tree and the number of queries, respectively.
+时间复杂度 $O(n + m \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是二叉搜索树中的节点数和查询数。
 
 <!-- tabs:start -->
 
@@ -253,37 +262,37 @@ func closestNodes(root *TreeNode, queries []int) (ans [][]int) {
  */
 
 function closestNodes(root: TreeNode | null, queries: number[]): number[][] {
-  const nums: number[] = [];
-  const dfs = (root: TreeNode | null) => {
-    if (!root) {
-      return;
+    const nums: number[] = [];
+    const dfs = (root: TreeNode | null) => {
+        if (!root) {
+            return;
+        }
+        dfs(root.left);
+        nums.push(root.val);
+        dfs(root.right);
+    };
+    const search = (x: number): number => {
+        let [l, r] = [0, nums.length];
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (nums[mid] >= x) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l;
+    };
+    dfs(root);
+    const ans: number[][] = [];
+    for (const x of queries) {
+        const i = search(x + 1) - 1;
+        const j = search(x);
+        const mi = i >= 0 ? nums[i] : -1;
+        const mx = j < nums.length ? nums[j] : -1;
+        ans.push([mi, mx]);
     }
-    dfs(root.left);
-    nums.push(root.val);
-    dfs(root.right);
-  };
-  const search = (x: number): number => {
-    let [l, r] = [0, nums.length];
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (nums[mid] >= x) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
-    }
-    return l;
-  };
-  dfs(root);
-  const ans: number[][] = [];
-  for (const x of queries) {
-    const i = search(x + 1) - 1;
-    const j = search(x);
-    const mi = i >= 0 ? nums[i] : -1;
-    const mx = j < nums.length ? nums[j] : -1;
-    ans.push([mi, mx]);
-  }
-  return ans;
+    return ans;
 }
 ```
 

@@ -1,65 +1,72 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0017.Letter%20Combinations%20of%20a%20Phone%20Number/README.md
 tags:
-  - Hash Table
-  - String
-  - Backtracking
+    - 哈希表
+    - 字符串
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [17. Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number)
+# [17. 电话号码的字母组合](https://leetcode.cn/problems/letter-combinations-of-a-phone-number)
 
-## Description
+[English Version](/solution/0000-0099/0017.Letter%20Combinations%20of%20a%20Phone%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string containing digits from <code>2-9</code> inclusive, return all possible letter combinations that the number could represent. Return the answer in <strong>any order</strong>.</p>
+<p>给定一个仅包含数字&nbsp;<code>2-9</code>&nbsp;的字符串，返回所有它能表示的字母组合。答案可以按 <strong>任意顺序</strong> 返回。</p>
 
-<p>A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.</p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0017.Letter%20Combinations%20of%20a%20Phone%20Number/images/1200px-telephone-keypad2svg.png" style="width: 300px; height: 243px;" />
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。</p>
 
-<pre>
-<strong>Input:</strong> digits = &quot;23&quot;
-<strong>Output:</strong> [&quot;ad&quot;,&quot;ae&quot;,&quot;af&quot;,&quot;bd&quot;,&quot;be&quot;,&quot;bf&quot;,&quot;cd&quot;,&quot;ce&quot;,&quot;cf&quot;]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> digits = &quot;&quot;
-<strong>Output:</strong> []
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> digits = &quot;2&quot;
-<strong>Output:</strong> [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
-</pre>
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0017.Letter%20Combinations%20of%20a%20Phone%20Number/images/200px-telephone-keypad2svg.png" style="width: 200px;" /></p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>digits = "23"
+<strong>输出：</strong>["ad","ae","af","bd","be","bf","cd","ce","cf"]
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>digits = ""
+<strong>输出：</strong>[]
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>digits = "2"
+<strong>输出：</strong>["a","b","c"]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= digits.length &lt;= 4</code></li>
-	<li><code>digits[i]</code> is a digit in the range <code>[&#39;2&#39;, &#39;9&#39;]</code>.</li>
+	<li><code>digits[i]</code> 是范围 <code>['2', '9']</code> 的一个数字。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal
+### 方法一：遍历
 
-First, we use an array or hash table to store the letters corresponding to each digit. Then we traverse each digit, combine its corresponding letters with the previous results to get the new results.
+我们先用一个数组或者哈希表存储每个数字对应的字母，然后遍历每个数字，将其对应的字母与之前的结果进行组合，得到新的结果。
 
-The time complexity is $O(4^n)$, and the space complexity is $O(4^n)$. Here, $n$ is the length of the input digits.
+时间复杂度 $O(4^n)$。空间复杂度 $O(4^n)$。其中 $n$ 是输入数字的长度。
 
 <!-- tabs:start -->
 
@@ -158,22 +165,22 @@ func letterCombinations(digits string) []string {
 
 ```ts
 function letterCombinations(digits: string): string[] {
-  if (digits.length === 0) {
-    return [];
-  }
-  const ans: string[] = [""];
-  const d = ["abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
-  for (const i of digits) {
-    const s = d[+i - 2];
-    const t: string[] = [];
-    for (const a of ans) {
-      for (const b of s) {
-        t.push(a + b);
-      }
+    if (digits.length === 0) {
+        return [];
     }
-    ans.splice(0, ans.length, ...t);
-  }
-  return ans;
+    const ans: string[] = [''];
+    const d = ['abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz'];
+    for (const i of digits) {
+        const s = d[+i - 2];
+        const t: string[] = [];
+        for (const a of ans) {
+            for (const b of s) {
+                t.push(a + b);
+            }
+        }
+        ans.splice(0, ans.length, ...t);
+    }
+    return ans;
 }
 ```
 
@@ -211,22 +218,22 @@ impl Solution {
  * @return {string[]}
  */
 var letterCombinations = function (digits) {
-  if (digits.length === 0) {
-    return [];
-  }
-  const ans = [""];
-  const d = ["abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
-  for (const i of digits) {
-    const s = d[+i - 2];
-    const t = [];
-    for (const a of ans) {
-      for (const b of s) {
-        t.push(a + b);
-      }
+    if (digits.length === 0) {
+        return [];
     }
-    ans.splice(0, ans.length, ...t);
-  }
-  return ans;
+    const ans = [''];
+    const d = ['abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz'];
+    for (const i of digits) {
+        const s = d[+i - 2];
+        const t = [];
+        for (const a of ans) {
+            for (const b of s) {
+                t.push(a + b);
+            }
+        }
+        ans.splice(0, ans.length, ...t);
+    }
+    return ans;
 };
 ```
 
@@ -262,11 +269,11 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: DFS
+### 方法二：DFS
 
-We can use the method of depth-first search to enumerate all possible letter combinations. Suppose that a part of the letter combination has been generated, but some digits have not been exhausted. At this time, we take out the letters corresponding to the next digit, and then enumerate each letter corresponding to this digit one by one, add them to the letter combination that has been generated before, to form all possible combinations.
+我们可以使用深度优先搜索的方法，枚举所有可能的字母组合。假设当前已经产生了一部分字母组合，但是还有一些数字没有被穷举到，此时我们取出下一个数字所对应的字母，然后依次枚举这个数字所对应的每一个字母，将它们添加到前面已经产生的字母组合后面，形成所有可能的组合。
 
-The time complexity is $O(4^n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the input digits.
+时间复杂度 $O(4^n)$。空间复杂度 $O(n)$。其中 $n$ 是输入数字的长度。
 
 <!-- tabs:start -->
 
@@ -385,26 +392,26 @@ func letterCombinations(digits string) (ans []string) {
 
 ```ts
 function letterCombinations(digits: string): string[] {
-  if (digits.length === 0) {
-    return [];
-  }
-  const ans: string[] = [];
-  const t: string[] = [];
-  const d = ["abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
-  const dfs = (i: number) => {
-    if (i >= digits.length) {
-      ans.push(t.join(""));
-      return;
+    if (digits.length === 0) {
+        return [];
     }
-    const s = d[+digits[i] - 2];
-    for (const c of s) {
-      t.push(c);
-      dfs(i + 1);
-      t.pop();
-    }
-  };
-  dfs(0);
-  return ans;
+    const ans: string[] = [];
+    const t: string[] = [];
+    const d = ['abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz'];
+    const dfs = (i: number) => {
+        if (i >= digits.length) {
+            ans.push(t.join(''));
+            return;
+        }
+        const s = d[+digits[i] - 2];
+        for (const c of s) {
+            t.push(c);
+            dfs(i + 1);
+            t.pop();
+        }
+    };
+    dfs(0);
+    return ans;
 }
 ```
 
@@ -446,26 +453,26 @@ impl Solution {
  * @return {string[]}
  */
 var letterCombinations = function (digits) {
-  if (digits.length === 0) {
-    return [];
-  }
-  const ans = [];
-  const t = [];
-  const d = ["abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
-  const dfs = (i) => {
-    if (i >= digits.length) {
-      ans.push(t.join(""));
-      return;
+    if (digits.length === 0) {
+        return [];
     }
-    const s = d[+digits[i] - 2];
-    for (const c of s) {
-      t.push(c);
-      dfs(i + 1);
-      t.pop();
-    }
-  };
-  dfs(0);
-  return ans;
+    const ans = [];
+    const t = [];
+    const d = ['abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz'];
+    const dfs = i => {
+        if (i >= digits.length) {
+            ans.push(t.join(''));
+            return;
+        }
+        const s = d[+digits[i] - 2];
+        for (const c of s) {
+            t.push(c);
+            dfs(i + 1);
+            t.pop();
+        }
+    };
+    dfs(0);
+    return ans;
 };
 ```
 

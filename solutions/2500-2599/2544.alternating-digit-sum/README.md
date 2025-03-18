@@ -1,83 +1,80 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2544.Alternating%20Digit%20Sum/README.md
 rating: 1184
-source: Weekly Contest 329 Q1
+source: 第 329 场周赛 Q1
 tags:
-  - Math
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2544. Alternating Digit Sum](https://leetcode.com/problems/alternating-digit-sum)
+# [2544. 交替数字和](https://leetcode.cn/problems/alternating-digit-sum)
 
-## Description
+[English Version](/solution/2500-2599/2544.Alternating%20Digit%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a positive integer <code>n</code>. Each digit of <code>n</code> has a sign according to the following rules:</p>
+<p>给你一个正整数 <code>n</code> 。<code>n</code> 中的每一位数字都会按下述规则分配一个符号：</p>
 
 <ul>
-	<li>The <strong>most significant digit</strong> is assigned a <strong>positive</strong> sign.</li>
-	<li>Each other digit has an opposite sign to its adjacent digits.</li>
+	<li><strong>最高有效位</strong> 上的数字分配到 <strong>正</strong> 号。</li>
+	<li>剩余每位上数字的符号都与其相邻数字相反。</li>
 </ul>
 
-<p>Return <em>the sum of all digits with their corresponding sign</em>.</p>
+<p>返回所有数字及其对应符号的和。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 521
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> (+5) + (-2) + (+1) = 4.
+<strong>输入：</strong>n = 521
+<strong>输出：</strong>4
+<strong>解释：</strong>(+5) + (-2) + (+1) = 4</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 111
+<strong>输出：</strong>1
+<strong>解释：</strong>(+1) + (-1) + (+1) = 1
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 111
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> (+1) + (-1) + (+1) = 1.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 886996
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> (+8) + (-8) + (+6) + (-9) + (+9) + (-6) = 0.
+<strong>输入：</strong>n = 886996
+<strong>输出：</strong>0
+<strong>解释：</strong>(+8) + (-8) + (+6) + (-9) + (+9) + (-6) = 0
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <p>&nbsp;</p>
-<style type="text/css">.spoilerbutton {display:block; border:dashed; padding: 0px 0px; margin:10px 0px; font-size:150%; font-weight: bold; color:#000000; background-color:cyan; outline:0; 
-}
-.spoiler {overflow:hidden;}
-.spoiler > div {-webkit-transition: all 0s ease;-moz-transition: margin 0s ease;-o-transition: all 0s ease;transition: margin 0s ease;}
-.spoilerbutton[value="Show Message"] + .spoiler > div {margin-top:-500%;}
-.spoilerbutton[value="Hide Message"] + .spoiler {padding:5px;}
-</style>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can directly simulate the process as described in the problem.
+直接根据题目描述模拟即可。
 
-We define an initial symbol $sign=1$. Starting from the most significant digit, we take out one digit $x$ each time, multiply it by $sign$, add the result to the answer, then negate $sign$, and continue to process the next digit until all digits are processed.
+我们定义一个初始符号 $sign=1$，然后从最高有效位开始，每次取出一位数字 $x$，与 $sign$ 相乘，将结果加到答案中，然后将 $sign$ 取反，继续处理下一位数字，直到处理完所有数字。
 
-The time complexity is $O(\log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the given number.
+时间复杂度 $O(\log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为给定数字。
 
 <!-- tabs:start -->
 
@@ -140,14 +137,14 @@ func alternateDigitSum(n int) (ans int) {
 
 ```ts
 function alternateDigitSum(n: number): number {
-  let ans = 0;
-  let sign = 1;
-  while (n) {
-    ans += (n % 10) * sign;
-    sign = -sign;
-    n = Math.floor(n / 10);
-  }
-  return ans * -sign;
+    let ans = 0;
+    let sign = 1;
+    while (n) {
+        ans += (n % 10) * sign;
+        sign = -sign;
+        n = Math.floor(n / 10);
+    }
+    return ans * -sign;
 }
 ```
 
@@ -189,7 +186,7 @@ int alternateDigitSum(int n) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

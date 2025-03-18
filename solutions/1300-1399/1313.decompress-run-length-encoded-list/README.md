@@ -1,64 +1,68 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1313.Decompress%20Run-Length%20Encoded%20List/README.md
 rating: 1317
-source: Biweekly Contest 17 Q1
+source: 第 17 场双周赛 Q1
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [1313. Decompress Run-Length Encoded List](https://leetcode.com/problems/decompress-run-length-encoded-list)
+# [1313. 解压缩编码列表](https://leetcode.cn/problems/decompress-run-length-encoded-list)
 
-## Description
+[English Version](/solution/1300-1399/1313.Decompress%20Run-Length%20Encoded%20List/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>We are given a list <code>nums</code> of integers representing a list compressed with run-length encoding.</p>
+<p>给你一个以行程长度编码压缩的整数列表 <code>nums</code> 。</p>
 
-<p>Consider each adjacent pair&nbsp;of elements <code>[freq, val] = [nums[2*i], nums[2*i+1]]</code>&nbsp;(with <code>i &gt;= 0</code>).&nbsp; For each such pair, there are <code>freq</code> elements with value <code>val</code> concatenated in a sublist. Concatenate all the sublists from left to right to generate the decompressed list.</p>
+<p>考虑每对相邻的两个元素 <code>[freq, val] = [nums[2*i], nums[2*i+1]]</code> （其中 <code>i >= 0</code> ），每一对都表示解压后子列表中有 <code>freq</code> 个值为 <code>val</code> 的元素，你需要从左到右连接所有子列表以生成解压后的列表。</p>
 
-<p>Return the decompressed list.</p>
+<p>请你返回解压后的列表。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4]
-<strong>Output:</strong> [2,4,4,4]
-<strong>Explanation:</strong> The first pair [1,2] means we have freq = 1 and val = 2 so we generate the array [2].
-The second pair [3,4] means we have freq = 3 and val = 4 so we generate [4,4,4].
-At the end the concatenation [2] + [4,4,4] is [2,4,4,4].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,1,2,3]
-<strong>Output:</strong> [1,3,3]
+<strong>输入：</strong>nums = [1,2,3,4]
+<strong>输出：</strong>[2,4,4,4]
+<strong>解释：</strong>第一对 [1,2] 代表着 2 的出现频次为 1，所以生成数组 [2]。
+第二对 [3,4] 代表着 4 的出现频次为 3，所以生成数组 [4,4,4]。
+最后将它们串联到一起 [2] + [4,4,4] = [2,4,4,4]。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,1,2,3]
+<strong>输出：</strong>[1,3,3]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>2 &lt;= nums.length &lt;= 100</code></li>
+	<li><code>2 <= nums.length <= 100</code></li>
 	<li><code>nums.length % 2 == 0</code></li>
-	<li><code><font face="monospace">1 &lt;= nums[i] &lt;= 100</font></code></li>
+	<li><code>1 <= nums[i] <= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can directly simulate the process described in the problem. Traverse the array $\textit{nums}$ from left to right, each time taking out two numbers $\textit{freq}$ and $\textit{val}$, then repeat $\textit{val}$ $\textit{freq}$ times, and add these $\textit{freq}$ $\textit{val}$s to the answer array.
+我们可以直接模拟题目描述的过程，从左到右遍历数组 $\textit{nums}$，每次取出两个数 $\textit{freq}$ 和 $\textit{val}$，然后将 $\textit{val}$ 重复 $\textit{freq}$ 次，将这 $\textit{freq}$ 个 $\textit{val}$ 加入答案数组即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. We only need to traverse the array $\textit{nums}$ once. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。我们只需要遍历一次数组 $\textit{nums}$ 即可。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -120,13 +124,13 @@ func decompressRLElist(nums []int) (ans []int) {
 
 ```ts
 function decompressRLElist(nums: number[]): number[] {
-  const ans: number[] = [];
-  for (let i = 0; i < nums.length; i += 2) {
-    for (let j = 0; j < nums[i]; j++) {
-      ans.push(nums[i + 1]);
+    const ans: number[] = [];
+    for (let i = 0; i < nums.length; i += 2) {
+        for (let j = 0; j < nums[i]; j++) {
+            ans.push(nums[i + 1]);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

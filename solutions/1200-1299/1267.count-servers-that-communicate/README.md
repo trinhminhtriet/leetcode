@@ -1,61 +1,65 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1267.Count%20Servers%20that%20Communicate/README.md
 rating: 1374
-source: Weekly Contest 164 Q2
+source: 第 164 场周赛 Q2
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Array
-  - Counting
-  - Matrix
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 数组
+    - 计数
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [1267. Count Servers that Communicate](https://leetcode.com/problems/count-servers-that-communicate)
+# [1267. 统计参与通信的服务器](https://leetcode.cn/problems/count-servers-that-communicate)
 
-## Description
+[English Version](/solution/1200-1299/1267.Count%20Servers%20that%20Communicate/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a map of a server center, represented as a <code>m * n</code> integer matrix&nbsp;<code>grid</code>, where 1 means that on that cell there is a server and 0 means that it is no server. Two servers are said to communicate if they are on the same row or on the same column.<br />
-<br />
-Return the number of servers&nbsp;that communicate with any other server.</p>
+<p>这里有一幅服务器分布图，服务器的位置标识在&nbsp;<code>m * n</code>&nbsp;的整数矩阵网格&nbsp;<code>grid</code>&nbsp;中，1 表示单元格上有服务器，0 表示没有。</p>
+
+<p>如果两台服务器位于同一行或者同一列，我们就认为它们之间可以进行通信。</p>
+
+<p>请你统计并返回能够与至少一台其他服务器进行通信的服务器的数量。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1267.Count%20Servers%20that%20Communicate/images/untitled-diagram-6.jpg" style="width: 202px; height: 203px;" /></p>
+<p><strong>示例 1：</strong></p>
 
-<pre>
-<strong>Input:</strong> grid = [[1,0],[0,1]]
-<strong>Output:</strong> 0
-<b>Explanation:</b>&nbsp;No servers can communicate with others.</pre>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1267.Count%20Servers%20that%20Communicate/images/untitled-diagram-6.jpg" style="height: 203px; width: 202px;"></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><strong>输入：</strong>grid = [[1,0],[0,1]]
+<strong>输出：</strong>0
+<strong>解释：</strong>没有一台服务器能与其他服务器进行通信。</pre>
 
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1267.Count%20Servers%20that%20Communicate/images/untitled-diagram-4.jpg" style="width: 203px; height: 203px;" /></strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> grid = [[1,0],[1,1]]
-<strong>Output:</strong> 3
-<b>Explanation:</b>&nbsp;All three servers can communicate with at least one other server.
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1267.Count%20Servers%20that%20Communicate/images/untitled-diagram-4-1.jpg" style="height: 203px; width: 203px;"></strong></p>
+
+<pre><strong>输入：</strong>grid = [[1,0],[1,1]]
+<strong>输出：</strong>3
+<strong>解释：</strong>所有这些服务器都至少可以与一台别的服务器进行通信。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1267.Count%20Servers%20that%20Communicate/images/untitled-diagram-1-3.jpg" style="width: 443px; height: 443px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1267.Count%20Servers%20that%20Communicate/images/untitled-diagram-1-3.jpg" style="height: 443px; width: 443px;"></p>
 
-<pre>
-<strong>Input:</strong> grid = [[1,1,0,0],[0,0,1,0],[0,0,1,0],[0,0,0,1]]
-<strong>Output:</strong> 4
-<b>Explanation:</b>&nbsp;The two servers in the first row can communicate with each other. The two servers in the third column can communicate with each other. The server at right bottom corner can&#39;t communicate with any other server.
+<pre><strong>输入：</strong>grid = [[1,1,0,0],[0,0,1,0],[0,0,1,0],[0,0,0,1]]
+<strong>输出：</strong>4
+<strong>解释：</strong>第一行的两台服务器互相通信，第三列的两台服务器互相通信，但右下角的服务器无法与其他服务器通信。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -67,17 +71,17 @@ Return the number of servers&nbsp;that communicate with any other server.</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We can count the number of servers in each row and each column, then traverse each server. If the number of servers in the current server's row or column exceeds $1$, it means the current server meets the condition, and we increment the result by $1$.
+我们可以统计每一行、每一列的服务器数量，然后遍历每个服务器，若当前服务器所在的行或者列的服务器数量超过 $1$，说明当前服务器满足条件，结果加 $1$。
 
-After the traversal, we return the result.
+遍历结束后，返回结果即可。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m + n)$. Where $m$ and $n$ are the number of rows and columns in the matrix, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -186,27 +190,27 @@ func countServers(grid [][]int) (ans int) {
 
 ```ts
 function countServers(grid: number[][]): number {
-  const m = grid.length;
-  const n = grid[0].length;
-  const row = new Array(m).fill(0);
-  const col = new Array(n).fill(0);
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      if (grid[i][j] === 1) {
-        row[i]++;
-        col[j]++;
-      }
+    const m = grid.length;
+    const n = grid[0].length;
+    const row = new Array(m).fill(0);
+    const col = new Array(n).fill(0);
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (grid[i][j] === 1) {
+                row[i]++;
+                col[j]++;
+            }
+        }
     }
-  }
-  let ans = 0;
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      if (grid[i][j] === 1 && (row[i] > 1 || col[j] > 1)) {
-        ans++;
-      }
+    let ans = 0;
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (grid[i][j] === 1 && (row[i] > 1 || col[j] > 1)) {
+                ans++;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

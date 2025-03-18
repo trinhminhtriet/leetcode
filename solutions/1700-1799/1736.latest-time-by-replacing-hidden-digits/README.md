@@ -1,74 +1,79 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1736.Latest%20Time%20by%20Replacing%20Hidden%20Digits/README.md
 rating: 1264
-source: Weekly Contest 225 Q1
+source: 第 225 场周赛 Q1
 tags:
-  - Greedy
-  - String
+    - 贪心
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1736. Latest Time by Replacing Hidden Digits](https://leetcode.com/problems/latest-time-by-replacing-hidden-digits)
+# [1736. 替换隐藏数字得到的最晚时间](https://leetcode.cn/problems/latest-time-by-replacing-hidden-digits)
 
-## Description
+[English Version](/solution/1700-1799/1736.Latest%20Time%20by%20Replacing%20Hidden%20Digits/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>time</code> in the form of <code> hh:mm</code>, where some of the digits in the string are hidden (represented by <code>?</code>).</p>
+<p>给你一个字符串 <code>time</code> ，格式为 <code> hh:mm</code>（小时：分钟），其中某几位数字被隐藏（用 <code>?</code> 表示）。</p>
 
-<p>The valid times are those inclusively between <code>00:00</code> and <code>23:59</code>.</p>
+<p>有效的时间为 <code>00:00</code> 到 <code>23:59</code> 之间的所有时间，包括 <code>00:00</code> 和 <code>23:59</code> 。</p>
 
-<p>Return <em>the latest valid time you can get from</em> <code>time</code><em> by replacing the hidden</em> <em>digits</em>.</p>
+<p>替换 <code>time</code> 中隐藏的数字，返回你可以得到的最晚有效时间。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> time = &quot;2?:?0&quot;
-<strong>Output:</strong> &quot;23:50&quot;
-<strong>Explanation:</strong> The latest hour beginning with the digit &#39;2&#39; is 23 and the latest minute ending with the digit &#39;0&#39; is 50.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> time = &quot;0?:3?&quot;
-<strong>Output:</strong> &quot;09:39&quot;
+<strong>输入：</strong>time = "2?:?0"
+<strong>输出：</strong>"23:50"
+<strong>解释：</strong>以数字 '2' 开头的最晚一小时是 23 ，以 '0' 结尾的最晚一分钟是 50 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> time = &quot;1?:22&quot;
-<strong>Output:</strong> &quot;19:22&quot;
+<strong>输入：</strong>time = "0?:3?"
+<strong>输出：</strong>"09:39"
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>time = "1?:22"
+<strong>输出：</strong>"19:22"
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>time</code> is in the format <code>hh:mm</code>.</li>
-	<li>It is guaranteed that you can produce a valid time from the given string.</li>
+	<li><code>time</code> 的格式为 <code>hh:mm</code></li>
+	<li>题目数据保证你可以由输入的字符串生成有效的时间</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy
+### 方法一：贪心
 
-We process each digit of the string in order, following these rules:
+我们依次处理字符串的每一位，处理的规则如下：
 
-1. First digit: If the value of the second digit is determined and falls within the range $[4, 9]$, then the first digit can only be $1$. Otherwise, the first digit can be up to $2$.
-1. Second digit: If the value of the first digit is determined and is $2$, then the second digit can be up to $3$. Otherwise, the second digit can be up to $9$.
-1. Third digit: The third digit can be up to $5$.
-1. Fourth digit: The fourth digit can be up to $9$.
+1. 第一位：若第二位的值已确定，且值落在区间 $[4, 9]$ 内，那么第一位只能取 $1$，否则第一位最大取 $2$；
+1. 第二位：若第一位的值已确定，且值为 $2$，那么第二位最大取 $3$，否则第二位最大取 $9$；
+1. 第三位：第三位最大取 $5$；
+1. 第四位：第四位最大取 $9$。
 
-The time complexity is $O(1)$, and the space complexity is $O(1)$.
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -172,20 +177,20 @@ func maximumTime(time string) string {
  * @return {string}
  */
 var maximumTime = function (time) {
-  const t = Array.from(time);
-  if (t[0] === "?") {
-    t[0] = t[1] >= "4" && t[1] <= "9" ? "1" : "2";
-  }
-  if (t[1] === "?") {
-    t[1] = t[0] == "2" ? "3" : "9";
-  }
-  if (t[3] === "?") {
-    t[3] = "5";
-  }
-  if (t[4] === "?") {
-    t[4] = "9";
-  }
-  return t.join("");
+    const t = Array.from(time);
+    if (t[0] === '?') {
+        t[0] = t[1] >= '4' && t[1] <= '9' ? '1' : '2';
+    }
+    if (t[1] === '?') {
+        t[1] = t[0] == '2' ? '3' : '9';
+    }
+    if (t[3] === '?') {
+        t[3] = '5';
+    }
+    if (t[4] === '?') {
+        t[4] = '9';
+    }
+    return t.join('');
 };
 ```
 

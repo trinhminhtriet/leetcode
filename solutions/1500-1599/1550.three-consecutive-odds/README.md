@@ -1,41 +1,44 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1550.Three%20Consecutive%20Odds/README.md
 rating: 1221
-source: Weekly Contest 202 Q1
+source: 第 202 场周赛 Q1
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [1550. Three Consecutive Odds](https://leetcode.com/problems/three-consecutive-odds)
+# [1550. 存在连续三个奇数的数组](https://leetcode.cn/problems/three-consecutive-odds)
 
-## Description
+[English Version](/solution/1500-1599/1550.Three%20Consecutive%20Odds/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-Given an integer array <code>arr</code>, return <code>true</code>&nbsp;if there are three consecutive odd numbers in the array. Otherwise, return&nbsp;<code>false</code>.
+<p>给你一个整数数组 <code>arr</code>，请你判断数组中是否存在连续三个元素都是奇数的情况：如果存在，请返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> arr = [2,6,4,1]
-<strong>Output:</strong> false
-<b>Explanation:</b> There are no three consecutive odds.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>arr = [2,6,4,1]
+<strong>输出：</strong>false
+<strong>解释：</strong>不存在连续三个元素都是奇数的情况。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> arr = [1,2,34,3,4,5,7,23,12]
-<strong>Output:</strong> true
-<b>Explanation:</b> [5,7,23] are three consecutive odds.
+<pre><strong>输入：</strong>arr = [1,2,34,3,4,5,7,23,12]
+<strong>输出：</strong>true
+<strong>解释：</strong>存在连续三个元素都是奇数的情况，即 [5,7,23] 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 1000</code></li>
@@ -44,19 +47,19 @@ Given an integer array <code>arr</code>, return <code>true</code>&nbsp;if there 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Iteration + Counting
+### 方法一：遍历 + 计数
 
-We use a variable $\textit{cnt}$ to record the current count of consecutive odd numbers.
+我们用一个变量 $\textit{cnt}$ 记录当前连续奇数的个数。
 
-Next, we iterate through the array. If the current element is odd, then $\textit{cnt}$ is incremented by one. If $\textit{cnt}$ equals 3, then return $\textit{True}$. If the current element is even, then $\textit{cnt}$ is reset to zero.
+接下来，我们遍历数组，如果当前元素是奇数，则 $\textit{cnt}$ 加一，如果 $\textit{cnt}$ 等于 3，则返回 $\textit{True}$。如果当前元素是偶数，则 $\textit{cnt}$ 置零。
 
-After the iteration, if three consecutive odd numbers are not found, then return $\textit{False}$.
+遍历结束后，如果没有找到连续三个奇数，则返回 $\textit{False}$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{arr}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{arr}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -140,17 +143,17 @@ func threeConsecutiveOdds(arr []int) bool {
 
 ```ts
 function threeConsecutiveOdds(arr: number[]): boolean {
-  let cnt = 0;
-  for (const x of arr) {
-    if (x & 1) {
-      if (++cnt == 3) {
-        return true;
-      }
-    } else {
-      cnt = 0;
+    let cnt = 0;
+    for (const x of arr) {
+        if (x & 1) {
+            if (++cnt == 3) {
+                return true;
+            }
+        } else {
+            cnt = 0;
+        }
     }
-  }
-  return false;
+    return false;
 }
 ```
 
@@ -160,13 +163,13 @@ function threeConsecutiveOdds(arr: number[]): boolean {
 
 <!-- solution:start -->
 
-### Solution 2: Iteration + Bitwise Operation
+### 方法二：遍历 + 位运算
 
-Based on the properties of bitwise operations, the result of a bitwise AND operation between two numbers is odd if and only if both numbers are odd. If there are three consecutive numbers whose bitwise AND result is odd, then these three numbers are all odd.
+根据位运算的性质，两个数进行按位与运算是奇数，当且仅当两个数都是奇数。如果有连续三个数按位与运算的结果是奇数，那么这三个数都是奇数。
 
-Therefore, we only need to iterate through the array and check if there exists three consecutive numbers whose bitwise AND result is odd. If such numbers exist, return $\textit{True}$; otherwise, return $\textit{False}$.
+因此，我们只需要遍历数组，判断是否存在连续三个数的按位与结果是否是奇数即可，如果存在则返回 $\textit{True}$，否则返回 $\textit{False}$。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{arr}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{arr}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -226,13 +229,13 @@ func threeConsecutiveOdds(arr []int) bool {
 
 ```ts
 function threeConsecutiveOdds(arr: number[]): boolean {
-  const n = arr.length;
-  for (let i = 2; i < n; ++i) {
-    if (arr[i - 2] & arr[i - 1] & arr[i] & 1) {
-      return true;
+    const n = arr.length;
+    for (let i = 2; i < n; ++i) {
+        if (arr[i - 2] & arr[i - 1] & arr[i] & 1) {
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 ```
 

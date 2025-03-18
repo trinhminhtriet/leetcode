@@ -1,67 +1,83 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0859.Buddy%20Strings/README.md
 tags:
-  - Hash Table
-  - String
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [859. Buddy Strings](https://leetcode.com/problems/buddy-strings)
+# [859. 亲密字符串](https://leetcode.cn/problems/buddy-strings)
 
-## Description
+[English Version](/solution/0800-0899/0859.Buddy%20Strings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two strings <code>s</code> and <code>goal</code>, return <code>true</code><em> if you can swap two letters in </em><code>s</code><em> so the result is equal to </em><code>goal</code><em>, otherwise, return </em><code>false</code><em>.</em></p>
+<p>给你两个字符串 <code>s</code> 和 <code>goal</code> ，只要我们可以通过交换 <code>s</code> 中的两个字母得到与 <code>goal</code> 相等的结果，就返回&nbsp;<code>true</code>&nbsp;；否则返回 <code>false</code> 。</p>
 
-<p>Swapping letters is defined as taking two indices <code>i</code> and <code>j</code> (0-indexed) such that <code>i != j</code> and swapping the characters at <code>s[i]</code> and <code>s[j]</code>.</p>
+<p>交换字母的定义是：取两个下标 <code>i</code> 和 <code>j</code> （下标从 <code>0</code> 开始）且满足 <code>i != j</code> ，接着交换 <code>s[i]</code> 和 <code>s[j]</code> 处的字符。</p>
 
 <ul>
-	<li>For example, swapping at indices <code>0</code> and <code>2</code> in <code>&quot;abcd&quot;</code> results in <code>&quot;cbad&quot;</code>.</li>
+	<li>例如，在 <code>"abcd"</code> 中交换下标 <code>0</code> 和下标 <code>2</code> 的元素可以生成 <code>"cbad"</code> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;ab&quot;, goal = &quot;ba&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> You can swap s[0] = &#39;a&#39; and s[1] = &#39;b&#39; to get &quot;ba&quot;, which is equal to goal.
-</pre>
+<strong>输入：</strong>s = "ab", goal = "ba"
+<strong>输出：</strong>true
+<strong>解释：</strong>你可以交换 s[0] = 'a' 和 s[1] = 'b' 生成 "ba"，此时 s 和 goal 相等。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;ab&quot;, goal = &quot;ab&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The only letters you can swap are s[0] = &#39;a&#39; and s[1] = &#39;b&#39;, which results in &quot;ba&quot; != goal.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;aa&quot;, goal = &quot;aa&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> You can swap s[0] = &#39;a&#39; and s[1] = &#39;a&#39; to get &quot;aa&quot;, which is equal to goal.
+<strong>输入：</strong>s = "ab", goal = "ab"
+<strong>输出：</strong>false
+<strong>解释：</strong>你只能交换 s[0] = 'a' 和 s[1] = 'b' 生成 "ba"，此时 s 和 goal 不相等。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aa", goal = "aa"
+<strong>输出：</strong>true
+<strong>解释：</strong>你可以交换 s[0] = 'a' 和 s[1] = 'a' 生成 "aa"，此时 s 和 goal 相等。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length, goal.length &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>s</code> and <code>goal</code> consist of lowercase letters.</li>
+	<li><code>s</code> 和 <code>goal</code> 由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：字符统计
+
+首先，先理解亲密字符串的意思：
+
+-   若两个字符串的长度或字符出现的频数不等，一定不是亲密字符串；
+-   若两个字符串对应位置不相等的字符数量为 2，或者数量为 0 并且字符串存在两个相同字符，则是亲密字符串。
+
+因此，我们先判断两个字符串长度，若不等，直接返回 `false`。
+
+接着，统计两个字符串的字符频数，记为 `cnt1` 和 `cnt2`，若 `cnt1` 不等于 `cnt2`，直接返回 `false`。
+
+然后枚举两个字符串，统计对应位置不相等的字符数量，若为 2，则返回 `true`；若为 0，且字符串存在两个相同字符，则返回 `true`。
+
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 是字符串 `s` 或 `goal` 的长度；而 $C$ 为字符集大小。
 
 <!-- tabs:start -->
 
@@ -175,27 +191,27 @@ func buddyStrings(s string, goal string) bool {
 
 ```ts
 function buddyStrings(s: string, goal: string): boolean {
-  const m = s.length;
-  const n = goal.length;
-  if (m != n) {
-    return false;
-  }
-  const cnt1 = new Array(26).fill(0);
-  const cnt2 = new Array(26).fill(0);
-  let diff = 0;
-  for (let i = 0; i < n; ++i) {
-    cnt1[s.charCodeAt(i) - "a".charCodeAt(0)]++;
-    cnt2[goal.charCodeAt(i) - "a".charCodeAt(0)]++;
-    if (s[i] != goal[i]) {
-      ++diff;
+    const m = s.length;
+    const n = goal.length;
+    if (m != n) {
+        return false;
     }
-  }
-  for (let i = 0; i < 26; ++i) {
-    if (cnt1[i] != cnt2[i]) {
-      return false;
+    const cnt1 = new Array(26).fill(0);
+    const cnt2 = new Array(26).fill(0);
+    let diff = 0;
+    for (let i = 0; i < n; ++i) {
+        cnt1[s.charCodeAt(i) - 'a'.charCodeAt(0)]++;
+        cnt2[goal.charCodeAt(i) - 'a'.charCodeAt(0)]++;
+        if (s[i] != goal[i]) {
+            ++diff;
+        }
     }
-  }
-  return diff == 2 || (diff == 0 && cnt1.some((v) => v > 1));
+    for (let i = 0; i < 26; ++i) {
+        if (cnt1[i] != cnt2[i]) {
+            return false;
+        }
+    }
+    return diff == 2 || (diff == 0 && cnt1.some(v => v > 1));
 }
 ```
 

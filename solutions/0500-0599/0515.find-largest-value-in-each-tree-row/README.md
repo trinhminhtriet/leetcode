@@ -1,57 +1,66 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0515.Find%20Largest%20Value%20in%20Each%20Tree%20Row/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [515. Find Largest Value in Each Tree Row](https://leetcode.com/problems/find-largest-value-in-each-tree-row)
+# [515. 在每个树行中找最大值](https://leetcode.cn/problems/find-largest-value-in-each-tree-row)
 
-## Description
+[English Version](/solution/0500-0599/0515.Find%20Largest%20Value%20in%20Each%20Tree%20Row/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, return <em>an array of the largest value in each row</em> of the tree <strong>(0-indexed)</strong>.</p>
+<p>给定一棵二叉树的根节点&nbsp;<code>root</code> ，请找出该二叉树中每一层的最大值。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0515.Find%20Largest%20Value%20in%20Each%20Tree%20Row/images/largest_e1.jpg" style="width: 300px; height: 172px;" />
+
+<p><strong>示例1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0515.Find%20Largest%20Value%20in%20Each%20Tree%20Row/images/largest_e1.jpg" style="height: 172px; width: 300px;" /></p>
+
 <pre>
-<strong>Input:</strong> root = [1,3,2,5,3,null,9]
-<strong>Output:</strong> [1,3,9]
+<strong>输入: </strong>root = [1,3,2,5,3,null,9]
+<strong>输出: </strong>[1,3,9]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例2：</strong></p>
 
 <pre>
-<strong>Input:</strong> root = [1,2,3]
-<strong>Output:</strong> [1,3]
+<strong>输入: </strong>root = [1,2,3]
+<strong>输出: </strong>[1,3]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree will be in the range <code>[0, 10<sup>4</sup>]</code>.</li>
-	<li><code>-2<sup>31</sup> &lt;= Node.val &lt;= 2<sup>31</sup> - 1</code></li>
+	<li>二叉树的节点个数的范围是 <code>[0,10<sup>4</sup>]</code></li>
+	<li><meta charset="UTF-8" /><code>-2<sup>31</sup>&nbsp;&lt;= Node.val &lt;= 2<sup>31</sup>&nbsp;- 1</code></li>
 </ul>
+
+<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-We define a queue $q$ and put the root node into the queue. Each time, we take out all the nodes of the current level from the queue, find the maximum value, and then put all the nodes of the next level into the queue until the queue is empty.
+我们定义一个队列 $q$，将根节点放入队列中。每次从队列中取出当前层的所有节点，找出最大值，然后将下一层的所有节点放入队列中，直到队列为空。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -223,28 +232,28 @@ func largestValues(root *TreeNode) (ans []int) {
  */
 
 function largestValues(root: TreeNode | null): number[] {
-  const ans: number[] = [];
-  if (!root) {
-    return ans;
-  }
-  const q: TreeNode[] = [root];
-  while (q.length) {
-    const nq: TreeNode[] = [];
-    let x = -Infinity;
-    for (const { val, left, right } of q) {
-      x = Math.max(x, val);
-      if (left) {
-        nq.push(left);
-      }
-      if (right) {
-        nq.push(right);
-      }
+    const ans: number[] = [];
+    if (!root) {
+        return ans;
     }
-    ans.push(x);
-    q.length = 0;
-    q.push(...nq);
-  }
-  return ans;
+    const q: TreeNode[] = [root];
+    while (q.length) {
+        const nq: TreeNode[] = [];
+        let x = -Infinity;
+        for (const { val, left, right } of q) {
+            x = Math.max(x, val);
+            if (left) {
+                nq.push(left);
+            }
+            if (right) {
+                nq.push(right);
+            }
+        }
+        ans.push(x);
+        q.length = 0;
+        q.push(...nq);
+    }
+    return ans;
 }
 ```
 
@@ -305,7 +314,9 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：DFS
+
+DFS 先序遍历，找每个深度最大的节点值。
 
 <!-- tabs:start -->
 
@@ -460,22 +471,22 @@ func largestValues(root *TreeNode) []int {
  */
 
 function largestValues(root: TreeNode | null): number[] {
-  const res = [];
-  const dfs = (root: TreeNode | null, depth: number) => {
-    if (root == null) {
-      return;
-    }
-    const { val, left, right } = root;
-    if (res.length == depth) {
-      res.push(val);
-    } else {
-      res[depth] = Math.max(res[depth], val);
-    }
-    dfs(left, depth + 1);
-    dfs(right, depth + 1);
-  };
-  dfs(root, 0);
-  return res;
+    const res = [];
+    const dfs = (root: TreeNode | null, depth: number) => {
+        if (root == null) {
+            return;
+        }
+        const { val, left, right } = root;
+        if (res.length == depth) {
+            res.push(val);
+        } else {
+            res[depth] = Math.max(res[depth], val);
+        }
+        dfs(left, depth + 1);
+        dfs(right, depth + 1);
+    };
+    dfs(root, 0);
+    return res;
 }
 ```
 

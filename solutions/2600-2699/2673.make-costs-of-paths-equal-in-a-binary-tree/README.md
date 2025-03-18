@@ -1,89 +1,98 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2673.Make%20Costs%20of%20Paths%20Equal%20in%20a%20Binary%20Tree/README.md
 rating: 1917
-source: Weekly Contest 344 Q4
+source: 第 344 场周赛 Q4
 tags:
-  - Greedy
-  - Tree
-  - Array
-  - Dynamic Programming
-  - Binary Tree
+    - 贪心
+    - 树
+    - 数组
+    - 动态规划
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [2673. Make Costs of Paths Equal in a Binary Tree](https://leetcode.com/problems/make-costs-of-paths-equal-in-a-binary-tree)
+# [2673. 使二叉树所有路径值相等的最小代价](https://leetcode.cn/problems/make-costs-of-paths-equal-in-a-binary-tree)
 
-## Description
+[English Version](/solution/2600-2699/2673.Make%20Costs%20of%20Paths%20Equal%20in%20a%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer <code>n</code> representing the number of nodes in a <strong>perfect binary tree</strong> consisting of nodes numbered from <code>1</code> to <code>n</code>. The root of the tree is node <code>1</code> and each node <code>i</code> in the tree has two children where the left child is the node <code>2 * i</code> and the right child is <code>2 * i + 1</code>.</p>
+<p>给你一个整数&nbsp;<code>n</code>&nbsp;表示一棵 <b>满二叉树</b>&nbsp;里面节点的数目，节点编号从 <code>1</code>&nbsp;到 <code>n</code>&nbsp;。根节点编号为 <code>1</code>&nbsp;，树中每个非叶子节点&nbsp;<code>i</code>&nbsp;都有两个孩子，分别是左孩子&nbsp;<code>2 * i</code>&nbsp;和右孩子&nbsp;<code>2 * i + 1</code>&nbsp;。</p>
 
-<p>Each node in the tree also has a <strong>cost</strong> represented by a given <strong>0-indexed</strong> integer array <code>cost</code> of size <code>n</code> where <code>cost[i]</code> is the cost of node <code>i + 1</code>. You are allowed to <strong>increment</strong> the cost of <strong>any</strong> node by <code>1</code> <strong>any</strong> number of times.</p>
+<p>树中每个节点都有一个值，用下标从<b>&nbsp;0</b>&nbsp;开始、长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>cost</code>&nbsp;表示，其中&nbsp;<code>cost[i]</code>&nbsp;是第&nbsp;<code>i + 1</code>&nbsp;个节点的值。每次操作，你可以将树中&nbsp;<strong>任意</strong>&nbsp;节点的值&nbsp;<strong>增加</strong>&nbsp;<code>1</code>&nbsp;。你可以执行操作 <strong>任意</strong> 次。</p>
 
-<p>Return <em>the <strong>minimum</strong> number of increments you need to make the cost of paths from the root to each <strong>leaf</strong> node equal</em>.</p>
+<p>你的目标是让根到每一个 <strong>叶子结点</strong>&nbsp;的路径值相等。请你返回 <strong>最少</strong>&nbsp;需要执行增加操作多少次。</p>
 
-<p><strong>Note</strong>:</p>
+<p><b>注意：</b></p>
 
 <ul>
-	<li>A <strong>perfect binary tree </strong>is a tree where each node, except the leaf nodes, has exactly 2 children.</li>
-	<li>The <strong>cost of a path</strong> is the sum of costs of nodes in the path.</li>
+	<li><strong>满二叉树</strong>&nbsp;指的是一棵树，它满足树中除了叶子节点外每个节点都恰好有 2 个子节点，且所有叶子节点距离根节点距离相同。</li>
+	<li><strong>路径值</strong> 指的是路径上所有节点的值之和。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2673.Make%20Costs%20of%20Paths%20Equal%20in%20a%20Binary%20Tree/images/binaryytreeedrawio-4.png" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2673.Make%20Costs%20of%20Paths%20Equal%20in%20a%20Binary%20Tree/images/binaryytreeedrawio-4.png" /></p>
+
 <pre>
-<strong>Input:</strong> n = 7, cost = [1,5,2,2,3,3,1]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> We can do the following increments:
-- Increase the cost of node 4 one time.
-- Increase the cost of node 3 three times.
-- Increase the cost of node 7 two times.
-Each path from the root to a leaf will have a total cost of 9.
-The total increments we did is 1 + 3 + 2 = 6.
-It can be shown that this is the minimum answer we can achieve.
+<b>输入：</b>n = 7, cost = [1,5,2,2,3,3,1]
+<b>输出：</b>6
+<b>解释：</b>我们执行以下的增加操作：
+- 将节点 4 的值增加一次。
+- 将节点 3 的值增加三次。
+- 将节点 7 的值增加两次。
+从根到叶子的每一条路径值都为 9 。
+总共增加次数为 1 + 3 + 2 = 6 。
+这是最小的答案。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2673.Make%20Costs%20of%20Paths%20Equal%20in%20a%20Binary%20Tree/images/binaryytreee2drawio.png" style="width: 205px; height: 151px;" />
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2673.Make%20Costs%20of%20Paths%20Equal%20in%20a%20Binary%20Tree/images/binaryytreee2drawio.png" style="width: 205px; height: 151px;" /></p>
+
 <pre>
-<strong>Input:</strong> n = 3, cost = [5,3,3]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The two paths already have equal total costs, so no increments are needed.
+<b>输入：</b>n = 3, cost = [5,3,3]
+<b>输出：</b>0
+<b>解释：</b>两条路径已经有相等的路径值，所以不需要执行任何增加操作。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>n + 1</code> is a power of <code>2</code></li>
+	<li><code>n + 1</code> 是&nbsp;<code>2</code>&nbsp;的幂</li>
 	<li><code>cost.length == n</code></li>
 	<li><code>1 &lt;= cost[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy Algorithm
+### 方法一：贪心
 
-According to the problem description, we need to calculate the minimum number of increments to make the path values from the root node to each leaf node equal.
+根据题目描述，我们需要计算最小的增加次数，使得根节点到每个叶子节点的路径值相等。
 
-The path values from the root node to each leaf node being equal is actually equivalent to the path values from any node as the root of a subtree to each leaf node of that subtree being equal.
+根节点到每个叶子节点的路径值相等，实际上等价于以任意节点为根节点的子树到该子树的每个叶子节点的路径值相等。
 
-Why is that? We can prove it by contradiction. Suppose there is a node $x$, and the path values from it as the root of a subtree to some leaf nodes are not equal. Then there exists a situation where the path values from the root node to the leaf nodes are not equal, which contradicts the condition "the path values from the root node to each leaf node are equal". Therefore, the assumption is not valid, and the path values from any node as the root of a subtree to each leaf node of that subtree are equal.
+为什么呢？我们可以用反证法来证明。假设存在一个节点 $x$，以它为根节点的子树到某个叶子节点的路径值不相等，那么也就存在着根节点到叶子节点的路径值不相等的情况，这与“根节点到每个叶子节点的路径值相等”矛盾。因此假设不成立，以任意节点为根节点的子树到该子树的每个叶子节点的路径值相等。
 
-We can start from the bottom of the tree and calculate the number of increments layer by layer. For each non-leaf node, we can calculate the path values of its left and right child nodes. The number of increments is the difference between the two path values, and then update the path values of the left and right child nodes to the larger one of the two.
+我们可以从树的底部开始，逐层向上计算增加次数。对于每个非叶子节点，我们可以计算它的左右孩子节点的路径值，增加的次数为两者路径值的差值，然后将左右孩子节点的路径值更新为两者中的较大值。
 
-Finally, return the total number of increments.
+最后返回总的增加的次数即可。
 
-The time complexity is $O(n)$, where $n$ is the number of nodes. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为节点数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -157,13 +166,13 @@ func abs(x int) int {
 
 ```ts
 function minIncrements(n: number, cost: number[]): number {
-  let ans = 0;
-  for (let i = n >> 1; i; --i) {
-    const [l, r] = [i << 1, (i << 1) | 1];
-    ans += Math.abs(cost[l - 1] - cost[r - 1]);
-    cost[i - 1] += Math.max(cost[l - 1], cost[r - 1]);
-  }
-  return ans;
+    let ans = 0;
+    for (let i = n >> 1; i; --i) {
+        const [l, r] = [i << 1, (i << 1) | 1];
+        ans += Math.abs(cost[l - 1] - cost[r - 1]);
+        cost[i - 1] += Math.max(cost[l - 1], cost[r - 1]);
+    }
+    return ans;
 }
 ```
 

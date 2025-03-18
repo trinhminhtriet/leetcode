@@ -1,75 +1,89 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0649.Dota2%20Senate/README.md
 tags:
-  - Greedy
-  - Queue
-  - String
+    - 贪心
+    - 队列
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [649. Dota2 Senate](https://leetcode.com/problems/dota2-senate)
+# [649. Dota2 参议院](https://leetcode.cn/problems/dota2-senate)
 
-## Description
+[English Version](/solution/0600-0699/0649.Dota2%20Senate/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>In the world of Dota2, there are two parties: the Radiant and the Dire.</p>
+<p>Dota2 的世界里有两个阵营：<code>Radiant</code>（天辉）和&nbsp;<code>Dire</code>（夜魇）</p>
 
-<p>The Dota2 senate consists of senators coming from two parties. Now the Senate wants to decide on a change in the Dota2 game. The voting for this change is a round-based procedure. In each round, each senator can exercise <strong>one</strong> of the two rights:</p>
+<p>Dota2 参议院由来自两派的参议员组成。现在参议院希望对一个 Dota2 游戏里的改变作出决定。他们以一个基于轮为过程的投票进行。在每一轮中，每一位参议员都可以行使两项权利中的 <strong>一 </strong>项：</p>
 
 <ul>
-	<li><strong>Ban one senator&#39;s right:</strong> A senator can make another senator lose all his rights in this and all the following rounds.</li>
-	<li><strong>Announce the victory:</strong> If this senator found the senators who still have rights to vote are all from the same party, he can announce the victory and decide on the change in the game.</li>
+	<li><strong>禁止一名参议员的权利</strong>：参议员可以让另一位参议员在这一轮和随后的几轮中丧失<strong> 所有的权利 </strong>。</li>
+	<li><strong>宣布胜利</strong>：如果参议员发现有权利投票的参议员都是 <strong>同一个阵营的</strong> ，他可以宣布胜利并决定在游戏中的有关变化。</li>
 </ul>
 
-<p>Given a string <code>senate</code> representing each senator&#39;s party belonging. The character <code>&#39;R&#39;</code> and <code>&#39;D&#39;</code> represent the Radiant party and the Dire party. Then if there are <code>n</code> senators, the size of the given string will be <code>n</code>.</p>
+<p>给你一个字符串&nbsp;<code>senate</code> 代表每个参议员的阵营。字母 <code>'R'</code> 和 <code>'D'</code>分别代表了&nbsp;<code>Radiant</code>（天辉）和&nbsp;<code>Dire</code>（夜魇）。然后，如果有 <code>n</code> 个参议员，给定字符串的大小将是&nbsp;<code>n</code>。</p>
 
-<p>The round-based procedure starts from the first senator to the last senator in the given order. This procedure will last until the end of voting. All the senators who have lost their rights will be skipped during the procedure.</p>
+<p>以轮为基础的过程从给定顺序的第一个参议员开始到最后一个参议员结束。这一过程将持续到投票结束。所有失去权利的参议员将在过程中被跳过。</p>
 
-<p>Suppose every senator is smart enough and will play the best strategy for his own party. Predict which party will finally announce the victory and change the Dota2 game. The output should be <code>&quot;Radiant&quot;</code> or <code>&quot;Dire&quot;</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> senate = &quot;RD&quot;
-<strong>Output:</strong> &quot;Radiant&quot;
-<strong>Explanation:</strong> 
-The first senator comes from Radiant and he can just ban the next senator&#39;s right in round 1. 
-And the second senator can&#39;t exercise any rights anymore since his right has been banned. 
-And in round 2, the first senator can just announce the victory since he is the only guy in the senate who can vote.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> senate = &quot;RDD&quot;
-<strong>Output:</strong> &quot;Dire&quot;
-<strong>Explanation:</strong> 
-The first senator comes from Radiant and he can just ban the next senator&#39;s right in round 1. 
-And the second senator can&#39;t exercise any rights anymore since his right has been banned. 
-And the third senator comes from Dire and he can ban the first senator&#39;s right in round 1. 
-And in round 2, the third senator can just announce the victory since he is the only guy in the senate who can vote.
-</pre>
+<p>假设每一位参议员都足够聪明，会为自己的政党做出最好的策略，你需要预测哪一方最终会宣布胜利并在 Dota2 游戏中决定改变。输出应该是&nbsp;<code>"Radiant"</code> 或 <code>"Dire"</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>senate = "RD"
+<strong>输出：</strong>"Radiant"
+<strong>解释：
+</strong><code>第 1 轮时，第一个参议员来自 Radiant 阵营，他可以使用第一项权利让第二个参议员失去所有权利。
+这一轮中，第二个参议员将会被跳过，因为他的权利被禁止了。
+第 2 轮时，第一个参议员可以宣布胜利，因为他是唯一一个有投票权的人</code>。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>senate = "RDD"
+<strong>输出：</strong>"Dire"
+<strong>解释：</strong>
+第 1 轮时，第一个<code>来自 Radiant 阵营的</code>参议员可以使用第一项权利禁止第二个参议员的权利。
+<code>这一轮中，</code>第二个<code>来自 Dire 阵营的</code>参议员会将被跳过，因为他的权利被禁止了。
+<code>这一轮中，</code>第三个<code>来自 Dire 阵营的</code>参议员可以使用他的第一项权利禁止第一个参议员的权利。
+因此在第二轮只剩下第三个参议员拥有投票的权利,于是他可以宣布胜利
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == senate.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
-	<li><code>senate[i]</code> is either <code>&#39;R&#39;</code> or <code>&#39;D&#39;</code>.</li>
+	<li><code>senate[i]</code> 为 <code>'R'</code> 或 <code>'D'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：队列 + 模拟
+
+我们创建两个队列 $qr$ 和 $qd$，分别记录天辉和夜魇阵营的参议员的下标。然后我们开始进行模拟，每一轮各从队首取出一位参议员，然后根据他的阵营进行不同的操作：
+
+-   如果天辉阵营的参议员编号小于夜魇阵营的参议员编号，那么该天辉阵营的参议员就可以将夜魇阵营的参议员票权永久取消，我们将天辉阵营的参议员的下标加 $n$ 后重新放回队尾，表示该参议员会参与下一轮的投票。
+-   如果夜魇阵营的参议员编号小于天辉阵营的参议员编号，那么该夜魇阵营的参议员就可以将天辉阵营的参议员票权永久取消，我们将夜魇阵营的参议员的下标加 $n$ 后重新放回队尾，表示该参议员会参与下一轮的投票。
+
+最后当队列中只剩一种阵营的参议员时，该阵营的参议员获胜。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为参议员的数量。
 
 <!-- tabs:start -->
 
@@ -191,26 +205,26 @@ func predictPartyVictory(senate string) string {
 
 ```ts
 function predictPartyVictory(senate: string): string {
-  const n = senate.length;
-  const qr: number[] = [];
-  const qd: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    if (senate[i] === "R") {
-      qr.push(i);
-    } else {
-      qd.push(i);
+    const n = senate.length;
+    const qr: number[] = [];
+    const qd: number[] = [];
+    for (let i = 0; i < n; ++i) {
+        if (senate[i] === 'R') {
+            qr.push(i);
+        } else {
+            qd.push(i);
+        }
     }
-  }
-  while (qr.length > 0 && qd.length > 0) {
-    const r = qr.shift()!;
-    const d = qd.shift()!;
-    if (r < d) {
-      qr.push(r + n);
-    } else {
-      qd.push(d + n);
+    while (qr.length > 0 && qd.length > 0) {
+        const r = qr.shift()!;
+        const d = qd.shift()!;
+        if (r < d) {
+            qr.push(r + n);
+        } else {
+            qd.push(d + n);
+        }
     }
-  }
-  return qr.length > 0 ? "Radiant" : "Dire";
+    return qr.length > 0 ? 'Radiant' : 'Dire';
 }
 ```
 

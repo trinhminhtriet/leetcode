@@ -1,83 +1,111 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1093.Statistics%20from%20a%20Large%20Sample/README.md
 rating: 1471
-source: Weekly Contest 142 Q1
+source: 第 142 场周赛 Q1
 tags:
-  - Array
-  - Math
-  - Probability and Statistics
+    - 数组
+    - 数学
+    - 概率与统计
 ---
 
 <!-- problem:start -->
 
-# [1093. Statistics from a Large Sample](https://leetcode.com/problems/statistics-from-a-large-sample)
+# [1093. 大样本统计](https://leetcode.cn/problems/statistics-from-a-large-sample)
 
-## Description
+[English Version](/solution/1000-1099/1093.Statistics%20from%20a%20Large%20Sample/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a large sample of integers in the range <code>[0, 255]</code>. Since the sample is so large, it is represented by an array <code>count</code>&nbsp;where <code>count[k]</code> is the <strong>number of times</strong> that <code>k</code> appears in the sample.</p>
+<p>我们对&nbsp;<code>0</code>&nbsp;到&nbsp;<code>255</code>&nbsp;之间的整数进行采样，并将结果存储在数组&nbsp;<code>count</code>&nbsp;中：<code>count[k]</code>&nbsp;就是整数&nbsp;<code>k</code> 在样本中出现的次数。</p>
 
-<p>Calculate the following statistics:</p>
+<p>计算以下统计数据:</p>
 
 <ul>
-	<li><code>minimum</code>: The minimum element in the sample.</li>
-	<li><code>maximum</code>: The maximum element in the sample.</li>
-	<li><code>mean</code>: The average of the sample, calculated as the total sum of all elements divided by the total number of elements.</li>
-	<li><code>median</code>:
+	<li><code>minimum</code>&nbsp;：样本中的最小元素。</li>
+	<li><code>maximum</code>&nbsp;：样品中的最大元素。</li>
+	<li><code>mean</code>&nbsp;：样本的平均值，计算为所有元素的总和除以元素总数。</li>
+	<li><code>median</code>&nbsp;：
 	<ul>
-		<li>If the sample has an odd number of elements, then the <code>median</code> is the middle element once the sample is sorted.</li>
-		<li>If the sample has an even number of elements, then the <code>median</code> is the average of the two middle elements once the sample is sorted.</li>
+		<li>如果样本的元素个数是奇数，那么一旦样本排序后，中位数 <code>median</code> 就是中间的元素。</li>
+		<li>如果样本中有偶数个元素，那么中位数<code>median</code> 就是样本排序后中间两个元素的平均值。</li>
 	</ul>
 	</li>
-	<li><code>mode</code>: The number that appears the most in the sample. It is guaranteed to be <strong>unique</strong>.</li>
+	<li><code>mode</code>&nbsp;：样本中出现次数最多的数字。保众数是 <strong>唯一</strong> 的。</li>
 </ul>
 
-<p>Return <em>the statistics of the sample as an array of floating-point numbers </em><code>[minimum, maximum, mean, median, mode]</code><em>. Answers within </em><code>10<sup>-5</sup></code><em> of the actual answer will be accepted.</em></p>
+<p>以浮点数数组的形式返回样本的统计信息<em>&nbsp;</em><code>[minimum, maximum, mean, median, mode]</code>&nbsp;。与真实答案误差在<em>&nbsp;</em><code>10<sup>-5</sup></code><em>&nbsp;</em>内的答案都可以通过。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> count = [0,1,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-<strong>Output:</strong> [1.00000,3.00000,2.37500,2.50000,3.00000]
-<strong>Explanation:</strong> The sample represented by count is [1,2,2,2,3,3,3,3].
-The minimum and maximum are 1 and 3 respectively.
-The mean is (1+2+2+2+3+3+3+3) / 8 = 19 / 8 = 2.375.
-Since the size of the sample is even, the median is the average of the two middle elements 2 and 3, which is 2.5.
-The mode is 3 as it appears the most in the sample.
-</pre>
+<strong>输入：</strong>count = [0,1,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+<strong>输出：</strong>[1.00000,3.00000,2.37500,2.50000,3.00000]
+<strong>解释：</strong>用count表示的样本为[1,2,2,2,3,3,3,3]。
+最小值和最大值分别为1和3。
+均值是(1+2+2+2+3+3+3+3) / 8 = 19 / 8 = 2.375。
+因为样本的大小是偶数，所以中位数是中间两个元素2和3的平均值，也就是2.5。
+众数为3，因为它在样本中出现的次数最多。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> count = [0,4,3,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-<strong>Output:</strong> [1.00000,4.00000,2.18182,2.00000,1.00000]
-<strong>Explanation:</strong> The sample represented by count is [1,1,1,1,2,2,2,3,3,4,4].
-The minimum and maximum are 1 and 4 respectively.
-The mean is (1+1+1+1+2+2+2+3+3+4+4) / 11 = 24 / 11 = 2.18181818... (for display purposes, the output shows the rounded number 2.18182).
-Since the size of the sample is odd, the median is the middle element 2.
-The mode is 1 as it appears the most in the sample.
+<strong>输入：</strong>count = [0,4,3,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+<strong>输出：</strong>[1.00000,4.00000,2.18182,2.00000,1.00000]
+<strong>解释：</strong>用count表示的样本为[1,1,1,1,2,2,3,3,3,4,4]。
+最小值为1，最大值为4。
+平均数是(1+1+1+1+2+2+2+3+3+4+4)/ 11 = 24 / 11 = 2.18181818…(为了显示，输出显示了整数2.18182)。
+因为样本的大小是奇数，所以中值是中间元素2。
+众数为1，因为它在样本中出现的次数最多。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>count.length == 256</code></li>
 	<li><code>0 &lt;= count[i] &lt;= 10<sup>9</sup></code></li>
 	<li><code>1 &lt;= sum(count) &lt;= 10<sup>9</sup></code></li>
-	<li>The mode of the sample that <code>count</code> represents is <strong>unique</strong>.</li>
+	<li>&nbsp;<code>count</code>&nbsp;的众数是 <strong>唯一</strong> 的</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+我们直接根据题目描述模拟即可，定义以下变量：
+
+-   变量 $mi$ 表示最小值；
+-   变量 $mx$ 表示最大值；
+-   变量 $s$ 表示总和；
+-   变量 $cnt$ 表示总个数；
+-   变量 $mode$ 表示众数。
+
+我们遍历数组 $count$，对于当前遍历到的数字 $count[k]$，如果 $count[k] \gt 0$，那么我们做以下更新操作：
+
+-   更新 $mi = \min(mi, k)$；
+-   更新 $mx = \max(mx, k)$；
+-   更新 $s = s + k \times count[k]$；
+-   更新 $cnt = cnt + count[k]$；
+-   如果 $count[k] \gt count[mode]$，那么更新 $mode = k$。
+
+遍历结束后，我们再根据 $cnt$ 的奇偶性来计算中位数 $median$，如果 $cnt$ 是奇数，那么中位数就是第 $\lfloor \frac{cnt}{2} \rfloor + 1$ 个数字，如果 $cnt$ 是偶数，那么中位数就是第 $\lfloor \frac{cnt}{2} \rfloor$ 和第 $\lfloor \frac{cnt}{2} \rfloor + 1$ 个数字的平均值。
+
+> 这里我们通过一个简单的辅助函数 $find(i)$ 来找到第 $i$ 个数字，具体实现可以参考下面的代码。
+
+最后，我们将 $mi, mx, \frac{s}{cnt}, median, mode$ 放入答案数组中返回即可。
+
+时间复杂度 $O(n)$，其中 $n$ 是数组 $count$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -223,33 +251,31 @@ func sampleStats(count []int) []float64 {
 
 ```ts
 function sampleStats(count: number[]): number[] {
-  const find = (i: number): number => {
-    for (let k = 0, t = 0; ; ++k) {
-      t += count[k];
-      if (t >= i) {
-        return k;
-      }
+    const find = (i: number): number => {
+        for (let k = 0, t = 0; ; ++k) {
+            t += count[k];
+            if (t >= i) {
+                return k;
+            }
+        }
+    };
+    let mi = 1 << 30;
+    let mx = -1;
+    let [s, cnt, mode] = [0, 0, 0];
+    for (let k = 0; k < count.length; ++k) {
+        if (count[k] > 0) {
+            mi = Math.min(mi, k);
+            mx = Math.max(mx, k);
+            s += k * count[k];
+            cnt += count[k];
+            if (count[k] > count[mode]) {
+                mode = k;
+            }
+        }
     }
-  };
-  let mi = 1 << 30;
-  let mx = -1;
-  let [s, cnt, mode] = [0, 0, 0];
-  for (let k = 0; k < count.length; ++k) {
-    if (count[k] > 0) {
-      mi = Math.min(mi, k);
-      mx = Math.max(mx, k);
-      s += k * count[k];
-      cnt += count[k];
-      if (count[k] > count[mode]) {
-        mode = k;
-      }
-    }
-  }
-  const median =
-    cnt % 2 === 1
-      ? find((cnt >> 1) + 1)
-      : (find(cnt >> 1) + find((cnt >> 1) + 1)) / 2;
-  return [mi, mx, s / cnt, median, mode];
+    const median =
+        cnt % 2 === 1 ? find((cnt >> 1) + 1) : (find(cnt >> 1) + find((cnt >> 1) + 1)) / 2;
+    return [mi, mx, s / cnt, median, mode];
 }
 ```
 

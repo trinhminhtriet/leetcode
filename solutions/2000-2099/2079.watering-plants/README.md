@@ -1,75 +1,79 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2079.Watering%20Plants/README.md
 rating: 1320
-source: Weekly Contest 268 Q2
+source: 第 268 场周赛 Q2
 tags:
-  - Array
-  - Simulation
+    - 数组
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2079. Watering Plants](https://leetcode.com/problems/watering-plants)
+# [2079. 给植物浇水](https://leetcode.cn/problems/watering-plants)
 
-## Description
+[English Version](/solution/2000-2099/2079.Watering%20Plants/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You want to water <code>n</code> plants in your garden with a watering can. The plants are arranged in a row and are labeled from <code>0</code> to <code>n - 1</code> from left to right where the <code>i<sup>th</sup></code> plant is located at <code>x = i</code>. There is a river at <code>x = -1</code> that you can refill your watering can at.</p>
+<p>你打算用一个水罐给花园里的 <code>n</code> 株植物浇水。植物排成一行，从左到右进行标记，编号从 <code>0</code> 到 <code>n - 1</code> 。其中，第 <code>i</code> 株植物的位置是 <code>x = i</code> 。<code>x = -1</code>&nbsp;处有一条河，你可以在那里重新灌满你的水罐。</p>
 
-<p>Each plant needs a specific amount of water. You will water the plants in the following way:</p>
+<p>每一株植物都需要浇特定量的水。你将会按下面描述的方式完成浇水：</p>
 
 <ul>
-	<li>Water the plants in order from left to right.</li>
-	<li>After watering the current plant, if you do not have enough water to <strong>completely</strong> water the next plant, return to the river to fully refill the watering can.</li>
-	<li>You <strong>cannot</strong> refill the watering can early.</li>
+	<li>按从左到右的顺序给植物浇水。</li>
+	<li>在给当前植物浇完水之后，如果你没有足够的水 <strong>完全</strong> 浇灌下一株植物，那么你就需要返回河边重新装满水罐。</li>
+	<li>你 <strong>不能</strong> 提前重新灌满水罐。</li>
 </ul>
 
-<p>You are initially at the river (i.e., <code>x = -1</code>). It takes <strong>one step</strong> to move <strong>one unit</strong> on the x-axis.</p>
+<p>最初，你在河边（也就是，<code>x = -1</code>），在 x 轴上每移动 <strong>一个单位</strong>&nbsp;都需要 <strong>一步</strong> 。</p>
 
-<p>Given a <strong>0-indexed</strong> integer array <code>plants</code> of <code>n</code> integers, where <code>plants[i]</code> is the amount of water the <code>i<sup>th</sup></code> plant needs, and an integer <code>capacity</code> representing the watering can capacity, return <em>the <strong>number of steps</strong> needed to water all the plants</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> plants = [2,2,3,3], capacity = 5
-<strong>Output:</strong> 14
-<strong>Explanation:</strong> Start at the river with a full watering can:
-- Walk to plant 0 (1 step) and water it. Watering can has 3 units of water.
-- Walk to plant 1 (1 step) and water it. Watering can has 1 unit of water.
-- Since you cannot completely water plant 2, walk back to the river to refill (2 steps).
-- Walk to plant 2 (3 steps) and water it. Watering can has 2 units of water.
-- Since you cannot completely water plant 3, walk back to the river to refill (3 steps).
-- Walk to plant 3 (4 steps) and water it.
-Steps needed = 1 + 1 + 2 + 3 + 3 + 4 = 14.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> plants = [1,1,1,4,2,3], capacity = 4
-<strong>Output:</strong> 30
-<strong>Explanation:</strong> Start at the river with a full watering can:
-- Water plants 0, 1, and 2 (3 steps). Return to river (3 steps).
-- Water plant 3 (4 steps). Return to river (4 steps).
-- Water plant 4 (5 steps). Return to river (5 steps).
-- Water plant 5 (6 steps).
-Steps needed = 3 + 3 + 4 + 4 + 5 + 5 + 6 = 30.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> plants = [7,7,7,7,7,7,7], capacity = 8
-<strong>Output:</strong> 49
-<strong>Explanation:</strong> You have to refill before watering each plant.
-Steps needed = 1 + 1 + 2 + 2 + 3 + 3 + 4 + 4 + 5 + 5 + 6 + 6 + 7 = 49.
-</pre>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>plants</code> ，数组由 <code>n</code> 个整数组成。其中，<code>plants[i]</code> 为第 <code>i</code> 株植物需要的水量。另有一个整数 <code>capacity</code> 表示水罐的容量，返回浇灌所有植物需要的 <strong>步数</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>plants = [2,2,3,3], capacity = 5
+<strong>输出：</strong>14
+<strong>解释：</strong>从河边开始，此时水罐是装满的：
+- 走到植物 0 (1 步) ，浇水。水罐中还有 3 单位的水。
+- 走到植物 1 (1 步) ，浇水。水罐中还有 1 单位的水。
+- 由于不能完全浇灌植物 2 ，回到河边取水 (2 步)。
+- 走到植物 2 (3 步) ，浇水。水罐中还有 2 单位的水。
+- 由于不能完全浇灌植物 3 ，回到河边取水 (3 步)。
+- 走到植物 3 (4 步) ，浇水。
+需要的步数是 = 1 + 1 + 2 + 3 + 3 + 4 = 14 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>plants = [1,1,1,4,2,3], capacity = 4
+<strong>输出：</strong>30
+<strong>解释：</strong>从河边开始，此时水罐是装满的：
+- 走到植物 0，1，2 (3 步) ，浇水。回到河边取水 (3 步)。
+- 走到植物 3 (4 步) ，浇水。回到河边取水 (4 步)。
+- 走到植物 4 (5 步) ，浇水。回到河边取水 (5 步)。
+- 走到植物 5 (6 步) ，浇水。
+需要的步数是 = 3 + 3 + 4 + 4 + 5 + 5 + 6 = 30 。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>plants = [7,7,7,7,7,7,7], capacity = 8
+<strong>输出：</strong>49
+<strong>解释：</strong>每次浇水都需要重新灌满水罐。
+需要的步数是 = 1 + 1 + 2 + 2 + 3 + 3 + 4 + 4 + 5 + 5 + 6 + 6 + 7 = 49 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == plants.length</code></li>
@@ -80,22 +84,22 @@ Steps needed = 1 + 1 + 2 + 2 + 3 + 3 + 4 + 4 + 5 + 5 + 6 + 6 + 7 = 49.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can simulate the process of watering the plants. We use a variable $\textit{water}$ to represent the current amount of water in the watering can, initially $\textit{water} = \textit{capacity}$.
+我们可以模拟给植物浇水的过程，用一个变量 $\textit{water}$ 表示当前水罐中的水量，初始时 $\textit{water} = \textit{capacity}$。
 
-We traverse the plants. For each plant:
+我们遍历植物，对于每一株植物：
 
-- If the current amount of water in the watering can is enough to water this plant, we move forward one step, water this plant, and update $\textit{water} = \textit{water} - \textit{plants}[i]$.
-- Otherwise, we need to return to the river to refill the watering can, walk back to the current position, and then move forward one step. The number of steps we need is $i \times 2 + 1$. Then we water this plant and update $\textit{water} = \textit{capacity} - \textit{plants}[i]$.
+-   如果当前水罐中的水量足够浇灌这株植物，我们就向前移动一步，浇灌这株植物，同时更新 $\textit{water} = \textit{water} - \textit{plants}[i]$。
+-   否则我们就需要返回河边重新装满水罐，再次走到当前位置，然后向前移动一步，此时我们需要的步数为 $i \times 2 + 1$，然后我们浇灌这株植物，更新 $\textit{water} = \textit{capacity} - \textit{plants}[i]$。
 
-Finally, return the total number of steps.
+最后返回总的步数即可。
 
-The time complexity is $O(n)$, where $n$ is the number of plants. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为植物的数量。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -178,17 +182,17 @@ func wateringPlants(plants []int, capacity int) (ans int) {
 
 ```ts
 function wateringPlants(plants: number[], capacity: number): number {
-  let [ans, water] = [0, capacity];
-  for (let i = 0; i < plants.length; ++i) {
-    if (water >= plants[i]) {
-      water -= plants[i];
-      ++ans;
-    } else {
-      water = capacity - plants[i];
-      ans += i * 2 + 1;
+    let [ans, water] = [0, capacity];
+    for (let i = 0; i < plants.length; ++i) {
+        if (water >= plants[i]) {
+            water -= plants[i];
+            ++ans;
+        } else {
+            water = capacity - plants[i];
+            ans += i * 2 + 1;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

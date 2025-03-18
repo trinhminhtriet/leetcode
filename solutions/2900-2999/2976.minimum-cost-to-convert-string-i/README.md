@@ -1,91 +1,102 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2976.Minimum%20Cost%20to%20Convert%20String%20I/README.md
 rating: 1882
-source: Weekly Contest 377 Q3
+source: 第 377 场周赛 Q3
 tags:
-  - Graph
-  - Array
-  - String
-  - Shortest Path
+    - 图
+    - 数组
+    - 字符串
+    - 最短路
 ---
 
 <!-- problem:start -->
 
-# [2976. Minimum Cost to Convert String I](https://leetcode.com/problems/minimum-cost-to-convert-string-i)
+# [2976. 转换字符串的最小成本 I](https://leetcode.cn/problems/minimum-cost-to-convert-string-i)
 
-## Description
+[English Version](/solution/2900-2999/2976.Minimum%20Cost%20to%20Convert%20String%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>0-indexed</strong> strings <code>source</code> and <code>target</code>, both of length <code>n</code> and consisting of <strong>lowercase</strong> English letters. You are also given two <strong>0-indexed</strong> character arrays <code>original</code> and <code>changed</code>, and an integer array <code>cost</code>, where <code>cost[i]</code> represents the cost of changing the character <code>original[i]</code> to the character <code>changed[i]</code>.</p>
+<p>给你两个下标从 <strong>0</strong> 开始的字符串 <code>source</code> 和 <code>target</code> ，它们的长度均为 <code>n</code> 并且由 <strong>小写 </strong>英文字母组成。</p>
 
-<p>You start with the string <code>source</code>. In one operation, you can pick a character <code>x</code> from the string and change it to the character <code>y</code> at a cost of <code>z</code> <strong>if</strong> there exists <strong>any</strong> index <code>j</code> such that <code>cost[j] == z</code>, <code>original[j] == x</code>, and <code>changed[j] == y</code>.</p>
+<p>另给你两个下标从 <strong>0</strong> 开始的字符数组 <code>original</code> 和 <code>changed</code> ，以及一个整数数组 <code>cost</code> ，其中 <code>cost[i]</code> 代表将字符 <code>original[i]</code> 更改为字符 <code>changed[i]</code> 的成本。</p>
 
-<p>Return <em>the <strong>minimum</strong> cost to convert the string </em><code>source</code><em> to the string </em><code>target</code><em> using <strong>any</strong> number of operations. If it is impossible to convert</em> <code>source</code> <em>to</em> <code>target</code>, <em>return</em> <code>-1</code>.</p>
+<p>你从字符串 <code>source</code> 开始。在一次操作中，<strong>如果 </strong>存在 <strong>任意</strong> 下标 <code>j</code> 满足 <code>cost[j] == z</code>&nbsp; 、<code>original[j] == x</code> 以及 <code>changed[j] == y</code> 。你就可以选择字符串中的一个字符 <code>x</code> 并以 <code>z</code> 的成本将其更改为字符 <code>y</code> 。</p>
 
-<p><strong>Note</strong> that there may exist indices <code>i</code>, <code>j</code> such that <code>original[j] == original[i]</code> and <code>changed[j] == changed[i]</code>.</p>
+<p>返回将字符串 <code>source</code> 转换为字符串 <code>target</code> 所需的<strong> 最小 </strong>成本。如果不可能完成转换，则返回 <code>-1</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> source = &quot;abcd&quot;, target = &quot;acbe&quot;, original = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;c&quot;,&quot;e&quot;,&quot;d&quot;], changed = [&quot;b&quot;,&quot;c&quot;,&quot;b&quot;,&quot;e&quot;,&quot;b&quot;,&quot;e&quot;], cost = [2,5,5,1,2,20]
-<strong>Output:</strong> 28
-<strong>Explanation:</strong> To convert the string &quot;abcd&quot; to string &quot;acbe&quot;:
-- Change value at index 1 from &#39;b&#39; to &#39;c&#39; at a cost of 5.
-- Change value at index 2 from &#39;c&#39; to &#39;e&#39; at a cost of 1.
-- Change value at index 2 from &#39;e&#39; to &#39;b&#39; at a cost of 2.
-- Change value at index 3 from &#39;d&#39; to &#39;e&#39; at a cost of 20.
-The total cost incurred is 5 + 1 + 2 + 20 = 28.
-It can be shown that this is the minimum possible cost.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> source = &quot;aaaa&quot;, target = &quot;bbbb&quot;, original = [&quot;a&quot;,&quot;c&quot;], changed = [&quot;c&quot;,&quot;b&quot;], cost = [1,2]
-<strong>Output:</strong> 12
-<strong>Explanation:</strong> To change the character &#39;a&#39; to &#39;b&#39; change the character &#39;a&#39; to &#39;c&#39; at a cost of 1, followed by changing the character &#39;c&#39; to &#39;b&#39; at a cost of 2, for a total cost of 1 + 2 = 3. To change all occurrences of &#39;a&#39; to &#39;b&#39;, a total cost of 3 * 4 = 12 is incurred.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> source = &quot;abcd&quot;, target = &quot;abce&quot;, original = [&quot;a&quot;], changed = [&quot;e&quot;], cost = [10000]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It is impossible to convert source to target because the value at index 3 cannot be changed from &#39;d&#39; to &#39;e&#39;.
-</pre>
+<p><strong>注意</strong>，可能存在下标 <code>i</code> 、<code>j</code> 使得 <code>original[j] == original[i]</code> 且 <code>changed[j] == changed[i]</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>source = "abcd", target = "acbe", original = ["a","b","c","c","e","d"], changed = ["b","c","b","e","b","e"], cost = [2,5,5,1,2,20]
+<strong>输出：</strong>28
+<strong>解释：</strong>将字符串 "abcd" 转换为字符串 "acbe" ：
+- 更改下标 1 处的值 'b' 为 'c' ，成本为 5 。
+- 更改下标 2 处的值 'c' 为 'e' ，成本为 1 。
+- 更改下标 2 处的值 'e' 为 'b' ，成本为 2 。
+- 更改下标 3 处的值 'd' 为 'e' ，成本为 20 。
+产生的总成本是 5 + 1 + 2 + 20 = 28 。
+可以证明这是可能的最小成本。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>source = "aaaa", target = "bbbb", original = ["a","c"], changed = ["c","b"], cost = [1,2]
+<strong>输出：</strong>12
+<strong>解释：</strong>要将字符 'a' 更改为 'b'：
+- 将字符 'a' 更改为 'c'，成本为 1 
+- 将字符 'c' 更改为 'b'，成本为 2 
+产生的总成本是 1 + 2 = 3。
+将所有 'a' 更改为 'b'，产生的总成本是 3 * 4 = 12 。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>source = "abcd", target = "abce", original = ["a"], changed = ["e"], cost = [10000]
+<strong>输出：</strong>-1
+<strong>解释：</strong>无法将 source 字符串转换为 target 字符串，因为下标 3 处的值无法从 'd' 更改为 'e' 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= source.length == target.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>source</code>, <code>target</code> consist of lowercase English letters.</li>
-	<li><code>1 &lt;= cost.length == original.length == changed.length &lt;= 2000</code></li>
-	<li><code>original[i]</code>, <code>changed[i]</code> are lowercase English letters.</li>
+	<li><code>source</code>、<code>target</code> 均由小写英文字母组成</li>
+	<li><code>1 &lt;= cost.length== original.length == changed.length &lt;= 2000</code></li>
+	<li><code>original[i]</code>、<code>changed[i]</code> 是小写英文字母</li>
 	<li><code>1 &lt;= cost[i] &lt;= 10<sup>6</sup></code></li>
 	<li><code>original[i] != changed[i]</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Floyd Algorithm
+### 方法一：Floyd 算法
 
-According to the problem description, we can consider each letter as a node, and the conversion cost between each pair of letters as a directed edge. We first initialize a $26 \times 26$ two-dimensional array $g$, where $g[i][j]$ represents the minimum cost of converting letter $i$ to letter $j$. Initially, $g[i][j] = \infty$, and if $i = j$, then $g[i][j] = 0$.
+根据题目描述，我们可以将每个字母看作一个节点，每对字母的转换成本看作一条有向边。那么我们先初始化一个 $26 \times 26$ 的二维数组 $g$，其中 $g[i][j]$ 表示字母 $i$ 转换成字母 $j$ 的最小成本。初始时 $g[i][j] = \infty$，如果 $i = j$，那么 $g[i][j] = 0$。
 
-Next, we traverse the arrays $original$, $changed$, and $cost$. For each index $i$, we update the cost $cost[i]$ of converting $original[i]$ to $changed[i]$ to $g[original[i]][changed[i]]$, taking the minimum value.
+然后我们遍历数组 $original$, $changed$ 和 $cost$，对于每个下标 $i$，我们将 $original[i]$ 转换成 $changed[i]$ 的成本 $cost[i]$ 更新到 $g[original[i]][changed[i]]$ 中，取最小值。
 
-Then, we use the Floyd algorithm to calculate the minimum cost between any two nodes in $g$. Finally, we traverse the strings $source$ and $target$. If $source[i] \neq target[i]$ and $g[source[i]][target[i]] \geq \infty$, it means that the conversion cannot be completed, so we return $-1$. Otherwise, we add $g[source[i]][target[i]]$ to the answer.
+接下来，我们使用 Floyd 算法计算出 $g$ 中任意两个节点之间的最小成本。最后，我们遍历字符串 $source$ 和 $target$，如果 $source[i] \neq target[i]$，并且 $g[source[i]][target[i]] \geq \infty$，那么说明无法完成转换，返回 $-1$。否则，我们将 $g[source[i]][target[i]]$ 累加到答案中。
 
-After the traversal ends, we return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(m + n + |\Sigma|^3)$, and the space complexity is $O(|\Sigma|^2)$. Where $m$ and $n$ are the lengths of the arrays $original$ and $source$ respectively; and $|\Sigma|$ is the size of the alphabet, that is, $|\Sigma| = 26$.
+时间复杂度 $O(m + n + |\Sigma|^3)$，空间复杂度 $O(|\Sigma|^2)$。其中 $m$ 和 $n$ 分别是数组 $original$ 和 $source$ 的长度；而 $|\Sigma|$ 是字母表的大小，即 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -259,47 +270,43 @@ func minimumCost(source string, target string, original []byte, changed []byte, 
 
 ```ts
 function minimumCost(
-  source: string,
-  target: string,
-  original: string[],
-  changed: string[],
-  cost: number[]
+    source: string,
+    target: string,
+    original: string[],
+    changed: string[],
+    cost: number[],
 ): number {
-  const [n, m, MAX] = [
-    source.length,
-    original.length,
-    Number.POSITIVE_INFINITY,
-  ];
-  const g: number[][] = Array.from({ length: 26 }, () => Array(26).fill(MAX));
-  const getIndex = (ch: string) => ch.charCodeAt(0) - "a".charCodeAt(0);
+    const [n, m, MAX] = [source.length, original.length, Number.POSITIVE_INFINITY];
+    const g: number[][] = Array.from({ length: 26 }, () => Array(26).fill(MAX));
+    const getIndex = (ch: string) => ch.charCodeAt(0) - 'a'.charCodeAt(0);
 
-  for (let i = 0; i < 26; ++i) g[i][i] = 0;
-  for (let i = 0; i < m; ++i) {
-    const x = getIndex(original[i]);
-    const y = getIndex(changed[i]);
-    const z = cost[i];
-    g[x][y] = Math.min(g[x][y], z);
-  }
-
-  for (let k = 0; k < 26; ++k) {
-    for (let i = 0; i < 26; ++i) {
-      for (let j = 0; g[i][k] < MAX && j < 26; j++) {
-        if (g[k][j] < MAX) {
-          g[i][j] = Math.min(g[i][j], g[i][k] + g[k][j]);
-        }
-      }
+    for (let i = 0; i < 26; ++i) g[i][i] = 0;
+    for (let i = 0; i < m; ++i) {
+        const x = getIndex(original[i]);
+        const y = getIndex(changed[i]);
+        const z = cost[i];
+        g[x][y] = Math.min(g[x][y], z);
     }
-  }
 
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    const x = getIndex(source[i]);
-    const y = getIndex(target[i]);
-    if (x === y) continue;
-    if (g[x][y] === MAX) return -1;
-    ans += g[x][y];
-  }
-  return ans;
+    for (let k = 0; k < 26; ++k) {
+        for (let i = 0; i < 26; ++i) {
+            for (let j = 0; g[i][k] < MAX && j < 26; j++) {
+                if (g[k][j] < MAX) {
+                    g[i][j] = Math.min(g[i][j], g[i][k] + g[k][j]);
+                }
+            }
+        }
+    }
+
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        const x = getIndex(source[i]);
+        const y = getIndex(target[i]);
+        if (x === y) continue;
+        if (g[x][y] === MAX) return -1;
+        ans += g[x][y];
+    }
+    return ans;
 }
 ```
 
@@ -315,41 +322,37 @@ function minimumCost(
  * @return {number}
  */
 var minimumCost = function (source, target, original, changed, cost) {
-  const [n, m, MAX] = [
-    source.length,
-    original.length,
-    Number.POSITIVE_INFINITY,
-  ];
-  const g = Array.from({ length: 26 }, () => Array(26).fill(MAX));
-  const getIndex = (ch) => ch.charCodeAt(0) - "a".charCodeAt(0);
+    const [n, m, MAX] = [source.length, original.length, Number.POSITIVE_INFINITY];
+    const g = Array.from({ length: 26 }, () => Array(26).fill(MAX));
+    const getIndex = ch => ch.charCodeAt(0) - 'a'.charCodeAt(0);
 
-  for (let i = 0; i < 26; ++i) g[i][i] = 0;
-  for (let i = 0; i < m; ++i) {
-    const x = getIndex(original[i]);
-    const y = getIndex(changed[i]);
-    const z = cost[i];
-    g[x][y] = Math.min(g[x][y], z);
-  }
-
-  for (let k = 0; k < 26; ++k) {
-    for (let i = 0; i < 26; ++i) {
-      for (let j = 0; g[i][k] < MAX && j < 26; j++) {
-        if (g[k][j] < MAX) {
-          g[i][j] = Math.min(g[i][j], g[i][k] + g[k][j]);
-        }
-      }
+    for (let i = 0; i < 26; ++i) g[i][i] = 0;
+    for (let i = 0; i < m; ++i) {
+        const x = getIndex(original[i]);
+        const y = getIndex(changed[i]);
+        const z = cost[i];
+        g[x][y] = Math.min(g[x][y], z);
     }
-  }
 
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    const x = getIndex(source[i]);
-    const y = getIndex(target[i]);
-    if (x === y) continue;
-    if (g[x][y] === MAX) return -1;
-    ans += g[x][y];
-  }
-  return ans;
+    for (let k = 0; k < 26; ++k) {
+        for (let i = 0; i < 26; ++i) {
+            for (let j = 0; g[i][k] < MAX && j < 26; j++) {
+                if (g[k][j] < MAX) {
+                    g[i][j] = Math.min(g[i][j], g[i][k] + g[k][j]);
+                }
+            }
+        }
+    }
+
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        const x = getIndex(source[i]);
+        const y = getIndex(target[i]);
+        if (x === y) continue;
+        if (g[x][y] === MAX) return -1;
+        ans += g[x][y];
+    }
+    return ans;
 };
 ```
 

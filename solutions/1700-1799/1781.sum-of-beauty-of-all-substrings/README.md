@@ -1,64 +1,69 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1781.Sum%20of%20Beauty%20of%20All%20Substrings/README.md
 rating: 1714
-source: Biweekly Contest 47 Q3
+source: 第 47 场双周赛 Q3
 tags:
-  - Hash Table
-  - String
-  - Counting
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1781. Sum of Beauty of All Substrings](https://leetcode.com/problems/sum-of-beauty-of-all-substrings)
+# [1781. 所有子字符串美丽值之和](https://leetcode.cn/problems/sum-of-beauty-of-all-substrings)
 
-## Description
+[English Version](/solution/1700-1799/1781.Sum%20of%20Beauty%20of%20All%20Substrings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <strong>beauty</strong> of a string is the difference in frequencies between the most frequent and least frequent characters.</p>
+<p>一个字符串的 <strong>美丽值</strong> 定义为：出现频率最高字符与出现频率最低字符的出现次数之差。</p>
 
 <ul>
-	<li>For example, the beauty of <code>&quot;abaacc&quot;</code> is <code>3 - 1 = 2</code>.</li>
+	<li>比方说，<code>"abaacc"</code> 的美丽值为 <code>3 - 1 = 2</code> 。</li>
 </ul>
 
-<p>Given a string <code>s</code>, return <em>the sum of <strong>beauty</strong> of all of its substrings.</em></p>
+<p>给你一个字符串 <code>s</code> ，请你返回它所有子字符串的 <strong>美丽值</strong> 之和。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> s = &quot;aabcb&quot;
-<strong>Output:</strong> 5
-<strong>Explanation: </strong>The substrings with non-zero beauty are [&quot;aab&quot;,&quot;aabc&quot;,&quot;aabcb&quot;,&quot;abcb&quot;,&quot;bcb&quot;], each with beauty equal to 1.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;aabcbaa&quot;
-<strong>Output:</strong> 17
+<b>输入：</b>s = "aabcb"
+<b>输出：</b>5
+<strong>解释：</strong>美丽值不为零的字符串包括 ["aab","aabc","aabcb","abcb","bcb"] ，每一个字符串的美丽值都为 1 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>s = "aabcbaa"
+<b>输出：</b>17
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;=<sup> </sup>500</code></li>
-	<li><code>s</code> consists of only lowercase English letters.</li>
+	<li><code>1 <= s.length <=<sup> </sup>500</code></li>
+	<li><code>s</code> 只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration + Counting
+### 方法一：枚举 + 计数
 
-Enumerate the starting position $i$ of each substring, find all substrings with the character at this starting position as the left endpoint, then calculate the beauty value of each substring, and accumulate it to the answer.
+枚举每个子串的起点位置 $i$，找到以该起点位置的字符为左端点的所有子串，然后计算每个子串的美丽值，累加到答案中。
 
-The time complexity is $O(n^2 \times C)$, and the space complexity is $O(C)$. Here, $n$ is the length of the string, and $C$ is the size of the character set. In this problem, $C = 26$.
+时间复杂度 $O(n^2 \times C)$，空间复杂度 $O(C)$。其中 $n$ 为字符串的长度，而 $C$ 为字符集的大小。本题中 $C = 26$。
 
 <!-- tabs:start -->
 
@@ -164,16 +169,16 @@ func beautySum(s string) (ans int) {
  * @return {number}
  */
 var beautySum = function (s) {
-  let ans = 0;
-  for (let i = 0; i < s.length; ++i) {
-    const cnt = new Map();
-    for (let j = i; j < s.length; ++j) {
-      cnt.set(s[j], (cnt.get(s[j]) || 0) + 1);
-      const t = Array.from(cnt.values());
-      ans += Math.max(...t) - Math.min(...t);
+    let ans = 0;
+    for (let i = 0; i < s.length; ++i) {
+        const cnt = new Map();
+        for (let j = i; j < s.length; ++j) {
+            cnt.set(s[j], (cnt.get(s[j]) || 0) + 1);
+            const t = Array.from(cnt.values());
+            ans += Math.max(...t) - Math.min(...t);
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 
@@ -183,7 +188,7 @@ var beautySum = function (s) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -321,30 +326,30 @@ func beautySum(s string) (ans int) {
  * @return {number}
  */
 var beautySum = function (s) {
-  const n = s.length;
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    const cnt = Array(26).fill(0);
-    const freq = new Map();
-    let [mi, mx] = [1, 1];
-    for (let j = i; j < n; ++j) {
-      const k = s[j].charCodeAt() - 97;
-      freq.set(cnt[k], (freq.get(cnt[k]) || 0) - 1);
-      ++cnt[k];
-      freq.set(cnt[k], (freq.get(cnt[k]) || 0) + 1);
-      if (cnt[k] === 1) {
-        mi = 1;
-      }
-      if (freq.get(mi) === 0) {
-        ++mi;
-      }
-      if (cnt[k] > mx) {
-        mx = cnt[k];
-      }
-      ans += mx - mi;
+    const n = s.length;
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        const cnt = Array(26).fill(0);
+        const freq = new Map();
+        let [mi, mx] = [1, 1];
+        for (let j = i; j < n; ++j) {
+            const k = s[j].charCodeAt() - 97;
+            freq.set(cnt[k], (freq.get(cnt[k]) || 0) - 1);
+            ++cnt[k];
+            freq.set(cnt[k], (freq.get(cnt[k]) || 0) + 1);
+            if (cnt[k] === 1) {
+                mi = 1;
+            }
+            if (freq.get(mi) === 0) {
+                ++mi;
+            }
+            if (cnt[k] > mx) {
+                mx = cnt[k];
+            }
+            ans += mx - mi;
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 

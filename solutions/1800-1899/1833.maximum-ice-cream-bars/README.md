@@ -1,60 +1,65 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1833.Maximum%20Ice%20Cream%20Bars/README.md
 rating: 1252
-source: Weekly Contest 237 Q2
+source: 第 237 场周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Counting Sort
-  - Sorting
+    - 贪心
+    - 数组
+    - 计数排序
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1833. Maximum Ice Cream Bars](https://leetcode.com/problems/maximum-ice-cream-bars)
+# [1833. 雪糕的最大数量](https://leetcode.cn/problems/maximum-ice-cream-bars)
 
-## Description
+[English Version](/solution/1800-1899/1833.Maximum%20Ice%20Cream%20Bars/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>It is a sweltering summer day, and a boy wants to buy some ice cream bars.</p>
+<p>夏日炎炎，小男孩 Tony 想买一些雪糕消消暑。</p>
 
-<p>At the store, there are <code>n</code> ice cream bars. You are given an array <code>costs</code> of length <code>n</code>, where <code>costs[i]</code> is the price of the <code>i<sup>th</sup></code> ice cream bar in coins. The boy initially has <code>coins</code> coins to spend, and he wants to buy as many ice cream bars as possible.&nbsp;</p>
+<p>商店中新到 <code>n</code> 支雪糕，用长度为 <code>n</code> 的数组 <code>costs</code> 表示雪糕的定价，其中 <code>costs[i]</code> 表示第 <code>i</code> 支雪糕的现金价格。Tony 一共有 <code>coins</code> 现金可以用于消费，他想要买尽可能多的雪糕。</p>
 
-<p><strong>Note:</strong> The boy can buy the ice cream bars in any order.</p>
+<p><strong>注意：</strong>Tony 可以按任意顺序购买雪糕。</p>
 
-<p>Return <em>the <strong>maximum</strong> number of ice cream bars the boy can buy with </em><code>coins</code><em> coins.</em></p>
+<p>给你价格数组 <code>costs</code> 和现金量 <code>coins</code> ，请你计算并返回 Tony 用 <code>coins</code> 现金能够买到的雪糕的 <strong>最大数量</strong> 。</p>
 
-<p>You must solve the problem by counting sort.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> costs = [1,3,2,4,1], coins = 7
-<strong>Output:</strong> 4
-<strong>Explanation: </strong>The boy can buy ice cream bars at indices 0,1,2,4 for a total price of 1 + 3 + 2 + 1 = 7.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> costs = [10,6,8,7,7,8], coins = 5
-<strong>Output:</strong> 0
-<strong>Explanation: </strong>The boy cannot afford any of the ice cream bars.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> costs = [1,6,3,1,2,5], coins = 20
-<strong>Output:</strong> 6
-<strong>Explanation: </strong>The boy can buy all the ice cream bars for a total price of 1 + 6 + 3 + 1 + 2 + 5 = 18.
-</pre>
+<p>你必须使用计数排序解决此问题。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>costs = [1,3,2,4,1], coins = 7
+<strong>输出：</strong>4
+<strong>解释：</strong>Tony 可以买下标为 0、1、2、4 的雪糕，总价为 1 + 3 + 2 + 1 = 7
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>costs = [10,6,8,7,7,8], coins = 5
+<strong>输出：</strong>0
+<strong>解释：</strong>Tony 没有足够的钱买任何一支雪糕。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>costs = [1,6,3,1,2,5], coins = 20
+<strong>输出：</strong>6
+<strong>解释：</strong>Tony 可以买下所有的雪糕，总价为 1 + 6 + 3 + 1 + 2 + 5 = 18 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>costs.length == n</code></li>
@@ -65,17 +70,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Sorting
+### 方法一：贪心 + 排序
 
-To buy as many ice creams as possible, and they can be purchased in any order, we should prioritize choosing ice creams with lower prices.
+要买尽可能多的雪糕，且可以按任意顺序购买，因此，我们应该优先选择定价小的雪糕。
 
-Sort the $costs$ array, and then start buying from the ice cream with the lowest price, one by one, until it is no longer possible to buy, and return the number of ice creams that can be bought.
+对数组 `costs` 进行排序，然后从定价最小的雪糕开始，依次购买，直到不能购买为止，返回能购买的雪糕数量。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$, where $n$ is the length of the $costs$ array.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 `costs` 的长度。
 
 <!-- tabs:start -->
 
@@ -146,15 +151,15 @@ func maxIceCream(costs []int, coins int) int {
 
 ```ts
 function maxIceCream(costs: number[], coins: number): number {
-  costs.sort((a, b) => a - b);
-  const n = costs.length;
-  for (let i = 0; i < n; ++i) {
-    if (coins < costs[i]) {
-      return i;
+    costs.sort((a, b) => a - b);
+    const n = costs.length;
+    for (let i = 0; i < n; ++i) {
+        if (coins < costs[i]) {
+            return i;
+        }
+        coins -= costs[i];
     }
-    coins -= costs[i];
-  }
-  return n;
+    return n;
 }
 ```
 
@@ -167,15 +172,15 @@ function maxIceCream(costs: number[], coins: number): number {
  * @return {number}
  */
 var maxIceCream = function (costs, coins) {
-  costs.sort((a, b) => a - b);
-  const n = costs.length;
-  for (let i = 0; i < n; ++i) {
-    if (coins < costs[i]) {
-      return i;
+    costs.sort((a, b) => a - b);
+    const n = costs.length;
+    for (let i = 0; i < n; ++i) {
+        if (coins < costs[i]) {
+            return i;
+        }
+        coins -= costs[i];
     }
-    coins -= costs[i];
-  }
-  return n;
+    return n;
 };
 ```
 

@@ -1,49 +1,53 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2342.Max%20Sum%20of%20a%20Pair%20With%20Equal%20Sum%20of%20Digits/README.md
 rating: 1308
-source: Weekly Contest 302 Q2
+source: 第 302 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Sorting
-  - Heap (Priority Queue)
+    - 数组
+    - 哈希表
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2342. Max Sum of a Pair With Equal Sum of Digits](https://leetcode.com/problems/max-sum-of-a-pair-with-equal-sum-of-digits)
+# [2342. 数位和相等数对的最大和](https://leetcode.cn/problems/max-sum-of-a-pair-with-equal-sum-of-digits)
 
-## Description
+[English Version](/solution/2300-2399/2342.Max%20Sum%20of%20a%20Pair%20With%20Equal%20Sum%20of%20Digits/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array <code>nums</code> consisting of <strong>positive</strong> integers. You can choose two indices <code>i</code> and <code>j</code>, such that <code>i != j</code>, and the sum of digits of the number <code>nums[i]</code> is equal to that of <code>nums[j]</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的数组 <code>nums</code> ，数组中的元素都是 <strong>正</strong> 整数。请你选出两个下标 <code>i</code> 和 <code>j</code>（<code>i != j</code>），且 <code>nums[i]</code> 的数位和 与&nbsp; <code>nums[j]</code> 的数位和相等。</p>
 
-<p>Return <em>the <strong>maximum</strong> value of </em><code>nums[i] + nums[j]</code><em> that you can obtain over all possible indices </em><code>i</code><em> and </em><code>j</code><em> that satisfy the conditions.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [18,43,36,13,7]
-<strong>Output:</strong> 54
-<strong>Explanation:</strong> The pairs (i, j) that satisfy the conditions are:
-- (0, 2), both numbers have a sum of digits equal to 9, and their sum is 18 + 36 = 54.
-- (1, 4), both numbers have a sum of digits equal to 7, and their sum is 43 + 7 = 50.
-So the maximum sum that we can obtain is 54.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [10,12,19,14]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> There are no two numbers that satisfy the conditions, so we return -1.
-</pre>
+<p>请你找出所有满足条件的下标 <code>i</code> 和 <code>j</code> ，找出并返回<em> </em><code>nums[i] + nums[j]</code><em> </em>可以得到的 <strong>最大值</strong><em>。</em>如果不存在这样的下标对，返回 -1。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [18,43,36,13,7]
+<strong>输出：</strong>54
+<strong>解释：</strong>满足条件的数对 (i, j) 为：
+- (0, 2) ，两个数字的数位和都是 9 ，相加得到 18 + 36 = 54 。
+- (1, 4) ，两个数字的数位和都是 7 ，相加得到 43 + 7 = 50 。
+所以可以获得的最大和是 54 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [10,12,19,14]
+<strong>输出：</strong>-1
+<strong>解释：</strong>不存在满足条件的数对，返回 -1 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -52,21 +56,21 @@ So the maximum sum that we can obtain is 54.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We can use a hash table $d$ to record the maximum value corresponding to each digit sum, and initialize an answer variable $ans = -1$.
+我们可以用一个哈希表 $d$ 记录每个数位和对应的最大值，初始化一个答案变量 $ans = -1$。
 
-Next, we traverse the array $nums$. For each number $v$, we calculate its digit sum $x$. If $x$ exists in the hash table $d$, then we update the answer $ans = \max(ans, d[x] + v)$. Then update the hash table $d[x] = \max(d[x], v)$.
+接下来，我们遍历数组 $nums$，对于每个数 $v$，我们计算它的数位和 $x$，如果 $x$ 在哈希表 $d$ 中存在，那么我们就更新答案 $ans = \max(ans, d[x] + v)$。然后更新哈希表 $d[x] = \max(d[x], v)$。
 
-Finally, return the answer $ans$.
+最后返回答案 $ans$ 即可。
 
-Since the maximum element in $nums$ is $10^9$, the maximum digit sum is $9 \times 9 = 81$. We can directly define an array $d$ of length $100$ to replace the hash table.
+由于 $nums$ 中的元素最大为 $10^9$，因此数位和最大为 $9 \times 9 = 81$，我们可以直接定义一个长度为 $100$ 的数组 $d$ 来代替哈希表。
 
-The time complexity is $O(n \times \log M)$, and the space complexity is $O(D)$. Here, $n$ is the length of the array $nums$, and $M$ and $D$ are the maximum value of the elements in the array $nums$ and the maximum value of the digit sum, respectively. In this problem, $M \leq 10^9$, $D \leq 81$.
+时间复杂度 $O(n \times \log M)$，空间复杂度 $O(D)$，其中 $n$ 是数组 $nums$ 的长度，而 $M$ 和 $D$ 分别是数组 $nums$ 中的元素的最大值和数位和的最大值。本题中 $M \leq 10^9$，$D \leq 81$。
 
 <!-- tabs:start -->
 
@@ -157,19 +161,19 @@ func maximumSum(nums []int) int {
 
 ```ts
 function maximumSum(nums: number[]): number {
-  const d: number[] = Array(100).fill(0);
-  let ans = -1;
-  for (const v of nums) {
-    let x = 0;
-    for (let y = v; y; y = (y / 10) | 0) {
-      x += y % 10;
+    const d: number[] = Array(100).fill(0);
+    let ans = -1;
+    for (const v of nums) {
+        let x = 0;
+        for (let y = v; y; y = (y / 10) | 0) {
+            x += y % 10;
+        }
+        if (d[x]) {
+            ans = Math.max(ans, d[x] + v);
+        }
+        d[x] = Math.max(d[x], v);
     }
-    if (d[x]) {
-      ans = Math.max(ans, d[x] + v);
-    }
-    d[x] = Math.max(d[x], v);
-  }
-  return ans;
+    return ans;
 }
 ```
 

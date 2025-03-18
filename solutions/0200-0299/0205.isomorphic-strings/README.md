@@ -1,85 +1,74 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0205.Isomorphic%20Strings/README.md
 tags:
-  - Hash Table
-  - String
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [205. Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings)
+# [205. 同构字符串](https://leetcode.cn/problems/isomorphic-strings)
 
-## Description
+[English Version](/solution/0200-0299/0205.Isomorphic%20Strings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two strings <code>s</code> and <code>t</code>, <em>determine if they are isomorphic</em>.</p>
+<p>给定两个字符串&nbsp;<code>s</code>&nbsp;和&nbsp;<code>t</code>&nbsp;，判断它们是否是同构的。</p>
 
-<p>Two strings <code>s</code> and <code>t</code> are isomorphic if the characters in <code>s</code> can be replaced to get <code>t</code>.</p>
+<p>如果&nbsp;<code>s</code>&nbsp;中的字符可以按某种映射关系替换得到&nbsp;<code>t</code>&nbsp;，那么这两个字符串是同构的。</p>
 
-<p>All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;egg&quot;, t = &quot;add&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The strings <code>s</code> and <code>t</code> can be made identical by:</p>
-
-<ul>
-	<li>Mapping <code>&#39;e&#39;</code> to <code>&#39;a&#39;</code>.</li>
-	<li>Mapping <code>&#39;g&#39;</code> to <code>&#39;d&#39;</code>.</li>
-</ul>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;foo&quot;, t = &quot;bar&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The strings <code>s</code> and <code>t</code> can not be made identical as <code>&#39;o&#39;</code> needs to be mapped to both <code>&#39;a&#39;</code> and <code>&#39;r&#39;</code>.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;paper&quot;, t = &quot;title&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
-</div>
+<p>每个出现的字符都应当映射到另一个字符，同时不改变字符的顺序。不同字符不能映射到同一个字符上，相同字符只能映射到同一个字符上，字符可以映射到自己本身。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入：</strong>s = <code>"egg"</code>, t = <code>"add"</code>
+<strong>输出：</strong>true
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = <code>"foo"</code>, t = <code>"bar"</code>
+<strong>输出：</strong>false</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = <code>"paper"</code>, t = <code>"title"</code>
+<strong>输出：</strong>true</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
+
+<p><meta charset="UTF-8" /></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 5 * 10<sup>4</sup></code></li>
 	<li><code>t.length == s.length</code></li>
-	<li><code>s</code> and <code>t</code> consist of any valid ascii character.</li>
+	<li><code>s</code>&nbsp;和&nbsp;<code>t</code>&nbsp;由任意有效的 ASCII 字符组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table or Array
+### 方法一：哈希表或数组
 
-We can use two hash tables or arrays $d_1$ and $d_2$ to record the character mapping relationship between $s$ and $t$.
+我们可以用两个哈希表或数组 $d_1$ 和 $d_2$ 记录 $s$ 和 $t$ 中字符的映射关系。
 
-Traverse $s$ and $t$, if the corresponding character mapping relationships in $d_1$ and $d_2$ are different, return `false`, otherwise update the corresponding character mapping relationships in $d_1$ and $d_2$. After the traversal is complete, it means that $s$ and $t$ are isomorphic, and return `true`.
+遍历 $s$ 和 $t$，如果 $d_1$ 和 $d_2$ 中对应的字符映射关系不同，则返回 `false`，否则更新 $d_1$ 和 $d_2$ 中对应的字符映射关系。遍历结束，说明 $s$ 和 $t$ 是同构的，返回 `true`。
 
-The time complexity is $O(n)$ and the space complexity is $O(C)$. Where $n$ is the length of the string $s$; and $C$ is the size of the character set, which is $C = 256$ in this problem.
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为字符串 $s$ 的长度；而 $C$ 为字符集大小，本题中 $C = 256$。
 
 <!-- tabs:start -->
 
@@ -164,18 +153,18 @@ func isIsomorphic(s string, t string) bool {
 
 ```ts
 function isIsomorphic(s: string, t: string): boolean {
-  const d1: number[] = new Array(256).fill(0);
-  const d2: number[] = new Array(256).fill(0);
-  for (let i = 0; i < s.length; ++i) {
-    const a = s.charCodeAt(i);
-    const b = t.charCodeAt(i);
-    if (d1[a] !== d2[b]) {
-      return false;
+    const d1: number[] = new Array(256).fill(0);
+    const d2: number[] = new Array(256).fill(0);
+    for (let i = 0; i < s.length; ++i) {
+        const a = s.charCodeAt(i);
+        const b = t.charCodeAt(i);
+        if (d1[a] !== d2[b]) {
+            return false;
+        }
+        d1[a] = i + 1;
+        d2[b] = i + 1;
     }
-    d1[a] = i + 1;
-    d2[b] = i + 1;
-  }
-  return true;
+    return true;
 }
 ```
 
@@ -232,7 +221,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

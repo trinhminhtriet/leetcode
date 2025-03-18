@@ -1,46 +1,51 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2962.Count%20Subarrays%20Where%20Max%20Element%20Appears%20at%20Least%20K%20Times/README.md
 rating: 1700
-source: Weekly Contest 375 Q3
+source: 第 375 场周赛 Q3
 tags:
-  - Array
-  - Sliding Window
+    - 数组
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2962. Count Subarrays Where Max Element Appears at Least K Times](https://leetcode.com/problems/count-subarrays-where-max-element-appears-at-least-k-times)
+# [2962. 统计最大元素出现至少 K 次的子数组](https://leetcode.cn/problems/count-subarrays-where-max-element-appears-at-least-k-times)
 
-## Description
+[English Version](/solution/2900-2999/2962.Count%20Subarrays%20Where%20Max%20Element%20Appears%20at%20Least%20K%20Times/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> and a <strong>positive</strong> integer <code>k</code>.</p>
+<p>给你一个整数数组 <code>nums</code> 和一个 <strong>正整数</strong> <code>k</code> 。</p>
 
-<p>Return <em>the number of subarrays where the <strong>maximum</strong> element of </em><code>nums</code><em> appears <strong>at least</strong> </em><code>k</code><em> times in that subarray.</em></p>
+<p>请你统计有多少满足 「&nbsp;<code>nums</code> 中的 <strong>最大</strong> 元素」至少出现 <code>k</code> 次的子数组，并返回满足这一条件的子数组的数目。</p>
 
-<p>A <strong>subarray</strong> is a contiguous sequence of elements within an array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,3,2,3,3], k = 2
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The subarrays that contain the element 3 at least 2 times are: [1,3,2,3], [1,3,2,3,3], [3,2,3], [3,2,3,3], [2,3,3] and [3,3].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,4,2,1], k = 3
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> No subarray contains the element 4 at least 3 times.
-</pre>
+<p>子数组是数组中的一个连续元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,3,2,3,3], k = 2
+<strong>输出：</strong>6
+<strong>解释：</strong>包含元素 3 至少 2 次的子数组为：[1,3,2,3]、[1,3,2,3,3]、[3,2,3]、[3,2,3,3]、[2,3,3] 和 [3,3] 。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,4,2,1], k = 3
+<strong>输出：</strong>0
+<strong>解释：</strong>没有子数组包含元素 4 至少 3 次。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -50,19 +55,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-Let's denote the maximum value in the array as $mx$.
+不妨记数组中的最大值为 $mx$。
 
-We use two pointers $i$ and $j$ to maintain a sliding window, such that in the subarray between $[i, j)$, there are $k$ elements equal to $mx$. If we fix the left endpoint $i$, then all right endpoints greater than or equal to $j-1$ meet the condition, totaling $n - (j - 1)$.
+我们用两个指针 $i$ 和 $j$ 维护一个滑动窗口，使得 $[i, j)$ 之间的子数组中，有 $k$ 个元素等于 $mx$。如果我们固定左端点 $i$，那么所有大于等于 $j-1$ 的右端点都满足条件，一共有 $n - (j - 1)$ 个。
 
-Therefore, we enumerate the left endpoint $i$, use the pointer $j$ to maintain the right endpoint, use a variable $cnt$ to record the number of elements equal to $mx$ in the current window. When $cnt$ is greater than or equal to $k$, we have found a subarray that meets the condition, and we increase the answer by $n - (j - 1)$. Then we update $cnt$ and continue to enumerate the next left endpoint.
+因此，我们枚举左端点 $i$，用指针 $j$ 维护右端点，用一个变量 $cnt$ 记录当前窗口中等于 $mx$ 的元素个数，当 $cnt$ 大于等于 $k$ 时，我们就找到了满足条件的子数组，将答案增加 $n - (j - 1)$。然后我们更新 $cnt$，继续枚举下一个左端点。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -163,21 +168,21 @@ func countSubarrays(nums []int, k int) (ans int64) {
 
 ```ts
 function countSubarrays(nums: number[], k: number): number {
-  const mx = Math.max(...nums);
-  const n = nums.length;
-  let [cnt, j] = [0, 0];
-  let ans = 0;
-  for (const x of nums) {
-    for (; j < n && cnt < k; ++j) {
-      cnt += nums[j] === mx ? 1 : 0;
+    const mx = Math.max(...nums);
+    const n = nums.length;
+    let [cnt, j] = [0, 0];
+    let ans = 0;
+    for (const x of nums) {
+        for (; j < n && cnt < k; ++j) {
+            cnt += nums[j] === mx ? 1 : 0;
+        }
+        if (cnt < k) {
+            break;
+        }
+        ans += n - j + 1;
+        cnt -= x === mx ? 1 : 0;
     }
-    if (cnt < k) {
-      break;
-    }
-    ans += n - j + 1;
-    cnt -= x === mx ? 1 : 0;
-  }
-  return ans;
+    return ans;
 }
 ```
 

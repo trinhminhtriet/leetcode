@@ -1,51 +1,56 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2440.Create%20Components%20With%20Same%20Value/README.md
 rating: 2460
-source: Biweekly Contest 89 Q4
+source: 第 89 场双周赛 Q4
 tags:
-  - Tree
-  - Depth-First Search
-  - Array
-  - Math
-  - Enumeration
+    - 树
+    - 深度优先搜索
+    - 数组
+    - 数学
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2440. Create Components With Same Value](https://leetcode.com/problems/create-components-with-same-value)
+# [2440. 创建价值相同的连通块](https://leetcode.cn/problems/create-components-with-same-value)
 
-## Description
+[English Version](/solution/2400-2499/2440.Create%20Components%20With%20Same%20Value/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is an undirected tree with <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>.</p>
+<p>有一棵&nbsp;<code>n</code>&nbsp;个节点的无向树，节点编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;。</p>
 
-<p>You are given a <strong>0-indexed</strong> integer array <code><font face="monospace">nums</font></code> of length <code>n</code> where <code>nums[i]</code> represents the value of the <code>i<sup>th</sup></code> node. You are also given a 2D integer array <code>edges</code> of length <code>n - 1</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree.</p>
+<p>给你一个长度为 <code>n</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，其中&nbsp;<code>nums[i]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个节点的值。同时给你一个长度为 <code>n - 1</code>&nbsp;的二维整数数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示节点&nbsp;<code>a<sub>i</sub></code>&nbsp;与&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条边。</p>
 
-<p>You are allowed to <strong>delete</strong> some edges, splitting the tree into multiple connected components. Let the <strong>value</strong> of a component be the sum of <strong>all</strong> <code>nums[i]</code> for which node <code>i</code> is in the component.</p>
+<p>你可以 <strong>删除</strong>&nbsp;一些边，将这棵树分成几个连通块。一个连通块的 <strong>价值</strong>&nbsp;定义为这个连通块中 <strong>所有</strong> 节点 <code>i</code>&nbsp;对应的 <code>nums[i]</code>&nbsp;之和。</p>
 
-<p>Return<em> the <strong>maximum</strong> number of edges you can delete, such that every connected component in the tree has the same value.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2440.Create%20Components%20With%20Same%20Value/images/diagramdrawio.png" style="width: 441px; height: 351px;" />
-<pre>
-<strong>Input:</strong> nums = [6,2,2,2,6], edges = [[0,1],[1,2],[1,3],[3,4]] 
-<strong>Output:</strong> 2 
-<strong>Explanation:</strong> The above figure shows how we can delete the edges [0,1] and [3,4]. The created components are nodes [0], [1,2,3] and [4]. The sum of the values in each component equals 6. It can be proven that no better deletion exists, so the answer is 2.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2], edges = []
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are no edges to be deleted.
-</pre>
+<p>你需要删除一些边，删除后得到的各个连通块的价值都相等。请返回你可以删除的边数&nbsp;<strong>最多</strong>&nbsp;为多少。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2440.Create%20Components%20With%20Same%20Value/images/diagramdrawio.png" style="width: 441px; height: 351px;"></p>
+
+<pre><b>输入：</b>nums = [6,2,2,2,6], edges = [[0,1],[1,2],[1,3],[3,4]] 
+<b>输出：</b>2 
+<b>解释：</b>上图展示了我们可以删除边 [0,1] 和 [3,4] 。得到的连通块为 [0] ，[1,2,3] 和 [4] 。每个连通块的价值都为 6 。可以证明没有别的更好的删除方案存在了，所以答案为 2 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>nums = [2], edges = []
+<b>输出：</b>0
+<b>解释：</b>没有任何边可以删除。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2 * 10<sup>4</sup></code></li>
@@ -54,26 +59,26 @@ tags:
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= edges[i][0], edges[i][1] &lt;= n - 1</code></li>
-	<li><code>edges</code> represents a valid tree.</li>
+	<li><code>edges</code>&nbsp;表示一棵合法的树。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration of Connected Blocks
+### 方法一：枚举连通块的个数
 
-Assume the number of connected blocks is $k$, then the number of edges to be deleted is $k-1$, and the value of each connected block is $\frac{s}{k}$, where $s$ is the sum of the values of all nodes in $nums$.
+假设连通块的个数为 $k$，那么要删除的边数为 $k-1$，每个连通块的价值为 $\frac{s}{k}$，其中 $s$ 为 $nums$ 所有节点的值之和。
 
-We enumerate $k$ from large to small. If there exists a $k$ such that $\frac{s}{k}$ is an integer, and the value of each connected block obtained is equal, then directly return $k-1$. The initial value of $k$ is $\min(n, \frac{s}{mx})$, where $mx$ is the maximum value in $nums$.
+我们从大到小枚举 $k$，如果存在一个 $k$，使得 $\frac{s}{k}$ 是整数，并且得到的每个连通块的价值都相等，那么直接返回 $k-1$。其中 $k$ 的初始值为 $\min(n, \frac{s}{mx})$，记 $mx$ 为 $nums$ 中的最大值。
 
-The key point is to judge whether for a given $\frac{s}{k}$, it is possible to divide several subtrees such that the value of each subtree is $\frac{s}{k}$.
+关键点在于判断对于给定的 $\frac{s}{k}$，是否能划分出若干子树，使得每棵子树的价值都为 $\frac{s}{k}$。
 
-Here we use the `dfs` function to judge. We recursively traverse from top to bottom to calculate the value of each subtree. If the sum of the subtree values is exactly $\frac{s}{k}$, it means that the division is successful at this time. We set the value to $0$ and return it to the upper level, indicating that this subtree can be disconnected from the parent node. If the sum of the subtree values is greater than $\frac{s}{k}$, it means that the division fails at this time. We return $-1$, indicating that it cannot be divided.
+这里我们通过 `dfs` 函数来判断，从上到下递归遍历求出各个子树的价值，如果子树价值和恰好为 $\frac{s}{k}$，说明此时划分成功，我们将价值置为 $0$ 返回给上一层，表示此子树可以与父节点断开。如果子树价值之和大于 $\frac{s}{k}$，说明此时划分失败，我们返回 $-1$，表示无法划分。
 
-The time complexity is $O(n \times \sqrt{s})$, where $n$ and $s$ are the length of $nums$ and the sum of the values of all nodes in $nums$, respectively.
+时间复杂度 $O(n \times \sqrt{s})$，其中 $n$ 和 $s$ 分别为 $nums$ 的长度和 $nums$ 所有节点的值之和。
 
 <!-- tabs:start -->
 

@@ -1,45 +1,51 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2226.Maximum%20Candies%20Allocated%20to%20K%20Children/README.md
 rating: 1646
-source: Weekly Contest 287 Q3
+source: 第 287 场周赛 Q3
 tags:
-  - Array
-  - Binary Search
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [2226. Maximum Candies Allocated to K Children](https://leetcode.com/problems/maximum-candies-allocated-to-k-children)
+# [2226. 每个小孩最多能分到多少糖果](https://leetcode.cn/problems/maximum-candies-allocated-to-k-children)
 
-## Description
+[English Version](/solution/2200-2299/2226.Maximum%20Candies%20Allocated%20to%20K%20Children/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>candies</code>. Each element in the array denotes a pile of candies of size <code>candies[i]</code>. You can divide each pile into any number of <strong>sub piles</strong>, but you <strong>cannot</strong> merge two piles together.</p>
+<p>给你一个 <strong>下标从 0 开始</strong> 的整数数组 <code>candies</code> 。数组中的每个元素表示大小为 <code>candies[i]</code> 的一堆糖果。你可以将每堆糖果分成任意数量的 <strong>子堆</strong> ，但 <strong>无法</strong> 再将两堆合并到一起。</p>
 
-<p>You are also given an integer <code>k</code>. You should allocate piles of candies to <code>k</code> children such that each child gets the <strong>same</strong> number of candies. Each child can take <strong>at most one</strong> pile of candies and some piles of candies may go unused.</p>
+<p>另给你一个整数 <code>k</code> 。你需要将这些糖果分配给 <code>k</code> 个小孩，使每个小孩分到 <strong>相同</strong> 数量的糖果。每个小孩可以拿走 <strong>至多一堆</strong> 糖果，有些糖果可能会不被分配。</p>
 
-<p>Return <em>the <strong>maximum number of candies</strong> each child can get.</em></p>
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> candies = [5,8,6], k = 3
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> We can divide candies[1] into 2 piles of size 5 and 3, and candies[2] into 2 piles of size 5 and 1. We now have five piles of candies of sizes 5, 5, 3, 5, and 1. We can allocate the 3 piles of size 5 to 3 children. It can be proven that each child cannot receive more than 5 candies.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> candies = [2,5], k = 11
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are 11 children but only 7 candies in total, so it is impossible to ensure each child receives at least one candy. Thus, each child gets no candy and the answer is 0.
-</pre>
+<p>返回每个小孩可以拿走的 <strong>最大糖果数目</strong><em> </em>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>candies = [5,8,6], k = 3
+<strong>输出：</strong>5
+<strong>解释：</strong>可以将 candies[1] 分成大小分别为 5 和 3 的两堆，然后把 candies[2] 分成大小分别为 5 和 1 的两堆。现在就有五堆大小分别为 5、5、3、5 和 1 的糖果。可以把 3 堆大小为 5 的糖果分给 3 个小孩。可以证明无法让每个小孩得到超过 5 颗糖果。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>candies = [2,5], k = 11
+<strong>输出：</strong>0
+<strong>解释：</strong>总共有 11 个小孩，但只有 7 颗糖果，但如果要分配糖果的话，必须保证每个小孩至少能得到 1 颗糖果。因此，最后每个小孩都没有得到糖果，答案是 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= candies.length &lt;= 10<sup>5</sup></code></li>
@@ -49,17 +55,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-We notice that if each child can receive $v$ candies, then for any $v' \lt v$, each child can also receive $v'$ candies. Therefore, we can use binary search to find the maximum $v$ such that each child can receive $v$ candies.
+我们注意到，如果每个小孩能分到糖果数 $v$，那么对于任意 $v' \lt v$，每个小孩也能分到 $v'$ 颗糖果。因此，我们可以使用二分查找的方法找到最大的 $v$，使得每个小孩能分到 $v$ 颗糖果。
 
-We define the left boundary of the binary search as $l = 0$ and the right boundary as $r = \max(\text{candies})$, where $\max(\text{candies})$ represents the maximum value in the array $\text{candies}$. During the binary search, we take the middle value $v = \left\lfloor \frac{l + r + 1}{2} \right\rfloor$ each time, and then calculate the total number of candies each child can receive. If the total is greater than or equal to $k$, it means each child can receive $v$ candies, so we update the left boundary $l = v$. Otherwise, we update the right boundary $r = v - 1$. Finally, when $l = r$, we have found the maximum $v$.
+我们定义二分查找的左边界 $l = 0$，右边界 $r = \max(\text{candies})$，其中 $\max(\text{candies})$ 表示数组 $\text{candies}$ 中的最大值。在二分查找的过程中，我们每次取 $v$ 的中间值 $v = \left\lfloor \frac{l + r + 1}{2} \right\rfloor$，然后计算每个小孩能分到的糖果数 $v$ 的总和，如果总和大于等于 $k$，则说明每个小孩能分到 $v$ 颗糖果，此时我们更新左边界 $l = v$，否则我们更新右边界 $r = v - 1$。最终，当 $l = r$ 时，我们找到了最大的 $v$。
 
-The time complexity is $O(n \times \log M)$, where $n$ is the length of the array $\text{candies}$, and $M$ is the maximum value in the array $\text{candies}$. The space complexity is $O(1)$.
+时间复杂度 $O(n \times \log M)$，其中 $n$ 表示数组 $\text{candies}$ 的长度，而 $M$ 表示数组 $\text{candies}$ 中的最大值。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -144,17 +150,17 @@ func maximumCandies(candies []int, k int64) int {
 
 ```ts
 function maximumCandies(candies: number[], k: number): number {
-  let [l, r] = [0, Math.max(...candies)];
-  while (l < r) {
-    const mid = (l + r + 1) >> 1;
-    const cnt = candies.reduce((acc, cur) => acc + Math.floor(cur / mid), 0);
-    if (cnt >= k) {
-      l = mid;
-    } else {
-      r = mid - 1;
+    let [l, r] = [0, Math.max(...candies)];
+    while (l < r) {
+        const mid = (l + r + 1) >> 1;
+        const cnt = candies.reduce((acc, cur) => acc + Math.floor(cur / mid), 0);
+        if (cnt >= k) {
+            l = mid;
+        } else {
+            r = mid - 1;
+        }
     }
-  }
-  return l;
+    return l;
 }
 ```
 

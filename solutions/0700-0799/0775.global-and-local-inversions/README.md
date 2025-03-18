@@ -1,72 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0775.Global%20and%20Local%20Inversions/README.md
 tags:
-  - Array
-  - Math
+    - 数组
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [775. Global and Local Inversions](https://leetcode.com/problems/global-and-local-inversions)
+# [775. 全局倒置与局部倒置](https://leetcode.cn/problems/global-and-local-inversions)
 
-## Description
+[English Version](/solution/0700-0799/0775.Global%20and%20Local%20Inversions/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> of length <code>n</code> which represents a permutation of all the integers in the range <code>[0, n - 1]</code>.</p>
+<p>给你一个长度为 <code>n</code> 的整数数组 <code>nums</code> ，表示由范围 <code>[0, n - 1]</code> 内所有整数组成的一个排列。</p>
 
-<p>The number of <strong>global inversions</strong> is the number of the different pairs <code>(i, j)</code> where:</p>
+<p><strong>全局倒置</strong> 的数目等于满足下述条件不同下标对 <code>(i, j)</code> 的数目：</p>
 
 <ul>
 	<li><code>0 &lt;= i &lt; j &lt; n</code></li>
 	<li><code>nums[i] &gt; nums[j]</code></li>
 </ul>
 
-<p>The number of <strong>local inversions</strong> is the number of indices <code>i</code> where:</p>
+<p><strong>局部倒置</strong> 的数目等于满足下述条件的下标 <code>i</code> 的数目：</p>
 
 <ul>
 	<li><code>0 &lt;= i &lt; n - 1</code></li>
 	<li><code>nums[i] &gt; nums[i + 1]</code></li>
 </ul>
 
-<p>Return <code>true</code> <em>if the number of <strong>global inversions</strong> is equal to the number of <strong>local inversions</strong></em>.</p>
+<p>当数组 <code>nums</code> 中 <strong>全局倒置</strong> 的数量等于 <strong>局部倒置</strong> 的数量时，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,0,2]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> There is 1 global inversion and 1 local inversion.
+<strong>输入：</strong>nums = [1,0,2]
+<strong>输出：</strong>true
+<strong>解释：</strong>有 1 个全局倒置，和 1 个局部倒置。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,0]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> There are 2 global inversions and 1 local inversion.
+<strong>输入：</strong>nums = [1,2,0]
+<strong>输出：</strong>false
+<strong>解释：</strong>有 2 个全局倒置，和 1 个局部倒置。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+&nbsp;
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= nums[i] &lt; n</code></li>
-	<li>All the integers of <code>nums</code> are <strong>unique</strong>.</li>
-	<li><code>nums</code> is a permutation of all the numbers in the range <code>[0, n - 1]</code>.</li>
+	<li><code>nums</code> 中的所有整数 <strong>互不相同</strong></li>
+	<li><code>nums</code> 是范围 <code>[0, n - 1]</code> 内所有数字组成的一个排列</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：维护前缀最大值
+
+根据题意，我们可以发现，一个数组中的局部倒置一定是全局倒置，但是全局倒置不一定是局部倒置。也就是说，全局倒置的数量一定大于等于局部倒置的数量。
+
+因此，我们枚举每个数 $nums[i]$，其中 $2 \leq i \leq n - 1$，维护前缀数组 $nums[0,..i-2]$ 中的最大值，记为 $mx$。如果存在 $mx$ 大于 $nums[i]$，则说明全局倒置的数量大于局部倒置的数量，返回 `false` 即可。
+
+遍历结束后，返回 `true`。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 `nums` 的长度。
 
 <!-- tabs:start -->
 
@@ -136,7 +149,20 @@ func isIdealPermutation(nums []int) bool {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：树状数组
+
+这道题目实际上是一个“逆序对”问题。
+
+局部倒置的数量等于相邻元素之间逆序对的个数，可以在遍历数组 `nums` 的过程中直接求出；而全局倒置的数量等于逆序对的个数，求解逆序对个数的一个常用做法是使用树状数组。
+
+树状数组，也称作“二叉索引树”（Binary Indexed Tree）或 Fenwick 树。 它可以高效地实现如下两个操作：
+
+1. 单点更新：即函数 `update(x, delta)`，把序列 $x$ 位置的数加上一个值 $delta$。时间复杂度 $O(\log n)$。
+1. 前缀和查询：即函数 `query(x)`，查询序列 `[1,...x]` 区间的区间和，即位置 $x$ 的前缀和。时间复杂度 $O(\log n)$。
+
+对于本题，我们定义一个变量 $cnt$ 记录局部倒置的数量与全局倒置的数量之差。如果遍历过程中，$cnt$ 的值小于 $0$，则说明全局倒置的数量大于局部倒置的数量，返回 `false` 即可。
+
+时间复杂度 $O(n\times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `nums` 的长度。
 
 <!-- tabs:start -->
 

@@ -1,98 +1,103 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1654.Minimum%20Jumps%20to%20Reach%20Home/README.md
 rating: 2124
-source: Biweekly Contest 39 Q3
+source: 第 39 场双周赛 Q3
 tags:
-  - Breadth-First Search
-  - Array
-  - Dynamic Programming
+    - 广度优先搜索
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1654. Minimum Jumps to Reach Home](https://leetcode.com/problems/minimum-jumps-to-reach-home)
+# [1654. 到家的最少跳跃次数](https://leetcode.cn/problems/minimum-jumps-to-reach-home)
 
-## Description
+[English Version](/solution/1600-1699/1654.Minimum%20Jumps%20to%20Reach%20Home/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A certain bug&#39;s home is on the x-axis at position <code>x</code>. Help them get there from position <code>0</code>.</p>
+<p>有一只跳蚤的家在数轴上的位置 <code>x</code> 处。请你帮助它从位置 <code>0</code> 出发，到达它的家。</p>
 
-<p>The bug jumps according to the following rules:</p>
+<p>跳蚤跳跃的规则如下：</p>
 
 <ul>
-	<li>It can jump exactly <code>a</code> positions <strong>forward</strong> (to the right).</li>
-	<li>It can jump exactly <code>b</code> positions <strong>backward</strong> (to the left).</li>
-	<li>It cannot jump backward twice in a row.</li>
-	<li>It cannot jump to any <code>forbidden</code> positions.</li>
+	<li>它可以 <strong>往前</strong> 跳恰好 <code>a</code> 个位置（即往右跳）。</li>
+	<li>它可以 <strong>往后</strong> 跳恰好 <code>b</code> 个位置（即往左跳）。</li>
+	<li>它不能 <strong>连续</strong> 往后跳 <code>2</code> 次。</li>
+	<li>它不能跳到任何 <code>forbidden</code> 数组中的位置。</li>
 </ul>
 
-<p>The bug may jump forward <strong>beyond</strong> its home, but it <strong>cannot jump</strong> to positions numbered with <strong>negative</strong> integers.</p>
+<p>跳蚤可以往前跳 <strong>超过</strong> 它的家的位置，但是它 <strong>不能跳到负整数</strong> 的位置。</p>
 
-<p>Given an array of integers <code>forbidden</code>, where <code>forbidden[i]</code> means that the bug cannot jump to the position <code>forbidden[i]</code>, and integers <code>a</code>, <code>b</code>, and <code>x</code>, return <em>the minimum number of jumps needed for the bug to reach its home</em>. If there is no possible sequence of jumps that lands the bug on position <code>x</code>, return <code>-1.</code></p>
+<p>给你一个整数数组 <code>forbidden</code> ，其中 <code>forbidden[i]</code> 是跳蚤不能跳到的位置，同时给你整数 <code>a</code>， <code>b</code> 和 <code>x</code> ，请你返回跳蚤到家的最少跳跃次数。如果没有恰好到达 <code>x</code> 的可行方案，请你返回 <code>-1</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> forbidden = [14,4,18,1,15], a = 3, b = 15, x = 9
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 3 jumps forward (0 -&gt; 3 -&gt; 6 -&gt; 9) will get the bug home.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> forbidden = [8,3,16,6,12,20], a = 15, b = 13, x = 11
-<strong>Output:</strong> -1
+<b>输入：</b>forbidden = [14,4,18,1,15], a = 3, b = 15, x = 9
+<b>输出：</b>3
+<b>解释：</b>往前跳 3 次（0 -> 3 -> 6 -> 9），跳蚤就到家了。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> forbidden = [1,6,2,14,5,17,4], a = 16, b = 9, x = 7
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> One jump forward (0 -&gt; 16) then one jump backward (16 -&gt; 7) will get the bug home.
+<b>输入：</b>forbidden = [8,3,16,6,12,20], a = 15, b = 13, x = 11
+<b>输出：</b>-1
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>forbidden = [1,6,2,14,5,17,4], a = 16, b = 9, x = 7
+<b>输出：</b>2
+<b>解释：</b>往前跳一次（0 -> 16），然后往回跳一次（16 -> 7），跳蚤就到家了。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= forbidden.length &lt;= 1000</code></li>
-	<li><code>1 &lt;= a, b, forbidden[i] &lt;= 2000</code></li>
-	<li><code>0 &lt;= x &lt;= 2000</code></li>
-	<li>All the elements in <code>forbidden</code> are distinct.</li>
-	<li>Position <code>x</code> is not forbidden.</li>
+	<li><code>1 <= forbidden.length <= 1000</code></li>
+	<li><code>1 <= a, b, forbidden[i] <= 2000</code></li>
+	<li><code>0 <= x <= 2000</code></li>
+	<li><code>forbidden</code> 中所有位置互不相同。</li>
+	<li>位置 <code>x</code> 不在 <code>forbidden</code> 中。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: BFS
+### 方法一：BFS
 
-We can use the position and jumping direction of the flea as the state, and use BFS to search for the shortest path. The key point of this problem is to determine the right boundary, that is, how far the flea can jump.
+我们可以将跳蚤的位置和跳跃方向作为状态，使用 BFS 搜索最短路径。本题比较关键的地方在于确定右边界，即跳蚤最远能跳到哪里。
 
-If $a \geq b$, that is, the distance to jump forward is greater than the distance to jump backward, then if the flea is in a position greater than $x+b$, it can no longer jump forward, because the flea cannot jump backward consecutively. If it continues to jump forward, it will never be able to jump to the position $x$. Therefore, if $a \geq b$, the right boundary can be $x+b$.
+如果 $a \geq b$，即往前跳的距离大于往后跳的距离，那么如果跳蚤在位置大于 $x+b$ 的地方，它就不能再往前跳了，因为跳蚤不能连续往后跳两次，如果继续往前跳，那么永远无法跳到 $x$ 的位置。因此，如果 $a \geq b$，那么右边界可以是 $x+b$。
 
-If $a < b$, that is, the distance to jump forward is less than the distance to jump backward, then if the position of the flea minus $b$ exceeds $2000$, choose to jump backward, otherwise jump forward. Therefore, if $a < b$, the right boundary does not exceed $6000$.
+如果 $a \lt b$，即往前跳的距离小于往后跳的距离，那么如果跳蚤所在的位置减去 $b$ 超过 $2000$，此时选择往后跳，否则往前跳。因此，如果 $a \lt b$，那么右边界不超过 $6000$。
 
-In summary, we can set the right boundary to $6000$.
+综上，我们可以将右边界设置为 $6000$。
 
-Next, we use BFS to search for the shortest path. We use a queue, initially adding the position and jumping direction of the flea as the state to the queue. Each time we take a state from the queue, if the position of this state is equal to $x$, then we have found a path from the initial state to the target state, and we can return the current number of steps. Otherwise, we add the next state of the current state to the queue. There are two cases for the next state:
+接下来，我们使用 BFS 搜索最短路径。我们使用一个队列，初始时将跳蚤的位置和跳跃方向作为状态加入队列。每次从队列中取出一个状态，如果该状态的位置等于 $x$，那么我们就找到了一条从初始状态到达目标状态的路径，返回当前的步数即可。否则，我们将当前状态的下一个状态加入队列，下一个状态有两种情况：
 
-- Jump forward, the jumping direction is $1$;
-- When the current jumping direction is $1$, jump backward, the jumping direction is $0$.
+-   往前跳，跳跃方向为 $1$；
+-   当前跳跃方向为 $1$ 时，往后跳，跳跃方向为 $0$。
 
-Note that we need to judge whether the next state is legal, that is, the position of the next state does not exceed the right boundary, is not in the forbidden position, and has not been visited.
+注意，我们需要判断下一个状态是否合法，即下一个状态的位置不超过右边界，且不在禁止的位置中，且未被访问过。
 
-If the queue is empty, it means that the target position cannot be reached, return $-1$.
+如果队列为空，说明无法到达目标位置，返回 $-1$。
 
-The time complexity is $O(M)$, and the space complexity is $O(M)$. Here, $M$ is the right boundary, and in this problem, $M \leq 6000$.
+时间复杂度 $O(M)$，空间复杂度 $O(M)$。其中 $M$ 是右边界，本题中 $M \leq 6000$。
 
 <!-- tabs:start -->
 
@@ -239,36 +244,31 @@ func minimumJumps(forbidden []int, a int, b int, x int) (ans int) {
 #### TypeScript
 
 ```ts
-function minimumJumps(
-  forbidden: number[],
-  a: number,
-  b: number,
-  x: number
-): number {
-  const s: Set<number> = new Set(forbidden);
-  const q: [number, number][] = [[0, 1]];
-  const n = 6000;
-  const vis: boolean[][] = Array.from({ length: n }, () => [false, false]);
-  vis[0][1] = true;
-  for (let ans = 0; q.length; ++ans) {
-    for (let t = q.length; t; --t) {
-      const [i, k] = q.shift()!;
-      if (i === x) {
-        return ans;
-      }
-      const nxt: [number, number][] = [[i + a, 1]];
-      if (k & 1) {
-        nxt.push([i - b, 0]);
-      }
-      for (const [j, k] of nxt) {
-        if (j >= 0 && j < n && !s.has(j) && !vis[j][k]) {
-          vis[j][k] = true;
-          q.push([j, k]);
+function minimumJumps(forbidden: number[], a: number, b: number, x: number): number {
+    const s: Set<number> = new Set(forbidden);
+    const q: [number, number][] = [[0, 1]];
+    const n = 6000;
+    const vis: boolean[][] = Array.from({ length: n }, () => [false, false]);
+    vis[0][1] = true;
+    for (let ans = 0; q.length; ++ans) {
+        for (let t = q.length; t; --t) {
+            const [i, k] = q.shift()!;
+            if (i === x) {
+                return ans;
+            }
+            const nxt: [number, number][] = [[i + a, 1]];
+            if (k & 1) {
+                nxt.push([i - b, 0]);
+            }
+            for (const [j, k] of nxt) {
+                if (j >= 0 && j < n && !s.has(j) && !vis[j][k]) {
+                    vis[j][k] = true;
+                    q.push([j, k]);
+                }
+            }
         }
-      }
     }
-  }
-  return -1;
+    return -1;
 }
 ```
 

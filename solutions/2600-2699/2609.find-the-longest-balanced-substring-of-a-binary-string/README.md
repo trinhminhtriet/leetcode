@@ -1,72 +1,77 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2609.Find%20the%20Longest%20Balanced%20Substring%20of%20a%20Binary%20String/README.md
 rating: 1348
-source: Weekly Contest 339 Q1
+source: 第 339 场周赛 Q1
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2609. Find the Longest Balanced Substring of a Binary String](https://leetcode.com/problems/find-the-longest-balanced-substring-of-a-binary-string)
+# [2609. 最长平衡子字符串](https://leetcode.cn/problems/find-the-longest-balanced-substring-of-a-binary-string)
 
-## Description
+[English Version](/solution/2600-2699/2609.Find%20the%20Longest%20Balanced%20Substring%20of%20a%20Binary%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a binary string <code>s</code> consisting only of zeroes and ones.</p>
+<p>给你一个仅由 <code>0</code> 和 <code>1</code> 组成的二进制字符串 <code>s</code> 。<span style="">&nbsp;</span><span style="">&nbsp;</span></p>
 
-<p>A substring of <code>s</code> is considered balanced if<strong> all zeroes are before ones</strong> and the number of zeroes is equal to the number of ones inside the substring. Notice that the empty substring is considered a balanced substring.</p>
+<p>如果子字符串中 <strong>所有的<span style=""> </span></strong><code><span style="">0</span></code><strong><span style=""> </span>都在 </strong><code>1</code><strong> 之前</strong> 且其中 <code>0</code> 的数量等于 <code>1</code> 的数量，则认为 <code>s</code> 的这个子字符串是平衡子字符串。请注意，空子字符串也视作平衡子字符串。<span style="">&nbsp;</span></p>
 
-<p>Return <em>the length of the longest balanced substring of </em><code>s</code>.</p>
+<p>返回&nbsp;<span style=""> </span><code>s</code> 中最长的平衡子字符串长度。</p>
 
-<p>A <b>substring</b> is a contiguous sequence of characters within a string.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;01000111&quot;
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The longest balanced substring is &quot;000111&quot;, which has length 6.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;00111&quot;
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The longest balanced substring is &quot;0011&quot;, which has length 4.&nbsp;
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;111&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There is no balanced substring except the empty substring, so the answer is 0.
-</pre>
+<p>子字符串是字符串中的一个连续字符序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "01000111"
+<strong>输出：</strong>6
+<strong>解释：</strong>最长的平衡子字符串是 "000111" ，长度为 6 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "00111"
+<strong>输出：</strong>4
+<strong>解释：</strong>最长的平衡子字符串是 "0011" ，长度为 <span style="">&nbsp;</span>4 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "111"
+<strong>输出：</strong>0
+<strong>解释：</strong>除了空子字符串之外不存在其他平衡子字符串，所以答案为 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 50</code></li>
-	<li><code>&#39;0&#39; &lt;= s[i] &lt;= &#39;1&#39;</code></li>
+	<li><code>'0' &lt;= s[i] &lt;= '1'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Brute force
+### 方法一：暴力枚举
 
-Since the range of $n$ is small, we can enumerate all substrings $s[i..j]$ to check if it is a balanced string. If so, update the answer.
+注意到数据范围很小，因此，我们可以枚举所有的子串 $s[i..j]$，检查其是否为平衡子串，如果是，则更新答案。
 
-The time complexity is $O(n^3)$, and the space complexity is $O(1)$. Where $n$ is the length of string $s$.
+时间复杂度 $O(n^3)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -186,27 +191,27 @@ func findTheLongestBalancedSubstring(s string) (ans int) {
 
 ```ts
 function findTheLongestBalancedSubstring(s: string): number {
-  const n = s.length;
-  let ans = 0;
-  const check = (i: number, j: number): boolean => {
-    let cnt = 0;
-    for (let k = i; k <= j; ++k) {
-      if (s[k] === "1") {
-        ++cnt;
-      } else if (cnt > 0) {
-        return false;
-      }
+    const n = s.length;
+    let ans = 0;
+    const check = (i: number, j: number): boolean => {
+        let cnt = 0;
+        for (let k = i; k <= j; ++k) {
+            if (s[k] === '1') {
+                ++cnt;
+            } else if (cnt > 0) {
+                return false;
+            }
+        }
+        return cnt * 2 === j - i + 1;
+    };
+    for (let i = 0; i < n; ++i) {
+        for (let j = i + 1; j < n; j += 2) {
+            if (check(i, j)) {
+                ans = Math.max(ans, j - i + 1);
+            }
+        }
     }
-    return cnt * 2 === j - i + 1;
-  };
-  for (let i = 0; i < n; ++i) {
-    for (let j = i + 1; j < n; j += 2) {
-      if (check(i, j)) {
-        ans = Math.max(ans, j - i + 1);
-      }
-    }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -255,18 +260,18 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Enumeration optimization
+### 方法二：枚举优化
 
-We use variables $zero$ and $one$ to record the number of continuous $0$ and $1$.
+我们用变量 $zero$ 和 $one$ 分别记录当前连续的 $0$ 和 $1$ 的个数。
 
-Traverse the string $s$, for the current character $c$:
+遍历字符串 $s$，对于当前字符 $c$：
 
-- If the current character is `'0'`, we check if $one$ is greater than $0$, if so, we reset $zero$ and $one$ to $0$, and then add $1$ to $zero$.
-- If the current character is `'1'`, we add $1$ to $one$, and update the answer to $ans = max(ans, 2 \times min(one, zero))$.
+-   如果当前字符为 `'0'`，我们判断此时 $one$ 是否大于 $0$，是则将 $zero$ 和 $one$ 重置为 $0$，接下来将 $zero$ 加 $1$。
+-   如果当前字符为 `'1'`，则将 $one$ 加 $1$，并更新答案为 $ans = \max(ans, 2 \times \min(one, zero))$。
 
-After the traversal is complete, we can get the length of the longest balanced substring.
+遍历结束后，即可得到最长的平衡子串的长度。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$. Where $n$ is the length of string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -358,21 +363,21 @@ func findTheLongestBalancedSubstring(s string) (ans int) {
 
 ```ts
 function findTheLongestBalancedSubstring(s: string): number {
-  let zero = 0;
-  let one = 0;
-  let ans = 0;
-  for (const c of s) {
-    if (c === "0") {
-      if (one > 0) {
-        zero = 0;
-        one = 0;
-      }
-      ++zero;
-    } else {
-      ans = Math.max(ans, 2 * Math.min(zero, ++one));
+    let zero = 0;
+    let one = 0;
+    let ans = 0;
+    for (const c of s) {
+        if (c === '0') {
+            if (one > 0) {
+                zero = 0;
+                one = 0;
+            }
+            ++zero;
+        } else {
+            ans = Math.max(ans, 2 * Math.min(zero, ++one));
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

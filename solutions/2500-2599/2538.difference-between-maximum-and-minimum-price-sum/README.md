@@ -1,75 +1,103 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2538.Difference%20Between%20Maximum%20and%20Minimum%20Price%20Sum/README.md
 rating: 2397
-source: Weekly Contest 328 Q4
+source: 第 328 场周赛 Q4
 tags:
-  - Tree
-  - Depth-First Search
-  - Array
-  - Dynamic Programming
+    - 树
+    - 深度优先搜索
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2538. Difference Between Maximum and Minimum Price Sum](https://leetcode.com/problems/difference-between-maximum-and-minimum-price-sum)
+# [2538. 最大价值和与最小价值和的差值](https://leetcode.cn/problems/difference-between-maximum-and-minimum-price-sum)
 
-## Description
+[English Version](/solution/2500-2599/2538.Difference%20Between%20Maximum%20and%20Minimum%20Price%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There exists an undirected and initially unrooted tree with <code>n</code> nodes indexed from <code>0</code> to <code>n - 1</code>. You are given the integer <code>n</code> and a 2D integer array <code>edges</code> of length <code>n - 1</code>, where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree.</p>
+<p>给你一个 <code>n</code>&nbsp;个节点的无向无根图，节点编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;。给你一个整数&nbsp;<code>n</code>&nbsp;和一个长度为 <code>n - 1</code>&nbsp;的二维整数数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示树中节点&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条边。</p>
 
-<p>Each node has an associated price. You are given an integer array <code>price</code>, where <code>price[i]</code> is the price of the <code>i<sup>th</sup></code> node.</p>
+<p>每个节点都有一个价值。给你一个整数数组&nbsp;<code>price</code>&nbsp;，其中&nbsp;<code>price[i]</code>&nbsp;是第 <code>i</code>&nbsp;个节点的价值。</p>
 
-<p>The <strong>price sum</strong> of a given path is the sum of the prices of all nodes lying on that path.</p>
+<p>一条路径的 <strong>价值和</strong>&nbsp;是这条路径上所有节点的价值之和。</p>
 
-<p>The tree can be rooted at any node <code>root</code> of your choice. The incurred <strong>cost</strong> after choosing <code>root</code> is the difference between the maximum and minimum <strong>price sum</strong> amongst all paths starting at <code>root</code>.</p>
+<p>你可以选择树中任意一个节点作为根节点&nbsp;<code>root</code>&nbsp;。选择 <code>root</code>&nbsp;为根的 <strong>开销</strong>&nbsp;是以 <code>root</code>&nbsp;为起点的所有路径中，<strong>价值和</strong>&nbsp;最大的一条路径与最小的一条路径的差值。</p>
 
-<p>Return <em>the <strong>maximum</strong> possible <strong>cost</strong></em> <em>amongst all possible root choices</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2538.Difference%20Between%20Maximum%20and%20Minimum%20Price%20Sum/images/example14.png" style="width: 556px; height: 231px;" />
-<pre>
-<strong>Input:</strong> n = 6, edges = [[0,1],[1,2],[1,3],[3,4],[3,5]], price = [9,8,7,6,10,5]
-<strong>Output:</strong> 24
-<strong>Explanation:</strong> The diagram above denotes the tree after rooting it at node 2. The first part (colored in red) shows the path with the maximum price sum. The second part (colored in blue) shows the path with the minimum price sum.
-- The first path contains nodes [2,1,3,4]: the prices are [7,8,6,10], and the sum of the prices is 31.
-- The second path contains the node [2] with the price [7].
-The difference between the maximum and minimum price sum is 24. It can be proved that 24 is the maximum cost.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2538.Difference%20Between%20Maximum%20and%20Minimum%20Price%20Sum/images/p1_example2.png" style="width: 352px; height: 184px;" />
-<pre>
-<strong>Input:</strong> n = 3, edges = [[0,1],[1,2]], price = [1,1,1]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The diagram above denotes the tree after rooting it at node 0. The first part (colored in red) shows the path with the maximum price sum. The second part (colored in blue) shows the path with the minimum price sum.
-- The first path contains nodes [0,1,2]: the prices are [1,1,1], and the sum of the prices is 3.
-- The second path contains node [0] with a price [1].
-The difference between the maximum and minimum price sum is 2. It can be proved that 2 is the maximum cost.
-</pre>
+<p>请你返回所有节点作为根节点的选择中，<strong>最大</strong>&nbsp;的 <strong>开销</strong>&nbsp;为多少。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2538.Difference%20Between%20Maximum%20and%20Minimum%20Price%20Sum/images/example14.png" style="width: 556px; height: 231px;" /></p>
+
+<pre>
+<b>输入：</b>n = 6, edges = [[0,1],[1,2],[1,3],[3,4],[3,5]], price = [9,8,7,6,10,5]
+<b>输出：</b>24
+<b>解释：</b>上图展示了以节点 2 为根的树。左图（红色的节点）是最大价值和路径，右图（蓝色的节点）是最小价值和路径。
+- 第一条路径节点为 [2,1,3,4]：价值为 [7,8,6,10] ，价值和为 31 。
+- 第二条路径节点为 [2] ，价值为 [7] 。
+最大路径和与最小路径和的差值为 24 。24 是所有方案中的最大开销。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2538.Difference%20Between%20Maximum%20and%20Minimum%20Price%20Sum/images/p1_example2.png" style="width: 352px; height: 184px;" /></p>
+
+<pre>
+<b>输入：</b>n = 3, edges = [[0,1],[1,2]], price = [1,1,1]
+<b>输出：</b>2
+<b>解释：</b>上图展示了以节点 0 为根的树。左图（红色的节点）是最大价值和路径，右图（蓝色的节点）是最小价值和路径。
+- 第一条路径包含节点 [0,1,2]：价值为 [1,1,1] ，价值和为 3 。
+- 第二条路径节点为 [0] ，价值为 [1] 。
+最大路径和与最小路径和的差值为 2 。2 是所有方案中的最大开销。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n - 1</code></li>
-	<li><code>edges</code> represents a valid tree.</li>
+	<li><code>edges</code> 表示一棵符合题面要求的树。</li>
 	<li><code>price.length == n</code></li>
 	<li><code>1 &lt;= price[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：树形 DP
+
+由于每个节点价值均为正整数，因此，以节点 $root$ 作为根节点的最小的一条路径就是 $root$ 节点本身，那么价值和最大的一条路径与最小的一条路径的差值就等价于去掉路径的一个端点。
+
+我们设计一个函数 $dfs(i, fa)$，表示以节点 $i$ 为根节点的子树中，不去掉端点的最大路径和以及去掉端点的最大路径和。其中，$fa$ 表示节点 $i$ 的父节点。
+
+函数 $dfs(i, fa)$ 的实现逻辑如下：
+
+初始化 $a = price[i]$, $b = 0$，表示初始只有一个节点，不去掉端点的最大路径和为 $price[i]$，去掉端点的最大路径和为 $0$。
+
+对于节点 $i$ 的每个子节点 $j$，如果 $j \ne fa$，则递归调用函数 $dfs(j, i)$，这里返回了以节点 $j$ 为根节点的子树中，不去掉端点的最大路径和以及去掉端点的最大路径和，记为 $c$ 和 $d$。此时答案有两种情况：
+
+-   前面不去掉端点的最大路径和加上当前节点去掉端点的最大路径和，即 $a + d$；
+-   前面去掉端点的最大路径和加上当前节点不去掉端点的最大路径和，即 $b + c$。
+
+我们更新答案的最大值，即 $ans = \max(ans, a + d, b + c)$。
+
+然后更新 $a$ 和 $b$，即 $a = \max(a, price[i] + c)$, $b = \max(b, price[i] + d)$，最后返回。
+
+时间复杂度为 $O(n)$，空间复杂度为 $O(n)$。其中 $n$ 为节点个数。
 
 <!-- tabs:start -->
 

@@ -1,46 +1,49 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/README.md
 rating: 1904
-source: Biweekly Contest 101 Q4
+source: 第 101 场双周赛 Q4
 tags:
-  - Breadth-First Search
-  - Graph
+    - 广度优先搜索
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [2608. Shortest Cycle in a Graph](https://leetcode.com/problems/shortest-cycle-in-a-graph)
+# [2608. 图中的最短环](https://leetcode.cn/problems/shortest-cycle-in-a-graph)
 
-## Description
+[English Version](/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a <strong>bi-directional </strong>graph with <code>n</code> vertices, where each vertex is labeled from <code>0</code> to <code>n - 1</code>. The edges in the graph are represented by a given 2D integer array <code>edges</code>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> denotes an edge between vertex <code>u<sub>i</sub></code> and vertex <code>v<sub>i</sub></code>. Every vertex pair is connected by at most one edge, and no vertex has an edge to itself.</p>
+<p>现有一个含 <code>n</code> 个顶点的 <strong>双向</strong> 图，每个顶点按从 <code>0</code> 到 <code>n - 1</code> 标记。图中的边由二维整数数组 <code>edges</code> 表示，其中 <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> 表示顶点 <code>u<sub>i</sub></code> 和 <code>v<sub>i</sub></code> 之间存在一条边。每对顶点最多通过一条边连接，并且不存在与自身相连的顶点。</p>
 
-<p>Return <em>the length of the <strong>shortest </strong>cycle in the graph</em>. If no cycle exists, return <code>-1</code>.</p>
+<p>返回图中 <strong>最短</strong> 环的长度。如果不存在环，则返回 <code>-1</code> 。</p>
 
-<p>A cycle is a path that starts and ends at the same node, and each edge in the path is used only once.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/images/cropped.png" style="width: 387px; height: 331px;" />
-<pre>
-<strong>Input:</strong> n = 7, edges = [[0,1],[1,2],[2,0],[3,4],[4,5],[5,6],[6,3]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The cycle with the smallest length is : 0 -&gt; 1 -&gt; 2 -&gt; 0 
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/images/croppedagin.png" style="width: 307px; height: 307px;" />
-<pre>
-<strong>Input:</strong> n = 4, edges = [[0,1],[0,2]]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> There are no cycles in this graph.
-</pre>
+<p><strong>环</strong> 是指以同一节点开始和结束，并且路径中的每条边仅使用一次。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/images/cropped.png" style="width: 387px; height: 331px;">
+<pre><strong>输入：</strong>n = 7, edges = [[0,1],[1,2],[2,0],[3,4],[4,5],[5,6],[6,3]]
+<strong>输出：</strong>3
+<strong>解释：</strong>长度最小的循环是：0 -&gt; 1 -&gt; 2 -&gt; 0 
+</pre>
+
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/images/croppedagin.png" style="width: 307px; height: 307px;">
+<pre><strong>输入：</strong>n = 4, edges = [[0,1],[0,2]]
+<strong>输出：</strong>-1
+<strong>解释：</strong>图中不存在循环
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 1000</code></li>
@@ -48,22 +51,22 @@ tags:
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt; n</code></li>
 	<li><code>u<sub>i</sub> != v<sub>i</sub></code></li>
-	<li>There are no repeated edges.</li>
+	<li>不存在重复的边</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumerate edges + BFS
+### 方法一：枚举删除的边 + BFS
 
-We first construct the adjacency list $g$ of the graph according to the array $edges$, where $g[u]$ represents all the adjacent vertices of vertex $u$.
+我们先根据数组 $edges$ 构建出邻接表 $g$，其中 $g[u]$ 表示顶点 $u$ 的所有邻接点。
 
-Then we enumerate the two-directional edge $(u, v)$, if the path from vertex $u$ to vertex $v$ still exists after deleting this edge, then the length of the shortest cycle containing this edge is $dist[v] + 1$, where $dist[v]$ represents the shortest path length from vertex $u$ to vertex $v$. We take the minimum of all these cycles.
+接下来，我们枚举双向边 $(u, v)$，如果删除该边后，从顶点 $u$ 到顶点 $v$ 的路径依然存在，则包含该边的最短环的长度为 $dist[v] + 1$，其中 $dist[v]$ 表示从顶点 $u$ 到顶点 $v$ 的最短路径长度。我们取所有这样的环的最小值即可。
 
-The time complexity is $O(m^2)$ and the space complexity is $O(m + n)$, where $m$ and $n$ are the length of the array $edges$ and the number of vertices.
+时间复杂度 $O(m^2)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为数组 $edges$ 的长度以及顶点数。
 
 <!-- tabs:start -->
 
@@ -224,33 +227,33 @@ func findShortestCycle(n int, edges [][]int) int {
 
 ```ts
 function findShortestCycle(n: number, edges: number[][]): number {
-  const g: number[][] = new Array(n).fill(0).map(() => []);
-  for (const [u, v] of edges) {
-    g[u].push(v);
-    g[v].push(u);
-  }
-  const inf = 1 << 30;
-  let ans = inf;
-  const bfs = (u: number, v: number) => {
-    const dist: number[] = new Array(n).fill(inf);
-    dist[u] = 0;
-    const q: number[] = [u];
-    while (q.length) {
-      const i = q.shift()!;
-      for (const j of g[i]) {
-        if ((i == u && j == v) || (i == v && j == u) || dist[j] != inf) {
-          continue;
-        }
-        dist[j] = dist[i] + 1;
-        q.push(j);
-      }
+    const g: number[][] = new Array(n).fill(0).map(() => []);
+    for (const [u, v] of edges) {
+        g[u].push(v);
+        g[v].push(u);
     }
-    return 1 + dist[v];
-  };
-  for (const [u, v] of edges) {
-    ans = Math.min(ans, bfs(u, v));
-  }
-  return ans < inf ? ans : -1;
+    const inf = 1 << 30;
+    let ans = inf;
+    const bfs = (u: number, v: number) => {
+        const dist: number[] = new Array(n).fill(inf);
+        dist[u] = 0;
+        const q: number[] = [u];
+        while (q.length) {
+            const i = q.shift()!;
+            for (const j of g[i]) {
+                if ((i == u && j == v) || (i == v && j == u) || dist[j] != inf) {
+                    continue;
+                }
+                dist[j] = dist[i] + 1;
+                q.push(j);
+            }
+        }
+        return 1 + dist[v];
+    };
+    for (const [u, v] of edges) {
+        ans = Math.min(ans, bfs(u, v));
+    }
+    return ans < inf ? ans : -1;
 }
 ```
 
@@ -260,13 +263,13 @@ function findShortestCycle(n: number, edges: number[][]): number {
 
 <!-- solution:start -->
 
-### Solution 2: Enumerate points + BFS
+### 方法二：枚举点 + BFS
 
-Similar to Solution 1, we first construct the adjacency list $g$ of the graph according to the array $edges$, where $g[u]$ represents all the adjacent vertices of vertex $u$.
+与方法一类似，我们先根据数组 $edges$ 构建出邻接表 $g$，其中 $g[u]$ 表示顶点 $u$ 的所有邻接点。
 
-Then we enumerate the vertex $u$, if there are two paths from vertex $u$ to vertex $v$, then we currently find a cycle, the length is the sum of the length of the two paths. We take the minimum of all these cycles.
+接下来，我们枚举顶点 $u$，如果从顶点 $u$ 出发，有两条路径都到达了顶点 $v$，说明当前找到了一个环，长度为两条路径的长度之和。我们取所有这样的环的最小值即可。
 
-The time complexity is $O(m \times n)$ and the space complexity is $O(m + n)$, where $m$ and $n$ are the length of the array $edges$ and the number of vertices.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为数组 $edges$ 的长度以及顶点数。
 
 <!-- tabs:start -->
 
@@ -440,37 +443,37 @@ func findShortestCycle(n int, edges [][]int) int {
 
 ```ts
 function findShortestCycle(n: number, edges: number[][]): number {
-  const g: number[][] = new Array(n).fill(0).map(() => []);
-  for (const [u, v] of edges) {
-    g[u].push(v);
-    g[v].push(u);
-  }
-  const inf = 1 << 30;
-  let ans = inf;
-  const bfs = (u: number) => {
-    const dist: number[] = new Array(n).fill(-1);
-    dist[u] = 0;
-    const q: number[][] = [[u, -1]];
-    let ans = inf;
-    while (q.length) {
-      const p = q.shift()!;
-      u = p[0];
-      const fa = p[1];
-      for (const v of g[u]) {
-        if (dist[v] < 0) {
-          dist[v] = dist[u] + 1;
-          q.push([v, u]);
-        } else if (v !== fa) {
-          ans = Math.min(ans, dist[u] + dist[v] + 1);
-        }
-      }
+    const g: number[][] = new Array(n).fill(0).map(() => []);
+    for (const [u, v] of edges) {
+        g[u].push(v);
+        g[v].push(u);
     }
-    return ans;
-  };
-  for (let i = 0; i < n; ++i) {
-    ans = Math.min(ans, bfs(i));
-  }
-  return ans < inf ? ans : -1;
+    const inf = 1 << 30;
+    let ans = inf;
+    const bfs = (u: number) => {
+        const dist: number[] = new Array(n).fill(-1);
+        dist[u] = 0;
+        const q: number[][] = [[u, -1]];
+        let ans = inf;
+        while (q.length) {
+            const p = q.shift()!;
+            u = p[0];
+            const fa = p[1];
+            for (const v of g[u]) {
+                if (dist[v] < 0) {
+                    dist[v] = dist[u] + 1;
+                    q.push([v, u]);
+                } else if (v !== fa) {
+                    ans = Math.min(ans, dist[u] + dist[v] + 1);
+                }
+            }
+        }
+        return ans;
+    };
+    for (let i = 0; i < n; ++i) {
+        ans = Math.min(ans, bfs(i));
+    }
+    return ans < inf ? ans : -1;
 }
 ```
 

@@ -1,87 +1,104 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1545.Find%20Kth%20Bit%20in%20Nth%20Binary%20String/README.md
 rating: 1479
-source: Weekly Contest 201 Q2
+source: 第 201 场周赛 Q2
 tags:
-  - Recursion
-  - String
-  - Simulation
+    - 递归
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1545. Find Kth Bit in Nth Binary String](https://leetcode.com/problems/find-kth-bit-in-nth-binary-string)
+# [1545. 找出第 N 个二进制字符串中的第 K 位](https://leetcode.cn/problems/find-kth-bit-in-nth-binary-string)
 
-## Description
+[English Version](/solution/1500-1599/1545.Find%20Kth%20Bit%20in%20Nth%20Binary%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two positive integers <code>n</code> and <code>k</code>, the binary string <code>S<sub>n</sub></code> is formed as follows:</p>
+<p>给你两个正整数 <code>n</code> 和 <code>k</code>，二进制字符串  <code>S<sub>n</sub></code> 的形成规则如下：</p>
 
 <ul>
-	<li><code>S<sub>1</sub> = &quot;0&quot;</code></li>
-	<li><code>S<sub>i</sub> = S<sub>i - 1</sub> + &quot;1&quot; + reverse(invert(S<sub>i - 1</sub>))</code> for <code>i &gt; 1</code></li>
+	<li><code>S<sub>1</sub> = "0"</code></li>
+	<li>当 <code>i > 1</code> 时，<code>S<sub>i</sub> = S<sub>i-1</sub> + "1" + reverse(invert(S<sub>i-1</sub>))</code></li>
 </ul>
 
-<p>Where <code>+</code> denotes the concatenation operation, <code>reverse(x)</code> returns the reversed string <code>x</code>, and <code>invert(x)</code> inverts all the bits in <code>x</code> (<code>0</code> changes to <code>1</code> and <code>1</code> changes to <code>0</code>).</p>
+<p>其中 <code>+</code> 表示串联操作，<code>reverse(x)</code> 返回反转 <code>x</code> 后得到的字符串，而 <code>invert(x)</code> 则会翻转 x 中的每一位（0 变为 1，而 1 变为 0）。</p>
 
-<p>For example, the first four strings in the above sequence are:</p>
+<p>例如，符合上述描述的序列的前 4 个字符串依次是：</p>
 
 <ul>
-	<li><code>S<sub>1 </sub>= &quot;0&quot;</code></li>
-	<li><code>S<sub>2 </sub>= &quot;0<strong>1</strong>1&quot;</code></li>
-	<li><code>S<sub>3 </sub>= &quot;011<strong>1</strong>001&quot;</code></li>
-	<li><code>S<sub>4</sub> = &quot;0111001<strong>1</strong>0110001&quot;</code></li>
+	<li><code>S<sub>1 </sub>= "0"</code></li>
+	<li><code>S<sub>2 </sub>= "0<strong>1</strong>1"</code></li>
+	<li><code>S<sub>3 </sub>= "011<strong>1</strong>001"</code></li>
+	<li><code>S<sub>4</sub> = "0111001<strong>1</strong>0110001"</code></li>
 </ul>
 
-<p>Return <em>the</em> <code>k<sup>th</sup></code> <em>bit</em> <em>in</em> <code>S<sub>n</sub></code>. It is guaranteed that <code>k</code> is valid for the given <code>n</code>.</p>
+<p>请你返回  <code>S<sub>n</sub></code> 的 <strong>第 <code>k</code> 位字符</strong> ，题目数据保证 <code>k</code> 一定在 <code>S<sub>n</sub></code> 长度范围以内。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> n = 3, k = 1
-<strong>Output:</strong> &quot;0&quot;
-<strong>Explanation:</strong> S<sub>3</sub> is &quot;<strong><u>0</u></strong>111001&quot;.
-The 1<sup>st</sup> bit is &quot;0&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 4, k = 11
-<strong>Output:</strong> &quot;1&quot;
-<strong>Explanation:</strong> S<sub>4</sub> is &quot;0111001101<strong><u>1</u></strong>0001&quot;.
-The 11<sup>th</sup> bit is &quot;1&quot;.
+<strong>输入：</strong>n = 3, k = 1
+<strong>输出：</strong>"0"
+<strong>解释：</strong>S<sub>3</sub> 为 "<strong>0</strong>111001"，其第 1 位为 "0" 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 4, k = 11
+<strong>输出：</strong>"1"
+<strong>解释：</strong>S<sub>4</sub> 为 "0111001101<strong>1</strong>0001"，其第 11 位为 "1" 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 1, k = 1
+<strong>输出：</strong>"0"
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 2, k = 3
+<strong>输出：</strong>"1"
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n &lt;= 20</code></li>
-	<li><code>1 &lt;= k &lt;= 2<sup>n</sup> - 1</code></li>
+	<li><code>1 <= n <= 20</code></li>
+	<li><code>1 <= k <= 2<sup>n</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Case Analysis + Recursion
+### 方法一：分类讨论 + 递归
 
-We can observe that for $S_n$, the first half is the same as $S_{n-1}$, and the second half is the reverse and negation of $S_{n-1}$. Therefore, we can design a function $dfs(n, k)$, which represents the $k$-th character of the $n$-th string. The answer is $dfs(n, k)$.
+我们可以发现，对于 $S_n$，其前半部分和 $S_{n-1}$ 是一样的，而后半部分是 $S_{n-1}$ 的反转取反。因此我们可以设计一个函数 $dfs(n, k)$，表示第 $n$ 个字符串的第 $k$ 位字符。答案即为 $dfs(n, k)$。
 
-The calculation process of the function $dfs(n, k)$ is as follows:
+函数 $dfs(n, k)$ 的计算过程如下：
 
-- If $k = 1$, then the answer is $0$;
-- If $k$ is a power of $2$, then the answer is $1$;
-- If $k \times 2 < 2^n - 1$, it means that $k$ is in the first half, and the answer is $dfs(n - 1, k)$;
-- Otherwise, the answer is $dfs(n - 1, 2^n - k) \oplus 1$, where $\oplus$ represents the XOR operation.
+-   如果 $k = 1$，那么答案为 $0$；
+-   如果 $k$ 是 $2$ 的幂次方，那么答案为 $1$；
+-   如果 $k \times 2 \lt 2^n - 1$，说明 $k$ 在前半部分，答案为 $dfs(n - 1, k)$；
+-   否则，答案为 $dfs(n - 1, 2^n - k) \oplus 1$，其中 $\oplus$ 表示异或运算。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the given $n$ in the problem.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为题目给定的 $n$。
 
 <!-- tabs:start -->
 
@@ -177,20 +194,20 @@ func findKthBit(n int, k int) byte {
 
 ```ts
 function findKthBit(n: number, k: number): string {
-  const dfs = (n: number, k: number): number => {
-    if (k === 1) {
-      return 0;
-    }
-    if ((k & (k - 1)) === 0) {
-      return 1;
-    }
-    const m = 1 << n;
-    if (k * 2 < m - 1) {
-      return dfs(n - 1, k);
-    }
-    return dfs(n - 1, m - k) ^ 1;
-  };
-  return dfs(n, k).toString();
+    const dfs = (n: number, k: number): number => {
+        if (k === 1) {
+            return 0;
+        }
+        if ((k & (k - 1)) === 0) {
+            return 1;
+        }
+        const m = 1 << n;
+        if (k * 2 < m - 1) {
+            return dfs(n - 1, k);
+        }
+        return dfs(n - 1, m - k) ^ 1;
+    };
+    return dfs(n, k).toString();
 }
 ```
 
@@ -200,7 +217,7 @@ function findKthBit(n: number, k: number): string {
 
 <!-- solution:start -->
 
-### Solution 2: Bit Manipulation
+### 方法二：位运算
 
 <!-- tabs:start -->
 
@@ -208,7 +225,7 @@ function findKthBit(n: number, k: number): string {
 
 ```ts
 const findKthBit = (n: number, k: number): string =>
-  String((((k / (k & -k)) >> 1) & 1) ^ (k & 1) ^ 1);
+    String((((k / (k & -k)) >> 1) & 1) ^ (k & 1) ^ 1);
 ```
 
 #### JavaScript

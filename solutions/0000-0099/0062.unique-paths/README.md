@@ -1,68 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0062.Unique%20Paths/README.md
 tags:
-  - Math
-  - Dynamic Programming
-  - Combinatorics
+    - 数学
+    - 动态规划
+    - 组合数学
 ---
 
 <!-- problem:start -->
 
-# [62. Unique Paths](https://leetcode.com/problems/unique-paths)
+# [62. 不同路径](https://leetcode.cn/problems/unique-paths)
 
-## Description
+[English Version](/solution/0000-0099/0062.Unique%20Paths/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a robot on an <code>m x n</code> grid. The robot is initially located at the <strong>top-left corner</strong> (i.e., <code>grid[0][0]</code>). The robot tries to move to the <strong>bottom-right corner</strong> (i.e., <code>grid[m - 1][n - 1]</code>). The robot can only move either down or right at any point in time.</p>
+<p>一个机器人位于一个 <code>m x n</code><em>&nbsp;</em>网格的左上角 （起始点在下图中标记为 “Start” ）。</p>
 
-<p>Given the two integers <code>m</code> and <code>n</code>, return <em>the number of possible unique paths that the robot can take to reach the bottom-right corner</em>.</p>
+<p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。</p>
 
-<p>The test cases are generated so that the answer will be less than or equal to <code>2 * 10<sup>9</sup></code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0062.Unique%20Paths/images/robot_maze.png" style="width: 400px; height: 183px;" />
-<pre>
-<strong>Input:</strong> m = 3, n = 7
-<strong>Output:</strong> 28
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> m = 3, n = 2
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
-1. Right -&gt; Down -&gt; Down
-2. Down -&gt; Down -&gt; Right
-3. Down -&gt; Right -&gt; Down
-</pre>
+<p>问总共有多少条不同的路径？</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0062.Unique%20Paths/images/1697422740-adxmsI-image.png" style="width: 400px; height: 183px;" />
+<pre>
+<strong>输入：</strong>m = 3, n = 7
+<strong>输出：</strong>28</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>m = 3, n = 2
+<strong>输出：</strong>3
+<strong>解释：</strong>
+从左上角开始，总共有 3 条路径可以到达右下角。
+1. 向右 -&gt; 向下 -&gt; 向下
+2. 向下 -&gt; 向下 -&gt; 向右
+3. 向下 -&gt; 向右 -&gt; 向下
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>m = 7, n = 3
+<strong>输出：</strong>28
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>m = 3, n = 3
+<strong>输出：</strong>6</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m, n &lt;= 100</code></li>
+	<li>题目数据保证答案小于等于 <code>2 * 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ to represent the number of paths from the top left corner to $(i, j)$, initially $f[0][0] = 1$, and the answer is $f[m - 1][n - 1]$.
+我们定义 $f[i][j]$ 表示从左上角走到 $(i, j)$ 的路径数量，初始时 $f[0][0] = 1$，答案为 $f[m - 1][n - 1]$。
 
-Consider $f[i][j]$:
+考虑 $f[i][j]$：
 
-- If $i > 0$, then $f[i][j]$ can be reached by taking one step from $f[i - 1][j]$, so $f[i][j] = f[i][j] + f[i - 1][j]$;
-- If $j > 0$, then $f[i][j]$ can be reached by taking one step from $f[i][j - 1]$, so $f[i][j] = f[i][j] + f[i][j - 1]$.
+-   如果 $i \gt 0$，那么 $f[i][j]$ 可以从 $f[i - 1][j]$ 走一步到达，因此 $f[i][j] = f[i][j] + f[i - 1][j]$；
+-   如果 $j \gt 0$，那么 $f[i][j]$ 可以从 $f[i][j - 1]$ 走一步到达，因此 $f[i][j] = f[i][j] + f[i][j - 1]$。
 
-Therefore, we have the following state transition equation:
+因此，我们有如下的状态转移方程：
 
 $$
 f[i][j] = \begin{cases}
@@ -71,11 +90,11 @@ f[i - 1][j] + f[i][j - 1] & \textit{otherwise}
 \end{cases}
 $$
 
-The final answer is $f[m - 1][n - 1]$.
+最终的答案即为 $f[m - 1][n - 1]$。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns of the grid, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
 
-We notice that $f[i][j]$ is only related to $f[i - 1][j]$ and $f[i][j - 1]$, so we can optimize the first dimension space and only keep the second dimension space, resulting in a time complexity of $O(m \times n)$ and a space complexity of $O(n)$.
+我们注意到 $f[i][j]$ 仅与 $f[i - 1][j]$ 和 $f[i][j - 1]$ 有关，因此我们优化掉第一维空间，仅保留第二维空间，得到时间复杂度 $O(m \times n)$，空间复杂度 $O(n)$ 的实现。
 
 <!-- tabs:start -->
 
@@ -167,21 +186,21 @@ func uniquePaths(m int, n int) int {
 
 ```ts
 function uniquePaths(m: number, n: number): number {
-  const f: number[][] = Array(m)
-    .fill(0)
-    .map(() => Array(n).fill(0));
-  f[0][0] = 1;
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (i > 0) {
-        f[i][j] += f[i - 1][j];
-      }
-      if (j > 0) {
-        f[i][j] += f[i][j - 1];
-      }
+    const f: number[][] = Array(m)
+        .fill(0)
+        .map(() => Array(n).fill(0));
+    f[0][0] = 1;
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (i > 0) {
+                f[i][j] += f[i - 1][j];
+            }
+            if (j > 0) {
+                f[i][j] += f[i][j - 1];
+            }
+        }
     }
-  }
-  return f[m - 1][n - 1];
+    return f[m - 1][n - 1];
 }
 ```
 
@@ -211,21 +230,21 @@ impl Solution {
  * @return {number}
  */
 var uniquePaths = function (m, n) {
-  const f = Array(m)
-    .fill(0)
-    .map(() => Array(n).fill(0));
-  f[0][0] = 1;
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (i > 0) {
-        f[i][j] += f[i - 1][j];
-      }
-      if (j > 0) {
-        f[i][j] += f[i][j - 1];
-      }
+    const f = Array(m)
+        .fill(0)
+        .map(() => Array(n).fill(0));
+    f[0][0] = 1;
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (i > 0) {
+                f[i][j] += f[i - 1][j];
+            }
+            if (j > 0) {
+                f[i][j] += f[i][j - 1];
+            }
+        }
     }
-  }
-  return f[m - 1][n - 1];
+    return f[m - 1][n - 1];
 };
 ```
 
@@ -235,7 +254,7 @@ var uniquePaths = function (m, n) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -311,15 +330,15 @@ func uniquePaths(m int, n int) int {
 
 ```ts
 function uniquePaths(m: number, n: number): number {
-  const f: number[][] = Array(m)
-    .fill(0)
-    .map(() => Array(n).fill(1));
-  for (let i = 1; i < m; ++i) {
-    for (let j = 1; j < n; ++j) {
-      f[i][j] = f[i - 1][j] + f[i][j - 1];
+    const f: number[][] = Array(m)
+        .fill(0)
+        .map(() => Array(n).fill(1));
+    for (let i = 1; i < m; ++i) {
+        for (let j = 1; j < n; ++j) {
+            f[i][j] = f[i - 1][j] + f[i][j - 1];
+        }
     }
-  }
-  return f[m - 1][n - 1];
+    return f[m - 1][n - 1];
 }
 ```
 
@@ -332,15 +351,15 @@ function uniquePaths(m: number, n: number): number {
  * @return {number}
  */
 var uniquePaths = function (m, n) {
-  const f = Array(m)
-    .fill(0)
-    .map(() => Array(n).fill(1));
-  for (let i = 1; i < m; ++i) {
-    for (let j = 1; j < n; ++j) {
-      f[i][j] = f[i - 1][j] + f[i][j - 1];
+    const f = Array(m)
+        .fill(0)
+        .map(() => Array(n).fill(1));
+    for (let i = 1; i < m; ++i) {
+        for (let j = 1; j < n; ++j) {
+            f[i][j] = f[i - 1][j] + f[i][j - 1];
+        }
     }
-  }
-  return f[m - 1][n - 1];
+    return f[m - 1][n - 1];
 };
 ```
 
@@ -350,7 +369,7 @@ var uniquePaths = function (m, n) {
 
 <!-- solution:start -->
 
-### Solution 3
+### 方法三
 
 <!-- tabs:start -->
 
@@ -421,13 +440,13 @@ func uniquePaths(m int, n int) int {
 
 ```ts
 function uniquePaths(m: number, n: number): number {
-  const f: number[] = Array(n).fill(1);
-  for (let i = 1; i < m; ++i) {
-    for (let j = 1; j < n; ++j) {
-      f[j] += f[j - 1];
+    const f: number[] = Array(n).fill(1);
+    for (let i = 1; i < m; ++i) {
+        for (let j = 1; j < n; ++j) {
+            f[j] += f[j - 1];
+        }
     }
-  }
-  return f[n - 1];
+    return f[n - 1];
 }
 ```
 
@@ -440,13 +459,13 @@ function uniquePaths(m: number, n: number): number {
  * @return {number}
  */
 var uniquePaths = function (m, n) {
-  const f = Array(n).fill(1);
-  for (let i = 1; i < m; ++i) {
-    for (let j = 1; j < n; ++j) {
-      f[j] += f[j - 1];
+    const f = Array(n).fill(1);
+    for (let i = 1; i < m; ++i) {
+        for (let j = 1; j < n; ++j) {
+            f[j] += f[j - 1];
+        }
     }
-  }
-  return f[n - 1];
+    return f[n - 1];
 };
 ```
 

@@ -1,96 +1,85 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1808.Maximize%20Number%20of%20Nice%20Divisors/README.md
 rating: 2070
-source: Weekly Contest 234 Q4
+source: 第 234 场周赛 Q4
 tags:
-  - Recursion
-  - Math
-  - Number Theory
+    - 递归
+    - 数学
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [1808. Maximize Number of Nice Divisors](https://leetcode.com/problems/maximize-number-of-nice-divisors)
+# [1808. 好因子的最大数目](https://leetcode.cn/problems/maximize-number-of-nice-divisors)
 
-## Description
+[English Version](/solution/1800-1899/1808.Maximize%20Number%20of%20Nice%20Divisors/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a positive integer <code>primeFactors</code>. You are asked to construct a positive integer <code>n</code> that satisfies the following conditions:</p>
+<p>给你一个正整数 <code>primeFactors</code> 。你需要构造一个正整数 <code>n</code> ，它满足以下条件：</p>
 
 <ul>
-
-  <li>The number of prime factors of <code>n</code> (not necessarily distinct) is <strong>at most</strong> <code>primeFactors</code>.</li>
-
-  <li>The number of nice divisors of <code>n</code> is maximized. Note that a divisor of <code>n</code> is <strong>nice</strong> if it is divisible by every prime factor of <code>n</code>. For example, if <code>n = 12</code>, then its prime factors are <code>[2,2,3]</code>, then <code>6</code> and <code>12</code> are nice divisors, while <code>3</code> and <code>4</code> are not.</li>
-
+	<li><code>n</code> 质因数（质因数需要考虑重复的情况）的数目 <strong>不超过 </strong><code>primeFactors</code> 个。</li>
+	<li><code>n</code> 好因子的数目最大化。如果 <code>n</code> 的一个因子可以被 <code>n</code> 的每一个质因数整除，我们称这个因子是 <strong>好因子</strong> 。比方说，如果 <code>n = 12</code> ，那么它的质因数为 <code>[2,2,3]</code> ，那么 <code>6</code> 和 <code>12</code> 是好因子，但 <code>3</code> 和 <code>4</code> 不是。</li>
 </ul>
 
-<p>Return <em>the number of nice divisors of</em> <code>n</code>. Since that number can be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>请你返回 <code>n</code> 的好因子的数目。由于答案可能会很大，请返回答案对 <code>10<sup>9</sup> + 7</code> <b>取余</b> 的结果。</p>
 
-<p>Note that a prime number is a natural number greater than <code>1</code> that is not a product of two smaller natural numbers. The prime factors of a number <code>n</code> is a list of prime numbers such that their product equals <code>n</code>.</p>
+<p>请注意，一个质数的定义是大于 <code>1</code> ，且不能被分解为两个小于该数的自然数相乘。一个数 <code>n</code> 的质因子是将 <code>n</code> 分解为若干个质因子，且它们的乘积为 <code>n</code> 。</p>
 
-<p>&nbsp;</p>
+<p> </p>
 
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-
-<strong>Input:</strong> primeFactors = 5
-
-<strong>Output:</strong> 6
-
-<strong>Explanation:</strong> 200 is a valid value of n.
-
-It has 5 prime factors: [2,2,2,5,5], and it has 6 nice divisors: [10,20,40,50,100,200].
-
-There is not other value of n that has at most 5 prime factors and more nice divisors.
-
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-
-<strong>Input:</strong> primeFactors = 8
-
-<strong>Output:</strong> 18
-
+<b>输入：</b>primeFactors = 5
+<strong>输出：</strong>6
+<b>解释：</b>200 是一个可行的 n 。
+它有 5 个质因子：[2,2,2,5,5] ，且有 6 个好因子：[10,20,40,50,100,200] 。
+不存在别的 n 有至多 5 个质因子，且同时有更多的好因子。
 </pre>
 
-<p>&nbsp;</p>
+<p><strong>示例 2：</strong></p>
 
-<p><strong>Constraints:</strong></p>
+<pre>
+<b>输入：</b>primeFactors = 8
+<b>输出：</b>18
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>1 &lt;= primeFactors &lt;= 10<sup>9</sup></code></li>
-
+	<li><code>1 <= primeFactors <= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Problem Transformation + Fast Power
+### 方法一：问题转换 + 快速幂
 
-We can factorize $n$ into prime factors, i.e., $n = a_1^{k_1} \times a_2^{k_2} \times\cdots \times a_m^{k_m}$, where $a_i$ is a prime factor and $k_i$ is the exponent of the prime factor $a_i$. Since the number of prime factors of $n$ does not exceed `primeFactors`, we have $k_1 + k_2 + \cdots + k_m \leq primeFactors$.
+我们可以将 $n$ 进行质因数分解，即 $n = a_1^{k_1} \times a_2^{k_2} \times\cdots \times a_m^{k_m}$，其中 $a_i$ 为质因子，而 $k_i$ 为质因子 $a_i$ 的指数。由于 $n$ 的质因子个数不超过 $primeFactors$ 个，因此 $k_1 + k_2 + \cdots + k_m \leq primeFactors$。
 
-According to the problem description, we know that a good factor of $n$ must be divisible by all prime factors, which means that a good factor of $n$ needs to include $a_1 \times a_2 \times \cdots \times a_m$ as a factor. Then the number of good factors $k= k_1 \times k_2 \times \cdots \times k_m$, i.e., $k$ is the product of $k_1, k_2, \cdots, k_m$. To maximize the number of good factors, we need to split `primeFactors` into $k_1, k_2, \cdots, k_m$ to make $k_1 \times k_2 \times \cdots \times k_m$ the largest. Therefore, the problem is transformed into: split the integer `primeFactors` into the product of several integers to maximize the product.
+而根据题意描述，我们知道 $n$ 的好因子要满足能被所有的质因子整除，也即是说 $n$ 的好因子需要包含 $a_1 \times a_2 \times \cdots \times a_m$ 作为因数。那么好因子的个数 $k= k_1 \times k_2 \times \cdots \times k_m$，即 $k$ 为 $k_1, k_2, \cdots, k_m$ 的乘积。要最大化好因子的个数，也即是说我们要将 `primeFactors` 拆分成 $k_1, k_2, \cdots, k_m$，使得 $k_1 \times k_2 \times \cdots \times k_m$ 最大。因此问题转换为：将整数 `primeFactors` 拆分成若干个整数的乘积，使得乘积最大。
 
-Next, we just need to discuss different cases.
+接下来，我们只需要分情况讨论。
 
-- If $primeFactors \lt 4$, then directly return `primeFactors`.
-- If $primeFactors$ is a multiple of $3$, then we split `primeFactors` into multiples of $3$, i.e., $3^{\frac{primeFactors}{3}}$.
-- If $primeFactors$ modulo $3$ equals $1$, then we split `primeFactors` into $\frac{primeFactors}{3} - 1$ multiples of $3$, and then multiply by $4$, i.e., $3^{\frac{primeFactors}{3} - 1} \times 4$.
-- If $primeFactors$ modulo $3$ equals $2$, then we split `primeFactors` into $\frac{primeFactors}{3}$ multiples of $3$, and then multiply by $2$, i.e., $3^{\frac{primeFactors}{3}} \times 2$.
+-   如果 $primeFactors \lt 4$，那么直接返回 `primeFactors` 即可。
+-   如果 $primeFactors$ 为 $3$ 的倍数，那么我们将 `primeFactors` 拆分成 $3$ 的倍数个 $3$，即 $3^{\frac{primeFactors}{3}}$。
+-   如果 $primeFactors$ 除以 $3$ 余 $1$，那么我们将 `primeFactors` 拆分成 $\frac{primeFactors}{3} - 1$ 个 $3$，再乘以 $4$，即 $3^{\frac{primeFactors}{3} - 1} \times 4$。
+-   如果 $primeFactors$ 除以 $3$ 余 $2$，那么我们将 `primeFactors` 拆分成 $\frac{primeFactors}{3}$ 个 $3$，再乘以 $2$，即 $3^{\frac{primeFactors}{3}} \times 2$。
 
-In the above process, we use fast power to calculate the modulus.
+以上过程中，我们利用快速幂取模求解。
 
-The time complexity is $O(\log n)$, and the space complexity is $O(1)$.
+时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -208,28 +197,28 @@ func maxNiceDivisors(primeFactors int) int {
  * @return {number}
  */
 var maxNiceDivisors = function (primeFactors) {
-  if (primeFactors < 4) {
-    return primeFactors;
-  }
-  const mod = 1e9 + 7;
-  const qpow = (a, n) => {
-    let ans = 1;
-    for (; n; n >>= 1) {
-      if (n & 1) {
-        ans = Number((BigInt(ans) * BigInt(a)) % BigInt(mod));
-      }
-      a = Number((BigInt(a) * BigInt(a)) % BigInt(mod));
+    if (primeFactors < 4) {
+        return primeFactors;
     }
-    return ans;
-  };
-  const k = Math.floor(primeFactors / 3);
-  if (primeFactors % 3 === 0) {
-    return qpow(3, k);
-  }
-  if (primeFactors % 3 === 1) {
-    return (4 * qpow(3, k - 1)) % mod;
-  }
-  return (2 * qpow(3, k)) % mod;
+    const mod = 1e9 + 7;
+    const qpow = (a, n) => {
+        let ans = 1;
+        for (; n; n >>= 1) {
+            if (n & 1) {
+                ans = Number((BigInt(ans) * BigInt(a)) % BigInt(mod));
+            }
+            a = Number((BigInt(a) * BigInt(a)) % BigInt(mod));
+        }
+        return ans;
+    };
+    const k = Math.floor(primeFactors / 3);
+    if (primeFactors % 3 === 0) {
+        return qpow(3, k);
+    }
+    if (primeFactors % 3 === 1) {
+        return (4 * qpow(3, k - 1)) % mod;
+    }
+    return (2 * qpow(3, k)) % mod;
 };
 ```
 

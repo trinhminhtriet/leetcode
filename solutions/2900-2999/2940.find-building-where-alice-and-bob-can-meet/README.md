@@ -1,66 +1,70 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2940.Find%20Building%20Where%20Alice%20and%20Bob%20Can%20Meet/README.md
 rating: 2327
-source: Weekly Contest 372 Q4
+source: 第 372 场周赛 Q4
 tags:
-  - Stack
-  - Binary Indexed Tree
-  - Segment Tree
-  - Array
-  - Binary Search
-  - Monotonic Stack
-  - Heap (Priority Queue)
+    - 栈
+    - 树状数组
+    - 线段树
+    - 数组
+    - 二分查找
+    - 单调栈
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2940. Find Building Where Alice and Bob Can Meet](https://leetcode.com/problems/find-building-where-alice-and-bob-can-meet)
+# [2940. 找到 Alice 和 Bob 可以相遇的建筑](https://leetcode.cn/problems/find-building-where-alice-and-bob-can-meet)
 
-## Description
+[English Version](/solution/2900-2999/2940.Find%20Building%20Where%20Alice%20and%20Bob%20Can%20Meet/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array <code>heights</code> of positive integers, where <code>heights[i]</code> represents the height of the <code>i<sup>th</sup></code> building.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的正整数数组&nbsp;<code>heights</code>&nbsp;，其中&nbsp;<code>heights[i]</code>&nbsp;表示第 <code>i</code>&nbsp;栋建筑的高度。</p>
 
-<p>If a person is in building <code>i</code>, they can move to any other building <code>j</code> if and only if <code>i &lt; j</code> and <code>heights[i] &lt; heights[j]</code>.</p>
+<p>如果一个人在建筑&nbsp;<code>i</code>&nbsp;，且存在&nbsp;<code>i &lt; j</code>&nbsp;的建筑&nbsp;<code>j</code>&nbsp;满足&nbsp;<code>heights[i] &lt; heights[j]</code>&nbsp;，那么这个人可以移动到建筑&nbsp;<code>j</code>&nbsp;。</p>
 
-<p>You are also given another array <code>queries</code> where <code>queries[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>. On the <code>i<sup>th</sup></code> query, Alice is in building <code>a<sub>i</sub></code> while Bob is in building <code>b<sub>i</sub></code>.</p>
+<p>给你另外一个数组&nbsp;<code>queries</code>&nbsp;，其中&nbsp;<code>queries[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;。第&nbsp;<code>i</code>&nbsp;个查询中，Alice 在建筑&nbsp;<code>a<sub>i</sub></code> ，Bob 在建筑&nbsp;<code>b<sub>i</sub></code><sub>&nbsp;</sub>。</p>
 
-<p>Return <em>an array</em> <code>ans</code> <em>where</em> <code>ans[i]</code> <em>is <strong>the index of the leftmost building</strong> where Alice and Bob can meet on the</em> <code>i<sup>th</sup></code> <em>query</em>. <em>If Alice and Bob cannot move to a common building on query</em> <code>i</code>, <em>set</em> <code>ans[i]</code> <em>to</em> <code>-1</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> heights = [6,4,8,5,2,7], queries = [[0,1],[0,3],[2,4],[3,4],[2,2]]
-<strong>Output:</strong> [2,5,-1,5,2]
-<strong>Explanation:</strong> In the first query, Alice and Bob can move to building 2 since heights[0] &lt; heights[2] and heights[1] &lt; heights[2]. 
-In the second query, Alice and Bob can move to building 5 since heights[0] &lt; heights[5] and heights[3] &lt; heights[5]. 
-In the third query, Alice cannot meet Bob since Alice cannot move to any other building.
-In the fourth query, Alice and Bob can move to building 5 since heights[3] &lt; heights[5] and heights[4] &lt; heights[5].
-In the fifth query, Alice and Bob are already in the same building.  
-For ans[i] != -1, It can be shown that ans[i] is the leftmost building where Alice and Bob can meet.
-For ans[i] == -1, It can be shown that there is no building where Alice and Bob can meet.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> heights = [5,3,8,2,6,1,4,6], queries = [[0,7],[3,5],[5,2],[3,0],[1,6]]
-<strong>Output:</strong> [7,6,-1,4,6]
-<strong>Explanation:</strong> In the first query, Alice can directly move to Bob&#39;s building since heights[0] &lt; heights[7].
-In the second query, Alice and Bob can move to building 6 since heights[3] &lt; heights[6] and heights[5] &lt; heights[6].
-In the third query, Alice cannot meet Bob since Bob cannot move to any other building.
-In the fourth query, Alice and Bob can move to building 4 since heights[3] &lt; heights[4] and heights[0] &lt; heights[4].
-In the fifth query, Alice can directly move to Bob&#39;s building since heights[1] &lt; heights[6].
-For ans[i] != -1, It can be shown that ans[i] is the leftmost building where Alice and Bob can meet.
-For ans[i] == -1, It can be shown that there is no building where Alice and Bob can meet.
-
-</pre>
+<p>请你能返回一个数组&nbsp;<code>ans</code>&nbsp;，其中&nbsp;<code>ans[i]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;个查询中，Alice 和 Bob 可以相遇的&nbsp;<strong>最左边的建筑</strong>&nbsp;。如果对于查询&nbsp;<code>i</code>&nbsp;，Alice<em> </em>和<em> </em>Bob 不能相遇，令&nbsp;<code>ans[i]</code> 为&nbsp;<code>-1</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>heights = [6,4,8,5,2,7], queries = [[0,1],[0,3],[2,4],[3,4],[2,2]]
+<b>输出：</b>[2,5,-1,5,2]
+<b>解释：</b>第一个查询中，Alice 和 Bob 可以移动到建筑 2 ，因为 heights[0] &lt; heights[2] 且 heights[1] &lt; heights[2] 。
+第二个查询中，Alice 和 Bob 可以移动到建筑 5 ，因为 heights[0] &lt; heights[5] 且 heights[3] &lt; heights[5] 。
+第三个查询中，Alice 无法与 Bob 相遇，因为 Alice 不能移动到任何其他建筑。
+第四个查询中，Alice 和 Bob 可以移动到建筑 5 ，因为 heights[3] &lt; heights[5] 且 heights[4] &lt; heights[5] 。
+第五个查询中，Alice 和 Bob 已经在同一栋建筑中。
+对于 ans[i] != -1 ，ans[i] 是 Alice 和 Bob 可以相遇的建筑中最左边建筑的下标。
+对于 ans[i] == -1 ，不存在 Alice 和 Bob 可以相遇的建筑。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>heights = [5,3,8,2,6,1,4,6], queries = [[0,7],[3,5],[5,2],[3,0],[1,6]]
+<b>输出：</b>[7,6,-1,4,6]
+<strong>解释：</strong>第一个查询中，Alice 可以直接移动到 Bob 的建筑，因为 heights[0] &lt; heights[7] 。
+第二个查询中，Alice 和 Bob 可以移动到建筑 6 ，因为 heights[3] &lt; heights[6] 且 heights[5] &lt; heights[6] 。
+第三个查询中，Alice 无法与 Bob 相遇，因为 Bob 不能移动到任何其他建筑。
+第四个查询中，Alice 和 Bob 可以移动到建筑 4 ，因为 heights[3] &lt; heights[4] 且 heights[0] &lt; heights[4] 。
+第五个查询中，Alice 可以直接移动到 Bob 的建筑，因为 heights[1] &lt; heights[6] 。
+对于 ans[i] != -1 ，ans[i] 是 Alice 和 Bob 可以相遇的建筑中最左边建筑的下标。
+对于 ans[i] == -1 ，不存在 Alice 和 Bob 可以相遇的建筑。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= heights.length &lt;= 5 * 10<sup>4</sup></code></li>
@@ -72,23 +76,23 @@ For ans[i] == -1, It can be shown that there is no building where Alice and Bob 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Indexed Tree
+### 方法一：树状数组
 
-Let's denote $queries[i] = [l_i, r_i]$, where $l_i \le r_i$. If $l_i = r_i$ or $heights[l_i] < heights[r_i]$, then the answer is $r_i$. Otherwise, we need to find the smallest $j$ among all $j > r_i$ and $heights[j] > heights[l_i]$.
+我们不妨记 $queries[i] = [l_i, r_i]$，其中 $l_i \le r_i$。如果 $l_i = r_i$ 或者 $heights[l_i] \lt heights[r_i]$，那么答案就是 $r_i$。否则，我们需要在所有满足 $j \gt r_i$，且 $heights[j] \gt heights[l_i]$ 的 $j$ 中找到最小的 $j$。
 
-We can sort $queries$ in descending order of $r_i$, and use a pointer $j$ to point to the current index of $heights$ being traversed.
+我们可以将 $queries$ 按照 $r_i$ 从大到小排序，用一个指针 $j$ 指向当前遍历到的 $heights$ 的下标。
 
-Next, we traverse each query $queries[i] = (l, r)$. For the current query, if $j > r$, then we loop to insert $heights[j]$ into the binary indexed tree. The binary indexed tree maintains the minimum index of the suffix height (after discretization). Then, we judge whether $l = r$ or $heights[l] < heights[r]$. If it is, then the answer to the current query is $r$. Otherwise, we query the minimum index of $heights[l]$ in the binary indexed tree, which is the answer to the current query.
+接下来，我们遍历每个查询 $queries[i] = (l, r)$，对于当前查询，如果 $j \gt r$，那么我们循环将 $heights[j]$ 插入树状数组中。树状数组维护的是后缀高度（离散化后的高度）的下标的最小值。然后，我们判断是否满足 $l = r$ 或者 $heights[l] \lt heights[r]$，如果满足，那么当前查询的答案就是 $r$，否则，我们在树状数组中查询 $heights[l]$ 的下标的最小值，即为当前查询的答案。
 
-The time complexity is $O((n + m) \times \log n + m \times \log m)$, and the space complexity is $O(n + m)$. Where $n$ and $m$ are the lengths of $heights$ and $queries$ respectively.
+时间复杂度 $O((n + m) \times \log n + m \times \log m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别为 $heights$ 和 $queries$ 的长度。
 
-Similar problems:
+相似题目：
 
-- [2736. Maximum Sum Queries](https://github.com/doocs/leetcode/blob/main/solution/2700-2799/2736.Maximum%20Sum%20Queries/README_EN.md)
+-   [2736. 最大和查询](https://github.com/doocs/leetcode/blob/main/solution/2700-2799/2736.Maximum%20Sum%20Queries/README.md)
 
 <!-- tabs:start -->
 
@@ -356,79 +360,76 @@ func leftmostBuildingQueries(heights []int, queries [][]int) []int {
 
 ```ts
 class BinaryIndexedTree {
-  private n: number;
-  private c: number[];
-  private inf: number = 1 << 30;
+    private n: number;
+    private c: number[];
+    private inf: number = 1 << 30;
 
-  constructor(n: number) {
-    this.n = n;
-    this.c = Array(n + 1).fill(this.inf);
-  }
-
-  update(x: number, v: number): void {
-    while (x <= this.n) {
-      this.c[x] = Math.min(this.c[x], v);
-      x += x & -x;
+    constructor(n: number) {
+        this.n = n;
+        this.c = Array(n + 1).fill(this.inf);
     }
-  }
 
-  query(x: number): number {
-    let mi = this.inf;
-    while (x > 0) {
-      mi = Math.min(mi, this.c[x]);
-      x -= x & -x;
+    update(x: number, v: number): void {
+        while (x <= this.n) {
+            this.c[x] = Math.min(this.c[x], v);
+            x += x & -x;
+        }
     }
-    return mi === this.inf ? -1 : mi;
-  }
+
+    query(x: number): number {
+        let mi = this.inf;
+        while (x > 0) {
+            mi = Math.min(mi, this.c[x]);
+            x -= x & -x;
+        }
+        return mi === this.inf ? -1 : mi;
+    }
 }
 
-function leftmostBuildingQueries(
-  heights: number[],
-  queries: number[][]
-): number[] {
-  const n = heights.length;
-  const m = queries.length;
-  for (const q of queries) {
-    if (q[0] > q[1]) {
-      [q[0], q[1]] = [q[1], q[0]];
+function leftmostBuildingQueries(heights: number[], queries: number[][]): number[] {
+    const n = heights.length;
+    const m = queries.length;
+    for (const q of queries) {
+        if (q[0] > q[1]) {
+            [q[0], q[1]] = [q[1], q[0]];
+        }
     }
-  }
-  const idx: number[] = Array(m)
-    .fill(0)
-    .map((_, i) => i);
-  idx.sort((i, j) => queries[j][1] - queries[i][1]);
-  const tree = new BinaryIndexedTree(n);
-  const ans: number[] = Array(m).fill(-1);
-  const s = [...heights];
-  s.sort((a, b) => a - b);
-  const search = (x: number) => {
-    let [l, r] = [0, n];
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (s[mid] >= x) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
+    const idx: number[] = Array(m)
+        .fill(0)
+        .map((_, i) => i);
+    idx.sort((i, j) => queries[j][1] - queries[i][1]);
+    const tree = new BinaryIndexedTree(n);
+    const ans: number[] = Array(m).fill(-1);
+    const s = [...heights];
+    s.sort((a, b) => a - b);
+    const search = (x: number) => {
+        let [l, r] = [0, n];
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (s[mid] >= x) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l;
+    };
+    let j = n - 1;
+    for (const i of idx) {
+        const [l, r] = queries[i];
+        while (j > r) {
+            const k = n - search(heights[j]) + 1;
+            tree.update(k, j);
+            --j;
+        }
+        if (l === r || heights[l] < heights[r]) {
+            ans[i] = r;
+        } else {
+            const k = n - search(heights[l]);
+            ans[i] = tree.query(k);
+        }
     }
-    return l;
-  };
-  let j = n - 1;
-  for (const i of idx) {
-    const [l, r] = queries[i];
-    while (j > r) {
-      const k = n - search(heights[j]) + 1;
-      tree.update(k, j);
-      --j;
-    }
-    if (l === r || heights[l] < heights[r]) {
-      ans[i] = r;
-    } else {
-      const k = n - search(heights[l]);
-      ans[i] = tree.query(k);
-    }
-  }
-  return ans;
+    return ans;
 }
 ```
 

@@ -1,56 +1,75 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0883.Projection%20Area%20of%203D%20Shapes/README.md
 tags:
-  - Geometry
-  - Array
-  - Math
-  - Matrix
+    - 几何
+    - 数组
+    - 数学
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [883. Projection Area of 3D Shapes](https://leetcode.com/problems/projection-area-of-3d-shapes)
+# [883. 三维形体投影面积](https://leetcode.cn/problems/projection-area-of-3d-shapes)
 
-## Description
+[English Version](/solution/0800-0899/0883.Projection%20Area%20of%203D%20Shapes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>n x n</code> <code>grid</code> where we place some <code>1 x 1 x 1</code> cubes that are axis-aligned with the <code>x</code>, <code>y</code>, and <code>z</code> axes.</p>
+<p>在<meta charset="UTF-8" />&nbsp;<code>n x n</code>&nbsp;的网格<meta charset="UTF-8" />&nbsp;<code>grid</code>&nbsp;中，我们放置了一些与 x，y，z 三轴对齐的<meta charset="UTF-8" />&nbsp;<code>1 x 1 x 1</code>&nbsp;立方体。</p>
 
-<p>Each value <code>v = grid[i][j]</code> represents a tower of <code>v</code> cubes placed on top of the cell <code>(i, j)</code>.</p>
+<p>每个值&nbsp;<code>v = grid[i][j]</code>&nbsp;表示 <code>v</code>&nbsp;个正方体叠放在单元格&nbsp;<code>(i, j)</code>&nbsp;上。</p>
 
-<p>We view the projection of these cubes onto the <code>xy</code>, <code>yz</code>, and <code>zx</code> planes.</p>
+<p>现在，我们查看这些立方体在 <code>xy</code>&nbsp;、<code>yz</code>&nbsp;和 <code>zx</code>&nbsp;平面上的<em>投影</em>。</p>
 
-<p>A <strong>projection</strong> is like a shadow, that maps our <strong>3-dimensional</strong> figure to a <strong>2-dimensional</strong> plane. We are viewing the &quot;shadow&quot; when looking at the cubes from the top, the front, and the side.</p>
+<p><strong>投影</strong>&nbsp;就像影子，将 <strong>三维</strong> 形体映射到一个 <strong>二维</strong> 平面上。从顶部、前面和侧面看立方体时，我们会看到“影子”。</p>
 
-<p>Return <em>the total area of all three projections</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0883.Projection%20Area%20of%203D%20Shapes/images/shadow.png" style="width: 800px; height: 214px;" />
-<pre>
-<strong>Input:</strong> grid = [[1,2],[3,4]]
-<strong>Output:</strong> 17
-<strong>Explanation:</strong> Here are the three projections (&quot;shadows&quot;) of the shape made with each axis-aligned plane.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> grid = [[2]]
-<strong>Output:</strong> 5
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> grid = [[1,0],[0,2]]
-<strong>Output:</strong> 8
-</pre>
+<p>返回 <em>所有三个投影的总面积</em> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<ul>
+</ul>
+
+<ul>
+</ul>
+
+<ul>
+</ul>
+
+<ul>
+</ul>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0883.Projection%20Area%20of%203D%20Shapes/images/shadow.png" style="height: 214px; width: 800px;" /></p>
+
+<pre>
+<strong>输入：</strong>[[1,2],[3,4]]
+<strong>输出：</strong>17
+<strong>解释：</strong>这里有该形体在三个轴对齐平面上的三个投影(“阴影部分”)。
+</pre>
+
+<p><strong>示例&nbsp;2:</strong></p>
+
+<pre>
+<strong>输入：</strong>grid = [[2]]
+<strong>输出：</strong>5
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>[[1,0],[0,2]]
+<strong>输出：</strong>8
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == grid.length == grid[i].length</code></li>
@@ -60,21 +79,21 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Mathematics
+### 方法一：数学
 
-We can calculate the area of the three projections separately.
+我们可以分别计算三个投影的面积。
 
-- Projection area on the xy plane: Each non-zero value will be projected onto the xy plane, so the projection area on the xy plane is the count of non-zero values.
-- Projection area on the yz plane: The maximum value in each row.
-- Projection area on the zx plane: The maximum value in each column.
+-   xy 平面的投影面积：每个非零值都会投影到 xy 平面，所以 xy 的投影面积为非零值的个数。
+-   yz 平面的投影面积：每一行的最大值。
+-   zx 平面的投影面积：每一列的最大值。
 
-Finally, add up the three areas.
+最后将三个面积相加即可。
 
-The time complexity is $O(n^2)$, where $n$ is the side length of the grid `grid`. The space complexity is $O(1)$.
+时间复杂度 $O(n^2)$，其中 $n$ 为网格 `grid` 的边长。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -160,12 +179,12 @@ func projectionArea(grid [][]int) int {
 
 ```ts
 function projectionArea(grid: number[][]): number {
-  const xy: number = grid.flat().filter((v) => v > 0).length;
-  const yz: number = grid.reduce((acc, row) => acc + Math.max(...row), 0);
-  const zx: number = grid[0]
-    .map((_, i) => Math.max(...grid.map((row) => row[i])))
-    .reduce((acc, val) => acc + val, 0);
-  return xy + yz + zx;
+    const xy: number = grid.flat().filter(v => v > 0).length;
+    const yz: number = grid.reduce((acc, row) => acc + Math.max(...row), 0);
+    const zx: number = grid[0]
+        .map((_, i) => Math.max(...grid.map(row => row[i])))
+        .reduce((acc, val) => acc + val, 0);
+    return xy + yz + zx;
 }
 ```
 

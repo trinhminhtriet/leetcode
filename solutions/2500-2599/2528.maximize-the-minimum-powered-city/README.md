@@ -1,70 +1,75 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2528.Maximize%20the%20Minimum%20Powered%20City/README.md
 rating: 2235
-source: Biweekly Contest 95 Q4
+source: 第 95 场双周赛 Q4
 tags:
-  - Greedy
-  - Queue
-  - Array
-  - Binary Search
-  - Prefix Sum
-  - Sliding Window
+    - 贪心
+    - 队列
+    - 数组
+    - 二分查找
+    - 前缀和
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2528. Maximize the Minimum Powered City](https://leetcode.com/problems/maximize-the-minimum-powered-city)
+# [2528. 最大化城市的最小电量](https://leetcode.cn/problems/maximize-the-minimum-powered-city)
 
-## Description
+[English Version](/solution/2500-2599/2528.Maximize%20the%20Minimum%20Powered%20City/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>stations</code> of length <code>n</code>, where <code>stations[i]</code> represents the number of power stations in the <code>i<sup>th</sup></code> city.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>stations</code>&nbsp;，其中&nbsp;<code>stations[i]</code>&nbsp;表示第 <code>i</code>&nbsp;座城市的供电站数目。</p>
 
-<p>Each power station can provide power to every city in a fixed <strong>range</strong>. In other words, if the range is denoted by <code>r</code>, then a power station at city <code>i</code> can provide power to all cities <code>j</code> such that <code>|i - j| &lt;= r</code> and <code>0 &lt;= i, j &lt;= n - 1</code>.</p>
+<p>每个供电站可以在一定 <strong>范围</strong>&nbsp;内给所有城市提供电力。换句话说，如果给定的范围是&nbsp;<code>r</code>&nbsp;，在城市&nbsp;<code>i</code>&nbsp;处的供电站可以给所有满足&nbsp;<code>|i - j| &lt;= r</code> 且&nbsp;<code>0 &lt;= i, j &lt;= n - 1</code>&nbsp;的城市&nbsp;<code>j</code>&nbsp;供电。</p>
 
 <ul>
-	<li>Note that <code>|x|</code> denotes <strong>absolute</strong> value. For example, <code>|7 - 5| = 2</code> and <code>|3 - 10| = 7</code>.</li>
+	<li><code>|x|</code>&nbsp;表示 <code>x</code>&nbsp;的 <strong>绝对值</strong>&nbsp;。比方说，<code>|7 - 5| = 2</code>&nbsp;，<code>|3 - 10| = 7</code>&nbsp;。</li>
 </ul>
 
-<p>The <strong>power</strong> of a city is the total number of power stations it is being provided power from.</p>
+<p>一座城市的 <strong>电量</strong>&nbsp;是所有能给它供电的供电站数目。</p>
 
-<p>The government has sanctioned building <code>k</code> more power stations, each of which can be built in any city, and have the same range as the pre-existing ones.</p>
+<p>政府批准了可以额外建造 <code>k</code>&nbsp;座供电站，你需要决定这些供电站分别应该建在哪里，这些供电站与已经存在的供电站有相同的供电范围。</p>
 
-<p>Given the two integers <code>r</code> and <code>k</code>, return <em>the <strong>maximum possible minimum power</strong> of a city, if the additional power stations are built optimally.</em></p>
+<p>给你两个整数&nbsp;<code>r</code> 和&nbsp;<code>k</code>&nbsp;，如果以最优策略建造额外的发电站，返回所有城市中，最小电量的最大值是多少。</p>
 
-<p><strong>Note</strong> that you can build the <code>k</code> power stations in multiple cities.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> stations = [1,2,4,5,0], r = 1, k = 2
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> 
-One of the optimal ways is to install both the power stations at city 1. 
-So stations will become [1,4,4,5,0].
-- City 0 is provided by 1 + 4 = 5 power stations.
-- City 1 is provided by 1 + 4 + 4 = 9 power stations.
-- City 2 is provided by 4 + 4 + 5 = 13 power stations.
-- City 3 is provided by 5 + 4 = 9 power stations.
-- City 4 is provided by 5 + 0 = 5 power stations.
-So the minimum power of a city is 5.
-Since it is not possible to obtain a larger power, we return 5.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> stations = [4,4,4,4], r = 0, k = 3
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> 
-It can be proved that we cannot make the minimum power of a city greater than 4.
-</pre>
+<p>这 <code>k</code>&nbsp;座供电站可以建在多个城市。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>stations = [1,2,4,5,0], r = 1, k = 2
+<b>输出：</b>5
+<b>解释：</b>
+最优方案之一是把 2 座供电站都建在城市 1 。
+每座城市的供电站数目分别为 [1,4,4,5,0] 。
+- 城市 0 的供电站数目为 1 + 4 = 5 。
+- 城市 1 的供电站数目为 1 + 4 + 4 = 9 。
+- 城市 2 的供电站数目为 4 + 4 + 5 = 13 。
+- 城市 3 的供电站数目为 5 + 4 = 9 。
+- 城市 4 的供电站数目为 5 + 0 = 5 。
+供电站数目最少是 5 。
+无法得到更优解，所以我们返回 5 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>stations = [4,4,4,4], r = 0, k = 3
+<b>输出：</b>4
+<b>解释：</b>
+无论如何安排，总有一座城市的供电站数目是 4 ，所以最优解是 4 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == stations.length</code></li>
@@ -76,23 +81,23 @@ It can be proved that we cannot make the minimum power of a city greater than 4.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search + Difference Array + Greedy
+### 方法一：二分查找 + 差分数组 + 贪心
 
-According to the problem description, the minimum number of power stations increases as the value of $k$ increases. Therefore, we can use binary search to find the largest minimum number of power stations, ensuring that the additional power stations needed do not exceed $k$.
+根据题目描述，最小供电站数目随着 $k$ 值的增大而增大，因此，我们可以用二分查找，找到一个最大的最小供电站数目，并且需要额外建造的供电站不超过 $k$ 座。
 
-First, we use a difference array and prefix sum to calculate the initial number of power stations in each city, recording it in the array $s$, where $s[i]$ represents the number of power stations in the $i$-th city.
+我们先利用差分数组以及前缀和算出初始时每座城市的供电站数目，记录在数组 $s$ 中，其中 $s[i]$ 表示第 $i$ 座城市的供电站数目。
 
-Next, we define the left boundary of the binary search as $0$ and the right boundary as $2^{40}$. Then, we implement a function $check(x, k)$ to determine whether the minimum number of power stations in the cities can be $x$, ensuring that the additional power stations needed do not exceed $k$.
+接下来，我们定义二分查找的左边界为 $0$，右边界为 $2^{40}$。然后实现一个 $check(x, k)$ 函数，用于判断是否城市供电站数目的最小值是否可以为 $x$，使得额外建造的供电站不超过 $k$ 座。
 
-The implementation logic of the function $check(x, k)$ is as follows:
+函数 $check(x, k)$ 的实现逻辑是：
 
-Traverse each city. If the number of power stations in the current city $i$ is less than $x$, we can greedily build a power station at the rightmost possible position, $j = \min(i + r, n - 1)$, to cover as many cities as possible. During this process, we can use the difference array to add a certain value to a continuous segment. If the number of additional power stations needed exceeds $k$, then $x$ does not meet the condition, and we return `false`. Otherwise, after the traversal, return `true`.
+遍历每座城市，如果当前城市 $i$ 的供电站数目小于 $x$，此时我们可以贪心地在尽可能右边的位置上建造供电站，位置 $j = \min(i + r, n - 1)$，这样可以使得供电站覆盖尽可能多的城市。过程中我们可以借助差分数组，给一段连续的位置加上某个值。如果需要额外建造的供电站数量超过 $k$，那么 $x$ 不满足条件，返回 `false`。否则遍历结束后，返回 `true`。
 
-The time complexity is $O(n \times \log M)$, and the space complexity is $O(n)$. Here, $n$ is the number of cities, and $M$ is fixed at $2^{40}$.
+时间复杂度 $O(n \times \log M)$，空间复杂度 $O(n)$。其中 $n$ 为城市数量，而 $M$ 我们固定取 $2^{40}$。
 
 <!-- tabs:start -->
 
@@ -297,54 +302,54 @@ func maxPower(stations []int, r int, k int) int64 {
 
 ```ts
 function maxPower(stations: number[], r: number, k: number): number {
-  function check(x: bigint, k: bigint): boolean {
-    d.fill(0n);
-    let t = 0n;
-    for (let i = 0; i < n; ++i) {
-      t += d[i];
-      const dist = x - (s[i] + t);
-      if (dist > 0) {
-        if (k < dist) {
-          return false;
+    function check(x: bigint, k: bigint): boolean {
+        d.fill(0n);
+        let t = 0n;
+        for (let i = 0; i < n; ++i) {
+            t += d[i];
+            const dist = x - (s[i] + t);
+            if (dist > 0) {
+                if (k < dist) {
+                    return false;
+                }
+                k -= dist;
+                const j = Math.min(i + r, n - 1);
+                const left = Math.max(0, j - r);
+                const right = Math.min(j + r, n - 1);
+                d[left] += dist;
+                d[right + 1] -= dist;
+                t += dist;
+            }
         }
-        k -= dist;
-        const j = Math.min(i + r, n - 1);
-        const left = Math.max(0, j - r);
-        const right = Math.min(j + r, n - 1);
-        d[left] += dist;
-        d[right + 1] -= dist;
-        t += dist;
-      }
+        return true;
     }
-    return true;
-  }
-  const n = stations.length;
-  const d: bigint[] = new Array(n + 1).fill(0n);
-  const s: bigint[] = new Array(n + 1).fill(0n);
+    const n = stations.length;
+    const d: bigint[] = new Array(n + 1).fill(0n);
+    const s: bigint[] = new Array(n + 1).fill(0n);
 
-  for (let i = 0; i < n; ++i) {
-    const left = Math.max(0, i - r);
-    const right = Math.min(i + r, n - 1);
-    d[left] += BigInt(stations[i]);
-    d[right + 1] -= BigInt(stations[i]);
-  }
-
-  s[0] = d[0];
-  for (let i = 1; i < n + 1; ++i) {
-    s[i] = s[i - 1] + d[i];
-  }
-
-  let left = 0n,
-    right = 1n << 40n;
-  while (left < right) {
-    const mid = (left + right + 1n) >> 1n;
-    if (check(mid, BigInt(k))) {
-      left = mid;
-    } else {
-      right = mid - 1n;
+    for (let i = 0; i < n; ++i) {
+        const left = Math.max(0, i - r);
+        const right = Math.min(i + r, n - 1);
+        d[left] += BigInt(stations[i]);
+        d[right + 1] -= BigInt(stations[i]);
     }
-  }
-  return Number(left);
+
+    s[0] = d[0];
+    for (let i = 1; i < n + 1; ++i) {
+        s[i] = s[i - 1] + d[i];
+    }
+
+    let left = 0n,
+        right = 1n << 40n;
+    while (left < right) {
+        const mid = (left + right + 1n) >> 1n;
+        if (check(mid, BigInt(k))) {
+            left = mid;
+        } else {
+            right = mid - 1n;
+        }
+    }
+    return Number(left);
 }
 ```
 

@@ -1,90 +1,96 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2744.Find%20Maximum%20Number%20of%20String%20Pairs/README.md
 rating: 1405
-source: Biweekly Contest 107 Q1
+source: 第 107 场双周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - String
-  - Simulation
+    - 数组
+    - 哈希表
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2744. Find Maximum Number of String Pairs](https://leetcode.com/problems/find-maximum-number-of-string-pairs)
+# [2744. 最大字符串配对数目](https://leetcode.cn/problems/find-maximum-number-of-string-pairs)
 
-## Description
+[English Version](/solution/2700-2799/2744.Find%20Maximum%20Number%20of%20String%20Pairs/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array <code>words</code> consisting of <strong>distinct</strong> strings.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的数组&nbsp;<code>words</code>&nbsp;，数组中包含 <strong>互不相同</strong>&nbsp;的字符串。</p>
 
-<p>The string <code>words[i]</code> can be paired with the string <code>words[j]</code> if:</p>
+<p>如果字符串&nbsp;<code>words[i]</code>&nbsp;与字符串 <code>words[j]</code>&nbsp;满足以下条件，我们称它们可以匹配：</p>
 
 <ul>
-	<li>The string <code>words[i]</code> is equal to the reversed string of <code>words[j]</code>.</li>
-	<li><code>0 &lt;= i &lt; j &lt; words.length</code>.</li>
+	<li>字符串&nbsp;<code>words[i]</code>&nbsp;等于&nbsp;<code>words[j]</code>&nbsp;的反转字符串。</li>
+	<li><code>0 &lt;= i &lt; j &lt; words.length</code></li>
 </ul>
 
-<p>Return <em>the <strong>maximum</strong> number of pairs that can be formed from the array </em><code>words</code><em>.</em></p>
+<p>请你返回数组 <code>words</code>&nbsp;中的&nbsp;<strong>最大</strong>&nbsp;匹配数目。</p>
 
-<p>Note that&nbsp;each string can belong in&nbsp;<strong>at most one</strong> pair.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;cd&quot;,&quot;ac&quot;,&quot;dc&quot;,&quot;ca&quot;,&quot;zz&quot;]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> In this example, we can form 2 pair of strings in the following way:
-- We pair the 0<sup>th</sup> string with the 2<sup>nd</sup> string, as the reversed string of word[0] is &quot;dc&quot; and is equal to words[2].
-- We pair the 1<sup>st</sup> string with the 3<sup>rd</sup> string, as the reversed string of word[1] is &quot;ca&quot; and is equal to words[3].
-It can be proven that 2 is the maximum number of pairs that can be formed.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;ab&quot;,&quot;ba&quot;,&quot;cc&quot;]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> In this example, we can form 1 pair of strings in the following way:
-- We pair the 0<sup>th</sup> string with the 1<sup>st</sup> string, as the reversed string of words[1] is &quot;ab&quot; and is equal to words[0].
-It can be proven that 1 is the maximum number of pairs that can be formed.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;aa&quot;,&quot;ab&quot;]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> In this example, we are unable to form any pair of strings.
-</pre>
+<p>注意，每个字符串最多匹配一次。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>words = ["cd","ac","dc","ca","zz"]
+<b>输出：</b>2
+<strong>解释：</strong>在此示例中，我们可以通过以下方式匹配 2 对字符串：
+- 我们将第 0 个字符串与第 2 个字符串匹配，因为 word[0] 的反转字符串是 "dc" 并且等于 words[2]。
+- 我们将第 1 个字符串与第 3 个字符串匹配，因为 word[1] 的反转字符串是 "ca" 并且等于 words[3]。
+可以证明最多匹配数目是 2 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>words = ["ab","ba","cc"]
+<b>输出：</b>1
+<b>解释：</b>在此示例中，我们可以通过以下方式匹配 1 对字符串：
+- 我们将第 0 个字符串与第 1 个字符串匹配，因为 words[1] 的反转字符串 "ab" 与 words[0] 相等。
+可以证明最多匹配数目是 1 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>words = ["aa","ab"]
+<b>输出：</b>0
+<strong>解释：</strong>这个例子中，无法匹配任何字符串。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 50</code></li>
 	<li><code>words[i].length == 2</code></li>
-	<li><code>words</code>&nbsp;consists of distinct strings.</li>
-	<li><code>words[i]</code>&nbsp;contains only lowercase English letters.</li>
+	<li><code>words</code>&nbsp;包含的字符串互不相同。</li>
+	<li><code>words[i]</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We can use a hash table $cnt$ to store the number of occurrences of each reversed string in the array $words$.
+我们可以用哈希表 $cnt$ 来存储数组 $words$ 中每个字符串的反转字符串出现的次数。
 
-We iterate through the array $words$. For each string $w$, we add the number of occurrences of its reversed string to the answer, then increment the count of $w$ by $1$.
+遍历数组 $words$，对于每个字符串 $w$，我们将其反转字符串 $w$ 的出现次数加到答案中，然后将 $w$ 的出现次数加 $1$。
 
-Finally, we return the answer.
+最后返回答案。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $words$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $words$ 的长度。
 
 <!-- tabs:start -->
 
@@ -154,14 +160,14 @@ func maximumNumberOfStringPairs(words []string) (ans int) {
 
 ```ts
 function maximumNumberOfStringPairs(words: string[]): number {
-  const cnt: { [key: number]: number } = {};
-  let ans = 0;
-  for (const w of words) {
-    const [a, b] = [w.charCodeAt(0) - 97, w.charCodeAt(w.length - 1) - 97];
-    ans += cnt[(b << 5) | a] || 0;
-    cnt[(a << 5) | b] = (cnt[(a << 5) | b] || 0) + 1;
-  }
-  return ans;
+    const cnt: { [key: number]: number } = {};
+    let ans = 0;
+    for (const w of words) {
+        const [a, b] = [w.charCodeAt(0) - 97, w.charCodeAt(w.length - 1) - 97];
+        ans += cnt[(b << 5) | a] || 0;
+        cnt[(a << 5) | b] = (cnt[(a << 5) | b] || 0) + 1;
+    }
+    return ans;
 }
 ```
 

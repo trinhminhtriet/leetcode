@@ -1,88 +1,93 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2788.Split%20Strings%20by%20Separator/README.md
 rating: 1239
-source: Weekly Contest 355 Q1
+source: 第 355 场周赛 Q1
 tags:
-  - Array
-  - String
+    - 数组
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2788. Split Strings by Separator](https://leetcode.com/problems/split-strings-by-separator)
+# [2788. 按分隔符拆分字符串](https://leetcode.cn/problems/split-strings-by-separator)
 
-## Description
+[English Version](/solution/2700-2799/2788.Split%20Strings%20by%20Separator/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of strings <code>words</code> and a character <code>separator</code>, <strong>split</strong> each string in <code>words</code> by <code>separator</code>.</p>
+<p>给你一个字符串数组 <code>words</code> 和一个字符 <code>separator</code> ，请你按 <code>separator</code> 拆分 <code>words</code> 中的每个字符串。</p>
 
-<p>Return <em>an array of strings containing the new strings formed after the splits, <strong>excluding empty strings</strong>.</em></p>
+<p>返回一个由拆分后的新字符串组成的字符串数组，<strong>不包括空字符串</strong> 。</p>
 
-<p><strong>Notes</strong></p>
+<p><strong>注意</strong></p>
 
 <ul>
-	<li><code>separator</code> is used to determine where the split should occur, but it is not included as part of the resulting strings.</li>
-	<li>A split may result in more than two strings.</li>
-	<li>The resulting strings must maintain the same order as they were initially given.</li>
+	<li><code>separator</code> 用于决定拆分发生的位置，但它不包含在结果字符串中。</li>
+	<li>拆分可能形成两个以上的字符串。</li>
+	<li>结果字符串必须保持初始相同的先后顺序。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> words = [&quot;one.two.three&quot;,&quot;four.five&quot;,&quot;six&quot;], separator = &quot;.&quot;
-<strong>Output:</strong> [&quot;one&quot;,&quot;two&quot;,&quot;three&quot;,&quot;four&quot;,&quot;five&quot;,&quot;six&quot;]
-<strong>Explanation: </strong>In this example we split as follows:
+<strong>输入：</strong>words = ["one.two.three","four.five","six"], separator = "."
+<strong>输出：</strong>["one","two","three","four","five","six"]
+<strong>解释：</strong>在本示例中，我们进行下述拆分：
 
-&quot;one.two.three&quot; splits into &quot;one&quot;, &quot;two&quot;, &quot;three&quot;
-&quot;four.five&quot; splits into &quot;four&quot;, &quot;five&quot;
-&quot;six&quot; splits into &quot;six&quot; 
+"one.two.three" 拆分为 "one", "two", "three"
+"four.five" 拆分为 "four", "five"
+"six" 拆分为 "six" 
 
-Hence, the resulting array is [&quot;one&quot;,&quot;two&quot;,&quot;three&quot;,&quot;four&quot;,&quot;five&quot;,&quot;six&quot;].</pre>
+因此，结果数组为 ["one","two","three","four","five","six"] 。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> words = [&quot;$easy$&quot;,&quot;$problem$&quot;], separator = &quot;$&quot;
-<strong>Output:</strong> [&quot;easy&quot;,&quot;problem&quot;]
-<strong>Explanation:</strong> In this example we split as follows: 
+<strong>输入：</strong>words = ["$easy$","$problem$"], separator = "$"
+<strong>输出：</strong>["easy","problem"]
+<strong>解释：</strong>在本示例中，我们进行下述拆分：
 
-&quot;$easy$&quot; splits into &quot;easy&quot; (excluding empty strings)
-&quot;$problem$&quot; splits into &quot;problem&quot; (excluding empty strings)
+"$easy$" 拆分为 "easy"（不包括空字符串）
+"$problem$" 拆分为 "problem"（不包括空字符串）
 
-Hence, the resulting array is [&quot;easy&quot;,&quot;problem&quot;].
+因此，结果数组为 ["easy","problem"] 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> words = [&quot;|||&quot;], separator = &quot;|&quot;
-<strong>Output:</strong> []
-<strong>Explanation:</strong> In this example the resulting split of &quot;|||&quot; will contain only empty strings, so we return an empty array []. </pre>
+<strong>输入：</strong>words = ["|||"], separator = "|"
+<strong>输出：</strong>[]
+<strong>解释：</strong>在本示例中，"|||" 的拆分结果将只包含一些空字符串，所以我们返回一个空数组 [] 。 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 20</code></li>
-	<li>characters in <code>words[i]</code> are either lowercase English letters or characters from the string <code>&quot;.,|$#@&quot;</code> (excluding the quotes)</li>
-	<li><code>separator</code> is a character from the string <code>&quot;.,|$#@&quot;</code> (excluding the quotes)</li>
+	<li><code>words[i]</code> 中的字符要么是小写英文字母，要么就是字符串 <code>".,|$#@"</code> 中的字符（不包括引号）</li>
+	<li><code>separator</code> 是字符串 <code>".,|$#@"</code> 中的某个字符（不包括引号）</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We traverse the string array $words$. For each string $w$, we use `separator` as the delimiter to split it. If the split string is not empty, we add it to the answer array.
+我们遍历字符串数组 $words$，对于每个字符串 $w$，我们使用 `separator` 作为分隔符进行拆分，如果拆分后的字符串不为空，则将其加入答案数组。
 
-The time complexity is $O(n \times m)$, and the space complexity is $O(m)$, where $n$ is the length of the string array $words$, and $m$ is the maximum length of the strings in the array $words$.
+时间复杂度 $O(n \times m)$，空间复杂度 $O(m)$，其中 $n$ 是字符串数组 $words$ 的长度，而 $m$ 是字符串数组 $words$ 中字符串的最大长度。
 
 <!-- tabs:start -->
 
@@ -154,7 +159,7 @@ func splitWordsBySeparator(words []string, separator byte) (ans []string) {
 
 ```ts
 function splitWordsBySeparator(words: string[], separator: string): string[] {
-  return words.flatMap((w) => w.split(separator).filter((s) => s.length > 0));
+    return words.flatMap(w => w.split(separator).filter(s => s.length > 0));
 }
 ```
 

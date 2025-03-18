@@ -1,60 +1,65 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0757.Set%20Intersection%20Size%20At%20Least%20Two/README.md
 tags:
-  - Greedy
-  - Array
-  - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [757. Set Intersection Size At Least Two](https://leetcode.com/problems/set-intersection-size-at-least-two)
+# [757. 设置交集大小至少为2](https://leetcode.cn/problems/set-intersection-size-at-least-two)
 
-## Description
+[English Version](/solution/0700-0799/0757.Set%20Intersection%20Size%20At%20Least%20Two/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D integer array <code>intervals</code> where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> represents all the integers from <code>start<sub>i</sub></code> to <code>end<sub>i</sub></code> inclusively.</p>
+<p>给你一个二维整数数组 <code>intervals</code> ，其中 <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> 表示从 <code>start<sub>i</sub></code> 到 <code>end<sub>i</sub></code> 的所有整数，包括 <code>start<sub>i</sub></code> 和 <code>end<sub>i</sub></code> 。</p>
 
-<p>A <strong>containing set</strong> is an array <code>nums</code> where each interval from <code>intervals</code> has <strong>at least two</strong> integers in <code>nums</code>.</p>
+<p><strong>包含集合</strong> 是一个名为 <code>nums</code> 的数组，并满足 <code>intervals</code> 中的每个区间都 <strong>至少</strong> 有 <strong>两个</strong> 整数在 <code>nums</code> 中。</p>
 
 <ul>
-	<li>For example, if <code>intervals = [[1,3], [3,7], [8,9]]</code>, then <code>[1,2,4,7,8,9]</code> and <code>[2,3,4,8,9]</code> are <strong>containing sets</strong>.</li>
+	<li>例如，如果 <code>intervals = [[1,3], [3,7], [8,9]]</code> ，那么 <code>[1,2,4,7,8,9]</code> 和 <code>[2,3,4,8,9]</code> 都符合 <strong>包含集合</strong> 的定义。</li>
 </ul>
 
-<p>Return <em>the minimum possible size of a containing set</em>.</p>
+<p>返回包含集合可能的最小大小。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> intervals = [[1,3],[3,7],[8,9]]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> let nums = [2, 3, 4, 8, 9].
-It can be shown that there cannot be any containing array of size 4.
+<strong>输入：</strong>intervals = [[1,3],[3,7],[8,9]]
+<strong>输出：</strong>5
+<strong>解释：</strong>nums = [2, 3, 4, 8, 9].
+可以证明不存在元素数量为 4 的包含集合。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> intervals = [[1,3],[1,4],[2,5],[3,5]]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> let nums = [2, 3, 4].
-It can be shown that there cannot be any containing array of size 2.
+<strong>输入：</strong>intervals = [[1,3],[1,4],[2,5],[3,5]]
+<strong>输出：</strong>3
+<strong>解释：</strong>nums = [2, 3, 4].
+可以证明不存在元素数量为 2 的包含集合。 
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> intervals = [[1,2],[2,3],[2,4],[4,5]]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> let nums = [1, 2, 3, 4, 5].
-It can be shown that there cannot be any containing array of size 4.
+<strong>输入：</strong>intervals = [[1,2],[2,3],[2,4],[4,5]]
+<strong>输出：</strong>5
+<strong>解释：</strong>nums = [1, 2, 3, 4, 5].
+可以证明不存在元素数量为 4 的包含集合。 
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= intervals.length &lt;= 3000</code></li>
@@ -64,11 +69,15 @@ It can be shown that there cannot be any containing array of size 4.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：排序 + 贪心
+
+相似题目：
+
+-   [452. 用最少数量的箭引爆气球](https://github.com/doocs/leetcode/blob/main/solution/0400-0499/0452.Minimum%20Number%20of%20Arrows%20to%20Burst%20Balloons/README.md)
 
 <!-- tabs:start -->
 

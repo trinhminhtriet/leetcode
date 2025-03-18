@@ -1,71 +1,95 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1573.Number%20of%20Ways%20to%20Split%20a%20String/README.md
 rating: 1590
-source: Biweekly Contest 34 Q2
+source: 第 34 场双周赛 Q2
 tags:
-  - Math
-  - String
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1573. Number of Ways to Split a String](https://leetcode.com/problems/number-of-ways-to-split-a-string)
+# [1573. 分割字符串的方案数](https://leetcode.cn/problems/number-of-ways-to-split-a-string)
 
-## Description
+[English Version](/solution/1500-1599/1573.Number%20of%20Ways%20to%20Split%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary string <code>s</code>, you can split <code>s</code> into 3 <strong>non-empty</strong> strings <code>s1</code>, <code>s2</code>, and <code>s3</code> where <code>s1 + s2 + s3 = s</code>.</p>
+<p>给你一个二进制串&nbsp;<code>s</code>&nbsp; （一个只包含 0 和 1 的字符串），我们可以将 <code>s</code>&nbsp;分割成 3 个 <strong>非空</strong>&nbsp;字符串 s1, s2, s3 （s1 + s2 + s3 = s）。</p>
 
-<p>Return the number of ways <code>s</code> can be split such that the number of ones is the same in <code>s1</code>, <code>s2</code>, and <code>s3</code>. Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>请你返回分割&nbsp;<code>s</code>&nbsp;的方案数，满足 s1，s2 和 s3 中字符 &#39;1&#39; 的数目相同。</p>
+
+<p>由于答案可能很大，请将它对 10^9 + 7 取余后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;10101&quot;
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> There are four ways to split s in 3 parts where each part contain the same number of letters &#39;1&#39;.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>s = &quot;10101&quot;
+<strong>输出：</strong>4
+<strong>解释：</strong>总共有 4 种方法将 s 分割成含有 &#39;1&#39; 数目相同的三个子字符串。
 &quot;1|010|1&quot;
 &quot;1|01|01&quot;
 &quot;10|10|1&quot;
 &quot;10|1|01&quot;
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;1001&quot;
-<strong>Output:</strong> 0
+<pre><strong>输入：</strong>s = &quot;1001&quot;
+<strong>输出：</strong>0
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;0000&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> There are three ways to split s in 3 parts.
+<pre><strong>输入：</strong>s = &quot;0000&quot;
+<strong>输出：</strong>3
+<strong>解释：</strong>总共有 3 种分割 s 的方法。
 &quot;0|0|00&quot;
 &quot;0|00|0&quot;
 &quot;00|0|0&quot;
 </pre>
 
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>s = &quot;100100010100110&quot;
+<strong>输出：</strong>12
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>3 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>s[i] == &#39;0&#39;</code>&nbsp;或者&nbsp;<code>s[i] == &#39;1&#39;</code></li>
+	<li><code>3 &lt;= s.length &lt;= 10^5</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：计数
+
+我们先遍历字符串 $s$，统计其中字符 $1$ 的个数 $cnt$，如果 $cnt$ 不能被 $3$ 整除，那么无法分割，直接返回 $0$。如果 $cnt$ 为 $0$，说明字符串中没有字符 $1$，我们可以在 $n-1$ 个位置中任意选择两个位置，将字符串分割成三个子串，那么方案数就是 $C_{n-1}^2$。
+
+如果 $cnt \gt 0$，我们将 $cnt$ 更新为 $\frac{cnt}{3}$，即每个子串中字符 $1$ 的个数。
+
+接下来我们找到第一个子字符串的右边界的最小下标，记为 $i_1$，第一个子字符串的右边界的最大下标（不包含），记为 $i_2$；第二个子字符串的右边界的最小下标，记为 $j_1$，第二个子字符串的右边界的最大下标（不包含），记为 $j_2$。那么方案数就是 $(i_2-i_1) \times (j_2-j_1)$。
+
+注意答案可能很大，需要对 $10^9+7$ 取模。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
+
+相似题目：
+
+-   [927. 三等分](https://github.com/doocs/leetcode/blob/main/solution/0900-0999/0927.Three%20Equal%20Parts/README.md)
 
 <!-- tabs:start -->
 

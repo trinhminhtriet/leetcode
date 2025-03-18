@@ -1,115 +1,117 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1665.Minimum%20Initial%20Energy%20to%20Finish%20Tasks/README.md
 rating: 1900
-source: Weekly Contest 216 Q4
+source: 第 216 场周赛 Q4
 tags:
-  - Greedy
-  - Array
-  - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1665. Minimum Initial Energy to Finish Tasks](https://leetcode.com/problems/minimum-initial-energy-to-finish-tasks)
+# [1665. 完成所有任务的最少初始能量](https://leetcode.cn/problems/minimum-initial-energy-to-finish-tasks)
 
-## Description
+[English Version](/solution/1600-1699/1665.Minimum%20Initial%20Energy%20to%20Finish%20Tasks/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>tasks</code> where <code>tasks[i] = [actual<sub>i</sub>, minimum<sub>i</sub>]</code>:</p>
+<p>给你一个任务数组 <code>tasks</code> ，其中 <code>tasks[i] = [actual<sub>i</sub>, minimum<sub>i</sub>]</code> ：</p>
 
 <ul>
-	<li><code>actual<sub>i</sub></code> is the actual amount of energy you <strong>spend to finish</strong> the <code>i<sup>th</sup></code> task.</li>
-	<li><code>minimum<sub>i</sub></code> is the minimum amount of energy you <strong>require to begin</strong> the <code>i<sup>th</sup></code> task.</li>
+	<li><code>actual<sub>i</sub></code> 是完成第 <code>i</code> 个任务 <strong>需要耗费</strong> 的实际能量。</li>
+	<li><code>minimum<sub>i</sub></code> 是开始第 <code>i</code> 个任务前需要达到的最低能量。</li>
 </ul>
 
-<p>For example, if the task is <code>[10, 12]</code> and your current energy is <code>11</code>, you cannot start this task. However, if your current energy is <code>13</code>, you can complete this task, and your energy will be <code>3</code> after finishing it.</p>
+<p>比方说，如果任务为 <code>[10, 12]</code> 且你当前的能量为 <code>11</code> ，那么你不能开始这个任务。如果你当前的能量为 <code>13</code> ，你可以完成这个任务，且完成它后剩余能量为 <code>3</code> 。</p>
 
-<p>You can finish the tasks in <strong>any order</strong> you like.</p>
+<p>你可以按照 <strong>任意顺序</strong> 完成任务。</p>
 
-<p>Return <em>the <strong>minimum</strong> initial amount of energy you will need</em> <em>to finish all the tasks</em>.</p>
+<p>请你返回完成所有任务的 <strong>最少</strong> 初始能量。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> tasks = [[1,2],[2,4],[4,8]]
-<strong>Output:</strong> 8
-<strong>Explanation:</strong>
-Starting with 8 energy, we finish the tasks in the following order:
-    - 3rd task. Now energy = 8 - 4 = 4.
-    - 2nd task. Now energy = 4 - 2 = 2.
-    - 1st task. Now energy = 2 - 1 = 1.
-Notice that even though we have leftover energy, starting with 7 energy does not work because we cannot do the 3rd task.</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><b>输入：</b>tasks = [[1,2],[2,4],[4,8]]
+<b>输出：</b>8
+<strong>解释：</strong>
+一开始有 8 能量，我们按照如下顺序完成任务：
+    - 完成第 3 个任务，剩余能量为 8 - 4 = 4 。
+    - 完成第 2 个任务，剩余能量为 4 - 2 = 2 。
+    - 完成第 1 个任务，剩余能量为 2 - 1 = 1 。
+注意到尽管我们有能量剩余，但是如果一开始只有 7 能量是不能完成所有任务的，因为我们无法开始第 3 个任务。</pre>
 
-<pre>
-<strong>Input:</strong> tasks = [[1,3],[2,4],[10,11],[10,12],[8,9]]
-<strong>Output:</strong> 32
-<strong>Explanation:</strong>
-Starting with 32 energy, we finish the tasks in the following order:
-    - 1st task. Now energy = 32 - 1 = 31.
-    - 2nd task. Now energy = 31 - 2 = 29.
-    - 3rd task. Now energy = 29 - 10 = 19.
-    - 4th task. Now energy = 19 - 10 = 9.
-    - 5th task. Now energy = 9 - 8 = 1.</pre>
+<p><strong>示例 2：</strong></p>
 
-<p><strong class="example">Example 3:</strong></p>
+<pre><b>输入：</b>tasks = [[1,3],[2,4],[10,11],[10,12],[8,9]]
+<b>输出：</b>32
+<strong>解释：</strong>
+一开始有 32 能量，我们按照如下顺序完成任务：
+    - 完成第 1 个任务，剩余能量为 32 - 1 = 31 。
+    - 完成第 2 个任务，剩余能量为 31 - 2 = 29 。
+    - 完成第 3 个任务，剩余能量为 29 - 10 = 19 。
+    - 完成第 4 个任务，剩余能量为 19 - 10 = 9 。
+    - 完成第 5 个任务，剩余能量为 9 - 8 = 1 。</pre>
 
-<pre>
-<strong>Input:</strong> tasks = [[1,7],[2,8],[3,9],[4,10],[5,11],[6,12]]
-<strong>Output:</strong> 27
-<strong>Explanation:</strong>
-Starting with 27 energy, we finish the tasks in the following order:
-    - 5th task. Now energy = 27 - 5 = 22.
-    - 2nd task. Now energy = 22 - 2 = 20.
-    - 3rd task. Now energy = 20 - 3 = 17.
-    - 1st task. Now energy = 17 - 1 = 16.
-    - 4th task. Now energy = 16 - 4 = 12.
-    - 6th task. Now energy = 12 - 6 = 6.
+<p><strong>示例 3：</strong></p>
+
+<pre><b>输入：</b>tasks = [[1,7],[2,8],[3,9],[4,10],[5,11],[6,12]]
+<b>输出：</b>27
+<strong>解释：</strong>
+一开始有 27 能量，我们按照如下顺序完成任务：
+    - 完成第 5 个任务，剩余能量为 27 - 5 = 22 。
+    - 完成第 2 个任务，剩余能量为 22 - 2 = 20 。
+    - 完成第 3 个任务，剩余能量为 20 - 3 = 17 。
+    - 完成第 1 个任务，剩余能量为 17 - 1 = 16 。
+    - 完成第 4 个任务，剩余能量为 16 - 4 = 12 。
+    - 完成第 6 个任务，剩余能量为 12 - 6 = 6 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= tasks.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= actual<sub>​i</sub>&nbsp;&lt;= minimum<sub>i</sub>&nbsp;&lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= actual<sub>​i</sub> &lt;= minimum<sub>i</sub> &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Custom Sorting
+### 方法一：贪心 + 自定义排序
 
-Assume the number of tasks is $n$ and the initial energy level is $E$. Consider completing the last task. This requires that after completing the first $n-1$ tasks, the remaining energy level is not less than the energy level required to complete the last task $m_n$, i.e.,
+我们假设任务数为 $n$，初始能量值为 $E$，考虑完成最后一个任务，这需要我们完成前 $n-1$ 个任务后，剩余的能量值不小于完成最后一个任务需要达到的能量值 $m_n$，即：
 
 $$
 E-\sum_{i=1}^{n-1} a_i \geq m_n
 $$
 
-We can express $m_n$ as $a_n+(m_n - a_n)$, and then transform the above formula to get:
+我们可以将 $m_n$ 表示成 $a_n+(m_n - a_n)$，然后将上面的式子变形，得到：
 
 $$
 E-\sum_{i=1}^{n-1} a_i \geq a_n+(m_n - a_n)
 $$
 
-Rearranging, we get:
+整理可得：
 
 $$
 E \geq \sum_{i=1}^{n} a_i + (m_n - a_n)
 $$
 
-Where $\sum_{i=1}^{n} a_i$ is fixed. To minimize the initial energy level $E$, we need to minimize $m_n - a_n$, i.e., maximize $a_n-m_n$.
+其中 $\sum_{i=1}^{n} a_i$ 是固定不变的，要使得初始值能量值 $E$ 最小，我们需要让 $m_n - a_n$ 最小，即 $a_n-m_n$ 最大。
 
-Therefore, we can sort the tasks in ascending order of $a_i-m_i$. Then we traverse the tasks from front to back. For each task, if the current energy level $cur$ is less than $m_i$, we need to increase the energy level by $m_i - cur$ to make the current energy level exactly equal to $m_i$. Then we complete the task and update $cur = cur - a_i$. Continue traversing until all tasks are completed, and we can get the minimum initial energy level required.
+因此，我们可以将任务按照 $a_i-m_i$ 从小到大排序。然后从前往后遍历任务，对于每个任务，如果当前能量值 $cur$ 小于 $m_i$，则需要增加能量值 $m_i - cur$，使得当前能量值刚好等于 $m_i$，然后再完成任务，更新 $cur = cur - a_i$。继续遍历，直到完成所有任务，即可得到初始所需的最少能量值。
 
-The time complexity is $O(n\times \log n)$, where $n$ is the number of tasks. Ignoring the space overhead of sorting, the space complexity is $O(1)$.
+时间复杂度 $O(n\times \log n)$。其中 $n$ 为任务数。忽略排序的空间开销，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -190,17 +192,17 @@ func minimumEffort(tasks [][]int) (ans int) {
 
 ```ts
 function minimumEffort(tasks: number[][]): number {
-  tasks.sort((a, b) => a[0] - a[1] - (b[0] - b[1]));
-  let ans = 0;
-  let cur = 0;
-  for (const [a, m] of tasks) {
-    if (cur < m) {
-      ans += m - cur;
-      cur = m;
+    tasks.sort((a, b) => a[0] - a[1] - (b[0] - b[1]));
+    let ans = 0;
+    let cur = 0;
+    for (const [a, m] of tasks) {
+        if (cur < m) {
+            ans += m - cur;
+            cur = m;
+        }
+        cur -= a;
     }
-    cur -= a;
-  }
-  return ans;
+    return ans;
 }
 ```
 

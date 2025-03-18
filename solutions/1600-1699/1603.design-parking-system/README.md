@@ -1,65 +1,78 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1603.Design%20Parking%20System/README.md
 rating: 1324
-source: Biweekly Contest 36 Q1
+source: 第 36 场双周赛 Q1
 tags:
-  - Design
-  - Counting
-  - Simulation
+    - 设计
+    - 计数
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1603. Design Parking System](https://leetcode.com/problems/design-parking-system)
+# [1603. 设计停车系统](https://leetcode.cn/problems/design-parking-system)
 
-## Description
+[English Version](/solution/1600-1699/1603.Design%20Parking%20System/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Design a parking system for a parking lot. The parking lot has three kinds of parking spaces: big, medium, and small, with a fixed number of slots for each size.</p>
+<p>请你给一个停车场设计一个停车系统。停车场总共有三种不同大小的车位：大，中和小，每种尺寸分别有固定数目的车位。</p>
 
-<p>Implement the <code>ParkingSystem</code> class:</p>
+<p>请你实现 <code>ParkingSystem</code> 类：</p>
 
 <ul>
-	<li><code>ParkingSystem(int big, int medium, int small)</code> Initializes object of the <code>ParkingSystem</code> class. The number of slots for each parking space are given as part of the constructor.</li>
-	<li><code>bool addCar(int carType)</code> Checks whether there is a parking space of <code>carType</code> for the car that wants to get into the parking lot. <code>carType</code> can be of three kinds: big, medium, or small, which are represented by <code>1</code>, <code>2</code>, and <code>3</code> respectively. <strong>A car can only park in a parking space of its </strong><code>carType</code>. If there is no space available, return <code>false</code>, else park the car in that size space and return <code>true</code>.</li>
+	<li><code>ParkingSystem(int big, int medium, int small)</code> 初始化 <code>ParkingSystem</code> 类，三个参数分别对应每种停车位的数目。</li>
+	<li><code>bool addCar(int carType)</code> 检查是否有 <code>carType</code> 对应的停车位。 <code>carType</code> 有三种类型：大，中，小，分别用数字 <code>1</code>， <code>2</code> 和 <code>3</code> 表示。<strong>一辆车只能停在</strong> <strong> </strong><code>carType</code> 对应尺寸的停车位中。如果没有空车位，请返回 <code>false</code> ，否则将该车停入车位并返回 <code>true</code> 。</li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;ParkingSystem&quot;, &quot;addCar&quot;, &quot;addCar&quot;, &quot;addCar&quot;, &quot;addCar&quot;]
+<strong>输入：</strong>
+["ParkingSystem", "addCar", "addCar", "addCar", "addCar"]
 [[1, 1, 0], [1], [2], [3], [1]]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null, true, true, false, false]
 
-<strong>Explanation</strong>
+<strong>解释：</strong>
 ParkingSystem parkingSystem = new ParkingSystem(1, 1, 0);
-parkingSystem.addCar(1); // return true because there is 1 available slot for a big car
-parkingSystem.addCar(2); // return true because there is 1 available slot for a medium car
-parkingSystem.addCar(3); // return false because there is no available slot for a small car
-parkingSystem.addCar(1); // return false because there is no available slot for a big car. It is already occupied.
+parkingSystem.addCar(1); // 返回 true ，因为有 1 个空的大车位
+parkingSystem.addCar(2); // 返回 true ，因为有 1 个空的中车位
+parkingSystem.addCar(3); // 返回 false ，因为没有空的小车位
+parkingSystem.addCar(1); // 返回 false ，因为没有空的大车位，唯一一个大车位已经被占据了
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>0 &lt;= big, medium, small &lt;= 1000</code></li>
-	<li><code>carType</code> is <code>1</code>, <code>2</code>, or <code>3</code></li>
-	<li>At most <code>1000</code> calls will be made to <code>addCar</code></li>
+	<li><code>0 <= big, medium, small <= 1000</code></li>
+	<li><code>carType</code> 取值为 <code>1</code>， <code>2</code> 或 <code>3</code></li>
+	<li>最多会调用 <code>addCar</code> 函数 <code>1000</code> 次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+我们用一个长度为 $4$ 的数组 $\textit{cnt}$ 来表示停车场中每种车位的数量，其中 $\textit{cnt}[1]$, $\textit{cnt}[2]$, $\textit{cnt}[3]$ 分别表示大车位、中车位、小车位的数量。
+
+在初始化时，我们将 $\textit{cnt}[1]$, $\textit{cnt}[2]$, $\textit{cnt}[3]$ 分别初始化为大车位、中车位、小车位的数量。
+
+每次停车时，我们检查停车场中是否有对应车位，如果没有则返回 $\textit{false}$，否则将对应车位的数量减一，并返回 $\textit{true}$。
+
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -166,19 +179,19 @@ func (this *ParkingSystem) AddCar(carType int) bool {
 
 ```ts
 class ParkingSystem {
-  private count: [number, number, number];
+    private cnt: [number, number, number, number];
 
-  constructor(big: number, medium: number, small: number) {
-    this.count = [big, medium, small];
-  }
-
-  addCar(carType: number): boolean {
-    if (this.count[carType - 1] === 0) {
-      return false;
+    constructor(big: number, medium: number, small: number) {
+        this.cnt = [0, big, medium, small];
     }
-    this.count[carType - 1]--;
-    return true;
-  }
+
+    addCar(carType: number): boolean {
+        if (this.cnt[carType] === 0) {
+            return false;
+        }
+        this.cnt[carType]--;
+        return true;
+    }
 }
 
 /**
@@ -192,26 +205,22 @@ class ParkingSystem {
 
 ```rust
 struct ParkingSystem {
-    count: [i32; 3],
+    cnt: [i32; 4]
 }
 
-/**
- * `&self` means the method takes an immutable reference.
- * If you need a mutable reference, change it to `&mut self` instead.
- */
 impl ParkingSystem {
+
     fn new(big: i32, medium: i32, small: i32) -> Self {
-        Self {
-            count: [big, medium, small],
+        ParkingSystem {
+            cnt: [0, big, medium, small],
         }
     }
 
     fn add_car(&mut self, car_type: i32) -> bool {
-        let i = (car_type - 1) as usize;
-        if self.count[i] == 0 {
+        if self.cnt[car_type as usize] == 0 {
             return false;
         }
-        self.count[i] -= 1;
+        self.cnt[car_type as usize] -= 1;
         true
     }
 }

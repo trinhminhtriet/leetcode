@@ -1,63 +1,71 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0530.Minimum%20Absolute%20Difference%20in%20BST/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Binary Search Tree
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 二叉搜索树
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [530. Minimum Absolute Difference in BST](https://leetcode.com/problems/minimum-absolute-difference-in-bst)
+# [530. 二叉搜索树的最小绝对差](https://leetcode.cn/problems/minimum-absolute-difference-in-bst)
 
-## Description
+[English Version](/solution/0500-0599/0530.Minimum%20Absolute%20Difference%20in%20BST/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a Binary Search Tree (BST), return <em>the minimum absolute difference between the values of any two different nodes in the tree</em>.</p>
+<p>给你一个二叉搜索树的根节点 <code>root</code> ，返回 <strong>树中任意两不同节点值之间的最小差值</strong> 。</p>
+
+<p>差值是一个正数，其数值等于两值之差的绝对值。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0530.Minimum%20Absolute%20Difference%20in%20BST/images/bst1.jpg" style="width: 292px; height: 301px;" />
 <pre>
-<strong>Input:</strong> root = [4,2,6,1,3]
-<strong>Output:</strong> 1
+<strong>输入：</strong>root = [4,2,6,1,3]
+<strong>输出：</strong>1
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0530.Minimum%20Absolute%20Difference%20in%20BST/images/bst2.jpg" style="width: 282px; height: 301px;" />
 <pre>
-<strong>Input:</strong> root = [1,0,48,null,null,12,49]
-<strong>Output:</strong> 1
+<strong>输入：</strong>root = [1,0,48,null,null,12,49]
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[2, 10<sup>4</sup>]</code>.</li>
+	<li>树中节点的数目范围是 <code>[2, 10<sup>4</sup>]</code></li>
 	<li><code>0 &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Note:</strong> This question is the same as 783: <a href="https://leetcode.com/problems/minimum-distance-between-bst-nodes/" target="_blank">https://leetcode.com/problems/minimum-distance-between-bst-nodes/</a></p>
+
+<p><strong>注意：</strong>本题与 783 <a href="https://leetcode.cn/problems/minimum-distance-between-bst-nodes/">https://leetcode.cn/problems/minimum-distance-between-bst-nodes/</a> 相同</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Inorder Traversal
+### 方法一：中序遍历
 
-The problem requires us to find the minimum difference between the values of any two nodes. Since the inorder traversal of a binary search tree is an increasing sequence, we only need to find the minimum difference between the values of two adjacent nodes in the inorder traversal.
+题目需要我们求任意两个节点值之间的最小差值，而二叉搜索树的中序遍历是一个递增序列，因此我们只需要求中序遍历中相邻两个节点值之间的最小差值即可。
 
-We can use a recursive method to implement the inorder traversal. During the process, we use a variable $\textit{pre}$ to save the value of the previous node. This way, we can calculate the minimum difference between the values of two adjacent nodes during the traversal.
+我们可以使用递归的方法来实现中序遍历，过程中用一个变量 $\textit{pre}$ 来保存前一个节点的值，这样我们就可以在遍历的过程中求出相邻两个节点值之间的最小差值。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary search tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉搜索树的节点个数。
 
 <!-- tabs:start -->
 
@@ -146,16 +154,16 @@ public:
     int getMinimumDifference(TreeNode* root) {
         const int inf = 1 << 30;
         int ans = inf, pre = -inf;
-        auto dfs = [&](auto&& dfs, TreeNode* root) -> void {
+        auto dfs = [&](this auto&& dfs, TreeNode* root) -> void {
             if (!root) {
                 return;
             }
-            dfs(dfs, root->left);
+            dfs(root->left);
             ans = min(ans, root->val - pre);
             pre = root->val;
-            dfs(dfs, root->right);
+            dfs(root->right);
         };
-        dfs(dfs, root);
+        dfs(root);
         return ans;
     }
 };
@@ -208,18 +216,18 @@ func getMinimumDifference(root *TreeNode) int {
  */
 
 function getMinimumDifference(root: TreeNode | null): number {
-  let [ans, pre] = [Infinity, -Infinity];
-  const dfs = (root: TreeNode | null) => {
-    if (!root) {
-      return;
-    }
-    dfs(root.left);
-    ans = Math.min(ans, root.val - pre);
-    pre = root.val;
-    dfs(root.right);
-  };
-  dfs(root);
-  return ans;
+    let [ans, pre] = [Infinity, -Infinity];
+    const dfs = (root: TreeNode | null) => {
+        if (!root) {
+            return;
+        }
+        dfs(root.left);
+        ans = Math.min(ans, root.val - pre);
+        pre = root.val;
+        dfs(root.right);
+    };
+    dfs(root);
+    return ans;
 }
 ```
 
@@ -284,18 +292,18 @@ impl Solution {
  * @return {number}
  */
 var getMinimumDifference = function (root) {
-  let [ans, pre] = [Infinity, -Infinity];
-  const dfs = (root) => {
-    if (!root) {
-      return;
-    }
-    dfs(root.left);
-    ans = Math.min(ans, root.val - pre);
-    pre = root.val;
-    dfs(root.right);
-  };
-  dfs(root);
-  return ans;
+    let [ans, pre] = [Infinity, -Infinity];
+    const dfs = root => {
+        if (!root) {
+            return;
+        }
+        dfs(root.left);
+        ans = Math.min(ans, root.val - pre);
+        pre = root.val;
+        dfs(root.right);
+    };
+    dfs(root);
+    return ans;
 };
 ```
 

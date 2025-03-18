@@ -1,84 +1,90 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2601.Prime%20Subtraction%20Operation/README.md
 rating: 1779
-source: Weekly Contest 338 Q2
+source: 第 338 场周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Math
-  - Binary Search
-  - Number Theory
+    - 贪心
+    - 数组
+    - 数学
+    - 二分查找
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [2601. Prime Subtraction Operation](https://leetcode.com/problems/prime-subtraction-operation)
+# [2601. 质数减法运算](https://leetcode.cn/problems/prime-subtraction-operation)
 
-## Description
+[English Version](/solution/2600-2699/2601.Prime%20Subtraction%20Operation/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，数组长度为 <code>n</code> 。</p>
 
-<p>You can perform the following operation as many times as you want:</p>
+<p>你可以执行无限次下述运算：</p>
 
 <ul>
-	<li>Pick an index <code>i</code> that you haven&rsquo;t picked before, and pick a prime <code>p</code> <strong>strictly less than</strong> <code>nums[i]</code>, then subtract <code>p</code> from <code>nums[i]</code>.</li>
+	<li>选择一个之前未选过的下标 <code>i</code> ，并选择一个 <strong>严格小于</strong> <code>nums[i]</code> 的质数 <code>p</code> ，从 <code>nums[i]</code> 中减去 <code>p</code> 。</li>
 </ul>
 
-<p>Return <em>true if you can make <code>nums</code> a strictly increasing array using the above operation and false otherwise.</em></p>
+<p>如果你能通过上述运算使得 <code>nums</code> 成为严格递增数组，则返回 <code>true</code> ；否则返回 <code>false</code> 。</p>
 
-<p>A <strong>strictly increasing array</strong> is an array whose each element is strictly greater than its preceding element.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [4,9,6,10]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> In the first operation: Pick i = 0 and p = 3, and then subtract 3 from nums[0], so that nums becomes [1,9,6,10].
-In the second operation: i = 1, p = 7, subtract 7 from nums[1], so nums becomes equal to [1,2,6,10].
-After the second operation, nums is sorted in strictly increasing order, so the answer is true.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [6,8,11,12]
-<strong>Output:</strong> true
-<strong>Explanation: </strong>Initially nums is sorted in strictly increasing order, so we don&#39;t need to make any operations.</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [5,8,3]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> It can be proven that there is no way to perform operations to make nums sorted in strictly increasing order, so the answer is false.</pre>
+<p><strong>严格递增数组</strong> 中的每个元素都严格大于其前面的元素。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [4,9,6,10]
+<strong>输出：</strong>true
+<strong>解释：</strong>
+在第一次运算中：选择 i = 0 和 p = 3 ，然后从 nums[0] 减去 3 ，nums 变为 [1,9,6,10] 。
+在第二次运算中：选择 i = 1 和 p = 7 ，然后从 nums[1] 减去 7 ，nums 变为 [1,2,6,10] 。
+第二次运算后，nums 按严格递增顺序排序，因此答案为 true 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [6,8,11,12]
+<strong>输出：</strong>true
+<strong>解释：</strong>nums 从一开始就按严格递增顺序排序，因此不需要执行任何运算。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [5,8,3]
+<strong>输出：</strong>false
+<strong>解释：</strong>可以证明，执行运算无法使 nums 按严格递增顺序排序，因此答案是 false 。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 1000</code></li>
-	<li><code><font face="monospace">nums.length == n</font></code></li>
+	<li><code>nums.length == n</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Preprocessing prime numbers + binary search
+### 方法一：预处理质数 + 二分查找
 
-We first preprocess all the primes within $1000$ and record them in the array $p$.
+我们先预处理得到 $1000$ 以内的所有质数，记录在数组 $p$ 中。
 
-For each element $nums[i]$ in the array $nums$, we need to find a prime $p[j]$ such that $p[j] \gt nums[i] - nums[i + 1]$ and $p[j]$ is as small as possible. If there is no such prime, it means that it cannot be strictly increased by subtraction operations, return `false`. If there is such a prime, we will subtract $p[j]$ from $nums[i]$ and continue to process the next element.
+对于数组 $nums$ 中的每个元素 $nums[i]$，我们需要找到一个质数 $p[j]$，使得 p[j] \gt nums[i] - nums[i + 1]，并且 $p[j]$ 尽可能小。如果找不到这样的质数，说明无法通过减法运算使得 $nums$ 严格递增，返回 `false`。如果找到了这样的质数，我们就将 $nums[i]$ 减去 $p[j]$，并继续处理下一个元素。
 
-If all the elements in $nums$ are processed, it means that it can be strictly increased by subtraction operations, return `true`.
+如果 $nums$ 中的所有元素都处理完了，说明可以通过减法运算使得 $nums$ 严格递增，返回 `true`。
 
-The time complexity is $O(n \log n)$ and the space complexity is $O(n)$. where $n$ is the length of the array $nums$.
+时间复杂度 $O(n \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -223,44 +229,44 @@ func primeSubOperation(nums []int) bool {
 
 ```ts
 function primeSubOperation(nums: number[]): boolean {
-  const p: number[] = [];
-  for (let i = 2; i <= 1000; ++i) {
-    let ok = true;
-    for (const j of p) {
-      if (i % j === 0) {
-        ok = false;
-        break;
-      }
+    const p: number[] = [];
+    for (let i = 2; i <= 1000; ++i) {
+        let ok = true;
+        for (const j of p) {
+            if (i % j === 0) {
+                ok = false;
+                break;
+            }
+        }
+        if (ok) {
+            p.push(i);
+        }
     }
-    if (ok) {
-      p.push(i);
+    const search = (x: number): number => {
+        let l = 0;
+        let r = p.length;
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (p[mid] > x) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l;
+    };
+    const n = nums.length;
+    for (let i = n - 2; i >= 0; --i) {
+        if (nums[i] < nums[i + 1]) {
+            continue;
+        }
+        const j = search(nums[i] - nums[i + 1]);
+        if (j === p.length || p[j] >= nums[i]) {
+            return false;
+        }
+        nums[i] -= p[j];
     }
-  }
-  const search = (x: number): number => {
-    let l = 0;
-    let r = p.length;
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (p[mid] > x) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
-    }
-    return l;
-  };
-  const n = nums.length;
-  for (let i = n - 2; i >= 0; --i) {
-    if (nums[i] < nums[i + 1]) {
-      continue;
-    }
-    const j = search(nums[i] - nums[i + 1]);
-    if (j === p.length || p[j] >= nums[i]) {
-      return false;
-    }
-    nums[i] -= p[j];
-  }
-  return true;
+    return true;
 }
 ```
 
@@ -270,7 +276,7 @@ function primeSubOperation(nums: number[]): boolean {
 
 <!-- solution:start -->
 
-### Solution 2: Preprocessing prime numbers
+### 方法二：预处理素数
 
 <!-- tabs:start -->
 
@@ -278,35 +284,35 @@ function primeSubOperation(nums: number[]): boolean {
 
 ```ts
 function primeSubOperation(nums: number[]): boolean {
-  const p: number[] = [];
-  const max = Math.max(...nums);
+    const p: number[] = [];
+    const max = Math.max(...nums);
 
-  for (let i = 2; i < max; i++) {
-    let isPrime = true;
+    for (let i = 2; i < max; i++) {
+        let isPrime = true;
 
-    for (const x of p) {
-      if (i % x === 0) {
-        isPrime = false;
-        break;
-      }
+        for (const x of p) {
+            if (i % x === 0) {
+                isPrime = false;
+                break;
+            }
+        }
+
+        while (isPrime && p.length <= i) {
+            p.push(i);
+        }
     }
 
-    while (isPrime && p.length <= i) {
-      p.push(i);
+    for (let i = nums.length - 2; i >= 0; i--) {
+        if (nums[i] < nums[i + 1]) continue;
+
+        const [x, next] = [nums[i], nums[i + 1]];
+        const prime = p[x - next + 1];
+
+        if (!prime || prime >= x) return false;
+        nums[i] -= prime;
     }
-  }
 
-  for (let i = nums.length - 2; i >= 0; i--) {
-    if (nums[i] < nums[i + 1]) continue;
-
-    const [x, next] = [nums[i], nums[i + 1]];
-    const prime = p[x - next + 1];
-
-    if (!prime || prime >= x) return false;
-    nums[i] -= prime;
-  }
-
-  return true;
+    return true;
 }
 ```
 
@@ -314,35 +320,35 @@ function primeSubOperation(nums: number[]): boolean {
 
 ```js
 function primeSubOperation(nums) {
-  const p = [];
-  const max = Math.max(...nums);
+    const p = [];
+    const max = Math.max(...nums);
 
-  for (let i = 2; i < max; i++) {
-    let isPrime = true;
+    for (let i = 2; i < max; i++) {
+        let isPrime = true;
 
-    for (const x of p) {
-      if (i % x === 0) {
-        isPrime = false;
-        break;
-      }
+        for (const x of p) {
+            if (i % x === 0) {
+                isPrime = false;
+                break;
+            }
+        }
+
+        while (isPrime && p.length <= i) {
+            p.push(i);
+        }
     }
 
-    while (isPrime && p.length <= i) {
-      p.push(i);
+    for (let i = nums.length - 2; i >= 0; i--) {
+        if (nums[i] < nums[i + 1]) continue;
+
+        const [x, next] = [nums[i], nums[i + 1]];
+        const prime = p[x - next + 1];
+
+        if (!prime || prime >= x) return false;
+        nums[i] -= prime;
     }
-  }
 
-  for (let i = nums.length - 2; i >= 0; i--) {
-    if (nums[i] < nums[i + 1]) continue;
-
-    const [x, next] = [nums[i], nums[i + 1]];
-    const prime = p[x - next + 1];
-
-    if (!prime || prime >= x) return false;
-    nums[i] -= prime;
-  }
-
-  return true;
+    return true;
 }
 ```
 

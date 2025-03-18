@@ -1,68 +1,75 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1011.Capacity%20To%20Ship%20Packages%20Within%20D%20Days/README.md
 rating: 1725
-source: Weekly Contest 128 Q3
+source: 第 128 场周赛 Q3
 tags:
-  - Array
-  - Binary Search
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days)
+# [1011. 在 D 天内送达包裹的能力](https://leetcode.cn/problems/capacity-to-ship-packages-within-d-days)
 
-## Description
+[English Version](/solution/1000-1099/1011.Capacity%20To%20Ship%20Packages%20Within%20D%20Days/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A conveyor belt has packages that must be shipped from one port to another within <code>days</code> days.</p>
+<p>传送带上的包裹必须在 <code>days</code> 天内从一个港口运送到另一个港口。</p>
 
-<p>The <code>i<sup>th</sup></code> package on the conveyor belt has a weight of <code>weights[i]</code>. Each day, we load the ship with packages on the conveyor belt (in the order given by <code>weights</code>). We may not load more weight than the maximum weight capacity of the ship.</p>
+<p>传送带上的第 <code>i</code>&nbsp;个包裹的重量为&nbsp;<code>weights[i]</code>。每一天，我们都会按给出重量（<code>weights</code>）的顺序往传送带上装载包裹。我们装载的重量不会超过船的最大运载重量。</p>
 
-<p>Return the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within <code>days</code> days.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> weights = [1,2,3,4,5,6,7,8,9,10], days = 5
-<strong>Output:</strong> 15
-<strong>Explanation:</strong> A ship capacity of 15 is the minimum to ship all the packages in 5 days like this:
-1st day: 1, 2, 3, 4, 5
-2nd day: 6, 7
-3rd day: 8
-4th day: 9
-5th day: 10
-
-Note that the cargo must be shipped in the order given, so using a ship of capacity 14 and splitting the packages into parts like (2, 3, 4, 5), (1, 6, 7), (8), (9), (10) is not allowed.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> weights = [3,2,2,4,1,4], days = 3
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> A ship capacity of 6 is the minimum to ship all the packages in 3 days like this:
-1st day: 3, 2
-2nd day: 2, 4
-3rd day: 1, 4
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> weights = [1,2,3,1,1], days = 4
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-1st day: 1
-2nd day: 2
-3rd day: 3
-4th day: 1, 1
-</pre>
+<p>返回能在 <code>days</code> 天内将传送带上的所有包裹送达的船的最低运载能力。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>weights = [1,2,3,4,5,6,7,8,9,10], days = 5
+<strong>输出：</strong>15
+<strong>解释：</strong>
+船舶最低载重 15 就能够在 5 天内送达所有包裹，如下所示：
+第 1 天：1, 2, 3, 4, 5
+第 2 天：6, 7
+第 3 天：8
+第 4 天：9
+第 5 天：10
+
+请注意，货物必须按照给定的顺序装运，因此使用载重能力为 14 的船舶并将包装分成 (2, 3, 4, 5), (1, 6, 7), (8), (9), (10) 是不允许的。 
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>weights = [3,2,2,4,1,4], days = 3
+<strong>输出：</strong>6
+<strong>解释：</strong>
+船舶最低载重 6 就能够在 3 天内送达所有包裹，如下所示：
+第 1 天：3, 2
+第 2 天：2, 4
+第 3 天：1, 4
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>weights = [1,2,3,1,1], days = 4
+<strong>输出：</strong>3
+<strong>解释：</strong>
+第 1 天：1
+第 2 天：2
+第 3 天：3
+第 4 天：1, 1
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= days &lt;= weights.length &lt;= 5 * 10<sup>4</sup></code></li>
@@ -71,11 +78,19 @@ Note that the cargo must be shipped in the order given, so using a ship of capac
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：二分查找
+
+我们注意到，如果运载能力 $x$ 能够在 $days$ 天内运送完所有包裹，那么运载能力 $x + 1$ 也能在 $days$ 天内运送完所有包裹。也即是说，随着运载能力的增加，运送天数只会减少，不会增加。这存在一个单调性，因此我们可以使用二分查找的方法来寻找最小的运载能力。
+
+我们定义二分查找的左边界 $left= \max\limits_{i=0}^{n-1} weights[i]$，右边界 $right = \sum\limits_{i=0}^{n-1} weights[i]$。然后二分枚举运载能力 $x$，判断是否能在 $days$ 天内运送完所有包裹。如果能，那么我们将右边界调整为 $x$，否则将左边界调整为 $x + 1$。
+
+判断是否能在 $days$ 天内运送完所有包裹的方法是，我们从左到右遍历包裹，将当前包裹加入当前运载能力的船上，如果当前船的运载能力超过了 $x$，那么我们将当前包裹放到下一天的船上，同时天数加一。如果天数超过了 $days$，那么我们返回 $false$，否则返回 $true$。
+
+时间复杂度 $O(n \times \log \sum\limits_{i=0}^{n-1} weights[i])$，空间复杂度 $O(1)$。其中 $n$ 为包裹数量。
 
 <!-- tabs:start -->
 
@@ -197,33 +212,33 @@ func shipWithinDays(weights []int, days int) int {
 
 ```ts
 function shipWithinDays(weights: number[], days: number): number {
-  let left = 0;
-  let right = 0;
-  for (const w of weights) {
-    left = Math.max(left, w);
-    right += w;
-  }
-  const check = (mx: number) => {
-    let ws = 0;
-    let cnt = 1;
+    let left = 0;
+    let right = 0;
     for (const w of weights) {
-      ws += w;
-      if (ws > mx) {
-        ws = w;
-        ++cnt;
-      }
+        left = Math.max(left, w);
+        right += w;
     }
-    return cnt <= days;
-  };
-  while (left < right) {
-    const mid = (left + right) >> 1;
-    if (check(mid)) {
-      right = mid;
-    } else {
-      left = mid + 1;
+    const check = (mx: number) => {
+        let ws = 0;
+        let cnt = 1;
+        for (const w of weights) {
+            ws += w;
+            if (ws > mx) {
+                ws = w;
+                ++cnt;
+            }
+        }
+        return cnt <= days;
+    };
+    while (left < right) {
+        const mid = (left + right) >> 1;
+        if (check(mid)) {
+            right = mid;
+        } else {
+            left = mid + 1;
+        }
     }
-  }
-  return left;
+    return left;
 }
 ```
 

@@ -1,78 +1,83 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2561.Rearranging%20Fruits/README.md
 rating: 2221
-source: Weekly Contest 331 Q4
+source: 第 331 场周赛 Q4
 tags:
-  - Greedy
-  - Array
-  - Hash Table
+    - 贪心
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [2561. Rearranging Fruits](https://leetcode.com/problems/rearranging-fruits)
+# [2561. 重排水果](https://leetcode.cn/problems/rearranging-fruits)
 
-## Description
+[English Version](/solution/2500-2599/2561.Rearranging%20Fruits/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have two fruit baskets containing <code>n</code> fruits each. You are given two <strong>0-indexed</strong> integer arrays <code>basket1</code> and <code>basket2</code> representing the cost of fruit in each basket. You want to make both baskets <strong>equal</strong>. To do so, you can use the following operation as many times as you want:</p>
+<p>你有两个果篮，每个果篮中有 <code>n</code> 个水果。给你两个下标从 <strong>0</strong> 开始的整数数组 <code>basket1</code> 和 <code>basket2</code> ，用以表示两个果篮中每个水果的交换成本。你想要让两个果篮相等。为此，可以根据需要多次执行下述操作：</p>
 
 <ul>
-	<li>Chose two indices <code>i</code> and <code>j</code>, and swap the <code>i<font size="1">th</font>&nbsp;</code>fruit of <code>basket1</code> with the <code>j<font size="1">th</font></code>&nbsp;fruit of <code>basket2</code>.</li>
-	<li>The cost of the swap is <code>min(basket1[i],basket2[j])</code>.</li>
+	<li>选中两个下标 <code>i</code> 和 <code>j</code> ，并交换 <code>basket1</code> 中的第 <code>i</code> 个水果和 <code>basket2</code> 中的第 <code>j</code> 个水果。</li>
+	<li>交换的成本是 <code>min(basket1<sub>i</sub>,basket2<sub>j</sub>)</code> 。</li>
 </ul>
 
-<p>Two baskets are considered equal if sorting them according to the fruit cost makes them exactly the same baskets.</p>
+<p>根据果篮中水果的成本进行排序，如果排序后结果完全相同，则认为两个果篮相等。</p>
 
-<p>Return <em>the minimum cost to make both the baskets equal or </em><code>-1</code><em> if impossible.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> basket1 = [4,2,2,2], basket2 = [1,4,1,2]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> Swap index 1 of basket1 with index 0 of basket2, which has cost 1. Now basket1 = [4,1,2,2] and basket2 = [2,4,1,2]. Rearranging both the arrays makes them equal.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> basket1 = [2,3,4,1], basket2 = [3,2,5,1]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It can be shown that it is impossible to make both the baskets equal.
-</pre>
+<p>返回使两个果篮相等的最小交换成本，如果无法使两个果篮相等，则返回<em> </em><code>-1</code><em> </em>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>basket1 = [4,2,2,2], basket2 = [1,4,1,2]
+<strong>输出：</strong>1
+<strong>解释：</strong>交换 basket1 中下标为 1 的水果和 basket2 中下标为 0 的水果，交换的成本为 1 。此时，basket1 = [4,1,2,2] 且 basket2 = [2,4,1,2] 。重排两个数组，发现二者相等。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>basket1 = [2,3,4,1], basket2 = [3,2,5,1]
+<strong>输出：</strong>-1
+<strong>解释：</strong>可以证明无法使两个果篮相等。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>basket1.length == basket2.length</code></li>
+	<li><code>basket1.length == bakste2.length</code></li>
 	<li><code>1 &lt;= basket1.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= basket1[i],basket2[i]&nbsp;&lt;= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= basket1<sub>i</sub>,basket2<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Construction
+### 方法一：贪心 + 构造
 
-First, we can remove the common elements from both arrays. For the remaining numbers, the occurrence of each number must be even, otherwise, it is impossible to construct identical arrays. Let's denote the arrays after removing common elements as $a$ and $b$.
+我们可以先将两个数组中共有的元素去掉，对于剩下的每个数字，其出现的次数必须为偶数，否则无法构造出相同的数组。不妨记去除共有元素后，两数组分别为 $a$ 和 $b$。
 
-Next, we consider how to perform the swaps.
+接下来，我们考虑如何进行交换。
 
-If we want to swap the smallest number in $a$, we need to find the largest number in $b$ to swap with it; similarly, if we want to swap the smallest number in $b$, we need to find the largest number in $a$ to swap with it. This can be achieved by sorting.
+如果我们要交换 $a$ 中最小的数，那么我们要在 $b$ 中找到最大的数，与其进行交换；同理，如果我们要交换 $b$ 中最小的数，那么我们要在 $a$ 中找到最大的数，与其进行交换。可以通过排序来实现。
 
-However, there is another swapping scheme. We can use a smallest number $mi$ as a transition element, first swap the number in $a$ with $mi$, and then swap $mi$ with the number in $b$. In this way, the cost of swapping is $2 \times mi$.
+不过，还有另一种交换的方案，我们可以借助一个最小的数 $mi$ 作为过渡元素，将 $a$ 中的数先与 $mi$ 进行交换，再将 $mi$ 与 $b$ 中的数进行交换。这样，交换的成本为 $2 \times mi$。
 
-In the code implementation, we can directly merge arrays $a$ and $b$ into an array $nums$, and then sort the array $nums$. Next, we enumerate the first half of the numbers, calculate the minimum cost each time, and add it to the answer.
+在代码实现上，我们可以直接将数组 $a$ 和 $b$ 合并成数组 $nums$，然后对数组 $nums$ 进行排序。接下来枚举前一半的数，计算每次的最小成本，累加到答案中即可。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
 
 <!-- tabs:start -->
 

@@ -1,62 +1,67 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2542.Maximum%20Subsequence%20Score/README.md
 rating: 2056
-source: Biweekly Contest 96 Q3
+source: 第 96 场双周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Sorting
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [2542. Maximum Subsequence Score](https://leetcode.com/problems/maximum-subsequence-score)
+# [2542. 最大子序列的分数](https://leetcode.cn/problems/maximum-subsequence-score)
 
-## Description
+[English Version](/solution/2500-2599/2542.Maximum%20Subsequence%20Score/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two <strong>0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code> of equal length <code>n</code> and a positive integer <code>k</code>. You must choose a <strong>subsequence</strong> of indices from <code>nums1</code> of length <code>k</code>.</p>
+<p>给你两个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums1</code>&nbsp;和&nbsp;<code>nums2</code>&nbsp;，两者长度都是&nbsp;<code>n</code>&nbsp;，再给你一个正整数&nbsp;<code>k</code>&nbsp;。你必须从&nbsp;<code>nums1</code>&nbsp;中选一个长度为 <code>k</code>&nbsp;的 <strong>子序列</strong>&nbsp;对应的下标。</p>
 
-<p>For chosen indices <code>i<sub>0</sub></code>, <code>i<sub>1</sub></code>, ..., <code>i<sub>k - 1</sub></code>, your <strong>score</strong> is defined as:</p>
+<p>对于选择的下标&nbsp;<code>i<sub>0</sub></code>&nbsp;，<code>i<sub>1</sub></code>&nbsp;，...，&nbsp;<code>i<sub>k - 1</sub></code>&nbsp;，你的&nbsp;<strong>分数</strong>&nbsp;定义如下：</p>
 
 <ul>
-	<li>The sum of the selected elements from <code>nums1</code> multiplied with the <strong>minimum</strong> of the selected elements from <code>nums2</code>.</li>
-	<li>It can defined simply as: <code>(nums1[i<sub>0</sub>] + nums1[i<sub>1</sub>] +...+ nums1[i<sub>k - 1</sub>]) * min(nums2[i<sub>0</sub>] , nums2[i<sub>1</sub>], ... ,nums2[i<sub>k - 1</sub>])</code>.</li>
+	<li><code>nums1</code>&nbsp;中下标对应元素求和，乘以&nbsp;<code>nums2</code>&nbsp;中下标对应元素的&nbsp;<strong>最小值</strong>&nbsp;。</li>
+	<li>用公式表示：&nbsp;<code>(nums1[i<sub>0</sub>] + nums1[i<sub>1</sub>] +...+ nums1[i<sub>k - 1</sub>]) * min(nums2[i<sub>0</sub>] , nums2[i<sub>1</sub>], ... ,nums2[i<sub>k - 1</sub>])</code>&nbsp;。</li>
 </ul>
 
-<p>Return <em>the <strong>maximum</strong> possible score.</em></p>
+<p>请你返回 <strong>最大</strong>&nbsp;可能的分数。</p>
 
-<p>A <strong>subsequence</strong> of indices of an array is a set that can be derived from the set <code>{0, 1, ..., n-1}</code> by deleting some or no elements.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [1,3,3,2], nums2 = [2,1,3,4], k = 3
-<strong>Output:</strong> 12
-<strong>Explanation:</strong> 
-The four possible subsequence scores are:
-- We choose the indices 0, 1, and 2 with score = (1+3+3) * min(2,1,3) = 7.
-- We choose the indices 0, 1, and 3 with score = (1+3+2) * min(2,1,4) = 6. 
-- We choose the indices 0, 2, and 3 with score = (1+3+2) * min(2,3,4) = 12. 
-- We choose the indices 1, 2, and 3 with score = (3+3+2) * min(1,3,4) = 8.
-Therefore, we return the max score, which is 12.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [4,2,3,1,1], nums2 = [7,5,10,9,6], k = 1
-<strong>Output:</strong> 30
-<strong>Explanation:</strong> 
-Choosing index 2 is optimal: nums1[2] * nums2[2] = 3 * 10 = 30 is the maximum possible score.
-</pre>
+<p>一个数组的 <strong>子序列</strong>&nbsp;下标是集合&nbsp;<code>{0, 1, ..., n-1}</code>&nbsp;中删除若干元素得到的剩余集合，也可以不删除任何元素。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums1 = [1,3,3,2], nums2 = [2,1,3,4], k = 3
+<b>输出：</b>12
+<b>解释：</b>
+四个可能的子序列分数为：
+- 选择下标 0 ，1 和 2 ，得到分数 (1+3+3) * min(2,1,3) = 7 。
+- 选择下标 0 ，1 和 3 ，得到分数 (1+3+2) * min(2,1,4) = 6 。
+- 选择下标 0 ，2 和 3 ，得到分数 (1+3+2) * min(2,3,4) = 12 。
+- 选择下标 1 ，2 和 3 ，得到分数 (3+3+2) * min(1,3,4) = 8 。
+所以最大分数为 12 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums1 = [4,2,3,1,1], nums2 = [7,5,10,9,6], k = 1
+<b>输出：</b>30
+<b>解释：</b>
+选择下标 2 最优：nums1[2] * nums2[2] = 3 * 10 = 30 是最大可能分数。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums1.length == nums2.length</code></li>
@@ -67,15 +72,15 @@ Choosing index 2 is optimal: nums1[2] * nums2[2] = 3 * 10 = 30 is the maximum po
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting + Priority Queue (Min Heap)
+### 方法一：排序 + 优先队列（小根堆）
 
-Sort nums2 and nums1 in descending order according to nums2, then traverse from front to back, maintaining a min heap. The heap stores elements from nums1, and the number of elements in the heap does not exceed $k$. At the same time, maintain a variable $s$ representing the sum of the elements in the heap, and continuously update the answer during the traversal process.
+将 `nums2` 与 `nums1` 按照 `nums2` 降序排序，然后从前往后遍历，维护一个小根堆，堆中存储 `nums1` 中的元素，堆中元素个数不超过 $k$ 个，同时维护一个变量 $s$，表示堆中元素的和，遍历过程中不断更新答案。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array nums1.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `nums1` 的长度。
 
 <!-- tabs:start -->
 

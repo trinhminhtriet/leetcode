@@ -1,59 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0712.Minimum%20ASCII%20Delete%20Sum%20for%20Two%20Strings/README.md
 tags:
-  - String
-  - Dynamic Programming
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [712. Minimum ASCII Delete Sum for Two Strings](https://leetcode.com/problems/minimum-ascii-delete-sum-for-two-strings)
+# [712. 两个字符串的最小ASCII删除和](https://leetcode.cn/problems/minimum-ascii-delete-sum-for-two-strings)
 
-## Description
+[English Version](/solution/0700-0799/0712.Minimum%20ASCII%20Delete%20Sum%20for%20Two%20Strings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two strings <code>s1</code> and&nbsp;<code>s2</code>, return <em>the lowest <strong>ASCII</strong> sum of deleted characters to make two strings equal</em>.</p>
+<p>给定两个字符串<code>s1</code>&nbsp;和&nbsp;<code>s2</code>，返回 <em>使两个字符串相等所需删除字符的&nbsp;<strong>ASCII&nbsp;</strong>值的最小和&nbsp;</em>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> s1 = &quot;sea&quot;, s2 = &quot;eat&quot;
-<strong>Output:</strong> 231
-<strong>Explanation:</strong> Deleting &quot;s&quot; from &quot;sea&quot; adds the ASCII value of &quot;s&quot; (115) to the sum.
-Deleting &quot;t&quot; from &quot;eat&quot; adds 116 to the sum.
-At the end, both strings are equal, and 115 + 116 = 231 is the minimum sum possible to achieve this.
+<strong>输入:</strong> s1 = "sea", s2 = "eat"
+<strong>输出:</strong> 231
+<strong>解释:</strong> 在 "sea" 中删除 "s" 并将 "s" 的值(115)加入总和。
+在 "eat" 中删除 "t" 并将 116 加入总和。
+结束时，两个字符串相等，115 + 116 = 231 就是符合条件的最小和。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例&nbsp;2:</strong></p>
 
 <pre>
-<strong>Input:</strong> s1 = &quot;delete&quot;, s2 = &quot;leet&quot;
-<strong>Output:</strong> 403
-<strong>Explanation:</strong> Deleting &quot;dee&quot; from &quot;delete&quot; to turn the string into &quot;let&quot;,
-adds 100[d] + 101[e] + 101[e] to the sum.
-Deleting &quot;e&quot; from &quot;leet&quot; adds 101[e] to the sum.
-At the end, both strings are equal to &quot;let&quot;, and the answer is 100+101+101+101 = 403.
-If instead we turned both strings into &quot;lee&quot; or &quot;eet&quot;, we would get answers of 433 or 417, which are higher.
+<strong>输入:</strong> s1 = "delete", s2 = "leet"
+<strong>输出:</strong> 403
+<strong>解释:</strong> 在 "delete" 中删除 "dee" 字符串变成 "let"，
+将 100[d]+101[e]+101[e] 加入总和。在 "leet" 中删除 "e" 将 101[e] 加入总和。
+结束时，两个字符串都等于 "let"，结果即为 100+101+101+101 = 403 。
+如果改为将两个字符串转换为 "lee" 或 "eet"，我们会得到 433 或 417 的结果，比答案更大。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s1.length, s2.length &lt;= 1000</code></li>
-	<li><code>s1</code> and <code>s2</code> consist of lowercase English letters.</li>
+	<li><code>0 &lt;= s1.length, s2.length &lt;= 1000</code></li>
+	<li><code>s1</code>&nbsp;和&nbsp;<code>s2</code>&nbsp;由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：动态规划
+
+我们定义 $f[i][j]$ 表示使得 $s_1$ 的前 $i$ 个字符和 $s_2$ 的前 $j$ 个字符相等所需删除字符的 ASCII 值的最小和。那么答案就是 $f[m][n]$。
+
+如果 $s_1[i-1] = s_2[j-1]$，那么 $f[i][j] = f[i-1][j-1]$。否则，我们可以删除 $s_1[i-1]$ 或者 $s_2[j-1]$ 中的一个，使得 $f[i][j]$ 达到最小。因此，状态转移方程如下：
+
+$$
+f[i][j]=
+\begin{cases}
+f[i-1][j-1], & s_1[i-1] = s_2[j-1] \\
+min(f[i-1][j] + s_1[i-1], f[i][j-1] + s_2[j-1]), & s_1[i-1] \neq s_2[j-1]
+\end{cases}
+$$
+
+初始状态为 $f[0][j] = f[0][j-1] + s_2[j-1]$, $f[i][0] = f[i-1][0] + s_1[i-1]$。
+
+最后返回 $f[m][n]$ 即可。
+
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是 $s_1$ 和 $s_2$ 的长度。
+
+相似题目：
+
+-   [1143. 最长公共子序列](https://github.com/doocs/leetcode/blob/main/solution/1100-1199/1143.Longest%20Common%20Subsequence/README.md)
 
 <!-- tabs:start -->
 
@@ -168,28 +194,28 @@ func minimumDeleteSum(s1 string, s2 string) int {
 
 ```ts
 function minimumDeleteSum(s1: string, s2: string): number {
-  const m = s1.length;
-  const n = s2.length;
-  const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
-  for (let i = 1; i <= m; ++i) {
-    f[i][0] = f[i - 1][0] + s1[i - 1].charCodeAt(0);
-  }
-  for (let j = 1; j <= n; ++j) {
-    f[0][j] = f[0][j - 1] + s2[j - 1].charCodeAt(0);
-  }
-  for (let i = 1; i <= m; ++i) {
-    for (let j = 1; j <= n; ++j) {
-      if (s1[i - 1] === s2[j - 1]) {
-        f[i][j] = f[i - 1][j - 1];
-      } else {
-        f[i][j] = Math.min(
-          f[i - 1][j] + s1[i - 1].charCodeAt(0),
-          f[i][j - 1] + s2[j - 1].charCodeAt(0)
-        );
-      }
+    const m = s1.length;
+    const n = s2.length;
+    const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    for (let i = 1; i <= m; ++i) {
+        f[i][0] = f[i - 1][0] + s1[i - 1].charCodeAt(0);
     }
-  }
-  return f[m][n];
+    for (let j = 1; j <= n; ++j) {
+        f[0][j] = f[0][j - 1] + s2[j - 1].charCodeAt(0);
+    }
+    for (let i = 1; i <= m; ++i) {
+        for (let j = 1; j <= n; ++j) {
+            if (s1[i - 1] === s2[j - 1]) {
+                f[i][j] = f[i - 1][j - 1];
+            } else {
+                f[i][j] = Math.min(
+                    f[i - 1][j] + s1[i - 1].charCodeAt(0),
+                    f[i][j - 1] + s2[j - 1].charCodeAt(0),
+                );
+            }
+        }
+    }
+    return f[m][n];
 }
 ```
 
@@ -202,28 +228,28 @@ function minimumDeleteSum(s1: string, s2: string): number {
  * @return {number}
  */
 var minimumDeleteSum = function (s1, s2) {
-  const m = s1.length;
-  const n = s2.length;
-  const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
-  for (let i = 1; i <= m; ++i) {
-    f[i][0] = f[i - 1][0] + s1[i - 1].charCodeAt(0);
-  }
-  for (let j = 1; j <= n; ++j) {
-    f[0][j] = f[0][j - 1] + s2[j - 1].charCodeAt(0);
-  }
-  for (let i = 1; i <= m; ++i) {
-    for (let j = 1; j <= n; ++j) {
-      if (s1[i - 1] === s2[j - 1]) {
-        f[i][j] = f[i - 1][j - 1];
-      } else {
-        f[i][j] = Math.min(
-          f[i - 1][j] + s1[i - 1].charCodeAt(0),
-          f[i][j - 1] + s2[j - 1].charCodeAt(0)
-        );
-      }
+    const m = s1.length;
+    const n = s2.length;
+    const f = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    for (let i = 1; i <= m; ++i) {
+        f[i][0] = f[i - 1][0] + s1[i - 1].charCodeAt(0);
     }
-  }
-  return f[m][n];
+    for (let j = 1; j <= n; ++j) {
+        f[0][j] = f[0][j - 1] + s2[j - 1].charCodeAt(0);
+    }
+    for (let i = 1; i <= m; ++i) {
+        for (let j = 1; j <= n; ++j) {
+            if (s1[i - 1] === s2[j - 1]) {
+                f[i][j] = f[i - 1][j - 1];
+            } else {
+                f[i][j] = Math.min(
+                    f[i - 1][j] + s1[i - 1].charCodeAt(0),
+                    f[i][j - 1] + s2[j - 1].charCodeAt(0),
+                );
+            }
+        }
+    }
+    return f[m][n];
 };
 ```
 

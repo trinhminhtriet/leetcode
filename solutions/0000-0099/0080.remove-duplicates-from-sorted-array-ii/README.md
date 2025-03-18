@@ -1,99 +1,101 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0080.Remove%20Duplicates%20from%20Sorted%20Array%20II/README.md
 tags:
-  - Array
-  - Two Pointers
+    - 数组
+    - 双指针
 ---
 
 <!-- problem:start -->
 
-# [80. Remove Duplicates from Sorted Array II](https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii)
+# [80. 删除有序数组中的重复项 II](https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii)
 
-## Description
+[English Version](/solution/0000-0099/0080.Remove%20Duplicates%20from%20Sorted%20Array%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> sorted in <strong>non-decreasing order</strong>, remove some duplicates <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank"><strong>in-place</strong></a> such that each unique element appears <strong>at most twice</strong>. The <strong>relative order</strong> of the elements should be kept the <strong>same</strong>.</p>
+<p>给你一个有序数组 <code>nums</code> ，请你<strong><a href="http://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95" target="_blank"> 原地</a></strong> 删除重复出现的元素，使得出现次数超过两次的元素<strong>只出现两次</strong> ，返回删除后数组的新长度。</p>
 
-<p>Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the <strong>first part</strong> of the array <code>nums</code>. More formally, if there are <code>k</code> elements after removing the duplicates, then the first <code>k</code> elements of <code>nums</code>&nbsp;should hold the final result. It does not matter what you leave beyond the first&nbsp;<code>k</code>&nbsp;elements.</p>
+<p>不要使用额外的数组空间，你必须在 <strong><a href="https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95" target="_blank">原地 </a>修改输入数组 </strong>并在使用 O(1) 额外空间的条件下完成。</p>
 
-<p>Return <code>k</code><em> after placing the final result in the first </em><code>k</code><em> slots of </em><code>nums</code>.</p>
+<p>&nbsp;</p>
 
-<p>Do <strong>not</strong> allocate extra space for another array. You must do this by <strong>modifying the input array <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank">in-place</a></strong> with O(1) extra memory.</p>
+<p><strong>说明：</strong></p>
 
-<p><strong>Custom Judge:</strong></p>
+<p>为什么返回数值是整数，但输出的答案是数组呢？</p>
 
-<p>The judge will test your solution with the following code:</p>
+<p>请注意，输入数组是以<strong>「引用」</strong>方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。</p>
+
+<p>你可以想象内部操作如下:</p>
 
 <pre>
-int[] nums = [...]; // Input array
-int[] expectedNums = [...]; // The expected answer with correct length
+// <strong>nums</strong> 是以“引用”方式传递的。也就是说，不对实参做任何拷贝
+int len = removeDuplicates(nums);
 
-int k = removeDuplicates(nums); // Calls your implementation
-
-assert k == expectedNums.length;
-for (int i = 0; i &lt; k; i++) {
-    assert nums[i] == expectedNums[i];
+// 在函数里修改输入数组对于调用者是可见的。
+// 根据你的函数返回的长度, 它会打印出数组中<strong> 该长度范围内</strong> 的所有元素。
+for (int i = 0; i &lt; len; i++) {
+&nbsp; &nbsp; print(nums[i]);
 }
 </pre>
 
-<p>If all assertions pass, then your solution will be <strong>accepted</strong>.</p>
-
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,1,1,2,2,3]
-<strong>Output:</strong> 5, nums = [1,1,2,2,3,_]
-<strong>Explanation:</strong> Your function should return k = 5, with the first five elements of nums being 1, 1, 2, 2 and 3 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
+<strong>输入：</strong>nums = [1,1,1,2,2,3]
+<strong>输出：</strong>5, nums = [1,1,2,2,3]
+<strong>解释：</strong>函数应返回新长度 length = <strong><code>5</code></strong>, 并且原数组的前五个元素被修改为 <strong><code>1, 1, 2, 2, 3</code></strong>。 不需要考虑数组中超出新长度后面的元素。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [0,0,1,1,1,1,2,3,3]
-<strong>Output:</strong> 7, nums = [0,0,1,1,2,3,3,_,_]
-<strong>Explanation:</strong> Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3 and 3 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
+<strong>输入：</strong>nums = [0,0,1,1,1,1,2,3,3]
+<strong>输出：</strong>7, nums = [0,0,1,1,2,3,3]
+<strong>解释：</strong>函数应返回新长度 length = <strong><code>7</code></strong>, 并且原数组的前七个元素被修改为&nbsp;<strong><code>0, 0, 1, 1, 2, 3, 3</code></strong>。不需要考虑数组中超出新长度后面的元素。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li>
 	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>nums</code> is sorted in <strong>non-decreasing</strong> order.</li>
+	<li><code>nums</code> 已按升序排列</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Single Pass
+### 方法一：一次遍历
 
-We use a variable $k$ to record the current length of the array that has been processed. Initially, $k=0$, representing an empty array.
+我们用一个变量 $k$ 记录当前已经处理好的数组的长度，初始时 $k=0$，表示空数组。
 
-Then we traverse the array from left to right. For each element $x$ we traverse, if $k < 2$ or $x \neq nums[k-2]$, we put $x$ in the position of $nums[k]$, and then increment $k$ by $1$. Otherwise, $x$ is the same as $nums[k-2]$, we directly skip this element. Continue to traverse until the entire array is traversed.
+然后我们从左到右遍历数组，对于遍历到的每个元素 $x$，如果 $k \lt 2$ 或者 $x \neq nums[k-2]$，我们就将 $x$ 放到 $nums[k]$ 的位置，然后 $k$ 自增 $1$。否则，$x$ 与 $nums[k-2]$ 相同，我们直接跳过这个元素。继续遍历，直到遍历完整个数组。
 
-In this way, when the traversal ends, the first $k$ elements in $nums$ are the answer we want, and $k$ is the length of the answer.
+这样，当遍历结束时，$nums$ 中前 $k$ 个元素就是我们要求的答案，且 $k$ 就是答案的长度。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组的长度。
 
-Supplement:
+补充：
 
-The original problem requires that the same number appears at most $2$ times. We can extend it to keep at most $k$ identical numbers.
+原问题要求最多相同的数字最多出现 $2$ 次，我们可以扩展至相同的数字最多保留 $k$ 个。
 
-- Since the same number can be kept at most $k$ times, we can directly keep the first $k$ elements of the original array;
-- For the later numbers, the premise of being able to keep them is: the current number $x$ compares with the $k$th element from the end of the previously kept numbers. If they are different, keep it, otherwise skip it.
+-   由于相同的数字最多保留 $k$ 个，那么原数组的前 $k$ 个元素我们可以直接保留；
+-   对于后面的数字，能够保留的前提是：当前数字 $x$ 与前面已保留的数字的倒数第 $k$ 个元素比较，不同则保留，相同则跳过。
 
-Similar problems:
+相似题目：
 
-- [26. Remove Duplicates from Sorted Array](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0026.Remove%20Duplicates%20from%20Sorted%20Array/README_EN.md)
+-   [26. 删除有序数组中的重复项](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0026.Remove%20Duplicates%20from%20Sorted%20Array/README.md)
 
 <!-- tabs:start -->
 
@@ -162,13 +164,13 @@ func removeDuplicates(nums []int) int {
 
 ```ts
 function removeDuplicates(nums: number[]): number {
-  let k = 0;
-  for (const x of nums) {
-    if (k < 2 || x !== nums[k - 2]) {
-      nums[k++] = x;
+    let k = 0;
+    for (const x of nums) {
+        if (k < 2 || x !== nums[k - 2]) {
+            nums[k++] = x;
+        }
     }
-  }
-  return k;
+    return k;
 }
 ```
 
@@ -197,13 +199,13 @@ impl Solution {
  * @return {number}
  */
 var removeDuplicates = function (nums) {
-  let k = 0;
-  for (const x of nums) {
-    if (k < 2 || x !== nums[k - 2]) {
-      nums[k++] = x;
+    let k = 0;
+    for (const x of nums) {
+        if (k < 2 || x !== nums[k - 2]) {
+            nums[k++] = x;
+        }
     }
-  }
-  return k;
+    return k;
 };
 ```
 

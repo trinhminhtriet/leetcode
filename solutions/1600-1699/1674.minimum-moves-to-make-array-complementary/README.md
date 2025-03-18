@@ -1,103 +1,108 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1674.Minimum%20Moves%20to%20Make%20Array%20Complementary/README.md
 rating: 2333
-source: Weekly Contest 217 Q3
+source: 第 217 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Prefix Sum
+    - 数组
+    - 哈希表
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1674. Minimum Moves to Make Array Complementary](https://leetcode.com/problems/minimum-moves-to-make-array-complementary)
+# [1674. 使数组互补的最少操作次数](https://leetcode.cn/problems/minimum-moves-to-make-array-complementary)
 
-## Description
+[English Version](/solution/1600-1699/1674.Minimum%20Moves%20to%20Make%20Array%20Complementary/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> of <strong>even</strong> length <code>n</code> and an integer <code>limit</code>. In one move, you can replace any integer from <code>nums</code> with another integer between <code>1</code> and <code>limit</code>, inclusive.</p>
+<p>给你一个长度为<strong> 偶数</strong> <code>n</code> 的整数数组 <code>nums</code> 和一个整数 <code>limit</code> 。每一次操作，你可以将 <code>nums</code> 中的任何整数替换为 <code>1</code> 到 <code>limit</code> 之间的另一个整数。</p>
 
-<p>The array <code>nums</code> is <strong>complementary</strong> if for all indices <code>i</code> (<strong>0-indexed</strong>), <code>nums[i] + nums[n - 1 - i]</code> equals the same number. For example, the array <code>[1,2,3,4]</code> is complementary because for all indices <code>i</code>, <code>nums[i] + nums[n - 1 - i] = 5</code>.</p>
+<p>如果对于所有下标 <code>i</code>（<strong>下标从 </strong><code>0</code><strong> 开始</strong>），<code>nums[i] + nums[n - 1 - i]</code> 都等于同一个数，则数组 <code>nums</code> 是 <strong>互补的</strong> 。例如，数组 <code>[1,2,3,4]</code> 是互补的，因为对于所有下标 <code>i</code> ，<code>nums[i] + nums[n - 1 - i] = 5</code> 。</p>
 
-<p>Return the <em><strong>minimum</strong> number of moves required to make </em><code>nums</code><em> <strong>complementary</strong></em>.</p>
+<p>返回使数组 <strong>互补</strong> 的 <strong>最少</strong> 操作次数。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,4,3], limit = 4
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> In 1 move, you can change nums to [1,2,<u>2</u>,3] (underlined elements are changed).
+<strong>输入：</strong>nums = [1,2,4,3], limit = 4
+<strong>输出：</strong>1
+<strong>解释：</strong>经过 1 次操作，你可以将数组 nums 变成 [1,2,<strong>2</strong>,3]（加粗元素是变更的数字）：
 nums[0] + nums[3] = 1 + 3 = 4.
 nums[1] + nums[2] = 2 + 2 = 4.
 nums[2] + nums[1] = 2 + 2 = 4.
 nums[3] + nums[0] = 3 + 1 = 4.
-Therefore, nums[i] + nums[n-1-i] = 4 for every i, so nums is complementary.
+对于每个 i ，nums[i] + nums[n-1-i] = 4 ，所以 nums 是互补的。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,2,1], limit = 2
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> In 2 moves, you can change nums to [<u>2</u>,2,2,<u>2</u>]. You cannot change any number to 3 since 3 &gt; limit.
+<strong>输入：</strong>nums = [1,2,2,1], limit = 2
+<strong>输出：</strong>2
+<strong>解释：</strong>经过 2 次操作，你可以将数组 nums 变成 [<strong>2</strong>,2,2,<strong>2</strong>] 。你不能将任何数字变更为 3 ，因为 3 > limit 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,1,2], limit = 2
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> nums is already complementary.
+<strong>输入：</strong>nums = [1,2,1,2], limit = 2
+<strong>输出：</strong>0
+<strong>解释：</strong>nums 已经是互补的。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
-	<li><code>2 &lt;= n&nbsp;&lt;=&nbsp;10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums[i]&nbsp;&lt;= limit &lt;=&nbsp;10<sup>5</sup></code></li>
-	<li><code>n</code> is even.</li>
+	<li><code>2 <= n <= 10<sup>5</sup></code></li>
+	<li><code>1 <= nums[i] <= limit <= 10<sup>5</sup></code></li>
+	<li><code>n</code> 是偶数。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Difference Array
+### 方法一：差分数组
 
-Assume that in the final array, the sum of the pair $\textit{nums}[i]$ and $\textit{nums}[n-i-1]$ is $s$.
+假设最终的数组中，数对 $\textit{nums}[i]$ 和 $\textit{nums}[n-i-1]$ 的和为 $s$。
 
-Let's denote $x$ as the smaller value between $\textit{nums}[i]$ and $\textit{nums}[n-i-1]$, and $y$ as the larger value.
+我们不妨设 $x$ 为 $\textit{nums}[i]$ 和 $\textit{nums}[n-i-1]$ 的较小值，设 $y$ 为 $\textit{nums}[i]$ 和 $\textit{nums}[n-i-1]$ 的较大值。
 
-For each pair of numbers, we have the following scenarios:
+对于每一对数，我们有以下几种情况：
 
-- If no replacement is needed, then $x + y = s$.
-- If one replacement is made, then $x + 1 \le s \le y + \textit{limit}$.
-- If two replacements are made, then $2 \le s \le x$ or $y + \textit{limit} + 1 \le s \le 2 \times \textit{limit}$.
+-   如果不需要替换，那么 $x + y = s$。
+-   如果替换一次，那么 $x + 1 \le s \le y + \textit{limit}$。
+-   如果替换两次，那么 $2 \le s \le x$ 或 $y + \textit{limit} + 1 \le s \le 2 \times \textit{limit}$。
 
-That is:
+即：
 
-- In the range $[2,..x]$, $2$ replacements are needed.
-- In the range $[x+1,..x+y-1]$, $1$ replacement is needed.
-- At $[x+y]$, no replacement is needed.
-- In the range $[x+y+1,..y + \textit{limit}]$, $1$ replacement is needed.
-- In the range $[y + \textit{limit} + 1,..2 \times \textit{limit}]$, $2$ replacements are needed.
+-   在 $[2,..x]$ 范围内，需要替换 $2$ 次。
+-   在 $[x+1,..x+y-1]$ 范围内，需要替换 $1$ 次。
+-   在 $[x+y]$ 时，不需要替换。
+-   在 $[x+y+1,..y + \textit{limit}]$ 范围内，需要替换 $1$ 次。
+-   在 $[y + \textit{limit} + 1,..2 \times \textit{limit}]$ 范围内，需要替换 $2$ 次。
 
-We enumerate each pair of numbers and use a difference array to update the number of replacements needed in different ranges for each pair.
+我们枚举每一个数对，利用差分数组，更新每个数对在不同区间范围内的替换次数。
 
-Finally, we find the minimum value among the prefix sums from index $2$ to $2 \times \textit{limit}$, which is the minimum number of replacements needed.
+最后，我们求出下标 $2$ 到 $2 \times \textit{limit}$ 的前缀和中的最小值，即为最少的替换次数。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
-Similar problems:
+相似题目：
 
-- [3224. Minimum Array Changes to Make Differences Equal](https://github.com/doocs/leetcode/blob/main/solution/3200-3299/3224.Minimum%20Array%20Changes%20to%20Make%20Differences%20Equal/README_EN.md)
+-   [3224. 使差值相等的最少数组改动次数](https://github.com/doocs/leetcode/blob/main/solution/3200-3299/3224.Minimum%20Array%20Changes%20to%20Make%20Differences%20Equal/README.md)
 
 <!-- tabs:start -->
 
@@ -214,26 +219,26 @@ func minMoves(nums []int, limit int) int {
 
 ```ts
 function minMoves(nums: number[], limit: number): number {
-  const n = nums.length;
-  const d: number[] = Array(limit * 2 + 2).fill(0);
-  for (let i = 0; i < n >> 1; ++i) {
-    const x = Math.min(nums[i], nums[n - 1 - i]);
-    const y = Math.max(nums[i], nums[n - 1 - i]);
-    d[2] += 2;
-    d[x + 1] -= 2;
-    d[x + 1] += 1;
-    d[x + y] -= 1;
-    d[x + y + 1] += 1;
-    d[y + limit + 1] -= 1;
-    d[y + limit + 1] += 2;
-  }
-  let ans = n;
-  let s = 0;
-  for (let i = 2; i < d.length; ++i) {
-    s += d[i];
-    ans = Math.min(ans, s);
-  }
-  return ans;
+    const n = nums.length;
+    const d: number[] = Array(limit * 2 + 2).fill(0);
+    for (let i = 0; i < n >> 1; ++i) {
+        const x = Math.min(nums[i], nums[n - 1 - i]);
+        const y = Math.max(nums[i], nums[n - 1 - i]);
+        d[2] += 2;
+        d[x + 1] -= 2;
+        d[x + 1] += 1;
+        d[x + y] -= 1;
+        d[x + y + 1] += 1;
+        d[y + limit + 1] -= 1;
+        d[y + limit + 1] += 2;
+    }
+    let ans = n;
+    let s = 0;
+    for (let i = 2; i < d.length; ++i) {
+        s += d[i];
+        ans = Math.min(ans, s);
+    }
+    return ans;
 }
 ```
 

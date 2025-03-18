@@ -1,87 +1,94 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0907.Sum%20of%20Subarray%20Minimums/README.md
 tags:
-  - Stack
-  - Array
-  - Dynamic Programming
-  - Monotonic Stack
+    - 栈
+    - 数组
+    - 动态规划
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [907. Sum of Subarray Minimums](https://leetcode.com/problems/sum-of-subarray-minimums)
+# [907. 子数组的最小值之和](https://leetcode.cn/problems/sum-of-subarray-minimums)
 
-## Description
+[English Version](/solution/0900-0999/0907.Sum%20of%20Subarray%20Minimums/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of integers arr, find the sum of <code>min(b)</code>, where <code>b</code> ranges over every (contiguous) subarray of <code>arr</code>. Since the answer may be large, return the answer <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>给定一个整数数组 <code>arr</code>，找到 <code>min(b)</code> 的总和，其中 <code>b</code> 的范围为 <code>arr</code> 的每个（连续）子数组。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>由于答案可能很大，因此<strong> 返回答案模 <code>10^9 + 7</code></strong> 。</p>
 
-<pre>
-<strong>Input:</strong> arr = [3,1,2,4]
-<strong>Output:</strong> 17
-<strong>Explanation:</strong> 
-Subarrays are [3], [1], [2], [4], [3,1], [1,2], [2,4], [3,1,2], [1,2,4], [3,1,2,4]. 
-Minimums are 3, 1, 2, 4, 1, 1, 2, 1, 1, 1.
-Sum is 17.
-</pre>
+<p> </p>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> arr = [11,81,94,43,3]
-<strong>Output:</strong> 444
+<strong>输入：</strong>arr = [3,1,2,4]
+<strong>输出：</strong>17
+<strong>解释：
+</strong>子数组为<strong> </strong>[3]，[1]，[2]，[4]，[3,1]，[1,2]，[2,4]，[3,1,2]，[1,2,4]，[3,1,2,4]。 
+最小值为 3，1，2，4，1，1，2，1，1，1，和为 17。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [11,81,94,43,3]
+<strong>输出：</strong>444
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= arr.length &lt;= 3 * 10<sup>4</sup></code></li>
-	<li><code>1 &lt;= arr[i] &lt;= 3 * 10<sup>4</sup></code></li>
+	<li><code>1 <= arr.length <= 3 * 10<sup>4</sup></code></li>
+	<li><code>1 <= arr[i] <= 3 * 10<sup>4</sup></code></li>
 </ul>
+
+<p> </p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Monotonic Stack
+### 方法一：单调栈
 
-The problem asks for the sum of the minimum values of each subarray, which is equivalent to finding the number of subarrays for which each element $arr[i]$ is the minimum, then multiplying by $arr[i]$, and finally summing these up.
+题目要求的是每个子数组的最小值之和，实际上相当于，对于每个元素 $arr[i]$，求以 $arr[i]$ 为最小值的子数组的个数，然后乘以 $arr[i]$，最后求和。
 
-Therefore, the focus of the problem is to find the number of subarrays for which $arr[i]$ is the minimum. For $arr[i]$, we find the first position $left[i]$ to its left that is less than $arr[i]$, and the first position $right[i]$ to its right that is less than or equal to $arr[i]$. The number of subarrays for which $arr[i]$ is the minimum is $(i - left[i]) \times (right[i] - i)$.
+因此，题目的重点转换为：求以 $arr[i]$ 为最小值的子数组的个数。对于 $arr[i]$，我们找出其左边第一个小于 $arr[i]$ 的位置 $left[i]$，右侧第一个小于等于 $arr[i]$ 的位置 $right[i]$，则以 $arr[i]$ 为最小值的子数组的个数为 $(i - left[i]) \times (right[i] - i)$。
 
-Note, why do we find the first position $right[i]$ to the right that is less than or equal to $arr[i]$, rather than less than $arr[i]$? This is because if we find the first position $right[i]$ to the right that is less than $arr[i]$, it will lead to duplicate calculations.
+注意，这里为什么要求右侧第一个小于等于 $arr[i]$ 的位置 $right[i]$，而不是小于 $arr[i]$ 的位置呢？这是因为，如果是右侧第一个小于 $arr[i]$ 的位置 $right[i]$，则会导致重复计算。
 
-Let's take an example to illustrate. For the following array:
+我们可以举个例子来说明，对于以下数组：
 
-The element at index $3$ is $2$, the first element to its left that is less than $2$ is at index $0$. If we find the first element to its right that is less than $2$, we get index $7$. That is, the subarray interval is $(0, 7)$. Note that this is an open interval.
+下标为 $3$ 的元素大小为 $2$，左侧第一个小于 $2$ 的元素下标为 $0$，如果我们求右侧第一个小于 $2$ 的元素下标，可以得到下标为 $7$。也即是说，子数组区间为 $(0, 7)$。注意，这里是开区间。
 
 ```
 0 4 3 2 5 3 2 1
 *     ^       *
 ```
 
-In the same way, we can find the subarray interval for the element at index $6$, and find that its subarray interval is also $(0, 7)$. That is, the subarray intervals for the elements at index $3$ and index $6$ are the same. This leads to duplicate calculations.
+按照同样的方法，我们可以求出下标为 $6$ 的元素的子数组区间，可以发现，其子数组区间也为 $(0, 7)$，也即是说，下标为 $3$ 和下标为 $6$ 的元素的子数组区间是重复的。这样就造成了重复计算。
 
 ```
 0 4 3 2 5 3 2 1
 *           ^ *
 ```
 
-If we find the first element to its right that is less than or equal to its value, there will be no duplication, because the subarray interval for the element at index $3$ becomes $(0, 6)$, and the subarray interval for the element at index $6$ is $(0, 7)$, which are not the same.
+如果我们求的是右侧第一个小于等于其值的下标，就不会有重复问题，因为下标为 $3$ 的子数组区间变为 $(0, 6)$，下标为 $6$ 的子数组区间为 $(0, 7)$，两者不重复。
 
-Back to this problem, we just need to traverse the array, for each element $arr[i]$, use a monotonic stack to find the first position $left[i]$ to its left that is less than $arr[i]$, and the first position $right[i]$ to its right that is less than or equal to $arr[i]$. The number of subarrays for which $arr[i]$ is the minimum is $(i - left[i]) \times (right[i] - i)$, then multiply by $arr[i]$, and finally sum these up.
+回到这道题上，我们只需要遍历数组，对于每个元素 $arr[i]$，利用单调栈求出其左侧第一个小于 $arr[i]$ 的位置 $left[i]$，右侧第一个小于等于 $arr[i]$ 的位置 $right[i]$，则以 $arr[i]$ 为最小值的子数组的个数为 $(i - left[i]) \times (right[i] - i)$，然后乘以 $arr[i]$，最后求和即可。
 
-Be aware of data overflow and modulo operations.
+注意数据的溢出以及取模操作。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $arr$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $arr$ 的长度。
 
 <!-- tabs:start -->
 
@@ -237,38 +244,38 @@ func sumSubarrayMins(arr []int) (ans int) {
 
 ```ts
 function sumSubarrayMins(arr: number[]): number {
-  const n: number = arr.length;
-  const left: number[] = Array(n).fill(-1);
-  const right: number[] = Array(n).fill(n);
-  const stk: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    while (stk.length > 0 && arr[stk.at(-1)] >= arr[i]) {
-      stk.pop();
+    const n: number = arr.length;
+    const left: number[] = Array(n).fill(-1);
+    const right: number[] = Array(n).fill(n);
+    const stk: number[] = [];
+    for (let i = 0; i < n; ++i) {
+        while (stk.length > 0 && arr[stk.at(-1)] >= arr[i]) {
+            stk.pop();
+        }
+        if (stk.length > 0) {
+            left[i] = stk.at(-1);
+        }
+        stk.push(i);
     }
-    if (stk.length > 0) {
-      left[i] = stk.at(-1);
-    }
-    stk.push(i);
-  }
 
-  stk.length = 0;
-  for (let i = n - 1; ~i; --i) {
-    while (stk.length > 0 && arr[stk.at(-1)] > arr[i]) {
-      stk.pop();
+    stk.length = 0;
+    for (let i = n - 1; ~i; --i) {
+        while (stk.length > 0 && arr[stk.at(-1)] > arr[i]) {
+            stk.pop();
+        }
+        if (stk.length > 0) {
+            right[i] = stk.at(-1);
+        }
+        stk.push(i);
     }
-    if (stk.length > 0) {
-      right[i] = stk.at(-1);
-    }
-    stk.push(i);
-  }
 
-  const mod: number = 1e9 + 7;
-  let ans: number = 0;
-  for (let i = 0; i < n; ++i) {
-    ans += ((((i - left[i]) * (right[i] - i)) % mod) * arr[i]) % mod;
-    ans %= mod;
-  }
-  return ans;
+    const mod: number = 1e9 + 7;
+    let ans: number = 0;
+    for (let i = 0; i < n; ++i) {
+        ans += ((((i - left[i]) * (right[i] - i)) % mod) * arr[i]) % mod;
+        ans %= mod;
+    }
+    return ans;
 }
 ```
 

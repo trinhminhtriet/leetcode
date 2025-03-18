@@ -1,101 +1,105 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1617.Count%20Subtrees%20With%20Max%20Distance%20Between%20Cities/README.md
 rating: 2308
-source: Weekly Contest 210 Q4
+source: 第 210 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Tree
-  - Dynamic Programming
-  - Bitmask
-  - Enumeration
+    - 位运算
+    - 树
+    - 动态规划
+    - 状态压缩
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [1617. Count Subtrees With Max Distance Between Cities](https://leetcode.com/problems/count-subtrees-with-max-distance-between-cities)
+# [1617. 统计子树中城市之间最大距离](https://leetcode.cn/problems/count-subtrees-with-max-distance-between-cities)
 
-## Description
+[English Version](/solution/1600-1699/1617.Count%20Subtrees%20With%20Max%20Distance%20Between%20Cities/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> cities numbered from <code>1</code> to <code>n</code>. You are given an array <code>edges</code> of size <code>n-1</code>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> represents a bidirectional edge between cities <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code>. There exists a unique path between each pair of cities. In other words, the cities form a <strong>tree</strong>.</p>
+<p>给你 <code>n</code> 个城市，编号为从 <code>1</code> 到 <code>n</code> 。同时给你一个大小为 <code>n-1</code> 的数组 <code>edges</code> ，其中 <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> 表示城市 <code>u<sub>i</sub></code> 和 <code>v<sub>i</sub></code><sub> </sub>之间有一条双向边。题目保证任意城市之间只有唯一的一条路径。换句话说，所有城市形成了一棵 <strong>树</strong> 。</p>
 
-<p>A <strong>subtree</strong> is a subset of cities where every city is reachable from every other city in the subset, where the path between each pair passes through only the cities from the subset. Two subtrees are different if there is a city in one subtree that is not present in the other.</p>
+<p>一棵 <strong>子树</strong> 是城市的一个子集，且子集中任意城市之间可以通过子集中的其他城市和边到达。两个子树被认为不一样的条件是至少有一个城市在其中一棵子树中存在，但在另一棵子树中不存在。</p>
 
-<p>For each <code>d</code> from <code>1</code> to <code>n-1</code>, find the number of subtrees in which the <strong>maximum distance</strong> between any two cities in the subtree is equal to <code>d</code>.</p>
+<p>对于 <code>d</code> 从 <code>1</code> 到 <code>n-1</code> ，请你找到城市间 <strong>最大距离</strong> 恰好为 <code>d</code> 的所有子树数目。</p>
 
-<p>Return <em>an array of size</em> <code>n-1</code> <em>where the </em><code>d<sup>th</sup></code><em> </em><em>element <strong>(1-indexed)</strong> is the number of subtrees in which the <strong>maximum distance</strong> between any two cities is equal to </em><code>d</code>.</p>
+<p>请你返回一个大小为 <code>n-1</code> 的数组，其中第<em> </em><code>d</code><em> </em>个元素（<strong>下标从 1 开始</strong>）是城市间 <strong>最大距离</strong> 恰好等于 <code>d</code> 的子树数目。</p>
 
-<p><strong>Notice</strong>&nbsp;that&nbsp;the <strong>distance</strong> between the two cities is the number of edges in the path between them.</p>
+<p><strong>请注意</strong>，两个城市间距离定义为它们之间需要经过的边的数目。</p>
 
-<p>&nbsp;</p>
+<p> </p>
 
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1617.Count%20Subtrees%20With%20Max%20Distance%20Between%20Cities/images/p1.png" style="width: 161px; height: 181px;" /></strong></p>
 
 <pre>
-
-<strong>Input:</strong> n = 4, edges = [[1,2],[2,3],[2,4]]
-
-<strong>Output:</strong> [3,4,0]
-
-<strong>Explanation:
-
-</strong>The subtrees with subsets {1,2}, {2,3} and {2,4} have a max distance of 1.
-
-The subtrees with subsets {1,2,3}, {1,2,4}, {2,3,4} and {1,2,3,4} have a max distance of 2.
-
-No subtree has two nodes where the max distance between them is 3.
-
+<b>输入：</b>n = 4, edges = [[1,2],[2,3],[2,4]]
+<b>输出：</b>[3,4,0]
+<strong>解释：
+</strong>子树 {1,2}, {2,3} 和 {2,4} 最大距离都是 1 。
+子树 {1,2,3}, {1,2,4}, {2,3,4} 和 {1,2,3,4} 最大距离都为 2 。
+不存在城市间最大距离为 3 的子树。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-
-<strong>Input:</strong> n = 2, edges = [[1,2]]
-
-<strong>Output:</strong> [1]
-
+<b>输入：</b>n = 2, edges = [[1,2]]
+<b>输出：</b>[1]
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-
-<strong>Input:</strong> n = 3, edges = [[1,2],[2,3]]
-
-<strong>Output:</strong> [2,1]
-
+<b>输入：</b>n = 3, edges = [[1,2],[2,3]]
+<b>输出：</b>[2,1]
 </pre>
 
-<p>&nbsp;</p>
+<p> </p>
 
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>2 &lt;= n &lt;= 15</code></li>
-
-    <li><code>edges.length == n-1</code></li>
-
-    <li><code>edges[i].length == 2</code></li>
-
-    <li><code>1 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt;= n</code></li>
-
-    <li>All pairs <code>(u<sub>i</sub>, v<sub>i</sub>)</code> are distinct.</li>
-
+	<li><code>2 <= n <= 15</code></li>
+	<li><code>edges.length == n-1</code></li>
+	<li><code>edges[i].length == 2</code></li>
+	<li><code>1 <= u<sub>i</sub>, v<sub>i</sub> <= n</code></li>
+	<li>题目保证 <code>(u<sub>i</sub>, v<sub>i</sub>)</code> 所表示的边互不相同。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：二进制枚举 + BFS 或 DFS
+
+我们注意到 $n \leq 15$，因此可以考虑使用二进制枚举的方法枚举所有的子树。而子树中节点的最大距离，其实就是子树中两个节点之间的最长路径，也即是树的直径，求解树的直径一般可以使用 DFS 或 BFS，先找到树直径的一个端点，然后再从该端点出发，找到树的另一个端点，这两个端点之间的路径长度就是树的直径。
+
+接下来，我们详细说明具体的代码实现。
+
+我们先根据数组 $edges$ 构建出邻接表 $g$，其中 $g[u]$ 表示节点 $u$ 的所有邻接节点。
+
+用一个二进制数 $mask$ 表示子树，其中 $mask$ 的第 $i$ 位为 $1$ 表示节点 $i$ 在子树中，否则表示节点 $i$ 不在子树中。每个节点都有两种状态，即在子树中或不在子树中，有 $n$ 个节点，因此一共有 $2^n$ 种状态。
+
+接下来，我们在 $[1,..2^n-1]$ 的范围内枚举子树 $mask$，对于每个子树：
+
+如果 $mask$ 的二进制表示中只有一个二进制位为 $1$，即 $mask \in [1,2,4,8,\cdots,2^{n-1}]$，则跳过该 $mask$，因为这些 $mask$ 表示的子树只有一个节点，不符合题意；
+
+否则，我们找到 $mask$ 的二进制表示中最高位的二进制位为 $1$ 的位置，记为 $cur$。然后从节点 $cur$ 出发，通过深度优先搜索或者广度优先搜索，找到树直径的一个端点 $nxt$，然后我们再从节点 $nxt$ 出发，同样通过深度优先搜索或者广度优先搜索，过程中记录下最大距离 $mx$。
+
+当走到最深的节点时，即可得知树的直径。此时我们更新答案数组 $ans$，将 $ans[mx-1]$ 的值加 $1$。注意，这里是 $mx-1$，因为题目中的最大距离是从 $1$ 开始计数的。
+
+最后，枚举完所有的子树，返回答案数组 $ans$ 即可。
+
+时间复杂度 $O(2^n \times n)$，空间复杂度 $O(n)$。其中 $n$ 为节点个数。
 
 <!-- tabs:start -->
 
@@ -277,64 +281,64 @@ func countSubgraphsForEachDiameter(n int, edges [][]int) []int {
 
 ```ts
 function countSubgraphsForEachDiameter(n: number, edges: number[][]): number[] {
-  const g = Array.from({ length: n }, () => []);
-  for (const [u, v] of edges) {
-    g[u - 1].push(v - 1);
-    g[v - 1].push(u - 1);
-  }
-  const ans: number[] = new Array(n - 1).fill(0);
-  let [mx, msk, nxt] = [0, 0, 0];
-  const dfs = (u: number, d: number) => {
-    if (mx < d) {
-      mx = d;
-      nxt = u;
+    const g = Array.from({ length: n }, () => []);
+    for (const [u, v] of edges) {
+        g[u - 1].push(v - 1);
+        g[v - 1].push(u - 1);
     }
-    msk ^= 1 << u;
-    for (const v of g[u]) {
-      if ((msk >> v) & 1) {
-        dfs(v, d + 1);
-      }
+    const ans: number[] = new Array(n - 1).fill(0);
+    let [mx, msk, nxt] = [0, 0, 0];
+    const dfs = (u: number, d: number) => {
+        if (mx < d) {
+            mx = d;
+            nxt = u;
+        }
+        msk ^= 1 << u;
+        for (const v of g[u]) {
+            if ((msk >> v) & 1) {
+                dfs(v, d + 1);
+            }
+        }
+    };
+    for (let mask = 1; mask < 1 << n; ++mask) {
+        if ((mask & (mask - 1)) === 0) {
+            continue;
+        }
+        msk = mask;
+        mx = 0;
+        const cur = 31 - numberOfLeadingZeros(msk);
+        dfs(cur, 0);
+        if (msk === 0) {
+            msk = mask;
+            mx = 0;
+            dfs(nxt, 0);
+            ++ans[mx - 1];
+        }
     }
-  };
-  for (let mask = 1; mask < 1 << n; ++mask) {
-    if ((mask & (mask - 1)) === 0) {
-      continue;
-    }
-    msk = mask;
-    mx = 0;
-    const cur = 31 - numberOfLeadingZeros(msk);
-    dfs(cur, 0);
-    if (msk === 0) {
-      msk = mask;
-      mx = 0;
-      dfs(nxt, 0);
-      ++ans[mx - 1];
-    }
-  }
-  return ans;
+    return ans;
 }
 
 function numberOfLeadingZeros(i: number): number {
-  if (i == 0) return 32;
-  let n = 1;
-  if (i >>> 16 == 0) {
-    n += 16;
-    i <<= 16;
-  }
-  if (i >>> 24 == 0) {
-    n += 8;
-    i <<= 8;
-  }
-  if (i >>> 28 == 0) {
-    n += 4;
-    i <<= 4;
-  }
-  if (i >>> 30 == 0) {
-    n += 2;
-    i <<= 2;
-  }
-  n -= i >>> 31;
-  return n;
+    if (i == 0) return 32;
+    let n = 1;
+    if (i >>> 16 == 0) {
+        n += 16;
+        i <<= 16;
+    }
+    if (i >>> 24 == 0) {
+        n += 8;
+        i <<= 8;
+    }
+    if (i >>> 28 == 0) {
+        n += 4;
+        i <<= 4;
+    }
+    if (i >>> 30 == 0) {
+        n += 2;
+        i <<= 2;
+    }
+    n -= i >>> 31;
+    return n;
 }
 ```
 
@@ -344,7 +348,7 @@ function numberOfLeadingZeros(i: number): number {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -551,69 +555,69 @@ func countSubgraphsForEachDiameter(n int, edges [][]int) []int {
 
 ```ts
 function countSubgraphsForEachDiameter(n: number, edges: number[][]): number[] {
-  const g = Array.from({ length: n }, () => []);
-  for (const [u, v] of edges) {
-    g[u - 1].push(v - 1);
-    g[v - 1].push(u - 1);
-  }
-  const ans: number[] = new Array(n - 1).fill(0);
-  let [msk, nxt] = [0, 0];
-  const bfs = (u: number) => {
-    let d = -1;
-    const q = [u];
-    msk ^= 1 << u;
-    while (q.length) {
-      ++d;
-      for (let k = q.length; k; --k) {
-        u = q.shift()!;
-        nxt = u;
-        for (const v of g[u]) {
-          if ((msk >> v) & 1) {
-            msk ^= 1 << v;
-            q.push(v);
-          }
+    const g = Array.from({ length: n }, () => []);
+    for (const [u, v] of edges) {
+        g[u - 1].push(v - 1);
+        g[v - 1].push(u - 1);
+    }
+    const ans: number[] = new Array(n - 1).fill(0);
+    let [msk, nxt] = [0, 0];
+    const bfs = (u: number) => {
+        let d = -1;
+        const q = [u];
+        msk ^= 1 << u;
+        while (q.length) {
+            ++d;
+            for (let k = q.length; k; --k) {
+                u = q.shift()!;
+                nxt = u;
+                for (const v of g[u]) {
+                    if ((msk >> v) & 1) {
+                        msk ^= 1 << v;
+                        q.push(v);
+                    }
+                }
+            }
         }
-      }
+        return d;
+    };
+    for (let mask = 1; mask < 1 << n; ++mask) {
+        if ((mask & (mask - 1)) === 0) {
+            continue;
+        }
+        msk = mask;
+        const cur = 31 - numberOfLeadingZeros(msk);
+        bfs(cur);
+        if (msk === 0) {
+            msk = mask;
+            const mx = bfs(nxt);
+            ++ans[mx - 1];
+        }
     }
-    return d;
-  };
-  for (let mask = 1; mask < 1 << n; ++mask) {
-    if ((mask & (mask - 1)) === 0) {
-      continue;
-    }
-    msk = mask;
-    const cur = 31 - numberOfLeadingZeros(msk);
-    bfs(cur);
-    if (msk === 0) {
-      msk = mask;
-      const mx = bfs(nxt);
-      ++ans[mx - 1];
-    }
-  }
-  return ans;
+    return ans;
 }
 
 function numberOfLeadingZeros(i: number): number {
-  if (i == 0) return 32;
-  let n = 1;
-  if (i >>> 16 == 0) {
-    n += 16;
-    i <<= 16;
-  }
-  if (i >>> 24 == 0) {
-    n += 8;
-    i <<= 8;
-  }
-  if (i >>> 28 == 0) {
-    n += 4;
-    i <<= 4;
-  }
-  if (i >>> 30 == 0) {
-    n += 2;
-    i <<= 2;
-  }
-  n -= i >>> 31;
-  return n;
+    if (i == 0) return 32;
+    let n = 1;
+    if (i >>> 16 == 0) {
+        n += 16;
+        i <<= 16;
+    }
+    if (i >>> 24 == 0) {
+        n += 8;
+        i <<= 8;
+    }
+    if (i >>> 28 == 0) {
+        n += 4;
+        i <<= 4;
+    }
+    if (i >>> 30 == 0) {
+        n += 2;
+        i <<= 2;
+    }
+    n -= i >>> 31;
+    return n;
 }
 ```
 

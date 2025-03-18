@@ -1,116 +1,121 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2842.Count%20K-Subsequences%20of%20a%20String%20With%20Maximum%20Beauty/README.md
 rating: 2091
-source: Biweekly Contest 112 Q4
+source: 第 112 场双周赛 Q4
 tags:
-  - Greedy
-  - Hash Table
-  - Math
-  - String
-  - Combinatorics
+    - 贪心
+    - 哈希表
+    - 数学
+    - 字符串
+    - 组合数学
 ---
 
 <!-- problem:start -->
 
-# [2842. Count K-Subsequences of a String With Maximum Beauty](https://leetcode.com/problems/count-k-subsequences-of-a-string-with-maximum-beauty)
+# [2842. 统计一个字符串的 k 子序列美丽值最大的数目](https://leetcode.cn/problems/count-k-subsequences-of-a-string-with-maximum-beauty)
 
-## Description
+[English Version](/solution/2800-2899/2842.Count%20K-Subsequences%20of%20a%20String%20With%20Maximum%20Beauty/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> and an integer <code>k</code>.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。</p>
 
-<p>A <strong>k-subsequence</strong> is a <strong>subsequence</strong> of <code>s</code>, having length <code>k</code>, and all its characters are <strong>unique</strong>, <strong>i.e</strong>., every character occurs once.</p>
+<p><strong>k 子序列</strong>指的是 <code>s</code>&nbsp;的一个长度为 <code>k</code>&nbsp;的 <strong>子序列</strong>&nbsp;，且所有字符都是 <strong>唯一</strong>&nbsp;的，也就是说每个字符在子序列里只出现过一次。</p>
 
-<p>Let <code>f(c)</code> denote the number of times the character <code>c</code> occurs in <code>s</code>.</p>
+<p>定义&nbsp;<code>f(c)</code>&nbsp;为字符 <code>c</code>&nbsp;在 <code>s</code>&nbsp;中出现的次数。</p>
 
-<p>The <strong>beauty</strong> of a <strong>k-subsequence</strong> is the <strong>sum</strong> of <code>f(c)</code> for every character <code>c</code> in the k-subsequence.</p>
+<p>k 子序列的 <strong>美丽值</strong>&nbsp;定义为这个子序列中每一个字符 <code>c</code>&nbsp;的&nbsp;<code>f(c)</code>&nbsp;之 <strong>和</strong>&nbsp;。</p>
 
-<p>For example, consider <code>s = &quot;abbbdd&quot;</code> and <code>k = 2</code>:</p>
+<p>比方说，<code>s = "abbbdd"</code>&nbsp;和&nbsp;<code>k = 2</code>&nbsp;，我们有：</p>
 
 <ul>
-	<li><code>f(&#39;a&#39;) = 1</code>, <code>f(&#39;b&#39;) = 3</code>, <code>f(&#39;d&#39;) = 2</code></li>
-	<li>Some k-subsequences of <code>s</code> are:
+	<li><code>f('a') = 1</code>, <code>f('b') = 3</code>, <code>f('d') = 2</code></li>
+	<li><code>s</code>&nbsp;的部分 k 子序列为：
 	<ul>
-		<li><code>&quot;<u><strong>ab</strong></u>bbdd&quot;</code> -&gt; <code>&quot;ab&quot;</code> having a beauty of <code>f(&#39;a&#39;) + f(&#39;b&#39;) = 4</code></li>
-		<li><code>&quot;<u><strong>a</strong></u>bbb<strong><u>d</u></strong>d&quot;</code> -&gt; <code>&quot;ad&quot;</code> having a beauty of <code>f(&#39;a&#39;) + f(&#39;d&#39;) = 3</code></li>
-		<li><code>&quot;a<strong><u>b</u></strong>bb<u><strong>d</strong></u>d&quot;</code> -&gt; <code>&quot;bd&quot;</code> having a beauty of <code>f(&#39;b&#39;) + f(&#39;d&#39;) = 5</code></li>
+		<li><code>"<em><strong>ab</strong></em>bbdd"</code> -&gt; <code>"ab"</code>&nbsp;，美丽值为&nbsp;<code>f('a') + f('b') = 4</code></li>
+		<li><code>"<em><strong>a</strong></em>bbb<em><strong>d</strong></em>d"</code> -&gt; <code>"ad"</code>&nbsp;，美丽值为&nbsp;<code>f('a') + f('d') = 3</code></li>
+		<li><code>"a<em><strong>b</strong></em>bb<em><strong>d</strong></em>d"</code> -&gt; <code>"bd"</code>&nbsp;，美丽值为&nbsp;<code>f('b') + f('d') = 5</code></li>
 	</ul>
 	</li>
 </ul>
 
-<p>Return <em>an integer denoting the number of k-subsequences </em><em>whose <strong>beauty</strong> is the <strong>maximum</strong> among all <strong>k-subsequences</strong></em>. Since the answer may be too large, return it modulo <code>10<sup>9</sup> + 7</code>.</p>
+<p>请你返回一个整数，表示所有 <strong>k 子序列&nbsp;</strong>里面 <strong>美丽值 </strong>是&nbsp;<strong>最大值</strong>&nbsp;的子序列数目。由于答案可能很大，将结果对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;取余后返回。</p>
 
-<p>A subsequence of a string is a new string formed from the original string by deleting some (possibly none) of the characters without disturbing the relative positions of the remaining characters.</p>
+<p>一个字符串的子序列指的是从原字符串里面删除一些字符（也可能一个字符也不删除），不改变剩下字符顺序连接得到的新字符串。</p>
 
-<p><strong>Notes</strong></p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li><code>f(c)</code> is the number of times a character <code>c</code> occurs in <code>s</code>, not a k-subsequence.</li>
-	<li>Two k-subsequences are considered different if one is formed by an index that is not present in the other. So, two k-subsequences may form the same string.</li>
+	<li><code>f(c)</code> 指的是字符&nbsp;<code>c</code>&nbsp;在字符串&nbsp;<code>s</code>&nbsp;的出现次数，不是在 k 子序列里的出现次数。</li>
+	<li>两个 k 子序列如果有任何一个字符在原字符串中的下标不同，则它们是两个不同的子序列。所以两个不同的 k 子序列可能产生相同的字符串。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;bcca&quot;, k = 2
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> <span style="white-space: normal">From s we have f(&#39;a&#39;) = 1, f(&#39;b&#39;) = 1, and f(&#39;c&#39;) = 2.</span>
-The k-subsequences of s are: 
-<strong><u>bc</u></strong>ca having a beauty of f(&#39;b&#39;) + f(&#39;c&#39;) = 3 
-<strong><u>b</u></strong>c<u><strong>c</strong></u>a having a beauty of f(&#39;b&#39;) + f(&#39;c&#39;) = 3 
-<strong><u>b</u></strong>cc<strong><u>a</u></strong> having a beauty of f(&#39;b&#39;) + f(&#39;a&#39;) = 2 
-b<strong><u>c</u></strong>c<u><strong>a</strong></u><strong> </strong>having a beauty of f(&#39;c&#39;) + f(&#39;a&#39;) = 3
-bc<strong><u>ca</u></strong> having a beauty of f(&#39;c&#39;) + f(&#39;a&#39;) = 3 
-There are 4 k-subsequences that have the maximum beauty, 3. 
-Hence, the answer is 4. 
+<b>输入：</b>s = "bcca", k = 2
+<b>输出：</b>4
+<b>解释：</b><span style="white-space: normal">s 中我们有 f('a') = 1 ，f('b') = 1 和 f('c') = 2 。</span>
+s 的 k 子序列为：
+<em><strong>bc</strong></em>ca ，美丽值为 f('b') + f('c') = 3
+<em><strong>b</strong></em>c<em><strong>c</strong></em>a ，美丽值为 f('b') + f('c') = 3
+<em><strong>b</strong></em>cc<em><strong>a</strong></em> ，美丽值为 f('b') + f('a') = 2
+b<em><strong>c</strong></em>c<em><strong>a</strong></em><strong> </strong>，美丽值为 f('c') + f('a') = 3
+bc<em><strong>ca</strong></em> ，美丽值为 f('c') + f('a') = 3
+总共有 4 个 k 子序列美丽值为最大值 3 。
+所以答案为 4 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;abbcd&quot;, k = 4
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> From s we have f(&#39;a&#39;) = 1, f(&#39;b&#39;) = 2, f(&#39;c&#39;) = 1, and f(&#39;d&#39;) = 1. 
-The k-subsequences of s are: 
-<u><strong>ab</strong></u>b<strong><u>cd</u></strong> having a beauty of f(&#39;a&#39;) + f(&#39;b&#39;) + f(&#39;c&#39;) + f(&#39;d&#39;) = 5
-<u style="white-space: normal;"><strong>a</strong></u>b<u><strong>bcd</strong></u> having a beauty of f(&#39;a&#39;) + f(&#39;b&#39;) + f(&#39;c&#39;) + f(&#39;d&#39;) = 5 
-There are 2 k-subsequences that have the maximum beauty, 5. 
-Hence, the answer is 2. 
+<b>输入：</b>s = "abbcd", k = 4
+<b>输出：</b>2
+<b>解释：</b><span style="white-space: normal">s 中我们有 f('a') = 1 ，f('b') = 2&nbsp;，f('c') = 1&nbsp;和</span> f('d') = 1 。
+s 的 k 子序列为：
+<em><strong>ab</strong></em>b<em><strong>cd</strong></em> ，美丽值为 f('a') + f('b') + f('c') + f('d') = 5
+<span style="white-space: normal;"><b><i>a</i></b></span>b<em><strong>bcd</strong></em> ，美丽值为 f('a') + f('b') + f('c') + f('d') = 5 
+总共有 2 个 k 子序列美丽值为最大值 5 。
+所以答案为 2 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 2 * 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= k &lt;= s.length</code></li>
-	<li><code>s</code> consists only of lowercase English letters.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Combinatorial Mathematics
+### 方法一：贪心 + 组合数学
 
-First, we use a hash table $f$ to count the occurrence of each character in the string $s$, i.e., $f[c]$ represents the number of times character $c$ appears in the string $s$.
+我们先用哈希表 $f$ 统计字符串 $s$ 中每个字符的出现次数，即 $f[c]$ 表示字符 $c$ 在字符串 $s$ 中出现的次数。
 
-Since a $k$-subsequence is a subsequence of length $k$ in the string $s$ with unique characters, if the number of different characters in $f$ is less than $k$, then there is no $k$-subsequence, and we can directly return $0$.
+由于 $k$ 子序列是字符串 $s$ 中一个长度为 $k$ 的子序列，且字符唯一，因此，如果 $f$ 中不同字符的个数小于 $k$，那么不存在 $k$ 子序列，直接返回 $0$ 即可。
 
-Otherwise, to maximize the beauty value of the $k$-subsequence, we need to make characters with high beauty values appear as much as possible in the $k$-subsequence. Therefore, we can sort the values in $f$ in reverse order to get an array $vs$.
+否则，要使得 $k$ 子序列的美丽值最大，我们需要尽可能地让美丽值大的字符尽可能地多地出现在 $k$ 子序列中。因此，我们可以对 $f$ 中的值进行倒序排序，得到一个数组 $vs$。
 
-We denote the occurrence of the $k$th character in the array $vs$ as $val$, and there are $x$ characters with an occurrence of $val$.
+我们记数组 $vs$ 第 $k$ 个字符的出现次数为 $val$，一共有 $x$ 个字符出现的次数为 $val$。
 
-Then we first find out the characters with occurrences greater than $val$, multiply the occurrences of each character to get the initial answer $ans$, and update the remaining number of characters to be selected to $k$. We need to select $k$ characters from $x$ characters, so the answer needs to be multiplied by the combination number $C_x^k$, and finally multiplied by $val^k$, i.e., $ans = ans \times C_x^k \times val^k$.
+那么我们先找出出现次数大于 $val$ 的字符，将每个字符出现的次数相乘，得到初始答案 $ans$，剩余的需要选取的字符个数更新为 $k$。我们需要从 $x$ 个字符中选取 $k$ 个字符，因此答案需要乘上组合数 $C_x^k$，最后再乘上 $val^k$，即 $ans = ans \times C_x^k \times val^k$。
 
-Note that we need to use fast power and modulo operations here.
+注意，这里需要用到快速幂，以及取模操作。
 
-The time complexity is $O(n)$, and the space complexity is $O(|\Sigma|)$. Here, $n$ is the length of the string, and $\Sigma$ is the character set. In this problem, the character set is lowercase letters, so $|\Sigma| = 26$.
+时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 是字符串的长度，而 $\Sigma$ 是字符集。本题中字符集为小写字母，因此 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -328,50 +333,48 @@ func countKSubsequencesWithMaxBeauty(s string, k int) int {
 
 ```ts
 function countKSubsequencesWithMaxBeauty(s: string, k: number): number {
-  const f: number[] = new Array(26).fill(0);
-  let cnt = 0;
-  for (const c of s) {
-    const i = c.charCodeAt(0) - 97;
-    if (++f[i] === 1) {
-      ++cnt;
+    const f: number[] = new Array(26).fill(0);
+    let cnt = 0;
+    for (const c of s) {
+        const i = c.charCodeAt(0) - 97;
+        if (++f[i] === 1) {
+            ++cnt;
+        }
     }
-  }
-  if (cnt < k) {
-    return 0;
-  }
-  const mod = BigInt(10 ** 9 + 7);
-  const vs: number[] = f.filter((v) => v > 0).sort((a, b) => b - a);
-  const val = vs[k - 1];
-  const x = vs.filter((v) => v === val).length;
-  let ans = 1n;
-  for (const v of vs) {
-    if (v === val) {
-      break;
+    if (cnt < k) {
+        return 0;
     }
-    --k;
-    ans = (ans * BigInt(v)) % mod;
-  }
-  const c: number[][] = new Array(x + 1)
-    .fill(0)
-    .map(() => new Array(k + 1).fill(0));
-  for (let i = 0; i <= x; ++i) {
-    c[i][0] = 1;
-    for (let j = 1; j <= Math.min(i, k); ++j) {
-      c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % Number(mod);
-    }
-  }
-  const qpow = (a: bigint, n: number): bigint => {
+    const mod = BigInt(10 ** 9 + 7);
+    const vs: number[] = f.filter(v => v > 0).sort((a, b) => b - a);
+    const val = vs[k - 1];
+    const x = vs.filter(v => v === val).length;
     let ans = 1n;
-    for (; n; n >>>= 1) {
-      if (n & 1) {
-        ans = (ans * a) % BigInt(mod);
-      }
-      a = (a * a) % BigInt(mod);
+    for (const v of vs) {
+        if (v === val) {
+            break;
+        }
+        --k;
+        ans = (ans * BigInt(v)) % mod;
     }
-    return ans;
-  };
-  ans = (((ans * BigInt(c[x][k])) % mod) * qpow(BigInt(val), k)) % mod;
-  return Number(ans);
+    const c: number[][] = new Array(x + 1).fill(0).map(() => new Array(k + 1).fill(0));
+    for (let i = 0; i <= x; ++i) {
+        c[i][0] = 1;
+        for (let j = 1; j <= Math.min(i, k); ++j) {
+            c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % Number(mod);
+        }
+    }
+    const qpow = (a: bigint, n: number): bigint => {
+        let ans = 1n;
+        for (; n; n >>>= 1) {
+            if (n & 1) {
+                ans = (ans * a) % BigInt(mod);
+            }
+            a = (a * a) % BigInt(mod);
+        }
+        return ans;
+    };
+    ans = (((ans * BigInt(c[x][k])) % mod) * qpow(BigInt(val), k)) % mod;
+    return Number(ans);
 }
 ```
 

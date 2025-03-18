@@ -1,55 +1,58 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2187.Minimum%20Time%20to%20Complete%20Trips/README.md
 rating: 1640
-source: Weekly Contest 282 Q3
+source: 第 282 场周赛 Q3
 tags:
-  - Array
-  - Binary Search
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [2187. Minimum Time to Complete Trips](https://leetcode.com/problems/minimum-time-to-complete-trips)
+# [2187. 完成旅途的最少时间](https://leetcode.cn/problems/minimum-time-to-complete-trips)
 
-## Description
+[English Version](/solution/2100-2199/2187.Minimum%20Time%20to%20Complete%20Trips/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>time</code> where <code>time[i]</code> denotes the time taken by the <code>i<sup>th</sup></code> bus to complete <strong>one trip</strong>.</p>
+<p>给你一个数组&nbsp;<code>time</code>&nbsp;，其中&nbsp;<code>time[i]</code>&nbsp;表示第 <code>i</code>&nbsp;辆公交车完成 <strong>一趟</strong><strong>旅途</strong>&nbsp;所需要花费的时间。</p>
 
-<p>Each bus can make multiple trips <strong>successively</strong>; that is, the next trip can start <strong>immediately after</strong> completing the current trip. Also, each bus operates <strong>independently</strong>; that is, the trips of one bus do not influence the trips of any other bus.</p>
+<p>每辆公交车可以 <strong>连续</strong> 完成多趟旅途，也就是说，一辆公交车当前旅途完成后，可以 <strong>立马开始</strong>&nbsp;下一趟旅途。每辆公交车 <strong>独立</strong>&nbsp;运行，也就是说可以同时有多辆公交车在运行且互不影响。</p>
 
-<p>You are also given an integer <code>totalTrips</code>, which denotes the number of trips all buses should make <strong>in total</strong>. Return <em>the <strong>minimum time</strong> required for all buses to complete <strong>at least</strong> </em><code>totalTrips</code><em> trips</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> time = [1,2,3], totalTrips = 5
-<strong>Output:</strong> 3
-<strong>Explanation:</strong>
-- At time t = 1, the number of trips completed by each bus are [1,0,0]. 
-  The total number of trips completed is 1 + 0 + 0 = 1.
-- At time t = 2, the number of trips completed by each bus are [2,1,0]. 
-  The total number of trips completed is 2 + 1 + 0 = 3.
-- At time t = 3, the number of trips completed by each bus are [3,1,1]. 
-  The total number of trips completed is 3 + 1 + 1 = 5.
-So the minimum time needed for all buses to complete at least 5 trips is 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> time = [2], totalTrips = 1
-<strong>Output:</strong> 2
-<strong>Explanation:</strong>
-There is only one bus, and it will complete its first trip at t = 2.
-So the minimum time needed to complete 1 trip is 2.
-</pre>
+<p>给你一个整数&nbsp;<code>totalTrips</code>&nbsp;，表示所有公交车&nbsp;<strong>总共</strong>&nbsp;需要完成的旅途数目。请你返回完成 <strong>至少</strong>&nbsp;<code>totalTrips</code>&nbsp;趟旅途需要花费的 <strong>最少</strong>&nbsp;时间。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>time = [1,2,3], totalTrips = 5
+<b>输出：</b>3
+<strong>解释：</strong>
+- 时刻 t = 1 ，每辆公交车完成的旅途数分别为 [1,0,0] 。
+  已完成的总旅途数为 1 + 0 + 0 = 1 。
+- 时刻 t = 2 ，每辆公交车完成的旅途数分别为 [2,1,0] 。
+  已完成的总旅途数为 2 + 1 + 0 = 3 。
+- 时刻 t = 3 ，每辆公交车完成的旅途数分别为 [3,1,1] 。
+  已完成的总旅途数为 3 + 1 + 1 = 5 。
+所以总共完成至少 5 趟旅途的最少时间为 3 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>time = [2], totalTrips = 1
+<b>输出：</b>2
+<strong>解释：</strong>
+只有一辆公交车，它将在时刻 t = 2 完成第一趟旅途。
+所以完成 1 趟旅途的最少时间为 2 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= time.length &lt;= 10<sup>5</sup></code></li>
@@ -58,19 +61,19 @@ So the minimum time needed to complete 1 trip is 2.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-We notice that if we can complete at least $totalTrips$ trips in $t$ time, then we can also complete at least $totalTrips$ trips in $t' > t$ time. Therefore, we can use the method of binary search to find the smallest $t$.
+我们注意到，如果我们能在 $t$ 时间内至少完成 $totalTrips$ 趟旅途，那么在 $t' > t$ 时间内也能至少完成 $totalTrips$ 趟旅途。因此我们可以使用二分查找的方法来找到最小的 $t$。
 
-We define the left boundary of the binary search as $l = 1$, and the right boundary as $r = \min(time) \times totalTrips$. For each binary search, we calculate the middle value $\textit{mid} = \frac{l + r}{2}$, and then calculate the number of trips that can be completed in $\textit{mid}$ time. If this number is greater than or equal to $totalTrips$, then we reduce the right boundary to $\textit{mid}$, otherwise we increase the left boundary to $\textit{mid} + 1$.
+我们定义二分查找的左边界 $l = 1$，右边界 $r = \min(time) \times \textit{totalTrips}$。每一次二分查找，我们计算中间值 $\textit{mid} = \frac{l + r}{2}$，然后计算在 $\textit{mid}$ 时间内能完成的旅途数目。如果这个数目大于等于 $\textit{totalTrips}$，那么我们将右边界缩小到 $\textit{mid}$，否则我们将左边界扩大到 $\textit{mid} + 1$。
 
-Finally, return the left boundary.
+最后返回左边界即可。
 
-The time complexity is $O(n \times \log(m \times k))$, where $n$ and $k$ are the length of the array $time$ and $totalTrips$ respectively, and $m$ is the minimum value in the array $time$. The space complexity is $O(1)$.
+时间复杂度 $O(n \times \log(m \times k))$，其中 $n$ 和 $k$ 分别是数组 $time$ 的长度和 $totalTrips$，而 $m$ 是数组 $time$ 中的最小值。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -156,18 +159,18 @@ func minimumTime(time []int, totalTrips int) int64 {
 
 ```ts
 function minimumTime(time: number[], totalTrips: number): number {
-  let left = 1n;
-  let right = BigInt(Math.min(...time)) * BigInt(totalTrips);
-  while (left < right) {
-    const mid = (left + right) >> 1n;
-    const cnt = time.reduce((acc, v) => acc + mid / BigInt(v), 0n);
-    if (cnt >= BigInt(totalTrips)) {
-      right = mid;
-    } else {
-      left = mid + 1n;
+    let left = 1n;
+    let right = BigInt(Math.min(...time)) * BigInt(totalTrips);
+    while (left < right) {
+        const mid = (left + right) >> 1n;
+        const cnt = time.reduce((acc, v) => acc + mid / BigInt(v), 0n);
+        if (cnt >= BigInt(totalTrips)) {
+            right = mid;
+        } else {
+            left = mid + 1n;
+        }
     }
-  }
-  return Number(left);
+    return Number(left);
 }
 ```
 

@@ -1,59 +1,68 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0104.Maximum%20Depth%20of%20Binary%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [104. Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree)
+# [104. 二叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-binary-tree)
 
-## Description
+[English Version](/solution/0100-0199/0104.Maximum%20Depth%20of%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, return <em>its maximum depth</em>.</p>
+<p>给定一个二叉树 <code>root</code> ，返回其最大深度。</p>
 
-<p>A binary tree&#39;s <strong>maximum depth</strong>&nbsp;is the number of nodes along the longest path from the root node down to the farthest leaf node.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0104.Maximum%20Depth%20of%20Binary%20Tree/images/tmp-tree.jpg" style="width: 400px; height: 277px;" />
-<pre>
-<strong>Input:</strong> root = [3,9,20,null,null,15,7]
-<strong>Output:</strong> 3
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> root = [1,null,2]
-<strong>Output:</strong> 2
-</pre>
+<p>二叉树的 <strong>最大深度</strong> 是指从根节点到最远叶子节点的最长路径上的节点数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0104.Maximum%20Depth%20of%20Binary%20Tree/images/tmp-tree.jpg" style="width: 400px; height: 277px;" /></p>
+
+<p>&nbsp;</p>
+
+<pre>
+<b>输入：</b>root = [3,9,20,null,null,15,7]
+<b>输出：</b>3
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>root = [1,null,2]
+<b>输出：</b>2
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
+	<li>树中节点的数量在&nbsp;<code>[0, 10<sup>4</sup>]</code>&nbsp;区间内。</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Recursion
+### 方法一：递归
 
-Recursively traverse the left and right subtrees, calculate the maximum depth of the left and right subtrees, and then take the maximum value plus $1$.
+递归遍历左右子树，求左右子树的最大深度，然后取最大值加 $1$ 即可。
 
-The time complexity is $O(n)$, where $n$ is the number of nodes in the binary tree. Each node is traversed only once in the recursion.
+时间复杂度 $O(n)$，其中 $n$ 是二叉树的节点数。每个节点在递归中只被遍历一次。
 
 <!-- tabs:start -->
 
@@ -166,10 +175,10 @@ func maxDepth(root *TreeNode) int {
  */
 
 function maxDepth(root: TreeNode | null): number {
-  if (root === null) {
-    return 0;
-  }
-  return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    if (root === null) {
+        return 0;
+    }
+    return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
 }
 ```
 
@@ -227,10 +236,10 @@ impl Solution {
  * @return {number}
  */
 var maxDepth = function (root) {
-  if (!root) return 0;
-  const l = maxDepth(root.left);
-  const r = maxDepth(root.right);
-  return 1 + Math.max(l, r);
+    if (!root) return 0;
+    const l = maxDepth(root.left);
+    const r = maxDepth(root.right);
+    return 1 + Math.max(l, r);
 };
 ```
 

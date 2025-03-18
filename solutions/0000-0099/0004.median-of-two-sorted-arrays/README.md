@@ -1,43 +1,50 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0004.Median%20of%20Two%20Sorted%20Arrays/README.md
 tags:
-  - Array
-  - Binary Search
-  - Divide and Conquer
+    - 数组
+    - 二分查找
+    - 分治
 ---
 
 <!-- problem:start -->
 
-# [4. Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays)
+# [4. 寻找两个正序数组的中位数](https://leetcode.cn/problems/median-of-two-sorted-arrays)
 
-## Description
+[English Version](/solution/0000-0099/0004.Median%20of%20Two%20Sorted%20Arrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two sorted arrays <code>nums1</code> and <code>nums2</code> of size <code>m</code> and <code>n</code> respectively, return <strong>the median</strong> of the two sorted arrays.</p>
+<p>给定两个大小分别为 <code>m</code> 和 <code>n</code> 的正序（从小到大）数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>。请你找出并返回这两个正序数组的 <strong>中位数</strong> 。</p>
 
-<p>The overall run time complexity should be <code>O(log (m+n))</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [1,3], nums2 = [2]
-<strong>Output:</strong> 2.00000
-<strong>Explanation:</strong> merged array = [1,2,3] and median is 2.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [1,2], nums2 = [3,4]
-<strong>Output:</strong> 2.50000
-<strong>Explanation:</strong> merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
-</pre>
+<p>算法的时间复杂度应该为 <code>O(log (m+n))</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [1,3], nums2 = [2]
+<strong>输出：</strong>2.00000
+<strong>解释：</strong>合并数组 = [1,2,3] ，中位数 2
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [1,2], nums2 = [3,4]
+<strong>输出：</strong>2.50000
+<strong>解释：</strong>合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5
+</pre>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>nums1.length == m</code></li>
@@ -50,28 +57,28 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Divide and Conquer
+### 方法一：分治
 
-The problem requires the time complexity of the algorithm to be $O(\log (m + n))$, so we cannot directly traverse the two arrays, but need to use the binary search method.
+题目要求算法的时间复杂度为 $O(\log (m + n))$，因此不能直接遍历两个数组，而是需要使用二分查找的方法。
 
-If $m + n$ is odd, then the median is the $\left\lfloor\frac{m + n + 1}{2}\right\rfloor$-th number; if $m + n$ is even, then the median is the average of the $\left\lfloor\frac{m + n + 1}{2}\right\rfloor$-th and the $\left\lfloor\frac{m + n + 2}{2}\right\rfloor$-th numbers. In fact, we can unify it as the average of the $\left\lfloor\frac{m + n + 1}{2}\right\rfloor$-th and the $\left\lfloor\frac{m + n + 2}{2}\right\rfloor$-th numbers.
+如果 $m + n$ 是奇数，那么中位数就是第 $\left\lfloor\frac{m + n + 1}{2}\right\rfloor$ 个数；如果 $m + n$ 是偶数，那么中位数就是第 $\left\lfloor\frac{m + n + 1}{2}\right\rfloor$ 和第 $\left\lfloor\frac{m + n + 2}{2}\right\rfloor$ 个数的平均数。实际上，我们可以统一为求第 $\left\lfloor\frac{m + n + 1}{2}\right\rfloor$ 个数和第 $\left\lfloor\frac{m + n + 2}{2}\right\rfloor$ 个数的平均数。
 
-Therefore, we can design a function $f(i, j, k)$, which represents the $k$-th smallest number in the interval $[i, m)$ of array $nums1$ and the interval $[j, n)$ of array $nums2$. The median is the average of $f(0, 0, \left\lfloor\frac{m + n + 1}{2}\right\rfloor)$ and $f(0, 0, \left\lfloor\frac{m + n + 2}{2}\right\rfloor)$.
+因此，我们可以设计一个函数 $f(i, j, k)$，表示在数组 $nums1$ 的区间 $[i, m)$ 和数组 $nums2$ 的区间 $[j, n)$ 中，求第 $k$ 小的数。那么中位数就是 $f(0, 0, \left\lfloor\frac{m + n + 1}{2}\right\rfloor)$ 和 $f(0, 0, \left\lfloor\frac{m + n + 2}{2}\right\rfloor)$ 的平均数。
 
-The implementation idea of the function $f(i, j, k)$ is as follows:
+函数 $f(i, j, k)$ 的实现思路如下：
 
-- If $i \geq m$, it means that the interval $[i, m)$ of array $nums1$ is empty, so directly return $nums2[j + k - 1]$;
-- If $j \geq n$, it means that the interval $[j, n)$ of array $nums2$ is empty, so directly return $nums1[i + k - 1]$;
-- If $k = 1$, it means to find the first number, so just return the minimum of $nums1[i]$ and $nums2[j]$;
-- Otherwise, we find the $\left\lfloor\frac{k}{2}\right\rfloor$-th number in the two arrays, denoted as $x$ and $y$. (Note, if a certain array does not have the $\left\lfloor\frac{k}{2}\right\rfloor$-th number, then we regard the $\left\lfloor\frac{k}{2}\right\rfloor$-th number as $+\infty$.) Compare the size of $x$ and $y$:
-  - If $x \leq y$, it means that the $\left\lfloor\frac{k}{2}\right\rfloor$-th number of array $nums1$ cannot be the $k$-th smallest number, so we can exclude the interval $[i, i + \left\lfloor\frac{k}{2}\right\rfloor)$ of array $nums1$, and recursively call $f(i + \left\lfloor\frac{k}{2}\right\rfloor, j, k - \left\lfloor\frac{k}{2}\right\rfloor)$.
-  - If $x > y$, it means that the $\left\lfloor\frac{k}{2}\right\rfloor$-th number of array $nums2$ cannot be the $k$-th smallest number, so we can exclude the interval $[j, j + \left\lfloor\frac{k}{2}\right\rfloor)$ of array $nums2$, and recursively call $f(i, j + \left\lfloor\frac{k}{2}\right\rfloor, k - \left\lfloor\frac{k}{2}\right\rfloor)$.
+-   如果 $i \geq m$，说明数组 $nums1$ 的区间 $[i, m)$ 为空，因此直接返回 $nums2[j + k - 1]$；
+-   如果 $j \geq n$，说明数组 $nums2$ 的区间 $[j, n)$ 为空，因此直接返回 $nums1[i + k - 1]$；
+-   如果 $k = 1$，说明要找第一个数，因此只需要返回 $nums1[i]$ 和 $nums2[j]$ 中的最小值；
+-   否则，我们分别在两个数组中查找第 $\left\lfloor\frac{k}{2}\right\rfloor$ 个数，设为 $x$ 和 $y$。（注意，如果某个数组不存在第 $\left\lfloor\frac{k}{2}\right\rfloor$ 个数，那么我们将第 $\left\lfloor\frac{k}{2}\right\rfloor$ 个数视为 $+\infty$。）比较 $x$ 和 $y$ 的大小：
+    -   如果 $x \leq y$，则说明数组 $nums1$ 的第 $\left\lfloor\frac{k}{2}\right\rfloor$ 个数不可能是第 $k$ 小的数，因此我们可以排除数组 $nums1$ 的区间 $[i, i + \left\lfloor\frac{k}{2}\right\rfloor)$，递归调用 $f(i + \left\lfloor\frac{k}{2}\right\rfloor, j, k - \left\lfloor\frac{k}{2}\right\rfloor)$。
+    -   如果 $x > y$，则说明数组 $nums2$ 的第 $\left\lfloor\frac{k}{2}\right\rfloor$ 个数不可能是第 $k$ 小的数，因此我们可以排除数组 $nums2$ 的区间 $[j, j + \left\lfloor\frac{k}{2}\right\rfloor)$，递归调用 $f(i, j + \left\lfloor\frac{k}{2}\right\rfloor, k - \left\lfloor\frac{k}{2}\right\rfloor)$。
 
-The time complexity is $O(\log(m + n))$, and the space complexity is $O(\log(m + n))$. Here, $m$ and $n$ are the lengths of arrays $nums1$ and $nums2$ respectively.
+时间复杂度 $O(\log(m + n))$，空间复杂度 $O(\log(m + n))$。其中 $m$ 和 $n$ 分别是数组 $nums1$ 和 $nums2$ 的长度。
 
 <!-- tabs:start -->
 
@@ -202,26 +209,26 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 
 ```ts
 function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
-  const m = nums1.length;
-  const n = nums2.length;
-  const f = (i: number, j: number, k: number): number => {
-    if (i >= m) {
-      return nums2[j + k - 1];
-    }
-    if (j >= n) {
-      return nums1[i + k - 1];
-    }
-    if (k == 1) {
-      return Math.min(nums1[i], nums2[j]);
-    }
-    const p = Math.floor(k / 2);
-    const x = i + p - 1 < m ? nums1[i + p - 1] : 1 << 30;
-    const y = j + p - 1 < n ? nums2[j + p - 1] : 1 << 30;
-    return x < y ? f(i + p, j, k - p) : f(i, j + p, k - p);
-  };
-  const a = f(0, 0, Math.floor((m + n + 1) / 2));
-  const b = f(0, 0, Math.floor((m + n + 2) / 2));
-  return (a + b) / 2;
+    const m = nums1.length;
+    const n = nums2.length;
+    const f = (i: number, j: number, k: number): number => {
+        if (i >= m) {
+            return nums2[j + k - 1];
+        }
+        if (j >= n) {
+            return nums1[i + k - 1];
+        }
+        if (k == 1) {
+            return Math.min(nums1[i], nums2[j]);
+        }
+        const p = Math.floor(k / 2);
+        const x = i + p - 1 < m ? nums1[i + p - 1] : 1 << 30;
+        const y = j + p - 1 < n ? nums2[j + p - 1] : 1 << 30;
+        return x < y ? f(i + p, j, k - p) : f(i, j + p, k - p);
+    };
+    const a = f(0, 0, Math.floor((m + n + 1) / 2));
+    const b = f(0, 0, Math.floor((m + n + 2) / 2));
+    return (a + b) / 2;
 }
 ```
 
@@ -234,26 +241,26 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
  * @return {number}
  */
 var findMedianSortedArrays = function (nums1, nums2) {
-  const m = nums1.length;
-  const n = nums2.length;
-  const f = (i, j, k) => {
-    if (i >= m) {
-      return nums2[j + k - 1];
-    }
-    if (j >= n) {
-      return nums1[i + k - 1];
-    }
-    if (k == 1) {
-      return Math.min(nums1[i], nums2[j]);
-    }
-    const p = Math.floor(k / 2);
-    const x = i + p - 1 < m ? nums1[i + p - 1] : 1 << 30;
-    const y = j + p - 1 < n ? nums2[j + p - 1] : 1 << 30;
-    return x < y ? f(i + p, j, k - p) : f(i, j + p, k - p);
-  };
-  const a = f(0, 0, Math.floor((m + n + 1) / 2));
-  const b = f(0, 0, Math.floor((m + n + 2) / 2));
-  return (a + b) / 2;
+    const m = nums1.length;
+    const n = nums2.length;
+    const f = (i, j, k) => {
+        if (i >= m) {
+            return nums2[j + k - 1];
+        }
+        if (j >= n) {
+            return nums1[i + k - 1];
+        }
+        if (k == 1) {
+            return Math.min(nums1[i], nums2[j]);
+        }
+        const p = Math.floor(k / 2);
+        const x = i + p - 1 < m ? nums1[i + p - 1] : 1 << 30;
+        const y = j + p - 1 < n ? nums2[j + p - 1] : 1 << 30;
+        return x < y ? f(i + p, j, k - p) : f(i, j + p, k - p);
+    };
+    const a = f(0, 0, Math.floor((m + n + 1) / 2));
+    const b = f(0, 0, Math.floor((m + n + 2) / 2));
+    return (a + b) / 2;
 };
 ```
 

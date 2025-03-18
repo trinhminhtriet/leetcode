@@ -1,89 +1,96 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1457.Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree/README.md
 rating: 1405
-source: Weekly Contest 190 Q3
+source: 第 190 场周赛 Q3
 tags:
-  - Bit Manipulation
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Binary Tree
+    - 位运算
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [1457. Pseudo-Palindromic Paths in a Binary Tree](https://leetcode.com/problems/pseudo-palindromic-paths-in-a-binary-tree)
+# [1457. 二叉树中的伪回文路径](https://leetcode.cn/problems/pseudo-palindromic-paths-in-a-binary-tree)
 
-## Description
+[English Version](/solution/1400-1499/1457.Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary tree where node values are digits from 1 to 9. A path in the binary tree is said to be <strong>pseudo-palindromic</strong> if at least one permutation of the node values in the path is a palindrome.</p>
+<p>给你一棵二叉树，每个节点的值为 1 到 9 。我们称二叉树中的一条路径是 「<strong>伪回文</strong>」的，当它满足：路径经过的所有节点值的排列中，存在一个回文序列。</p>
 
-<p><em>Return the number of <strong>pseudo-palindromic</strong> paths going from the root node to leaf nodes.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1457.Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree/images/palindromic_paths_1.png" style="width: 300px; height: 201px;" /></p>
-
-<pre>
-<strong>Input:</strong> root = [2,3,1,3,1,null,1]
-<strong>Output:</strong> 2 
-<strong>Explanation:</strong> The figure above represents the given binary tree. There are three paths going from the root node to leaf nodes: the red path [2,3,3], the green path [2,1,1], and the path [2,3,1]. Among these paths only red path and green path are pseudo-palindromic paths since the red path [2,3,3] can be rearranged in [3,2,3] (palindrome) and the green path [2,1,1] can be rearranged in [1,2,1] (palindrome).
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1457.Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree/images/palindromic_paths_2.png" style="width: 300px; height: 314px;" /></strong></p>
-
-<pre>
-<strong>Input:</strong> root = [2,1,1,1,3,null,null,null,null,null,1]
-<strong>Output:</strong> 1 
-<strong>Explanation:</strong> The figure above represents the given binary tree. There are three paths going from the root node to leaf nodes: the green path [2,1,1], the path [2,1,3,1], and the path [2,1]. Among these paths only the green path is pseudo-palindromic since [2,1,1] can be rearranged in [1,2,1] (palindrome).
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> root = [9]
-<strong>Output:</strong> 1
-</pre>
+<p>请你返回从根到叶子节点的所有路径中&nbsp;<strong>伪回文&nbsp;</strong>路径的数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1457.Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree/images/palindromic_paths_1.png" style="height: 201px; width: 300px;" /></p>
+
+<pre>
+<strong>输入：</strong>root = [2,3,1,3,1,null,1]
+<strong>输出：</strong>2 
+<strong>解释：</strong>上图为给定的二叉树。总共有 3 条从根到叶子的路径：红色路径 [2,3,3] ，绿色路径 [2,1,1] 和路径 [2,3,1] 。
+     在这些路径中，只有红色和绿色的路径是伪回文路径，因为红色路径 [2,3,3] 存在回文排列 [3,2,3] ，绿色路径 [2,1,1] 存在回文排列 [1,2,1] 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1457.Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree/images/palindromic_paths_2.png" style="height: 314px; width: 300px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>root = [2,1,1,1,3,null,null,null,null,null,1]
+<strong>输出：</strong>1 
+<strong>解释：</strong>上图为给定二叉树。总共有 3 条从根到叶子的路径：绿色路径 [2,1,1] ，路径 [2,1,3,1] 和路径 [2,1] 。
+     这些路径中只有绿色路径是伪回文路径，因为 [2,1,1] 存在回文排列 [1,2,1] 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>root = [9]
+<strong>输出：</strong>1
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>5</sup>]</code>.</li>
+	<li>给定二叉树的节点数目在范围&nbsp;<code>[1, 10<sup>5</sup>]</code> 内</li>
 	<li><code>1 &lt;= Node.val &lt;= 9</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS + Bit Manipulation
+### 方法一：DFS + 位运算
 
-A path is a pseudo-palindromic path if and only if the number of nodes with odd occurrences in the path is $0$ or $1$.
+一条路径是伪回文路径，当且仅当该路径经过的节点值的出现次数为奇数的数字为 $0$ 个或 $1$ 个。
 
-Since the range of the binary tree node values is from $1$ to $9$, for each path from root to leaf, we can use a $10$-bit binary number $mask$ to represent the occurrence status of the node values in the current path. The $i$th bit of $mask$ is $1$ if the node value $i$ appears an odd number of times in the current path, and $0$ if it appears an even number of times. Therefore, a path is a pseudo-palindromic path if and only if $mask \&(mask - 1) = 0$, where $\&$ represents the bitwise AND operation.
+由于二叉树节点值的范围为 $1$ 到 $9$，因此对于每一条从根到叶子的路径，我们可以用一个长度为 $10$ 的二进制数 $mask$ 表示当前路径经过的节点值的出现状态，其中 $mask$ 的第 $i$ 位为 $1$，表示当前路径上节点值 $i$ 的出现次数为奇数，否则表示其出现次数为偶数。那么，如果一条路径是伪回文路径，需要满足 $mask \&(mask - 1) = 0$，其中 $\&$ 表示按位与运算。
 
-Based on the above analysis, we can use the depth-first search method to calculate the number of paths. We define a function $dfs(root, mask)$, which represents the number of pseudo-palindromic paths starting from the current $root$ node and with the current state $mask$. The answer is $dfs(root, 0)$.
+基于以上分析，我们可以使用深度优先搜索的方法计算路径数。我们定义一个函数 $dfs(root, mask)$，表示从当前 $root$ 节点开始，且当前节点的状态为 $mask$ 的所有伪回文路径的个数。那么答案就是 $dfs(root, 0)$。
 
-The execution logic of the function $dfs(root, mask)$ is as follows:
+函数 $dfs(root, mask)$ 的执行逻辑如下：
 
-If $root$ is null, return $0$;
+如果 $root$ 为空，则返回 $0$；
 
-Otherwise, let $mask = mask \oplus 2^{root.val}$, where $\oplus$ represents the bitwise XOR operation.
+否则，令 $mask = mask \oplus 2^{root.val}$，其中 $\oplus$ 表示按位异或运算。
 
-If $root$ is a leaf node, return $1$ if $mask \&(mask - 1) = 0$, otherwise return $0$;
+如果 $root$ 是叶子节点，那么如果 $mask \&(mask - 1) = 0$，返回 $1$，否则返回 $0$；
 
-If $root$ is not a leaf node, return $dfs(root.left, mask) + dfs(root.right, mask)$.
+如果 $root$ 不是叶子节点，返回 $dfs(root.left, mask) + dfs(root.right, mask)$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -225,17 +232,17 @@ func pseudoPalindromicPaths(root *TreeNode) int {
  */
 
 function pseudoPalindromicPaths(root: TreeNode | null): number {
-  const dfs = (root: TreeNode | null, mask: number): number => {
-    if (!root) {
-      return 0;
-    }
-    mask ^= 1 << root.val;
-    if (!root.left && !root.right) {
-      return (mask & (mask - 1)) === 0 ? 1 : 0;
-    }
-    return dfs(root.left, mask) + dfs(root.right, mask);
-  };
-  return dfs(root, 0);
+    const dfs = (root: TreeNode | null, mask: number): number => {
+        if (!root) {
+            return 0;
+        }
+        mask ^= 1 << root.val;
+        if (!root.left && !root.right) {
+            return (mask & (mask - 1)) === 0 ? 1 : 0;
+        }
+        return dfs(root.left, mask) + dfs(root.right, mask);
+    };
+    return dfs(root, 0);
 }
 ```
 

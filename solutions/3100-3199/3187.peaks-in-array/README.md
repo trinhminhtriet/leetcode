@@ -1,101 +1,106 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3187.Peaks%20in%20Array/README.md
 rating: 2154
-source: Weekly Contest 402 Q4
+source: 第 402 场周赛 Q4
 tags:
-  - Binary Indexed Tree
-  - Segment Tree
-  - Array
+    - 树状数组
+    - 线段树
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [3187. Peaks in Array](https://leetcode.com/problems/peaks-in-array)
+# [3187. 数组中的峰值](https://leetcode.cn/problems/peaks-in-array)
 
-## Description
+[English Version](/solution/3100-3199/3187.Peaks%20in%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <strong>peak</strong> in an array <code>arr</code> is an element that is <strong>greater</strong> than its previous and next element in <code>arr</code>.</p>
+<p>数组 <code>arr</code>&nbsp;中&nbsp;<strong>大于</strong>&nbsp;前面和后面相邻元素的元素被称为 <strong>峰值</strong>&nbsp;元素。</p>
 
-<p>You are given an integer array <code>nums</code> and a 2D integer array <code>queries</code>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个二维整数数组&nbsp;<code>queries</code>&nbsp;。</p>
 
-<p>You have to process queries of two types:</p>
+<p>你需要处理以下两种类型的操作：</p>
 
 <ul>
-	<li><code>queries[i] = [1, l<sub>i</sub>, r<sub>i</sub>]</code>, determine the count of <strong>peak</strong> elements in the <span data-keyword="subarray">subarray</span> <code>nums[l<sub>i</sub>..r<sub>i</sub>]</code>.<!-- notionvc: 73b20b7c-e1ab-4dac-86d0-13761094a9ae --></li>
-	<li><code>queries[i] = [2, index<sub>i</sub>, val<sub>i</sub>]</code>, change <code>nums[index<sub>i</sub>]</code> to <code><font face="monospace">val<sub>i</sub></font></code>.</li>
+	<li><code>queries[i] = [1, l<sub>i</sub>, r<sub>i</sub>]</code>&nbsp;，求出子数组&nbsp;<code>nums[l<sub>i</sub>..r<sub>i</sub>]</code>&nbsp;中&nbsp;<strong>峰值</strong>&nbsp;元素的数目。<!-- notionvc: 73b20b7c-e1ab-4dac-86d0-13761094a9ae --></li>
+	<li><code>queries[i] = [2, index<sub>i</sub>, val<sub>i</sub>]</code>&nbsp;，将&nbsp;<code>nums[index<sub>i</sub>]</code>&nbsp;变为&nbsp;<code><font face="monospace">val<sub>i</sub></font></code><font face="monospace">&nbsp;。</font></li>
 </ul>
 
-<p>Return an array <code>answer</code> containing the results of the queries of the first type in order.<!-- notionvc: a9ccef22-4061-4b5a-b4cc-a2b2a0e12f30 --></p>
+<p>请你返回一个数组&nbsp;<code>answer</code>&nbsp;，它依次包含每一个第一种操作的答案。<!-- notionvc: a9ccef22-4061-4b5a-b4cc-a2b2a0e12f30 --></p>
 
-<p><strong>Notes:</strong></p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li>The <strong>first</strong> and the <strong>last</strong> element of an array or a subarray<!-- notionvc: fcffef72-deb5-47cb-8719-3a3790102f73 --> <strong>cannot</strong> be a peak.</li>
+	<li>子数组中 <strong>第一个</strong>&nbsp;和 <strong>最后一个</strong>&nbsp;元素都 <strong>不是</strong>&nbsp;峰值元素。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [3,1,4,2,5], queries = [[2,3,4],[1,0,4]]</span></p>
+<p><span class="example-io"><b>输入：</b>nums = [3,1,4,2,5], queries = [[2,3,4],[1,0,4]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[0]</span></p>
+<p><span class="example-io"><b>输出：</b>[0]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>First query: We change <code>nums[3]</code> to 4 and <code>nums</code> becomes <code>[3,1,4,4,5]</code>.</p>
+<p>第一个操作：我们将&nbsp;<code>nums[3]</code>&nbsp;变为&nbsp;4 ，<code>nums</code>&nbsp;变为&nbsp;<code>[3,1,4,4,5]</code>&nbsp;。</p>
 
-<p>Second query: The number of peaks in the <code>[3,1,4,4,5]</code> is 0.</p>
+<p>第二个操作：<code>[3,1,4,4,5]</code>&nbsp;中峰值元素的数目为 0 。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [4,1,4,2,1,5], queries = [[2,2,4],[1,0,2],[1,0,4]]</span></p>
+<p><span class="example-io"><b>输入：</b>nums = [4,1,4,2,1,5], queries = [[2,2,4],[1,0,2],[1,0,4]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[0,1]</span></p>
+<p><span class="example-io"><b>输出：</b>[0,1]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>First query: <code>nums[2]</code> should become 4, but it is already set to 4.</p>
+<p>第一个操作：<code>nums[2]</code>&nbsp;变为 4 ，它已经是 4 了，所以保持不变。</p>
 
-<p>Second query: The number of peaks in the <code>[4,1,4]</code> is 0.</p>
+<p>第二个操作：<code>[4,1,4]</code>&nbsp;中峰值元素的数目为 0 。</p>
 
-<p>Third query: The second 4 is a peak in the <code>[4,1,4,2,1]</code>.</p>
+<p>第三个操作：第二个 4 是&nbsp;<code>[4,1,4,2,1]</code>&nbsp;中的峰值元素。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= queries.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>queries[i][0] == 1</code> or <code>queries[i][0] == 2</code></li>
-	<li>For all <code>i</code> that:
+	<li><code>queries[i][0] == 1</code>&nbsp;或者&nbsp;<code>queries[i][0] == 2</code></li>
+	<li>对于所有的 <code>i</code>&nbsp;，都有：
 	<ul>
-		<li><code>queries[i][0] == 1</code>: <code>0 &lt;= queries[i][1] &lt;= queries[i][2] &lt;= nums.length - 1</code></li>
-		<li><code>queries[i][0] == 2</code>: <code>0 &lt;= queries[i][1] &lt;= nums.length - 1</code>, <code>1 &lt;= queries[i][2] &lt;= 10<sup>5</sup></code></li>
+		<li><code>queries[i][0] == 1</code>&nbsp;：<code>0 &lt;= queries[i][1] &lt;= queries[i][2] &lt;= nums.length - 1</code></li>
+		<li><code>queries[i][0] == 2</code> ：<code>0 &lt;= queries[i][1] &lt;= nums.length - 1</code>, <code>1 &lt;= queries[i][2] &lt;= 10<sup>5</sup></code></li>
 	</ul>
 	</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Indexed Tree
+### 方法一：树状数组
 
-According to the problem description, for $0 < i < n - 1$, if it satisfies $nums[i - 1] < nums[i]$ and $nums[i] > nums[i + 1]$, we can consider $nums[i]$ as $1$, otherwise as $0$. Thus, for operation $1$, i.e., querying the number of peak elements in the subarray $nums[l..r]$, it is equivalent to querying the number of $1$s in the interval $[l + 1, r - 1]$. We can use a binary indexed tree to maintain the number of $1$s in the interval $[1, n - 1]$.
+根据题目描述，对于 $0 < i < n - 1$，如果满足 $nums[i - 1] < nums[i]$ 且 $nums[i] > nums[i + 1]$，我们可以将 $nums[i]$ 视为 $1$，否则视为 $0$。这样，对于操作 $1$，即查询子数组 $nums[l..r]$ 中的峰值元素个数，相当于查询区间 $[l + 1, r - 1]$ 中 $1$ 的个数。我们可以使用树状数组来维护区间 $[1, n - 1]$ 中 $1$ 的个数。
 
-For operation $1$, i.e., updating $nums[idx]$ to $val$, it will only affect the values at positions $idx - 1$, $idx$, and $idx + 1$, so we only need to update these three positions. Specifically, we can first remove the peak elements at these three positions, then update the value of $nums[idx]$, and finally add back the peak elements at these three positions.
+而对于操作 $1$，即把 $nums[idx]$ 更新为 $val$，只会影响到 $idx - 1$, $idx$, $idx + 1$ 这三个位置的值，因此我们只需要更新这三个位置即可。具体地，我们可以先把这三个位置的峰值元素去掉，然后更新 $nums[idx]$ 的值，最后再把这三个位置的峰值元素加回来。
 
-The time complexity is $O((n + q) \times \log n)$, and the space complexity is $O(n)$. Here, $n$ and $q$ are the lengths of the array `nums` and the query array `queries`, respectively.
+时间复杂度 $O((n + q) \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 和 $q$ 分别是数组 `nums` 的长度和查询数组 `queries` 的长度。
 
 <!-- tabs:start -->
 
@@ -349,60 +354,60 @@ func countOfPeaks(nums []int, queries [][]int) (ans []int) {
 
 ```ts
 class BinaryIndexedTree {
-  private n: number;
-  private c: number[];
+    private n: number;
+    private c: number[];
 
-  constructor(n: number) {
-    this.n = n;
-    this.c = Array(n + 1).fill(0);
-  }
-
-  update(x: number, delta: number): void {
-    for (; x <= this.n; x += x & -x) {
-      this.c[x] += delta;
+    constructor(n: number) {
+        this.n = n;
+        this.c = Array(n + 1).fill(0);
     }
-  }
 
-  query(x: number): number {
-    let s = 0;
-    for (; x > 0; x -= x & -x) {
-      s += this.c[x];
+    update(x: number, delta: number): void {
+        for (; x <= this.n; x += x & -x) {
+            this.c[x] += delta;
+        }
     }
-    return s;
-  }
+
+    query(x: number): number {
+        let s = 0;
+        for (; x > 0; x -= x & -x) {
+            s += this.c[x];
+        }
+        return s;
+    }
 }
 
 function countOfPeaks(nums: number[], queries: number[][]): number[] {
-  const n = nums.length;
-  const tree = new BinaryIndexedTree(n - 1);
-  const update = (i: number, val: number): void => {
-    if (i <= 0 || i >= n - 1) {
-      return;
-    }
-    if (nums[i - 1] < nums[i] && nums[i] > nums[i + 1]) {
-      tree.update(i, val);
-    }
-  };
-  for (let i = 1; i < n - 1; ++i) {
-    update(i, 1);
-  }
-  const ans: number[] = [];
-  for (const q of queries) {
-    if (q[0] === 1) {
-      const [l, r] = [q[1] + 1, q[2] - 1];
-      ans.push(l > r ? 0 : tree.query(r) - tree.query(l - 1));
-    } else {
-      const [idx, val] = [q[1], q[2]];
-      for (let i = idx - 1; i <= idx + 1; ++i) {
-        update(i, -1);
-      }
-      nums[idx] = val;
-      for (let i = idx - 1; i <= idx + 1; ++i) {
+    const n = nums.length;
+    const tree = new BinaryIndexedTree(n - 1);
+    const update = (i: number, val: number): void => {
+        if (i <= 0 || i >= n - 1) {
+            return;
+        }
+        if (nums[i - 1] < nums[i] && nums[i] > nums[i + 1]) {
+            tree.update(i, val);
+        }
+    };
+    for (let i = 1; i < n - 1; ++i) {
         update(i, 1);
-      }
     }
-  }
-  return ans;
+    const ans: number[] = [];
+    for (const q of queries) {
+        if (q[0] === 1) {
+            const [l, r] = [q[1] + 1, q[2] - 1];
+            ans.push(l > r ? 0 : tree.query(r) - tree.query(l - 1));
+        } else {
+            const [idx, val] = [q[1], q[2]];
+            for (let i = idx - 1; i <= idx + 1; ++i) {
+                update(i, -1);
+            }
+            nums[idx] = val;
+            for (let i = idx - 1; i <= idx + 1; ++i) {
+                update(i, 1);
+            }
+        }
+    }
+    return ans;
 }
 ```
 

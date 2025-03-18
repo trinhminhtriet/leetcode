@@ -1,87 +1,92 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2488.Count%20Subarrays%20With%20Median%20K/README.md
 rating: 1998
-source: Weekly Contest 321 Q4
+source: 第 321 场周赛 Q4
 tags:
-  - Array
-  - Hash Table
-  - Prefix Sum
+    - 数组
+    - 哈希表
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [2488. Count Subarrays With Median K](https://leetcode.com/problems/count-subarrays-with-median-k)
+# [2488. 统计中位数为 K 的子数组](https://leetcode.cn/problems/count-subarrays-with-median-k)
 
-## Description
+[English Version](/solution/2400-2499/2488.Count%20Subarrays%20With%20Median%20K/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>nums</code> of size <code>n</code> consisting of <strong>distinct </strong>integers from <code>1</code> to <code>n</code> and a positive integer <code>k</code>.</p>
+<p>给你一个长度为 <code>n</code> 的数组 <code>nums</code> ，该数组由从 <code>1</code> 到 <code>n</code> 的 <strong>不同</strong> 整数组成。另给你一个正整数 <code>k</code> 。</p>
 
-<p>Return <em>the number of non-empty subarrays in </em><code>nums</code><em> that have a <strong>median</strong> equal to </em><code>k</code>.</p>
+<p>统计并返回 <code>nums</code> 中的 <strong>中位数</strong> 等于 <code>k</code> 的非空子数组的数目。</p>
 
-<p><strong>Note</strong>:</p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li>The median of an array is the <strong>middle </strong>element after sorting the array in <strong>ascending </strong>order. If the array is of even length, the median is the <strong>left </strong>middle element.
+	<li>数组的中位数是按 <strong>递增</strong> 顺序排列后位于 <strong>中间</strong> 的那个元素，如果数组长度为偶数，则中位数是位于中间靠 <strong>左</strong> 的那个元素。
 
     <ul>
-    	<li>For example, the median of <code>[2,3,1,4]</code> is <code>2</code>, and the median of <code>[8,4,3,5,1]</code> is <code>4</code>.</li>
+    	<li>例如，<code>[2,3,1,4]</code> 的中位数是 <code>2</code> ，<code>[8,4,3,5,1]</code> 的中位数是 <code>4</code> 。</li>
     </ul>
     </li>
-    <li>A subarray is a contiguous part of an array.</li>
+    <li>子数组是数组中的一个连续部分。</li>
 
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,2,1,4,5], k = 4
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The subarrays that have a median equal to 4 are: [4], [4,5] and [1,4,5].
+<strong>输入：</strong>nums = [3,2,1,4,5], k = 4
+<strong>输出：</strong>3
+<strong>解释：</strong>中位数等于 4 的子数组有：[4]、[4,5] 和 [1,4,5] 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,3,1], k = 3
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> [3] is the only subarray that has a median equal to 3.
+<strong>输入：</strong>nums = [2,3,1], k = 3
+<strong>输出：</strong>1
+<strong>解释：</strong>[3] 是唯一一个中位数等于 3 的子数组。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i], k &lt;= n</code></li>
-	<li>The integers in <code>nums</code> are distinct.</li>
+	<li><code>nums</code> 中的整数互不相同</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal + Counting
+### 方法一：遍历 + 计数
 
-First, we find the position $i$ of the median $k$ in the array, and then start traversing from $i$ to both sides, counting the number of subarrays with a median of $k$.
+我们先找到中位数 $k$ 在数组中的位置 $i$，然后从 $i$ 开始向两边遍历，统计中位数为 $k$ 的子数组的数目。
 
-Define an answer variable $ans$, which represents the number of subarrays with a median of $k$. Initially, $ans = 1$, which means that there is currently a subarray of length $1$ with a median of $k$. In addition, define a counter $cnt$, used to count the number of differences between the "number of elements larger than $k$" and the "number of elements smaller than $k$" in the currently traversed array.
+定义一个答案变量 $ans$，表示中位数为 $k$ 的子数组的数目。初始时 $ans = 1$，表示当前有一个长度为 $1$ 的子数组，其中位数为 $k$。另外，定义一个计数器 $cnt$，用于统计当前遍历过的数组中，「比 $k$ 大的元素的个数」与「比 $k$ 小的元素的个数」的差值的个数。
 
-Next, start traversing to the right from $i + 1$. We maintain a variable $x$, which represents the difference between the "number of elements larger than $k$" and the "number of elements smaller than $k$" in the current right subarray. If $x \in [0, 1]$, then the median of the current right subarray is $k$, and the answer variable $ans$ is incremented by $1$. Then, we add the value of $x$ to the counter $cnt$.
+接下来，从 $i + 1$ 开始向右遍历，我们维护一个变量 $x$，表示当前右侧子数组中「比 $k$ 大的元素的个数」与「比 $k$ 小的元素的个数」的差值。如果 $x \in [0, 1]$，则当前右侧子数组的中位数为 $k$，答案变量 $ans$ 自增 $1$。然后，我们将 $x$ 的值加入计数器 $cnt$ 中。
 
-Similarly, start traversing to the left from $i - 1$, also maintaining a variable $x$, which represents the difference between the "number of elements larger than $k$" and the "number of elements smaller than $k$" in the current left subarray. If $x \in [0, 1]$, then the median of the current left subarray is $k$, and the answer variable $ans$ is incremented by $1$. If $-x$ or $-x + 1$ is also in the counter, it means that there is currently a subarray that spans both sides of $i$, with a median of $k$, and the answer variable $ans$ increases the corresponding value in the counter, that is, $ans += cnt[-x] + cnt[-x + 1]$.
+同理，从 $i - 1$ 开始向左遍历，同样维护一个变量 $x$，表示当前左侧子数组中「比 $k$ 大的元素的个数」与「比 $k$ 小的元素的个数」的差值。如果 $x \in [0, 1]$，则当前左侧子数组的中位数为 $k$，答案变量 $ans$ 自增 $1$。如果 $-x$ 或 $-x + 1$ 也在计数器中，说明当前存在跨越 $i$ 左右两侧的子数组，其中位数为 $k$，答案变量 $ans$ 增加计数器中对应的值，即 $ans += cnt[-x] + cnt[-x + 1]$。
 
-Finally, return the answer variable $ans$.
+最后，返回答案变量 $ans$ 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
 
-> In coding, we can directly open an array of length $2 \times n + 1$, used to count the difference between the "number of elements larger than $k$" and the "number of elements smaller than $k$" in the current array. Each time we add the difference by $n$, we can convert the range of the difference from $[-n, n]$ to $[0, 2n]$.
+> 在编码上，我们可以直接开一个长度为 $2 \times n + 1$ 的数组，用于统计当前数组中，比 $k$ 大的元素的个数与比 $k$ 小的元素的个数的差值，每一次我们将差值加上 $n$，即可将差值的范围从 $[-n, n]$ 转换为 $[0, 2n]$。
 
 <!-- tabs:start -->
 
@@ -212,23 +217,23 @@ func countSubarrays(nums []int, k int) int {
 
 ```ts
 function countSubarrays(nums: number[], k: number): number {
-  const i = nums.indexOf(k);
-  const n = nums.length;
-  const cnt = new Array((n << 1) | 1).fill(0);
-  let ans = 1;
-  let x = 0;
-  for (let j = i + 1; j < n; ++j) {
-    x += nums[j] > k ? 1 : -1;
-    ans += x >= 0 && x <= 1 ? 1 : 0;
-    ++cnt[x + n];
-  }
-  x = 0;
-  for (let j = i - 1; ~j; --j) {
-    x += nums[j] > k ? 1 : -1;
-    ans += x >= 0 && x <= 1 ? 1 : 0;
-    ans += cnt[-x + n] + cnt[-x + 1 + n];
-  }
-  return ans;
+    const i = nums.indexOf(k);
+    const n = nums.length;
+    const cnt = new Array((n << 1) | 1).fill(0);
+    let ans = 1;
+    let x = 0;
+    for (let j = i + 1; j < n; ++j) {
+        x += nums[j] > k ? 1 : -1;
+        ans += x >= 0 && x <= 1 ? 1 : 0;
+        ++cnt[x + n];
+    }
+    x = 0;
+    for (let j = i - 1; ~j; --j) {
+        x += nums[j] > k ? 1 : -1;
+        ans += x >= 0 && x <= 1 ? 1 : 0;
+        ans += cnt[-x + n] + cnt[-x + 1 + n];
+    }
+    return ans;
 }
 ```
 

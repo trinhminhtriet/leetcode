@@ -1,83 +1,101 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1268.Search%20Suggestions%20System/README.md
 rating: 1573
-source: Weekly Contest 164 Q3
+source: 第 164 场周赛 Q3
 tags:
-  - Trie
-  - Array
-  - String
-  - Binary Search
-  - Sorting
-  - Heap (Priority Queue)
+    - 字典树
+    - 数组
+    - 字符串
+    - 二分查找
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1268. Search Suggestions System](https://leetcode.com/problems/search-suggestions-system)
+# [1268. 搜索推荐系统](https://leetcode.cn/problems/search-suggestions-system)
 
-## Description
+[English Version](/solution/1200-1299/1268.Search%20Suggestions%20System/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of strings <code>products</code> and a string <code>searchWord</code>.</p>
+<p>给你一个产品数组&nbsp;<code>products</code>&nbsp;和一个字符串&nbsp;<code>searchWord</code>&nbsp;，<code>products</code>&nbsp; 数组中每个产品都是一个字符串。</p>
 
-<p>Design a system that suggests at most three product names from <code>products</code> after each character of <code>searchWord</code> is typed. Suggested products should have common prefix with <code>searchWord</code>. If there are more than three products with a common prefix return the three lexicographically minimums products.</p>
+<p>请你设计一个推荐系统，在依次输入单词&nbsp;<code>searchWord</code> 的每一个字母后，推荐&nbsp;<code>products</code> 数组中前缀与&nbsp;<code>searchWord</code> 相同的最多三个产品。如果前缀相同的可推荐产品超过三个，请按字典序返回最小的三个。</p>
 
-<p>Return <em>a list of lists of the suggested products after each character of </em><code>searchWord</code><em> is typed</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> products = [&quot;mobile&quot;,&quot;mouse&quot;,&quot;moneypot&quot;,&quot;monitor&quot;,&quot;mousepad&quot;], searchWord = &quot;mouse&quot;
-<strong>Output:</strong> [[&quot;mobile&quot;,&quot;moneypot&quot;,&quot;monitor&quot;],[&quot;mobile&quot;,&quot;moneypot&quot;,&quot;monitor&quot;],[&quot;mouse&quot;,&quot;mousepad&quot;],[&quot;mouse&quot;,&quot;mousepad&quot;],[&quot;mouse&quot;,&quot;mousepad&quot;]]
-<strong>Explanation:</strong> products sorted lexicographically = [&quot;mobile&quot;,&quot;moneypot&quot;,&quot;monitor&quot;,&quot;mouse&quot;,&quot;mousepad&quot;].
-After typing m and mo all products match and we show user [&quot;mobile&quot;,&quot;moneypot&quot;,&quot;monitor&quot;].
-After typing mou, mous and mouse the system suggests [&quot;mouse&quot;,&quot;mousepad&quot;].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> products = [&quot;havana&quot;], searchWord = &quot;havana&quot;
-<strong>Output:</strong> [[&quot;havana&quot;],[&quot;havana&quot;],[&quot;havana&quot;],[&quot;havana&quot;],[&quot;havana&quot;],[&quot;havana&quot;]]
-<strong>Explanation:</strong> The only word &quot;havana&quot; will be always suggested while typing the search word.
-</pre>
+<p>请你以二维列表的形式，返回在输入&nbsp;<code>searchWord</code>&nbsp;每个字母后相应的推荐产品的列表。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>products = [&quot;mobile&quot;,&quot;mouse&quot;,&quot;moneypot&quot;,&quot;monitor&quot;,&quot;mousepad&quot;], searchWord = &quot;mouse&quot;
+<strong>输出：</strong>[
+[&quot;mobile&quot;,&quot;moneypot&quot;,&quot;monitor&quot;],
+[&quot;mobile&quot;,&quot;moneypot&quot;,&quot;monitor&quot;],
+[&quot;mouse&quot;,&quot;mousepad&quot;],
+[&quot;mouse&quot;,&quot;mousepad&quot;],
+[&quot;mouse&quot;,&quot;mousepad&quot;]
+]
+<strong>解释：</strong>按字典序排序后的产品列表是 [&quot;mobile&quot;,&quot;moneypot&quot;,&quot;monitor&quot;,&quot;mouse&quot;,&quot;mousepad&quot;]
+输入 m 和 mo，由于所有产品的前缀都相同，所以系统返回字典序最小的三个产品 [&quot;mobile&quot;,&quot;moneypot&quot;,&quot;monitor&quot;]
+输入 mou， mous 和 mouse 后系统都返回 [&quot;mouse&quot;,&quot;mousepad&quot;]
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>products = [&quot;havana&quot;], searchWord = &quot;havana&quot;
+<strong>输出：</strong>[[&quot;havana&quot;],[&quot;havana&quot;],[&quot;havana&quot;],[&quot;havana&quot;],[&quot;havana&quot;],[&quot;havana&quot;]]
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>products = [&quot;bags&quot;,&quot;baggage&quot;,&quot;banner&quot;,&quot;box&quot;,&quot;cloths&quot;], searchWord = &quot;bags&quot;
+<strong>输出：</strong>[[&quot;baggage&quot;,&quot;bags&quot;,&quot;banner&quot;],[&quot;baggage&quot;,&quot;bags&quot;,&quot;banner&quot;],[&quot;baggage&quot;,&quot;bags&quot;],[&quot;bags&quot;]]
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>products = [&quot;havana&quot;], searchWord = &quot;tatiana&quot;
+<strong>输出：</strong>[[],[],[],[],[],[],[]]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= products.length &lt;= 1000</code></li>
-	<li><code>1 &lt;= products[i].length &lt;= 3000</code></li>
-	<li><code>1 &lt;= sum(products[i].length) &lt;= 2 * 10<sup>4</sup></code></li>
-	<li>All the strings of <code>products</code> are <strong>unique</strong>.</li>
-	<li><code>products[i]</code> consists of lowercase English letters.</li>
+	<li><code>1 &lt;= &Sigma; products[i].length &lt;= 2 * 10^4</code></li>
+	<li><code>products[i]</code>&nbsp;中所有的字符都是小写英文字母。</li>
 	<li><code>1 &lt;= searchWord.length &lt;= 1000</code></li>
-	<li><code>searchWord</code> consists of lowercase English letters.</li>
+	<li><code>searchWord</code>&nbsp;中所有字符都是小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting + Trie
+### 方法一：排序 + 前缀树
 
-The problem requires that after each letter of the input `searchWord`, recommend up to three products from the `products` array that have the same prefix as `searchWord`. If there are more than three products with the same prefix that can be recommended, return the three with the smallest lexicographic order.
+题目要求在输入 `searchWord` 的每一个字母后，推荐 `products` 数组中前缀与 `searchWord` 相同的最多三个产品。如果前缀相同的可推荐产品超过三个，按字典序返回最小的三个。
 
-To find products with the same prefix, we can use a trie; to return the three products with the smallest lexicographic order, we can first sort the `products` array, and then store the indices of the sorted array in the trie.
+找前缀相同的产品，可以使用前缀树；而要返回字典序最小的三个产品，我们可以先对 `products` 数组进行排序，然后将排序后的数组下标存入前缀树中。
 
-Each node of the trie maintains the following information:
+前缀树的每个节点维护以下信息：
 
-- `children`: This is an array of length $26$, used to store the child nodes of the current node. `children[i]` represents the node whose character is `i + 'a'` among the child nodes of the current node.
-- `v`: This is an array, used to store the indices of the characters in the `products` array among the child nodes of the current node, storing up to three indices.
+-   `children`：这是一个长度为 $26$ 的数组，用于存储当前节点的子节点，`children[i]` 表示当前节点的子节点中字符为 `i + 'a'` 的节点。
+-   `v`：这是一个数组，用于存储当前节点的子节点中的字符在 `products` 数组中的下标，最多存储三个下标。
 
-During the search, we start from the root node of the trie, find the index array corresponding to each prefix, and store it in the result array. Finally, we only need to map each index in the index array to the `products` array.
+搜索时，我们从前缀树的根节点开始，找到每一个前缀对应的下标数组，将其存入结果数组中。最后只需要将每个下标数组中的下标对应到 `products` 数组中即可。
 
-The time complexity is $O(L \times \log n + m)$, and the space complexity is $O(L)$. Where $L$ is the sum of the lengths of all strings in the `products` array, and $n$ and $m$ are the lengths of the `products` array and `searchWord`, respectively.
+时间复杂度 $O(L \times \log n + m)$，空间复杂度 $O(L)$。其中 $L$ 是 `products` 数组所有字符串的长度之和，而 $n$ 和 $m$ 分别是 `products` 数组的长度和 `searchWord` 的长度。
 
 <!-- tabs:start -->
 

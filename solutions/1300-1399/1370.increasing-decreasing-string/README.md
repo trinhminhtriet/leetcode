@@ -1,80 +1,85 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1370.Increasing%20Decreasing%20String/README.md
 rating: 1369
-source: Biweekly Contest 21 Q1
+source: 第 21 场双周赛 Q1
 tags:
-  - Hash Table
-  - String
-  - Counting
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1370. Increasing Decreasing String](https://leetcode.com/problems/increasing-decreasing-string)
+# [1370. 上升下降字符串](https://leetcode.cn/problems/increasing-decreasing-string)
 
-## Description
+[English Version](/solution/1300-1399/1370.Increasing%20Decreasing%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code>. Reorder the string using the following algorithm:</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，请你根据下面的算法重新构造字符串：</p>
 
 <ol>
-	<li>Remove the <strong>smallest</strong> character from <code>s</code> and <strong>append</strong> it to the result.</li>
-	<li>Remove the <strong>smallest</strong> character from <code>s</code> that is greater than the last appended character, and <strong>append</strong> it to the result.</li>
-	<li>Repeat step 2 until no more characters can be removed.</li>
-	<li>Remove the <strong>largest</strong> character from <code>s</code> and <strong>append</strong> it to the result.</li>
-	<li>Remove the <strong>largest</strong> character from <code>s</code> that is smaller than the last appended character, and <strong>append</strong> it to the result.</li>
-	<li>Repeat step 5 until no more characters can be removed.</li>
-	<li>Repeat steps 1 through 6 until all characters from <code>s</code> have been removed.</li>
+	<li>从 <code>s</code>&nbsp;中选出 <strong>最小</strong>&nbsp;的字符，将它 <strong>接在</strong>&nbsp;结果字符串的后面。</li>
+	<li>从 <code>s</code> 剩余字符中选出比上一个添加字符更大的 <strong>最小</strong> 字符，将它 <strong>接在</strong>&nbsp;结果字符串后面。</li>
+	<li>重复步骤 2 ，直到你没法从 <code>s</code>&nbsp;中选择字符。</li>
+	<li>从 <code>s</code>&nbsp;中选出 <strong>最大</strong>&nbsp;的字符，将它 <strong>接在</strong>&nbsp;结果字符串的后面。</li>
+	<li>从 <code>s</code> 剩余字符中选出比上一个添加字符更小的 <strong>最大</strong>&nbsp;字符，将它 <strong>接在</strong>&nbsp;结果字符串后面。</li>
+	<li>重复步骤 5&nbsp;，直到你没法从 <code>s</code>&nbsp;中选择字符。</li>
+	<li>重复步骤 1 到 6 ，直到 <code>s</code>&nbsp;中所有字符都已经被选过。</li>
 </ol>
 
-<p>If the smallest or largest character appears more than once, you may choose any occurrence to append to the result.</p>
+<p>在任何一步中，如果最小或者最大字符不止一个&nbsp;，你可以选择其中任意一个，并将其添加到结果字符串。</p>
 
-<p>Return the resulting string after reordering <code>s</code> using this algorithm.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;aaaabbbbcccc&quot;
-<strong>Output:</strong> &quot;abccbaabccba&quot;
-<strong>Explanation:</strong> After steps 1, 2 and 3 of the first iteration, result = &quot;abc&quot;
-After steps 4, 5 and 6 of the first iteration, result = &quot;abccba&quot;
-First iteration is done. Now s = &quot;aabbcc&quot; and we go back to step 1
-After steps 1, 2 and 3 of the second iteration, result = &quot;abccbaabc&quot;
-After steps 4, 5 and 6 of the second iteration, result = &quot;abccbaabccba&quot;
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;rat&quot;
-<strong>Output:</strong> &quot;art&quot;
-<strong>Explanation:</strong> The word &quot;rat&quot; becomes &quot;art&quot; after re-ordering it with the mentioned algorithm.
-</pre>
+<p>请你返回将&nbsp;<code>s</code>&nbsp;中字符重新排序后的 <strong>结果字符串</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aaaabbbbcccc"
+<strong>输出：</strong>"abccbaabccba"
+<strong>解释：</strong>第一轮的步骤 1，2，3 后，结果字符串为 result = "abc"
+第一轮的步骤 4，5，6 后，结果字符串为 result = "abccba"
+第一轮结束，现在 s = "aabbcc" ，我们再次回到步骤 1
+第二轮的步骤 1，2，3 后，结果字符串为 result = "abccbaabc"
+第二轮的步骤 4，5，6 后，结果字符串为 result = "abccbaabccba"
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "rat"
+<strong>输出：</strong>"art"
+<strong>解释：</strong>单词 "rat" 在上述算法重排序以后变成 "art"
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 500</code></li>
-	<li><code>s</code> consists of only lowercase English letters.</li>
+	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting + Simulation
+### 方法一：计数 + 模拟
 
-First, we use a hash table or an array $cnt$ of length $26$ to count the number of occurrences of each character in the string $s$.
+我们先用一个哈希表或者一个长度为 $26$ 的数组 $cnt$ 统计字符串 $s$ 中每个字符出现的次数。
 
-Then, we enumerate the letters $[a,...,z]$. For the current enumerated letter $c$, if $cnt[c] > 0$, we append the letter $c$ to the end of the answer string and decrease $cnt[c]$ by one. We repeat this step until $cnt[c] = 0$. Then we enumerate the letters $[z,...,a]$ in reverse order and perform similar operations. If the length of the answer string equals the length of $s$, then we have completed all the concatenation operations.
+然后，我们枚举字母 $[a,...,z]$，对于当前枚举到的字母 $c$，如果 $cnt[c] \gt 0$，我们就将字母 $c$ 接在答案字符串的末尾，并将 $cnt[c]$ 减一。我们重复这一步骤，直到 $cnt[c]=0$。随后我们逆序枚举字母 $[z,...,a]$，执行类似的操作。如果答案字符串的长度等于 $s$ 的长度，那么我们就完成了所有的拼接操作。
 
-The time complexity is $O(n \times |\Sigma|)$, and the space complexity is $O(|\Sigma|)$. Where $n$ is the length of the string $s$, and $\Sigma$ is the character set. In this problem, the character set is all lowercase letters, so $|\Sigma| = 26$.
+时间复杂度 $O(n \times |\Sigma|)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 是字符串 $s$ 的长度，而 $\Sigma$ 是字符集，本题中字符集为所有小写字母，因此 $|\Sigma|=26$。
 
 <!-- tabs:start -->
 
@@ -186,26 +191,26 @@ func sortString(s string) string {
 
 ```ts
 function sortString(s: string): string {
-  const cnt: number[] = Array(26).fill(0);
-  for (const c of s) {
-    ++cnt[c.charCodeAt(0) - "a".charCodeAt(0)];
-  }
-  const ans: string[] = [];
-  while (ans.length < s.length) {
-    for (let i = 0; i < 26; ++i) {
-      if (cnt[i]) {
-        ans.push(String.fromCharCode(i + "a".charCodeAt(0)));
-        --cnt[i];
-      }
+    const cnt: number[] = Array(26).fill(0);
+    for (const c of s) {
+        ++cnt[c.charCodeAt(0) - 'a'.charCodeAt(0)];
     }
-    for (let i = 25; i >= 0; --i) {
-      if (cnt[i]) {
-        ans.push(String.fromCharCode(i + "a".charCodeAt(0)));
-        --cnt[i];
-      }
+    const ans: string[] = [];
+    while (ans.length < s.length) {
+        for (let i = 0; i < 26; ++i) {
+            if (cnt[i]) {
+                ans.push(String.fromCharCode(i + 'a'.charCodeAt(0)));
+                --cnt[i];
+            }
+        }
+        for (let i = 25; i >= 0; --i) {
+            if (cnt[i]) {
+                ans.push(String.fromCharCode(i + 'a'.charCodeAt(0)));
+                --cnt[i];
+            }
+        }
     }
-  }
-  return ans.join("");
+    return ans.join('');
 }
 ```
 
@@ -217,26 +222,26 @@ function sortString(s: string): string {
  * @return {string}
  */
 var sortString = function (s) {
-  const cnt = Array(26).fill(0);
-  for (const c of s) {
-    ++cnt[c.charCodeAt(0) - "a".charCodeAt(0)];
-  }
-  const ans = [];
-  while (ans.length < s.length) {
-    for (let i = 0; i < 26; ++i) {
-      if (cnt[i]) {
-        ans.push(String.fromCharCode(i + "a".charCodeAt(0)));
-        --cnt[i];
-      }
+    const cnt = Array(26).fill(0);
+    for (const c of s) {
+        ++cnt[c.charCodeAt(0) - 'a'.charCodeAt(0)];
     }
-    for (let i = 25; i >= 0; --i) {
-      if (cnt[i]) {
-        ans.push(String.fromCharCode(i + "a".charCodeAt(0)));
-        --cnt[i];
-      }
+    const ans = [];
+    while (ans.length < s.length) {
+        for (let i = 0; i < 26; ++i) {
+            if (cnt[i]) {
+                ans.push(String.fromCharCode(i + 'a'.charCodeAt(0)));
+                --cnt[i];
+            }
+        }
+        for (let i = 25; i >= 0; --i) {
+            if (cnt[i]) {
+                ans.push(String.fromCharCode(i + 'a'.charCodeAt(0)));
+                --cnt[i];
+            }
+        }
     }
-  }
-  return ans.join("");
+    return ans.join('');
 };
 ```
 

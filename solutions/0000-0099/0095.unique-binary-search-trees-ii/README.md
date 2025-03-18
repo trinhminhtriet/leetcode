@@ -1,62 +1,71 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0095.Unique%20Binary%20Search%20Trees%20II/README.md
 tags:
-  - Tree
-  - Binary Search Tree
-  - Dynamic Programming
-  - Backtracking
-  - Binary Tree
+    - 树
+    - 二叉搜索树
+    - 动态规划
+    - 回溯
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [95. Unique Binary Search Trees II](https://leetcode.com/problems/unique-binary-search-trees-ii)
+# [95. 不同的二叉搜索树 II](https://leetcode.cn/problems/unique-binary-search-trees-ii)
 
-## Description
+[English Version](/solution/0000-0099/0095.Unique%20Binary%20Search%20Trees%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer <code>n</code>, return <em>all the structurally unique <strong>BST&#39;</strong>s (binary search trees), which has exactly </em><code>n</code><em> nodes of unique values from</em> <code>1</code> <em>to</em> <code>n</code>. Return the answer in <strong>any order</strong>.</p>
+<p>给你一个整数 <code>n</code> ，请你生成并返回所有由 <code>n</code> 个节点组成且节点值从 <code>1</code> 到 <code>n</code> 互不相同的不同 <strong>二叉搜索树</strong><em> </em>。可以按 <strong>任意顺序</strong> 返回答案。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<div class="original__bRMd">
+<div>
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0095.Unique%20Binary%20Search%20Trees%20II/images/uniquebstn3.jpg" style="width: 600px; height: 148px;" />
 <pre>
-<strong>Input:</strong> n = 3
-<strong>Output:</strong> [[1,null,2,null,3],[1,null,3,2],[2,1,3],[3,1,null,null,2],[3,2,null,1]]
+<strong>输入：</strong>n = 3
+<strong>输出：</strong>[[1,null,2,null,3],[1,null,3,2],[2,1,3],[3,1,null,null,2],[3,2,null,1]]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 1
-<strong>Output:</strong> [[1]]
+<strong>输入：</strong>n = 1
+<strong>输出：</strong>[[1]]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n &lt;= 8</code></li>
+	<li><code>1 <= n <= 8</code></li>
 </ul>
+</div>
+</div>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS (Depth-First Search)
+### 方法一：DFS
 
-We design a function $dfs(i, j)$ that returns all feasible binary search trees composed of $[i, j]$, so the answer is $dfs(1, n)$.
+我们设计一个函数 $dfs(i, j)$，返回由 $[i, j]$ 组成的所有可行的二叉搜索树，那么答案就是 $dfs(1, n)$。
 
-The execution steps of the function $dfs(i, j)$ are as follows:
+函数 $dfs(i, j)$ 的执行步骤如下：
 
-1. If $i > j$, it means that there are no numbers to form a binary search tree at this time, so return a list consisting of a null node.
-2. If $i \leq j$, we enumerate the numbers $v$ in $[i, j]$ as the root node. The left subtree of the root node $v$ is composed of $[i, v - 1]$, and the right subtree is composed of $[v + 1, j]$. Finally, we take the Cartesian product of all combinations of the left and right subtrees, i.e., $left \times right$, add the root node $v$, and get all binary search trees with $v$ as the root node.
+1. 如果 $i > j$，那么说明此时没有数字可以构成二叉搜索树，返回由一个空节点组成的列表。
+2. 如果 $i \leq j$，那么我们枚举 $[i, j]$ 中的数字 $v$ 作为根节点，那么根节点 $v$ 的左子树由 $[i, v - 1]$ 组成，右子树由 $[v + 1, j]$ 组成，最后将左右子树的所有组合笛卡尔积，即 $left \times right$，加上根节点 $v$，得到以 $v$ 为根节点的所有二叉搜索树。
 
-The time complexity is $O(n \times G(n))$, and the space complexity is $O(n \times G(n))$. Where $G(n)$ is the Catalan number.
+时间复杂度 $O(n \times G(n))$，空间复杂度 $O(n \times G(n))$。其中 $G(n)$ 是卡特兰数。
 
 <!-- tabs:start -->
 
@@ -218,23 +227,23 @@ func generateTrees(n int) []*TreeNode {
  */
 
 function generateTrees(n: number): Array<TreeNode | null> {
-  const dfs = (i: number, j: number): Array<TreeNode | null> => {
-    if (i > j) {
-      return [null];
-    }
-    const ans: Array<TreeNode | null> = [];
-    for (let v = i; v <= j; ++v) {
-      const left = dfs(i, v - 1);
-      const right = dfs(v + 1, j);
-      for (const l of left) {
-        for (const r of right) {
-          ans.push(new TreeNode(v, l, r));
+    const dfs = (i: number, j: number): Array<TreeNode | null> => {
+        if (i > j) {
+            return [null];
         }
-      }
-    }
-    return ans;
-  };
-  return dfs(1, n);
+        const ans: Array<TreeNode | null> = [];
+        for (let v = i; v <= j; ++v) {
+            const left = dfs(i, v - 1);
+            const right = dfs(v + 1, j);
+            for (const l of left) {
+                for (const r of right) {
+                    ans.push(new TreeNode(v, l, r));
+                }
+            }
+        }
+        return ans;
+    };
+    return dfs(1, n);
 }
 ```
 

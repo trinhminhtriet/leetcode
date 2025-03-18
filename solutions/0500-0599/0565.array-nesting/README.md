@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0565.Array%20Nesting/README.md
 tags:
-  - Depth-First Search
-  - Array
+    - 深度优先搜索
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [565. Array Nesting](https://leetcode.com/problems/array-nesting)
+# [565. 数组嵌套](https://leetcode.cn/problems/array-nesting)
 
-## Description
+[English Version](/solution/0500-0599/0565.Array%20Nesting/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> of length <code>n</code> where <code>nums</code> is a permutation of the numbers in the range <code>[0, n - 1]</code>.</p>
+<p>索引从<code>0</code>开始长度为<code>N</code>的数组<code>A</code>，包含<code>0</code>到<code>N - 1</code>的所有整数。找到最大的集合<code>S</code>并返回其大小，其中 <code>S[i] = {A[i], A[A[i]], A[A[A[i]]], ... }</code>且遵守以下的规则。</p>
 
-<p>You should build a set <code>s[k] = {nums[k], nums[nums[k]], nums[nums[nums[k]]], ... }</code> subjected to the following rule:</p>
-
-<ul>
-	<li>The first element in <code>s[k]</code> starts with the selection of the element <code>nums[k]</code> of <code>index = k</code>.</li>
-	<li>The next element in <code>s[k]</code> should be <code>nums[nums[k]]</code>, and then <code>nums[nums[nums[k]]]</code>, and so on.</li>
-	<li>We stop adding right before a duplicate element occurs in <code>s[k]</code>.</li>
-</ul>
-
-<p>Return <em>the longest length of a set</em> <code>s[k]</code>.</p>
+<p>假设选择索引为<code>i</code>的元素<code>A[i]</code>为<code>S</code>的第一个元素，<code>S</code>的下一个元素应该是<code>A[A[i]]</code>，之后是<code>A[A[A[i]]]...</code> 以此类推，不断添加直到<code>S</code>出现重复的元素。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例&nbsp;1:</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [5,4,0,3,1,6,2]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> 
-nums[0] = 5, nums[1] = 4, nums[2] = 0, nums[3] = 3, nums[4] = 1, nums[5] = 6, nums[6] = 2.
-One of the longest sets s[k]:
-s[0] = {nums[0], nums[5], nums[6], nums[2]} = {5, 6, 2, 0}
-</pre>
+<strong>输入:</strong> A = [5,4,0,3,1,6,2]
+<strong>输出:</strong> 4
+<strong>解释:</strong> 
+A[0] = 5, A[1] = 4, A[2] = 0, A[3] = 3, A[4] = 1, A[5] = 6, A[6] = 2.
 
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [0,1,2]
-<strong>Output:</strong> 1
+其中一种最长的 S[K]:
+S[0] = {A[0], A[5], A[6], A[2]} = {5, 6, 2, 0}
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= nums[i] &lt; nums.length</code></li>
-	<li>All the values of <code>nums</code> are <strong>unique</strong>.</li>
+	<li><code>A</code>中不含有重复的元素。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：图
+
+嵌套数组最终一定会形成一个环，在枚举 $nums[i]$ 的过程中，可以用 $vis$ 数组剪枝，避免重复枚举同一个环。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -168,7 +163,11 @@ func arrayNesting(nums []int) int {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：原地标记
+
+由于 $nums$ 元素均在 $[0..n-1]$ 之间，因此，对于访问过的元素，我们可以令 $nums[i]=n$，从而省略 $vis$ 数组。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

@@ -1,59 +1,71 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0520.Detect%20Capital/README.md
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [520. Detect Capital](https://leetcode.com/problems/detect-capital)
+# [520. 检测大写字母](https://leetcode.cn/problems/detect-capital)
 
-## Description
+[English Version](/solution/0500-0599/0520.Detect%20Capital/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>We define the usage of capitals in a word to be right when one of the following cases holds:</p>
+<p>我们定义，在以下情况时，单词的大写用法是正确的：</p>
 
 <ul>
-	<li>All letters in this word are capitals, like <code>&quot;USA&quot;</code>.</li>
-	<li>All letters in this word are not capitals, like <code>&quot;leetcode&quot;</code>.</li>
-	<li>Only the first letter in this word is capital, like <code>&quot;Google&quot;</code>.</li>
+	<li>全部字母都是大写，比如 <code>"USA"</code> 。</li>
+	<li>单词中所有字母都不是大写，比如 <code>"leetcode"</code> 。</li>
+	<li>如果单词不只含有一个字母，只有首字母大写，&nbsp;比如&nbsp;<code>"Google"</code> 。</li>
 </ul>
 
-<p>Given a string <code>word</code>, return <code>true</code> if the usage of capitals in it is right.</p>
+<p>给你一个字符串 <code>word</code> 。如果大写用法正确，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> word = "USA"
-<strong>Output:</strong> true
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> word = "FlaG"
-<strong>Output:</strong> false
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>word = "USA"
+<strong>输出：</strong>true
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>word = "FlaG"
+<strong>输出：</strong>false
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length &lt;= 100</code></li>
-	<li><code>word</code> consists of lowercase and uppercase English letters.</li>
+	<li><code>word</code> 由小写和大写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Count the Number of Uppercase Letters
+### 方法一：统计大写字母的个数
 
-We can count the number of uppercase letters in the string, and then determine whether it meets the requirements of the problem based on the number of uppercase letters.
+我们可以统计字符串中大写字母的个数，然后根据大写字母的个数判断是否符合题目要求。
 
-- If the number of uppercase letters is 0 or equal to the length of the string, then return `true`.
-- If the number of uppercase letters is 1 and the first letter is an uppercase letter, then return `true`.
-- Otherwise, return `false`.
+-   如果大写字母的个数为 0 或者等于字符串的长度，那么返回 `true`。
+-   如果大写字母的个数为 1 并且第一个字母是大写字母，那么返回 `true`。
+-   否则返回 `false`。
 
-The time complexity is $O(n)$, where $n$ is the length of the string `word`. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 `word` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -113,14 +125,8 @@ func detectCapitalUse(word string) bool {
 
 ```ts
 function detectCapitalUse(word: string): boolean {
-  const cnt = word
-    .split("")
-    .reduce((acc, c) => acc + (c === c.toUpperCase() ? 1 : 0), 0);
-  return (
-    cnt === 0 ||
-    cnt === word.length ||
-    (cnt === 1 && word[0] === word[0].toUpperCase())
-  );
+    const cnt = word.split('').reduce((acc, c) => acc + (c === c.toUpperCase() ? 1 : 0), 0);
+    return cnt === 0 || cnt === word.length || (cnt === 1 && word[0] === word[0].toUpperCase());
 }
 ```
 

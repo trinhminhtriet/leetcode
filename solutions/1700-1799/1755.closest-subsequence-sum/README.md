@@ -1,60 +1,63 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1755.Closest%20Subsequence%20Sum/README.md
 rating: 2363
-source: Weekly Contest 227 Q4
+source: 第 227 场周赛 Q4
 tags:
-  - Bit Manipulation
-  - Array
-  - Two Pointers
-  - Dynamic Programming
-  - Bitmask
+    - 位运算
+    - 数组
+    - 双指针
+    - 动态规划
+    - 状态压缩
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1755. Closest Subsequence Sum](https://leetcode.com/problems/closest-subsequence-sum)
+# [1755. 最接近目标值的子序列和](https://leetcode.cn/problems/closest-subsequence-sum)
 
-## Description
+[English Version](/solution/1700-1799/1755.Closest%20Subsequence%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> and an integer <code>goal</code>.</p>
+<p>给你一个整数数组 <code>nums</code> 和一个目标值 <code>goal</code> 。</p>
 
-<p>You want to choose a subsequence of <code>nums</code> such that the sum of its elements is the closest possible to <code>goal</code>. That is, if the sum of the subsequence&#39;s elements is <code>sum</code>, then you want to <strong>minimize the absolute difference</strong> <code>abs(sum - goal)</code>.</p>
+<p>你需要从 <code>nums</code> 中选出一个子序列，使子序列元素总和最接近 <code>goal</code> 。也就是说，如果子序列元素和为 <code>sum</code> ，你需要 <strong>最小化绝对差</strong> <code>abs(sum - goal)</code> 。</p>
 
-<p>Return <em>the <strong>minimum</strong> possible value of</em> <code>abs(sum - goal)</code>.</p>
+<p>返回 <code>abs(sum - goal)</code> 可能的 <strong>最小值</strong> 。</p>
 
-<p>Note that a subsequence of an array is an array formed by removing some elements <strong>(possibly all or none)</strong> of the original array.</p>
+<p>注意，数组的子序列是通过移除原始数组中的某些元素（可能全部或无）而形成的数组。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [5,-7,3,5], goal = 6
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Choose the whole array as a subsequence, with a sum of 6.
-This is equal to the goal, so the absolute difference is 0.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [5,-7,3,5], goal = 6
+<strong>输出：</strong>0
+<strong>解释：</strong>选择整个数组作为选出的子序列，元素和为 6 。
+子序列和与目标值相等，所以绝对差为 0 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [7,-9,15,-2], goal = -5
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> Choose the subsequence [7,-9,-2], with a sum of -4.
-The absolute difference is abs(-4 - (-5)) = abs(1) = 1, which is the minimum.
+<pre><strong>输入：</strong>nums = [7,-9,15,-2], goal = -5
+<strong>输出：</strong>1
+<strong>解释：</strong>选出子序列 [7,-9,-2] ，元素和为 -4 。
+绝对差为 abs(-4 - (-5)) = abs(1) = 1 ，是可能的最小值。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,2,3], goal = -7
-<strong>Output:</strong> 7
+<pre><strong>输入：</strong>nums = [1,2,3], goal = -7
+<strong>输出：</strong>7
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 40</code></li>
@@ -64,11 +67,21 @@ The absolute difference is abs(-4 - (-5)) = abs(1) = 1, which is the minimum.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS + 二分查找
+
+每个数选或不选两种可能，所以 $n$ 个数就有 $2^n$ 种组合，由于 $n$ 最大为 $40$，枚举 $2^{40}$ 种组合显然会超时。
+
+我们可以把数组分成左右两部分，分别求出两部分所有子序列和，记为 $left$ 和 $right$。最后，只需找到最接近 $goal$ 的 $left[i] + right[j]$。
+
+时间复杂度 $O(n\times 2^{n/2})$。
+
+相似题目：
+
+-   [1774. 最接近目标价格的甜点成本](https://github.com/doocs/leetcode/blob/main/solution/1700-1799/1774.Closest%20Dessert%20Cost/README.md)
 
 <!-- tabs:start -->
 
@@ -267,7 +280,7 @@ func abs(x int) int {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

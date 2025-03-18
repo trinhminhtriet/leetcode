@@ -1,66 +1,69 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2338.Count%20the%20Number%20of%20Ideal%20Arrays/README.md
 rating: 2615
-source: Weekly Contest 301 Q4
+source: 第 301 场周赛 Q4
 tags:
-  - Math
-  - Dynamic Programming
-  - Combinatorics
-  - Number Theory
+    - 数学
+    - 动态规划
+    - 组合数学
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [2338. Count the Number of Ideal Arrays](https://leetcode.com/problems/count-the-number-of-ideal-arrays)
+# [2338. 统计理想数组的数目](https://leetcode.cn/problems/count-the-number-of-ideal-arrays)
 
-## Description
+[English Version](/solution/2300-2399/2338.Count%20the%20Number%20of%20Ideal%20Arrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two integers <code>n</code> and <code>maxValue</code>, which are used to describe an <strong>ideal</strong> array.</p>
+<p>给你两个整数 <code>n</code> 和 <code>maxValue</code> ，用于描述一个 <strong>理想数组</strong> 。</p>
 
-<p>A <strong>0-indexed</strong> integer array <code>arr</code> of length <code>n</code> is considered <strong>ideal</strong> if the following conditions hold:</p>
+<p>对于下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的整数数组 <code>arr</code> ，如果满足以下条件，则认为该数组是一个 <strong>理想数组</strong> ：</p>
 
 <ul>
-	<li>Every <code>arr[i]</code> is a value from <code>1</code> to <code>maxValue</code>, for <code>0 &lt;= i &lt; n</code>.</li>
-	<li>Every <code>arr[i]</code> is divisible by <code>arr[i - 1]</code>, for <code>0 &lt; i &lt; n</code>.</li>
+	<li>每个 <code>arr[i]</code> 都是从 <code>1</code> 到 <code>maxValue</code> 范围内的一个值，其中 <code>0 &lt;= i &lt; n</code> 。</li>
+	<li>每个 <code>arr[i]</code> 都可以被 <code>arr[i - 1]</code> 整除，其中 <code>0 &lt; i &lt; n</code> 。</li>
 </ul>
 
-<p>Return <em>the number of <strong>distinct</strong> ideal arrays of length </em><code>n</code>. Since the answer may be very large, return it modulo <code>10<sup>9</sup> + 7</code>.</p>
+<p>返回长度为 <code>n</code> 的 <strong>不同</strong> 理想数组的数目。由于答案可能很大，返回对 <code>10<sup>9</sup> + 7</code> 取余的结果。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 2, maxValue = 5
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> The following are the possible ideal arrays:
-- Arrays starting with the value 1 (5 arrays): [1,1], [1,2], [1,3], [1,4], [1,5]
-- Arrays starting with the value 2 (2 arrays): [2,2], [2,4]
-- Arrays starting with the value 3 (1 array): [3,3]
-- Arrays starting with the value 4 (1 array): [4,4]
-- Arrays starting with the value 5 (1 array): [5,5]
-There are a total of 5 + 2 + 1 + 1 + 1 = 10 distinct ideal arrays.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>n = 2, maxValue = 5
+<strong>输出：</strong>10
+<strong>解释：</strong>存在以下理想数组：
+- 以 1 开头的数组（5 个）：[1,1]、[1,2]、[1,3]、[1,4]、[1,5]
+- 以 2 开头的数组（2 个）：[2,2]、[2,4]
+- 以 3 开头的数组（1 个）：[3,3]
+- 以 4 开头的数组（1 个）：[4,4]
+- 以 5 开头的数组（1 个）：[5,5]
+共计 5 + 2 + 1 + 1 + 1 = 10 个不同理想数组。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 5, maxValue = 3
-<strong>Output:</strong> 11
-<strong>Explanation:</strong> The following are the possible ideal arrays:
-- Arrays starting with the value 1 (9 arrays): 
-   - With no other distinct values (1 array): [1,1,1,1,1] 
-   - With 2<sup>nd</sup> distinct value 2 (4 arrays): [1,1,1,1,2], [1,1,1,2,2], [1,1,2,2,2], [1,2,2,2,2]
-   - With 2<sup>nd</sup> distinct value 3 (4 arrays): [1,1,1,1,3], [1,1,1,3,3], [1,1,3,3,3], [1,3,3,3,3]
-- Arrays starting with the value 2 (1 array): [2,2,2,2,2]
-- Arrays starting with the value 3 (1 array): [3,3,3,3,3]
-There are a total of 9 + 1 + 1 = 11 distinct ideal arrays.
+<pre><strong>输入：</strong>n = 5, maxValue = 3
+<strong>输出：</strong>11
+<strong>解释：</strong>存在以下理想数组：
+- 以 1 开头的数组（9 个）：
+   - 不含其他不同值（1 个）：[1,1,1,1,1] 
+   - 含一个不同值 2（4 个）：[1,1,1,1,2], [1,1,1,2,2], [1,1,2,2,2], [1,2,2,2,2]
+   - 含一个不同值 3（4 个）：[1,1,1,1,3], [1,1,1,3,3], [1,1,3,3,3], [1,3,3,3,3]
+- 以 2 开头的数组（1 个）：[2,2,2,2,2]
+- 以 3 开头的数组（1 个）：[3,3,3,3,3]
+共计 9 + 1 + 1 = 11 个不同理想数组。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -69,11 +72,11 @@ There are a total of 9 + 1 + 1 = 11 distinct ideal arrays.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：记忆化搜索 + 组合计数
 
 <!-- tabs:start -->
 
@@ -238,7 +241,15 @@ func idealArrays(n int, maxValue int) int {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：动态规划
+
+设 $dp[i][j]$ 表示以 $i$ 结尾，且由 $j$ 个不同元素构成的序列的方案数。初始值 $dp[i][1]=1$。
+
+考虑 $n$ 个小球，最终划分为 $j$ 份，那么可以用“隔板法”，即在 $n-1$ 个位置上插入 $j-1$ 个隔板，那么组合数为 $C_{n-1}^{j-1}$ 。
+
+我们可以预处理组合数 $C[i][j]$，根据递推公式 $C[i][j]=C[i-1][j]+C[i-1][j-1]$ 求得，特别地，当 $j=0$ 时，$C[i][j]=1$。
+
+最终的答案为 $\sum\limits_{i=1}^{k}\sum\limits_{j=1}^{\log_2 k + 1}dp[i][j] \times C_{n-1}^{j-1}$ 。其中 $k$ 表示数组的最大值，即 $maxValue$。
 
 <!-- tabs:start -->
 

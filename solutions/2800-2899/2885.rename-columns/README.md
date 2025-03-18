@@ -1,15 +1,18 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2885.Rename%20Columns/README.md
 tags:
-  - Pandas
+    - Pandas
 ---
 
 <!-- problem:start -->
 
-# [2885. Rename Columns](https://leetcode.com/problems/rename-columns)
+# [2885. 重命名列](https://leetcode.cn/problems/rename-columns)
 
-## Description
+[English Version](/solution/2800-2899/2885.Rename%20Columns/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
@@ -25,21 +28,23 @@ DataFrame <code>students</code>
 +-------------+--------+
 </pre>
 
-<p>Write a solution to rename the columns as follows:</p>
+<p>编写一个解决方案，按以下方式重命名列：</p>
 
 <ul>
-	<li><code>id</code> to <code>student_id</code></li>
-	<li><code>first</code> to <code>first_name</code></li>
-	<li><code>last</code> to <code>last_name</code></li>
-	<li><code>age</code> to <code>age_in_years</code></li>
+	<li><code>id</code>&nbsp;重命名为&nbsp;<code>student_id</code></li>
+	<li><code>first</code>&nbsp;重命名为&nbsp;<code>first_name</code></li>
+	<li><code>last</code>&nbsp;重命名为&nbsp;<code>last_name</code></li>
+	<li><code>age</code>&nbsp;重命名为&nbsp;<code>age_in_years</code></li>
 </ul>
 
-<p>The result format is in the following example.</p>
+<p>返回结果格式如下示例所示。</p>
 
 <p>&nbsp;</p>
+
+<p><strong>示例 1:</strong></p>
+
 <pre>
-<strong class="example">Example 1:</strong>
-<strong>Input:
+<strong>输入：
 </strong>+----+---------+----------+-----+
 | id | first   | last     | age |
 +----+---------+----------+-----+
@@ -49,7 +54,7 @@ DataFrame <code>students</code>
 | 4  | Georgia | Thompson | 18  |
 | 5  | Thomas  | Moore    | 10  |
 +----+---------+----------+-----+
-<strong>Output:</strong>
+<b>输出：</b>
 +------------+------------+-----------+--------------+
 | student_id | first_name | last_name | age_in_years |
 +------------+------------+-----------+--------------+
@@ -59,16 +64,16 @@ DataFrame <code>students</code>
 | 4          | Georgia    | Thompson  | 18           |
 | 5          | Thomas     | Moore     | 10           |
 +------------+------------+-----------+--------------+
-<strong>Explanation:</strong> 
-The column names are changed accordingly.</pre>
+<b>解释：</b>
+列名已相应更换。</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

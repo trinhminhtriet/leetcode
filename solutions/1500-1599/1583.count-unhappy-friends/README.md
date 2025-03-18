@@ -1,100 +1,105 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1583.Count%20Unhappy%20Friends/README.md
 rating: 1658
-source: Weekly Contest 206 Q2
+source: 第 206 场周赛 Q2
 tags:
-  - Array
-  - Simulation
+    - 数组
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1583. Count Unhappy Friends](https://leetcode.com/problems/count-unhappy-friends)
+# [1583. 统计不开心的朋友](https://leetcode.cn/problems/count-unhappy-friends)
 
-## Description
+[English Version](/solution/1500-1599/1583.Count%20Unhappy%20Friends/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a list of&nbsp;<code>preferences</code>&nbsp;for&nbsp;<code>n</code>&nbsp;friends, where <code>n</code> is always <strong>even</strong>.</p>
+<p>给你一份 <code>n</code> 位朋友的亲近程度列表，其中 <code>n</code> 总是 <strong>偶数</strong> 。</p>
 
-<p>For each person <code>i</code>,&nbsp;<code>preferences[i]</code>&nbsp;contains&nbsp;a list of friends&nbsp;<strong>sorted</strong> in the <strong>order of preference</strong>. In other words, a friend earlier in the list is more preferred than a friend later in the list.&nbsp;Friends in&nbsp;each list are&nbsp;denoted by integers from <code>0</code> to <code>n-1</code>.</p>
+<p>对每位朋友 <code>i</code>，<code>preferences[i]</code> 包含一份 <strong>按亲近程度从高</strong><strong>到低排列</strong> 的朋友列表。换句话说，排在列表前面的朋友与 <code>i</code> 的亲近程度比排在列表后面的朋友更高。每个列表中的朋友均以 <code>0</code> 到 <code>n-1</code> 之间的整数表示。</p>
 
-<p>All the friends are divided into pairs.&nbsp;The pairings are&nbsp;given in a list&nbsp;<code>pairs</code>,&nbsp;where <code>pairs[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> denotes <code>x<sub>i</sub></code>&nbsp;is paired with <code>y<sub>i</sub></code> and <code>y<sub>i</sub></code> is paired with <code>x<sub>i</sub></code>.</p>
+<p>所有的朋友被分成几对，配对情况以列表 <code>pairs</code> 给出，其中 <code>pairs[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> 表示 <code>x<sub>i</sub></code> 与 <code>y<sub>i</sub></code> 配对，且 <code>y<sub>i</sub></code> 与 <code>x<sub>i</sub></code> 配对。</p>
 
-<p>However, this pairing may cause some of the friends to be unhappy.&nbsp;A friend <code>x</code>&nbsp;is unhappy if <code>x</code>&nbsp;is paired with <code>y</code>&nbsp;and there exists a friend <code>u</code>&nbsp;who&nbsp;is paired with <code>v</code>&nbsp;but:</p>
+<p>但是，这样的配对情况可能会使其中部分朋友感到不开心。在 <code>x</code> 与 <code>y</code> 配对且 <code>u</code> 与 <code>v</code> 配对的情况下，如果同时满足下述两个条件，<code>x</code> 就会不开心：</p>
 
 <ul>
-	<li><code>x</code>&nbsp;prefers <code>u</code>&nbsp;over <code>y</code>,&nbsp;and</li>
-	<li><code>u</code>&nbsp;prefers <code>x</code>&nbsp;over <code>v</code>.</li>
+	<li><code>x</code> 与 <code>u</code> 的亲近程度胜过 <code>x</code> 与 <code>y</code>，且</li>
+	<li><code>u</code> 与 <code>x</code> 的亲近程度胜过 <code>u</code> 与 <code>v</code></li>
 </ul>
 
-<p>Return <em>the number of unhappy friends</em>.</p>
+<p>返回 <strong>不开心的朋友的数目</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 4, preferences = [[1, 2, 3], [3, 2, 0], [3, 1, 0], [1, 2, 0]], pairs = [[0, 1], [2, 3]]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong>
-Friend 1 is unhappy because:
-- 1 is paired with 0 but prefers 3 over 0, and
-- 3 prefers 1 over 2.
-Friend 3 is unhappy because:
-- 3 is paired with 2 but prefers 1 over 2, and
-- 1 prefers 3 over 0.
-Friends 0 and 2 are happy.
+<strong>输入：</strong>n = 4, preferences = [[1, 2, 3], [3, 2, 0], [3, 1, 0], [1, 2, 0]], pairs = [[0, 1], [2, 3]]
+<strong>输出：</strong>2
+<strong>解释：</strong>
+朋友 1 不开心，因为：
+- <strong>1 与 0 </strong>配对，但 <strong>1 与 3</strong> 的亲近程度比 <strong>1 与 0</strong> 高，且
+- <strong>3 与 1</strong> 的亲近程度比 <strong>3 与 2</strong> 高。
+朋友 3 不开心，因为：
+- 3 与 2 配对，但 <strong>3 与 1</strong> 的亲近程度比 <strong>3 与 2</strong> 高，且
+- <strong>1 与 3</strong> 的亲近程度比 <strong>1 与 0</strong> 高。
+朋友 0 和 2 都是开心的。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 2, preferences = [[1], [0]], pairs = [[1, 0]]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Both friends 0 and 1 are happy.
+<strong>输入：</strong>n = 2, preferences = [[1], [0]], pairs = [[1, 0]]
+<strong>输出：</strong>0
+<strong>解释：</strong>朋友 0 和 1 都开心。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 4, preferences = [[1, 3, 2], [2, 3, 0], [1, 3, 0], [0, 2, 1]], pairs = [[1, 3], [0, 2]]
-<strong>Output:</strong> 4
+<strong>输入：</strong>n = 4, preferences = [[1, 3, 2], [2, 3, 0], [1, 3, 0], [0, 2, 1]], pairs = [[1, 3], [0, 2]]
+<strong>输出：</strong>4
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 500</code></li>
-	<li><code>n</code>&nbsp;is even.</li>
+	<li><code>n</code> 是偶数</li>
 	<li><code>preferences.length&nbsp;== n</code></li>
 	<li><code>preferences[i].length&nbsp;== n - 1</code></li>
 	<li><code>0 &lt;= preferences[i][j] &lt;= n - 1</code></li>
-	<li><code>preferences[i]</code>&nbsp;does not contain <code>i</code>.</li>
-	<li>All values in&nbsp;<code>preferences[i]</code>&nbsp;are unique.</li>
+	<li><code>preferences[i]</code> 不包含 <code>i</code></li>
+	<li><code>preferences[i]</code> 中的所有值都是独一无二的</li>
 	<li><code>pairs.length&nbsp;== n/2</code></li>
 	<li><code>pairs[i].length&nbsp;== 2</code></li>
 	<li><code>x<sub>i</sub> != y<sub>i</sub></code></li>
 	<li><code>0 &lt;= x<sub>i</sub>, y<sub>i</sub>&nbsp;&lt;= n - 1</code></li>
-	<li>Each person is contained in <strong>exactly one</strong> pair.</li>
+	<li>每位朋友都 <strong>恰好</strong> 被包含在一对中</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We use an array $\textit{d}$ to record the closeness between each pair of friends, where $\textit{d}[i][j]$ represents the closeness of friend $i$ to friend $j$ (the smaller the value, the closer they are). Additionally, we use an array $\textit{p}$ to record the paired friend for each friend.
+我们用数组 $\textit{d}$ 记录每个朋友与其它朋友的亲近程度，其中 $\textit{d}[i][j]$ 表示朋友 $i$ 对 $j$ 的亲近程度（值越小，越亲近），另外，用数组 $\textit{p}$ 记录每个朋友的配对朋友。
 
-We enumerate each friend $x$. For $x$'s paired friend $y$, we find the closeness $\textit{d}[x][y]$ of $x$ to $y$. Then, we enumerate other friends $u$ who are closer than $\textit{d}[x][y]$. If there exists a friend $u$ such that the closeness $\textit{d}[u][x]$ of $u$ to $x$ is higher than $\textit{d}[u][y]$, then $x$ is an unhappy friend, and we increment the result by one.
+我们枚举每个朋友 $x$，对于 $x$ 的配对朋友 $y$，我们找到 $x$ 对 $y$ 的亲近程度 $\textit{d}[x][y]$，然后枚举比 $\textit{d}[x][y]$ 更亲近的其它朋友 $u$，如果存在 $u$ 对 $x$ 的亲近程度 $\textit{d}[u][x]$ 比 $\textit{d}[u][y]$ 更高，那么 $x$ 就是不开心的朋友，将结果加一即可。
 
-After the enumeration, we obtain the number of unhappy friends.
+枚举结束后，即可得到不开心的朋友的数目。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the number of friends.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为朋友的数目。
 
 <!-- tabs:start -->
 
@@ -232,35 +237,31 @@ func unhappyFriends(n int, preferences [][]int, pairs [][]int) (ans int) {
 #### TypeScript
 
 ```ts
-function unhappyFriends(
-  n: number,
-  preferences: number[][],
-  pairs: number[][]
-): number {
-  const d: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
-  for (let i = 0; i < n; ++i) {
-    for (let j = 0; j < n - 1; ++j) {
-      d[i][preferences[i][j]] = j;
+function unhappyFriends(n: number, preferences: number[][], pairs: number[][]): number {
+    const d: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
+    for (let i = 0; i < n; ++i) {
+        for (let j = 0; j < n - 1; ++j) {
+            d[i][preferences[i][j]] = j;
+        }
     }
-  }
-  const p: number[] = Array(n).fill(0);
-  for (const [x, y] of pairs) {
-    p[x] = y;
-    p[y] = x;
-  }
-  let ans = 0;
-  for (let x = 0; x < n; ++x) {
-    const y = p[x];
-    for (let i = 0; i < d[x][y]; ++i) {
-      const u = preferences[x][i];
-      const v = p[u];
-      if (d[u][x] < d[u][v]) {
-        ++ans;
-        break;
-      }
+    const p: number[] = Array(n).fill(0);
+    for (const [x, y] of pairs) {
+        p[x] = y;
+        p[y] = x;
     }
-  }
-  return ans;
+    let ans = 0;
+    for (let x = 0; x < n; ++x) {
+        const y = p[x];
+        for (let i = 0; i < d[x][y]; ++i) {
+            const u = preferences[x][i];
+            const v = p[u];
+            if (d[u][x] < d[u][v]) {
+                ++ans;
+                break;
+            }
+        }
+    }
+    return ans;
 }
 ```
 

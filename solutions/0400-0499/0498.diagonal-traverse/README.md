@@ -1,39 +1,44 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0498.Diagonal%20Traverse/README.md
 tags:
-  - Array
-  - Matrix
-  - Simulation
+    - 数组
+    - 矩阵
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [498. Diagonal Traverse](https://leetcode.com/problems/diagonal-traverse)
+# [498. 对角线遍历](https://leetcode.cn/problems/diagonal-traverse)
 
-## Description
+[English Version](/solution/0400-0499/0498.Diagonal%20Traverse/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an <code>m x n</code> matrix <code>mat</code>, return <em>an array of all the elements of the array in a diagonal order</em>.</p>
+<p>给你一个大小为 <code>m x n</code> 的矩阵 <code>mat</code> ，请以对角线遍历的顺序，用一个数组返回这个矩阵中的所有元素。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0498.Diagonal%20Traverse/images/diag1-grid.jpg" style="width: 334px; height: 334px;" />
 <pre>
-<strong>Input:</strong> mat = [[1,2,3],[4,5,6],[7,8,9]]
-<strong>Output:</strong> [1,2,4,7,5,3,6,8,9]
+<strong>输入：</strong>mat = [[1,2,3],[4,5,6],[7,8,9]]
+<strong>输出：</strong>[1,2,4,7,5,3,6,8,9]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> mat = [[1,2],[3,4]]
-<strong>Output:</strong> [1,2,3,4]
+<strong>输入：</strong>mat = [[1,2],[3,4]]
+<strong>输出：</strong>[1,2,3,4]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == mat.length</code></li>
@@ -45,11 +50,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：定点遍历
+
+对于每一轮 $k$，我们固定从右上方开始往左下方遍历，得到 $t$。如果 $k$ 为偶数，再将 $t$ 逆序。然后将 $t$ 添加到结果数组 `ans` 中。
+
+问题的关键在于确定轮数以及每一轮的起始坐标点 $(i,j)$。
+
+时间复杂度 $O(m\times n)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -163,39 +174,39 @@ func findDiagonalOrder(mat [][]int) []int {
 
 ```ts
 function findDiagonalOrder(mat: number[][]): number[] {
-  const res = [];
-  const m = mat.length;
-  const n = mat[0].length;
-  let i = 0;
-  let j = 0;
-  let mark = true;
-  while (res.length !== n * m) {
-    if (mark) {
-      while (i >= 0 && j < n) {
-        res.push(mat[i][j]);
-        i--;
-        j++;
-      }
-      if (j === n) {
-        j--;
-        i++;
-      }
-      i++;
-    } else {
-      while (i < m && j >= 0) {
-        res.push(mat[i][j]);
-        i++;
-        j--;
-      }
-      if (i === m) {
-        i--;
-        j++;
-      }
-      j++;
+    const res = [];
+    const m = mat.length;
+    const n = mat[0].length;
+    let i = 0;
+    let j = 0;
+    let mark = true;
+    while (res.length !== n * m) {
+        if (mark) {
+            while (i >= 0 && j < n) {
+                res.push(mat[i][j]);
+                i--;
+                j++;
+            }
+            if (j === n) {
+                j--;
+                i++;
+            }
+            i++;
+        } else {
+            while (i < m && j >= 0) {
+                res.push(mat[i][j]);
+                i++;
+                j--;
+            }
+            if (i === m) {
+                i--;
+                j++;
+            }
+            j++;
+        }
+        mark = !mark;
     }
-    mark = !mark;
-  }
-  return res;
+    return res;
 }
 ```
 

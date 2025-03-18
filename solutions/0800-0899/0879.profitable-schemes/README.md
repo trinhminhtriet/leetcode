@@ -1,74 +1,85 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0879.Profitable%20Schemes/README.md
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [879. Profitable Schemes](https://leetcode.com/problems/profitable-schemes)
+# [879. 盈利计划](https://leetcode.cn/problems/profitable-schemes)
 
-## Description
+[English Version](/solution/0800-0899/0879.Profitable%20Schemes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a group of <code>n</code> members, and a list of various crimes they could commit. The <code>i<sup>th</sup></code> crime generates a <code>profit[i]</code> and requires <code>group[i]</code> members to participate in it. If a member participates in one crime, that member can&#39;t participate in another crime.</p>
+<p>集团里有 <code>n</code> 名员工，他们可以完成各种各样的工作创造利润。</p>
 
-<p>Let&#39;s call a <strong>profitable scheme</strong> any subset of these crimes that generates at least <code>minProfit</code> profit, and the total number of members participating in that subset of crimes is at most <code>n</code>.</p>
+<p>第 <code>i</code> 种工作会产生 <code>profit[i]</code> 的利润，它要求 <code>group[i]</code> 名成员共同参与。如果成员参与了其中一项工作，就不能参与另一项工作。</p>
 
-<p>Return the number of schemes that can be chosen. Since the answer may be very large, <strong>return it modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>工作的任何至少产生 <code>minProfit</code> 利润的子集称为 <strong>盈利计划</strong> 。并且工作的成员总数最多为 <code>n</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>有多少种计划可以选择？因为答案很大，所以<strong> 返回结果模 </strong><code>10^9 + 7</code><strong> 的值</strong>。</p>
 
-<pre>
-<strong>Input:</strong> n = 5, minProfit = 3, group = [2,2], profit = [2,3]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> To make a profit of at least 3, the group could either commit crimes 0 and 1, or just crime 1.
-In total, there are 2 schemes.</pre>
+<div class="original__bRMd">
+<div>
+<p> </p>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 10, minProfit = 5, group = [2,3,5], profit = [6,7,8]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> To make a profit of at least 5, the group could commit any crimes, as long as they commit one.
-There are 7 possible schemes: (0), (1), (2), (0,1), (0,2), (1,2), and (0,1,2).</pre>
+<strong>输入：</strong>n = 5, minProfit = 3, group = [2,2], profit = [2,3]
+<strong>输出：</strong>2
+<strong>解释：</strong>至少产生 3 的利润，该集团可以完成工作 0 和工作 1 ，或仅完成工作 1 。
+总的来说，有两种计划。</pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 10, minProfit = 5, group = [2,3,5], profit = [6,7,8]
+<strong>输出：</strong>7
+<strong>解释：</strong>至少产生 5 的利润，只要完成其中一种工作就行，所以该集团可以完成任何工作。
+有 7 种可能的计划：(0)，(1)，(2)，(0,1)，(0,2)，(1,2)，以及 (0,1,2) 。</pre>
+</div>
+</div>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n &lt;= 100</code></li>
-	<li><code>0 &lt;= minProfit &lt;= 100</code></li>
-	<li><code>1 &lt;= group.length &lt;= 100</code></li>
-	<li><code>1 &lt;= group[i] &lt;= 100</code></li>
+	<li><code>1 <= n <= 100</code></li>
+	<li><code>0 <= minProfit <= 100</code></li>
+	<li><code>1 <= group.length <= 100</code></li>
+	<li><code>1 <= group[i] <= 100</code></li>
 	<li><code>profit.length == group.length</code></li>
-	<li><code>0 &lt;= profit[i] &lt;= 100</code></li>
+	<li><code>0 <= profit[i] <= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: recursion with memoization
+### 方法一：记忆化搜索
 
-We design a function $dfs(i, j, k)$, which means that we start from the $i$-th job, and have chosen $j$ employees, and the current profit is $k$, then the number of schemes in this case is $dfs(0, 0, 0)$.
+我们设计一个函数 $dfs(i, j, k)$，表示从第 $i$ 个工作开始，且当前已经选择了 $j$ 个员工，且当前产生的利润为 $k$，这种情况下的方案数。那么答案就是 $dfs(0, 0, 0)$。
 
-The execution process of function $dfs(i, j, k)$ is as follows:
+函数 $dfs(i, j, k)$ 的执行过程如下：
 
-- If $i = n$, it means that all the jobs have been considered. If $k \geq minProfit$, the number of schemes is $1$, otherwise the number of schemes is $0$;
-- If $i < n$, we can choose not to choose the $i$-th job, then the number of schemes is $dfs(i + 1, j, k)$; if $j + group[i] \leq n$, we can also choose the $i$-th job, then the number of schemes is $dfs(i + 1, j + group[i], \min(k + profit[i], minProfit))$. Here we limit the profit upper limit to $minProfit$, because the profit exceeding $minProfit$ has no effect on our answer.
+-   如果 $i = n$，表示所有工作都已经考虑过了，如果 $k \geq minProfit$，则方案数为 $1$，否则方案数为 $0$；
+-   如果 $i \lt n$，我们可以选择不选择第 $i$ 个工作，此时方案数为 $dfs(i + 1, j, k)$；如果 $j + group[i] \leq n$，我们也可以选择第 $i$ 个工作，此时方案数为 $dfs(i + 1, j + group[i], \min(k + profit[i], minProfit))$。这里我们将利润上限限制在 $minProfit$，是因为利润超过 $minProfit$ 对我们的答案没有任何影响。
 
-Finally, return $dfs(0, 0, 0)$.
+最后返回 $dfs(0, 0, 0)$ 即可。
 
-In order to avoid repeated calculation, we can use the method of memoization. We use a three-dimensional array $f$ to record all the results of $dfs(i, j, k)$. When we calculate the value of $dfs(i, j, k)$, we store it in $f[i][j][k]$. When we call $dfs(i, j, k)$, if $f[i][j][k]$ has been calculated, we return $f[i][j][k]$ directly.
+为了避免重复计算，我们可以使用记忆化搜索的方法，用一个三维数组 $f$ 记录所有的 $dfs(i, j, k)$ 的结果。当我们计算出 $dfs(i, j, k)$ 的值后，我们将其存入 $f[i][j][k]$ 中。调用 $dfs(i, j, k)$ 时，如果 $f[i][j][k]$ 已经被计算过，我们直接返回 $f[i][j][k]$ 即可。
 
-The time complexity is $O(m \times n \times minProfit)$, and th e space complexity is $O(m \times n \times minProfit)$. Here $m$ and $n$ are the number of jobs and employees, and $minProfit$ is the minimum profit.
+时间复杂度 $O(m \times n \times minProfit)$，空间复杂度 $O(m \times n \times minProfit)$。其中 $m$ 和 $n$ 分别为工作的数量和员工的数量，而 $minProfit$ 为至少产生的利润。
 
 <!-- tabs:start -->
 
@@ -204,15 +215,15 @@ func profitableSchemes(n int, minProfit int, group []int, profit []int) int {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We define $f[i][j][k]$ to be the number of schemes to make a profit of at least $k$ with $i$ jobs and $j$ workers. Initially, we have $f[0][j][0] = 1$, which means that there is only one scheme to make a profit of $0$ without any jobs.
+我们定义 $f[i][j][k]$ 表示前 $i$ 个工作中，选择了不超过 $j$ 个员工，且至少产生 $k$ 的利润的方案数。初始时 $f[0][j][0] = 1$，表示不选择任何工作，且至少产生 $0$ 的利润的方案数为 $1$。答案即为 $f[m][n][minProfit]$。
 
-For the $i$-th job, we can choose to work or not to work. If we do not work, then $f[i][j][k] = f[i - 1][j][k]$; if we work, then $f[i][j][k] = f[i - 1][j - group[i - 1]][max(0, k - profit[i - 1])]$. We need to enumerate $j$ and $k$, and add up all the schemes.
+对于第 $i$ 个工作，我们可以选择参与或不参与。如果不参与，则 $f[i][j][k] = f[i - 1][j][k]$；如果参与，则 $f[i][j][k] = f[i - 1][j - group[i - 1]][max(0, k - profit[i - 1])]$。我们需要枚举 $j$ 和 $k$，并将所有的方案数相加。
 
-The final answer is $f[m][n][minProfit]$.
+最终的答案即为 $f[m][n][minProfit]$。
 
-The time complexity is $O(m \times n \times minProfit)$, and the space complexity is $O(m \times n \times minProfit)$. Here $m$ and $n$ are the numbers of jobs and workers, and $minProfit$ is the minimum profit to make.
+时间复杂度 $O(m \times n \times minProfit)$，空间复杂度 $O(m \times n \times minProfit)$。其中 $m$ 和 $n$ 分别为工作的数量和员工的数量，而 $minProfit$ 为至少产生的利润。
 
 <!-- tabs:start -->
 

@@ -1,88 +1,93 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3212.Count%20Submatrices%20With%20Equal%20Frequency%20of%20X%20and%20Y/README.md
 rating: 1672
-source: Weekly Contest 405 Q3
+source: 第 405 场周赛 Q3
 tags:
-  - Array
-  - Matrix
-  - Prefix Sum
+    - 数组
+    - 矩阵
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [3212. Count Submatrices With Equal Frequency of X and Y](https://leetcode.com/problems/count-submatrices-with-equal-frequency-of-x-and-y)
+# [3212. 统计 X 和 Y 频数相等的子矩阵数量](https://leetcode.cn/problems/count-submatrices-with-equal-frequency-of-x-and-y)
 
-## Description
+[English Version](/solution/3200-3299/3212.Count%20Submatrices%20With%20Equal%20Frequency%20of%20X%20and%20Y/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a 2D character matrix <code>grid</code>, where <code>grid[i][j]</code> is either <code>&#39;X&#39;</code>, <code>&#39;Y&#39;</code>, or <code>&#39;.&#39;</code>, return the number of <span data-keyword="submatrix">submatrices</span> that contain:</p>
+<p>给你一个二维字符矩阵 <code>grid</code>，其中 <code>grid[i][j]</code> 可能是 <code>'X'</code>、<code>'Y'</code> 或 <code>'.'</code>，返回满足以下条件的<span data-keyword="submatrix">子矩阵</span>数量：</p>
 
 <ul>
-	<li><code>grid[0][0]</code></li>
-	<li>an <strong>equal</strong> frequency of <code>&#39;X&#39;</code> and <code>&#39;Y&#39;</code>.</li>
-	<li><strong>at least</strong> one <code>&#39;X&#39;</code>.</li>
+	<li>包含 <code>grid[0][0]</code></li>
+	<li><code>'X'</code> 和 <code>'Y'</code> 的频数相等。</li>
+	<li>至少包含一个 <code>'X'</code>。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[&quot;X&quot;,&quot;Y&quot;,&quot;.&quot;],[&quot;Y&quot;,&quot;.&quot;,&quot;.&quot;]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">grid = [["X","Y","."],["Y",".","."]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
+<p><strong>输出：</strong> <span class="example-io">3</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3212.Count%20Submatrices%20With%20Equal%20Frequency%20of%20X%20and%20Y/images/examplems.png" style="padding: 10px; background: rgb(255, 255, 255); border-radius: 0.5rem; width: 175px; height: 350px;" /></strong></p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[&quot;X&quot;,&quot;X&quot;],[&quot;X&quot;,&quot;Y&quot;]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">grid = [["X","X"],["X","Y"]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong> <span class="example-io">0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>No submatrix has an equal frequency of <code>&#39;X&#39;</code> and <code>&#39;Y&#39;</code>.</p>
+<p>不存在满足 <code>'X'</code> 和 <code>'Y'</code> 频数相等的子矩阵。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[&quot;.&quot;,&quot;.&quot;],[&quot;.&quot;,&quot;.&quot;]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">grid = [[".","."],[".","."]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong> <span class="example-io">0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>No submatrix has at least one <code>&#39;X&#39;</code>.</p>
+<p>不存在满足至少包含一个 <code>'X'</code> 的子矩阵。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= grid.length, grid[i].length &lt;= 1000</code></li>
-	<li><code>grid[i][j]</code> is either <code>&#39;X&#39;</code>, <code>&#39;Y&#39;</code>, or <code>&#39;.&#39;</code>.</li>
+	<li><code>grid[i][j]</code> 可能是 <code>'X'</code>、<code>'Y'</code> 或 <code>'.'</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: 2D Prefix Sum
+### 方法一：二维前缀和
 
-According to the problem description, we only need to calculate the prefix sums $s[i][j][0]$ and $s[i][j][1]$ for each position $(i, j)$, which represent the number of characters `X` and `Y` in the submatrix from $(0, 0)$ to $(i, j)$, respectively. If $s[i][j][0] > 0$ and $s[i][j][0] = s[i][j][1]$, it means the condition is met, and we increment the answer by one.
+根据题目描述，我们只需要统计每个位置 $(i, j)$ 的前缀和 $s[i][j][0]$ 和 $s[i][j][1]$，分别表示从 $(0, 0)$ 到 $(i, j)$ 的子矩阵中字符 `X` 和 `Y` 的数量，如果 $s[i][j][0] > 0$ 且 $s[i][j][0] = s[i][j][1]$，则说明满足题目条件，答案加一。
 
-After traversing all positions, return the answer.
+遍历完所有位置后，返回答案即可。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ represent the number of rows and columns of the matrix, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别表示矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -190,31 +195,29 @@ func numberOfSubmatrices(grid [][]byte) (ans int) {
 
 ```ts
 function numberOfSubmatrices(grid: string[][]): number {
-  const [m, n] = [grid.length, grid[0].length];
-  const s = Array.from({ length: m + 1 }, () =>
-    Array.from({ length: n + 1 }, () => [0, 0])
-  );
-  let ans = 0;
+    const [m, n] = [grid.length, grid[0].length];
+    const s = Array.from({ length: m + 1 }, () => Array.from({ length: n + 1 }, () => [0, 0]));
+    let ans = 0;
 
-  for (let i = 1; i <= m; ++i) {
-    for (let j = 1; j <= n; ++j) {
-      s[i][j][0] =
-        s[i - 1][j][0] +
-        s[i][j - 1][0] -
-        s[i - 1][j - 1][0] +
-        (grid[i - 1][j - 1] === "X" ? 1 : 0);
-      s[i][j][1] =
-        s[i - 1][j][1] +
-        s[i][j - 1][1] -
-        s[i - 1][j - 1][1] +
-        (grid[i - 1][j - 1] === "Y" ? 1 : 0);
-      if (s[i][j][0] > 0 && s[i][j][0] === s[i][j][1]) {
-        ++ans;
-      }
+    for (let i = 1; i <= m; ++i) {
+        for (let j = 1; j <= n; ++j) {
+            s[i][j][0] =
+                s[i - 1][j][0] +
+                s[i][j - 1][0] -
+                s[i - 1][j - 1][0] +
+                (grid[i - 1][j - 1] === 'X' ? 1 : 0);
+            s[i][j][1] =
+                s[i - 1][j][1] +
+                s[i][j - 1][1] -
+                s[i - 1][j - 1][1] +
+                (grid[i - 1][j - 1] === 'Y' ? 1 : 0);
+            if (s[i][j][0] > 0 && s[i][j][0] === s[i][j][1]) {
+                ++ans;
+            }
+        }
     }
-  }
 
-  return ans;
+    return ans;
 }
 ```
 

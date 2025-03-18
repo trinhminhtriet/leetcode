@@ -1,81 +1,91 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1753.Maximum%20Score%20From%20Removing%20Stones/README.md
 rating: 1487
-source: Weekly Contest 227 Q2
+source: 第 227 场周赛 Q2
 tags:
-  - Greedy
-  - Math
-  - Heap (Priority Queue)
+    - 贪心
+    - 数学
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1753. Maximum Score From Removing Stones](https://leetcode.com/problems/maximum-score-from-removing-stones)
+# [1753. 移除石子的最大得分](https://leetcode.cn/problems/maximum-score-from-removing-stones)
 
-## Description
+[English Version](/solution/1700-1799/1753.Maximum%20Score%20From%20Removing%20Stones/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are playing a solitaire game with <strong>three piles</strong> of stones of sizes <code>a</code>​​​​​​, <code>b</code>,​​​​​​ and <code>c</code>​​​​​​ respectively. Each turn you choose two <strong>different non-empty </strong>piles, take one stone from each, and add <code>1</code> point to your score. The game stops when there are <strong>fewer than two non-empty</strong> piles (meaning there are no more available moves).</p>
+<p>你正在玩一个单人游戏，面前放置着大小分别为 <code>a</code>​​​​​​、<code>b</code> 和 <code>c</code>​​​​​​ 的 <strong>三堆</strong> 石子。</p>
 
-<p>Given three integers <code>a</code>​​​​​, <code>b</code>,​​​​​ and <code>c</code>​​​​​, return <em>the</em> <strong><em>maximum</em> </strong><em><strong>score</strong> you can get.</em></p>
+<p>每回合你都要从两个 <strong>不同的非空堆</strong> 中取出一颗石子，并在得分上加 <code>1</code> 分。当存在 <strong>两个或更多</strong> 的空堆时，游戏停止。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>给你三个整数 <code>a</code> 、<code>b</code> 和 <code>c</code> ，返回可以得到的 <strong>最大分数</strong> 。</p>
+ 
 
-<pre>
-<strong>Input:</strong> a = 2, b = 4, c = 6
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The starting state is (2, 4, 6). One optimal set of moves is:
-- Take from 1st and 3rd piles, state is now (1, 4, 5)
-- Take from 1st and 3rd piles, state is now (0, 4, 4)
-- Take from 2nd and 3rd piles, state is now (0, 3, 3)
-- Take from 2nd and 3rd piles, state is now (0, 2, 2)
-- Take from 2nd and 3rd piles, state is now (0, 1, 1)
-- Take from 2nd and 3rd piles, state is now (0, 0, 0)
-There are fewer than two non-empty piles, so the game ends. Total: 6 points.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> a = 4, b = 4, c = 6
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> The starting state is (4, 4, 6). One optimal set of moves is:
-- Take from 1st and 2nd piles, state is now (3, 3, 6)
-- Take from 1st and 3rd piles, state is now (2, 3, 5)
-- Take from 1st and 3rd piles, state is now (1, 3, 4)
-- Take from 1st and 3rd piles, state is now (0, 3, 3)
-- Take from 2nd and 3rd piles, state is now (0, 2, 2)
-- Take from 2nd and 3rd piles, state is now (0, 1, 1)
-- Take from 2nd and 3rd piles, state is now (0, 0, 0)
-There are fewer than two non-empty piles, so the game ends. Total: 7 points.
+<strong>输入：</strong>a = 2, b = 4, c = 6
+<strong>输出：</strong>6
+<strong>解释：</strong>石子起始状态是 (2, 4, 6) ，最优的一组操作是：
+- 从第一和第三堆取，石子状态现在是 (1, 4, 5)
+- 从第一和第三堆取，石子状态现在是 (0, 4, 4)
+- 从第二和第三堆取，石子状态现在是 (0, 3, 3)
+- 从第二和第三堆取，石子状态现在是 (0, 2, 2)
+- 从第二和第三堆取，石子状态现在是 (0, 1, 1)
+- 从第二和第三堆取，石子状态现在是 (0, 0, 0)
+总分：6 分 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> a = 1, b = 8, c = 8
-<strong>Output:</strong> 8
-<strong>Explanation:</strong> One optimal set of moves is to take from the 2nd and 3rd piles for 8 turns until they are empty.
-After that, there are fewer than two non-empty piles, so the game ends.
+<strong>输入：</strong>a = 4, b = 4, c = 6
+<strong>输出：</strong>7
+<strong>解释：</strong>石子起始状态是 (4, 4, 6) ，最优的一组操作是：
+- 从第一和第二堆取，石子状态现在是 (3, 3, 6)
+- 从第一和第三堆取，石子状态现在是 (2, 3, 5)
+- 从第一和第三堆取，石子状态现在是 (1, 3, 4)
+- 从第一和第三堆取，石子状态现在是 (0, 3, 3)
+- 从第二和第三堆取，石子状态现在是 (0, 2, 2)
+- 从第二和第三堆取，石子状态现在是 (0, 1, 1)
+- 从第二和第三堆取，石子状态现在是 (0, 0, 0)
+总分：7 分 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>a = 1, b = 8, c = 8
+<strong>输出：</strong>8
+<strong>解释：</strong>最优的一组操作是连续从第二和第三堆取 8 回合，直到将它们取空。
+注意，由于第二和第三堆已经空了，游戏结束，不能继续从第一堆中取石子。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= a, b, c &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 <= a, b, c <= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心 + 模拟
+
+每次贪心地从最大的两堆石子中取石头，直到至少有两堆石子为空。
+
+时间复杂度 $O(n)$，其中 $n$ 为石子总数。
 
 <!-- tabs:start -->
 
@@ -155,7 +165,14 @@ func maximumScore(a int, b int, c int) (ans int) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：贪心 + 数学
+
+我们不妨设 $a \le b \le c$，那么：
+
+-   当 $a + b \le c$ 时，我们可以先从 $a$, $c$ 两堆中取石头，得到分数 $a$；再从 $b$, $c$ 两堆中取石头，得到分数 $b$，总分数为 $a + b$；
+-   当 $a + b \gt c$ 时，这时我们每次会从 $c$ 以及 $a$ 和 $b$ 中较大的那一堆中取石头，最终将 $c$ 取空。此时 $a$ 和 $b$ 的大小差最多为 $1$。我们再从 $a$, $b$ 两堆中取石头，直到不能取为止，总分数为 $\left \lfloor \frac{a + b + c}{2}  \right \rfloor$。
+
+时间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

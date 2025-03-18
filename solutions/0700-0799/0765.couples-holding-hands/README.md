@@ -1,63 +1,78 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0765.Couples%20Holding%20Hands/README.md
 tags:
-  - Greedy
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Graph
+    - 贪心
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [765. Couples Holding Hands](https://leetcode.com/problems/couples-holding-hands)
+# [765. 情侣牵手](https://leetcode.cn/problems/couples-holding-hands)
 
-## Description
+[English Version](/solution/0700-0799/0765.Couples%20Holding%20Hands/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> couples sitting in <code>2n</code> seats arranged in a row and want to hold hands.</p>
+<p><code>n</code> 对情侣坐在连续排列的 <code>2n</code>&nbsp;个座位上，想要牵到对方的手。</p>
 
-<p>The people and seats are represented by an integer array <code>row</code> where <code>row[i]</code> is the ID of the person sitting in the <code>i<sup>th</sup></code> seat. The couples are numbered in order, the first couple being <code>(0, 1)</code>, the second couple being <code>(2, 3)</code>, and so on with the last couple being <code>(2n - 2, 2n - 1)</code>.</p>
+<p>人和座位由一个整数数组 <code>row</code> 表示，其中 <code>row[i]</code> 是坐在第 <code>i </code>个座位上的人的 <strong>ID</strong>。情侣们按顺序编号，第一对是&nbsp;<code>(0, 1)</code>，第二对是&nbsp;<code>(2, 3)</code>，以此类推，最后一对是&nbsp;<code>(2n-2, 2n-1)</code>。</p>
 
-<p>Return <em>the minimum number of swaps so that every couple is sitting side by side</em>. A swap consists of choosing any two people, then they stand up and switch seats.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> row = [0,2,1,3]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> We only need to swap the second (row[1]) and third (row[2]) person.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> row = [3,2,0,1]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> All couples are already seated side by side.
-</pre>
+<p>返回 <em>最少交换座位的次数，以便每对情侣可以并肩坐在一起</em>。 <i>每次</i>交换可选择任意两人，让他们站起来交换座位。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> row = [0,2,1,3]
+<strong>输出:</strong> 1
+<strong>解释:</strong> 只需要交换row[1]和row[2]的位置即可。
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> row = [3,2,0,1]
+<strong>输出:</strong> 0
+<strong>解释:</strong> 无需交换座位，所有的情侣都已经可以手牵手了。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>2n == row.length</code></li>
 	<li><code>2 &lt;= n &lt;= 30</code></li>
-	<li><code>n</code> is even.</li>
+	<li><code>n</code>&nbsp;是偶数</li>
 	<li><code>0 &lt;= row[i] &lt; 2n</code></li>
-	<li>All the elements of <code>row</code> are <strong>unique</strong>.</li>
+	<li><code>row</code>&nbsp;中所有元素均<strong>无重复</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：并查集
+
+我们可以给每一对情侣编号，编号 $0$ 和 $1$ 的人对应情侣 $0$，编号 $2$ 和 $3$ 的人对应情侣 $1$...即编号为 $row[i]$ 对应的情侣编号为 $\lfloor \frac{row[i]}{2} \rfloor$。
+
+如果有 $k$ 对情侣相互之间坐错了位置，也即是说，有 $k$ 对情侣处于一个置换环中，那么他们之间需要经过 $k-1$ 次交换才能都坐到正确的位置上。
+
+为什么？不妨这样考虑，我们先调整一对情侣的位置，使其坐到正确的位置上，那么问题就从 $k$ 对情侣的问题，转换成了 $k-1$ 对情侣的问题。依此类推，最终 $k=1$ 时，交换次数为 $0$。所以，如果 $k$ 对情侣相互之间坐错了位置，那么需要 $k-1$ 次交换。
+
+因此，我们只需要遍历一遍数组，利用并查集找出有多少个置换环，假设有 $x$ 个，每个环的大小（情侣的对数）为 $y_1, y_2, \cdots, y_x$，那么需要交换的次数为 $y_1-1 + y_2-1 + \cdots + y_x-1 = y_1 + y_2 + \cdots + y_x - x = n - x$。
+
+时间复杂度 $O(n \times \alpha(n))$，空间复杂度 $O(n)$。其中 $\alpha(n)$ 为阿克曼函数的反函数，可以认为是一个很小的常数。
 
 <!-- tabs:start -->
 
@@ -175,28 +190,28 @@ func minSwapsCouples(row []int) int {
 
 ```ts
 function minSwapsCouples(row: number[]): number {
-  const n = row.length >> 1;
-  const p: number[] = Array(n)
-    .fill(0)
-    .map((_, i) => i);
-  const find = (x: number): number => {
-    if (p[x] !== x) {
-      p[x] = find(p[x]);
+    const n = row.length >> 1;
+    const p: number[] = Array(n)
+        .fill(0)
+        .map((_, i) => i);
+    const find = (x: number): number => {
+        if (p[x] !== x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    };
+    for (let i = 0; i < n << 1; i += 2) {
+        const a = row[i] >> 1;
+        const b = row[i + 1] >> 1;
+        p[find(a)] = find(b);
     }
-    return p[x];
-  };
-  for (let i = 0; i < n << 1; i += 2) {
-    const a = row[i] >> 1;
-    const b = row[i + 1] >> 1;
-    p[find(a)] = find(b);
-  }
-  let ans = n;
-  for (let i = 0; i < n; ++i) {
-    if (i === find(i)) {
-      --ans;
+    let ans = n;
+    for (let i = 0; i < n; ++i) {
+        if (i === find(i)) {
+            --ans;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

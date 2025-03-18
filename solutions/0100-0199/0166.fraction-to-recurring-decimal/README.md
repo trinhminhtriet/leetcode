@@ -1,52 +1,57 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0166.Fraction%20to%20Recurring%20Decimal/README.md
 tags:
-  - Hash Table
-  - Math
-  - String
+    - 哈希表
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [166. Fraction to Recurring Decimal](https://leetcode.com/problems/fraction-to-recurring-decimal)
+# [166. 分数到小数](https://leetcode.cn/problems/fraction-to-recurring-decimal)
 
-## Description
+[English Version](/solution/0100-0199/0166.Fraction%20to%20Recurring%20Decimal/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two integers representing the <code>numerator</code> and <code>denominator</code> of a fraction, return <em>the fraction in string format</em>.</p>
+<p>给定两个整数，分别表示分数的分子&nbsp;<code>numerator</code> 和分母 <code>denominator</code>，以 <strong>字符串形式返回小数</strong> 。</p>
 
-<p>If the fractional part is repeating, enclose the repeating part in parentheses.</p>
+<p>如果小数部分为循环小数，则将循环的部分括在括号内。</p>
 
-<p>If multiple answers are possible, return <strong>any of them</strong>.</p>
+<p>如果存在多个答案，只需返回 <strong>任意一个</strong> 。</p>
 
-<p>It is <strong>guaranteed</strong> that the length of the answer string is less than <code>10<sup>4</sup></code> for all the given inputs.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> numerator = 1, denominator = 2
-<strong>Output:</strong> &quot;0.5&quot;
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> numerator = 2, denominator = 1
-<strong>Output:</strong> &quot;2&quot;
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> numerator = 4, denominator = 333
-<strong>Output:</strong> &quot;0.(012)&quot;
-</pre>
+<p>对于所有给定的输入，<strong>保证</strong> 答案字符串的长度小于 <code>10<sup>4</sup></code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>numerator = 1, denominator = 2
+<strong>输出：</strong>"0.5"
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>numerator = 2, denominator = 1
+<strong>输出：</strong>"2"
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>numerator = 4, denominator = 333
+<strong>输出：</strong>"0.(012)"
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>-2<sup>31</sup> &lt;=&nbsp;numerator, denominator &lt;= 2<sup>31</sup> - 1</code></li>
@@ -55,25 +60,25 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Mathematics + Hash Table
+### 方法一：数学 + 哈希表
 
-First, we check if the $numerator$ is $0$. If it is, we return `"0"` directly.
+我们首先判断 $numerator$ 是否为 $0$，如果是，则直接返回 `"0"`。
 
-Next, we check if the $numerator$ and $denominator$ have different signs. If they do, the result is negative, and we set the first character of the result to `"-"`.
+接着我们判断 $numerator$ 和 $denominator$ 是否异号，如果是，则结果为负数，我们将结果的第一个字符设为 `"-"`。
 
-Then we take the absolute values of the $numerator$ and $denominator$, denoted as $a$ and $b$. Since the range of the numerator and denominator is $[-2^{31}, 2^{31} - 1]$, taking the absolute value directly may cause overflow, so we convert both $a$ and $b$ to long integers.
+然后我们将 $numerator$ 和 $denominator$ 取绝对值，分别记为 $a$ 和 $b$。由于分子和分母的范围为 $[-2^{31}, 2^{31} - 1]$，直接取绝对值可能会溢出，因此我们将 $a$ 和 $b$ 都转换为长整型。
 
-Next, we calculate the integer part, which is the integer part of $a$ divided by $b$, convert it to a string, and add it to the result. Then we take the remainder of $a$ divided by $b$, denoted as $a$.
+接着我们计算整数部分，即 $a$ 除以 $b$ 的整数部分，将其转换为字符串并添加到结果中。然后我们将 $a$ 取余 $b$，记为 $a$。
 
-If $a$ is $0$, it means the result is an integer, and we return the result directly.
+如果 $a$ 为 $0$，说明结果为整数，直接返回结果。
 
-Next, we calculate the decimal part. We use a hash table $d$ to record the length of the result corresponding to each remainder. We continuously multiply $a$ by $10$, then add the integer part of $a$ divided by $b$ to the result, then take the remainder of $a$ divided by $b$, denoted as $a$. If $a$ is $0$, it means the result is a finite decimal, and we return the result directly. If $a$ has appeared in the hash table, it means the result is a recurring decimal. We find the starting position of the cycle, insert the result into parentheses, and then return the result.
+接着我们计算小数部分，我们使用哈希表 $d$ 记录每个余数对应的结果的长度。我们不断将 $a$ 乘以 $10$，然后将 $a$ 除以 $b$ 的整数部分添加到结果中，然后将 $a$ 取余 $b$，记为 $a$。如果 $a$ 为 $0$，说明结果为有限小数，直接返回结果。如果 $a$ 在哈希表中出现过，说明结果为循环小数，我们找到循环的起始位置，将结果插入括号中，然后返回结果。
 
-The time complexity is $O(l)$, and the space complexity is $O(l)$, where $l$ is the length of the result. In this problem, $l < 10^4$.
+时间复杂度 $O(l)$，空间复杂度 $O(l)$，其中 $l$ 为结果的长度，本题中 $l < 10^4$。
 
 <!-- tabs:start -->
 
@@ -227,33 +232,33 @@ func abs(x int64) int64 {
 
 ```ts
 function fractionToDecimal(numerator: number, denominator: number): string {
-  if (numerator === 0) {
-    return "0";
-  }
-  const sb: string[] = [];
-  const neg: boolean = numerator > 0 !== denominator > 0;
-  sb.push(neg ? "-" : "");
-  let a: number = Math.abs(numerator),
-    b: number = Math.abs(denominator);
-  sb.push(Math.floor(a / b).toString());
-  a %= b;
-  if (a === 0) {
-    return sb.join("");
-  }
-  sb.push(".");
-  const d: Map<number, number> = new Map();
-  while (a !== 0) {
-    d.set(a, sb.length);
-    a *= 10;
+    if (numerator === 0) {
+        return '0';
+    }
+    const sb: string[] = [];
+    const neg: boolean = numerator > 0 !== denominator > 0;
+    sb.push(neg ? '-' : '');
+    let a: number = Math.abs(numerator),
+        b: number = Math.abs(denominator);
     sb.push(Math.floor(a / b).toString());
     a %= b;
-    if (d.has(a)) {
-      sb.splice(d.get(a)!, 0, "(");
-      sb.push(")");
-      break;
+    if (a === 0) {
+        return sb.join('');
     }
-  }
-  return sb.join("");
+    sb.push('.');
+    const d: Map<number, number> = new Map();
+    while (a !== 0) {
+        d.set(a, sb.length);
+        a *= 10;
+        sb.push(Math.floor(a / b).toString());
+        a %= b;
+        if (d.has(a)) {
+            sb.splice(d.get(a)!, 0, '(');
+            sb.push(')');
+            break;
+        }
+    }
+    return sb.join('');
 }
 ```
 

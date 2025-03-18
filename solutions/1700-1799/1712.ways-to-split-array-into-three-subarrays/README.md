@@ -1,85 +1,90 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1712.Ways%20to%20Split%20Array%20Into%20Three%20Subarrays/README.md
 rating: 2078
-source: Weekly Contest 222 Q3
+source: 第 222 场周赛 Q3
 tags:
-  - Array
-  - Two Pointers
-  - Binary Search
-  - Prefix Sum
+    - 数组
+    - 双指针
+    - 二分查找
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [1712. Ways to Split Array Into Three Subarrays](https://leetcode.com/problems/ways-to-split-array-into-three-subarrays)
+# [1712. 将数组分成三个子数组的方案数](https://leetcode.cn/problems/ways-to-split-array-into-three-subarrays)
 
-## Description
+[English Version](/solution/1700-1799/1712.Ways%20to%20Split%20Array%20Into%20Three%20Subarrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A split of an integer array is <strong>good</strong> if:</p>
+<p>我们称一个分割整数数组的方案是 <strong>好的</strong> ，当它满足：</p>
 
 <ul>
-	<li>The array is split into three <strong>non-empty</strong> contiguous subarrays - named <code>left</code>, <code>mid</code>, <code>right</code> respectively from left to right.</li>
-	<li>The sum of the elements in <code>left</code> is less than or equal to the sum of the elements in <code>mid</code>, and the sum of the elements in <code>mid</code> is less than or equal to the sum of the elements in <code>right</code>.</li>
+	<li>数组被分成三个 <strong>非空</strong> 连续子数组，从左至右分别命名为 <code>left</code> ， <code>mid</code> ， <code>right</code> 。</li>
+	<li><code>left</code> 中元素和小于等于 <code>mid</code> 中元素和，<code>mid</code> 中元素和小于等于 <code>right</code> 中元素和。</li>
 </ul>
 
-<p>Given <code>nums</code>, an array of <strong>non-negative</strong> integers, return <em>the number of <strong>good</strong> ways to split</em> <code>nums</code>. As the number may be too large, return it <strong>modulo</strong> <code>10<sup>9 </sup>+ 7</code>.</p>
+<p>给你一个 <strong>非负</strong> 整数数组 <code>nums</code> ，请你返回 <strong>好的</strong> 分割 <code>nums</code> 方案数目。由于答案可能会很大，请你将结果对 <code>10<sup>9 </sup>+ 7</code> 取余后返回。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [1,1,1]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The only good way to split nums is [1] [1] [1].</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,2,2,5,0]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> There are three good ways of splitting nums:
+<b>输入：</b>nums = [1,1,1]
+<b>输出：</b>1
+<b>解释：</b>唯一一种好的分割方案是将 nums 分成 [1] [1] [1] 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,2,2,2,5,0]
+<b>输出：</b>3
+<b>解释：</b>nums 总共有 3 种好的分割方案：
 [1] [2] [2,2,5,0]
 [1] [2,2] [2,5,0]
 [1,2] [2,2] [5,0]
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,2,1]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There is no good way to split nums.</pre>
+<b>输入：</b>nums = [3,2,1]
+<b>输出：</b>0
+<b>解释：</b>没有好的分割方案。</pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>3 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>0 &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>3 <= nums.length <= 10<sup>5</sup></code></li>
+	<li><code>0 <= nums[i] <= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Binary Search
+### 方法一：前缀和 + 二分查找
 
-First, we preprocess the prefix sum array $s$ of the array $nums$, where $s[i]$ represents the sum of the first $i+1$ elements of the array $nums$.
+我们先预处理出数组 $nums$ 的前缀和数组 $s$，其中 $s[i]$ 表述数组 $nums$ 前 $i+1$ 个元素之和。
 
-Since all elements of the array $nums$ are non-negative integers, the prefix sum array $s$ is a monotonically increasing array.
+由于数组 $nums$ 的元素都是非负整数，因此前缀和数组 $s$ 是一个单调递增数组。
 
-We enumerate the index $i$ that the `left` subarray can reach in the range $[0,..n-2)$, and then use the monotonically increasing characteristic of the prefix sum array to find the reasonable range of the `mid` subarray split by binary search, denoted as $[j, k)$, and accumulate the number of schemes $k-j$.
+我们在 $[0,..n-2)$ 的范围内枚举 `left` 子数组所能到达的下标 $i$，然后利用前缀和数组单调递增的特性，通过二分查找的方式找到 `mid` 子数组分割的合理范围，记为 $[j, k)$，累加方案数 $k-j$。
 
-In the binary search details, the subarray split must satisfy $s[j] \geq s[i]$ and $s[n - 1] - s[k] \geq s[k] - s[i]$. That is, $s[j] \geq s[i]$ and $s[k] \leq \frac{s[n - 1] + s[i]}{2}$.
+二分细节上，子数组分割必须满足 $s[j] \geq s[i]$，并且 $s[n - 1] - s[k] \geq s[k] - s[i]$。即 $s[j] \geq s[i]$，且 $s[k] \leq \frac{s[n - 1] + s[i]}{2}$。
 
-Finally, return the number of schemes modulo $10^9+7$.
+最后，将方案数对 $10^9+7$ 取模后返回即可。
 
-The time complexity is $O(n \times \log n)$, where $n$ is the length of the array $nums$.
+时间复杂度 $O(n \times \log n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -184,30 +189,30 @@ func waysToSplit(nums []int) (ans int) {
  * @return {number}
  */
 var waysToSplit = function (nums) {
-  const mod = 1e9 + 7;
-  const n = nums.length;
-  const s = new Array(n).fill(nums[0]);
-  for (let i = 1; i < n; ++i) {
-    s[i] = s[i - 1] + nums[i];
-  }
-  function search(s, x, left, right) {
-    while (left < right) {
-      const mid = (left + right) >> 1;
-      if (s[mid] >= x) {
-        right = mid;
-      } else {
-        left = mid + 1;
-      }
+    const mod = 1e9 + 7;
+    const n = nums.length;
+    const s = new Array(n).fill(nums[0]);
+    for (let i = 1; i < n; ++i) {
+        s[i] = s[i - 1] + nums[i];
     }
-    return left;
-  }
-  let ans = 0;
-  for (let i = 0; i < n - 2; ++i) {
-    const j = search(s, s[i] << 1, i + 1, n - 1);
-    const k = search(s, ((s[n - 1] + s[i]) >> 1) + 1, j, n - 1);
-    ans = (ans + k - j) % mod;
-  }
-  return ans;
+    function search(s, x, left, right) {
+        while (left < right) {
+            const mid = (left + right) >> 1;
+            if (s[mid] >= x) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+    let ans = 0;
+    for (let i = 0; i < n - 2; ++i) {
+        const j = search(s, s[i] << 1, i + 1, n - 1);
+        const k = search(s, ((s[n - 1] + s[i]) >> 1) + 1, j, n - 1);
+        ans = (ans + k - j) % mod;
+    }
+    return ans;
 };
 ```
 

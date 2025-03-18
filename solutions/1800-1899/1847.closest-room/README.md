@@ -1,93 +1,95 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1847.Closest%20Room/README.md
 rating: 2081
-source: Biweekly Contest 51 Q4
+source: 第 51 场双周赛 Q4
 tags:
-  - Array
-  - Binary Search
-  - Ordered Set
-  - Sorting
+    - 数组
+    - 二分查找
+    - 有序集合
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1847. Closest Room](https://leetcode.com/problems/closest-room)
+# [1847. 最近的房间](https://leetcode.cn/problems/closest-room)
 
-## Description
+[English Version](/solution/1800-1899/1847.Closest%20Room/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a hotel with <code>n</code> rooms. The rooms are represented by a 2D integer array <code>rooms</code> where <code>rooms[i] = [roomId<sub>i</sub>, size<sub>i</sub>]</code> denotes that there is a room with room number <code>roomId<sub>i</sub></code> and size equal to <code>size<sub>i</sub></code>. Each <code>roomId<sub>i</sub></code> is guaranteed to be <strong>unique</strong>.</p>
+<p>一个酒店里有 <code>n</code> 个房间，这些房间用二维整数数组 <code>rooms</code> 表示，其中 <code>rooms[i] = [roomId<sub>i</sub>, size<sub>i</sub>]</code> 表示有一个房间号为 <code>roomId<sub>i</sub></code> 的房间且它的面积为 <code>size<sub>i</sub></code> 。每一个房间号 <code>roomId<sub>i</sub></code> 保证是 <strong>独一无二</strong> 的。</p>
 
-<p>You are also given <code>k</code> queries in a 2D array <code>queries</code> where <code>queries[j] = [preferred<sub>j</sub>, minSize<sub>j</sub>]</code>. The answer to the <code>j<sup>th</sup></code> query is the room number <code>id</code> of a room such that:</p>
+<p>同时给你 <code>k</code> 个查询，用二维数组 <code>queries</code> 表示，其中 <code>queries[j] = [preferred<sub>j</sub>, minSize<sub>j</sub>]</code> 。第 <code>j</code> 个查询的答案是满足如下条件的房间 <code>id</code> ：</p>
 
 <ul>
-	<li>The room has a size of <strong>at least</strong> <code>minSize<sub>j</sub></code>, and</li>
-	<li><code>abs(id - preferred<sub>j</sub>)</code> is <strong>minimized</strong>, where <code>abs(x)</code> is the absolute value of <code>x</code>.</li>
+	<li>房间的面积 <b>至少</b> 为 <code>minSize<sub>j</sub></code> ，且</li>
+	<li><code>abs(id - preferred<sub>j</sub>)</code> 的值 <strong>最小</strong> ，其中 <code>abs(x)</code> 是 <code>x</code> 的绝对值。</li>
 </ul>
 
-<p>If there is a <strong>tie</strong> in the absolute difference, then use the room with the <strong>smallest</strong> such <code>id</code>. If there is <strong>no such room</strong>, the answer is <code>-1</code>.</p>
+<p>如果差的绝对值有 <strong>相等</strong> 的，选择 <strong>最小</strong> 的 <code>id</code> 。如果 <strong>没有满足条件的房间</strong> ，答案为 <code>-1</code> 。</p>
 
-<p>Return <em>an array </em><code>answer</code><em> of length </em><code>k</code><em> where </em><code>answer[j]</code><em> contains the answer to the </em><code>j<sup>th</sup></code><em> query</em>.</p>
+<p>请你返回长度为 <code>k</code> 的数组 <code>answer</code> ，其中<em> </em><code>answer[j]</code> 为第 <code>j</code> 个查询的结果。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> rooms = [[2,2],[1,2],[3,2]], queries = [[3,1],[3,3],[5,2]]
-<strong>Output:</strong> [3,-1,3]
-<strong>Explanation: </strong>The answers to the queries are as follows:
-Query = [3,1]: Room number 3 is the closest as abs(3 - 3) = 0, and its size of 2 is at least 1. The answer is 3.
-Query = [3,3]: There are no rooms with a size of at least 3, so the answer is -1.
-Query = [5,2]: Room number 3 is the closest as abs(3 - 5) = 2, and its size of 2 is at least 2. The answer is 3.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> rooms = [[1,4],[2,3],[3,5],[4,1],[5,2]], queries = [[2,3],[2,4],[2,5]]
-<strong>Output:</strong> [2,1,3]
-<strong>Explanation: </strong>The answers to the queries are as follows:
-Query = [2,3]: Room number 2 is the closest as abs(2 - 2) = 0, and its size of 3 is at least 3. The answer is 2.
-Query = [2,4]: Room numbers 1 and 3 both have sizes of at least 4. The answer is 1 since it is smaller.
-Query = [2,5]: Room number 3 is the only room with a size of at least 5. The answer is 3.</pre>
+<b>输入：</b>rooms = [[2,2],[1,2],[3,2]], queries = [[3,1],[3,3],[5,2]]
+<b>输出：</b>[3,-1,3]
+<strong>解释：</strong>查询的答案如下：
+查询 [3,1] ：房间 3 的面积为 2 ，大于等于 1 ，且号码是最接近 3 的，为 abs(3 - 3) = 0 ，所以答案为 3 。
+查询 [3,3] ：没有房间的面积至少为 3 ，所以答案为 -1 。
+查询 [5,2] ：房间 3 的面积为 2 ，大于等于 2 ，且号码是最接近 5 的，为 abs(3 - 5) = 2 ，所以答案为 3 。</pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>rooms = [[1,4],[2,3],[3,5],[4,1],[5,2]], queries = [[2,3],[2,4],[2,5]]
+<b>输出：</b>[2,1,3]
+<strong>解释：</strong>查询的答案如下：
+查询 [2,3] ：房间 2 的面积为 3 ，大于等于 3 ，且号码是最接近的，为 abs(2 - 2) = 0 ，所以答案为 2 。
+查询 [2,4] ：房间 1 和 3 的面积都至少为 4 ，答案为 1 因为它房间编号更小。
+查询 [2,5] ：房间 3 是唯一面积大于等于 5 的，所以答案为 3 。</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == rooms.length</code></li>
-	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 <= n <= 10<sup>5</sup></code></li>
 	<li><code>k == queries.length</code></li>
-	<li><code>1 &lt;= k &lt;= 10<sup>4</sup></code></li>
-	<li><code>1 &lt;= roomId<sub>i</sub>, preferred<sub>j</sub> &lt;= 10<sup>7</sup></code></li>
-	<li><code>1 &lt;= size<sub>i</sub>, minSize<sub>j</sub> &lt;= 10<sup>7</sup></code></li>
+	<li><code>1 <= k <= 10<sup>4</sup></code></li>
+	<li><code>1 <= roomId<sub>i</sub>, preferred<sub>j</sub> <= 10<sup>7</sup></code></li>
+	<li><code>1 <= size<sub>i</sub>, minSize<sub>j</sub> <= 10<sup>7</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Offline Query + Ordered Set + Binary Search
+### 方法一：离线查询 + 有序集合 + 二分查找
 
-We notice that the order of queries does not affect the answer, and the problem involves the size relationship of room areas. Therefore, we can sort the queries in ascending order of minimum area, so that we can process each query from small to large. Also, we sort the rooms in ascending order of area.
+我们注意到，查询的顺序并不影响答案，而且题目中涉及到房间面积的大小关系，因此，我们可以将查询按照最小面积从小到大排序，这样我们就可以从小到大依次处理每个查询。另外，我们也将房间按照面积从小到大排序。
 
-Next, we create an ordered list and add all room numbers to the ordered list.
+接下来，我们创建一个有序列表，将所有房间的编号加入有序列表中。
 
-Then, we process each query from small to large. For each query, we first remove all rooms with an area less than or equal to the current query's minimum area from the ordered list. Then, in the remaining rooms, we use binary search to find the room number closest to the current query. If there is no such room, we return $-1$.
+然后，我们从小到大依次处理每个查询。对于每个查询，我们首先将所有面积小于等于当前查询的最小面积的房间从有序列表中移除。然后，我们在剩余的房间中，使用二分查找找到最接近当前查询的房间编号。如果不存在这样的房间，那么我们就返回 $-1$。
 
-The time complexity is $O(n \times \log n + k \times \log k)$, and the space complexity is $O(n + k)$. Where $n$ and $k$ are the number of rooms and queries, respectively.
+时间复杂度 $O(n \times \log n + k \times \log k)$，空间复杂度 $O(n + k)$。其中 $n$ 和 $k$ 分别是房间数和查询数。
 
 <!-- tabs:start -->
 
 #### Python3
 
 ```python
-from sortedcontainers import SortedList
-
-
 class Solution:
     def closestRoom(
         self, rooms: List[List[int]], queries: List[List[int]]

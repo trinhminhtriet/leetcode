@@ -1,98 +1,102 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0703.Kth%20Largest%20Element%20in%20a%20Stream/README.md
 tags:
-  - Tree
-  - Design
-  - Binary Search Tree
-  - Binary Tree
-  - Data Stream
-  - Heap (Priority Queue)
+    - 树
+    - 设计
+    - 二叉搜索树
+    - 二叉树
+    - 数据流
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [703. Kth Largest Element in a Stream](https://leetcode.com/problems/kth-largest-element-in-a-stream)
+# [703. 数据流中的第 K 大元素](https://leetcode.cn/problems/kth-largest-element-in-a-stream)
 
-## Description
+[English Version](/solution/0700-0799/0703.Kth%20Largest%20Element%20in%20a%20Stream/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are part of a university admissions office and need to keep track of the <code>kth</code> highest test score from applicants in real-time. This helps to determine cut-off marks for interviews and admissions dynamically as new applicants submit their scores.</p>
+<p>设计一个找到数据流中第 <code>k</code> 大元素的类（class）。注意是排序后的第 <code>k</code> 大元素，不是第 <code>k</code> 个不同的元素。</p>
 
-<p>You are tasked to implement a class which, for a given integer&nbsp;<code>k</code>, maintains a stream of test scores and continuously returns the&nbsp;<code>k</code>th highest test score&nbsp;<strong>after</strong>&nbsp;a new score has been submitted. More specifically, we are looking for the <code>k</code>th highest score in the sorted list of all scores.</p>
-
-<p>Implement the&nbsp;<code>KthLargest</code> class:</p>
+<p>请实现 <code>KthLargest</code>&nbsp;类：</p>
 
 <ul>
-	<li><code>KthLargest(int k, int[] nums)</code> Initializes the object with the integer <code>k</code> and the stream of test scores&nbsp;<code>nums</code>.</li>
-	<li><code>int add(int val)</code> Adds a new test score&nbsp;<code>val</code> to the stream and returns the element representing the <code>k<sup>th</sup></code> largest element in the pool of test scores so far.</li>
+	<li><code>KthLargest(int k, int[] nums)</code> 使用整数 <code>k</code> 和整数流 <code>nums</code> 初始化对象。</li>
+	<li><code>int add(int val)</code> 将 <code>val</code> 插入数据流 <code>nums</code> 后，返回当前数据流中第 <code>k</code> 大的元素。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong><br />
-<span class="example-io">[&quot;KthLargest&quot;, &quot;add&quot;, &quot;add&quot;, &quot;add&quot;, &quot;add&quot;, &quot;add&quot;]<br />
+<p><strong>输入：</strong><br />
+<span class="example-io">["KthLargest", "add", "add", "add", "add", "add"]<br />
 [[3, [4, 5, 8, 2]], [3], [5], [10], [9], [4]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[null, 4, 5, 5, 8, 8]</span></p>
+<p><strong>输出：</strong><span class="example-io">[null, 4, 5, 5, 8, 8]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p>KthLargest kthLargest = new KthLargest(3, [4, 5, 8, 2]);<br />
-kthLargest.add(3); // return 4<br />
-kthLargest.add(5); // return 5<br />
-kthLargest.add(10); // return 5<br />
-kthLargest.add(9); // return 8<br />
-kthLargest.add(4); // return 8</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong><br />
-<span class="example-io">[&quot;KthLargest&quot;, &quot;add&quot;, &quot;add&quot;, &quot;add&quot;, &quot;add&quot;]<br />
-[[4, [7, 7, 7, 7, 8, 3]], [2], [10], [9], [9]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[null, 7, 7, 7, 8]</span></p>
-
-<p><strong>Explanation:</strong></p>
-KthLargest kthLargest = new KthLargest(4, [7, 7, 7, 7, 8, 3]);<br />
-kthLargest.add(2); // return 7<br />
-kthLargest.add(10); // return 7<br />
-kthLargest.add(9); // return 7<br />
-kthLargest.add(9); // return 8</div>
+kthLargest.add(3); // 返回 4<br />
+kthLargest.add(5); // 返回 5<br />
+kthLargest.add(10); // 返回 5<br />
+kthLargest.add(9); // 返回 8<br />
+kthLargest.add(4); // 返回 8</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+</div>
+
+<p><strong class="example">示例&nbsp;2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><br />
+<span class="example-io">["KthLargest", "add", "add", "add", "add"]<br />
+[[4, [7, 7, 7, 7, 8, 3]], [2], [10], [9], [9]]</span></p>
+
+<p><span class="example-io"><b>输出：</b>[null, 7, 7, 7, 8]</span></p>
+
+<p><strong>解释：</strong></p>
+KthLargest kthLargest = new KthLargest(4, [7, 7, 7, 7, 8, 3]);<br />
+kthLargest.add(2); // 返回 7<br />
+kthLargest.add(10); // 返回 7<br />
+kthLargest.add(9); // 返回 7<br />
+kthLargest.add(9); // 返回 8</div>
+
+<p>&nbsp;</p>
+<strong>提示：</strong>
 
 <ul>
 	<li><code>0 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= k &lt;= nums.length + 1</code></li>
 	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
 	<li><code>-10<sup>4</sup> &lt;= val &lt;= 10<sup>4</sup></code></li>
-	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>add</code>.</li>
+	<li>最多调用 <code>add</code> 方法 <code>10<sup>4</sup></code> 次</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Priority Queue (Min Heap)
+### 方法一：优先队列（小根堆）
 
-We maintain a priority queue (min heap) $\textit{minQ}$.
+我们维护一个优先队列（小根堆）$\textit{minQ}$。
 
-Initially, we add the elements of the array $\textit{nums}$ to $\textit{minQ}$ one by one, ensuring that the size of $\textit{minQ}$ does not exceed $k$. The time complexity is $O(n \times \log k)$.
+初始化时，我们将数组 $\textit{nums}$ 中的元素依次加入 $\textit{minQ}$，并保持 $\textit{minQ}$ 的大小不超过 $k$。时间复杂度 $O(n \times \log k)$。
 
-Each time a new element is added, if the size of $\textit{minQ}$ exceeds $k$, we pop the top element of the heap to ensure that the size of $\textit{minQ}$ is $k$. The time complexity is $O(\log k)$.
+每次加入一个新元素时，如果 $\textit{minQ}$ 的大小超过了 $k$，我们就将堆顶元素弹出，保证 $\textit{minQ}$ 的大小为 $k$。时间复杂度 $O(\log k)$。
 
-In this way, the elements in $\textit{minQ}$ are the largest $k$ elements in the array $\textit{nums}$, and the top element of the heap is the $k^{th}$ largest element.
+这样，$\textit{minQ}$ 中的元素就是数组 $\textit{nums}$ 中最大的 $k$ 个元素，堆顶元素就是第 $k$ 大的元素。
 
-The space complexity is $O(k)$.
+空间复杂度 $O(k)$。
 
 <!-- tabs:start -->
 
@@ -232,23 +236,23 @@ func (h *hp) Push(x interface{}) {
 
 ```ts
 class KthLargest {
-  #k: number = 0;
-  #minQ = new MinPriorityQueue();
+    #k: number = 0;
+    #minQ = new MinPriorityQueue();
 
-  constructor(k: number, nums: number[]) {
-    this.#k = k;
-    for (const x of nums) {
-      this.add(x);
+    constructor(k: number, nums: number[]) {
+        this.#k = k;
+        for (const x of nums) {
+            this.add(x);
+        }
     }
-  }
 
-  add(val: number): number {
-    this.#minQ.enqueue(val);
-    if (this.#minQ.size() > this.#k) {
-      this.#minQ.dequeue();
+    add(val: number): number {
+        this.#minQ.enqueue(val);
+        if (this.#minQ.size() > this.#k) {
+            this.#minQ.dequeue();
+        }
+        return this.#minQ.front().element;
     }
-    return this.#minQ.front().element;
-  }
 }
 
 /**
@@ -266,11 +270,11 @@ class KthLargest {
  * @param {number[]} nums
  */
 var KthLargest = function (k, nums) {
-  this.k = k;
-  this.minQ = new MinPriorityQueue();
-  for (const x of nums) {
-    this.add(x);
-  }
+    this.k = k;
+    this.minQ = new MinPriorityQueue();
+    for (const x of nums) {
+        this.add(x);
+    }
 };
 
 /**
@@ -278,11 +282,11 @@ var KthLargest = function (k, nums) {
  * @return {number}
  */
 KthLargest.prototype.add = function (val) {
-  this.minQ.enqueue(val);
-  if (this.minQ.size() > this.k) {
-    this.minQ.dequeue();
-  }
-  return this.minQ.front().element;
+    this.minQ.enqueue(val);
+    if (this.minQ.size() > this.k) {
+        this.minQ.dequeue();
+    }
+    return this.minQ.front().element;
 };
 
 /**

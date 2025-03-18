@@ -1,71 +1,81 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2380.Time%20Needed%20to%20Rearrange%20a%20Binary%20String/README.md
 rating: 1481
-source: Biweekly Contest 85 Q2
+source: 第 85 场双周赛 Q2
 tags:
-  - String
-  - Dynamic Programming
-  - Simulation
+    - 字符串
+    - 动态规划
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2380. Time Needed to Rearrange a Binary String](https://leetcode.com/problems/time-needed-to-rearrange-a-binary-string)
+# [2380. 二进制字符串重新安排顺序需要的时间](https://leetcode.cn/problems/time-needed-to-rearrange-a-binary-string)
 
-## Description
+[English Version](/solution/2300-2399/2380.Time%20Needed%20to%20Rearrange%20a%20Binary%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a binary string <code>s</code>. In one second, <strong>all</strong> occurrences of <code>&quot;01&quot;</code> are <strong>simultaneously</strong> replaced with <code>&quot;10&quot;</code>. This process <strong>repeats</strong> until no occurrences of <code>&quot;01&quot;</code> exist.</p>
+<p>给你一个二进制字符串&nbsp;<code>s</code>&nbsp;。在一秒之中，<strong>所有</strong>&nbsp;子字符串&nbsp;<code>"01"</code> <strong>同时</strong>&nbsp;被替换成&nbsp;<code>"10"</code>&nbsp;。这个过程持续进行到没有&nbsp;<code>"01"</code>&nbsp;存在。</p>
 
-<p>Return<em> the number of seconds needed to complete this process.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;0110101&quot;
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> 
-After one second, s becomes &quot;1011010&quot;.
-After another second, s becomes &quot;1101100&quot;.
-After the third second, s becomes &quot;1110100&quot;.
-After the fourth second, s becomes &quot;1111000&quot;.
-No occurrence of &quot;01&quot; exists any longer, and the process needed 4 seconds to complete,
-so we return 4.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;11100&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong>
-No occurrence of &quot;01&quot; exists in s, and the processes needed 0 seconds to complete,
-so we return 0.
-</pre>
+<p>请你返回完成这个过程所需要的秒数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>s = "0110101"
+<b>输出：</b>4
+<b>解释：</b>
+一秒后，s 变成 "1011010" 。
+再过 1 秒后，s 变成 "1101100" 。
+第三秒过后，s 变成 "1110100" 。
+第四秒后，s 变成 "1111000" 。
+此时没有 "01" 存在，整个过程花费 4 秒。
+所以我们返回 4 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>s = "11100"
+<b>输出：</b>0
+<strong>解释：</strong>
+s 中没有 "01" 存在，整个过程花费 0 秒。
+所以我们返回 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>s[i]</code>&nbsp;要么是&nbsp;<code>'0'</code>&nbsp;，要么是&nbsp;<code>'1'</code> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Follow up:</strong></p>
 
-<p>Can you solve this problem in O(n) time complexity?</p>
+<p><strong>进阶：</strong></p>
+
+<p>你能以 O(n) 的时间复杂度解决这个问题吗？</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：暴力模拟
+
+由于本题数据范围不大，所以可以暴力模拟，每一轮将字符串中所有 “01” 替换为 “10”，统计轮次作为答案。
+
+时间复杂度 $O(n^2)$。每一轮时间复杂度 $O(n)$，最多进行 $n$ 轮操作。
 
 <!-- tabs:start -->
 
@@ -165,7 +175,30 @@ func secondsToRemoveOccurrences(s string) int {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：动态规划
+
+题目要把所有“01”串替换为“10”，实际上是将所有的“1”往左移动。操作过后，左侧均为“1”，而右侧均为“0”。
+
+假如我们要把“0100010”重排为“1100000”，会出现两种情况：
+
+1. 如果一个“1”左边有 $cnt$ 个“0”，那么将这个“1”移动到最左边的位置需要 $cnt$ 秒；
+1. 如果有连续的“1”，则将这两个“1”移动到最左边的位置需要额外的 $1$ 秒。
+
+看下面的示例：
+
+| 时刻（秒） | 示例 1 | 示例 2 |
+| ---------- | ------ | ------ |
+| 0          | 0001   | 00011  |
+| 1          | 0010   | 00101  |
+| 2          | 0100   | 01010  |
+| 3          | 1000   | 10100  |
+| 4          | -      | 11000  |
+
+我们可以看到，如果在 $cnt$ 个“0”之后只有一个“1”，那么只需要 $cnt$ 秒，如果有连续的“1”，则需要额外的 $1$ 秒。
+
+因此，对于字符串中的每一个“1”，我们计算 $ans=max(ans+1, cnt)$。
+
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

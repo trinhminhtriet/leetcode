@@ -1,75 +1,77 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2437.Number%20of%20Valid%20Clock%20Times/README.md
 rating: 1426
-source: Biweekly Contest 89 Q1
+source: 第 89 场双周赛 Q1
 tags:
-  - String
-  - Enumeration
+    - 字符串
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2437. Number of Valid Clock Times](https://leetcode.com/problems/number-of-valid-clock-times)
+# [2437. 有效时间的数目](https://leetcode.cn/problems/number-of-valid-clock-times)
 
-## Description
+[English Version](/solution/2400-2499/2437.Number%20of%20Valid%20Clock%20Times/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string of length <code>5</code> called <code>time</code>, representing the current time on a digital clock in the format <code>&quot;hh:mm&quot;</code>. The <strong>earliest</strong> possible time is <code>&quot;00:00&quot;</code> and the <strong>latest</strong> possible time is <code>&quot;23:59&quot;</code>.</p>
+<p>给你一个长度为&nbsp;<code>5</code>&nbsp;的字符串&nbsp;<code>time</code>&nbsp;，表示一个电子时钟当前的时间，格式为&nbsp;<code>"hh:mm"</code>&nbsp;。<strong>最早</strong>&nbsp;可能的时间是&nbsp;<code>"00:00"</code>&nbsp;，<strong>最晚</strong>&nbsp;可能的时间是&nbsp;<code>"23:59"</code>&nbsp;。</p>
 
-<p>In the string <code>time</code>, the digits represented by the <code>?</code>&nbsp;symbol are <strong>unknown</strong>, and must be <strong>replaced</strong> with a digit from <code>0</code> to <code>9</code>.</p>
+<p>在字符串&nbsp;<code>time</code>&nbsp;中，被字符&nbsp;<code>?</code>&nbsp;替换掉的数位是 <strong>未知的</strong>&nbsp;，被替换的数字可能是&nbsp;<code>0</code>&nbsp;到&nbsp;<code>9</code>&nbsp;中的任何一个。</p>
 
-<p>Return<em> an integer </em><code>answer</code><em>, the number of valid clock times that can be created by replacing every </em><code>?</code><em>&nbsp;with a digit from </em><code>0</code><em> to </em><code>9</code>.</p>
+<p>请你返回一个整数<em>&nbsp;</em><code>answer</code>&nbsp;，将每一个 <code>?</code>&nbsp;都用<em>&nbsp;</em><code>0</code>&nbsp;到<em>&nbsp;</em><code>9</code>&nbsp;中一个数字替换后，可以得到的有效时间的数目。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> time = &quot;?5:00&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We can replace the ? with either a 0 or 1, producing &quot;05:00&quot; or &quot;15:00&quot;. Note that we cannot replace it with a 2, since the time &quot;25:00&quot; is invalid. In total, we have two choices.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>time = "?5:00"
+<b>输出：</b>2
+<b>解释：</b>我们可以将 ? 替换成 0 或 1 ，得到 "05:00" 或者 "15:00" 。注意我们不能替换成 2 ，因为时间 "25:00" 是无效时间。所以我们有两个选择。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> time = &quot;0?:0?&quot;
-<strong>Output:</strong> 100
-<strong>Explanation:</strong> Each ? can be replaced by any digit from 0 to 9, so we have 100 total choices.
+<pre><b>输入：</b>time = "0?:0?"
+<b>输出：</b>100
+<b>解释：</b>两个 ? 都可以被 0 到 9 之间的任意数字替换，所以我们总共有 100 种选择。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> time = &quot;??:??&quot;
-<strong>Output:</strong> 1440
-<strong>Explanation:</strong> There are 24 possible choices for the hours, and 60 possible choices for the minutes. In total, we have 24 * 60 = 1440 choices.
+<pre><b>输入：</b>time = "??:??"
+<b>输出：</b>1440
+<b>解释：</b>小时总共有 24 种选择，分钟总共有 60 种选择。所以总共有 24 * 60 = 1440 种选择。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>time</code> is a valid string of length <code>5</code> in the format <code>&quot;hh:mm&quot;</code>.</li>
-	<li><code>&quot;00&quot; &lt;= hh &lt;= &quot;23&quot;</code></li>
-	<li><code>&quot;00&quot; &lt;= mm &lt;= &quot;59&quot;</code></li>
-	<li>Some of the digits might be replaced with <code>&#39;?&#39;</code> and need to be replaced with digits from <code>0</code> to <code>9</code>.</li>
+	<li><code>time</code>&nbsp;是一个长度为 <code>5</code>&nbsp;的有效字符串，格式为&nbsp;<code>"hh:mm"</code>&nbsp;。</li>
+	<li><code>"00" &lt;= hh &lt;= "23"</code></li>
+	<li><code>"00" &lt;= mm &lt;= "59"</code></li>
+	<li>字符串中有的数位是&nbsp;<code>'?'</code>&nbsp;，需要用&nbsp;<code>0</code>&nbsp;到&nbsp;<code>9</code>&nbsp;之间的数字替换。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We can directly enumerate all times from $00:00$ to $23:59$, then judge whether each time is valid, if so, increment the answer.
+我们可以直接枚举从 $00:00$ 到 $23:59$ 的所有时间，然后判断每个时间是否有效，是则答案加一。
 
-After the enumeration ends, return the answer.
+枚举结束后将答案返回即可。
 
-The time complexity is $O(24 \times 60)$, and the space complexity is $O(1)$.
+时间复杂度 $O(24 \times 60)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -162,21 +164,21 @@ func countTime(time string) int {
 
 ```ts
 function countTime(time: string): number {
-  let ans = 0;
-  for (let h = 0; h < 24; ++h) {
-    for (let m = 0; m < 60; ++m) {
-      const s = `${h}`.padStart(2, "0") + ":" + `${m}`.padStart(2, "0");
-      let ok = 1;
-      for (let i = 0; i < 5; ++i) {
-        if (s[i] !== time[i] && time[i] !== "?") {
-          ok = 0;
-          break;
+    let ans = 0;
+    for (let h = 0; h < 24; ++h) {
+        for (let m = 0; m < 60; ++m) {
+            const s = `${h}`.padStart(2, '0') + ':' + `${m}`.padStart(2, '0');
+            let ok = 1;
+            for (let i = 0; i < 5; ++i) {
+                if (s[i] !== time[i] && time[i] !== '?') {
+                    ok = 0;
+                    break;
+                }
+            }
+            ans += ok;
         }
-      }
-      ans += ok;
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -215,11 +217,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Optimized Enumeration
+### 方法二：枚举优化
 
-We can separately enumerate hours and minutes, count how many hours and minutes meet the condition, and then multiply them together.
+我们可以分开枚举小时和分钟，统计有多少个小时和分钟满足条件，然后将二者相乘即可。
 
-The time complexity is $O(24 + 60)$, and the space complexity is $O(1)$.
+时间复杂度 $O(24 + 60)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -301,18 +303,18 @@ func countTime(time string) int {
 
 ```ts
 function countTime(time: string): number {
-  const f = (s: string, m: number): number => {
-    let cnt = 0;
-    for (let i = 0; i < m; ++i) {
-      const a = s[0] === "?" || s[0] === Math.floor(i / 10).toString();
-      const b = s[1] === "?" || s[1] === (i % 10).toString();
-      if (a && b) {
-        ++cnt;
-      }
-    }
-    return cnt;
-  };
-  return f(time.slice(0, 2), 24) * f(time.slice(3), 60);
+    const f = (s: string, m: number): number => {
+        let cnt = 0;
+        for (let i = 0; i < m; ++i) {
+            const a = s[0] === '?' || s[0] === Math.floor(i / 10).toString();
+            const b = s[1] === '?' || s[1] === (i % 10).toString();
+            if (a && b) {
+                ++cnt;
+            }
+        }
+        return cnt;
+    };
+    return f(time.slice(0, 2), 24) * f(time.slice(3), 60);
 }
 ```
 

@@ -1,62 +1,67 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3011.Find%20if%20Array%20Can%20Be%20Sorted/README.md
 rating: 1496
-source: Biweekly Contest 122 Q2
+source: 第 122 场双周赛 Q2
 tags:
-  - Bit Manipulation
-  - Array
-  - Sorting
+    - 位运算
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3011. Find if Array Can Be Sorted](https://leetcode.com/problems/find-if-array-can-be-sorted)
+# [3011. 判断一个数组是否可以变为有序](https://leetcode.cn/problems/find-if-array-can-be-sorted)
 
-## Description
+[English Version](/solution/3000-3099/3011.Find%20if%20Array%20Can%20Be%20Sorted/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array of <strong>positive</strong> integers <code>nums</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始且全是 <strong>正</strong>&nbsp;整数的数组&nbsp;<code>nums</code>&nbsp;。</p>
 
-<p>In one <strong>operation</strong>, you can swap any two <strong>adjacent</strong> elements if they have the <strong>same</strong> number of <span data-keyword="set-bit">set bits</span>. You are allowed to do this operation <strong>any</strong> number of times (<strong>including zero</strong>).</p>
+<p>一次 <b>操作</b>&nbsp;中，如果两个 <strong>相邻</strong>&nbsp;元素在二进制下 <span data-keyword="set-bit">设置位</span> 的数目 <strong>相同</strong>&nbsp;，那么你可以将这两个元素交换。你可以执行这个操作 <strong>任意次</strong>&nbsp;（<strong>也可以 0 次</strong>）。</p>
 
-<p>Return <code>true</code> <em>if you can sort the array in ascending order, else return </em><code>false</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [8,4,2,30,15]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Let&#39;s look at the binary representation of every element. The numbers 2, 4, and 8 have one set bit each with binary representation &quot;10&quot;, &quot;100&quot;, and &quot;1000&quot; respectively. The numbers 15 and 30 have four set bits each with binary representation &quot;1111&quot; and &quot;11110&quot;.
-We can sort the array using 4 operations:
-- Swap nums[0] with nums[1]. This operation is valid because 8 and 4 have one set bit each. The array becomes [4,8,2,30,15].
-- Swap nums[1] with nums[2]. This operation is valid because 8 and 2 have one set bit each. The array becomes [4,2,8,30,15].
-- Swap nums[0] with nums[1]. This operation is valid because 4 and 2 have one set bit each. The array becomes [2,4,8,30,15].
-- Swap nums[3] with nums[4]. This operation is valid because 30 and 15 have four set bits each. The array becomes [2,4,8,15,30].
-The array has become sorted, hence we return true.
-Note that there may be other sequences of operations which also sort the array.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4,5]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The array is already sorted, hence we return true.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [3,16,8,4,2]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> It can be shown that it is not possible to sort the input array using any number of operations.
-</pre>
+<p>如果你可以使数组变为非降序，请你返回&nbsp;<code>true</code> ，否则返回&nbsp;<code>false</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [8,4,2,30,15]
+<b>输出：</b>true
+<b>解释：</b>我们先观察每个元素的二进制表示。 2 ，4 和 8 分别都只有一个数位为 1 ，分别为 "10" ，"100" 和 "1000" 。15 和 30 分别有 4 个数位为 1 ："1111" 和 "11110" 。
+我们可以通过 4 个操作使数组非降序：
+- 交换 nums[0] 和 nums[1] 。8 和 4 分别只有 1 个数位为 1 。数组变为 [4,8,2,30,15] 。
+- 交换 nums[1] 和 nums[2] 。8 和 2 分别只有 1 个数位为 1 。数组变为 [4,2,8,30,15] 。
+- 交换 nums[0] 和 nums[1] 。4 和 2 分别只有 1 个数位为 1 。数组变为 [2,4,8,30,15] 。
+- 交换 nums[3] 和 nums[4] 。30 和 15 分别有 4 个数位为 1 ，数组变为 [2,4,8,15,30] 。
+数组变成有序的，所以我们返回 true 。
+注意我们还可以通过其他的操作序列使数组变得有序。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,2,3,4,5]
+<b>输出：</b>true
+<b>解释：</b>数组已经是非降序的，所以我们返回 true 。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [3,16,8,4,2]
+<b>输出：</b>false
+<b>解释：</b>无法通过操作使数组变为非降序。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -65,15 +70,15 @@ Note that there may be other sequences of operations which also sort the array.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-We can use two pointers to divide the array $\textit{nums}$ into several subarrays, each subarray containing elements with the same number of $1$s in their binary representation. For each subarray, we only need to focus on its maximum and minimum values. If the minimum value is less than the maximum value of the previous subarray, then it is impossible to make the array ordered by swapping.
+我们可以使用双指针，将数组 $\textit{nums}$ 分成若干个子数组，每个子数组中的元素的二进制表示中 $1$ 的个数相同。对于每个子数组，我们只需要关注它的最大值和最小值，如果最小值比上一个子数组的最大值小，那么就无法通过交换使得数组有序。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -183,33 +188,33 @@ func canSortArray(nums []int) bool {
 
 ```ts
 function canSortArray(nums: number[]): boolean {
-  let preMx = 0;
-  const n = nums.length;
-  for (let i = 0; i < n; ) {
-    const cnt = bitCount(nums[i]);
-    let j = i + 1;
-    let [mi, mx] = [nums[i], nums[i]];
-    while (j < n && bitCount(nums[j]) === cnt) {
-      mi = Math.min(mi, nums[j]);
-      mx = Math.max(mx, nums[j]);
-      j++;
+    let preMx = 0;
+    const n = nums.length;
+    for (let i = 0; i < n; ) {
+        const cnt = bitCount(nums[i]);
+        let j = i + 1;
+        let [mi, mx] = [nums[i], nums[i]];
+        while (j < n && bitCount(nums[j]) === cnt) {
+            mi = Math.min(mi, nums[j]);
+            mx = Math.max(mx, nums[j]);
+            j++;
+        }
+        if (preMx > mi) {
+            return false;
+        }
+        preMx = mx;
+        i = j;
     }
-    if (preMx > mi) {
-      return false;
-    }
-    preMx = mx;
-    i = j;
-  }
-  return true;
+    return true;
 }
 
 function bitCount(i: number): number {
-  i = i - ((i >>> 1) & 0x55555555);
-  i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
-  i = (i + (i >>> 4)) & 0x0f0f0f0f;
-  i = i + (i >>> 8);
-  i = i + (i >>> 16);
-  return i & 0x3f;
+    i = i - ((i >>> 1) & 0x55555555);
+    i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
+    i = (i + (i >>> 4)) & 0x0f0f0f0f;
+    i = i + (i >>> 8);
+    i = i + (i >>> 16);
+    return i & 0x3f;
 }
 ```
 

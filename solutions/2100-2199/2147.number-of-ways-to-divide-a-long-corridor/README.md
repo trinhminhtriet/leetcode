@@ -1,90 +1,98 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2147.Number%20of%20Ways%20to%20Divide%20a%20Long%20Corridor/README.md
 rating: 1914
-source: Biweekly Contest 70 Q4
+source: 第 70 场双周赛 Q4
 tags:
-  - Math
-  - String
-  - Dynamic Programming
+    - 数学
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2147. Number of Ways to Divide a Long Corridor](https://leetcode.com/problems/number-of-ways-to-divide-a-long-corridor)
+# [2147. 分隔长廊的方案数](https://leetcode.cn/problems/number-of-ways-to-divide-a-long-corridor)
 
-## Description
+[English Version](/solution/2100-2199/2147.Number%20of%20Ways%20to%20Divide%20a%20Long%20Corridor/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Along a long library corridor, there is a line of seats and decorative plants. You are given a <strong>0-indexed</strong> string <code>corridor</code> of length <code>n</code> consisting of letters <code>&#39;S&#39;</code> and <code>&#39;P&#39;</code> where each <code>&#39;S&#39;</code> represents a seat and each <code>&#39;P&#39;</code> represents a plant.</p>
+<p>在一个图书馆的长廊里，有一些座位和装饰植物排成一列。给你一个下标从 <strong>0</strong>&nbsp;开始，长度为 <code>n</code>&nbsp;的字符串&nbsp;<code>corridor</code>&nbsp;，它包含字母&nbsp;<code>'S'</code> 和&nbsp;<code>'P'</code>&nbsp;，其中每个&nbsp;<code>'S'</code>&nbsp;表示一个座位，每个&nbsp;<code>'P'</code>&nbsp;表示一株植物。</p>
 
-<p>One room divider has <strong>already</strong> been installed to the left of index <code>0</code>, and <strong>another</strong> to the right of index <code>n - 1</code>. Additional room dividers can be installed. For each position between indices <code>i - 1</code> and <code>i</code> (<code>1 &lt;= i &lt;= n - 1</code>), at most one divider can be installed.</p>
+<p>在下标 <code>0</code>&nbsp;的左边和下标 <code>n - 1</code>&nbsp;的右边 <strong>已经</strong>&nbsp;分别各放了一个屏风。你还需要额外放置一些屏风。每一个位置&nbsp;<code>i - 1</code> 和&nbsp;<code>i</code>&nbsp;之间（<code>1 &lt;= i &lt;= n - 1</code>），至多能放一个屏风。</p>
 
-<p>Divide the corridor into non-overlapping sections, where each section has <strong>exactly two seats</strong> with any number of plants. There may be multiple ways to perform the division. Two ways are <strong>different</strong> if there is a position with a room divider installed in the first way but not in the second way.</p>
+<p>请你将走廊用屏风划分为若干段，且每一段内都 <strong>恰好有两个座位</strong>&nbsp;，而每一段内植物的数目没有要求。可能有多种划分方案，如果两个方案中有任何一个屏风的位置不同，那么它们被视为 <strong>不同</strong> 方案。</p>
 
-<p>Return <em>the number of ways to divide the corridor</em>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>. If there is no way, return <code>0</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2147.Number%20of%20Ways%20to%20Divide%20a%20Long%20Corridor/images/1.png" style="width: 410px; height: 199px;" />
-<pre>
-<strong>Input:</strong> corridor = &quot;SSPPSPS&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> There are 3 different ways to divide the corridor.
-The black bars in the above image indicate the two room dividers already installed.
-Note that in each of the ways, <strong>each</strong> section has exactly <strong>two</strong> seats.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2147.Number%20of%20Ways%20to%20Divide%20a%20Long%20Corridor/images/2.png" style="width: 357px; height: 68px;" />
-<pre>
-<strong>Input:</strong> corridor = &quot;PPSPSP&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> There is only 1 way to divide the corridor, by not installing any additional dividers.
-Installing any would create some section that does not have exactly two seats.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2147.Number%20of%20Ways%20to%20Divide%20a%20Long%20Corridor/images/3.png" style="width: 115px; height: 68px;" />
-<pre>
-<strong>Input:</strong> corridor = &quot;S&quot;
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There is no way to divide the corridor because there will always be a section that does not have exactly two seats.
-</pre>
+<p>请你返回划分走廊的方案数。由于答案可能很大，请你返回它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;的结果。如果没有任何方案，请返回&nbsp;<code>0</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2147.Number%20of%20Ways%20to%20Divide%20a%20Long%20Corridor/images/1.png" style="width: 410px; height: 199px;"></p>
+
+<pre><b>输入：</b>corridor = "SSPPSPS"
+<b>输出：</b>3
+<b>解释：</b>总共有 3 种不同分隔走廊的方案。
+上图中黑色的竖线表示已经放置好的屏风。
+上图每种方案中，每一段都恰好有 <strong>两个</strong>&nbsp;座位。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2147.Number%20of%20Ways%20to%20Divide%20a%20Long%20Corridor/images/2.png" style="width: 357px; height: 68px;"></p>
+
+<pre><b>输入：</b>corridor = "PPSPSP"
+<b>输出：</b>1
+<b>解释：</b>只有 1 种分隔走廊的方案，就是不放置任何屏风。
+放置任何的屏风都会导致有一段无法恰好有 2 个座位。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2147.Number%20of%20Ways%20to%20Divide%20a%20Long%20Corridor/images/3.png" style="width: 115px; height: 68px;"></p>
+
+<pre><b>输入：</b>corridor = "S"
+<b>输出：</b>0
+<b>解释：</b>没有任何方案，因为总是有一段无法恰好有 2 个座位。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == corridor.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>corridor[i]</code> is either <code>&#39;S&#39;</code> or <code>&#39;P&#39;</code>.</li>
+	<li><code>corridor[i]</code>&nbsp;要么是&nbsp;<code>'S'</code>&nbsp;，要么是&nbsp;<code>'P'</code> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-We design a function $\textit{dfs}(i, k)$, which represents the number of ways to partition the corridor at the $i$-th position, having already placed $k$ screens. Then the answer is $\textit{dfs}(0, 0)$.
+我们设计一个函数 $\textit{dfs}(i, k)$，表示在走廊的第 $i$ 个位置，已经放置了 $k$ 个屏风的情况下，划分走廊的方案数。那么答案就是 $\textit{dfs}(0, 0)$。
 
-The calculation process of the function $\textit{dfs}(i, k)$ is as follows:
+函数 $\textit{dfs}(i, k)$ 的计算过程如下：
 
-If $i \geq \textit{len}(\textit{corridor})$, it means the corridor has been fully traversed. At this point, if $k = 2$, it indicates that a valid partitioning scheme has been found, so return $1$. Otherwise, return $0$.
+如果 $i \geq \textit{len}(\textit{corridor})$，表示已经遍历完了走廊，此时如果 $k = 2$，说明找到了一种划分走廊的方案，返回 $1$，否则返回 $0$；
 
-Otherwise, we need to consider the situation at the current position $i$:
+否则，我们需要考虑当前位置 $i$ 的情况：
 
-- If $\textit{corridor}[i] = \text{'S'}$, it means the current position is a seat, and we increment $k$ by $1$.
-- If $k > 2$, it means the number of screens placed at the current position exceeds $2$, so return $0$.
-- Otherwise, we can choose not to place a screen, i.e., $\textit{dfs}(i + 1, k)$. If $k = 2$, we can also choose to place a screen, i.e., $\textit{dfs}(i + 1, 0)$. We add the results of these two cases and take the result modulo $10^9 + 7$, i.e., $\textit{ans} = (\textit{ans} + \textit{dfs}(i + 1, k)) \bmod \text{mod}$.
+-   如果 $\textit{corridor}[i] = \text{'S'}$，表示当前位置是一个座位，我们将 $k$ 加 $1$；
+-   如果 $k > 2$，表示当前位置放置的屏风数量超过了 $2$，返回 $0$；
+-   否则，我们可以选择不放置屏风，即 $\textit{dfs}(i + 1, k)$；如果 $k = 2$，我们还可以选择放置屏风，即 $\textit{dfs}(i + 1, 0)$；我们将这两种情况的结果相加并取模 $10^9 + 7$，即 $\textit{ans} = (\textit{ans} + \textit{dfs}(i + 1, k)) \bmod \text{mod}$。
 
-Finally, we return $\textit{dfs}(0, 0)$.
+最后，我们返回 $\textit{dfs}(0, 0)$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the corridor.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是走廊的长度。
 
 <!-- tabs:start -->
 
@@ -157,7 +165,7 @@ public:
         int f[n][3];
         memset(f, -1, sizeof(f));
         const int mod = 1e9 + 7;
-        auto dfs = [&](auto&& dfs, int i, int k) -> int {
+        auto dfs = [&](this auto&& dfs, int i, int k) -> int {
             if (i >= n) {
                 return k == 2;
             }
@@ -168,13 +176,13 @@ public:
             if (k > 2) {
                 return 0;
             }
-            f[i][k] = dfs(dfs, i + 1, k);
+            f[i][k] = dfs(i + 1, k);
             if (k == 2) {
-                f[i][k] = (f[i][k] + dfs(dfs, i + 1, 0)) % mod;
+                f[i][k] = (f[i][k] + dfs(i + 1, 0)) % mod;
             }
             return f[i][k];
         };
-        return dfs(dfs, 0, 0);
+        return dfs(0, 0);
     }
 };
 ```
@@ -220,29 +228,29 @@ func numberOfWays(corridor string) int {
 
 ```ts
 function numberOfWays(corridor: string): number {
-  const n = corridor.length;
-  const mod = 10 ** 9 + 7;
-  const f: number[][] = Array.from({ length: n }, () => Array(3).fill(-1));
-  const dfs = (i: number, k: number): number => {
-    if (i >= n) {
-      return k === 2 ? 1 : 0;
-    }
-    if (f[i][k] !== -1) {
-      return f[i][k];
-    }
-    if (corridor[i] === "S") {
-      ++k;
-    }
-    if (k > 2) {
-      return (f[i][k] = 0);
-    }
-    f[i][k] = dfs(i + 1, k);
-    if (k === 2) {
-      f[i][k] = (f[i][k] + dfs(i + 1, 0)) % mod;
-    }
-    return f[i][k];
-  };
-  return dfs(0, 0);
+    const n = corridor.length;
+    const mod = 10 ** 9 + 7;
+    const f: number[][] = Array.from({ length: n }, () => Array(3).fill(-1));
+    const dfs = (i: number, k: number): number => {
+        if (i >= n) {
+            return k === 2 ? 1 : 0;
+        }
+        if (f[i][k] !== -1) {
+            return f[i][k];
+        }
+        if (corridor[i] === 'S') {
+            ++k;
+        }
+        if (k > 2) {
+            return (f[i][k] = 0);
+        }
+        f[i][k] = dfs(i + 1, k);
+        if (k === 2) {
+            f[i][k] = (f[i][k] + dfs(i + 1, 0)) % mod;
+        }
+        return f[i][k];
+    };
+    return dfs(0, 0);
 }
 ```
 
@@ -252,17 +260,17 @@ function numberOfWays(corridor: string): number {
 
 <!-- solution:start -->
 
-### Solution 2: Mathematics
+### 方法二：数学
 
-We can divide every two seats into a group. Between two adjacent groups of seats, if the distance between the last seat of the previous group and the first seat of the next group is $x$, then there are $x$ ways to place the screen.
+我们可以将每两个座位划分为一组。在相邻的两组座位之间，如果前一组的最后一个座位和后一组的第一个座位之间的距离为 $x$，那么就有 $x$ 种放置屏风的方案。
 
-We traverse the corridor, using a variable $\textit{cnt}$ to record the current number of seats, and a variable $\textit{last}$ to record the position of the last seat.
+我们遍历走廊，用一个变量 $\textit{cnt}$ 记录当前座位数，用一个变量 $\textit{last}$ 记录上一个座位的位置。
 
-When we encounter a seat, we increment $\textit{cnt}$ by $1$. If $\textit{cnt}$ is greater than $2$ and $\textit{cnt}$ is odd, then we need to place a screen between $\textit{last}$ and the current seat. The number of ways to do this is $\textit{ans} \times (i - \textit{last})$, where $\textit{ans}$ is the previous number of ways. Then, we update $\textit{last}$ to the current seat's position $i$.
+当遍历到一个座位时，我们将 $\textit{cnt}$ 加 $1$，如果 $\textit{cnt}$ 大于 $2$ 且 $\textit{cnt}$ 为奇数，那么我们就需要在 $\textit{last}$ 和当前座位之间放置一个屏风，此时的方案数就是 $\textit{ans} \times (i - \textit{last})$，其中 $\textit{ans}$ 是之前的方案数。然后，我们更新 $\textit{last}$ 为当前座位的位置 $i$。
 
-Finally, if $\textit{cnt}$ is greater than $0$ and $\textit{cnt}$ is even, return $\textit{ans}$; otherwise, return $0$.
+最后，如果 $\textit{cnt}$ 大于 $0$ 且 $\textit{cnt}$ 为偶数，那么返回 $\textit{ans}$，否则返回 $0$。
 
-The time complexity is $O(n)$, where $n$ is the length of the corridor. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是走廊的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -350,18 +358,18 @@ func numberOfWays(corridor string) int {
 
 ```ts
 function numberOfWays(corridor: string): number {
-  const mod = 10 ** 9 + 7;
-  const n = corridor.length;
-  let [ans, cnt, last] = [1, 0, 0];
-  for (let i = 0; i < n; ++i) {
-    if (corridor[i] === "S") {
-      if (++cnt > 2 && cnt % 2) {
-        ans = (ans * (i - last)) % mod;
-      }
-      last = i;
+    const mod = 10 ** 9 + 7;
+    const n = corridor.length;
+    let [ans, cnt, last] = [1, 0, 0];
+    for (let i = 0; i < n; ++i) {
+        if (corridor[i] === 'S') {
+            if (++cnt > 2 && cnt % 2) {
+                ans = (ans * (i - last)) % mod;
+            }
+            last = i;
+        }
     }
-  }
-  return cnt > 0 && cnt % 2 === 0 ? ans : 0;
+    return cnt > 0 && cnt % 2 === 0 ? ans : 0;
 }
 ```
 

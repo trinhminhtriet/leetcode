@@ -1,64 +1,76 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0187.Repeated%20DNA%20Sequences/README.md
 tags:
-  - Bit Manipulation
-  - Hash Table
-  - String
-  - Sliding Window
-  - Hash Function
-  - Rolling Hash
+    - 位运算
+    - 哈希表
+    - 字符串
+    - 滑动窗口
+    - 哈希函数
+    - 滚动哈希
 ---
 
 <!-- problem:start -->
 
-# [187. Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences)
+# [187. 重复的DNA序列](https://leetcode.cn/problems/repeated-dna-sequences)
 
-## Description
+[English Version](/solution/0100-0199/0187.Repeated%20DNA%20Sequences/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <strong>DNA sequence</strong> is composed of a series of nucleotides abbreviated as <code>&#39;A&#39;</code>, <code>&#39;C&#39;</code>, <code>&#39;G&#39;</code>, and <code>&#39;T&#39;</code>.</p>
+<p><strong>DNA序列</strong>&nbsp;由一系列核苷酸组成，缩写为<meta charset="UTF-8" />&nbsp;<code>'A'</code>,&nbsp;<code>'C'</code>,&nbsp;<code>'G'</code>&nbsp;和<meta charset="UTF-8" />&nbsp;<code>'T'</code>.。</p>
 
 <ul>
-	<li>For example, <code>&quot;ACGAATTCCG&quot;</code> is a <strong>DNA sequence</strong>.</li>
+	<li>例如，<meta charset="UTF-8" /><code>"ACGAATTCCG"</code>&nbsp;是一个 <strong>DNA序列</strong> 。</li>
 </ul>
 
-<p>When studying <strong>DNA</strong>, it is useful to identify repeated sequences within the DNA.</p>
+<p>在研究 <strong>DNA</strong> 时，识别 DNA 中的重复序列非常有用。</p>
 
-<p>Given a string <code>s</code> that represents a <strong>DNA sequence</strong>, return all the <strong><code>10</code>-letter-long</strong> sequences (substrings) that occur more than once in a DNA molecule. You may return the answer in <strong>any order</strong>.</p>
+<p>给定一个表示 <strong>DNA序列</strong> 的字符串 <code>s</code> ，返回所有在 DNA 分子中出现不止一次的&nbsp;<strong>长度为&nbsp;<code>10</code></strong>&nbsp;的序列(子字符串)。你可以按 <strong>任意顺序</strong> 返回答案。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
-<strong>Output:</strong> ["AAAAACCCCC","CCCCCAAAAA"]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> s = "AAAAAAAAAAAAA"
-<strong>Output:</strong> ["AAAAAAAAAA"]
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+<strong>输出：</strong>["AAAAACCCCC","CCCCCAAAAA"]
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "AAAAAAAAAAAAA"
+<strong>输出：</strong>["AAAAAAAAAA"]
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> is either <code>&#39;A&#39;</code>, <code>&#39;C&#39;</code>, <code>&#39;G&#39;</code>, or <code>&#39;T&#39;</code>.</li>
+	<li><code>0 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s[i]</code><code>==</code><code>'A'</code>、<code>'C'</code>、<code>'G'</code>&nbsp;or&nbsp;<code>'T'</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We define a hash table $cnt$ to store the occurrence count of all substrings of length $10$.
+我们定义一个哈希表 $cnt$，用于存储所有长度为 $10$ 的子字符串出现的次数。
 
-We iterate through all substrings of length $10$ in the string $s$. For the current substring $t$, we update its count in the hash table. If the count of $t$ is $2$, we add it to the answer.
+遍历字符串 $s$ 的所有长度为 $10$ 的子字符串，对于当前子字符串 $t$，我们更新其在哈希表中对应的计数。如果 $t$ 的计数为 $2$，我们就将它加入答案。
 
-After the iteration, we return the answer array.
+遍历结束后，返回答案数组即可。
 
-The time complexity is $O(n \times 10)$, and the space complexity is $O(n \times 10)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n \times 10)$，空间复杂度 $O(n \times 10)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -134,17 +146,17 @@ func findRepeatedDnaSequences(s string) (ans []string) {
 
 ```ts
 function findRepeatedDnaSequences(s: string): string[] {
-  const n = s.length;
-  const cnt: Map<string, number> = new Map();
-  const ans: string[] = [];
-  for (let i = 0; i <= n - 10; ++i) {
-    const t = s.slice(i, i + 10);
-    cnt.set(t, (cnt.get(t) ?? 0) + 1);
-    if (cnt.get(t) === 2) {
-      ans.push(t);
+    const n = s.length;
+    const cnt: Map<string, number> = new Map();
+    const ans: string[] = [];
+    for (let i = 0; i <= n - 10; ++i) {
+        const t = s.slice(i, i + 10);
+        cnt.set(t, (cnt.get(t) ?? 0) + 1);
+        if (cnt.get(t) === 2) {
+            ans.push(t);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -181,16 +193,16 @@ impl Solution {
  * @return {string[]}
  */
 var findRepeatedDnaSequences = function (s) {
-  const cnt = new Map();
-  const ans = [];
-  for (let i = 0; i < s.length - 10 + 1; ++i) {
-    const t = s.slice(i, i + 10);
-    cnt.set(t, (cnt.get(t) || 0) + 1);
-    if (cnt.get(t) === 2) {
-      ans.push(t);
+    const cnt = new Map();
+    const ans = [];
+    for (let i = 0; i < s.length - 10 + 1; ++i) {
+        const t = s.slice(i, i + 10);
+        cnt.set(t, (cnt.get(t) || 0) + 1);
+        if (cnt.get(t) === 2) {
+            ans.push(t);
+        }
     }
-  }
-  return ans;
+    return ans;
 };
 ```
 
@@ -221,11 +233,11 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Rabin-Karp String Matching Algorithm
+### 方法二：Rabin-Karp 字符串匹配算法
 
-This method essentially combines sliding window and hash. Similar to 0028. Find the Index of the First Occurrence in a String, this problem can use a hash function to reduce the time complexity of counting subsequences to $O(1)$.
+本质上是滑动窗口和哈希的结合方法，和 [0028.找出字符串中第一个匹配项的下标](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/) 类似，本题可以借助哈希函数将子序列计数的时间复杂度降低到 $O(1)$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 

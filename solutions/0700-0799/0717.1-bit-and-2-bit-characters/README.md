@@ -1,61 +1,66 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0717.1-bit%20and%202-bit%20Characters/README.md
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [717. 1-bit and 2-bit Characters](https://leetcode.com/problems/1-bit-and-2-bit-characters)
+# [717. 1 比特与 2 比特字符](https://leetcode.cn/problems/1-bit-and-2-bit-characters)
 
-## Description
+[English Version](/solution/0700-0799/0717.1-bit%20and%202-bit%20Characters/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>We have two special characters:</p>
+<p>有两种特殊字符：</p>
 
 <ul>
-	<li>The first character can be represented by one bit <code>0</code>.</li>
-	<li>The second character can be represented by two bits (<code>10</code> or <code>11</code>).</li>
+	<li>第一种字符可以用一比特&nbsp;<code>0</code> 表示</li>
+	<li>第二种字符可以用两比特（<code>10</code>&nbsp;或&nbsp;<code>11</code>）表示</li>
 </ul>
 
-<p>Given a binary array <code>bits</code> that ends with <code>0</code>, return <code>true</code> if the last character must be a one-bit character.</p>
+<p>给你一个以 <code>0</code> 结尾的二进制数组&nbsp;<code>bits</code>&nbsp;，如果最后一个字符必须是一个一比特字符，则返回 <code>true</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例&nbsp;1:</strong></p>
 
 <pre>
-<strong>Input:</strong> bits = [1,0,0]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The only way to decode it is two-bit character and one-bit character.
-So the last character is one-bit character.
+<strong>输入:</strong> bits = [1, 0, 0]
+<strong>输出:</strong> true
+<strong>解释:</strong> 唯一的解码方式是将其解析为一个两比特字符和一个一比特字符。
+所以最后一个字符是一比特字符。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例&nbsp;2:</strong></p>
 
 <pre>
-<strong>Input:</strong> bits = [1,1,1,0]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The only way to decode it is two-bit character and two-bit character.
-So the last character is not one-bit character.
+<strong>输入：</strong>bits = [1,1,1,0]
+<strong>输出：</strong>false
+<strong>解释：</strong>唯一的解码方式是将其解析为两比特字符和两比特字符。
+所以最后一个字符不是一比特字符。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= bits.length &lt;= 1000</code></li>
-	<li><code>bits[i]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>bits[i]</code> 为 <code>0</code> 或 <code>1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -117,12 +122,12 @@ func isOneBitCharacter(bits []int) bool {
  * @return {boolean}
  */
 var isOneBitCharacter = function (bits) {
-  let i = 0;
-  const n = bits.length;
-  while (i < n - 1) {
-    i += bits[i] + 1;
-  }
-  return i == n - 1;
+    let i = 0;
+    const n = bits.length;
+    while (i < n - 1) {
+        i += bits[i] + 1;
+    }
+    return i == n - 1;
 };
 ```
 

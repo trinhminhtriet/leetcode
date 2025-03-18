@@ -1,76 +1,79 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2326.Spiral%20Matrix%20IV/README.md
 rating: 1421
-source: Weekly Contest 300 Q2
+source: 第 300 场周赛 Q2
 tags:
-  - Array
-  - Linked List
-  - Matrix
-  - Simulation
+    - 数组
+    - 链表
+    - 矩阵
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2326. Spiral Matrix IV](https://leetcode.com/problems/spiral-matrix-iv)
+# [2326. 螺旋矩阵 IV](https://leetcode.cn/problems/spiral-matrix-iv)
 
-## Description
+[English Version](/solution/2300-2399/2326.Spiral%20Matrix%20IV/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two integers <code>m</code> and <code>n</code>, which represent the dimensions of a matrix.</p>
+<p>给你两个整数：<code>m</code> 和 <code>n</code> ，表示矩阵的维数。</p>
 
-<p>You are also given the <code>head</code> of a linked list of integers.</p>
+<p>另给你一个整数链表的头节点 <code>head</code> 。</p>
 
-<p>Generate an <code>m x n</code> matrix that contains the integers in the linked list presented in <strong>spiral</strong> order <strong>(clockwise)</strong>, starting from the <strong>top-left</strong> of the matrix. If there are remaining empty spaces, fill them with <code>-1</code>.</p>
+<p>请你生成一个大小为 <code>m x n</code> 的螺旋矩阵，矩阵包含链表中的所有整数。链表中的整数从矩阵 <strong>左上角</strong> 开始、<strong>顺时针 </strong>按 <strong>螺旋</strong> 顺序填充。如果还存在剩余的空格，则用 <code>-1</code> 填充。</p>
 
-<p>Return <em>the generated matrix</em>.</p>
+<p>返回生成的矩阵。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2326.Spiral%20Matrix%20IV/images/ex1new.jpg" style="width: 240px; height: 150px;" />
-<pre>
-<strong>Input:</strong> m = 3, n = 5, head = [3,0,2,6,8,1,7,9,4,2,5,5,0]
-<strong>Output:</strong> [[3,0,2,6,8],[5,0,-1,-1,1],[5,2,4,9,7]]
-<strong>Explanation:</strong> The diagram above shows how the values are printed in the matrix.
-Note that the remaining spaces in the matrix are filled with -1.
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2326.Spiral%20Matrix%20IV/images/ex1new.jpg" style="width: 240px; height: 150px;">
+<pre><strong>输入：</strong>m = 3, n = 5, head = [3,0,2,6,8,1,7,9,4,2,5,5,0]
+<strong>输出：</strong>[[3,0,2,6,8],[5,0,-1,-1,1],[5,2,4,9,7]]
+<strong>解释：</strong>上图展示了链表中的整数在矩阵中是如何排布的。
+注意，矩阵中剩下的空格用 -1 填充。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2326.Spiral%20Matrix%20IV/images/ex2.jpg" style="width: 221px; height: 60px;" />
-<pre>
-<strong>Input:</strong> m = 1, n = 4, head = [0,1,2]
-<strong>Output:</strong> [[0,1,2,-1]]
-<strong>Explanation:</strong> The diagram above shows how the values are printed from left to right in the matrix.
-The last space in the matrix is set to -1.</pre>
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2326.Spiral%20Matrix%20IV/images/ex2.jpg" style="width: 221px; height: 60px;">
+<pre><strong>输入：</strong>m = 1, n = 4, head = [0,1,2]
+<strong>输出：</strong>[[0,1,2,-1]]
+<strong>解释：</strong>上图展示了链表中的整数在矩阵中是如何从左到右排布的。 
+注意，矩阵中剩下的空格用 -1 填充。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m, n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= m * n &lt;= 10<sup>5</sup></code></li>
-	<li>The number of nodes in the list is in the range <code>[1, m * n]</code>.</li>
+	<li>链表中节点数目在范围 <code>[1, m * n]</code> 内</li>
 	<li><code>0 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We define a two-dimensional array $\textit{ans}$ to store the elements in the linked list, initially all filled with $-1$. We define three variables $i, j, k$, representing the current row, column, and direction respectively. We define an array $\textit{dirs}$ to represent the offsets of the four directions.
+我们定义一个二维数组 $\textit{ans}$，用来存放链表中的元素，初始时全部填充为 $-1$。定义三个变量 $i, j, k$，分别表示当前的行、列和方向。定义一个数组 $\textit{dirs}$，表示四个方向的偏移量。
 
-Then we start traversing the linked list. Each time we traverse a node, we fill the current node's value into $\textit{ans}[i][j]$, then update the linked list pointer. If the linked list is empty, it means all elements have been filled and we exit the loop.
+然后我们开始遍历链表，每次遍历一个节点，就将当前节点的值填充到 $\textit{ans}[i][j]$ 中，然后更新链表的指针，如果链表为空，说明所有的元素都已经填充完毕，退出循环。
 
-Otherwise, we need to find the position of the next element. We can calculate the next position $(x, y)$ through the current position $(i, j)$ and the current direction $k$. If $(x, y)$ is within the range of the matrix, and $\textit{ans}[x][y]$ is $-1$, it means $(x, y)$ has not been filled yet, so we take $(x, y)$ as the next position. Otherwise, we need to change the direction.
+否则，我们需要找到下一个元素的位置，我们可以通过当前位置 $(i, j)$ 和当前方向 $k$ 来计算下一个位置 $(x, y)$，如果 $(x, y)$ 在矩阵的范围内，并且 $\textit{ans}[x][y]$ 为 $-1$，说明 $(x, y)$ 还没有被填充过，我们就将 $(x, y)$ 作为下一个位置，否则我们需要更换方向。
 
-After traversing the linked list, we get a spiral matrix and return it.
+遍历完链表之后，我们就得到了一个螺旋矩阵，返回即可。
 
-The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$, where $m$ and $n$ represent the number of rows and columns of the matrix, respectively.
+时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别表示矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -237,26 +240,26 @@ func spiralMatrix(m int, n int, head *ListNode) [][]int {
  */
 
 function spiralMatrix(m: number, n: number, head: ListNode | null): number[][] {
-  const ans: number[][] = Array.from({ length: m }, () => Array(n).fill(-1));
-  const dirs: number[] = [0, 1, 0, -1, 0];
-  let [i, j, k] = [0, 0, 0];
-  while (1) {
-    ans[i][j] = head.val;
-    head = head.next;
-    if (!head) {
-      break;
-    }
+    const ans: number[][] = Array.from({ length: m }, () => Array(n).fill(-1));
+    const dirs: number[] = [0, 1, 0, -1, 0];
+    let [i, j, k] = [0, 0, 0];
     while (1) {
-      const [x, y] = [i + dirs[k], j + dirs[k + 1]];
-      if (x >= 0 && x < m && y >= 0 && y < n && ans[x][y] === -1) {
-        i = x;
-        j = y;
-        break;
-      }
-      k = (k + 1) % 4;
+        ans[i][j] = head.val;
+        head = head.next;
+        if (!head) {
+            break;
+        }
+        while (1) {
+            const [x, y] = [i + dirs[k], j + dirs[k + 1]];
+            if (x >= 0 && x < m && y >= 0 && y < n && ans[x][y] === -1) {
+                i = x;
+                j = y;
+                break;
+            }
+            k = (k + 1) % 4;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

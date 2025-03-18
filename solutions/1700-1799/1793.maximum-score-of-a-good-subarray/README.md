@@ -1,49 +1,52 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1793.Maximum%20Score%20of%20a%20Good%20Subarray/README.md
 rating: 1945
-source: Weekly Contest 232 Q4
+source: 第 232 场周赛 Q4
 tags:
-  - Stack
-  - Array
-  - Two Pointers
-  - Binary Search
-  - Monotonic Stack
+    - 栈
+    - 数组
+    - 双指针
+    - 二分查找
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [1793. Maximum Score of a Good Subarray](https://leetcode.com/problems/maximum-score-of-a-good-subarray)
+# [1793. 好子数组的最大分数](https://leetcode.cn/problems/maximum-score-of-a-good-subarray)
 
-## Description
+[English Version](/solution/1700-1799/1793.Maximum%20Score%20of%20a%20Good%20Subarray/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of integers <code>nums</code> <strong>(0-indexed)</strong> and an integer <code>k</code>.</p>
+<p>给你一个整数数组 <code>nums</code> <strong>（下标从 0 开始）</strong>和一个整数 <code>k</code> 。</p>
 
-<p>The <strong>score</strong> of a subarray <code>(i, j)</code> is defined as <code>min(nums[i], nums[i+1], ..., nums[j]) * (j - i + 1)</code>. A <strong>good</strong> subarray is a subarray where <code>i &lt;= k &lt;= j</code>.</p>
+<p>一个子数组 <code>(i, j)</code> 的 <strong>分数</strong> 定义为 <code>min(nums[i], nums[i+1], ..., nums[j]) * (j - i + 1)</code> 。一个 <strong>好</strong> 子数组的两个端点下标需要满足 <code>i &lt;= k &lt;= j</code> 。</p>
 
-<p>Return <em>the maximum possible <strong>score</strong> of a <strong>good</strong> subarray.</em></p>
+<p>请你返回 <strong>好</strong> 子数组的最大可能 <strong>分数</strong> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = [1,4,3,7,4,5], k = 3
-<strong>Output:</strong> 15
-<strong>Explanation:</strong> The optimal subarray is (1, 5) with a score of min(4,3,7,4,5) * (5-1+1) = 3 * 5 = 15. 
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums = [1,4,3,7,4,5], k = 3
+<b>输出：</b>15
+<b>解释：</b>最优子数组的左右端点下标是 (1, 5) ，分数为 min(4,3,7,4,5) * (5-1+1) = 3 * 5 = 15 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [5,5,4,5,4,1,1,1], k = 0
-<strong>Output:</strong> 20
-<strong>Explanation:</strong> The optimal subarray is (0, 4) with a score of min(5,5,4,5,4) * (4-0+1) = 4 * 5 = 20.
+<pre><b>输入：</b>nums = [5,5,4,5,4,1,1,1], k = 0
+<b>输出：</b>20
+<b>解释：</b>最优子数组的左右端点下标是 (0, 4) ，分数为 min(5,5,4,5,4) * (4-0+1) = 4 * 5 = 20 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -53,17 +56,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Monotonic Stack
+### 方法一：单调栈
 
-We can enumerate each element $nums[i]$ in $nums$ as the minimum value of the subarray, and use a monotonic stack to find the first position $left[i]$ on the left that is less than $nums[i]$ and the first position $right[i]$ on the right that is less than or equal to $nums[i]$. Then, the score of the subarray with $nums[i]$ as the minimum value is $nums[i] \times (right[i] - left[i] - 1)$.
+我们可以枚举 $nums$ 中的每个元素 $nums[i]$ 作为子数组的最小值，利用单调栈找出其左边第一个小于 $nums[i]$ 的位置 $left[i]$ 和右边第一个小于等于 $nums[i]$ 的位置 $right[i]$，则以 $nums[i]$ 为最小值的子数组的分数为 $nums[i] \times (right[i] - left[i] - 1)$。
 
-It should be noted that the answer can only be updated when the left and right boundaries $left[i]$ and $right[i]$ satisfy $left[i]+1 \leq k \leq right[i]-1$.
+需要注意的是，只有当左右边界 $left[i]$ 和 $right[i]$ 满足 $left[i]+1 \leq k \leq right[i]-1$ 时，答案才有可能更新。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -227,36 +230,36 @@ func maximumScore(nums []int, k int) (ans int) {
 
 ```ts
 function maximumScore(nums: number[], k: number): number {
-  const n = nums.length;
-  const left: number[] = Array(n).fill(-1);
-  const right: number[] = Array(n).fill(n);
-  const stk: number[] = [];
-  for (let i = 0; i < n; ++i) {
-    while (stk.length && nums[stk.at(-1)] >= nums[i]) {
-      stk.pop();
+    const n = nums.length;
+    const left: number[] = Array(n).fill(-1);
+    const right: number[] = Array(n).fill(n);
+    const stk: number[] = [];
+    for (let i = 0; i < n; ++i) {
+        while (stk.length && nums[stk.at(-1)] >= nums[i]) {
+            stk.pop();
+        }
+        if (stk.length) {
+            left[i] = stk.at(-1);
+        }
+        stk.push(i);
     }
-    if (stk.length) {
-      left[i] = stk.at(-1);
+    stk.length = 0;
+    for (let i = n - 1; ~i; --i) {
+        while (stk.length && nums[stk.at(-1)] > nums[i]) {
+            stk.pop();
+        }
+        if (stk.length) {
+            right[i] = stk.at(-1);
+        }
+        stk.push(i);
     }
-    stk.push(i);
-  }
-  stk.length = 0;
-  for (let i = n - 1; ~i; --i) {
-    while (stk.length && nums[stk.at(-1)] > nums[i]) {
-      stk.pop();
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        if (left[i] + 1 <= k && k <= right[i] - 1) {
+            ans = Math.max(ans, nums[i] * (right[i] - left[i] - 1));
+        }
     }
-    if (stk.length) {
-      right[i] = stk.at(-1);
-    }
-    stk.push(i);
-  }
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    if (left[i] + 1 <= k && k <= right[i] - 1) {
-      ans = Math.max(ans, nums[i] * (right[i] - left[i] - 1));
-    }
-  }
-  return ans;
+    return ans;
 }
 ```
 

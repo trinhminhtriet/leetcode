@@ -1,75 +1,80 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2975.Maximum%20Square%20Area%20by%20Removing%20Fences%20From%20a%20Field/README.md
 rating: 1873
-source: Weekly Contest 377 Q2
+source: 第 377 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Enumeration
+    - 数组
+    - 哈希表
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [2975. Maximum Square Area by Removing Fences From a Field](https://leetcode.com/problems/maximum-square-area-by-removing-fences-from-a-field)
+# [2975. 移除栅栏得到的正方形田地的最大面积](https://leetcode.cn/problems/maximum-square-area-by-removing-fences-from-a-field)
 
-## Description
+[English Version](/solution/2900-2999/2975.Maximum%20Square%20Area%20by%20Removing%20Fences%20From%20a%20Field/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There is a large <code>(m - 1) x (n - 1)</code> rectangular field with corners at <code>(1, 1)</code> and <code>(m, n)</code> containing some horizontal and vertical fences given in arrays <code>hFences</code> and <code>vFences</code> respectively.</p>
+<p>有一个大型的 <code>(m - 1) x (n - 1)</code> 矩形田地，其两个对角分别是 <code>(1, 1)</code> 和 <code>(m, n)</code> ，田地内部有一些水平栅栏和垂直栅栏，分别由数组 <code>hFences</code> 和 <code>vFences</code> 给出。</p>
 
-<p>Horizontal fences are from the coordinates <code>(hFences[i], 1)</code> to <code>(hFences[i], n)</code> and vertical fences are from the coordinates <code>(1, vFences[i])</code> to <code>(m, vFences[i])</code>.</p>
+<p>水平栅栏为坐标 <code>(hFences[i], 1)</code> 到 <code>(hFences[i], n)</code>，垂直栅栏为坐标 <code>(1, vFences[i])</code> 到 <code>(m, vFences[i])</code> 。</p>
 
-<p>Return <em>the <strong>maximum</strong> area of a <strong>square</strong> field that can be formed by <strong>removing</strong> some fences (<strong>possibly none</strong>) or </em><code>-1</code> <em>if it is impossible to make a square field</em>.</p>
+<p>返回通过<strong> 移除 </strong>一些栅栏（<strong>可能不移除</strong>）所能形成的最大面积的<strong> 正方形 </strong>田地的面积，或者如果无法形成正方形田地则返回 <code>-1</code>。</p>
 
-<p>Since the answer may be large, return it <strong>modulo</strong> <code>10<sup>9 </sup>+ 7</code>.</p>
+<p>由于答案可能很大，所以请返回结果对 <code>10<sup>9</sup> + 7</code> <strong>取余</strong> 后的值。</p>
 
-<p><strong>Note: </strong>The field is surrounded by two horizontal fences from the coordinates <code>(1, 1)</code> to <code>(1, n)</code> and <code>(m, 1)</code> to <code>(m, n)</code> and two vertical fences from the coordinates <code>(1, 1)</code> to <code>(m, 1)</code> and <code>(1, n)</code> to <code>(m, n)</code>. These fences <strong>cannot</strong> be removed.</p>
+<p><strong>注意：</strong>田地外围两个水平栅栏（坐标 <code>(1, 1)</code> 到 <code>(1, n)</code> 和坐标 <code>(m, 1)</code> 到 <code>(m, n)</code> ）以及两个垂直栅栏（坐标 <code>(1, 1)</code> 到 <code>(m, 1)</code> 和坐标 <code>(1, n)</code> 到 <code>(m, n)</code> ）所包围。这些栅栏<strong> 不能</strong> 被移除。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2975.Maximum%20Square%20Area%20by%20Removing%20Fences%20From%20a%20Field/images/screenshot-from-2023-11-05-22-40-25.png" /></p>
 
 <pre>
-<strong>Input:</strong> m = 4, n = 3, hFences = [2,3], vFences = [2]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> Removing the horizontal fence at 2 and the vertical fence at 2 will give a square field of area 4.
+<strong>输入：</strong>m = 4, n = 3, hFences = [2,3], vFences = [2]
+<strong>输出：</strong>4
+<strong>解释：</strong>移除位于 2 的水平栅栏和位于 2 的垂直栅栏将得到一个面积为 4 的正方形田地。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2975.Maximum%20Square%20Area%20by%20Removing%20Fences%20From%20a%20Field/images/maxsquareareaexample1.png" style="width: 285px; height: 242px;" /></p>
 
 <pre>
-<strong>Input:</strong> m = 6, n = 7, hFences = [2], vFences = [4]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It can be proved that there is no way to create a square field by removing fences.
+<strong>输入：</strong>m = 6, n = 7, hFences = [2], vFences = [4]
+<strong>输出：</strong>-1
+<strong>解释：</strong>可以证明无法通过移除栅栏形成正方形田地。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= m, n &lt;= 10<sup>9</sup></code></li>
-	<li><code><font face="monospace">1 &lt;= hF</font>ences<font face="monospace">.length, vFences.length &lt;= 600</font></code></li>
-	<li><code><font face="monospace">1 &lt; hFences[i] &lt; m</font></code></li>
-	<li><code><font face="monospace">1 &lt; vFences[i] &lt; n</font></code></li>
-	<li><code><font face="monospace">hFences</font></code><font face="monospace"> and </font><code><font face="monospace">vFences</font></code><font face="monospace"> are unique.</font></li>
+	<li><code>1 &lt;= hFences.length, vFences.length &lt;= 600</code></li>
+	<li><code>1 &lt; hFences[i] &lt; m</code></li>
+	<li><code>1 &lt; vFences[i] &lt; n</code></li>
+	<li><code>hFences</code> 和 <code>vFences</code> 中的元素是唯一的。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We can enumerate any two horizontal fences $a$ and $b$ in $\textit{hFences}$, calculate the distance $d$ between $a$ and $b$, and record it in the hash table $hs$. Then, we enumerate any two vertical fences $c$ and $d$ in $\textit{vFences}$, calculate the distance $d$ between $c$ and $d$, and record it in the hash table $vs$. Finally, we traverse the hash table $hs$. If a certain distance $d$ in $hs$ also exists in the hash table $vs$, it indicates that there exists a square field with a side length of $d$, and the area is $d^2$. We just need to take the largest $d$ and calculate $d^2 \bmod 10^9 + 7$.
+我们可以枚举 $\textit{hFences}$ 中的任意两条水平栅栏 $a$ 和 $b$，计算 $a$ 和 $b$ 之间的距离 $d$，记录在哈希表 $hs$ 中，然后枚举 $\textit{vFences}$ 中的任意两条垂直栅栏 $c$ 和 $d$，计算 $c$ 和 $d$ 之间的距离 $d$，记录在哈希表 $vs$ 中，最后遍历哈希表 $hs$，如果 $hs$ 中的某个距离 $d$ 在哈希表 $vs$ 中也存在，那么说明存在一个正方形田地，其边长为 $d$，面积为 $d^2$，我们只需要取最大的 $d$，求 $d^2 \bmod 10^9 + 7$ 即可。
 
-The time complexity is $O(h^2 + v^2)$, and the space complexity is $O(h^2 + v^2)$. Here, $h$ and $v$ are the lengths of $\textit{hFences}$ and $\textit{vFences}$, respectively.
+时间复杂度 $O(h^2 + v^2)$，空间复杂度 $O(h^2 + v^2)$。其中 $h$ 和 $v$ 分别是 $\textit{hFences}$ 和 $\textit{vFences}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -190,32 +195,27 @@ func maximizeSquareArea(m int, n int, hFences []int, vFences []int) int {
 #### TypeScript
 
 ```ts
-function maximizeSquareArea(
-  m: number,
-  n: number,
-  hFences: number[],
-  vFences: number[]
-): number {
-  const f = (nums: number[], k: number): Set<number> => {
-    nums.push(1, k);
-    nums.sort((a, b) => a - b);
-    const s: Set<number> = new Set();
-    for (let i = 0; i < nums.length; ++i) {
-      for (let j = 0; j < i; ++j) {
-        s.add(nums[i] - nums[j]);
-      }
+function maximizeSquareArea(m: number, n: number, hFences: number[], vFences: number[]): number {
+    const f = (nums: number[], k: number): Set<number> => {
+        nums.push(1, k);
+        nums.sort((a, b) => a - b);
+        const s: Set<number> = new Set();
+        for (let i = 0; i < nums.length; ++i) {
+            for (let j = 0; j < i; ++j) {
+                s.add(nums[i] - nums[j]);
+            }
+        }
+        return s;
+    };
+    const hs = f(hFences, m);
+    const vs = f(vFences, n);
+    let ans = 0;
+    for (const h of hs) {
+        if (vs.has(h)) {
+            ans = Math.max(ans, h);
+        }
     }
-    return s;
-  };
-  const hs = f(hFences, m);
-  const vs = f(vFences, n);
-  let ans = 0;
-  for (const h of hs) {
-    if (vs.has(h)) {
-      ans = Math.max(ans, h);
-    }
-  }
-  return ans ? Number(BigInt(ans) ** 2n % 1000000007n) : -1;
+    return ans ? Number(BigInt(ans) ** 2n % 1000000007n) : -1;
 }
 ```
 

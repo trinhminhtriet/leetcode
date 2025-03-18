@@ -1,70 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2139.Minimum%20Moves%20to%20Reach%20Target%20Score/README.md
 rating: 1417
-source: Weekly Contest 276 Q2
+source: 第 276 场周赛 Q2
 tags:
-  - Greedy
-  - Math
+    - 贪心
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2139. Minimum Moves to Reach Target Score](https://leetcode.com/problems/minimum-moves-to-reach-target-score)
+# [2139. 得到目标值的最少行动次数](https://leetcode.cn/problems/minimum-moves-to-reach-target-score)
 
-## Description
+[English Version](/solution/2100-2199/2139.Minimum%20Moves%20to%20Reach%20Target%20Score/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are playing a game with integers. You start with the integer <code>1</code> and you want to reach the integer <code>target</code>.</p>
+<p>你正在玩一个整数游戏。从整数 <code>1</code> 开始，期望得到整数 <code>target</code> 。</p>
 
-<p>In one move, you can either:</p>
+<p>在一次行动中，你可以做下述两种操作之一：</p>
 
 <ul>
-	<li><strong>Increment</strong> the current integer by one (i.e., <code>x = x + 1</code>).</li>
-	<li><strong>Double</strong> the current integer (i.e., <code>x = 2 * x</code>).</li>
+	<li><strong>递增</strong>，将当前整数的值加 1（即， <code>x = x + 1</code>）。</li>
+	<li><strong>加倍</strong>，使当前整数的值翻倍（即，<code>x = 2 * x</code>）。</li>
 </ul>
 
-<p>You can use the <strong>increment</strong> operation <strong>any</strong> number of times, however, you can only use the <strong>double</strong> operation <strong>at most</strong> <code>maxDoubles</code> times.</p>
+<p>在整个游戏过程中，你可以使用 <strong>递增</strong> 操作 <strong>任意</strong> 次数。但是只能使用 <strong>加倍</strong> 操作 <strong>至多</strong> <code>maxDoubles</code> 次。</p>
 
-<p>Given the two integers <code>target</code> and <code>maxDoubles</code>, return <em>the minimum number of moves needed to reach </em><code>target</code><em> starting with </em><code>1</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> target = 5, maxDoubles = 0
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> Keep incrementing by 1 until you reach target.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> target = 19, maxDoubles = 2
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> Initially, x = 1
-Increment 3 times so x = 4
-Double once so x = 8
-Increment once so x = 9
-Double again so x = 18
-Increment once so x = 19
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> target = 10, maxDoubles = 4
-<strong>Output:</strong> 4
-<strong>Explanation:</strong><b> </b>Initially, x = 1
-Increment once so x = 2
-Double once so x = 4
-Increment once so x = 5
-Double again so x = 10
-</pre>
+<p>给你两个整数 <code>target</code> 和 <code>maxDoubles</code> ，返回从 1 开始得到<em> </em><code>target</code><em> </em>需要的最少行动次数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>target = 5, maxDoubles = 0
+<strong>输出：</strong>4
+<strong>解释：</strong>一直递增 1 直到得到 target 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>target = 19, maxDoubles = 2
+<strong>输出：</strong>7
+<strong>解释：</strong>最初，x = 1 。
+递增 3 次，x = 4 。
+加倍 1 次，x = 8 。
+递增 1 次，x = 9 。
+加倍 1 次，x = 18 。
+递增 1 次，x = 19 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>target = 10, maxDoubles = 4
+<strong>输出：</strong>4
+<strong>解释：</strong>
+最初，x = 1 。 
+递增 1 次，x = 2 。 
+加倍 1 次，x = 4 。 
+递增 1 次，x = 5 。 
+加倍 1 次，x = 10 。 
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= target &lt;= 10<sup>9</sup></code></li>
@@ -73,25 +76,25 @@ Double again so x = 10
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Backtracking + Greedy
+### 方法一：倒推 + 贪心
 
-Let's start by backtracking from the final state. Assuming the final state is $target$, we can get the previous state of $target$ as $target - 1$ or $target / 2$, depending on the parity of $target$ and the value of $maxDoubles$.
+我们不妨从最终的状态开始倒推，假设最终的状态为 $target$，那么我们可以得到 $target$ 的前一个状态为 $target - 1$ 或者 $target / 2$，这取决于 $target$ 的奇偶性以及 $maxDoubles$ 的值。
 
-If $target=1$, no operation is needed, and we can return $0$ directly.
+如果 $target=1$，那么不需要任何操作，直接返回 $0$ 即可。
 
-If $maxDoubles=0$, we can only use the increment operation, so we need $target-1$ operations.
+如果 $maxDoubles=0$，那么我们只能使用递增操作，因此我们需要 $target-1$ 次操作。
 
-If $target$ is even and $maxDoubles>0$, we can use the doubling operation, so we need $1$ operation, and then recursively solve $target/2$ and $maxDoubles-1$.
+如果 $target$ 是偶数且 $maxDoubles>0$，那么我们可以使用加倍操作，因此我们需要 $1$ 次操作，然后递归求解 $target/2$ 和 $maxDoubles-1$。
 
-If $target$ is odd, we can only use the increment operation, so we need $1$ operation, and then recursively solve $target-1$ and $maxDoubles$.
+如果 $target$ 是奇数，那么我们只能使用递增操作，因此我们需要 $1$ 次操作，然后递归求解 $target-1$ 和 $maxDoubles$。
 
-The time complexity is $O(\min(\log target, maxDoubles))$, and the space complexity is $O(\min(\log target, maxDoubles))$.
+时间复杂度 $O(\min(\log target, maxDoubles))$，空间复杂度 $O(\min(\log target, maxDoubles))$。
 
-We can also change the above process to an iterative way to avoid the space overhead of recursion.
+我们也可以将上述过程改为迭代的方式，这样可以避免递归的空间开销。
 
 <!-- tabs:start -->
 
@@ -169,16 +172,16 @@ func minMoves(target int, maxDoubles int) int {
 
 ```ts
 function minMoves(target: number, maxDoubles: number): number {
-  if (target === 1) {
-    return 0;
-  }
-  if (maxDoubles === 0) {
-    return target - 1;
-  }
-  if (target % 2 === 0 && maxDoubles) {
-    return 1 + minMoves(target >> 1, maxDoubles - 1);
-  }
-  return 1 + minMoves(target - 1, maxDoubles);
+    if (target === 1) {
+        return 0;
+    }
+    if (maxDoubles === 0) {
+        return target - 1;
+    }
+    if (target % 2 === 0 && maxDoubles) {
+        return 1 + minMoves(target >> 1, maxDoubles - 1);
+    }
+    return 1 + minMoves(target - 1, maxDoubles);
 }
 ```
 
@@ -188,7 +191,7 @@ function minMoves(target: number, maxDoubles: number): number {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -274,18 +277,18 @@ func minMoves(target int, maxDoubles int) (ans int) {
 
 ```ts
 function minMoves(target: number, maxDoubles: number): number {
-  let ans = 0;
-  while (maxDoubles && target > 1) {
-    ++ans;
-    if (target & 1) {
-      --target;
-    } else {
-      --maxDoubles;
-      target >>= 1;
+    let ans = 0;
+    while (maxDoubles && target > 1) {
+        ++ans;
+        if (target & 1) {
+            --target;
+        } else {
+            --maxDoubles;
+            target >>= 1;
+        }
     }
-  }
-  ans += target - 1;
-  return ans;
+    ans += target - 1;
+    return ans;
 }
 ```
 

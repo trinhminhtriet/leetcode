@@ -1,80 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0849.Maximize%20Distance%20to%20Closest%20Person/README.md
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [849. Maximize Distance to Closest Person](https://leetcode.com/problems/maximize-distance-to-closest-person)
+# [849. 到最近的人的最大距离](https://leetcode.cn/problems/maximize-distance-to-closest-person)
 
-## Description
+[English Version](/solution/0800-0899/0849.Maximize%20Distance%20to%20Closest%20Person/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array representing a row of <code>seats</code> where <code>seats[i] = 1</code> represents a person sitting in the <code>i<sup>th</sup></code> seat, and <code>seats[i] = 0</code> represents that the <code>i<sup>th</sup></code> seat is empty <strong>(0-indexed)</strong>.</p>
+<p>给你一个数组 <code>seats</code> 表示一排座位，其中 <code>seats[i] = 1</code> 代表有人坐在第 <code>i</code> 个座位上，<code>seats[i] = 0</code> 代表座位 <code>i</code> 上是空的（<strong>下标从 0 开始</strong>）。</p>
 
-<p>There is at least one empty seat, and at least one person sitting.</p>
+<p>至少有一个空座位，且至少有一人已经坐在座位上。</p>
 
-<p>Alex wants to sit in the seat such that the distance between him and the closest person to him is maximized.&nbsp;</p>
+<p>亚历克斯希望坐在一个能够使他与离他最近的人之间的距离达到最大化的座位上。</p>
 
-<p>Return <em>that maximum distance to the closest person</em>.</p>
+<p>返回他到离他最近的人的最大距离。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0849.Maximize%20Distance%20to%20Closest%20Person/images/distance.jpg" style="width: 650px; height: 257px;" />
 <pre>
-<strong>Input:</strong> seats = [1,0,0,0,1,0,1]
-<strong>Output:</strong> 2
-<strong>Explanation: </strong>
-If Alex sits in the second open seat (i.e. seats[2]), then the closest person has distance 2.
-If Alex sits in any other open seat, the closest person has distance 1.
-Thus, the maximum distance to the closest person is 2.
+<strong>输入：</strong>seats = [1,0,0,0,1,0,1]
+<strong>输出：</strong>2
+<strong>解释：
+</strong>如果亚历克斯坐在第二个空位（seats[2]）上，他到离他最近的人的距离为 2 。
+如果亚历克斯坐在其它任何一个空位上，他到离他最近的人的距离为 1 。
+因此，他到离他最近的人的最大距离是 2 。 
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> seats = [1,0,0,0]
-<strong>Output:</strong> 3
-<strong>Explanation: </strong>
-If Alex sits in the last seat (i.e. seats[3]), the closest person is 3 seats away.
-This is the maximum distance possible, so the answer is 3.
+<strong>输入：</strong>seats = [1,0,0,0]
+<strong>输出：</strong>3
+<strong>解释：</strong>
+如果亚历克斯坐在最后一个座位上，他离最近的人有 3 个座位远。
+这是可能的最大距离，所以答案是 3 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> seats = [0,1]
-<strong>Output:</strong> 1
+<strong>输入：</strong>seats = [0,1]
+<strong>输出：</strong>1
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>2 &lt;= seats.length &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>seats[i]</code>&nbsp;is <code>0</code> or&nbsp;<code>1</code>.</li>
-	<li>At least one seat is <strong>empty</strong>.</li>
-	<li>At least one seat is <strong>occupied</strong>.</li>
+	<li><code>2 <= seats.length <= 2 * 10<sup>4</sup></code></li>
+	<li><code>seats[i]</code> 为 <code>0</code> 或 <code>1</code></li>
+	<li>至少有一个 <strong>空座位</strong></li>
+	<li>至少有一个 <strong>座位上有人</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Single Traversal
+### 方法一：一次遍历
 
-We define two variables $\textit{first}$ and $\textit{last}$ to represent the positions of the first and last person, respectively. We use the variable $d$ to represent the maximum distance between two people.
+我们定义两个变量 $\textit{first}$ 和 $\textit{last}$ 分别表示第一个人和最后一个人的位置，用变量 $d$ 表示两个人之间的最大距离。
 
-Then, we traverse the array $\textit{seats}$. If the current position is occupied, and if $\textit{last}$ has been updated before, it means there was someone before, so we update $d = \max(d, i - \textit{last})$. If $\textit{first}$ has not been updated before, it means there was no one before, so we update $\textit{first} = i$. Next, we update $\textit{last} = i$.
+然后遍历数组 $\textit{seats}$，如果当前位置有人，如果此前 $\textit{last}$ 更新过，说明此前有人，此时更新 $d = \max(d, i - \textit{last})$；如果此前 $\textit{first}$ 没有更新过，说明此前没有人，此时更新 $\textit{first} = i$。接下来更新 $\textit{last} = i$。
 
-Finally, we return $\max(\textit{first}, n - \textit{last} - 1, d / 2)$.
+最后返回 $\max(\textit{first}, n - \textit{last} - 1, d / 2)$ 即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{seats}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{seats}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -167,22 +172,22 @@ func maxDistToClosest(seats []int) int {
 
 ```ts
 function maxDistToClosest(seats: number[]): number {
-  let first = -1,
-    last = -1;
-  let d = 0,
-    n = seats.length;
-  for (let i = 0; i < n; ++i) {
-    if (seats[i] === 1) {
-      if (last !== -1) {
-        d = Math.max(d, i - last);
-      }
-      if (first === -1) {
-        first = i;
-      }
-      last = i;
+    let first = -1,
+        last = -1;
+    let d = 0,
+        n = seats.length;
+    for (let i = 0; i < n; ++i) {
+        if (seats[i] === 1) {
+            if (last !== -1) {
+                d = Math.max(d, i - last);
+            }
+            if (first === -1) {
+                first = i;
+            }
+            last = i;
+        }
     }
-  }
-  return Math.max(first, n - last - 1, d >> 1);
+    return Math.max(first, n - last - 1, d >> 1);
 }
 ```
 

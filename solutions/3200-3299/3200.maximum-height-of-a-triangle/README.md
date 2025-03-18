@@ -1,78 +1,83 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3200.Maximum%20Height%20of%20a%20Triangle/README.md
 rating: 1451
-source: Weekly Contest 404 Q1
+source: 第 404 场周赛 Q1
 tags:
-  - Array
-  - Enumeration
+    - 数组
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [3200. Maximum Height of a Triangle](https://leetcode.com/problems/maximum-height-of-a-triangle)
+# [3200. 三角形的最大高度](https://leetcode.cn/problems/maximum-height-of-a-triangle)
 
-## Description
+[English Version](/solution/3200-3299/3200.Maximum%20Height%20of%20a%20Triangle/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two integers <code>red</code> and <code>blue</code> representing the count of red and blue colored balls. You have to arrange these balls to form a triangle such that the 1<sup>st</sup> row will have 1 ball, the 2<sup>nd</sup> row will have 2 balls, the 3<sup>rd</sup> row will have 3 balls, and so on.</p>
+<p>给你两个整数 <code>red</code> 和 <code>blue</code>，分别表示红色球和蓝色球的数量。你需要使用这些球来组成一个三角形，满足第 1 行有 1 个球，第 2 行有 2 个球，第 3 行有 3 个球，依此类推。</p>
 
-<p>All the balls in a particular row should be the <strong>same</strong> color, and adjacent rows should have <strong>different</strong> colors.</p>
+<p>每一行的球必须是 <strong>相同 </strong>颜色，且相邻行的颜色必须<strong> 不同</strong>。</p>
 
-<p>Return the <strong>maximum</strong><em> height of the triangle</em> that can be achieved.</p>
+<p>返回可以实现的三角形的 <strong>最大 </strong>高度。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">red = 2, blue = 4</span></p>
+<p><strong>输入：</strong> <span class="example-io">red = 2, blue = 4</span></p>
 
-<p><strong>Output:</strong> 3</p>
+<p><strong>输出：</strong> 3</p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3200.Maximum%20Height%20of%20a%20Triangle/images/brb.png" style="width: 300px; height: 240px; padding: 10px;" /></p>
 
-<p>The only possible arrangement is shown above.</p>
+<p>上图显示了唯一可能的排列方式。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">red = 2, blue = 1</span></p>
+<p><strong>输入：</strong> <span class="example-io">red = 2, blue = 1</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><strong>输出：</strong> <span class="example-io">2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3200.Maximum%20Height%20of%20a%20Triangle/images/br.png" style="width: 150px; height: 135px; padding: 10px;" /><br />
-The only possible arrangement is shown above.</p>
+上图显示了唯一可能的排列方式。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">red = 1, blue = 1</span></p>
+<p><strong>输入：</strong> <span class="example-io">red = 1, blue = 1</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
+<p><strong>输出：</strong> <span class="example-io">1</span></p>
 </div>
 
-<p><strong class="example">Example 4:</strong></p>
+<p><strong class="example">示例 4：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">red = 10, blue = 1</span></p>
+<p><strong>输入：</strong> <span class="example-io">red = 10, blue = 1</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><strong>输出：</strong> <span class="example-io">2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3200.Maximum%20Height%20of%20a%20Triangle/images/br.png" style="width: 150px; height: 135px; padding: 10px;" /><br />
-The only possible arrangement is shown above.</p>
+上图显示了唯一可能的排列方式。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= red, blue &lt;= 100</code></li>
@@ -80,15 +85,15 @@ The only possible arrangement is shown above.</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can enumerate the color of the first row, then simulate the construction of the triangle, calculating the maximum height.
+我们可以枚举第一行的颜色，然后模拟构造三角形，计算最大高度。
 
-The time complexity is $O(\sqrt{n})$, where $n$ is the number of red and blue balls. The space complexity is $O(1)$.
+时间复杂度 $O(\sqrt{n})$，其中 $n$ 为红色球和蓝色球的数量。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -165,15 +170,15 @@ func maxHeightOfTriangle(red int, blue int) (ans int) {
 
 ```ts
 function maxHeightOfTriangle(red: number, blue: number): number {
-  let ans = 0;
-  for (let k = 0; k < 2; ++k) {
-    const c: [number, number] = [red, blue];
-    for (let i = 1, j = k; i <= c[j]; ++i, j ^= 1) {
-      c[j] -= i;
-      ans = Math.max(ans, i);
+    let ans = 0;
+    for (let k = 0; k < 2; ++k) {
+        const c: [number, number] = [red, blue];
+        for (let i = 1, j = k; i <= c[j]; ++i, j ^= 1) {
+            c[j] -= i;
+            ans = Math.max(ans, i);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

@@ -1,79 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1048.Longest%20String%20Chain/README.md
 rating: 1599
-source: Weekly Contest 137 Q3
+source: 第 137 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Two Pointers
-  - String
-  - Dynamic Programming
-  - Sorting
+    - 数组
+    - 哈希表
+    - 双指针
+    - 字符串
+    - 动态规划
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1048. Longest String Chain](https://leetcode.com/problems/longest-string-chain)
+# [1048. 最长字符串链](https://leetcode.cn/problems/longest-string-chain)
 
-## Description
+[English Version](/solution/1000-1099/1048.Longest%20String%20Chain/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of <code>words</code> where each word consists of lowercase English letters.</p>
+<p>给出一个单词数组&nbsp;<code>words</code>&nbsp;，其中每个单词都由小写英文字母组成。</p>
 
-<p><code>word<sub>A</sub></code> is a <strong>predecessor</strong> of <code>word<sub>B</sub></code> if and only if we can insert <strong>exactly one</strong> letter anywhere in <code>word<sub>A</sub></code> <strong>without changing the order of the other characters</strong> to make it equal to <code>word<sub>B</sub></code>.</p>
+<p>如果我们可以&nbsp;<strong>不改变其他字符的顺序&nbsp;</strong>，在 <code>word<sub>A</sub></code>&nbsp;的任何地方添加 <strong>恰好一个</strong> 字母使其变成&nbsp;<code>word<sub>B</sub></code>&nbsp;，那么我们认为&nbsp;<code>word<sub>A</sub></code>&nbsp;是&nbsp;<code>word<sub>B</sub></code>&nbsp;的 <strong>前身</strong> 。</p>
 
 <ul>
-	<li>For example, <code>&quot;abc&quot;</code> is a <strong>predecessor</strong> of <code>&quot;ab<u>a</u>c&quot;</code>, while <code>&quot;cba&quot;</code> is not a <strong>predecessor</strong> of <code>&quot;bcad&quot;</code>.</li>
+	<li>例如，<code>"abc"</code>&nbsp;是&nbsp;<code>"abac"</code>&nbsp;的 <strong>前身</strong>&nbsp;，而&nbsp;<code>"cba"</code>&nbsp;不是&nbsp;<code>"bcad"</code>&nbsp;的 <strong>前身</strong></li>
 </ul>
 
-<p>A <strong>word chain</strong><em> </em>is a sequence of words <code>[word<sub>1</sub>, word<sub>2</sub>, ..., word<sub>k</sub>]</code> with <code>k &gt;= 1</code>, where <code>word<sub>1</sub></code> is a <strong>predecessor</strong> of <code>word<sub>2</sub></code>, <code>word<sub>2</sub></code> is a <strong>predecessor</strong> of <code>word<sub>3</sub></code>, and so on. A single word is trivially a <strong>word chain</strong> with <code>k == 1</code>.</p>
+<p><strong>词链</strong>是单词&nbsp;<code>[word_1, word_2, ..., word_k]</code>&nbsp;组成的序列，<code>k &gt;= 1</code>，其中&nbsp;<code>word<sub>1</sub></code>&nbsp;是&nbsp;<code>word<sub>2</sub></code>&nbsp;的前身，<code>word<sub>2</sub></code>&nbsp;是&nbsp;<code>word<sub>3</sub></code>&nbsp;的前身，依此类推。一个单词通常是 <code>k == 1</code> 的 <strong>单词链</strong>&nbsp;。</p>
 
-<p>Return <em>the <strong>length</strong> of the <strong>longest possible word chain</strong> with words chosen from the given list of </em><code>words</code>.</p>
+<p>从给定单词列表 <code>words</code> 中选择单词组成词链，返回 词链的&nbsp;<strong>最长可能长度</strong> 。<br />
+&nbsp;</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>words = ["a","b","ba","bca","bda","bdca"]
+<strong>输出：</strong>4
+<strong>解释：</strong>最长单词链之一为 ["a","<u>b</u>a","b<u>d</u>a","bd<u>c</u>a"]
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<b>输入：</b>words = ["xbc","pcxbcf","xb","cxbc","pcxbc"]
+<b>输出：</b>5
+<b>解释：</b>所有的单词都可以放入单词链 ["xb", "xb<u>c</u>", "<u>c</u>xbc", "<u>p</u>cxbc", "pcxbc<u>f</u>"].
+</pre>
+
+<p><strong>示例&nbsp;3:</strong></p>
+
+<pre>
+<b>输入：</b>words = ["abcd","dbqca"]
+<strong>输出：</strong>1
+<b>解释：</b>字链["abcd"]是最长的字链之一。
+["abcd"，"dbqca"]不是一个有效的单词链，因为字母的顺序被改变了。
+</pre>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> words = [&quot;a&quot;,&quot;b&quot;,&quot;ba&quot;,&quot;bca&quot;,&quot;bda&quot;,&quot;bdca&quot;]
-<strong>Output:</strong> 4
-<strong>Explanation</strong>: One of the longest word chains is [&quot;a&quot;,&quot;<u>b</u>a&quot;,&quot;b<u>d</u>a&quot;,&quot;bd<u>c</u>a&quot;].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;xbc&quot;,&quot;pcxbcf&quot;,&quot;xb&quot;,&quot;cxbc&quot;,&quot;pcxbc&quot;]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> All the words can be put in a word chain [&quot;xb&quot;, &quot;xb<u>c</u>&quot;, &quot;<u>c</u>xbc&quot;, &quot;<u>p</u>cxbc&quot;, &quot;pcxbc<u>f</u>&quot;].
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;abcd&quot;,&quot;dbqca&quot;]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> The trivial word chain [&quot;abcd&quot;] is one of the longest word chains.
-[&quot;abcd&quot;,&quot;dbqca&quot;] is not a valid word chain because the ordering of the letters is changed.
-</pre>
-
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 16</code></li>
-	<li><code>words[i]</code> only consists of lowercase English letters.</li>
+	<li><code>words[i]</code>&nbsp;仅由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -175,19 +179,19 @@ func longestStrChain(words []string) int {
 
 ```ts
 function longestStrChain(words: string[]): number {
-  words.sort((a, b) => a.length - b.length);
-  let ans = 0;
-  let hashTable = new Map();
-  for (let word of words) {
-    let c = 1;
-    for (let i = 0; i < word.length; i++) {
-      let pre = word.substring(0, i) + word.substring(i + 1);
-      c = Math.max(c, (hashTable.get(pre) || 0) + 1);
+    words.sort((a, b) => a.length - b.length);
+    let ans = 0;
+    let hashTable = new Map();
+    for (let word of words) {
+        let c = 1;
+        for (let i = 0; i < word.length; i++) {
+            let pre = word.substring(0, i) + word.substring(i + 1);
+            c = Math.max(c, (hashTable.get(pre) || 0) + 1);
+        }
+        hashTable.set(word, c);
+        ans = Math.max(ans, c);
     }
-    hashTable.set(word, c);
-    ans = Math.max(ans, c);
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -233,7 +237,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

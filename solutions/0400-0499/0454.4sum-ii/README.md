@@ -1,20 +1,23 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0454.4Sum%20II/README.md
 tags:
-  - Array
-  - Hash Table
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [454. 4Sum II](https://leetcode.com/problems/4sum-ii)
+# [454. 四数相加 II](https://leetcode.cn/problems/4sum-ii)
 
-## Description
+[English Version](/solution/0400-0499/0454.4Sum%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given four integer arrays <code>nums1</code>, <code>nums2</code>, <code>nums3</code>, and <code>nums4</code> all of length <code>n</code>, return the number of tuples <code>(i, j, k, l)</code> such that:</p>
+<p>给你四个整数数组 <code>nums1</code>、<code>nums2</code>、<code>nums3</code> 和 <code>nums4</code> ，数组长度都是 <code>n</code> ，请你计算有多少个元组 <code>(i, j, k, l)</code> 能满足：</p>
 
 <ul>
 	<li><code>0 &lt;= i, j, k, l &lt; n</code></li>
@@ -22,26 +25,28 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums1 = [1,2], nums2 = [-2,-1], nums3 = [-1,2], nums4 = [0,2]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong>
-The two tuples are:
+<strong>输入：</strong>nums1 = [1,2], nums2 = [-2,-1], nums3 = [-1,2], nums4 = [0,2]
+<strong>输出：</strong>2
+<strong>解释：</strong>
+两个元组如下：
 1. (0, 0, 0, 1) -&gt; nums1[0] + nums2[0] + nums3[0] + nums4[1] = 1 + (-2) + (-1) + 2 = 0
 2. (1, 1, 0, 0) -&gt; nums1[1] + nums2[1] + nums3[0] + nums4[0] = 2 + (-1) + (-1) + 0 = 0
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums1 = [0], nums2 = [0], nums3 = [0], nums4 = [0]
-<strong>Output:</strong> 1
+<strong>输入：</strong>nums1 = [0], nums2 = [0], nums3 = [0], nums4 = [0]
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p>&nbsp; <strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums1.length</code></li>
@@ -54,17 +59,17 @@ The two tuples are:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We can add the elements $a$ and $b$ in arrays $nums1$ and $nums2$ respectively, and store all possible sums in a hash table $cnt$, where the key is the sum of the two numbers, and the value is the count of the sum.
+我们可以将数组 $nums1$ 和 $nums2$ 中的元素 $a$ 和 $b$ 相加，将所有可能的和存储在哈希表 $cnt$ 中，其中键为两数之和，值为两数之和出现的次数。
 
-Then we iterate through the elements $c$ and $d$ in arrays $nums3$ and $nums4$, let $c+d$ be the target value, then the answer is the cumulative sum of $cnt[-(c+d)]$.
+然后我们遍历数组 $nums3$ 和 $nums4$ 中的元素 $c$ 和 $d$，令 $c+d$ 为目标值，那么答案即为 $cnt[-(c+d)]$ 的累加和。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$, where $n$ is the length of the array.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$，其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -146,27 +151,22 @@ func fourSumCount(nums1 []int, nums2 []int, nums3 []int, nums4 []int) (ans int) 
 #### TypeScript
 
 ```ts
-function fourSumCount(
-  nums1: number[],
-  nums2: number[],
-  nums3: number[],
-  nums4: number[]
-): number {
-  const cnt: Record<number, number> = {};
-  for (const a of nums1) {
-    for (const b of nums2) {
-      const x = a + b;
-      cnt[x] = (cnt[x] || 0) + 1;
+function fourSumCount(nums1: number[], nums2: number[], nums3: number[], nums4: number[]): number {
+    const cnt: Record<number, number> = {};
+    for (const a of nums1) {
+        for (const b of nums2) {
+            const x = a + b;
+            cnt[x] = (cnt[x] || 0) + 1;
+        }
     }
-  }
-  let ans = 0;
-  for (const c of nums3) {
-    for (const d of nums4) {
-      const x = c + d;
-      ans += cnt[-x] || 0;
+    let ans = 0;
+    for (const c of nums3) {
+        for (const d of nums4) {
+            const x = c + d;
+            ans += cnt[-x] || 0;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

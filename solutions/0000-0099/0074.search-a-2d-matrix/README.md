@@ -1,48 +1,51 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0074.Search%20a%202D%20Matrix/README.md
 tags:
-  - Array
-  - Binary Search
-  - Matrix
+    - 数组
+    - 二分查找
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [74. Search a 2D Matrix](https://leetcode.com/problems/search-a-2d-matrix)
+# [74. 搜索二维矩阵](https://leetcode.cn/problems/search-a-2d-matrix)
 
-## Description
+[English Version](/solution/0000-0099/0074.Search%20a%202D%20Matrix/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>m x n</code> integer matrix <code>matrix</code> with the following two properties:</p>
+<p>给你一个满足下述两条属性的 <code>m x n</code> 整数矩阵：</p>
 
 <ul>
-	<li>Each row is sorted in non-decreasing order.</li>
-	<li>The first integer of each row is greater than the last integer of the previous row.</li>
+	<li>每行中的整数从左到右按非严格递增顺序排列。</li>
+	<li>每行的第一个整数大于前一行的最后一个整数。</li>
 </ul>
 
-<p>Given an integer <code>target</code>, return <code>true</code> <em>if</em> <code>target</code> <em>is in</em> <code>matrix</code> <em>or</em> <code>false</code> <em>otherwise</em>.</p>
-
-<p>You must write a solution in <code>O(log(m * n))</code> time complexity.</p>
+<p>给你一个整数 <code>target</code> ，如果 <code>target</code> 在矩阵中，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0074.Search%20a%202D%20Matrix/images/mat.jpg" style="width: 322px; height: 242px;" />
 <pre>
-<strong>Input:</strong> matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3
-<strong>Output:</strong> true
+<strong>输入：</strong>matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3
+<strong>输出：</strong>true
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0074.Search%20a%202D%20Matrix/images/mat2.jpg" style="width: 322px; height: 242px;" />
 <pre>
-<strong>Input:</strong> matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13
-<strong>Output:</strong> false
+<strong>输入：</strong>matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13
+<strong>输出：</strong>false
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == matrix.length</code></li>
@@ -53,15 +56,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-We can logically unfold the two-dimensional matrix and then perform binary search.
+我们将二维矩阵逻辑展开，然后二分查找即可。
 
-The time complexity is $O(\log(m \times n))$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(\log (m \times n))$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -148,25 +151,25 @@ func searchMatrix(matrix [][]int, target int) bool {
 
 ```ts
 function searchMatrix(matrix: number[][], target: number): boolean {
-  const m = matrix.length;
-  const n = matrix[0].length;
-  let left = 0;
-  let right = m * n;
-  while (left < right) {
-    const mid = (left + right) >>> 1;
-    const i = Math.floor(mid / n);
-    const j = mid % n;
-    if (matrix[i][j] === target) {
-      return true;
-    }
+    const m = matrix.length;
+    const n = matrix[0].length;
+    let left = 0;
+    let right = m * n;
+    while (left < right) {
+        const mid = (left + right) >>> 1;
+        const i = Math.floor(mid / n);
+        const j = mid % n;
+        if (matrix[i][j] === target) {
+            return true;
+        }
 
-    if (matrix[i][j] < target) {
-      left = mid + 1;
-    } else {
-      right = mid;
+        if (matrix[i][j] < target) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
     }
-  }
-  return false;
+    return false;
 }
 ```
 
@@ -207,21 +210,21 @@ impl Solution {
  * @return {boolean}
  */
 var searchMatrix = function (matrix, target) {
-  const m = matrix.length,
-    n = matrix[0].length;
-  let left = 0,
-    right = m * n - 1;
-  while (left < right) {
-    const mid = (left + right + 1) >> 1;
-    const x = Math.floor(mid / n);
-    const y = mid % n;
-    if (matrix[x][y] <= target) {
-      left = mid;
-    } else {
-      right = mid - 1;
+    const m = matrix.length,
+        n = matrix[0].length;
+    let left = 0,
+        right = m * n - 1;
+    while (left < right) {
+        const mid = (left + right + 1) >> 1;
+        const x = Math.floor(mid / n);
+        const y = mid % n;
+        if (matrix[x][y] <= target) {
+            left = mid;
+        } else {
+            right = mid - 1;
+        }
     }
-  }
-  return matrix[Math.floor(left / n)][left % n] == target;
+    return matrix[Math.floor(left / n)][left % n] == target;
 };
 ```
 
@@ -231,17 +234,17 @@ var searchMatrix = function (matrix, target) {
 
 <!-- solution:start -->
 
-### Solution 2: Search from the Bottom Left or Top Right
+### 方法二：从左下角或右上角搜索
 
-Here, we start searching from the bottom left corner and move towards the top right direction. We compare the current element $matrix[i][j]$ with $target$:
+这里我们以左下角作为起始搜索点，往右上方向开始搜索，比较当前元素 $matrix[i][j]$ 与 $target$ 的大小关系：
 
-- If $matrix[i][j] = target$, we have found the target value and return `true`.
-- If $matrix[i][j] > target$, all elements to the right of the current position in this row are greater than target, so we should move the pointer $i$ upwards, i.e., $i = i - 1$.
-- If $matrix[i][j] < target$, all elements above the current position in this column are less than target, so we should move the pointer $j$ to the right, i.e., $j = j + 1$.
+-   若 $matrix[i][j] = target$，说明找到了目标值，直接返回 `true`。
+-   若 $matrix[i][j] > target$，说明这一行从当前位置开始往右的所有元素均大于 target，应该让 i 指针往上移动，即 $i = i - 1$。
+-   若 $matrix[i][j] < target$，说明这一列从当前位置开始往上的所有元素均小于 target，应该让 j 指针往右移动，即 $j = j + 1$。
 
-If we still can't find $target$ after the search, return `false`.
+若搜索结束依然找不到 $target$，返回 `false`。
 
-The time complexity is $O(m + n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -361,19 +364,19 @@ impl Solution {
  * @return {boolean}
  */
 var searchMatrix = function (matrix, target) {
-  const m = matrix.length,
-    n = matrix[0].length;
-  for (let i = m - 1, j = 0; i >= 0 && j < n; ) {
-    if (matrix[i][j] == target) {
-      return true;
+    const m = matrix.length,
+        n = matrix[0].length;
+    for (let i = m - 1, j = 0; i >= 0 && j < n; ) {
+        if (matrix[i][j] == target) {
+            return true;
+        }
+        if (matrix[i][j] > target) {
+            --i;
+        } else {
+            ++j;
+        }
     }
-    if (matrix[i][j] > target) {
-      --i;
-    } else {
-      ++j;
-    }
-  }
-  return false;
+    return false;
 };
 ```
 

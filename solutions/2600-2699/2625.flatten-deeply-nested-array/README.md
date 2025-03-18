@@ -1,69 +1,75 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2625.Flatten%20Deeply%20Nested%20Array/README.md
 tags:
-  - JavaScript
+    - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2625. Flatten Deeply Nested Array](https://leetcode.com/problems/flatten-deeply-nested-array)
+# [2625. 扁平化嵌套数组](https://leetcode.cn/problems/flatten-deeply-nested-array)
 
-## Description
+[English Version](/solution/2600-2699/2625.Flatten%20Deeply%20Nested%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a&nbsp;<strong>multi-dimensional</strong> array&nbsp;<code>arr</code>&nbsp;and a depth <code>n</code>, return&nbsp;a&nbsp;<strong>flattened</strong>&nbsp;version of that array.</p>
+<p>请你编写一个函数，它接收一个&nbsp;<strong>多维数组&nbsp;</strong><code>arr</code> 和它的深度 <code>n</code> ，并返回该数组的&nbsp;<strong>扁平化&nbsp;</strong>后的结果。</p>
 
-<p>A <strong>multi-dimensional</strong>&nbsp;array is a recursive data structure that contains integers or other&nbsp;<strong>multi-dimensional</strong>&nbsp;arrays.</p>
+<p><strong>多维数组&nbsp;</strong>是一种包含整数或其他&nbsp;<strong>多维数组&nbsp;</strong>的递归数据结构。</p>
 
-<p>A&nbsp;<strong>flattened</strong>&nbsp;array is a version of that array with some or all of the sub-arrays removed and replaced with the actual elements in that sub-array. This flattening operation should only be done if the current depth of nesting&nbsp;is less&nbsp;than&nbsp;<code>n</code>. The depth of the elements in the first array are considered to be&nbsp;<code>0</code>.</p>
+<p>数组 <strong>扁平化</strong> 是对数组的一种操作，定义是将原数组部分或全部子数组删除，并替换为该子数组中的实际元素。只有当嵌套的数组深度大于 <code>n</code> 时，才应该执行扁平化操作。第一层数组中元素的深度被认为是 0。</p>
 
-<p>Please solve it without the built-in&nbsp;<code>Array.flat</code> method.</p>
+<p>请在没有使用内置方法&nbsp;<code>Array.flat</code> 的前提下解决这个问题。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input</strong>
+<strong>输入</strong>
 arr = [1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
 n = 0
-<strong>Output</strong>
+<strong>输出</strong>
 [1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
 
-<strong>Explanation</strong>
-Passing a depth of n=0 will always result in the original array. This is because the smallest possible depth of a subarray (0) is not less than n=0. Thus, no subarray should be flattened. </pre>
+<strong>解释</strong>
+传递深度 n=0 的多维数组将始终得到原始数组。这是因为 子数组(0) 的最小可能的深度不小于 n=0 。因此，任何子数组都不应该被平面化。
+</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input</strong>
+<strong>输入</strong>
 arr = [1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
 n = 1
-<strong>Output</strong>
+<strong>输出</strong>
 [1, 2, 3, 4, 5, 6, 7, 8, [9, 10, 11], 12, 13, 14, 15]
 
-<strong>Explanation</strong>
-The subarrays starting with 4, 7, and 13 are all flattened. This is because their depth of 0 is less than 1. However [9, 10, 11] remains unflattened because its depth is 1.</pre>
+<strong>解释</strong>
+以 4 、7 和 13 开头的子数组都被扁平化了，这是因为它们的深度为 0 ， 而 0 小于 1 。然而 [9,10,11] 其深度为 1 ，所以未被扁平化。</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <pre>
-<strong>Input</strong>
+<strong>输入</strong>
 arr = [[1, 2, 3], [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
 n = 2
-<strong>Output</strong>
+<strong>输出</strong>
 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
-<strong>Explanation</strong>
-The maximum depth of any subarray is 1. Thus, all of them are flattened.</pre>
+<strong>解释</strong>
+所有子数组的最大深度都为 1 。因此，它们都被扁平化了。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>0 &lt;= count of numbers in arr &lt;=&nbsp;10<sup>5</sup></code></li>
-	<li><code>0 &lt;= count of subarrays in arr &lt;=&nbsp;10<sup>5</sup></code></li>
+	<li><code>0 &lt;= arr 的元素个数&nbsp;&lt;=&nbsp;10<sup>5</sup></code></li>
+	<li><code>0 &lt;= arr 的子数组个数&nbsp;&lt;=&nbsp;10<sup>5</sup></code></li>
 	<li><code>maxDepth &lt;= 1000</code></li>
 	<li><code>-1000 &lt;= each number &lt;= 1000</code></li>
 	<li><code><font face="monospace">0 &lt;= n &lt;= 1000</font></code></li>
@@ -71,11 +77,17 @@ The maximum depth of any subarray is 1. Thus, all of them are flattened.</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：递归
+
+我们可以使用递归的方法，将多维数组扁平化。
+
+在函数中，我们首先判断 $n$ 是否小于等于 $0$，如果是，直接返回原数组。否则，我们遍历数组的每个元素 $x$，如果 $x$ 是数组，我们递归调用函数，参数为 $(x, n - 1)$，将返回值添加到结果数组中；否则，将 $x$ 添加到结果数组中。最后返回结果数组。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的元素个数。
 
 <!-- tabs:start -->
 
@@ -84,22 +96,19 @@ The maximum depth of any subarray is 1. Thus, all of them are flattened.</pre>
 ```ts
 type MultiDimensionalArray = (number | MultiDimensionalArray)[];
 
-var flat = function (
-  arr: MultiDimensionalArray,
-  n: number
-): MultiDimensionalArray {
-  if (!n) {
-    return arr;
-  }
-  const ans: MultiDimensionalArray = [];
-  for (const x of arr) {
-    if (Array.isArray(x) && n) {
-      ans.push(...flat(x, n - 1));
-    } else {
-      ans.push(x);
+var flat = function (arr: MultiDimensionalArray, n: number): MultiDimensionalArray {
+    if (!n) {
+        return arr;
     }
-  }
-  return ans;
+    const ans: MultiDimensionalArray = [];
+    for (const x of arr) {
+        if (Array.isArray(x) && n) {
+            ans.push(...flat(x, n - 1));
+        } else {
+            ans.push(x);
+        }
+    }
+    return ans;
 };
 ```
 

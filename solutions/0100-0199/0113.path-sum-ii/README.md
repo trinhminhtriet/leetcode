@@ -1,70 +1,76 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0113.Path%20Sum%20II/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Backtracking
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 回溯
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [113. Path Sum II](https://leetcode.com/problems/path-sum-ii)
+# [113. 路径总和 II](https://leetcode.cn/problems/path-sum-ii)
 
-## Description
+[English Version](/solution/0100-0199/0113.Path%20Sum%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree and an integer <code>targetSum</code>, return <em>all <strong>root-to-leaf</strong> paths where the sum of the node values in the path equals </em><code>targetSum</code><em>. Each path should be returned as a list of the node <strong>values</strong>, not node references</em>.</p>
+<p>给你二叉树的根节点 <code>root</code> 和一个整数目标和 <code>targetSum</code> ，找出所有 <strong>从根节点到叶子节点</strong> 路径总和等于给定目标和的路径。</p>
 
-<p>A <strong>root-to-leaf</strong> path is a path starting from the root and ending at any leaf node. A <strong>leaf</strong> is a node with no children.</p>
+<p><strong>叶子节点</strong> 是指没有子节点的节点。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<div class="original__bRMd">
+<div>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0113.Path%20Sum%20II/images/pathsumii1.jpg" style="width: 500px; height: 356px;" />
 <pre>
-<strong>Input:</strong> root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
-<strong>Output:</strong> [[5,4,11,2],[5,8,4,5]]
-<strong>Explanation:</strong> There are two paths whose sum equals targetSum:
-5 + 4 + 11 + 2 = 22
-5 + 8 + 4 + 5 = 22
+<strong>输入：</strong>root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+<strong>输出：</strong>[[5,4,11,2],[5,8,4,5]]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0113.Path%20Sum%20II/images/pathsum2.jpg" style="width: 212px; height: 181px;" />
 <pre>
-<strong>Input:</strong> root = [1,2,3], targetSum = 5
-<strong>Output:</strong> []
+<strong>输入：</strong>root = [1,2,3], targetSum = 5
+<strong>输出：</strong>[]
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> root = [1,2], targetSum = 0
-<strong>Output:</strong> []
+<strong>输入：</strong>root = [1,2], targetSum = 0
+<strong>输出：</strong>[]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[0, 5000]</code>.</li>
-	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
-	<li><code>-1000 &lt;= targetSum &lt;= 1000</code></li>
+	<li>树中节点总数在范围 <code>[0, 5000]</code> 内</li>
+	<li><code>-1000 <= Node.val <= 1000</code></li>
+	<li><code>-1000 <= targetSum <= 1000</code></li>
 </ul>
+</div>
+</div>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-We start from the root node, recursively traverse all paths from the root node to the leaf nodes, and record the path sum. When we traverse to a leaf node, if the current path sum equals `targetSum`, then we add this path to the answer.
+我们从根节点开始，递归遍历所有从根节点到叶子节点的路径，并记录路径和。当遍历到叶子节点时，如果此时路径和等于 `targetSum`，则将此路径加入答案。
 
-The time complexity is $O(n^2)$, where $n$ is the number of nodes in the binary tree. The space complexity is $O(n)$.
+时间复杂度 $O(n^2)$，其中 $n$ 是二叉树的节点数。空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -281,19 +287,19 @@ impl Solution {
  * @return {number[][]}
  */
 var pathSum = function (root, targetSum) {
-  const ans = [];
-  const t = [];
-  function dfs(root, s) {
-    if (!root) return;
-    s -= root.val;
-    t.push(root.val);
-    if (!root.left && !root.right && s == 0) ans.push([...t]);
-    dfs(root.left, s);
-    dfs(root.right, s);
-    t.pop();
-  }
-  dfs(root, targetSum);
-  return ans;
+    const ans = [];
+    const t = [];
+    function dfs(root, s) {
+        if (!root) return;
+        s -= root.val;
+        t.push(root.val);
+        if (!root.left && !root.right && s == 0) ans.push([...t]);
+        dfs(root.left, s);
+        dfs(root.right, s);
+        t.pop();
+    }
+    dfs(root, targetSum);
+    return ans;
 };
 ```
 

@@ -1,49 +1,54 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2918.Minimum%20Equal%20Sum%20of%20Two%20Arrays%20After%20Replacing%20Zeros/README.md
 rating: 1526
-source: Weekly Contest 369 Q2
+source: 第 369 场周赛 Q2
 tags:
-  - Greedy
-  - Array
+    - 贪心
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [2918. Minimum Equal Sum of Two Arrays After Replacing Zeros](https://leetcode.com/problems/minimum-equal-sum-of-two-arrays-after-replacing-zeros)
+# [2918. 数组的最小相等和](https://leetcode.cn/problems/minimum-equal-sum-of-two-arrays-after-replacing-zeros)
 
-## Description
+[English Version](/solution/2900-2999/2918.Minimum%20Equal%20Sum%20of%20Two%20Arrays%20After%20Replacing%20Zeros/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two arrays <code>nums1</code> and <code>nums2</code> consisting of positive integers.</p>
+<p>给你两个由正整数和 <code>0</code> 组成的数组 <code>nums1</code> 和 <code>nums2</code> 。</p>
 
-<p>You have to replace <strong>all</strong> the <code>0</code>&#39;s in both arrays with <strong>strictly</strong> positive integers such that the sum of elements of both arrays becomes <strong>equal</strong>.</p>
+<p>你必须将两个数组中的<strong> 所有</strong> <code>0</code> 替换为 <strong>严格</strong> 正整数，并且满足两个数组中所有元素的和 <strong>相等</strong> 。</p>
 
-<p>Return <em>the <strong>minimum</strong> equal sum you can obtain, or </em><code>-1</code><em> if it is impossible</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [3,2,0,1,0], nums2 = [6,5,0]
-<strong>Output:</strong> 12
-<strong>Explanation:</strong> We can replace 0&#39;s in the following way:
-- Replace the two 0&#39;s in nums1 with the values 2 and 4. The resulting array is nums1 = [3,2,2,1,4].
-- Replace the 0 in nums2 with the value 1. The resulting array is nums2 = [6,5,1].
-Both arrays have an equal sum of 12. It can be shown that it is the minimum sum we can obtain.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums1 = [2,0,2,0], nums2 = [1,4]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> It is impossible to make the sum of both arrays equal.
-</pre>
+<p>返回 <strong>最小</strong> 相等和 ，如果无法使两数组相等，则返回 <code>-1</code><em> </em>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [3,2,0,1,0], nums2 = [6,5,0]
+<strong>输出：</strong>12
+<strong>解释：</strong>可以按下述方式替换数组中的 0 ：
+- 用 2 和 4 替换 nums1 中的两个 0 。得到 nums1 = [3,2,2,1,4] 。
+- 用 1 替换 nums2 中的一个 0 。得到 nums2 = [6,5,1] 。
+两个数组的元素和相等，都等于 12 。可以证明这是可以获得的最小相等和。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums1 = [2,0,2,0], nums2 = [1,4]
+<strong>输出：</strong>-1
+<strong>解释：</strong>无法使两个数组的和相等。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 10<sup>5</sup></code></li>
@@ -52,18 +57,18 @@ Both arrays have an equal sum of 12. It can be shown that it is the minimum sum 
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Case Analysis
+### 方法一：分情况讨论
 
-We consider the case where we treat all $0$s in the array as $1$s, and calculate the sum of the two arrays separately, denoted as $s_1$ and $s_2$. Without loss of generality, we assume that $s_1 \le s_2$.
+我们记把数组中的 $0$ 视为 $1$，统计两个数组的和，分别记为 $s_1$ 和 $s_2$。不妨设 $s_1 \le s_2$。
 
-- If $s_1 = s_2$, then the answer is $s_1$.
-- If $s_1 \lt s_2$, then there must exist a $0$ in $nums1$ to make the sum of the two arrays equal. In this case, the answer is $s_2$. Otherwise, it means that it is impossible to make the sum of the two arrays equal, and we return $-1$.
+-   如果 $s_1 = s_2$，那么答案就是 $s_1$。
+-   如果 $s_1 \lt s_2$，那么 $nums1$ 中必须存在 $0$，才能使得两个数组的和相等，此时的答案就是 $s_2$。否则，说明无法使两个数组的和相等，返回 $-1$。
 
-The time complexity is $O(n + m)$, where $n$ and $m$ are the lengths of the arrays $nums1$ and $nums2$, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(n + m)$，其中 $n$ 和 $m$ 分别是数组 $nums1$ 和 $nums2$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -164,24 +169,24 @@ func minSum(nums1 []int, nums2 []int) int64 {
 
 ```ts
 function minSum(nums1: number[], nums2: number[]): number {
-  let [s1, s2] = [0, 0];
-  let hasZero = false;
-  for (const x of nums1) {
-    if (x === 0) {
-      hasZero = true;
+    let [s1, s2] = [0, 0];
+    let hasZero = false;
+    for (const x of nums1) {
+        if (x === 0) {
+            hasZero = true;
+        }
+        s1 += Math.max(x, 1);
     }
-    s1 += Math.max(x, 1);
-  }
-  for (const x of nums2) {
-    s2 += Math.max(x, 1);
-  }
-  if (s1 > s2) {
-    return minSum(nums2, nums1);
-  }
-  if (s1 === s2) {
-    return s1;
-  }
-  return hasZero ? s2 : -1;
+    for (const x of nums2) {
+        s2 += Math.max(x, 1);
+    }
+    if (s1 > s2) {
+        return minSum(nums2, nums1);
+    }
+    if (s1 === s2) {
+        return s1;
+    }
+    return hasZero ? s2 : -1;
 }
 ```
 

@@ -1,69 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3115.Maximum%20Prime%20Difference/README.md
 rating: 1294
-source: Weekly Contest 393 Q2
+source: 第 393 场周赛 Q2
 tags:
-  - Array
-  - Math
-  - Number Theory
+    - 数组
+    - 数学
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [3115. Maximum Prime Difference](https://leetcode.com/problems/maximum-prime-difference)
+# [3115. 质数的最大距离](https://leetcode.cn/problems/maximum-prime-difference)
 
-## Description
+[English Version](/solution/3100-3199/3115.Maximum%20Prime%20Difference/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code>.</p>
+<p>给你一个整数数组 <code>nums</code>。</p>
 
-<p>Return an integer that is the <strong>maximum</strong> distance between the <strong>indices</strong> of two (not necessarily different) prime numbers in <code>nums</code><em>.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [4,2,9,5,3]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
-
-<p><strong>Explanation:</strong> <code>nums[1]</code>, <code>nums[3]</code>, and <code>nums[4]</code> are prime. So the answer is <code>|4 - 1| = 3</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [4,8,2,8]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
-
-<p><strong>Explanation:</strong> <code>nums[2]</code> is prime. Because there is just one prime number, the answer is <code>|2 - 2| = 0</code>.</p>
-</div>
+<p>返回两个（不一定不同的）质数在 <code>nums</code> 中&nbsp;<strong>下标</strong> 的 <strong>最大距离</strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">nums = [4,2,9,5,3]</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">3</span></p>
+
+<p><strong>解释：</strong> <code>nums[1]</code>、<code>nums[3]</code> 和 <code>nums[4]</code> 是质数。因此答案是 <code>|4 - 1| = 3</code>。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">nums = [4,8,2,8]</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">0</span></p>
+
+<p><strong>解释：</strong> <code>nums[2]</code> 是质数。因为只有一个质数，所以答案是 <code>|2 - 2| = 0</code>。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 100</code></li>
-	<li>The input is generated such that the number of prime numbers in the <code>nums</code> is at least one.</li>
+	<li>输入保证 <code>nums</code> 中至少有一个质数。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal
+### 方法一：遍历
 
-According to the problem description, we need to find the index $i$ of the first prime number, then find the index $j$ of the last prime number, and return $j - i$ as the answer.
+根据题目描述，我们需要找出第一个质数所在的下标 $i$，然后找出最后一个质数所在的下标 $j$，将 $j - i$ 作为答案返回即可。
 
-Therefore, we can traverse the array from left to right to find the index $i$ of the first prime number, then traverse the array from right to left to find the index $j$ of the last prime number. The answer is $j - i$.
+因此，我们可以从左到右遍历数组，找到第一个质数所在的下标 $i$，然后从右到左遍历数组，找到最后一个质数所在的下标 $j$，答案即为 $j - i$。
 
-The time complexity is $O(n \times \sqrt{M})$, where $n$ and $M$ are the length of the array $nums$ and the maximum value in the array, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(n \times \sqrt{M})$，其中 $n$ 和 $M$ 分别是数组 $nums$ 的长度和数组中的最大值。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -177,26 +182,26 @@ func isPrime(n int) bool {
 
 ```ts
 function maximumPrimeDifference(nums: number[]): number {
-  const isPrime = (x: number): boolean => {
-    if (x < 2) {
-      return false;
-    }
-    for (let i = 2; i <= x / i; i++) {
-      if (x % i === 0) {
-        return false;
-      }
-    }
-    return true;
-  };
-  for (let i = 0; ; ++i) {
-    if (isPrime(nums[i])) {
-      for (let j = nums.length - 1; ; --j) {
-        if (isPrime(nums[j])) {
-          return j - i;
+    const isPrime = (x: number): boolean => {
+        if (x < 2) {
+            return false;
         }
-      }
+        for (let i = 2; i <= x / i; i++) {
+            if (x % i === 0) {
+                return false;
+            }
+        }
+        return true;
+    };
+    for (let i = 0; ; ++i) {
+        if (isPrime(nums[i])) {
+            for (let j = nums.length - 1; ; --j) {
+                if (isPrime(nums[j])) {
+                    return j - i;
+                }
+            }
+        }
     }
-  }
 }
 ```
 

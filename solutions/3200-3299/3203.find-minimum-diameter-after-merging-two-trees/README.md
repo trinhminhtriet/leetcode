@@ -1,58 +1,63 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3203.Find%20Minimum%20Diameter%20After%20Merging%20Two%20Trees/README.md
 rating: 2266
-source: Weekly Contest 404 Q4
+source: 第 404 场周赛 Q4
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [3203. Find Minimum Diameter After Merging Two Trees](https://leetcode.com/problems/find-minimum-diameter-after-merging-two-trees)
+# [3203. 合并两棵树后的最小直径](https://leetcode.cn/problems/find-minimum-diameter-after-merging-two-trees)
 
-## Description
+[English Version](/solution/3200-3299/3203.Find%20Minimum%20Diameter%20After%20Merging%20Two%20Trees/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There exist two <strong>undirected </strong>trees with <code>n</code> and <code>m</code> nodes, numbered from <code>0</code> to <code>n - 1</code> and from <code>0</code> to <code>m - 1</code>, respectively. You are given two 2D integer arrays <code>edges1</code> and <code>edges2</code> of lengths <code>n - 1</code> and <code>m - 1</code>, respectively, where <code>edges1[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the first tree and <code>edges2[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> indicates that there is an edge between nodes <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> in the second tree.</p>
+<p>给你两棵 <strong>无向</strong>&nbsp;树，分别有&nbsp;<code>n</code> 和&nbsp;<code>m</code>&nbsp;个节点，节点编号分别为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;和&nbsp;<code>0</code>&nbsp;到&nbsp;<code>m - 1</code>&nbsp;。给你两个二维整数数组&nbsp;<code>edges1</code> 和&nbsp;<code>edges2</code>&nbsp;，长度分别为&nbsp;<code>n - 1</code> 和&nbsp;<code>m - 1</code>&nbsp;，其中&nbsp;<code>edges1[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示在第一棵树中节点&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条边，<code>edges2[i] = [u<sub>i</sub>, v<sub>i</sub>]</code>&nbsp;表示在第二棵树中节点&nbsp;<code>u<sub>i</sub></code> 和&nbsp;<code>v<sub>i</sub></code>&nbsp;之间有一条边。</p>
 
-<p>You must connect one node from the first tree with another node from the second tree with an edge.</p>
+<p>你必须在第一棵树和第二棵树中分别选一个节点，并用一条边连接它们。</p>
 
-<p>Return the <strong>minimum </strong>possible <strong>diameter </strong>of the resulting tree.</p>
+<p>请你返回添加边后得到的树中，<strong>最小直径</strong>&nbsp;为多少。</p>
 
-<p>The <strong>diameter</strong> of a tree is the length of the <em>longest</em> path between any two nodes in the tree.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3203.Find%20Minimum%20Diameter%20After%20Merging%20Two%20Trees/images/example11-transformed.png" /></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">edges1 = [[0,1],[0,2],[0,3]], edges2 = [[0,1]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>We can obtain a tree of diameter 3 by connecting node 0 from the first tree with any node from the second tree.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3203.Find%20Minimum%20Diameter%20After%20Merging%20Two%20Trees/images/example211.png" />
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">edges1 = [[0,1],[0,2],[0,3],[2,4],[2,5],[3,6],[2,7]], edges2 = [[0,1],[0,2],[0,3],[2,4],[2,5],[3,6],[2,7]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">5</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>We can obtain a tree of diameter 5 by connecting node 0 from the first tree with node 0 from the second tree.</p>
-</div>
+<p>一棵树的 <strong>直径</strong>&nbsp;指的是树中任意两个节点之间的最长路径长度。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><b>示例 1：</b><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3203.Find%20Minimum%20Diameter%20After%20Merging%20Two%20Trees/images/example11-transformed.png" style="width: 1000px; height: 494px;" /></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>edges1 = [[0,1],[0,2],[0,3]], edges2 = [[0,1]]</span></p>
+
+<p><span class="example-io"><b>输出：</b>3</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>将第一棵树中的节点 0 与第二棵树中的任意节点连接，得到一棵直径为 3 的树。</p>
+</div>
+
+<p><strong class="example">示例 2：<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3203.Find%20Minimum%20Diameter%20After%20Merging%20Two%20Trees/images/example211.png" style="width: 1000px; height: 492px;" /></strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>edges1 = [[0,1],[0,2],[0,3],[2,4],[2,5],[3,6],[2,7]], edges2 = [[0,1],[0,2],[0,3],[2,4],[2,5],[3,6],[2,7]]</span></p>
+
+<p><span class="example-io"><b>输出：</b>5</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>将第一棵树中的节点 0 和第二棵树中的节点 0 连接，可以得到一棵直径为 5 的树。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, m &lt;= 10<sup>5</sup></code></li>
@@ -63,27 +68,27 @@ tags:
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
 	<li><code>edges2[i] = [u<sub>i</sub>, v<sub>i</sub>]</code></li>
 	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt; m</code></li>
-	<li>The input is generated such that <code>edges1</code> and <code>edges2</code> represent valid trees.</li>
+	<li>输入保证&nbsp;<code>edges1</code> 和&nbsp;<code>edges2</code>&nbsp;分别表示一棵合法的树。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two DFS Passes
+### 方法一：两次 DFS
 
-We denote $d_1$ and $d_2$ as the diameters of the two trees, respectively. Then, the diameter of the merged tree can be one of the following two cases:
+我们记 $d_1$ 和 $d_2$ 分别为两棵树的直径，那么合并后的树的直径有以下两种情况：
 
-1. The diameter of the merged tree is the diameter of one of the original trees, i.e., $\max(d_1, d_2)$;
-2. The diameter of the merged tree passes through both of the original trees. We calculate the radii of the original two trees as $r_1 = \lceil \frac{d_1}{2} \rceil$ and $r_2 = \lceil \frac{d_2}{2} \rceil$, respectively. Then, the diameter of the merged tree is $r_1 + r_2 + 1$.
+1. 合并后的树的直径为原始的一棵树的直径，即 $\max(d_1, d_2)$；
+2. 合并后的树的直径经过原始的两棵树。我们分别计算原始的两棵树的半径 $r_1 = \lceil \frac{d_1}{2} \rceil$ 和 $r_2 = \lceil \frac{d_2}{2} \rceil$，那么合并后的树的直径为 $r_1 + r_2 + 1$。
 
-We take the maximum of these two cases.
+我们取这两种情况的最大值即可。
 
-When calculating the diameter of a tree, we can use two DFS passes. First, we arbitrarily select a node and start a DFS from this node to find the farthest node from it, denoted as node $a$. Then, we start another DFS from node $a$ to find the farthest node from node $a$, denoted as node $b$. It can be proven that the path between node $a$ and node $b$ is the diameter of the tree.
+在计算树的直径时，我们可以使用两次 DFS。首先我们任选一点出发，找到距离该点最远的点，记为 $a$。然后从点 $a$ 出发，找到距离点 $a$ 最远的点，记为 $b$。可以证明，点 $a$ 和点 $b$ 之间的路径即为树的直径。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$, where $n$ and $m$ are the number of nodes in the two trees, respectively.
+时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别为两棵树的节点数。
 
 <!-- tabs:start -->
 
@@ -182,10 +187,10 @@ public:
             g[b].push_back(a);
         }
         int ans = 0, a = 0;
-        auto dfs = [&](auto&& dfs, int i, int fa, int t) -> void {
+        auto dfs = [&](this auto&& dfs, int i, int fa, int t) -> void {
             for (int j : g[i]) {
                 if (j != fa) {
-                    dfs(dfs, j, i, t + 1);
+                    dfs(j, i, t + 1);
                 }
             }
             if (ans < t) {
@@ -193,8 +198,8 @@ public:
                 a = i;
             }
         };
-        dfs(dfs, 0, -1, 0);
-        dfs(dfs, a, -1, 0);
+        dfs(0, -1, 0);
+        dfs(a, -1, 0);
         return ans;
     }
 };
@@ -239,37 +244,34 @@ func treeDiameter(edges [][]int) (ans int) {
 #### TypeScript
 
 ```ts
-function minimumDiameterAfterMerge(
-  edges1: number[][],
-  edges2: number[][]
-): number {
-  const d1 = treeDiameter(edges1);
-  const d2 = treeDiameter(edges2);
-  return Math.max(d1, d2, Math.ceil(d1 / 2) + Math.ceil(d2 / 2) + 1);
+function minimumDiameterAfterMerge(edges1: number[][], edges2: number[][]): number {
+    const d1 = treeDiameter(edges1);
+    const d2 = treeDiameter(edges2);
+    return Math.max(d1, d2, Math.ceil(d1 / 2) + Math.ceil(d2 / 2) + 1);
 }
 
 function treeDiameter(edges: number[][]): number {
-  const n = edges.length + 1;
-  const g: number[][] = Array.from({ length: n }, () => []);
-  for (const [a, b] of edges) {
-    g[a].push(b);
-    g[b].push(a);
-  }
-  let [ans, a] = [0, 0];
-  const dfs = (i: number, fa: number, t: number): void => {
-    for (const j of g[i]) {
-      if (j !== fa) {
-        dfs(j, i, t + 1);
-      }
+    const n = edges.length + 1;
+    const g: number[][] = Array.from({ length: n }, () => []);
+    for (const [a, b] of edges) {
+        g[a].push(b);
+        g[b].push(a);
     }
-    if (ans < t) {
-      ans = t;
-      a = i;
-    }
-  };
-  dfs(0, -1, 0);
-  dfs(a, -1, 0);
-  return ans;
+    let [ans, a] = [0, 0];
+    const dfs = (i: number, fa: number, t: number): void => {
+        for (const j of g[i]) {
+            if (j !== fa) {
+                dfs(j, i, t + 1);
+            }
+        }
+        if (ans < t) {
+            ans = t;
+            a = i;
+        }
+    };
+    dfs(0, -1, 0);
+    dfs(a, -1, 0);
+    return ans;
 }
 ```
 

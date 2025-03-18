@@ -1,61 +1,70 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0671.Second%20Minimum%20Node%20In%20a%20Binary%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [671. Second Minimum Node In a Binary Tree](https://leetcode.com/problems/second-minimum-node-in-a-binary-tree)
+# [671. 二叉树中第二小的节点](https://leetcode.cn/problems/second-minimum-node-in-a-binary-tree)
 
-## Description
+[English Version](/solution/0600-0699/0671.Second%20Minimum%20Node%20In%20a%20Binary%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this tree has exactly <code>two</code> or <code>zero</code> sub-node. If the node has two sub-nodes, then this node&#39;s value is the smaller value among its two sub-nodes. More formally, the property&nbsp;<code>root.val = min(root.left.val, root.right.val)</code>&nbsp;always holds.</p>
+<p>给定一个非空特殊的二叉树，每个节点都是正数，并且每个节点的子节点数量只能为&nbsp;<code>2</code>&nbsp;或&nbsp;<code>0</code>。如果一个节点有两个子节点的话，那么该节点的值等于两个子节点中较小的一个。</p>
 
-<p>Given such a binary tree, you need to output the <b>second minimum</b> value in the set made of all the nodes&#39; value in the whole tree.</p>
+<p>更正式地说，即&nbsp;<code>root.val = min(root.left.val, root.right.val)</code> 总成立。</p>
 
-<p>If no such second minimum value exists, output -1 instead.</p>
+<p>给出这样的一个二叉树，你需要输出所有节点中的&nbsp;<strong>第二小的值 </strong>。</p>
+
+<p>如果第二小的值不存在的话，输出 -1 <strong>。</strong></p>
 
 <p>&nbsp;</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0671.Second%20Minimum%20Node%20In%20a%20Binary%20Tree/images/smbt1.jpg" style="width: 431px; height: 302px;" />
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0671.Second%20Minimum%20Node%20In%20a%20Binary%20Tree/images/smbt1.jpg" style="height: 210px; width: 300px;" />
 <pre>
-<strong>Input:</strong> root = [2,2,5,null,null,5,7]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The smallest value is 2, the second smallest value is 5.
+<strong>输入：</strong>root = [2,2,5,null,null,5,7]
+<strong>输出：</strong>5
+<strong>解释：</strong>最小的值是 2 ，第二小的值是 5 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0671.Second%20Minimum%20Node%20In%20a%20Binary%20Tree/images/smbt2.jpg" style="width: 321px; height: 182px;" />
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0671.Second%20Minimum%20Node%20In%20a%20Binary%20Tree/images/smbt2.jpg" style="height: 113px; width: 200px;" />
 <pre>
-<strong>Input:</strong> root = [2,2,2]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> The smallest value is 2, but there isn&#39;t any second smallest value.
+<strong>输入：</strong>root = [2,2,2]
+<strong>输出：</strong>-1
+<strong>解释：</strong>最小的值是 2, 但是不存在第二小的值。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 25]</code>.</li>
+	<li>树中节点数目在范围 <code>[1, 25]</code> 内</li>
 	<li><code>1 &lt;= Node.val &lt;= 2<sup>31</sup> - 1</code></li>
-	<li><code>root.val == min(root.left.val, root.right.val)</code>&nbsp;for each internal node of the tree.</li>
+	<li>对于树中每个节点 <code>root.val == min(root.left.val, root.right.val)</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS
+
+直接 DFS 遍历二叉树，找到大于 `root.val` 的最小值。若不存在，则返回 -1。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -200,22 +209,22 @@ func findSecondMinimumValue(root *TreeNode) int {
  * @return {number}
  */
 var findSecondMinimumValue = function (root) {
-  let ans = -1;
-  const v = root.val;
-  function dfs(root) {
-    if (!root) {
-      return;
+    let ans = -1;
+    const v = root.val;
+    function dfs(root) {
+        if (!root) {
+            return;
+        }
+        dfs(root.left);
+        dfs(root.right);
+        if (root.val > v) {
+            if (ans == -1 || ans > root.val) {
+                ans = root.val;
+            }
+        }
     }
-    dfs(root.left);
-    dfs(root.right);
-    if (root.val > v) {
-      if (ans == -1 || ans > root.val) {
-        ans = root.val;
-      }
-    }
-  }
-  dfs(root);
-  return ans;
+    dfs(root);
+    return ans;
 };
 ```
 

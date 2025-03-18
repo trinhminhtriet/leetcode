@@ -1,57 +1,67 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1360.Number%20of%20Days%20Between%20Two%20Dates/README.md
 rating: 1421
-source: Weekly Contest 177 Q1
+source: 第 177 场周赛 Q1
 tags:
-  - Math
-  - String
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [1360. Number of Days Between Two Dates](https://leetcode.com/problems/number-of-days-between-two-dates)
+# [1360. 日期之间隔几天](https://leetcode.cn/problems/number-of-days-between-two-dates)
 
-## Description
+[English Version](/solution/1300-1399/1360.Number%20of%20Days%20Between%20Two%20Dates/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Write a program to count the number of days between two dates.</p>
+<p>请你编写一个程序来计算两个日期之间隔了多少天。</p>
 
-<p>The two dates are given as strings, their format is <code>YYYY-MM-DD</code>&nbsp;as shown in the examples.</p>
+<p>日期以字符串形式给出，格式为&nbsp;<code>YYYY-MM-DD</code>，如示例所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> date1 = "2019-06-29", date2 = "2019-06-30"
-<strong>Output:</strong> 1
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> date1 = "2020-01-15", date2 = "2019-12-31"
-<strong>Output:</strong> 15
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>date1 = &quot;2019-06-29&quot;, date2 = &quot;2019-06-30&quot;
+<strong>输出：</strong>1
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>date1 = &quot;2020-01-15&quot;, date2 = &quot;2019-12-31&quot;
+<strong>输出：</strong>15
+</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The given dates are valid&nbsp;dates between the years <code>1971</code> and <code>2100</code>.</li>
+	<li>给定的日期是&nbsp;<code>1971</code>&nbsp;年到 <code>2100</code>&nbsp;年之间的有效日期。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Mathematics
+### 方法一：数学
 
-First, we define a function `isLeapYear(year)` to determine whether the given year `year` is a leap year. If it is a leap year, return `true`, otherwise return `false`.
+我们先定义一个函数 `isLeapYear(year)` 来判断给定的年份 `year` 是否是闰年，如果是闰年则返回 `true`，否则返回 `false`。
 
-Next, we define another function `daysInMonth(year, month)` to calculate the total number of days in the given year `year` and month `month`. We can use an array `days` to store the number of days in each month, where `days[1]` represents the number of days in February. If it is a leap year, it is $29$ days, otherwise it is $28$ days.
+接下来，我们再定义一个函数 `daysInMonth(year, month)` 来计算给定的年份 `year` 和月份 `month` 一共有多少天，我们可以使用一个数组 `days` 来存储每个月份的天数，其中 `days[1]` 表示二月份的天数，如果是闰年则为 $29$ 天，否则为 $28$ 天。
 
-Then, we define another function `calcDays(date)` to calculate the number of days from the given date `date` to `1971-01-01`. We can use `date.split("-")` to split the date `date` into year `year`, month `month`, and day `day` by `-`. Then we can use a loop to calculate the total number of days from `1971` to `year`, then calculate the total number of days from January to `month`, and finally add `day` days.
+然后，我们再定义一个函数 `calcDays(date)` 来计算给定的日期 `date` 距离 `1971-01-01` 有多少天，我们可以使用 `date.split("-")` 来将日期 `date` 按照 `-` 分割成年份 `year`、月份 `month` 和日期 `day`，然后我们可以使用一个循环来计算从 `1971` 年到 `year` 年一共有多少天，然后再计算从 `1` 月到 `month` 月一共有多少天，最后再加上 `day` 天即可。
 
-Finally, we only need to return the absolute value of `calcDays(date1) - calcDays(date2)`.
+最后，我们只需要返回 `calcDays(date1) - calcDays(date2)` 的绝对值即可。
 
-The time complexity is $O(y + m)$, where $y$ represents the number of years from the given date to `1971-01-01`, and $m$ represents the number of months of the given date. The space complexity is $O(1)$.
+时间复杂度 $O(y + m)$，其中 $y$ 表示给定的日期距离 `1971-01-01` 的年数，而 $m$ 表示给定的日期的月数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -213,42 +223,29 @@ func abs(x int) int {
 
 ```ts
 function daysBetweenDates(date1: string, date2: string): number {
-  return Math.abs(calcDays(date1) - calcDays(date2));
+    return Math.abs(calcDays(date1) - calcDays(date2));
 }
 
 function isLeapYear(year: number): boolean {
-  return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+    return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
 }
 
 function daysOfMonth(year: number, month: number): number {
-  const days = [
-    31,
-    isLeapYear(year) ? 29 : 28,
-    31,
-    30,
-    31,
-    30,
-    31,
-    31,
-    30,
-    31,
-    30,
-    31,
-  ];
-  return days[month - 1];
+    const days = [31, isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    return days[month - 1];
 }
 
 function calcDays(date: string): number {
-  let days = 0;
-  const [year, month, day] = date.split("-").map(Number);
-  for (let y = 1971; y < year; ++y) {
-    days += isLeapYear(y) ? 366 : 365;
-  }
-  for (let m = 1; m < month; ++m) {
-    days += daysOfMonth(year, m);
-  }
-  days += day - 1;
-  return days;
+    let days = 0;
+    const [year, month, day] = date.split('-').map(Number);
+    for (let y = 1971; y < year; ++y) {
+        days += isLeapYear(y) ? 366 : 365;
+    }
+    for (let m = 1; m < month; ++m) {
+        days += daysOfMonth(year, m);
+    }
+    days += day - 1;
+    return days;
 }
 ```
 

@@ -1,97 +1,99 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2767.Partition%20String%20Into%20Minimum%20Beautiful%20Substrings/README.md
 rating: 1864
-source: Biweekly Contest 108 Q3
+source: 第 108 场双周赛 Q3
 tags:
-  - Hash Table
-  - String
-  - Dynamic Programming
-  - Backtracking
+    - 哈希表
+    - 字符串
+    - 动态规划
+    - 回溯
 ---
 
 <!-- problem:start -->
 
-# [2767. Partition String Into Minimum Beautiful Substrings](https://leetcode.com/problems/partition-string-into-minimum-beautiful-substrings)
+# [2767. 将字符串分割为最少的美丽子字符串](https://leetcode.cn/problems/partition-string-into-minimum-beautiful-substrings)
 
-## Description
+[English Version](/solution/2700-2799/2767.Partition%20String%20Into%20Minimum%20Beautiful%20Substrings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a binary string <code>s</code>, partition the string into one or more <strong>substrings</strong> such that each substring is <strong>beautiful</strong>.</p>
+<p>给你一个二进制字符串&nbsp;<code>s</code>&nbsp;，你需要将字符串分割成一个或者多个&nbsp;<strong>子字符串</strong>&nbsp;&nbsp;，使每个子字符串都是 <strong>美丽</strong>&nbsp;的。</p>
 
-<p>A string is <strong>beautiful</strong> if:</p>
+<p>如果一个字符串满足以下条件，我们称它是 <strong>美丽</strong>&nbsp;的：</p>
 
 <ul>
-	<li>It doesn&#39;t contain leading zeros.</li>
-	<li>It&#39;s the <strong>binary</strong> representation of a number that is a power of <code>5</code>.</li>
+	<li>它不包含前导 0 。</li>
+	<li>它是 <code>5</code>&nbsp;的幂的 <strong>二进制</strong>&nbsp;表示。</li>
 </ul>
 
-<p>Return <em>the <strong>minimum</strong> number of substrings in such partition. </em>If it is impossible to partition the string <code>s</code> into beautiful substrings,&nbsp;return <code>-1</code>.</p>
+<p>请你返回分割后的子字符串的 <strong>最少</strong>&nbsp;数目。如果无法将字符串&nbsp;<code>s</code>&nbsp;分割成美丽子字符串，请你返回 <code>-1</code>&nbsp;。</p>
 
-<p>A <strong>substring</strong> is a contiguous sequence of characters in a string.</p>
+<p>子字符串是一个字符串中一段连续的字符序列。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;1011&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> We can paritition the given string into [&quot;101&quot;, &quot;1&quot;].
-- The string &quot;101&quot; does not contain leading zeros and is the binary representation of integer 5<sup>1</sup> = 5.
-- The string &quot;1&quot; does not contain leading zeros and is the binary representation of integer 5<sup>0</sup> = 1.
-It can be shown that 2 is the minimum number of beautiful substrings that s can be partitioned into.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>s = "1011"
+<b>输出：</b>2
+<b>解释：</b>我们可以将输入字符串分成 ["101", "1"] 。
+- 字符串 "101" 不包含前导 0 ，且它是整数 5<sup>1</sup> = 5 的二进制表示。
+- 字符串 "1" 不包含前导 0 ，且它是整数 5<sup>0</sup> = 1 的二进制表示。
+最少可以将 s 分成 2 个美丽子字符串。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;111&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> We can paritition the given string into [&quot;1&quot;, &quot;1&quot;, &quot;1&quot;].
-- The string &quot;1&quot; does not contain leading zeros and is the binary representation of integer 5<sup>0</sup> = 1.
-It can be shown that 3 is the minimum number of beautiful substrings that s can be partitioned into.
+<pre><b>输入：</b>s = "111"
+<b>输出：</b>3
+<b>解释：</b>我们可以将输入字符串分成 ["1", "1", "1"] 。
+- 字符串 "1" 不包含前导 0 ，且它是整数 5<sup>0</sup> = 1 的二进制表示。
+最少可以将 s 分成 3 个美丽子字符串。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;0&quot;
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> We can not partition the given string into beautiful substrings.
+<pre><b>输入：</b>s = "0"
+<b>输出：</b>-1
+<b>解释：</b>无法将给定字符串分成任何美丽子字符串。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 15</code></li>
-	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>s[i]</code>&nbsp;要么是&nbsp;<code>'0'</code>&nbsp;要么是&nbsp;<code>'1'</code> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-Since the problem requires us to judge whether a string is the binary representation of a power of $5$, we might as well first preprocess all the powers of $5$ and record them in a hash table $ss$.
+题目中需要判断一个字符串是否是 $5$ 的幂的二进制表示，因此，我们不妨先预处理出所有 $5$ 的幂的数字，记录在哈希表 $ss$ 中。
 
-Next, we design a function $dfs(i)$, which indicates the minimum number of cuts from the $i$-th character of the string $s$ to the end of the string. Then the answer is $dfs(0)$.
+接下来，我们设计一个函数 $dfs(i)$，表示从字符串 $s$ 的第 $i$ 个字符开始，到字符串末尾的最少分割次数。那么答案就是 $dfs(0)$。
 
-The calculation method of function $dfs(i)$ is as follows:
+函数 $dfs(i)$ 的计算方法如下：
 
-- If $i \geq n$, it means that all the characters have been processed, and the answer is $0$;
-- If $s[i] = 0$, it means that the current string contains leading $0$, which does not conform to the definition of a beautiful string, so the answer is infinite;
-- Otherwise, we enumerate the end position $j$ of the substring from $i$, and use $x$ to represent the decimal value of the substring $s[i..j]$. If $x$ is in the hash table $ss$, then we can take $s[i..j]$ as a beautiful substring, and the answer is $1 + dfs(j + 1)$. We need to enumerate all possible $j$ and take the minimum value of all answers.
+-   如果 $i \geq n$，表示已经处理完了所有字符，那么答案就是 $0$；
+-   如果 $s[i] = 0$，表示当前字符串包含前导 $0$，不符合美丽字符串的定义，因此答案是无穷大；
+-   否则，我们从 $i$ 开始枚举子字符串的结束位置 $j$，用 $x$ 表示子字符串 $s[i..j]$ 的十进制值，如果 $x$ 在哈希表 $ss$ 中，那么我们就可以将 $s[i..j]$ 作为一个美丽子字符串，此时答案就是 $1 + dfs(j + 1)$。我们需要枚举所有可能的 $j$，并取所有答案中的最小值。
 
-In order to avoid repeated calculation, we can use the method of memory search.
+为了避免重复计算，我们可以使用记忆化搜索的方法。
 
-In the main function, we first preprocess all the powers of $5$, and then call $dfs(0)$. If the return value is infinite, it means that the string $s$ cannot be divided into beautiful substrings, and the answer returns $-1$, otherwise, return the value of $dfs(0)$.
+在主函数中，我们首先预处理出所有 $5$ 的幂的数字，然后调用 $dfs(0)$，如果返回值为无穷大，那么说明无法将字符串 $s$ 分割成美丽子字符串，答案返回 $-1$，否则返回 $dfs(0)$ 的值。
 
-Time complexity $O(n^2)$, space complexity $O(n)$. Where $n$ is the length of string $s$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -256,34 +258,34 @@ func minimumBeautifulSubstrings(s string) int {
 
 ```ts
 function minimumBeautifulSubstrings(s: string): number {
-  const ss: Set<number> = new Set();
-  const n = s.length;
-  const f: number[] = new Array(n).fill(-1);
-  for (let i = 0, x = 1; i <= n; ++i) {
-    ss.add(x);
-    x *= 5;
-  }
-  const dfs = (i: number): number => {
-    if (i === n) {
-      return 0;
+    const ss: Set<number> = new Set();
+    const n = s.length;
+    const f: number[] = new Array(n).fill(-1);
+    for (let i = 0, x = 1; i <= n; ++i) {
+        ss.add(x);
+        x *= 5;
     }
-    if (s[i] === "0") {
-      return n + 1;
-    }
-    if (f[i] !== -1) {
-      return f[i];
-    }
-    f[i] = n + 1;
-    for (let j = i, x = 0; j < n; ++j) {
-      x = (x << 1) | (s[j] === "1" ? 1 : 0);
-      if (ss.has(x)) {
-        f[i] = Math.min(f[i], 1 + dfs(j + 1));
-      }
-    }
-    return f[i];
-  };
-  const ans = dfs(0);
-  return ans > n ? -1 : ans;
+    const dfs = (i: number): number => {
+        if (i === n) {
+            return 0;
+        }
+        if (s[i] === '0') {
+            return n + 1;
+        }
+        if (f[i] !== -1) {
+            return f[i];
+        }
+        f[i] = n + 1;
+        for (let j = i, x = 0; j < n; ++j) {
+            x = (x << 1) | (s[j] === '1' ? 1 : 0);
+            if (ss.has(x)) {
+                f[i] = Math.min(f[i], 1 + dfs(j + 1));
+            }
+        }
+        return f[i];
+    };
+    const ans = dfs(0);
+    return ans > n ? -1 : ans;
 }
 ```
 

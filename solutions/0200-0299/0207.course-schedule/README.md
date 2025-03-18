@@ -1,74 +1,77 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0207.Course%20Schedule/README.md
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
-  - Topological Sort
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
+    - 拓扑排序
 ---
 
 <!-- problem:start -->
 
-# [207. Course Schedule](https://leetcode.com/problems/course-schedule)
+# [207. 课程表](https://leetcode.cn/problems/course-schedule)
 
-## Description
+[English Version](/solution/0200-0299/0207.Course%20Schedule/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are a total of <code>numCourses</code> courses you have to take, labeled from <code>0</code> to <code>numCourses - 1</code>. You are given an array <code>prerequisites</code> where <code>prerequisites[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that you <strong>must</strong> take course <code>b<sub>i</sub></code> first if you want to take course <code>a<sub>i</sub></code>.</p>
+<p>你这个学期必须选修 <code>numCourses</code> 门课程，记为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>numCourses - 1</code> 。</p>
+
+<p>在选修某些课程之前需要一些先修课程。 先修课程按数组&nbsp;<code>prerequisites</code> 给出，其中&nbsp;<code>prerequisites[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> ，表示如果要学习课程&nbsp;<code>a<sub>i</sub></code> 则 <strong>必须</strong> 先学习课程&nbsp; <code>b<sub>i</sub></code><sub> </sub>。</p>
 
 <ul>
-	<li>For example, the pair <code>[0, 1]</code>, indicates that to take course <code>0</code> you have to first take course <code>1</code>.</li>
+	<li>例如，先修课程对&nbsp;<code>[0, 1]</code> 表示：想要学习课程 <code>0</code> ，你需要先完成课程 <code>1</code> 。</li>
 </ul>
 
-<p>Return <code>true</code> if you can finish all courses. Otherwise, return <code>false</code>.</p>
+<p>请你判断是否可能完成所有课程的学习？如果可以，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> numCourses = 2, prerequisites = [[1,0]]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> There are a total of 2 courses to take. 
-To take course 1 you should have finished course 0. So it is possible.
-</pre>
+<strong>输入：</strong>numCourses = 2, prerequisites = [[1,0]]
+<strong>输出：</strong>true
+<strong>解释：</strong>总共有 2 门课程。学习课程 1 之前，你需要完成课程 0 。这是可能的。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> numCourses = 2, prerequisites = [[1,0],[0,1]]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> There are a total of 2 courses to take. 
-To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
-</pre>
+<strong>输入：</strong>numCourses = 2, prerequisites = [[1,0],[0,1]]
+<strong>输出：</strong>false
+<strong>解释：</strong>总共有 2 门课程。学习课程 1 之前，你需要先完成​课程 0 ；并且学习课程 0 之前，你还应先完成课程 1 。这是不可能的。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= numCourses &lt;= 2000</code></li>
 	<li><code>0 &lt;= prerequisites.length &lt;= 5000</code></li>
 	<li><code>prerequisites[i].length == 2</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; numCourses</code></li>
-	<li>All the pairs prerequisites[i] are <strong>unique</strong>.</li>
+	<li><code>prerequisites[i]</code> 中的所有课程对 <strong>互不相同</strong></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Topological Sorting
+### 方法一：拓扑排序
 
-For this problem, we can consider the courses as nodes in a graph, and prerequisites as edges in the graph. Thus, we can transform this problem into determining whether there is a cycle in the directed graph.
+对于本题，我们可以将课程看作图中的节点，先修课程看作图中的边，那么我们可以将本题转化为判断有向图中是否存在环。
 
-Specifically, we can use the idea of topological sorting. For each node with an in-degree of $0$, we reduce the in-degree of its out-degree nodes by $1$, until all nodes have been traversed.
+具体地，我们可以使用拓扑排序的思想，对于每个入度为 $0$ 的节点，我们将其出度的节点的入度减 $1$，直到所有节点都被遍历到。
 
-If all nodes have been traversed, it means there is no cycle in the graph, and we can complete all courses; otherwise, we cannot complete all courses.
+如果所有节点都被遍历到，说明图中不存在环，那么我们就可以完成所有课程的学习；否则，我们就无法完成所有课程的学习。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Here, $n$ and $m$ are the number of courses and prerequisites respectively.
+时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别为课程数和先修课程数。
 
 <!-- tabs:start -->
 
@@ -77,21 +80,19 @@ The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Here,
 ```python
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        g = defaultdict(list)
+        g = [[] for _ in range(numCourses)]
         indeg = [0] * numCourses
         for a, b in prerequisites:
             g[b].append(a)
             indeg[a] += 1
-        cnt = 0
-        q = deque(i for i, x in enumerate(indeg) if x == 0)
-        while q:
-            i = q.popleft()
-            cnt += 1
+        q = [i for i, x in enumerate(indeg) if x == 0]
+        for i in q:
+            numCourses -= 1
             for j in g[i]:
                 indeg[j] -= 1
                 if indeg[j] == 0:
                     q.append(j)
-        return cnt == numCourses
+        return numCourses == 0
 ```
 
 #### Java
@@ -113,17 +114,16 @@ class Solution {
                 q.offer(i);
             }
         }
-        int cnt = 0;
         while (!q.isEmpty()) {
             int i = q.poll();
-            ++cnt;
+            --numCourses;
             for (int j : g[i]) {
                 if (--indeg[j] == 0) {
                     q.offer(j);
                 }
             }
         }
-        return cnt == numCourses;
+        return numCourses == 0;
     }
 }
 ```
@@ -147,18 +147,17 @@ public:
                 q.push(i);
             }
         }
-        int cnt = 0;
         while (!q.empty()) {
             int i = q.front();
             q.pop();
-            ++cnt;
+            --numCourses;
             for (int j : g[i]) {
                 if (--indeg[j] == 0) {
                     q.push(j);
                 }
             }
         }
-        return cnt == numCourses;
+        return numCourses == 0;
     }
 };
 ```
@@ -180,11 +179,10 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 			q = append(q, i)
 		}
 	}
-	cnt := 0
 	for len(q) > 0 {
 		i := q[0]
 		q = q[1:]
-		cnt++
+		numCourses--
 		for _, j := range g[i] {
 			indeg[j]--
 			if indeg[j] == 0 {
@@ -192,7 +190,7 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 			}
 		}
 	}
-	return cnt == numCourses
+	return numCourses == 0
 }
 ```
 
@@ -200,29 +198,27 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 
 ```ts
 function canFinish(numCourses: number, prerequisites: number[][]): boolean {
-  const g: number[][] = new Array(numCourses).fill(0).map(() => []);
-  const indeg: number[] = new Array(numCourses).fill(0);
-  for (const [a, b] of prerequisites) {
-    g[b].push(a);
-    indeg[a]++;
-  }
-  const q: number[] = [];
-  for (let i = 0; i < numCourses; ++i) {
-    if (indeg[i] == 0) {
-      q.push(i);
+    const g: number[][] = Array.from({ length: numCourses }, () => []);
+    const indeg: number[] = Array(numCourses).fill(0);
+    for (const [a, b] of prerequisites) {
+        g[b].push(a);
+        indeg[a]++;
     }
-  }
-  let cnt = 0;
-  while (q.length) {
-    const i = q.shift()!;
-    cnt++;
-    for (const j of g[i]) {
-      if (--indeg[j] == 0) {
-        q.push(j);
-      }
+    const q: number[] = [];
+    for (let i = 0; i < numCourses; ++i) {
+        if (indeg[i] === 0) {
+            q.push(i);
+        }
     }
-  }
-  return cnt == numCourses;
+    for (const i of q) {
+        --numCourses;
+        for (const j of g[i]) {
+            if (--indeg[j] === 0) {
+                q.push(j);
+            }
+        }
+    }
+    return numCourses === 0;
 }
 ```
 
@@ -232,48 +228,36 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
 use std::collections::VecDeque;
 
 impl Solution {
-    #[allow(dead_code)]
-    pub fn can_finish(num_course: i32, prerequisites: Vec<Vec<i32>>) -> bool {
-        let num_course = num_course as usize;
-        // The graph representation
-        let mut graph: Vec<Vec<i32>> = vec![vec![]; num_course];
-        // Record the in degree for each node
-        let mut in_degree_vec: Vec<i32> = vec![0; num_course];
-        let mut q: VecDeque<usize> = VecDeque::new();
-        let mut count = 0;
+    pub fn can_finish(mut num_courses: i32, prerequisites: Vec<Vec<i32>>) -> bool {
+        let mut g: Vec<Vec<i32>> = vec![vec![]; num_courses as usize];
+        let mut indeg: Vec<i32> = vec![0; num_courses as usize];
 
-        // Initialize the graph & in degree vector
-        for p in &prerequisites {
-            let (from, to) = (p[0], p[1]);
-            graph[from as usize].push(to);
-            in_degree_vec[to as usize] += 1;
+        for p in prerequisites {
+            let a = p[0] as usize;
+            let b = p[1] as usize;
+            g[b].push(a as i32);
+            indeg[a] += 1;
         }
 
-        // Enqueue the first batch of nodes with in degree 0
-        for i in 0..num_course {
-            if in_degree_vec[i] == 0 {
-                q.push_back(i);
+        let mut q: VecDeque<usize> = VecDeque::new();
+        for i in 0..num_courses {
+            if indeg[i as usize] == 0 {
+                q.push_back(i as usize);
             }
         }
 
-        // Begin the traverse & update through the graph
-        while !q.is_empty() {
-            // Get the current node index
-            let index = q.front().unwrap().clone();
-            // This course can be finished
-            count += 1;
-            q.pop_front();
-            for i in &graph[index] {
-                // Update the in degree for the current node
-                in_degree_vec[*i as usize] -= 1;
-                // See if can be enqueued
-                if in_degree_vec[*i as usize] == 0 {
-                    q.push_back(*i as usize);
+        while let Some(i) = q.pop_front() {
+            num_courses -= 1;
+            for &j in &g[i] {
+                let j = j as usize;
+                indeg[j] -= 1;
+                if indeg[j] == 0 {
+                    q.push_back(j);
                 }
             }
         }
 
-        count == num_course
+        num_courses == 0
     }
 }
 ```

@@ -1,71 +1,76 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2575.Find%20the%20Divisibility%20Array%20of%20a%20String/README.md
 rating: 1541
-source: Weekly Contest 334 Q2
+source: 第 334 场周赛 Q2
 tags:
-  - Array
-  - Math
-  - String
+    - 数组
+    - 数学
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2575. Find the Divisibility Array of a String](https://leetcode.com/problems/find-the-divisibility-array-of-a-string)
+# [2575. 找出字符串的可整除数组](https://leetcode.cn/problems/find-the-divisibility-array-of-a-string)
 
-## Description
+[English Version](/solution/2500-2599/2575.Find%20the%20Divisibility%20Array%20of%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> string <code>word</code> of length <code>n</code>&nbsp;consisting of digits, and a positive integer&nbsp;<code>m</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>word</code> ，长度为 <code>n</code> ，由从 <code>0</code> 到 <code>9</code> 的数字组成。另给你一个正整数 <code>m</code> 。</p>
 
-<p>The <strong>divisibility array</strong> <code>div</code> of <code>word</code> is an integer array of length <code>n</code> such that:</p>
+<p><code>word</code> 的 <strong>可整除数组</strong> <code>div</code>&nbsp; 是一个长度为 <code>n</code> 的整数数组，并满足：</p>
 
 <ul>
-	<li><code>div[i] = 1</code> if the&nbsp;<strong>numeric value</strong>&nbsp;of&nbsp;<code>word[0,...,i]</code> is divisible by <code>m</code>, or</li>
-	<li><code>div[i] = 0</code> otherwise.</li>
+	<li>如果 <code>word[0,...,i]</code> 所表示的 <strong>数值</strong> 能被 <code>m</code> 整除，<code>div[i] = 1</code></li>
+	<li>否则，<code>div[i] = 0</code></li>
 </ul>
 
-<p>Return<em> the divisibility array of</em><em> </em><code>word</code>.</p>
+<p>返回<em> </em><code>word</code> 的可整除数组。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> word = &quot;998244353&quot;, m = 3
-<strong>Output:</strong> [1,1,0,0,0,1,1,0,0]
-<strong>Explanation:</strong> There are only 4 prefixes that are divisible by 3: &quot;9&quot;, &quot;99&quot;, &quot;998244&quot;, and &quot;9982443&quot;.
+<strong>输入：</strong>word = "998244353", m = 3
+<strong>输出：</strong>[1,1,0,0,0,1,1,0,0]
+<strong>解释：</strong>仅有 4 个前缀可以被 3 整除："9"、"99"、"998244" 和 "9982443" 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> word = &quot;1010&quot;, m = 10
-<strong>Output:</strong> [0,1,0,1]
-<strong>Explanation:</strong> There are only 2 prefixes that are divisible by 10: &quot;10&quot;, and &quot;1010&quot;.
+<strong>输入：</strong>word = "1010", m = 10
+<strong>输出：</strong>[0,1,0,1]
+<strong>解释：</strong>仅有 2 个前缀可以被 10 整除："10" 和 "1010" 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code><font face="monospace">word.length == n</font></code></li>
-	<li><code><font face="monospace">word</font></code><font face="monospace"> consists of digits from <code>0</code>&nbsp;to <code>9</code></font></li>
-	<li><code><font face="monospace">1 &lt;= m &lt;= 10<sup>9</sup></font></code></li>
+	<li><code>word.length == n</code></li>
+	<li><code>word</code> 由数字 <code>0</code> 到 <code>9</code> 组成</li>
+	<li><code>1 &lt;= m &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal + Modulo
+### 方法一：遍历 + 取模
 
-We iterate over the string `word`, using a variable $x$ to record the modulo result of the current prefix with $m$. If $x$ is $0$, then the divisible array value at the current position is $1$, otherwise it is $0$.
+我们遍历字符串 `word`，用变量 $x$ 记录当前前缀与 $m$ 的取模结果，如果 $x$ 为 $0$，则当前位置的可整除数组值为 $1$，否则为 $0$。
 
-The time complexity is $O(n)$, where $n$ is the length of the string `word`. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串 `word` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -139,13 +144,13 @@ func divisibilityArray(word string, m int) (ans []int) {
 
 ```ts
 function divisibilityArray(word: string, m: number): number[] {
-  const ans: number[] = [];
-  let x = 0;
-  for (const c of word) {
-    x = (x * 10 + Number(c)) % m;
-    ans.push(x === 0 ? 1 : 0);
-  }
-  return ans;
+    const ans: number[] = [];
+    let x = 0;
+    for (const c of word) {
+        x = (x * 10 + Number(c)) % m;
+        ans.push(x === 0 ? 1 : 0);
+    }
+    return ans;
 }
 ```
 

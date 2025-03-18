@@ -1,84 +1,86 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2068.Check%20Whether%20Two%20Strings%20are%20Almost%20Equivalent/README.md
 rating: 1273
-source: Biweekly Contest 65 Q1
+source: 第 65 场双周赛 Q1
 tags:
-  - Hash Table
-  - String
-  - Counting
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2068. Check Whether Two Strings are Almost Equivalent](https://leetcode.com/problems/check-whether-two-strings-are-almost-equivalent)
+# [2068. 检查两个字符串是否几乎相等](https://leetcode.cn/problems/check-whether-two-strings-are-almost-equivalent)
 
-## Description
+[English Version](/solution/2000-2099/2068.Check%20Whether%20Two%20Strings%20are%20Almost%20Equivalent/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Two strings <code>word1</code> and <code>word2</code> are considered <strong>almost equivalent</strong> if the differences between the frequencies of each letter from <code>&#39;a&#39;</code> to <code>&#39;z&#39;</code> between <code>word1</code> and <code>word2</code> is <strong>at most</strong> <code>3</code>.</p>
+<p>如果两个字符串 <code>word1</code>&nbsp;和 <code>word2</code>&nbsp;中从 <code>'a'</code>&nbsp;到 <code>'z'</code>&nbsp;每一个字母出现频率之差都 <strong>不超过</strong>&nbsp;<code>3</code>&nbsp;，那么我们称这两个字符串&nbsp;<code>word1</code> 和&nbsp;<code>word2</code> <strong>几乎相等</strong>&nbsp;。</p>
 
-<p>Given two strings <code>word1</code> and <code>word2</code>, each of length <code>n</code>, return <code>true</code> <em>if </em><code>word1</code> <em>and</em> <code>word2</code> <em>are <strong>almost equivalent</strong>, or</em> <code>false</code> <em>otherwise</em>.</p>
+<p>给你两个长度都为&nbsp;<code>n</code>&nbsp;的字符串&nbsp;<code>word1</code> 和&nbsp;<code>word2</code>&nbsp;，如果&nbsp;<code>word1</code>&nbsp;和&nbsp;<code>word2</code>&nbsp;<strong>几乎相等</strong>&nbsp;，请你返回&nbsp;<code>true</code>&nbsp;，否则返回&nbsp;<code>false</code>&nbsp;。</p>
 
-<p>The <strong>frequency</strong> of a letter <code>x</code> is the number of times it occurs in the string.</p>
+<p>一个字母 <code>x</code>&nbsp;的出现 <strong>频率</strong>&nbsp;指的是它在字符串中出现的次数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> word1 = &quot;aaaa&quot;, word2 = &quot;bccb&quot;
-<strong>Output:</strong> false
-<strong>Explanation:</strong> There are 4 &#39;a&#39;s in &quot;aaaa&quot; but 0 &#39;a&#39;s in &quot;bccb&quot;.
-The difference is 4, which is more than the allowed 3.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>word1 = "aaaa", word2 = "bccb"
+<b>输出：</b>false
+<b>解释：</b>字符串 "aaaa" 中有 4 个 'a' ，但是 "bccb" 中有 0 个 'a' 。
+两者之差为 4 ，大于上限 3 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> word1 = &quot;abcdeef&quot;, word2 = &quot;abaaacc&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The differences between the frequencies of each letter in word1 and word2 are at most 3:
-- &#39;a&#39; appears 1 time in word1 and 4 times in word2. The difference is 3.
-- &#39;b&#39; appears 1 time in word1 and 1 time in word2. The difference is 0.
-- &#39;c&#39; appears 1 time in word1 and 2 times in word2. The difference is 1.
-- &#39;d&#39; appears 1 time in word1 and 0 times in word2. The difference is 1.
-- &#39;e&#39; appears 2 times in word1 and 0 times in word2. The difference is 2.
-- &#39;f&#39; appears 1 time in word1 and 0 times in word2. The difference is 1.
+<pre><b>输入：</b>word1 = "abcdeef", word2 = "abaaacc"
+<b>输出：</b>true
+<b>解释：</b>word1 和 word2 中每个字母出现频率之差至多为 3 ：
+- 'a' 在 word1 中出现了 1 次，在 word2 中出现了 4 次，差为 3 。
+- 'b' 在 word1 中出现了 1 次，在 word2 中出现了 1 次，差为 0 。
+- 'c' 在 word1 中出现了 1 次，在 word2 中出现了 2 次，差为 1 。
+- 'd' 在 word1 中出现了 1 次，在 word2 中出现了 0 次，差为 1 。
+- 'e' 在 word1 中出现了 2 次，在 word2 中出现了 0 次，差为 2 。
+- 'f' 在 word1 中出现了 1 次，在 word2 中出现了 0 次，差为 1 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> word1 = &quot;cccddabba&quot;, word2 = &quot;babababab&quot;
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The differences between the frequencies of each letter in word1 and word2 are at most 3:
-- &#39;a&#39; appears 2 times in word1 and 4 times in word2. The difference is 2.
-- &#39;b&#39; appears 2 times in word1 and 5 times in word2. The difference is 3.
-- &#39;c&#39; appears 3 times in word1 and 0 times in word2. The difference is 3.
-- &#39;d&#39; appears 2 times in word1 and 0 times in word2. The difference is 2.
+<pre><b>输入：</b>word1 = "cccddabba", word2 = "babababab"
+<b>输出：</b>true
+<b>解释：</b>word1 和 word2 中每个字母出现频率之差至多为 3 ：
+- 'a' 在 word1 中出现了 2 次，在 word2 中出现了 4 次，差为 2 。
+- 'b' 在 word1 中出现了 2 次，在 word2 中出现了 5 次，差为 3 。
+- 'c' 在 word1 中出现了 3 次，在 word2 中出现了 0 次，差为 3 。
+- 'd' 在 word1 中出现了 2 次，在 word2 中出现了 0 次，差为 2 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == word1.length == word2.length</code></li>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
-	<li><code>word1</code> and <code>word2</code> consist only of lowercase English letters.</li>
+	<li><code>word1</code> 和&nbsp;<code>word2</code>&nbsp;都只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We can create an array $cnt$ of length $26$ to record the difference in the number of times each letter appears in the two strings. Then we traverse $cnt$, if any letter appears the difference in the number of times greater than $3$, then return `false`, otherwise return `true`.
+我们可以创建一个长度为 $26$ 的数组 $cnt$，记录两个字符串中每个字母出现的次数之差。最后遍历 $cnt$，如果有任意一个字母出现的次数之差大于 $3$，则返回 `false`，否则返回 `true`。
 
-The time complexity is $O(n)$ and the space complexity is $O(C)$. Where $n$ is the length of the string, and $C$ is the size of the character set, and in this question $C = 26$.
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 是字符串的长度；而 $C$ 是字符集的大小，本题中 $C = 26$。
 
 <!-- tabs:start -->
 
@@ -162,14 +164,14 @@ func checkAlmostEquivalent(word1 string, word2 string) bool {
 
 ```ts
 function checkAlmostEquivalent(word1: string, word2: string): boolean {
-  const cnt: number[] = new Array(26).fill(0);
-  for (const c of word1) {
-    ++cnt[c.charCodeAt(0) - 97];
-  }
-  for (const c of word2) {
-    --cnt[c.charCodeAt(0) - 97];
-  }
-  return cnt.every((x) => Math.abs(x) <= 3);
+    const cnt: number[] = new Array(26).fill(0);
+    for (const c of word1) {
+        ++cnt[c.charCodeAt(0) - 97];
+    }
+    for (const c of word2) {
+        --cnt[c.charCodeAt(0) - 97];
+    }
+    return cnt.every(x => Math.abs(x) <= 3);
 }
 ```
 
@@ -182,17 +184,17 @@ function checkAlmostEquivalent(word1: string, word2: string): boolean {
  * @return {boolean}
  */
 var checkAlmostEquivalent = function (word1, word2) {
-  const m = new Map();
-  for (let i = 0; i < word1.length; i++) {
-    m.set(word1[i], (m.get(word1[i]) || 0) + 1);
-    m.set(word2[i], (m.get(word2[i]) || 0) - 1);
-  }
-  for (const v of m.values()) {
-    if (Math.abs(v) > 3) {
-      return false;
+    const m = new Map();
+    for (let i = 0; i < word1.length; i++) {
+        m.set(word1[i], (m.get(word1[i]) || 0) + 1);
+        m.set(word2[i], (m.get(word2[i]) || 0) - 1);
     }
-  }
-  return true;
+    for (const v of m.values()) {
+        if (Math.abs(v) > 3) {
+            return false;
+        }
+    }
+    return true;
 };
 ```
 

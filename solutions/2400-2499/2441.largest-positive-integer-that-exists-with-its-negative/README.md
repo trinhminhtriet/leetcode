@@ -1,54 +1,59 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2441.Largest%20Positive%20Integer%20That%20Exists%20With%20Its%20Negative/README.md
 rating: 1167
-source: Weekly Contest 315 Q1
+source: 第 315 场周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - Two Pointers
-  - Sorting
+    - 数组
+    - 哈希表
+    - 双指针
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2441. Largest Positive Integer That Exists With Its Negative](https://leetcode.com/problems/largest-positive-integer-that-exists-with-its-negative)
+# [2441. 与对应负数同时存在的最大正整数](https://leetcode.cn/problems/largest-positive-integer-that-exists-with-its-negative)
 
-## Description
+[English Version](/solution/2400-2499/2441.Largest%20Positive%20Integer%20That%20Exists%20With%20Its%20Negative/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> that <strong>does not contain</strong> any zeros, find <strong>the largest positive</strong> integer <code>k</code> such that <code>-k</code> also exists in the array.</p>
+<p>给你一个 <strong>不包含</strong> 任何零的整数数组 <code>nums</code> ，找出自身与对应的负数都在数组中存在的最大正整数 <code>k</code> 。</p>
 
-<p>Return <em>the positive integer </em><code>k</code>. If there is no such integer, return <code>-1</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [-1,2,-3,3]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 3 is the only valid k we can find in the array.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [-1,10,6,7,-7,1]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> Both 1 and 7 have their corresponding negative values in the array. 7 has a larger value.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [-10,8,6,7,-2,-3]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> There is no a single valid k, we return -1.
-</pre>
+<p>返回正整数<em> </em><code>k</code> ，如果不存在这样的整数，返回 <code>-1</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [-1,2,-3,3]
+<strong>输出：</strong>3
+<strong>解释：</strong>3 是数组中唯一一个满足题目要求的 k 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [-1,10,6,7,-7,1]
+<strong>输出：</strong>7
+<strong>解释：</strong>数组中存在 1 和 7 对应的负数，7 的值更大。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [-10,8,6,7,-2,-3]
+<strong>输出：</strong>-1
+<strong>解释：</strong>不存在满足题目要求的 k ，返回 -1 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -58,19 +63,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We can use a hash table $s$ to record all elements that appear in the array, and a variable $ans$ to record the maximum positive integer that satisfies the problem requirements, initially $ans = -1$.
+我们可以用哈希表 $s$ 记录数组中出现的所有元素，用一个变量 $ans$ 记录满足题目要求的最大正整数，初始时 $ans = -1$。
 
-Next, we traverse each element $x$ in the hash table $s$. If $-x$ exists in $s$, then we update $ans = \max(ans, x)$.
+接下来，我们遍历哈希表 $s$ 中的每个元素 $x$，如果 $s$ 中存在 $-x$，那么我们就更新 $ans = \max(ans, x)$。
 
-After the traversal ends, return $ans$.
+遍历结束后，返回 $ans$ 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -143,14 +148,14 @@ func findMaxK(nums []int) int {
 
 ```ts
 function findMaxK(nums: number[]): number {
-  let ans = -1;
-  const s = new Set(nums);
-  for (const x of s) {
-    if (s.has(-x)) {
-      ans = Math.max(ans, x);
+    let ans = -1;
+    const s = new Set(nums);
+    for (const x of s) {
+        if (s.has(-x)) {
+            ans = Math.max(ans, x);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -178,7 +183,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

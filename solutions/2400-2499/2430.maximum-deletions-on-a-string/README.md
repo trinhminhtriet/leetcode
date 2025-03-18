@@ -1,97 +1,102 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2430.Maximum%20Deletions%20on%20a%20String/README.md
 rating: 2101
-source: Weekly Contest 313 Q4
+source: 第 313 场周赛 Q4
 tags:
-  - String
-  - Dynamic Programming
-  - String Matching
-  - Hash Function
-  - Rolling Hash
+    - 字符串
+    - 动态规划
+    - 字符串匹配
+    - 哈希函数
+    - 滚动哈希
 ---
 
 <!-- problem:start -->
 
-# [2430. Maximum Deletions on a String](https://leetcode.com/problems/maximum-deletions-on-a-string)
+# [2430. 对字母串可执行的最大删除数](https://leetcode.cn/problems/maximum-deletions-on-a-string)
 
-## Description
+[English Version](/solution/2400-2499/2430.Maximum%20Deletions%20on%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> consisting of only lowercase English letters. In one operation, you can:</p>
+<p>给你一个仅由小写英文字母组成的字符串 <code>s</code> 。在一步操作中，你可以：</p>
 
 <ul>
-	<li>Delete <strong>the entire string</strong> <code>s</code>, or</li>
-	<li>Delete the <strong>first</strong> <code>i</code> letters of <code>s</code> if the first <code>i</code> letters of <code>s</code> are <strong>equal</strong> to the following <code>i</code> letters in <code>s</code>, for any <code>i</code> in the range <code>1 &lt;= i &lt;= s.length / 2</code>.</li>
+	<li>删除 <strong>整个字符串</strong> <code>s</code> ，或者</li>
+	<li>对于满足&nbsp;<code>1 &lt;= i &lt;= s.length / 2</code> 的任意 <code>i</code> ，如果 <code>s</code> 中的 <strong>前</strong> <code>i</code> 个字母和接下来的 <code>i</code> 个字母 <strong>相等</strong> ，删除 <strong>前</strong> <code>i</code> 个字母。</li>
 </ul>
 
-<p>For example, if <code>s = &quot;ababc&quot;</code>, then in one operation, you could delete the first two letters of <code>s</code> to get <code>&quot;abc&quot;</code>, since the first two letters of <code>s</code> and the following two letters of <code>s</code> are both equal to <code>&quot;ab&quot;</code>.</p>
+<p>例如，如果 <code>s = "ababc"</code> ，那么在一步操作中，你可以删除 <code>s</code> 的前两个字母得到 <code>"abc"</code> ，因为 <code>s</code> 的前两个字母和接下来的两个字母都等于 <code>"ab"</code> 。</p>
 
-<p>Return <em>the <strong>maximum</strong> number of operations needed to delete all of </em><code>s</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;abcabcdabc&quot;
-<strong>Output:</strong> 2
-<strong>Explanation:</strong>
-- Delete the first 3 letters (&quot;abc&quot;) since the next 3 letters are equal. Now, s = &quot;abcdabc&quot;.
-- Delete all the letters.
-We used 2 operations so return 2. It can be proven that 2 is the maximum number of operations needed.
-Note that in the second operation we cannot delete &quot;abc&quot; again because the next occurrence of &quot;abc&quot; does not happen in the next 3 letters.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;aaabaab&quot;
-<strong>Output:</strong> 4
-<strong>Explanation:</strong>
-- Delete the first letter (&quot;a&quot;) since the next letter is equal. Now, s = &quot;aabaab&quot;.
-- Delete the first 3 letters (&quot;aab&quot;) since the next 3 letters are equal. Now, s = &quot;aab&quot;.
-- Delete the first letter (&quot;a&quot;) since the next letter is equal. Now, s = &quot;ab&quot;.
-- Delete all the letters.
-We used 4 operations so return 4. It can be proven that 4 is the maximum number of operations needed.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;aaaaa&quot;
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> In each operation, we can delete the first letter of s.
-</pre>
+<p>返回删除 <code>s</code> 所需的最大操作数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "abcabcdabc"
+<strong>输出：</strong>2
+<strong>解释：</strong>
+- 删除前 3 个字母（"abc"），因为它们和接下来 3 个字母相等。现在，s = "abcdabc"。
+- 删除全部字母。
+一共用了 2 步操作，所以返回 2 。可以证明 2 是所需的最大操作数。
+注意，在第二步操作中无法再次删除 "abc" ，因为 "abc" 的下一次出现并不是位于接下来的 3 个字母。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aaabaab"
+<strong>输出：</strong>4
+<strong>解释：</strong>
+- 删除第一个字母（"a"），因为它和接下来的字母相等。现在，s = "aabaab"。
+- 删除前 3 个字母（"aab"），因为它们和接下来 3 个字母相等。现在，s = "aab"。 
+- 删除第一个字母（"a"），因为它和接下来的字母相等。现在，s = "ab"。
+- 删除全部字母。
+一共用了 4 步操作，所以返回 4 。可以证明 4 是所需的最大操作数。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aaaaa"
+<strong>输出：</strong>5
+<strong>解释：</strong>在每一步操作中，都可以仅删除 s 的第一个字母。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 4000</code></li>
-	<li><code>s</code> consists only of lowercase English letters.</li>
+	<li><code>s</code> 仅由小写英文字母组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-We design a function $dfs(i)$, which represents the maximum number of operations needed to delete all characters from $s[i..]$. The answer is $dfs(0)$.
+我们设计一个函数 $dfs(i)$，表示删除 $s[i..]$ 所有字符所需的最大操作数，那么答案就是 $dfs(0)$。
 
-The calculation process of the function $dfs(i)$ is as follows:
+函数 $dfs(i)$ 的计算过程如下：
 
-- If $i \geq n$, then $dfs(i) = 0$, return directly.
-- Otherwise, we enumerate the length of the string $j$, where $1 \leq j \leq (n-1)/2$. If $s[i..i+j] = s[i+j..i+j+j]$, we can delete $s[i..i+j]$, then $dfs(i)=max(dfs(i), dfs(i+j)+1)$. We need to enumerate all $j$ to find the maximum value of $dfs(i)$.
+-   如果 $i \geq n$，那么 $dfs(i) = 0$，直接返回。
+-   否则，我们枚举字符串的长度 $j$，其中 $1 \leq j \leq (n-1)/2$，如果 $s[i..i+j] = s[i+j..i+j+j]$，那么我们可以删除 $s[i..i+j]$，此时 $dfs(i)=max(dfs(i), dfs(i+j)+1)$。我们需要枚举所有的 $j$，求 $dfs(i)$ 的最大值即可。
 
-Here we need to quickly determine whether $s[i..i+j]$ is equal to $s[i+j..i+j+j]$. We can preprocess all the longest common prefixes of string $s$, that is, $g[i][j]$ represents the length of the longest common prefix of $s[i..]$ and $s[j..]$. In this way, we can quickly determine whether $s[i..i+j]$ is equal to $s[i+j..i+j+j]$, that is, $g[i][i+j] \geq j$.
+这里我们需要快速判断 $s[i..i+j]$ 与 $s[i+j..i+j+j]$ 是否相等，我们可以预处理出字符串 $s$ 的所有最长公共前缀，即 $g[i][j]$ 表示 $s[i..]$ 与 $s[j..]$ 的最长公共前缀的长度。这样我们就可以快速判断 $s[i..i+j]$ 与 $s[i+j..i+j+j]$ 是否相等，即 $g[i][i+j] \geq j$。
 
-To avoid repeated calculations, we can use memoization search and use an array $f$ to record the value of the function $dfs(i)$.
+为了避免重复计算，我们可以使用记忆化搜索，用一个数组 $f$ 记录函数 $dfs(i)$ 的值。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -233,24 +238,24 @@ func deleteString(s string) int {
 
 ```ts
 function deleteString(s: string): number {
-  const n = s.length;
-  const f: number[] = new Array(n).fill(0);
-  const dfs = (i: number): number => {
-    if (i == n) {
-      return 0;
-    }
-    if (f[i] > 0) {
-      return f[i];
-    }
-    f[i] = 1;
-    for (let j = 1; j <= (n - i) >> 1; ++j) {
-      if (s.slice(i, i + j) == s.slice(i + j, i + j + j)) {
-        f[i] = Math.max(f[i], dfs(i + j) + 1);
-      }
-    }
-    return f[i];
-  };
-  return dfs(0);
+    const n = s.length;
+    const f: number[] = new Array(n).fill(0);
+    const dfs = (i: number): number => {
+        if (i == n) {
+            return 0;
+        }
+        if (f[i] > 0) {
+            return f[i];
+        }
+        f[i] = 1;
+        for (let j = 1; j <= (n - i) >> 1; ++j) {
+            if (s.slice(i, i + j) == s.slice(i + j, i + j + j)) {
+                f[i] = Math.max(f[i], dfs(i + j) + 1);
+            }
+        }
+        return f[i];
+    };
+    return dfs(0);
 }
 ```
 
@@ -260,13 +265,13 @@ function deleteString(s: string): number {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We can change the memoization search in Solution 1 to dynamic programming. Define $f[i]$ to represent the maximum number of operations needed to delete all characters from $s[i..]$. Initially, $f[i]=1$, and the answer is $f[0]$.
+我们可以将方法一的记忆化搜索改为动态规划，定义 $f[i]$ 表示删除 $s[i..]$ 所有字符所需的最大操作数，初始时 $f[i]=1$，答案为 $f[0]$。
 
-We can enumerate $i$ from back to front. For each $i$, we enumerate the length of the string $j$, where $1 \leq j \leq (n-1)/2$. If $s[i..i+j] = s[i+j..i+j+j]$, we can delete $s[i..i+j]$, then $f[i]=max(f[i], f[i+j]+1)$. We need to enumerate all $j$ to find the maximum value of $f[i]$.
+我们可以从后往前枚举 $i$，对于每个 $i$，我们枚举字符串的长度 $j$，其中 $1 \leq j \leq (n-1)/2$，如果 $s[i..i+j] = s[i+j..i+j+j]$，那么我们可以删除 $s[i..i+j]$，此时 $f[i]=max(f[i], f[i+j]+1)$。我们需要枚举所有的 $j$，求 $f[i]$ 的最大值即可。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -381,16 +386,16 @@ func deleteString(s string) int {
 
 ```ts
 function deleteString(s: string): number {
-  const n = s.length;
-  const f: number[] = new Array(n).fill(1);
-  for (let i = n - 1; i >= 0; --i) {
-    for (let j = 1; j <= (n - i) >> 1; ++j) {
-      if (s.slice(i, i + j) === s.slice(i + j, i + j + j)) {
-        f[i] = Math.max(f[i], f[i + j] + 1);
-      }
+    const n = s.length;
+    const f: number[] = new Array(n).fill(1);
+    for (let i = n - 1; i >= 0; --i) {
+        for (let j = 1; j <= (n - i) >> 1; ++j) {
+            if (s.slice(i, i + j) === s.slice(i + j, i + j + j)) {
+                f[i] = Math.max(f[i], f[i + j] + 1);
+            }
+        }
     }
-  }
-  return f[0];
+    return f[0];
 }
 ```
 

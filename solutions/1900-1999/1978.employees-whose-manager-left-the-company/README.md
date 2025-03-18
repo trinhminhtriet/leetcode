@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1978.Employees%20Whose%20Manager%20Left%20the%20Company/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [1978. Employees Whose Manager Left the Company](https://leetcode.com/problems/employees-whose-manager-left-the-company)
+# [1978. 上级经理已离职的公司员工](https://leetcode.cn/problems/employees-whose-manager-left-the-company)
 
-## Description
+[English Version](/solution/1900-1999/1978.Employees%20Whose%20Manager%20Left%20the%20Company/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Employees</code></p>
+<p>表: <code>Employees</code></p>
 
 <pre>
 +-------------+----------+
@@ -24,23 +27,25 @@ tags:
 | manager_id  | int      |
 | salary      | int      |
 +-------------+----------+
-In SQL, employee_id is the primary key for this table.
-This table contains information about the employees, their salary, and the ID of their manager. Some employees do not have a manager (manager_id is null). 
+在 SQL 中，employee_id 是这个表的主键。
+这个表包含了员工，他们的薪水和上级经理的id。
+有一些员工没有上级经理（其 manager_id 是空值）。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Find the IDs of the employees whose salary is strictly less than <code>$30000</code> and whose manager left the company. When a manager leaves the company, their information is deleted from the <code>Employees</code> table, but the reports still have their <code>manager_id</code> set to the manager that left.</p>
+<p>查找这些员工的id，他们的薪水严格少于<code>$30000</code>&nbsp;并且他们的上级经理已离职。当一个经理离开公司时，他们的信息需要从员工表中删除掉，但是表中的员工的<code>manager_id</code> &nbsp;这一列还是设置的离职经理的id&nbsp;。</p>
 
-<p>Return the result table ordered by <code>employee_id</code>.</p>
+<p>返回的结果按照<code>employee_id&nbsp;</code>从小到大排序。</p>
 
-<p>The result format is in the following example.</p>
+<p>查询结果如下所示：</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例：</strong></p>
 
 <pre>
-<strong>Input: </strong> 
+<strong>输入：</strong>
 Employees table:
 +-------------+-----------+------------+--------+
 | employee_id | name      | manager_id | salary |
@@ -52,28 +57,28 @@ Employees table:
 | 9           | Mikaela   | null       | 50937  |
 | 11          | Joziah    | 6          | 28485  |
 +-------------+-----------+------------+--------+
-<strong>Output:</strong> 
+<strong>输出：</strong>
 +-------------+
 | employee_id |
 +-------------+
 | 11          |
 +-------------+
 
-<strong>Explanation:</strong> 
-The employees with a salary less than $30000 are 1 (Kalel) and 11 (Joziah).
-Kalel&#39;s manager is employee 11, who is still in the company (Joziah).
-Joziah&#39;s manager is employee 6, who left the company because there is no row for employee 6 as it was deleted.
+<strong>解释：</strong>
+薪水少于 30000 美元的员工有 1 号(Kalel) 和 11号 (Joziah)。
+Kalel 的上级经理是 11 号员工，他还在公司上班(他是 Joziah )。
+Joziah 的上级经理是 6 号员工，他已经离职，因为员工表里面已经没有 6 号员工的信息了，它被删除了。
 </pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Left Join
+### 方法一：左连接
 
-We can use a left join to connect the employee table with itself, and then filter out the employees whose salary is less than $30000$ and have a superior manager who has left the company.
+我们可以使用左连接，将员工表自身连接一次，然后筛选出薪水小于 30000 的员工，且有上级经理，但是上级经理已经离职的员工。
 
 <!-- tabs:start -->
 
@@ -95,9 +100,9 @@ ORDER BY 1;
 
 <!-- solution:start -->
 
-### Solution 2: Subquery
+### 方法二：子查询
 
-We can also use a subquery to first find all the managers who have left the company, and then find the employees whose salary is less than $30000$ and whose superior manager is not in the list of managers who have left the company.
+我们也可以使用子查询，先找出所有已经离职的经理，然后再找出薪水小于 30000 的员工，且他们的上级经理不在已经离职的经理列表中。
 
 <!-- tabs:start -->
 

@@ -1,58 +1,74 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2312.Selling%20Pieces%20of%20Wood/README.md
 rating: 2363
-source: Weekly Contest 298 Q4
+source: 第 298 场周赛 Q4
 tags:
-  - Memoization
-  - Array
-  - Dynamic Programming
+    - 记忆化搜索
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2312. Selling Pieces of Wood](https://leetcode.com/problems/selling-pieces-of-wood)
+# [2312. 卖木头块](https://leetcode.cn/problems/selling-pieces-of-wood)
 
-## Description
+[English Version](/solution/2300-2399/2312.Selling%20Pieces%20of%20Wood/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two integers <code>m</code> and <code>n</code> that represent the height and width of a rectangular piece of wood. You are also given a 2D integer array <code>prices</code>, where <code>prices[i] = [h<sub>i</sub>, w<sub>i</sub>, price<sub>i</sub>]</code> indicates you can sell a rectangular piece of wood of height <code>h<sub>i</sub></code> and width <code>w<sub>i</sub></code> for <code>price<sub>i</sub></code> dollars.</p>
+<p>给你两个整数&nbsp;<code>m</code> 和&nbsp;<code>n</code>&nbsp;，分别表示一块矩形木块的高和宽。同时给你一个二维整数数组&nbsp;<code>prices</code>&nbsp;，其中&nbsp;<code>prices[i] = [h<sub>i</sub>, w<sub>i</sub>, price<sub>i</sub>]</code>&nbsp;表示你可以以&nbsp;<code>price<sub>i</sub></code>&nbsp;元的价格卖一块高为&nbsp;<code>h<sub>i</sub></code>&nbsp;宽为&nbsp;<code>w<sub>i</sub></code>&nbsp;的矩形木块。</p>
 
-<p>To cut a piece of wood, you must make a vertical or horizontal cut across the <strong>entire</strong> height or width of the piece to split it into two smaller pieces. After cutting a piece of wood into some number of smaller pieces, you can sell pieces according to <code>prices</code>. You may sell multiple pieces of the same shape, and you do not have to sell all the shapes. The grain of the wood makes a difference, so you <strong>cannot</strong> rotate a piece to swap its height and width.</p>
+<p>每一次操作中，你必须按下述方式之一执行切割操作，以得到两块更小的矩形木块：</p>
 
-<p>Return <em>the <strong>maximum</strong> money you can earn after cutting an </em><code>m x n</code><em> piece of wood</em>.</p>
+<ul>
+	<li>沿垂直方向按高度 <strong>完全</strong> 切割木块，或</li>
+	<li>沿水平方向按宽度 <strong>完全</strong> 切割木块</li>
+</ul>
 
-<p>Note that you can cut the piece of wood as many times as you want.</p>
+<p>在将一块木块切成若干小木块后，你可以根据 <code>prices</code>&nbsp;卖木块。你可以卖多块同样尺寸的木块。你不需要将所有小木块都卖出去。你 <strong>不能</strong>&nbsp;旋转切好后木块来交换它的高度值和宽度值。</p>
+
+<p>请你返回切割一块大小为<em>&nbsp;</em><code>m x n</code><em> </em>的木块后，能得到的&nbsp;<strong>最多</strong>&nbsp;钱数。</p>
+
+<p>注意你可以切割木块任意次。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2312.Selling%20Pieces%20of%20Wood/images/ex1.png" style="width: 239px; height: 150px;" />
+
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2312.Selling%20Pieces%20of%20Wood/images/ex1.png" style="width: 239px; height: 150px;" /></p>
+
 <pre>
-<strong>Input:</strong> m = 3, n = 5, prices = [[1,4,2],[2,2,7],[2,1,3]]
-<strong>Output:</strong> 19
-<strong>Explanation:</strong> The diagram above shows a possible scenario. It consists of:
-- 2 pieces of wood shaped 2 x 2, selling for a price of 2 * 7 = 14.
-- 1 piece of wood shaped 2 x 1, selling for a price of 1 * 3 = 3.
-- 1 piece of wood shaped 1 x 4, selling for a price of 1 * 2 = 2.
-This obtains a total of 14 + 3 + 2 = 19 money earned.
-It can be shown that 19 is the maximum amount of money that can be earned.
+<b>输入：</b>m = 3, n = 5, prices = [[1,4,2],[2,2,7],[2,1,3]]
+<b>输出：</b>19
+<b>解释：</b>上图展示了一个可行的方案。包括：
+- 2 块 2 x 2 的小木块，售出 2 * 7 = 14 元。
+- 1 块 2 x 1 的小木块，售出 1 * 3 = 3 元。
+- 1 块 1 x 4 的小木块，售出 1 * 2 = 2 元。
+总共售出 14 + 3 + 2 = 19 元。
+19 元是最多能得到的钱数。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2312.Selling%20Pieces%20of%20Wood/images/ex2new.png" style="width: 250px; height: 175px;" />
+<p><strong>示例 2：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2312.Selling%20Pieces%20of%20Wood/images/ex2new.png" style="width: 250px; height: 175px;" /></p>
+
 <pre>
-<strong>Input:</strong> m = 4, n = 6, prices = [[3,2,10],[1,4,2],[4,1,3]]
-<strong>Output:</strong> 32
-<strong>Explanation:</strong> The diagram above shows a possible scenario. It consists of:
-- 3 pieces of wood shaped 3 x 2, selling for a price of 3 * 10 = 30.
-- 1 piece of wood shaped 1 x 4, selling for a price of 1 * 2 = 2.
-This obtains a total of 30 + 2 = 32 money earned.
-It can be shown that 32 is the maximum amount of money that can be earned.
-Notice that we cannot rotate the 1 x 4 piece of wood to obtain a 4 x 1 piece of wood.</pre>
+<b>输入：</b>m = 4, n = 6, prices = [[3,2,10],[1,4,2],[4,1,3]]
+<b>输出：</b>32
+<b>解释：</b>上图展示了一个可行的方案。包括：
+- 3 块 3 x 2 的小木块，售出 3 * 10 = 30 元。
+- 1 块 1 x 4 的小木块，售出 1 * 2 = 2 元。
+总共售出 30 + 2 = 32 元。
+32 元是最多能得到的钱数。
+注意我们不能旋转 1 x 4 的木块来得到 4 x 1 的木块。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m, n &lt;= 200</code></li>
@@ -61,27 +77,27 @@ Notice that we cannot rotate the 1 x 4 piece of wood to obtain a 4 x 1 piece of 
 	<li><code>1 &lt;= h<sub>i</sub> &lt;= m</code></li>
 	<li><code>1 &lt;= w<sub>i</sub> &lt;= n</code></li>
 	<li><code>1 &lt;= price<sub>i</sub> &lt;= 10<sup>6</sup></code></li>
-	<li>All the shapes of wood <code>(h<sub>i</sub>, w<sub>i</sub>)</code> are pairwise <strong>distinct</strong>.</li>
+	<li>所有&nbsp;<code>(h<sub>i</sub>, w<sub>i</sub>)</code> <strong>互不相同</strong>&nbsp;。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Memoization Search
+### 方法一：记忆化搜索
 
-First, we define a 2D array $d$, where $d[i][j]$ represents the price of a wood block with height $i$ and width $j$.
+我们先定义一个二维数组 $d$，其中 $d[i][j]$ 表示高为 $i$，宽为 $j$ 的木块的价格。初始时，我们遍历价格数组 $prices$，将每一块木块 $(h, w, p)$ 的价格 $p$ 存入 $d[h][w]$ 中，其余价格为 $0$。
 
-Then, we design a function $dfs(h, w)$ to denote the maximum amount of money obtained by cutting a wood block with height $h$ and width $w$. The answer will be $dfs(m, n)$.
+然后我们设计一个函数 $dfs(h, w)$，表示对一块高为 $h$，宽为 $w$ 的木块切割后能得到的最多钱数。答案就是 $dfs(m, n)$。
 
-The process of function $dfs(h, w)$ is as follows:
+函数 $dfs(h, w)$ 的执行过程如下：
 
-- If $(h, w)$ has been calculated before, return the answer directly.
-- Otherwise, initialize the answer as $d[h][w]$, then enumerate the cutting positions, calculate the maximum amount of money obtained by cutting the wood block into two pieces, and take the maximum value.
+-   如果 $(h, w)$ 已经被计算过了，直接返回答案。
+-   否则，我们先初始化答案为 $d[h][w]$，然后枚举切割的位置，分别计算切割后的两块木块能得到的最多钱数，取最大值即可。
 
-The time complexity is $O(m \times n \times (m + n) + p)$, and the space complexity is $O(m \times n)$. Here, $p$ represents the length of the price array, while $m$ and $n$ represent the height and width of the wood blocks, respectively.
+时间复杂度 $(m \times n \times (m + n) + p)$，空间复杂度 $O(m \times n)$。其中 $p$ 表示价格数组的长度，而 $m$ 和 $n$ 分别表示木块的高和宽。
 
 <!-- tabs:start -->
 
@@ -208,32 +224,28 @@ func sellingWood(m int, n int, prices [][]int) int64 {
 
 ```ts
 function sellingWood(m: number, n: number, prices: number[][]): number {
-  const f: number[][] = Array.from({ length: m + 1 }, () =>
-    Array(n + 1).fill(-1)
-  );
-  const d: number[][] = Array.from({ length: m + 1 }, () =>
-    Array(n + 1).fill(0)
-  );
-  for (const [h, w, p] of prices) {
-    d[h][w] = p;
-  }
-
-  const dfs = (h: number, w: number): number => {
-    if (f[h][w] !== -1) {
-      return f[h][w];
+    const f: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(-1));
+    const d: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    for (const [h, w, p] of prices) {
+        d[h][w] = p;
     }
 
-    let ans = d[h][w];
-    for (let i = 1; i <= Math.floor(h / 2); i++) {
-      ans = Math.max(ans, dfs(i, w) + dfs(h - i, w));
-    }
-    for (let i = 1; i <= Math.floor(w / 2); i++) {
-      ans = Math.max(ans, dfs(h, i) + dfs(h, w - i));
-    }
-    return (f[h][w] = ans);
-  };
+    const dfs = (h: number, w: number): number => {
+        if (f[h][w] !== -1) {
+            return f[h][w];
+        }
 
-  return dfs(m, n);
+        let ans = d[h][w];
+        for (let i = 1; i <= Math.floor(h / 2); i++) {
+            ans = Math.max(ans, dfs(i, w) + dfs(h - i, w));
+        }
+        for (let i = 1; i <= Math.floor(w / 2); i++) {
+            ans = Math.max(ans, dfs(h, i) + dfs(h, w - i));
+        }
+        return (f[h][w] = ans);
+    };
+
+    return dfs(m, n);
 }
 ```
 
@@ -243,21 +255,21 @@ function sellingWood(m: number, n: number, prices: number[][]): number {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We can transform the memoization search in Solution 1 into dynamic programming.
+我们可以将方法一的记忆化搜索转换为动态规划。
 
-Similar to Solution 1, we define a 2D array $d$, where $d[i][j]$ represents the price of a wood block with height $i$ and width $j$. Initially, we iterate through the price array $prices$ and store the price $p$ of each wood block $(h, w, p)$ in $d[h][w]$, while the rest of the prices are set to $0$.
+与方法一类似，我们定义一个二维数组 $d$，其中 $d[i][j]$ 表示高为 $i$，宽为 $j$ 的木块的价格。初始时，我们遍历价格数组 $prices$，将每一块木块 $(h, w, p)$ 的价格 $p$ 存入 $d[h][w]$ 中，其余价格为 $0$。
 
-Then, we define another 2D array $f$, where $f[i][j]$ represents the maximum amount of money obtained by cutting a wood block with height $i$ and width $j$. The answer will be $f[m][n]$.
+然后，我们定义另一个二维数组 $f$，其中 $f[i][j]$ 表示对一块高为 $i$，宽为 $j$ 的木块切割后能得到的最多钱数。答案就是 $f[m][n]$。
 
-Considering how $f[i][j]$ transitions, initially $f[i][j] = d[i][j]$. We enumerate the cutting positions, calculate the maximum amount of money obtained by cutting the wood block into two pieces, and take the maximum value.
+考虑 $f[i][j]$ 如何转移，初始时 $f[i][j] = d[i][j]$。我们枚举切割的位置，分别计算切割后的两块木块能得到的最多钱数，取最大值即可。
 
-The time complexity is $O(m \times n \times (m + n) + p)$, and the space complexity is $O(m \times n)$. Here, $p$ represents the length of the price array, while $m$ and $n$ represent the height and width of the wood blocks, respectively.
+时间复杂度 $O(m \times n \times (m + n) + p)$，空间复杂度 $O(m \times n)$。其中 $p$ 表示价格数组的长度，而 $m$ 和 $n$ 分别表示木块的高和宽。
 
-Similar problems:
+相似题目：
 
-- [1444. Number of Ways of Cutting a Pizza](https://github.com/doocs/leetcode/blob/main/solution/1400-1499/1444.Number%20of%20Ways%20of%20Cutting%20a%20Pizza/README_EN.md)
+-   [1444. 切披萨的方案数](https://github.com/doocs/leetcode/blob/main/solution/1400-1499/1444.Number%20of%20Ways%20of%20Cutting%20a%20Pizza/README.md)
 
 <!-- tabs:start -->
 
@@ -367,29 +379,25 @@ func sellingWood(m int, n int, prices [][]int) int64 {
 
 ```ts
 function sellingWood(m: number, n: number, prices: number[][]): number {
-  const f: number[][] = Array.from({ length: m + 1 }, () =>
-    Array(n + 1).fill(0)
-  );
-  const d: number[][] = Array.from({ length: m + 1 }, () =>
-    Array(n + 1).fill(0)
-  );
-  for (const [h, w, p] of prices) {
-    d[h][w] = p;
-  }
-
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      f[i][j] = d[i][j];
-      for (let k = 1; k < i; k++) {
-        f[i][j] = Math.max(f[i][j], f[k][j] + f[i - k][j]);
-      }
-      for (let k = 1; k < j; k++) {
-        f[i][j] = Math.max(f[i][j], f[i][k] + f[i][j - k]);
-      }
+    const f: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    const d: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    for (const [h, w, p] of prices) {
+        d[h][w] = p;
     }
-  }
 
-  return f[m][n];
+    for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+            f[i][j] = d[i][j];
+            for (let k = 1; k < i; k++) {
+                f[i][j] = Math.max(f[i][j], f[k][j] + f[i - k][j]);
+            }
+            for (let k = 1; k < j; k++) {
+                f[i][j] = Math.max(f[i][j], f[i][k] + f[i][j - k]);
+            }
+        }
+    }
+
+    return f[m][n];
 }
 ```
 

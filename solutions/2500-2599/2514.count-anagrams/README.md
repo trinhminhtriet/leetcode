@@ -1,66 +1,69 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2514.Count%20Anagrams/README.md
 rating: 2069
-source: Biweekly Contest 94 Q4
+source: 第 94 场双周赛 Q4
 tags:
-  - Hash Table
-  - Math
-  - String
-  - Combinatorics
-  - Counting
+    - 哈希表
+    - 数学
+    - 字符串
+    - 组合数学
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2514. Count Anagrams](https://leetcode.com/problems/count-anagrams)
+# [2514. 统计同位异构字符串数目](https://leetcode.cn/problems/count-anagrams)
 
-## Description
+[English Version](/solution/2500-2599/2514.Count%20Anagrams/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> containing one or more words. Every consecutive pair of words is separated by a single space <code>&#39; &#39;</code>.</p>
+<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，它包含一个或者多个单词。单词之间用单个空格&nbsp;<code>' '</code>&nbsp;隔开。</p>
 
-<p>A string <code>t</code> is an <strong>anagram</strong> of string <code>s</code> if the <code>i<sup>th</sup></code> word of <code>t</code> is a <strong>permutation</strong> of the <code>i<sup>th</sup></code> word of <code>s</code>.</p>
+<p>如果字符串 <code>t</code>&nbsp;中第 <code>i</code>&nbsp;个单词是 <code>s</code>&nbsp;中第 <code>i</code>&nbsp;个单词的一个&nbsp;<strong>排列</strong>&nbsp;，那么我们称字符串&nbsp;<code>t</code>&nbsp;是字符串&nbsp;<code>s</code>&nbsp;的同位异构字符串。</p>
 
 <ul>
-	<li>For example, <code>&quot;acb dfe&quot;</code> is an anagram of <code>&quot;abc def&quot;</code>, but <code>&quot;def cab&quot;</code>&nbsp;and <code>&quot;adc bef&quot;</code> are not.</li>
+	<li>比方说，<code>"acb dfe"</code>&nbsp;是&nbsp;<code>"abc def"</code>&nbsp;的同位异构字符串，但是&nbsp;<code>"def cab"</code>&nbsp;和&nbsp;<code>"adc bef"</code>&nbsp;不是。</li>
 </ul>
 
-<p>Return <em>the number of <strong>distinct anagrams</strong> of </em><code>s</code>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>请你返回<em>&nbsp;</em><code>s</code>&nbsp;的同位异构字符串的数目，由于答案可能很大，请你将它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong> 后返回。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;too hot&quot;
-<strong>Output:</strong> 18
-<strong>Explanation:</strong> Some of the anagrams of the given string are &quot;too hot&quot;, &quot;oot hot&quot;, &quot;oto toh&quot;, &quot;too toh&quot;, and &quot;too oht&quot;.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>s = "too hot"
+<b>输出：</b>18
+<b>解释：</b>输入字符串的一些同位异构字符串为 "too hot" ，"oot hot" ，"oto toh" ，"too toh" 以及 "too oht" 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;aa&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> There is only one anagram possible for the given string.</pre>
+<pre><b>输入：</b>s = "aa"
+<b>输出：</b>1
+<strong>解释：</strong>输入字符串只有一个同位异构字符串。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of lowercase English letters and spaces <code>&#39; &#39;</code>.</li>
-	<li>There is single space between consecutive words.</li>
+	<li><code>s</code> 只包含小写英文字母和空格&nbsp;<code>' '</code>&nbsp;。</li>
+	<li>相邻单词之间由单个空格隔开。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -189,7 +192,7 @@ func pow(x, n int) int {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

@@ -1,76 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2181.Merge%20Nodes%20in%20Between%20Zeros/README.md
 rating: 1333
-source: Weekly Contest 281 Q2
+source: 第 281 场周赛 Q2
 tags:
-  - Linked List
-  - Simulation
+    - 链表
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [2181. Merge Nodes in Between Zeros](https://leetcode.com/problems/merge-nodes-in-between-zeros)
+# [2181. 合并零之间的节点](https://leetcode.cn/problems/merge-nodes-in-between-zeros)
 
-## Description
+[English Version](/solution/2100-2199/2181.Merge%20Nodes%20in%20Between%20Zeros/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the <code>head</code> of a linked list, which contains a series of integers <strong>separated</strong> by <code>0</code>&#39;s. The <strong>beginning</strong> and <strong>end</strong> of the linked list will have <code>Node.val == 0</code>.</p>
+<p>给你一个链表的头节点 <code>head</code> ，该链表包含由 <code>0</code> 分隔开的一连串整数。链表的 <strong>开端</strong> 和 <strong>末尾</strong> 的节点都满足 <code>Node.val == 0</code> 。</p>
 
-<p>For <strong>every </strong>two consecutive <code>0</code>&#39;s, <strong>merge</strong> all the nodes lying in between them into a single node whose value is the <strong>sum</strong> of all the merged nodes. The modified list should not contain any <code>0</code>&#39;s.</p>
+<p>对于每两个相邻的 <code>0</code> ，请你将它们之间的所有节点合并成一个节点，其值是所有已合并节点的值之和。然后将所有 <code>0</code> 移除，修改后的链表不应该含有任何 <code>0</code> 。</p>
 
-<p>Return <em>the</em> <code>head</code> <em>of the modified linked list</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2181.Merge%20Nodes%20in%20Between%20Zeros/images/ex1-1.png" style="width: 600px; height: 41px;" />
-<pre>
-<strong>Input:</strong> head = [0,3,1,0,4,5,2,0]
-<strong>Output:</strong> [4,11]
-<strong>Explanation:</strong> 
-The above figure represents the given linked list. The modified list contains
-- The sum of the nodes marked in green: 3 + 1 = 4.
-- The sum of the nodes marked in red: 4 + 5 + 2 = 11.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2181.Merge%20Nodes%20in%20Between%20Zeros/images/ex2-1.png" style="width: 600px; height: 41px;" />
-<pre>
-<strong>Input:</strong> head = [0,1,0,3,0,2,2,0]
-<strong>Output:</strong> [1,3,4]
-<strong>Explanation:</strong> 
-The above figure represents the given linked list. The modified list contains
-- The sum of the nodes marked in green: 1 = 1.
-- The sum of the nodes marked in red: 3 = 3.
-- The sum of the nodes marked in yellow: 2 + 2 = 4.
-</pre>
+<p>&nbsp;返回修改后链表的头节点 <code>head</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：<br />
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2181.Merge%20Nodes%20in%20Between%20Zeros/images/ex1-1.png" style="width: 600px; height: 41px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>head = [0,3,1,0,4,5,2,0]
+<strong>输出：</strong>[4,11]
+<strong>解释：</strong>
+上图表示输入的链表。修改后的链表包含：
+- 标记为绿色的节点之和：3 + 1 = 4
+- 标记为红色的节点之和：4 + 5 + 2 = 11
+</pre>
+
+<p><strong>示例 2：<br />
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2181.Merge%20Nodes%20in%20Between%20Zeros/images/ex2-1.png" style="width: 600px; height: 41px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>head = [0,1,0,3,0,2,2,0]
+<strong>输出：</strong>[1,3,4]
+<strong>解释：</strong>
+上图表示输入的链表。修改后的链表包含：
+- 标记为绿色的节点之和：1 = 1
+- 标记为红色的节点之和：3 = 3
+- 标记为黄色的节点之和：2 + 2 = 4
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the list is in the range <code>[3, 2 * 10<sup>5</sup>]</code>.</li>
+	<li>列表中的节点数目在范围 <code>[3, 2 * 10<sup>5</sup>]</code> 内</li>
 	<li><code>0 &lt;= Node.val &lt;= 1000</code></li>
-	<li>There are <strong>no</strong> two consecutive nodes with <code>Node.val == 0</code>.</li>
-	<li>The <strong>beginning</strong> and <strong>end</strong> of the linked list have <code>Node.val == 0</code>.</li>
+	<li><strong>不</strong> 存在连续两个&nbsp;<code>Node.val == 0</code> 的节点</li>
+	<li>链表的 <strong>开端</strong> 和 <strong>末尾</strong> 节点都满足 <code>Node.val == 0</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We define a dummy head node $\textit{dummy}$, a pointer $\textit{tail}$ pointing to the current node, and a variable $\textit{s}$ to record the sum of the values of the current nodes.
+我们定义一个虚拟头节点 $\textit{dummy}$，以及一个指向当前节点的指针 $\textit{tail}$，一个变量 $\textit{s}$ 用来记录当前节点的值之和。
 
-Next, we traverse the linked list starting from the second node. If the value of the current node is not 0, we add it to $\textit{s}$. Otherwise, we add $\textit{s}$ to the node after $\textit{tail}$, set $\textit{s}$ to 0, and update $\textit{tail}$ to the next node.
+接下来，我们从链表的第二个节点开始遍历，如果当前节点的值不为 0，我们将其加到 $\textit{s}$ 上，否则我们将 $\textit{s}$ 加到 $\textit{tail}$ 的后面，并将 $\textit{s}$ 置为 0，更新 $\textit{tail}$ 为 $\textit{tail}$ 的下一个节点。
 
-Finally, we return the node next to $\textit{dummy}$.
+最后，我们返回 $\textit{dummy}$ 的下一个节点。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the linked list.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为链表的长度。
 
 <!-- tabs:start -->
 
@@ -206,19 +213,19 @@ func mergeNodes(head *ListNode) *ListNode {
  */
 
 function mergeNodes(head: ListNode | null): ListNode | null {
-  const dummy = new ListNode();
-  let tail = dummy;
-  let s = 0;
-  for (let cur = head.next; cur; cur = cur.next) {
-    if (cur.val) {
-      s += cur.val;
-    } else {
-      tail.next = new ListNode(s);
-      tail = tail.next;
-      s = 0;
+    const dummy = new ListNode();
+    let tail = dummy;
+    let s = 0;
+    for (let cur = head.next; cur; cur = cur.next) {
+        if (cur.val) {
+            s += cur.val;
+        } else {
+            tail.next = new ListNode(s);
+            tail = tail.next;
+            s = 0;
+        }
     }
-  }
-  return dummy.next;
+    return dummy.next;
 }
 ```
 

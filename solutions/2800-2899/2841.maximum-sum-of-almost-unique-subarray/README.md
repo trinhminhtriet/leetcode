@@ -1,57 +1,62 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2841.Maximum%20Sum%20of%20Almost%20Unique%20Subarray/README.md
 rating: 1545
-source: Biweekly Contest 112 Q3
+source: 第 112 场双周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Sliding Window
+    - 数组
+    - 哈希表
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2841. Maximum Sum of Almost Unique Subarray](https://leetcode.com/problems/maximum-sum-of-almost-unique-subarray)
+# [2841. 几乎唯一子数组的最大和](https://leetcode.cn/problems/maximum-sum-of-almost-unique-subarray)
 
-## Description
+[English Version](/solution/2800-2899/2841.Maximum%20Sum%20of%20Almost%20Unique%20Subarray/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> and two positive integers <code>m</code> and <code>k</code>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和两个正整数&nbsp;<code>m</code>&nbsp;和&nbsp;<code>k</code>&nbsp;。</p>
 
-<p>Return <em>the <strong>maximum sum</strong> out of all <strong>almost unique</strong> subarrays of length </em><code>k</code><em> of</em> <code>nums</code>. If no such subarray exists, return <code>0</code>.</p>
+<p>请你返回 <code>nums</code>&nbsp;中长度为 <code>k</code>&nbsp;的&nbsp;<strong>几乎唯一</strong>&nbsp;子数组的 <strong>最大和</strong>&nbsp;，如果不存在几乎唯一子数组，请你返回 <code>0</code>&nbsp;。</p>
 
-<p>A subarray of <code>nums</code> is <strong>almost unique</strong> if it contains at least <code>m</code> distinct elements.</p>
+<p>如果 <code>nums</code>&nbsp;的一个子数组有至少 <code>m</code>&nbsp;个互不相同的元素，我们称它是 <strong>几乎唯一</strong>&nbsp;子数组。</p>
 
-<p>A subarray is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2,6,7,3,1,7], m = 3, k = 4
-<strong>Output:</strong> 18
-<strong>Explanation:</strong> There are 3 almost unique subarrays of size <code>k = 4</code>. These subarrays are [2, 6, 7, 3], [6, 7, 3, 1], and [7, 3, 1, 7]. Among these subarrays, the one with the maximum sum is [2, 6, 7, 3] which has a sum of 18.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [5,9,9,2,4,5,4], m = 1, k = 3
-<strong>Output:</strong> 23
-<strong>Explanation:</strong> There are 5 almost unique subarrays of size k. These subarrays are [5, 9, 9], [9, 9, 2], [9, 2, 4], [2, 4, 5], and [4, 5, 4]. Among these subarrays, the one with the maximum sum is [5, 9, 9] which has a sum of 23.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,1,2,1,2,1], m = 3, k = 3
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are no subarrays of size <code>k = 3</code> that contain at least <code>m = 3</code> distinct elements in the given array [1,2,1,2,1,2,1]. Therefore, no almost unique subarrays exist, and the maximum sum is 0.
-</pre>
+<p>子数组指的是一个数组中一段连续 <strong>非空</strong>&nbsp;的元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [2,6,7,3,1,7], m = 3, k = 4
+<b>输出：</b>18
+<b>解释：</b>总共有 3 个长度为 k = 4 的几乎唯一子数组。分别为 [2, 6, 7, 3] ，[6, 7, 3, 1] 和 [7, 3, 1, 7] 。这些子数组中，和最大的是 [2, 6, 7, 3] ，和为 18 。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [5,9,9,2,4,5,4], m = 1, k = 3
+<b>输出：</b>23
+<b>解释：</b>总共有 5 个长度为 k = 3 的几乎唯一子数组。分别为 [5, 9, 9] ，[9, 9, 2] ，[9, 2, 4] ，[2, 4, 5] 和 [4, 5, 4] 。这些子数组中，和最大的是 [5, 9, 9] ，和为 23 。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,2,1,2,1,2,1], m = 3, k = 3
+<b>输出：</b>0
+<b>解释：</b>输入数组中不存在长度为 <code>k = 3</code> 的子数组含有至少  <code>m = 3</code> 个互不相同元素的子数组。所以不存在几乎唯一子数组，最大和为 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
@@ -61,17 +66,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sliding Window + Hash Table
+### 方法一：滑动窗口 + 哈希表
 
-We can traverse the array $nums$, maintain a window of size $k$, use a hash table $cnt$ to count the occurrence of each element in the window, and use a variable $s$ to sum all elements in the window. If the number of different elements in $cnt$ is greater than or equal to $m$, then we update the answer $ans = \max(ans, s)$.
+我们可以遍历数组 $nums$，维护一个大小为 $k$ 的窗口，用哈希表 $cnt$ 统计窗口中每个元素的出现次数，用变量 $s$ 统计窗口中所有元素的和。如果 $cnt$ 中不同元素的个数大于等于 $m$，那么我们就更新答案 $ans = \max(ans, s)$。
 
-After the traversal ends, return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(k)$. Here, $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(k)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -184,26 +189,26 @@ func maxSum(nums []int, m int, k int) int64 {
 
 ```ts
 function maxSum(nums: number[], m: number, k: number): number {
-  const n = nums.length;
-  const cnt: Map<number, number> = new Map();
-  let s = 0;
-  for (let i = 0; i < k; ++i) {
-    cnt.set(nums[i], (cnt.get(nums[i]) || 0) + 1);
-    s += nums[i];
-  }
-  let ans = cnt.size >= m ? s : 0;
-  for (let i = k; i < n; ++i) {
-    cnt.set(nums[i], (cnt.get(nums[i]) || 0) + 1);
-    cnt.set(nums[i - k], cnt.get(nums[i - k])! - 1);
-    if (cnt.get(nums[i - k]) === 0) {
-      cnt.delete(nums[i - k]);
+    const n = nums.length;
+    const cnt: Map<number, number> = new Map();
+    let s = 0;
+    for (let i = 0; i < k; ++i) {
+        cnt.set(nums[i], (cnt.get(nums[i]) || 0) + 1);
+        s += nums[i];
     }
-    s += nums[i] - nums[i - k];
-    if (cnt.size >= m) {
-      ans = Math.max(ans, s);
+    let ans = cnt.size >= m ? s : 0;
+    for (let i = k; i < n; ++i) {
+        cnt.set(nums[i], (cnt.get(nums[i]) || 0) + 1);
+        cnt.set(nums[i - k], cnt.get(nums[i - k])! - 1);
+        if (cnt.get(nums[i - k]) === 0) {
+            cnt.delete(nums[i - k]);
+        }
+        s += nums[i] - nums[i - k];
+        if (cnt.size >= m) {
+            ans = Math.max(ans, s);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

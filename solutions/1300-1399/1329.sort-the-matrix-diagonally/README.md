@@ -1,66 +1,73 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1329.Sort%20the%20Matrix%20Diagonally/README.md
 rating: 1548
-source: Biweekly Contest 18 Q3
+source: 第 18 场双周赛 Q3
 tags:
-  - Array
-  - Matrix
-  - Sorting
+    - 数组
+    - 矩阵
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1329. Sort the Matrix Diagonally](https://leetcode.com/problems/sort-the-matrix-diagonally)
+# [1329. 将矩阵按对角线排序](https://leetcode.cn/problems/sort-the-matrix-diagonally)
 
-## Description
+[English Version](/solution/1300-1399/1329.Sort%20the%20Matrix%20Diagonally/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <strong>matrix diagonal</strong> is a diagonal line of cells starting from some cell in either the topmost row or leftmost column and going in the bottom-right direction until reaching the matrix&#39;s end. For example, the <strong>matrix diagonal</strong> starting from <code>mat[2][0]</code>, where <code>mat</code> is a <code>6 x 3</code> matrix, includes cells <code>mat[2][0]</code>, <code>mat[3][1]</code>, and <code>mat[4][2]</code>.</p>
+<p><strong>矩阵对角线</strong> 是一条从矩阵最上面行或者最左侧列中的某个元素开始的对角线，沿右下方向一直到矩阵末尾的元素。例如，矩阵 <code>mat</code> 有 <code>6</code> 行 <code>3</code> 列，从 <code>mat[2][0]</code> 开始的 <strong>矩阵对角线</strong> 将会经过 <code>mat[2][0]</code>、<code>mat[3][1]</code> 和 <code>mat[4][2]</code> 。</p>
 
-<p>Given an <code>m x n</code> matrix <code>mat</code> of integers, sort each <strong>matrix diagonal</strong> in ascending order and return <em>the resulting matrix</em>.</p>
+<p>给你一个 <code>m * n</code> 的整数矩阵 <code>mat</code> ，请你将同一条 <strong>矩阵对角线 </strong>上的元素按升序排序后，返回排好序的矩阵。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1329.Sort%20the%20Matrix%20Diagonally/images/1482_example_1_2.png" style="width: 500px; height: 198px;" />
-<pre>
-<strong>Input:</strong> mat = [[3,3,1,1],[2,2,1,2],[1,1,1,2]]
-<strong>Output:</strong> [[1,1,1,1],[1,2,2,2],[1,2,3,3]]
-</pre>
+<p> </p>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1329.Sort%20the%20Matrix%20Diagonally/images/1482_example_1_2.png" style="height: 198px; width: 500px;" /></p>
 
 <pre>
-<strong>Input:</strong> mat = [[11,25,66,1,69,7],[23,55,17,45,15,52],[75,31,36,44,58,8],[22,27,33,25,68,4],[84,28,14,11,5,50]]
-<strong>Output:</strong> [[5,17,4,1,52,7],[11,11,25,45,8,69],[14,23,25,44,58,15],[22,27,31,36,50,66],[84,28,75,33,55,68]]
+<strong>输入：</strong>mat = [[3,3,1,1],[2,2,1,2],[1,1,1,2]]
+<strong>输出：</strong>[[1,1,1,1],[1,2,2,2],[1,2,3,3]]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>mat = [[11,25,66,1,69,7],[23,55,17,45,15,52],[75,31,36,44,58,8],[22,27,33,25,68,4],[84,28,14,11,5,50]]
+<strong>输出：</strong>[[5,17,4,1,52,7],[11,11,25,45,8,69],[14,23,25,44,58,15],[22,27,31,36,50,66],[84,28,75,33,55,68]]
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>m == mat.length</code></li>
-	<li><code>n == mat[i].length</code></li>
-	<li><code>1 &lt;= m, n &lt;= 100</code></li>
-	<li><code>1 &lt;= mat[i][j] &lt;= 100</code></li>
+	<li><code>m == mat.length</code></li>
+	<li><code>n == mat[i].length</code></li>
+	<li><code>1 <= m, n <= 100</code></li>
+	<li><code>1 <= mat[i][j] <= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting
+### 方法一：排序
 
-We can treat each diagonal of the matrix as an array, sort these arrays, and then fill the sorted elements back into the original matrix.
+我们可以将矩阵中的每条对角线看作一个数组，然后对这些数组进行排序，最后再将排序后的元素填回原矩阵中。
 
-Specifically, we denote the number of rows in the matrix as $m$ and the number of columns as $n$. Since any two elements $(i_1, j_1)$ and $(i_2, j_2)$ on the same diagonal satisfy $j_1 - i_1 = j_2 - i_2$, we can determine each diagonal based on the value of $j - i$. To ensure the value is positive, we add an offset $m$, that is, $m - i + j$.
+具体地，我们记矩阵的行数为 $m$，列数为 $n$。由于同一条对角线上的任意两个元素 $(i_1, j_1)$ 和 $(i_2, j_2)$ 满足 $j_1 - i_1 = j_2 - i_2$，我们可以根据 $j - i$ 的值来确定每条对角线。为了保证值为正数，我们加上一个偏移量 $m$，即 $m - i + j$。
 
-Finally, we fill the sorted elements of each diagonal back into the original matrix.
+最后，我们将每条对角线上的元素排序后填回原矩阵中即可。
 
-The time complexity is $O(m \times n \times \log \min(m, n))$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows and columns in the matrix, respectively.
+时间复杂度 $O(m \times n \times \log \min(m, n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -164,22 +171,22 @@ func diagonalSort(mat [][]int) [][]int {
 
 ```ts
 function diagonalSort(mat: number[][]): number[][] {
-  const [m, n] = [mat.length, mat[0].length];
-  const g: number[][] = Array.from({ length: m + n }, () => []);
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      g[m - i + j].push(mat[i][j]);
+    const [m, n] = [mat.length, mat[0].length];
+    const g: number[][] = Array.from({ length: m + n }, () => []);
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            g[m - i + j].push(mat[i][j]);
+        }
     }
-  }
-  for (const e of g) {
-    e.sort((a, b) => b - a);
-  }
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      mat[i][j] = g[m - i + j].pop()!;
+    for (const e of g) {
+        e.sort((a, b) => b - a);
     }
-  }
-  return mat;
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            mat[i][j] = g[m - i + j].pop()!;
+        }
+    }
+    return mat;
 }
 ```
 

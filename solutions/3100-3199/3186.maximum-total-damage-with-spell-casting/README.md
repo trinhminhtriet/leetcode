@@ -1,63 +1,68 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3186.Maximum%20Total%20Damage%20With%20Spell%20Casting/README.md
 rating: 1840
-source: Weekly Contest 402 Q3
+source: 第 402 场周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Two Pointers
-  - Binary Search
-  - Dynamic Programming
-  - Counting
-  - Sorting
+    - 数组
+    - 哈希表
+    - 双指针
+    - 二分查找
+    - 动态规划
+    - 计数
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3186. Maximum Total Damage With Spell Casting](https://leetcode.com/problems/maximum-total-damage-with-spell-casting)
+# [3186. 施咒的最大总伤害](https://leetcode.cn/problems/maximum-total-damage-with-spell-casting)
 
-## Description
+[English Version](/solution/3100-3199/3186.Maximum%20Total%20Damage%20With%20Spell%20Casting/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A magician has various spells.</p>
+<p>一个魔法师有许多不同的咒语。</p>
 
-<p>You are given an array <code>power</code>, where each element represents the damage of a spell. Multiple spells can have the same damage value.</p>
+<p>给你一个数组&nbsp;<code>power</code>&nbsp;，其中每个元素表示一个咒语的伤害值，可能会有多个咒语有相同的伤害值。</p>
 
-<p>It is a known fact that if a magician decides to cast a spell with a damage of <code>power[i]</code>, they <strong>cannot</strong> cast any spell with a damage of <code>power[i] - 2</code>, <code>power[i] - 1</code>, <code>power[i] + 1</code>, or <code>power[i] + 2</code>.</p>
+<p>已知魔法师使用伤害值为&nbsp;<code>power[i]</code>&nbsp;的咒语时，他们就&nbsp;<strong>不能</strong>&nbsp;使用伤害为&nbsp;<code>power[i] - 2</code>&nbsp;，<code>power[i] - 1</code>&nbsp;，<code>power[i] + 1</code>&nbsp;或者&nbsp;<code>power[i] + 2</code>&nbsp;的咒语。</p>
 
-<p>Each spell can be cast <strong>only once</strong>.</p>
+<p>每个咒语最多只能被使用 <strong>一次</strong>&nbsp;。</p>
 
-<p>Return the <strong>maximum</strong> possible <em>total damage</em> that a magician can cast.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">power = [1,1,3,4]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">6</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The maximum possible damage of 6 is produced by casting spells 0, 1, 3 with damage 1, 1, 4.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">power = [7,1,6,6]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">13</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The maximum possible damage of 13 is produced by casting spells 1, 2, 3 with damage 1, 6, 6.</p>
-</div>
+<p>请你返回这个魔法师可以达到的伤害值之和的 <strong>最大值</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>power = [1,1,3,4]</span></p>
+
+<p><span class="example-io"><b>输出：</b>6</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>可以使用咒语 0，1，3，伤害值分别为 1，1，4，总伤害值为 6 。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>power = [7,1,6,6]</span></p>
+
+<p><span class="example-io"><b>输出：</b>13</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>可以使用咒语 1，2，3，伤害值分别为 1，6，6，总伤害值为 13 。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= power.length &lt;= 10<sup>5</sup></code></li>
@@ -66,23 +71,23 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search + Memoization
+### 方法一：二分查找 + 记忆化搜索
 
-We can first sort the array $\textit{power}$, use a hash table $\textit{cnt}$ to record the occurrence count of each damage value, and then iterate through the array $\textit{power}$. For each damage value $x$, we can determine the index of the next damage value that can be used when using a spell with damage value $x$, which is the index of the first damage value greater than $x + 2$. We can use binary search to find this index and record it in the array $\textit{nxt}$.
+我们可以先对数组 $\textit{power}$ 进行排序，用一个哈希表 $\textit{cnt}$ 来记录每个伤害值的出现次数，然后遍历数组 $\textit{power}$，对于每个伤害值 $x$，我们可以得出使用伤害值为 $x$ 的咒语时，可以使用的下一个伤害值的索引，即第一个大于 $x + 2$ 的伤害值的索引，我们可以使用二分查找来找到这个索引，记录在数组 $\textit{nxt}$ 中。
 
-Next, we define a function $\textit{dfs}$ to calculate the maximum damage value that can be obtained starting from the $i$-th damage value.
+接下来，我们定义一个函数 $\textit{dfs}$，用来计算从第 $i$ 个伤害值开始，可以获得的最大伤害值。
 
-In the $\textit{dfs}$ function, we can choose to skip the current damage value, so we can skip all the same damage values of the current one and directly jump to $i + \textit{cnt}[x]$, obtaining a damage value of $\textit{dfs}(i + \textit{cnt}[x])$; or we can choose to use the current damage value, so we can use all the same damage values of the current one and then jump to the index of the next damage value, obtaining a damage value of $x \times \textit{cnt}[x] + \textit{dfs}(\textit{nxt}[i])$, where $\textit{nxt}[i]$ represents the index of the first damage value greater than $x + 2$. We take the maximum of these two cases as the return value of the function.
+在 $\textit{dfs}$ 函数中，我们可以选择跳过当前伤害值，那么我们可以跳过当前伤害值的所有相同伤害值，直接跳到 $i + \textit{cnt}[x]$，可以获得的伤害值为 $\textit{dfs}(i + \textit{cnt}[x])$；或者我们可以选择使用当前伤害值，那么我们可以使用当前伤害值的所有相同伤害值，然后跳到下一个伤害值的索引，可以获得的伤害值为 $x \times \textit{cnt}[x] + \textit{dfs}(\textit{nxt}[i])$，其中 $\textit{nxt}[i]$ 表示第一个大于 $x + 2$ 的伤害值的索引。我们取这两种情况的最大值作为函数的返回值。
 
-To avoid repeated calculations, we can use memoization, storing the results that have already been calculated in an array $\textit{f}$. Thus, when calculating $\textit{dfs}(i)$, if $\textit{f}[i]$ is not $0$, we directly return $\textit{f}[i]$.
+为了避免重复计算，我们可以使用记忆化搜索，将已经计算过的结果保存在数组 $\textit{f}$ 中，这样在计算 $\textit{dfs}(i)$ 时，如果 $\textit{f}[i]$ 不为 $0$，则直接返回 $\textit{f}[i]$。
 
-The answer is $\textit{dfs}(0)$.
+答案即为 $\textit{dfs}(0)$。
 
-The time complexity is $O(n \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{power}$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{power}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -219,36 +224,36 @@ func maximumTotalDamage(power []int) int64 {
 
 ```ts
 function maximumTotalDamage(power: number[]): number {
-  const n = power.length;
-  power.sort((a, b) => a - b);
-  const f: number[] = Array(n).fill(0);
-  const cnt: Record<number, number> = {};
-  const nxt: number[] = Array(n).fill(0);
-  for (let i = 0; i < n; ++i) {
-    cnt[power[i]] = (cnt[power[i]] || 0) + 1;
-    let [l, r] = [i + 1, n];
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (power[mid] > power[i] + 2) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
+    const n = power.length;
+    power.sort((a, b) => a - b);
+    const f: number[] = Array(n).fill(0);
+    const cnt: Record<number, number> = {};
+    const nxt: number[] = Array(n).fill(0);
+    for (let i = 0; i < n; ++i) {
+        cnt[power[i]] = (cnt[power[i]] || 0) + 1;
+        let [l, r] = [i + 1, n];
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (power[mid] > power[i] + 2) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        nxt[i] = l;
     }
-    nxt[i] = l;
-  }
-  const dfs = (i: number): number => {
-    if (i >= n) {
-      return 0;
-    }
-    if (f[i]) {
-      return f[i];
-    }
-    const a = dfs(i + cnt[power[i]]);
-    const b = power[i] * cnt[power[i]] + dfs(nxt[i]);
-    return (f[i] = Math.max(a, b));
-  };
-  return dfs(0);
+    const dfs = (i: number): number => {
+        if (i >= n) {
+            return 0;
+        }
+        if (f[i]) {
+            return f[i];
+        }
+        const a = dfs(i + cnt[power[i]]);
+        const b = power[i] * cnt[power[i]] + dfs(nxt[i]);
+        return (f[i] = Math.max(a, b));
+    };
+    return dfs(0);
 }
 ```
 

@@ -1,50 +1,54 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1043.Partition%20Array%20for%20Maximum%20Sum/README.md
 rating: 1916
-source: Weekly Contest 136 Q3
+source: 第 136 场周赛 Q3
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1043. Partition Array for Maximum Sum](https://leetcode.com/problems/partition-array-for-maximum-sum)
+# [1043. 分隔数组以得到最大和](https://leetcode.cn/problems/partition-array-for-maximum-sum)
 
-## Description
+[English Version](/solution/1000-1099/1043.Partition%20Array%20for%20Maximum%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>arr</code>, partition the array into (contiguous) subarrays of length <strong>at most</strong> <code>k</code>. After partitioning, each subarray has their values changed to become the maximum value of that subarray.</p>
+<p>给你一个整数数组 <code>arr</code>，请你将该数组分隔为长度 <strong>最多 </strong>为 k 的一些（连续）子数组。分隔完成后，每个子数组的中的所有值都会变为该子数组中的最大值。</p>
 
-<p>Return <em>the largest sum of the given array after partitioning. Test cases are generated so that the answer fits in a <strong>32-bit</strong> integer.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1,15,7,9,2,5,10], k = 3
-<strong>Output:</strong> 84
-<strong>Explanation:</strong> arr becomes [15,15,15,9,10,10,10]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1,4,1,5,7,3,6,1,9,9,3], k = 4
-<strong>Output:</strong> 83
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1], k = 1
-<strong>Output:</strong> 1
-</pre>
+<p>返回将数组分隔变换后能够得到的元素最大和。本题所用到的测试用例会确保答案是一个 32 位整数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [1,15,7,9,2,5,10], k = 3
+<strong>输出：</strong>84
+<strong>解释：</strong>数组变为 [15,15,15,9,10,10,10]</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [1,4,1,5,7,3,6,1,9,9,3], k = 4
+<strong>输出：</strong>83
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [1], k = 1
+<strong>输出：</strong>1
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 500</code></li>
@@ -54,25 +58,25 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i]$ to represent the maximum element sum of the first $i$ elements of the array after separating them into several subarrays. At the beginning, $f[i]=0$, and the answer is $f[n]$.
+我们定义 $f[i]$ 表示将数组的前 $i$ 个元素分隔成若干个子数组，最终的最大元素和。初始时 $f[i]=0$，答案为 $f[n]$。
 
-We consider how to calculate $f[i]$, where $i \geq 1$.
+我们考虑如何计算 $f[i]$，其中 $i \geq 1$。
 
-For $f[i]$, its last element is $arr[i-1]$. Since the maximum length of each subarray is $k$, and we need to find the maximum value in the subarray, we can enumerate the first element $arr[j - 1]$ of the last subarray from right to left, where $\max(0, i - k) \lt j \leq i$, and maintain a variable $mx$ during the process to represent the maximum value in the subarray. The state transition equation is:
+对于 $f[i]$，它的最后一个元素是 $arr[i-1]$。由于每个子数组的长度最多为 $k$，并且我们需要求得子数组中的最大值，因此，我们可以从右往左枚举最后一个子数组的第一个元素 $arr[j - 1]$，其中 $\max(0, i - k) \lt j \leq i$，过程中维护一个变量 $mx$，表示最后一个子数组中的最大值，那么状态转移方程为：
 
 $$
 f[i] = \max\{f[i], f[j - 1] + mx \times (i - j + 1)\}
 $$
 
-The final answer is $f[n]$.
+最终的答案即为 $f[n]$。
 
-The time complexity is $O(n \times k)$, and the space complexity is $O(n)$, where $n$ is the length of the array $arr$.
+时间复杂度 $O(n \times k)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $arr$ 的长度。
 
 <!-- tabs:start -->
 
@@ -152,16 +156,16 @@ func maxSumAfterPartitioning(arr []int, k int) int {
 
 ```ts
 function maxSumAfterPartitioning(arr: number[], k: number): number {
-  const n: number = arr.length;
-  const f: number[] = new Array(n + 1).fill(0);
-  for (let i = 1; i <= n; ++i) {
-    let mx: number = 0;
-    for (let j = i; j > Math.max(0, i - k); --j) {
-      mx = Math.max(mx, arr[j - 1]);
-      f[i] = Math.max(f[i], f[j - 1] + mx * (i - j + 1));
+    const n: number = arr.length;
+    const f: number[] = new Array(n + 1).fill(0);
+    for (let i = 1; i <= n; ++i) {
+        let mx: number = 0;
+        for (let j = i; j > Math.max(0, i - k); --j) {
+            mx = Math.max(mx, arr[j - 1]);
+            f[i] = Math.max(f[i], f[j - 1] + mx * (i - j + 1));
+        }
     }
-  }
-  return f[n];
+    return f[n];
 }
 ```
 

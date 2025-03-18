@@ -1,79 +1,84 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1839.Longest%20Substring%20Of%20All%20Vowels%20in%20Order/README.md
 rating: 1580
-source: Weekly Contest 238 Q3
+source: 第 238 场周赛 Q3
 tags:
-  - String
-  - Sliding Window
+    - 字符串
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1839. Longest Substring Of All Vowels in Order](https://leetcode.com/problems/longest-substring-of-all-vowels-in-order)
+# [1839. 所有元音按顺序排布的最长子字符串](https://leetcode.cn/problems/longest-substring-of-all-vowels-in-order)
 
-## Description
+[English Version](/solution/1800-1899/1839.Longest%20Substring%20Of%20All%20Vowels%20in%20Order/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A string is considered <strong>beautiful</strong> if it satisfies the following conditions:</p>
+<p>当一个字符串满足如下条件时，我们称它是 <b>美丽的</b> ：</p>
 
 <ul>
-	<li>Each of the 5 English vowels (<code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, <code>&#39;u&#39;</code>) must appear <strong>at least once</strong> in it.</li>
-	<li>The letters must be sorted in <strong>alphabetical order</strong> (i.e. all <code>&#39;a&#39;</code>s before <code>&#39;e&#39;</code>s, all <code>&#39;e&#39;</code>s before <code>&#39;i&#39;</code>s, etc.).</li>
+	<li>所有 5 个英文元音字母（<code>'a'</code> ，<code>'e'</code> ，<code>'i'</code> ，<code>'o'</code> ，<code>'u'</code>）都必须 <strong>至少</strong> 出现一次。</li>
+	<li>这些元音字母的顺序都必须按照 <strong>字典序</strong> 升序排布（也就是说所有的 <code>'a'</code> 都在 <code>'e'</code> 前面，所有的 <code>'e'</code> 都在 <code>'i'</code> 前面，以此类推）</li>
 </ul>
 
-<p>For example, strings <code>&quot;aeiou&quot;</code> and <code>&quot;aaaaaaeiiiioou&quot;</code> are considered <strong>beautiful</strong>, but <code>&quot;uaeio&quot;</code>, <code>&quot;aeoiu&quot;</code>, and <code>&quot;aaaeeeooo&quot;</code> are <strong>not beautiful</strong>.</p>
+<p>比方说，字符串 <code>"aeiou"</code> 和 <code>"aaaaaaeiiiioou"</code> 都是 <strong>美丽的</strong> ，但是 <code>"uaeio"</code> ，<code>"aeoiu"</code> 和 <code>"aaaeeeooo"</code> <strong>不是美丽的</strong> 。</p>
 
-<p>Given a string <code>word</code> consisting of English vowels, return <em>the <strong>length of the longest beautiful substring</strong> of </em><code>word</code><em>. If no such substring exists, return </em><code>0</code>.</p>
+<p>给你一个只包含英文元音字母的字符串 <code>word</code> ，请你返回 <code>word</code> 中 <strong>最长美丽子字符串的长度</strong> 。如果不存在这样的子字符串，请返回 <code>0</code> 。</p>
 
-<p>A <strong>substring</strong> is a contiguous sequence of characters in a string.</p>
+<p><strong>子字符串</strong> 是字符串中一个连续的字符序列。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> word = &quot;aeiaaio<u>aaaaeiiiiouuu</u>ooaauuaeiu&quot;
-<strong>Output:</strong> 13
-<b>Explanation:</b> The longest beautiful substring in word is &quot;aaaaeiiiiouuu&quot; of length 13.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> word = &quot;aeeeiiiioooauuu<u>aeiou</u>&quot;
-<strong>Output:</strong> 5
-<b>Explanation:</b> The longest beautiful substring in word is &quot;aeiou&quot; of length 5.
+<b>输入：</b>word = "aeiaaio<strong>aaaaeiiiiouuu</strong>ooaauuaeiu"
+<b>输出：</b>13
+<b>解释：</b>最长子字符串是 "aaaaeiiiiouuu" ，长度为 13 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>word = "aeeeiiiioooauuu<strong>aeiou</strong>"
+<b>输出：</b>5
+<b>解释：</b>最长子字符串是 "aeiou" ，长度为 5 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> word = &quot;a&quot;
-<strong>Output:</strong> 0
-<b>Explanation:</b> There is no beautiful substring, so return 0.
+<b>输入：</b>word = "a"
+<b>输出：</b>0
+<b>解释：</b>没有美丽子字符串，所以返回 0 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= word.length &lt;= 5 * 10<sup>5</sup></code></li>
-	<li><code>word</code> consists of characters <code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, and <code>&#39;u&#39;</code>.</li>
+	<li><code>1 <= word.length <= 5 * 10<sup>5</sup></code></li>
+	<li><code>word</code> 只包含字符 <code>'a'</code>，<code>'e'</code>，<code>'i'</code>，<code>'o'</code> 和 <code>'u'</code> 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers + Simulation
+### 方法一：双指针 + 模拟
 
-We can first transform the string `word`. For example, for `word="aaaeiouu"`, we can transform it into data items `('a', 3)`, `('e', 1)`, `('i', 1)`, `('o', 1)`, `('u', 2)` and store them in an array `arr`. Each data item's first element represents a vowel, and the second element represents the number of times the vowel appears consecutively. This transformation can be implemented using two pointers.
+我们可以先将字符串 `word` 做个转化，比如对于 `word="aaaeiouu"`，我们可以将其转化为数据项 `('a', 3)`, `('e', 1)`, `('i', 1)`, `('o', 1)`, `('u', 2)`，存放在数组 `arr` 中。其中每个数据项的第一个元素表示元音字母，第二个元素表示该元音字母连续出现的次数。这部分转化可以通过双指针来实现。
 
-Next, we traverse the array `arr`, each time taking $5$ adjacent data items, and judge whether the vowels in these data items are `'a'`, `'e'`, `'i'`, `'o'`, `'u'` respectively. If so, calculate the total number of times the vowels appear in these $5$ data items, which is the length of the current beautiful substring, and update the maximum value of the answer.
+接下来，我们遍历数组 `arr`，每次取相邻的 $5$ 个数据项，判断这些数据项中的元音字母是否分别为 `'a'`, `'e'`, `'i'`, `'o'`, `'u'`，如果是，则计算这 $5$ 个数据项中元音字母的总次数，即为当前的美丽子字符串的长度，更新答案的最大值即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string `word`.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 `word` 的长度。
 
 <!-- tabs:start -->
 

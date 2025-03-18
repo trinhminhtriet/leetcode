@@ -1,96 +1,101 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1686.Stone%20Game%20VI/README.md
 rating: 2000
-source: Biweekly Contest 41 Q3
+source: 第 41 场双周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Math
-  - Game Theory
-  - Sorting
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 数学
+    - 博弈
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1686. Stone Game VI](https://leetcode.com/problems/stone-game-vi)
+# [1686. 石子游戏 VI](https://leetcode.cn/problems/stone-game-vi)
 
-## Description
+[English Version](/solution/1600-1699/1686.Stone%20Game%20VI/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Alice and Bob take turns playing a game, with Alice starting first.</p>
+<p>Alice 和 Bob 轮流玩一个游戏，Alice 先手。</p>
 
-<p>There are <code>n</code> stones in a pile. On each player&#39;s turn, they can <strong>remove</strong> a stone from the pile and receive points based on the stone&#39;s value. Alice and Bob may <strong>value the stones differently</strong>.</p>
+<p>一堆石子里总共有 <code>n</code> 个石子，轮到某个玩家时，他可以 <strong>移出</strong> 一个石子并得到这个石子的价值。Alice 和 Bob 对石子价值有 <strong>不一样的的评判标准</strong> 。双方都知道对方的评判标准。</p>
 
-<p>You are given two integer arrays of length <code>n</code>, <code>aliceValues</code> and <code>bobValues</code>. Each <code>aliceValues[i]</code> and <code>bobValues[i]</code> represents how Alice and Bob, respectively, value the <code>i<sup>th</sup></code> stone.</p>
+<p>给你两个长度为 <code>n</code> 的整数数组 <code>aliceValues</code> 和 <code>bobValues</code> 。<code>aliceValues[i]</code> 和 <code>bobValues[i]</code> 分别表示 Alice 和 Bob 认为第 <code>i</code> 个石子的价值。</p>
 
-<p>The winner is the person with the most points after all the stones are chosen. If both players have the same amount of points, the game results in a draw. Both players will play <strong>optimally</strong>.&nbsp;Both players know the other&#39;s values.</p>
+<p>所有石子都被取完后，得分较高的人为胜者。如果两个玩家得分相同，那么为平局。两位玩家都会采用 <b>最优策略</b> 进行游戏。</p>
 
-<p>Determine the result of the game, and:</p>
+<p>请你推断游戏的结果，用如下的方式表示：</p>
 
 <ul>
-	<li>If Alice wins, return <code>1</code>.</li>
-	<li>If Bob wins, return <code>-1</code>.</li>
-	<li>If the game results in a draw, return <code>0</code>.</li>
+	<li>如果 Alice 赢，返回 <code>1</code> 。</li>
+	<li>如果 Bob 赢，返回 <code>-1</code> 。</li>
+	<li>如果游戏平局，返回 <code>0</code> 。</li>
 </ul>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> aliceValues = [1,3], bobValues = [2,1]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong>
-If Alice takes stone 1 (0-indexed) first, Alice will receive 3 points.
-Bob can only choose stone 0, and will only receive 2 points.
-Alice wins.
+<b>输入：</b>aliceValues = [1,3], bobValues = [2,1]
+<b>输出：</b>1
+<strong>解释：</strong>
+如果 Alice 拿石子 1 （下标从 0开始），那么 Alice 可以得到 3 分。
+Bob 只能选择石子 0 ，得到 2 分。
+Alice 获胜。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> aliceValues = [1,2], bobValues = [3,1]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong>
-If Alice takes stone 0, and Bob takes stone 1, they will both have 1 point.
-Draw.
+<strong>输入：</strong>aliceValues = [1,2], bobValues = [3,1]
+<b>输出：</b>0
+<strong>解释：</strong>
+Alice 拿石子 0 ， Bob 拿石子 1 ，他们得分都为 1 分。
+打平。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> aliceValues = [2,4,3], bobValues = [1,6,7]
-<strong>Output:</strong> -1
-<strong>Explanation:</strong>
-Regardless of how Alice plays, Bob will be able to have more points than Alice.
-For example, if Alice takes stone 1, Bob can take stone 2, and Alice takes stone 0, Alice will have 6 points to Bob&#39;s 7.
-Bob wins.
+<b>输入：</b>aliceValues = [2,4,3], bobValues = [1,6,7]
+<b>输出：</b>-1
+<strong>解释：</strong>
+不管 Alice 怎么操作，Bob 都可以得到比 Alice 更高的得分。
+比方说，Alice 拿石子 1 ，Bob 拿石子 2 ， Alice 拿石子 0 ，Alice 会得到 6 分而 Bob 得分为 7 分。
+Bob 会获胜。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == aliceValues.length == bobValues.length</code></li>
-	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= aliceValues[i], bobValues[i] &lt;= 100</code></li>
+	<li><code>1 <= n <= 10<sup>5</sup></code></li>
+	<li><code>1 <= aliceValues[i], bobValues[i] <= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Sorting
+### 方法一：贪心 + 排序
 
-The optimal strategy for picking stones is to maximize one's own score while making the opponent lose as much as possible. Therefore, we create an array $vals$, where $vals[i] = (aliceValues[i] + bobValues[i], i)$ represents the total value and index of the $i$-th stone. Then we sort $vals$ in descending order by total value.
+选取石头的最优化的策略是，让自己得分最高，同时让对手失分最多。因此，我们创建一个数组 $vals$，其中 $vals[i] = (aliceValues[i] + bobValues[i], i)$，表示第 $i$ 个石头的总价值和编号。然后我们对 $vals$ 按照总价值降序排序。
 
-Next, we let Alice and Bob pick stones alternately according to the order of $vals$. Alice picks the stones at even positions in $vals$, and Bob picks the stones at odd positions in $vals$. Finally, we compare the scores of Alice and Bob and return the corresponding result.
+然后我们按照 $vals$ 的顺序，让 Alice 和 Bob 交替选取石头。Alice 选取 $vals$ 中的偶数位置的石头，Bob 选取 $vals$ 中的奇数位置的石头。最后比较 Alice 和 Bob 的得分，返回对应的结果。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$, where $n$ is the length of the arrays `aliceValues` and `bobValues`.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$，其中 $n$ 为数组 `aliceValues` 和 `bobValues` 的长度。
 
 <!-- tabs:start -->
 
@@ -199,25 +204,25 @@ func stoneGameVI(aliceValues []int, bobValues []int) int {
 
 ```ts
 function stoneGameVI(aliceValues: number[], bobValues: number[]): number {
-  const n = aliceValues.length;
-  const vals: number[][] = [];
-  for (let i = 0; i < n; ++i) {
-    vals.push([aliceValues[i] + bobValues[i], i]);
-  }
-  vals.sort((a, b) => b[0] - a[0]);
-  let [a, b] = [0, 0];
-  for (let k = 0; k < n; ++k) {
-    const i = vals[k][1];
-    if (k % 2 == 0) {
-      a += aliceValues[i];
-    } else {
-      b += bobValues[i];
+    const n = aliceValues.length;
+    const vals: number[][] = [];
+    for (let i = 0; i < n; ++i) {
+        vals.push([aliceValues[i] + bobValues[i], i]);
     }
-  }
-  if (a === b) {
-    return 0;
-  }
-  return a > b ? 1 : -1;
+    vals.sort((a, b) => b[0] - a[0]);
+    let [a, b] = [0, 0];
+    for (let k = 0; k < n; ++k) {
+        const i = vals[k][1];
+        if (k % 2 == 0) {
+            a += aliceValues[i];
+        } else {
+            b += bobValues[i];
+        }
+    }
+    if (a === b) {
+        return 0;
+    }
+    return a > b ? 1 : -1;
 }
 ```
 

@@ -1,77 +1,82 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3083.Existence%20of%20a%20Substring%20in%20a%20String%20and%20Its%20Reverse/README.md
 rating: 1173
-source: Weekly Contest 389 Q1
+source: 第 389 场周赛 Q1
 tags:
-  - Hash Table
-  - String
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [3083. Existence of a Substring in a String and Its Reverse](https://leetcode.com/problems/existence-of-a-substring-in-a-string-and-its-reverse)
+# [3083. 字符串及其反转中是否存在同一子字符串](https://leetcode.cn/problems/existence-of-a-substring-in-a-string-and-its-reverse)
 
-## Description
+[English Version](/solution/3000-3099/3083.Existence%20of%20a%20Substring%20in%20a%20String%20and%20Its%20Reverse/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a<strong> </strong>string <code>s</code>, find any <span data-keyword="substring">substring</span> of length <code>2</code> which is also present in the reverse of <code>s</code>.</p>
+<p>给你一个字符串 <code>s</code> ，请你判断字符串 <code>s</code> 是否存在一个长度为 <code>2</code> 的子字符串，在 <code>s</code> 反转后的字符串中也出现。</p>
 
-<p>Return <code>true</code><em> if such a substring exists, and </em><code>false</code><em> otherwise.</em></p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
-<p><strong>Input: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s = &quot;leetcode&quot;</span></p>
-
-<p><strong>Output: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">true</span></p>
-
-<p><strong>Explanation:</strong> Substring <code>&quot;ee&quot;</code> is of length <code>2</code> which is also present in <code>reverse(s) == &quot;edocteel&quot;</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
-<p><strong>Input: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s = &quot;abcba&quot;</span></p>
-
-<p><strong>Output: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">true</span></p>
-
-<p><strong>Explanation:</strong> All of the substrings of length <code>2</code> <code>&quot;ab&quot;</code>, <code>&quot;bc&quot;</code>, <code>&quot;cb&quot;</code>, <code>&quot;ba&quot;</code> are also present in <code>reverse(s) == &quot;abcba&quot;</code>.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
-<p><strong>Input: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s = &quot;abcd&quot;</span></p>
-
-<p><strong>Output: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">false</span></p>
-
-<p><strong>Explanation:</strong> There is no substring of length <code>2</code> in <code>s</code>, which is also present in the reverse of <code>s</code>.</p>
-</div>
+<p>如果存在这样的子字符串，返回 <code>true</code>；如果不存在，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>输入：</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s = "leetcode"</span></p>
+
+<p><strong>输出：</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">true</span></p>
+
+<p><strong>解释：</strong>子字符串 <code>"ee"</code> 的长度为 <code>2</code>，它也出现在 <code>reverse(s) == "edocteel"</code> 中。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>输入：</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s = "abcba"</span></p>
+
+<p><strong>输出：</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">true</span></p>
+
+<p><strong>解释：</strong>所有长度为 <code>2</code> 的子字符串 <code>"ab"</code>、<code>"bc"</code>、<code>"cb"</code>、<code>"ba"</code> 也都出现在 <code>reverse(s) == "abcba"</code> 中。</p>
+</div>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>输入：</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s = "abcd"</span></p>
+
+<p><strong>输出：</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">false</span></p>
+
+<p><strong>解释：</strong>字符串 <code>s</code> 中不存在满足「在其反转后的字符串中也出现」且长度为 <code>2</code> 的子字符串。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> consists only of lowercase English letters.</li>
+	<li>字符串 <code>s</code> 仅由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table or Array
+### 方法一：哈希表或数组
 
-We can use a hash table or a two-dimensional array $st$ to store all substrings of length $2$ of the reversed string $s$.
+我们可以用一个哈希表或者二维数组 $st$ 来存储字符串 $s$ 反转后的所有长度为 $2$ 的子字符串。
 
-Then we traverse the string $s$. For each substring of length $2$, we check whether it has appeared in $st$. If it has, we return `true`. Otherwise, we return `false` after the traversal.
+然后我们遍历字符串 $s$，对于每一个长度为 $2$ 的子字符串，我们判断它是否在 $st$ 中出现过，是则返回 `true`。否则，遍历结束后返回 `false`。
 
-The time complexity is $O(n)$ and the space complexity is $O(|\Sigma|^2)$. Here, $n$ is the length of the string $s$, and $\Sigma$ is the character set of the string $s$. In this problem, $\Sigma$ consists of lowercase English letters, so $|\Sigma| = 26$.
+时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|^2)$。其中 $n$ 为字符串 $s$ 的长度；而 $\Sigma$ 为字符串 $s$ 的字符集，本题中 $\Sigma$ 为小写英文字母，所以 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -146,18 +151,16 @@ func isSubstringPresent(s string) bool {
 
 ```ts
 function isSubstringPresent(s: string): boolean {
-  const st: boolean[][] = Array.from({ length: 26 }, () =>
-    Array(26).fill(false)
-  );
-  for (let i = 0; i < s.length - 1; ++i) {
-    st[s.charCodeAt(i + 1) - 97][s.charCodeAt(i) - 97] = true;
-  }
-  for (let i = 0; i < s.length - 1; ++i) {
-    if (st[s.charCodeAt(i) - 97][s.charCodeAt(i + 1) - 97]) {
-      return true;
+    const st: boolean[][] = Array.from({ length: 26 }, () => Array(26).fill(false));
+    for (let i = 0; i < s.length - 1; ++i) {
+        st[s.charCodeAt(i + 1) - 97][s.charCodeAt(i) - 97] = true;
     }
-  }
-  return false;
+    for (let i = 0; i < s.length - 1; ++i) {
+        if (st[s.charCodeAt(i) - 97][s.charCodeAt(i + 1) - 97]) {
+            return true;
+        }
+    }
+    return false;
 }
 ```
 

@@ -1,138 +1,98 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3111.Minimum%20Rectangles%20to%20Cover%20Points/README.md
 rating: 1401
-source: Biweekly Contest 128 Q2
+source: 第 128 场双周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3111. Minimum Rectangles to Cover Points](https://leetcode.com/problems/minimum-rectangles-to-cover-points)
+# [3111. 覆盖所有点的最少矩形数目](https://leetcode.cn/problems/minimum-rectangles-to-cover-points)
 
-## Description
+[English Version](/solution/3100-3199/3111.Minimum%20Rectangles%20to%20Cover%20Points/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D integer array <code>points</code>, where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>. You are also given an integer <code>w</code>. Your task is to <strong>cover</strong> <strong>all</strong> the given points with rectangles.</p>
+<p>给你一个二维整数数组&nbsp;<code>point</code>&nbsp;，其中&nbsp;<code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>&nbsp;表示二维平面内的一个点。同时给你一个整数&nbsp;<code>w</code>&nbsp;。你需要用矩形&nbsp;<strong>覆盖所有</strong>&nbsp;点。</p>
 
-<p>Each rectangle has its lower end at some point <code>(x<sub>1</sub>, 0)</code> and its upper end at some point <code>(x<sub>2</sub>, y<sub>2</sub>)</code>, where <code>x<sub>1</sub> &lt;= x<sub>2</sub></code>, <code>y<sub>2</sub> &gt;= 0</code>, and the condition <code>x<sub>2</sub> - x<sub>1</sub> &lt;= w</code> <strong>must</strong> be satisfied for each rectangle.</p>
+<p>每个矩形的左下角在某个点&nbsp;<code>(x<sub>1</sub>, 0)</code>&nbsp;处，且右上角在某个点&nbsp;<code>(x<sub>2</sub>, y<sub>2</sub>)</code>&nbsp;处，其中&nbsp;<code>x<sub>1</sub> &lt;= x<sub>2</sub></code>&nbsp;且&nbsp;<code>y<sub>2</sub> &gt;= 0</code>&nbsp;，同时对于每个矩形都&nbsp;<strong>必须</strong>&nbsp;满足&nbsp;<code>x<sub>2</sub> - x<sub>1</sub> &lt;= w</code>&nbsp;。</p>
 
-<p>A point is considered covered by a rectangle if it lies within or on the boundary of the rectangle.</p>
+<p>如果一个点在矩形内或者在边上，我们说这个点被矩形覆盖了。</p>
 
-<p>Return an integer denoting the <strong>minimum</strong> number of rectangles needed so that each point is covered by <strong>at least one</strong> rectangle<em>.</em></p>
+<p>请你在确保每个点都 <strong>至少</strong>&nbsp;被一个矩形覆盖的前提下，<strong>最少</strong>&nbsp;需要多少个矩形。</p>
 
-<p><strong>Note:</strong> A point may be covered by more than one rectangle.</p>
+<p><strong>注意：</strong>一个点可以被多个矩形覆盖。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3111.Minimum%20Rectangles%20to%20Cover%20Points/images/screenshot-from-2024-03-04-20-33-05.png" style="width: 205px; height: 300px;" /></p>
 
-<div class="example-block" style="
-    border-color: var(--border-tertiary);
-    border-left-width: 2px;
-    color: var(--text-secondary);
-    font-size: .875rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    overflow: visible;
-    padding-left: 1rem;
-">
-<p><strong>Input:</strong> <span class="example-io" style="
-    font-family: Menlo,sans-serif;
-    font-size: 0.85rem;
-">points = [[2,1],[1,0],[1,4],[1,8],[3,5],[4,6]], w = 1</span></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p style=""><span class="example-io" style="font-size: 8.75px;"><b>输入：</b></span><span class="example-io" style="font-size: 0.85rem; font-family: Menlo, sans-serif;">points = [[2,1],[1,0],[1,4],[1,8],[3,5],[4,6]], w = 1</span></p>
 
-<p><strong>Output:</strong> <span class="example-io" style="
-    font-family: Menlo,sans-serif;
-    font-size: 0.85rem;
-">2</span></p>
+<p style=""><span class="example-io" style="font-size: 8.75px;"><b>输出：</b></span><span class="example-io" style="font-size: 0.85rem; font-family: Menlo, sans-serif;">2</span></p>
 
-<p><strong>Explanation: </strong></p>
+<p style="font-size: 0.875rem;"><strong>解释：</strong></p>
 
-<p>The image above shows one possible placement of rectangles to cover the points:</p>
+<p style="font-size: 0.875rem;">上图展示了一种可行的矩形放置方案：</p>
 
-<ul>
-	<li>A rectangle with a lower end at <code>(1, 0)</code> and its upper end at <code>(2, 8)</code></li>
-	<li>A rectangle with a lower end at <code>(3, 0)</code> and its upper end at <code>(4, 8)</code></li>
+<ul style="font-size: 0.875rem;">
+	<li>一个矩形的左下角在&nbsp;<code>(1, 0)</code>&nbsp;，右上角在&nbsp;<code>(2, 8)</code>&nbsp;。</li>
+	<li>一个矩形的左下角在&nbsp;<code>(3, 0)</code>&nbsp;，右上角在&nbsp;<code>(4, 8)</code>&nbsp;。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3111.Minimum%20Rectangles%20to%20Cover%20Points/images/screenshot-from-2024-03-04-18-59-12.png" style="width: 260px; height: 250px;" /></p>
 
-<div class="example-block" style="
-    border-color: var(--border-tertiary);
-    border-left-width: 2px;
-    color: var(--text-secondary);
-    font-size: .875rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    overflow: visible;
-    padding-left: 1rem;
-">
-<p><strong>Input:</strong> <span class="example-io" style="
-    font-family: Menlo,sans-serif;
-    font-size: 0.85rem;
-">points = [[0,0],[1,1],[2,2],[3,3],[4,4],[5,5],[6,6]], w = 2</span></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p style=""><span class="example-io" style="font-size: 8.75px;"><b>输入：</b></span><span class="example-io" style="font-size: 0.85rem; font-family: Menlo, sans-serif;">points = [[0,0],[1,1],[2,2],[3,3],[4,4],[5,5],[6,6]], w = 2</span></p>
 
-<p><strong>Output:</strong> <span class="example-io" style="
-    font-family: Menlo,sans-serif;
-    font-size: 0.85rem;
-">3</span></p>
+<p style=""><span class="example-io" style="font-size: 8.75px;"><b>输出：</b></span><span class="example-io" style="font-size: 0.85rem; font-family: Menlo, sans-serif;">3</span></p>
 
-<p><strong>Explanation: </strong></p>
+<p style="font-size: 0.875rem;"><b>解释：</b></p>
 
-<p>The image above shows one possible placement of rectangles to cover the points:</p>
+<p style="font-size: 0.875rem;">上图展示了一种可行的矩形放置方案：</p>
 
-<ul>
-	<li>A rectangle with a lower end at <code>(0, 0)</code> and its upper end at <code>(2, 2)</code></li>
-	<li>A rectangle with a lower end at <code>(3, 0)</code> and its upper end at <code>(5, 5)</code></li>
-	<li>A rectangle with a lower end at <code>(6, 0)</code> and its upper end at <code>(6, 6)</code></li>
+<ul style="font-size: 0.875rem;">
+	<li>一个矩形的左下角在&nbsp;<code>(0, 0)</code>&nbsp;，右上角在&nbsp;<code>(2, 2)</code>&nbsp;。</li>
+	<li>一个矩形的左下角在&nbsp;<code>(3, 0)</code>&nbsp;，右上角在&nbsp;<code>(5, 5)</code>&nbsp;。</li>
+	<li>一个矩形的左下角在&nbsp;<code>(6, 0)</code>&nbsp;，右上角在&nbsp;<code>(6, 6)</code>&nbsp;。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3111.Minimum%20Rectangles%20to%20Cover%20Points/images/screenshot-from-2024-03-04-20-24-03.png" style="height: 150px; width: 127px;" /></p>
 
-<div class="example-block" style="
-    border-color: var(--border-tertiary);
-    border-left-width: 2px;
-    color: var(--text-secondary);
-    font-size: .875rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    overflow: visible;
-    padding-left: 1rem;
-">
-<p><strong>Input:</strong> <span class="example-io" style="
-    font-family: Menlo,sans-serif;
-    font-size: 0.85rem;
-">points = [[2,3],[1,2]], w = 0</span></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p style=""><span class="example-io" style="font-size: 8.75px;"><b>输入：</b></span><span class="example-io" style="font-size: 0.85rem; font-family: Menlo, sans-serif;">points = [[2,3],[1,2]], w = 0</span></p>
 
-<p><strong>Output:</strong> <span class="example-io" style="
-    font-family: Menlo,sans-serif;
-    font-size: 0.85rem;
-">2</span></p>
+<p style=""><span class="example-io" style="font-size: 8.75px;"><b>输出：</b></span><span class="example-io" style="font-size: 0.85rem; font-family: Menlo, sans-serif;">2</span></p>
 
-<p><strong>Explanation: </strong></p>
+<p style="font-size: 0.875rem;"><strong>解释：</strong></p>
 
-<p>The image above shows one possible placement of rectangles to cover the points:</p>
+<p style="font-size: 0.875rem;">上图展示了一种可行的矩形放置方案：</p>
 
-<ul>
-	<li>A rectangle with a lower end at <code>(1, 0)</code> and its upper end at <code>(1, 2)</code></li>
-	<li>A rectangle with a lower end at <code>(2, 0)</code> and its upper end at <code>(2, 3)</code></li>
+<ul style="font-size: 0.875rem;">
+	<li>一个矩形的左下角在&nbsp;<code>(1, 0)</code>&nbsp;，右上角在&nbsp;<code>(1, 2)</code>&nbsp;。</li>
+	<li>一个矩形的左下角在&nbsp;<code>(2, 0)</code>&nbsp;，右上角在&nbsp;<code>(2, 3)</code>&nbsp;。</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= points.length &lt;= 10<sup>5</sup></code></li>
@@ -140,26 +100,26 @@ tags:
 	<li><code>0 &lt;= x<sub>i</sub> == points[i][0] &lt;= 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= y<sub>i</sub> == points[i][1] &lt;= 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= w &lt;= 10<sup>9</sup></code></li>
-	<li>All pairs <code>(x<sub>i</sub>, y<sub>i</sub>)</code> are distinct.</li>
+	<li>所有点坐标&nbsp;<code>(x<sub>i</sub>, y<sub>i</sub>)</code>&nbsp;互不相同。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Sorting
+### 方法一：贪心 + 排序
 
-According to the problem description, we do not need to consider the height of the rectangles, only the width.
+根据题目描述，我们不需要考虑矩形的高度，只需要考虑矩形的宽度。
 
-We can sort all the points by their x-coordinates and use a variable $x_1$ to record the rightmost x-coordinate that the current rectangle can cover. Initially, $x_1 = -1$.
+我们可以将所有的点按照横坐标进行排序，用一个变量 $x_1$ 记录当前矩形所能覆盖的最右边的横坐标，初始时 $x_1 = -1$。
 
-Next, we iterate through all the points. If the current point's x-coordinate $x$ is greater than $x_1$, it means the existing rectangle cannot cover the current point. We need to add a new rectangle, increment the answer by one, and update $x_1 = x + w$.
+接下来我们遍历所有的点，如果当前点的横坐标 $x$ 大于 $x_1$，说明已有的矩形无法覆盖当前点，我们就需要增加一个矩形，答案加一，然后我们更新 $x_1 = x + w$。
 
-After completing the iteration, we obtain the minimum number of rectangles needed.
+遍历完成后，我们就得到了最少需要的矩形数目。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the number of points.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是点的数量。
 
 <!-- tabs:start -->
 
@@ -236,15 +196,15 @@ func minRectanglesToCoverPoints(points [][]int, w int) (ans int) {
 
 ```ts
 function minRectanglesToCoverPoints(points: number[][], w: number): number {
-  points.sort((a, b) => a[0] - b[0]);
-  let [ans, x1] = [0, -1];
-  for (const [x, _] of points) {
-    if (x > x1) {
-      ++ans;
-      x1 = x + w;
+    points.sort((a, b) => a[0] - b[0]);
+    let [ans, x1] = [0, -1];
+    for (const [x, _] of points) {
+        if (x > x1) {
+            ++ans;
+            x1 = x + w;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

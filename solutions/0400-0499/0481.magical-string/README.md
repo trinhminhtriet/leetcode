@@ -1,47 +1,52 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0481.Magical%20String/README.md
 tags:
-  - Two Pointers
-  - String
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [481. Magical String](https://leetcode.com/problems/magical-string)
+# [481. 神奇字符串](https://leetcode.cn/problems/magical-string)
 
-## Description
+[English Version](/solution/0400-0499/0481.Magical%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A magical string <code>s</code> consists of only <code>&#39;1&#39;</code> and <code>&#39;2&#39;</code> and obeys the following rules:</p>
+<p>神奇字符串 <code>s</code> 仅由 <code>'1'</code> 和 <code>'2'</code> 组成，并需要遵守下面的规则：</p>
 
 <ul>
-	<li>The string s is magical because concatenating the number of contiguous occurrences of characters <code>&#39;1&#39;</code> and <code>&#39;2&#39;</code> generates the string <code>s</code> itself.</li>
+	<li>神奇字符串 s 的神奇之处在于，串联字符串中 <code>'1'</code> 和 <code>'2'</code> 的连续出现次数可以生成该字符串。</li>
 </ul>
 
-<p>The first few elements of <code>s</code> is <code>s = &quot;1221121221221121122&hellip;&hellip;&quot;</code>. If we group the consecutive <code>1</code>&#39;s and <code>2</code>&#39;s in <code>s</code>, it will be <code>&quot;1 22 11 2 1 22 1 22 11 2 11 22 ......&quot;</code> and the occurrences of <code>1</code>&#39;s or <code>2</code>&#39;s in each group are <code>&quot;1 2 2 1 1 2 1 2 2 1 2 2 ......&quot;</code>. You can see that the occurrence sequence is <code>s</code> itself.</p>
+<p><code>s</code> 的前几个元素是 <code>s = "1221121221221121122……"</code> 。如果将 <code>s</code> 中连续的若干 <code>1</code> 和 <code>2</code> 进行分组，可以得到 <code>"1 22 11 2 1 22 1 22 11 2 11 22 ......"</code> 。每组中 <code>1</code> 或者 <code>2</code> 的出现次数分别是 <code>"1 2 2 1 1 2 1 2 2 1 2 2 ......"</code> 。上面的出现次数正是 <code>s</code> 自身。</p>
 
-<p>Given an integer <code>n</code>, return the number of <code>1</code>&#39;s in the first <code>n</code> number in the magical string <code>s</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 6
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The first 6 elements of magical string s is &quot;122112&quot; and it contains three 1&#39;s, so return 3.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 1
-<strong>Output:</strong> 1
-</pre>
+<p>给你一个整数 <code>n</code> ，返回在神奇字符串 <code>s</code> 的前 <code>n</code> 个数字中 <code>1</code> 的数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 6
+<strong>输出：</strong>3
+<strong>解释：</strong>神奇字符串 s 的前 6 个元素是 “<code>122112</code>”，它包含三个 1，因此返回 3 。 
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 1
+<strong>输出：</strong>1
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -49,17 +54,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulate the Construction Process
+### 方法一：模拟构造过程
 
-According to the problem, we know that each group of numbers in the string $s$ can be obtained from the digits of the string $s$ itself.
+根据题目，我们得知，字符串 $s$ 的每一组数字都可以由字符串 $s$ 自身的数字得到。
 
-The first two groups of numbers in string $s$ are $1$ and $22$, which are obtained from the first and second digits of string $s$, respectively. Moreover, the first group of numbers contains only $1$, the second group contains only $2$, the third group contains only $1$, and so on.
+字符串 $s$ 前两组数字为 $1$ 和 $22$，是由字符串 $s$ 的第一个数字 $1$ 和第二个数字 $2$ 得到的，并且第一组数字只包含 $1$，第二组数字只包含 $2$，第三组数字只包含 $1$，以此类推。
 
-Since the first two groups of numbers are known, we initialize string $s$ as $122$, and then start constructing from the third group. The third group of numbers is obtained from the third digit of string $s$ (index $i=2$), so at this point, we point the pointer $i$ to the third digit $2$ of string $s$.
+由于前两组数字已知，我们初始化字符串 $s$ 为 $122$，然后从第三组开始构造，第三组数字是由字符串 $s$ 的第三个数字（下标 $i=2$）得到，因此我们此时将指针 $i$ 指向字符串 $s$ 的第三个数字 $2$。
 
 ```
 1 2 2
@@ -67,7 +72,7 @@ Since the first two groups of numbers are known, we initialize string $s$ as $12
     i
 ```
 
-The digit pointed by pointer $i$ is $2$, indicating that the third group of numbers will appear twice. Since the previous group of numbers is $2$, and the numbers alternate between groups, the third group of numbers is two $1$s, i.e., $11$. After construction, the pointer $i$ moves to the next position, pointing to the fourth digit $1$ of string $s$.
+指针 $i$ 指向的数字为 $2$，表示第三组的数字会出现两次，并且，由于前一组数字为 $2$，组之间数字交替出现，因此第三组数字为两个 $1$，即 $11$。构造后，指针 $i$ 移动到下一个位置，即指向字符串 $s$ 的第四个数字 $1$。
 
 ```
 1 2 2 1 1
@@ -75,7 +80,7 @@ The digit pointed by pointer $i$ is $2$, indicating that the third group of numb
       i
 ```
 
-At this point, the digit pointed by pointer $i$ is $1$, indicating that the fourth group of numbers will appear once. Since the previous group of numbers is $1$, and the numbers alternate between groups, the fourth group of numbers is one $2$, i.e., $2$. After construction, the pointer $i$ moves to the next position, pointing to the fifth digit $1$ of string $s$.
+这时候指针 $i$ 指向的数字为 $1$，表示第四组的数字会出现一次，并且，由于前一组数字为 $1$，组之间数字交替出现，因此第四组数字为一个 $2$，即 $2$。构造后，指针 $i$ 移动到下一个位置，即指向字符串 $s$ 的第五个数字 $1$。
 
 ```
 1 2 2 1 1 2
@@ -83,9 +88,9 @@ At this point, the digit pointed by pointer $i$ is $1$, indicating that the four
         i
 ```
 
-Following this rule, we simulate the construction process sequentially until the length of string $s$ is greater than or equal to $n$.
+我们按照这个规则，依次模拟构造过程，直到字符串 $s$ 的长度大于等于 $n$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
 
@@ -99,6 +104,7 @@ class Solution:
         while len(s) < n:
             pre = s[-1]
             cur = 3 - pre
+            # cur 表示这一组的数字，s[i] 表示这一组数字出现的次数
             s += [cur] * s[i]
             i += 1
         return s[:n].count(1)
@@ -172,15 +178,15 @@ func magicalString(n int) (ans int) {
 
 ```ts
 function magicalString(n: number): number {
-  const s: number[] = [1, 2, 2];
-  for (let i = 2; s.length < n; ++i) {
-    let pre = s[s.length - 1];
-    let cur = 3 - pre;
-    for (let j = 0; j < s[i]; ++j) {
-      s.push(cur);
+    const s: number[] = [1, 2, 2];
+    for (let i = 2; s.length < n; ++i) {
+        let pre = s[s.length - 1];
+        let cur = 3 - pre;
+        for (let j = 0; j < s[i]; ++j) {
+            s.push(cur);
+        }
     }
-  }
-  return s.slice(0, n).filter((x) => x === 1).length;
+    return s.slice(0, n).filter(x => x === 1).length;
 }
 ```
 

@@ -1,55 +1,68 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1361.Validate%20Binary%20Tree%20Nodes/README.md
 rating: 1464
-source: Weekly Contest 177 Q2
+source: 第 177 场周赛 Q2
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Union Find
-  - Graph
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 并查集
+    - 图
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [1361. Validate Binary Tree Nodes](https://leetcode.com/problems/validate-binary-tree-nodes)
+# [1361. 验证二叉树](https://leetcode.cn/problems/validate-binary-tree-nodes)
 
-## Description
+[English Version](/solution/1300-1399/1361.Validate%20Binary%20Tree%20Nodes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have <code>n</code> binary tree nodes numbered from <code>0</code> to <code>n - 1</code> where node <code>i</code> has two children <code>leftChild[i]</code> and <code>rightChild[i]</code>, return <code>true</code> if and only if <strong>all</strong> the given nodes form <strong>exactly one</strong> valid binary tree.</p>
+<p>二叉树上有 <code>n</code>&nbsp;个节点，按从&nbsp;<code>0</code>&nbsp;到 <code>n - 1</code>&nbsp;编号，其中节点&nbsp;<code>i</code>&nbsp;的两个子节点分别是&nbsp;<code>leftChild[i]</code>&nbsp;和&nbsp;<code>rightChild[i]</code>。</p>
 
-<p>If node <code>i</code> has no left child then <code>leftChild[i]</code> will equal <code>-1</code>, similarly for the right child.</p>
+<p>只有 <strong>所有</strong> 节点能够形成且 <strong>只</strong> 形成 <strong>一颗</strong>&nbsp;有效的二叉树时，返回&nbsp;<code>true</code>；否则返回 <code>false</code>。</p>
 
-<p>Note that the nodes have no values and that we only use the node numbers in this problem.</p>
+<p>如果节点&nbsp;<code>i</code>&nbsp;没有左子节点，那么&nbsp;<code>leftChild[i]</code>&nbsp;就等于&nbsp;<code>-1</code>。右子节点也符合该规则。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1361.Validate%20Binary%20Tree%20Nodes/images/1503_ex1.png" style="width: 195px; height: 287px;" />
-<pre>
-<strong>Input:</strong> n = 4, leftChild = [1,-1,3,-1], rightChild = [2,-1,-1,-1]
-<strong>Output:</strong> true
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1361.Validate%20Binary%20Tree%20Nodes/images/1503_ex2.png" style="width: 183px; height: 272px;" />
-<pre>
-<strong>Input:</strong> n = 4, leftChild = [1,-1,3,-1], rightChild = [2,3,-1,-1]
-<strong>Output:</strong> false
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1361.Validate%20Binary%20Tree%20Nodes/images/1503_ex3.png" style="width: 82px; height: 174px;" />
-<pre>
-<strong>Input:</strong> n = 2, leftChild = [1,0], rightChild = [-1,-1]
-<strong>Output:</strong> false
-</pre>
+<p>注意：节点没有值，本问题中仅仅使用节点编号。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1361.Validate%20Binary%20Tree%20Nodes/images/1503_ex1.png" style="height: 287px; width: 195px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>n = 4, leftChild = [1,-1,3,-1], rightChild = [2,-1,-1,-1]
+<strong>输出：</strong>true
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1361.Validate%20Binary%20Tree%20Nodes/images/1503_ex2.png" style="height: 272px; width: 183px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>n = 4, leftChild = [1,-1,3,-1], rightChild = [2,3,-1,-1]
+<strong>输出：</strong>false
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1361.Validate%20Binary%20Tree%20Nodes/images/1503_ex3.png" style="height: 174px; width: 82px;" /></strong></p>
+
+<pre>
+<strong>输入：</strong>n = 2, leftChild = [1,0], rightChild = [-1,-1]
+<strong>输出：</strong>false
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == leftChild.length == rightChild.length</code></li>
@@ -59,21 +72,21 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Union-Find
+### 方法一：并查集
 
-We can traverse each node $i$ and its corresponding left and right children $l$, $r$, using an array $vis$ to record whether the node has a parent:
+我们可以遍历每个节点 $i$ 以及对应的左右孩子 $l$, $r$，用 $vis$ 数组记录节点是否有父节点：
 
-- If the child node already has a parent, it means there are multiple fathers, which does not meet the condition, so we return `false` directly.
-- If the child node and the parent node are already in the same connected component, it means a cycle will be formed, which does not meet the condition, so we return `false` directly.
-- Otherwise, we perform a union operation, set the corresponding position of the $vis$ array to `true`, and decrease the number of connected components by $1$.
+-   若孩子节点已存在父节点，说明有多个父亲，不满足条件，直接返回 `false`。
+-   若孩子节点与父节点已经处于同一个连通分量，说明会形成环，不满足条件，直接返回 `false`。
+-   否则，进行合并，并且将 $vis$ 数组对应位置置为 `true`，同时将连通分量个数减去 $1$。
 
-After the traversal, we check whether the number of connected components in the union-find set is $1$. If it is, we return `true`, otherwise, we return `false`.
+遍历结束，判断并查集中连通分量个数是否为 $1$，若是返回 `true`，否则返回 `false`。
 
-The time complexity is $O(n \times \alpha(n))$, and the space complexity is $O(n)$. Where $n$ is the number of nodes, and $\alpha(n)$ is the inverse Ackermann function, which is less than $5$.
+时间复杂度 $O(n \times \alpha(n))$，空间复杂度 $O(n)$。其中 $n$ 为节点个数，而 $\alpha(n)$ 为阿克曼函数的反函数，即反阿克曼函数，其值小于 $5$。
 
 <!-- tabs:start -->
 

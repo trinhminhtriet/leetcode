@@ -1,11 +1,4 @@
-package main
-
-import (
-	"fmt"
-)
-
-func getWordsInLongestSubsequence(words []string, groups []int) []string {
-	n := len(words)
+func getWordsInLongestSubsequence(n int, words []string, groups []int) []string {
 	check := func(s, t string) bool {
 		if len(s) != len(t) {
 			return false
@@ -49,12 +42,4 @@ func getWordsInLongestSubsequence(words []string, groups []int) []string {
 		ans[i], ans[j] = ans[j], ans[i]
 	}
 	return ans
-}
-
-func main() {
-	words := []string{"abc", "abd", "acd", "bcd", "bce"}
-	groups := []int{1, 1, 2, 2, 3}
-
-	result := getWordsInLongestSubsequence(words, groups)
-	fmt.Println(result)
 }

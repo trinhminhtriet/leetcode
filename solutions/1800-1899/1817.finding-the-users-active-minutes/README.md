@@ -1,76 +1,81 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1817.Finding%20the%20Users%20Active%20Minutes/README.md
 rating: 1360
-source: Weekly Contest 235 Q2
+source: 第 235 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [1817. Finding the Users Active Minutes](https://leetcode.com/problems/finding-the-users-active-minutes)
+# [1817. 查找用户活跃分钟数](https://leetcode.cn/problems/finding-the-users-active-minutes)
 
-## Description
+[English Version](/solution/1800-1899/1817.Finding%20the%20Users%20Active%20Minutes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the logs for users&#39; actions on LeetCode, and an integer <code>k</code>. The logs are represented by a 2D integer array <code>logs</code> where each <code>logs[i] = [ID<sub>i</sub>, time<sub>i</sub>]</code> indicates that the user with <code>ID<sub>i</sub></code> performed an action at the minute <code>time<sub>i</sub></code>.</p>
+<p>给你用户在 LeetCode 的操作日志，和一个整数 <code>k</code> 。日志用一个二维整数数组 <code>logs</code> 表示，其中每个 <code>logs[i] = [ID<sub>i</sub>, time<sub>i</sub>]</code> 表示 ID 为 <code>ID<sub>i</sub></code> 的用户在 <code>time<sub>i</sub></code> 分钟时执行了某个操作。</p>
 
-<p><strong>Multiple users</strong> can perform actions simultaneously, and a single user can perform <strong>multiple actions</strong> in the same minute.</p>
+<p><strong>多个用户 </strong>可以同时执行操作，单个用户可以在同一分钟内执行 <strong>多个操作</strong> 。</p>
 
-<p>The <strong>user active minutes (UAM)</strong> for a given user is defined as the <strong>number of unique minutes</strong> in which the user performed an action on LeetCode. A minute can only be counted once, even if multiple actions occur during it.</p>
+<p>指定用户的<strong> 用户活跃分钟数（user active minutes，UAM）</strong> 定义为用户对 LeetCode 执行操作的 <strong>唯一分钟数</strong> 。 即使一分钟内执行多个操作，也只能按一分钟计数。</p>
 
-<p>You are to calculate a <strong>1-indexed</strong> array <code>answer</code> of size <code>k</code> such that, for each <code>j</code> (<code>1 &lt;= j &lt;= k</code>), <code>answer[j]</code> is the <strong>number of users</strong> whose <strong>UAM</strong> equals <code>j</code>.</p>
+<p>请你统计用户活跃分钟数的分布情况，统计结果是一个长度为 <code>k</code> 且 <strong>下标从 1 开始计数</strong> 的数组 <code>answer</code> ，对于每个 <code>j</code>（<code>1 <= j <= k</code>），<code>answer[j]</code> 表示 <strong>用户活跃分钟数</strong> 等于 <code>j</code> 的用户数。</p>
 
-<p>Return <i>the array </i><code>answer</code><i> as described above</i>.</p>
+<p>返回上面描述的答案数组<i> </i><code>answer</code><i> </i>。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> logs = [[0,5],[1,2],[0,2],[0,5],[1,3]], k = 5
-<strong>Output:</strong> [0,2,0,0,0]
-<strong>Explanation:</strong>
-The user with ID=0 performed actions at minutes 5, 2, and 5 again. Hence, they have a UAM of 2 (minute 5 is only counted once).
-The user with ID=1 performed actions at minutes 2 and 3. Hence, they have a UAM of 2.
-Since both users have a UAM of 2, answer[2] is 2, and the remaining answer[j] values are 0.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> logs = [[1,1],[2,2],[2,3]], k = 4
-<strong>Output:</strong> [1,1,0,0]
-<strong>Explanation:</strong>
-The user with ID=1 performed a single action at minute 1. Hence, they have a UAM of 1.
-The user with ID=2 performed actions at minutes 2 and 3. Hence, they have a UAM of 2.
-There is one user with a UAM of 1 and one with a UAM of 2.
-Hence, answer[1] = 1, answer[2] = 1, and the remaining values are 0.
+<strong>输入：</strong>logs = [[0,5],[1,2],[0,2],[0,5],[1,3]], k = 5
+<strong>输出：</strong>[0,2,0,0,0]
+<strong>解释：</strong>
+ID=0 的用户执行操作的分钟分别是：5 、2 和 5 。因此，该用户的用户活跃分钟数为 2（分钟 5 只计数一次）
+ID=1 的用户执行操作的分钟分别是：2 和 3 。因此，该用户的用户活跃分钟数为 2
+2 个用户的用户活跃分钟数都是 2 ，answer[2] 为 2 ，其余 answer[j] 的值都是 0
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>logs = [[1,1],[2,2],[2,3]], k = 4
+<strong>输出：</strong>[1,1,0,0]
+<strong>解释：</strong>
+ID=1 的用户仅在分钟 1 执行单个操作。因此，该用户的用户活跃分钟数为 1
+ID=2 的用户执行操作的分钟分别是：2 和 3 。因此，该用户的用户活跃分钟数为 2
+1 个用户的用户活跃分钟数是 1 ，1 个用户的用户活跃分钟数是 2 
+因此，answer[1] = 1 ，answer[2] = 1 ，其余的值都是 0
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= logs.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>0 &lt;= ID<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
-	<li><code>1 &lt;= time<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
-	<li><code>k</code> is in the range <code>[The maximum <strong>UAM</strong> for a user, 10<sup>5</sup>]</code>.</li>
+	<li><code>1 <= logs.length <= 10<sup>4</sup></code></li>
+	<li><code>0 <= ID<sub>i</sub> <= 10<sup>9</sup></code></li>
+	<li><code>1 <= time<sub>i</sub> <= 10<sup>5</sup></code></li>
+	<li><code>k</code> 的取值范围是 <code>[用户的最大用户活跃分钟数, 10<sup>5</sup>]</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We use a hash table $d$ to record all the unique operation times of each user, and then traverse the hash table to count the number of active minutes for each user. Finally, we count the distribution of the number of active minutes for each user.
+我们用哈希表 $d$ 记录每个用户的所有去重操作时间，然后遍历哈希表，统计每个用户的用户活跃分钟数，最后统计每个用户活跃分钟数的分布情况。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the $logs$ array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $logs$ 的长度。
 
 <!-- tabs:start -->
 
@@ -151,18 +156,18 @@ func findingUsersActiveMinutes(logs [][]int, k int) []int {
 
 ```ts
 function findingUsersActiveMinutes(logs: number[][], k: number): number[] {
-  const d: Map<number, Set<number>> = new Map();
-  for (const [i, t] of logs) {
-    if (!d.has(i)) {
-      d.set(i, new Set<number>());
+    const d: Map<number, Set<number>> = new Map();
+    for (const [i, t] of logs) {
+        if (!d.has(i)) {
+            d.set(i, new Set<number>());
+        }
+        d.get(i)!.add(t);
     }
-    d.get(i)!.add(t);
-  }
-  const ans: number[] = Array(k).fill(0);
-  for (const [_, ts] of d) {
-    ++ans[ts.size - 1];
-  }
-  return ans;
+    const ans: number[] = Array(k).fill(0);
+    for (const [_, ts] of d) {
+        ++ans[ts.size - 1];
+    }
+    return ans;
 }
 ```
 

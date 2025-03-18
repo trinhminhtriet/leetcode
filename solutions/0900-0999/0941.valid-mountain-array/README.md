@@ -1,45 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0941.Valid%20Mountain%20Array/README.md
 tags:
-  - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [941. Valid Mountain Array](https://leetcode.com/problems/valid-mountain-array)
+# [941. 有效的山脉数组](https://leetcode.cn/problems/valid-mountain-array)
 
-## Description
+[English Version](/solution/0900-0999/0941.Valid%20Mountain%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of integers <code>arr</code>, return <em><code>true</code> if and only if it is a valid mountain array</em>.</p>
+<p>给定一个整数数组 <code>arr</code>，如果它是有效的山脉数组就返回&nbsp;<code>true</code>，否则返回 <code>false</code>。</p>
 
-<p>Recall that arr is a mountain array if and only if:</p>
+<p>让我们回顾一下，如果 <code>arr</code>&nbsp;满足下述条件，那么它是一个山脉数组：</p>
 
 <ul>
 	<li><code>arr.length &gt;= 3</code></li>
-	<li>There exists some <code>i</code> with <code>0 &lt; i &lt; arr.length - 1</code> such that:
+	<li>在&nbsp;<code>0 &lt; i&nbsp;&lt; arr.length - 1</code>&nbsp;条件下，存在&nbsp;<code>i</code>&nbsp;使得：
 	<ul>
-		<li><code>arr[0] &lt; arr[1] &lt; ... &lt; arr[i - 1] &lt; arr[i] </code></li>
-		<li><code>arr[i] &gt; arr[i + 1] &gt; ... &gt; arr[arr.length - 1]</code></li>
+		<li><code>arr[0] &lt; arr[1] &lt; ... arr[i-1] &lt; arr[i] </code></li>
+		<li><code>arr[i] &gt; arr[i+1] &gt; ... &gt; arr[arr.length - 1]</code></li>
 	</ul>
 	</li>
 </ul>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0941.Valid%20Mountain%20Array/images/hint_valid_mountain_array.png" width="500" />
+
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> arr = [2,1]
-<strong>Output:</strong> false
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> arr = [3,5,5]
-<strong>Output:</strong> false
-</pre><p><strong class="example">Example 3:</strong></p>
-<pre><strong>Input:</strong> arr = [0,3,2,1]
-<strong>Output:</strong> true
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0941.Valid%20Mountain%20Array/images/hint_valid_mountain_array.png" style="height: 316px; width: 500px;" /></p>
+
+<p>&nbsp;</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [2,1]
+<strong>输出：</strong>false
 </pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [3,5,5]
+<strong>输出：</strong>false
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [0,3,2,1]
+<strong>输出：</strong>true</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 10<sup>4</sup></code></li>
@@ -48,17 +67,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-First, we check if the length of the array is less than $3$. If it is, then it definitely is not a mountain array, so we return `false` directly.
+我们首先判断数组的长度是否小于 $3$，如果小于 $3$，那么一定不是山脉数组，直接返回 `false`。
 
-Then, we use a pointer $i$ to move from the left end of the array to the right, until we find a position $i$ such that $arr[i] > arr[i + 1]$. After that, we use a pointer $j$ to move from the right end of the array to the left, until we find a position $j$ such that $arr[j] > arr[j - 1]$. If the condition $i = j$ is satisfied, then it means that the array $arr$ is a mountain array.
+然后，我们使用指针 $i$ 从数组的左端开始向右移动，直到找到一个位置 $i$，使得 $arr[i] > arr[i + 1]$。然后，我们使用指针 $j$ 从数组的右端开始向左移动，直到找到一个位置 $j$，使得 $arr[j] > arr[j - 1]$。如果满足条件 $i = j$，那么就说明数组 $arr$ 是一个山脉数组。
 
-The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -144,18 +163,18 @@ func validMountainArray(arr []int) bool {
 
 ```ts
 function validMountainArray(arr: number[]): boolean {
-  const n = arr.length;
-  if (n < 3) {
-    return false;
-  }
-  let [i, j] = [0, n - 1];
-  while (i + 1 < n - 1 && arr[i] < arr[i + 1]) {
-    i++;
-  }
-  while (j - 1 > 0 && arr[j] < arr[j - 1]) {
-    j--;
-  }
-  return i === j;
+    const n = arr.length;
+    if (n < 3) {
+        return false;
+    }
+    let [i, j] = [0, n - 1];
+    while (i + 1 < n - 1 && arr[i] < arr[i + 1]) {
+        i++;
+    }
+    while (j - 1 > 0 && arr[j] < arr[j - 1]) {
+        j--;
+    }
+    return i === j;
 }
 ```
 

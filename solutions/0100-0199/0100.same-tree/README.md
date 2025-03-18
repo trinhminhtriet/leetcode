@@ -1,68 +1,73 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0100.Same%20Tree/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [100. Same Tree](https://leetcode.com/problems/same-tree)
+# [100. 相同的树](https://leetcode.cn/problems/same-tree)
 
-## Description
+[English Version](/solution/0100-0199/0100.Same%20Tree/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the roots of two binary trees <code>p</code> and <code>q</code>, write a function to check if they are the same or not.</p>
+<p>给你两棵二叉树的根节点 <code>p</code> 和 <code>q</code> ，编写一个函数来检验这两棵树是否相同。</p>
 
-<p>Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.</p>
+<p>如果两个树在结构上相同，并且节点具有相同的值，则认为它们是相同的。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0100.Same%20Tree/images/ex1.jpg" style="width: 622px; height: 182px;" />
 <pre>
-<strong>Input:</strong> p = [1,2,3], q = [1,2,3]
-<strong>Output:</strong> true
+<strong>输入：</strong>p = [1,2,3], q = [1,2,3]
+<strong>输出：</strong>true
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0100.Same%20Tree/images/ex2.jpg" style="width: 382px; height: 182px;" />
 <pre>
-<strong>Input:</strong> p = [1,2], q = [1,null,2]
-<strong>Output:</strong> false
+<strong>输入：</strong>p = [1,2], q = [1,null,2]
+<strong>输出：</strong>false
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0100.Same%20Tree/images/ex3.jpg" style="width: 622px; height: 182px;" />
 <pre>
-<strong>Input:</strong> p = [1,2,1], q = [1,1,2]
-<strong>Output:</strong> false
+<strong>输入：</strong>p = [1,2,1], q = [1,1,2]
+<strong>输出：</strong>false
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in both trees is in the range <code>[0, 100]</code>.</li>
-	<li><code>-10<sup>4</sup> &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
+	<li>两棵树上的节点数目都在范围 <code>[0, 100]</code> 内</li>
+	<li><code>-10<sup>4</sup> <= Node.val <= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-We can use the DFS recursive method to solve this problem.
+我们可以使用 DFS 递归的方法来解决这个问题。
 
-First, determine whether the root nodes of the two binary trees are the same. If both root nodes are null, then the two binary trees are the same. If only one of the root nodes is null, then the two binary trees are definitely different. If both root nodes are not null, then determine whether their values are the same. If they are not the same, then the two binary trees are definitely different. If they are the same, then determine whether the left subtrees of the two binary trees are the same and whether the right subtrees are the same. The two binary trees are the same only when all the above conditions are met.
+首先判断两个二叉树的根节点是否相同，如果两个根节点都为空，则两个二叉树相同，如果两个根节点中有且只有一个为空，则两个二叉树一定不同。如果两个根节点都不为空，则判断它们的值是否相同，如果不相同则两个二叉树一定不同，如果相同，则分别判断两个二叉树的左子树是否相同以及右子树是否相同。当以上所有条件都满足时，两个二叉树才相同。
 
-The time complexity is $O(\min(m, n))$, and the space complexity is $O(\min(m, n))$. Here, $m$ and $n$ are the number of nodes in the two binary trees, respectively. The space complexity mainly depends on the number of layers of recursive calls, which will not exceed the number of nodes in the smaller binary tree.
+时间复杂度 $O(\min(m, n))$，空间复杂度 $O(\min(m, n))$。其中 $m$ 和 $n$ 分别是两个二叉树的节点个数。空间复杂度主要取决于递归调用的层数，递归调用的层数不会超过较小的二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -175,13 +180,13 @@ func isSameTree(p *TreeNode, q *TreeNode) bool {
  */
 
 function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
-  if (p == null && q == null) {
-    return true;
-  }
-  if (p == null || q == null || p.val !== q.val) {
-    return false;
-  }
-  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+    if (p == null && q == null) {
+        return true;
+    }
+    if (p == null || q == null || p.val !== q.val) {
+        return false;
+    }
+    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
 }
 ```
 
@@ -247,15 +252,11 @@ impl Solution {
  * @return {boolean}
  */
 var isSameTree = function (p, q) {
-  if (!p && !q) return true;
-  if (p && q) {
-    return (
-      p.val === q.val &&
-      isSameTree(p.left, q.left) &&
-      isSameTree(p.right, q.right)
-    );
-  }
-  return false;
+    if (!p && !q) return true;
+    if (p && q) {
+        return p.val === q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+    }
+    return false;
 };
 ```
 
@@ -302,13 +303,13 @@ class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: BFS
+### 方法二：BFS
 
-We can also use the BFS iterative method to solve this problem.
+我们也可以使用 BFS 迭代的方法来解决这个问题。
 
-First, add the root nodes of the two binary trees to two queues. Each time, take out one node from each of the two queues and perform the following comparison operations. If the values of the two nodes are not the same, then the structures of the two binary trees are definitely different. If the values of the two nodes are the same, then determine whether the child nodes of the two nodes are null. If only the left child node of one node is null, then the structures of the two binary trees are definitely different. If only the right child node of one node is null, then the structures of the two binary trees are definitely different. If the structures of the left and right child nodes are the same, then add the left and right child nodes of the two nodes to the two queues respectively. For the next iteration, take out one node from each of the two queues for comparison. When both queues are empty at the same time, it means that we have compared all the nodes, and the structures of the two binary trees are completely the same.
+首先将两个二叉树的根节点分别加入两个队列。每次从两个队列各取出一个节点，进行如下比较操作。如果两个节点的值不相同，则两个二叉树的结构一定不同，如果两个节点的值相同，则判断两个节点的子节点是否为空，如果只有一个节点的左子节点为空，则两个二叉树的结构一定不同，如果只有一个节点的右子节点为空，则两个二叉树的结构一定不同，如果左右子节点的结构相同，则将两个节点的左子节点和右子节点分别加入两个队列，对于下一次迭代，将从两个队列各取出一个节点进行比较。当两个队列同时为空时，说明我们已经比较完了所有节点，两个二叉树的结构完全相同。
 
-The time complexity is $O(\min(m, n))$, and the space complexity is $O(\min(m, n))$. Here, $m$ and $n$ are the number of nodes in the two binary trees, respectively. The space complexity mainly depends on the number of elements in the queue, which will not exceed the number of nodes in the smaller binary tree.
+时间复杂度 $O(\min(m, n))$，空间复杂度 $O(\min(m, n))$。其中 $m$ 和 $n$ 分别是两个二叉树的节点个数。空间复杂度主要取决于队列中的元素个数，队列中的元素个数不会超过较小的二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -515,41 +516,41 @@ func isSameTree(p *TreeNode, q *TreeNode) bool {
  */
 
 function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
-  const queue = [];
-  p && queue.push(p);
-  q && queue.push(q);
-  if (queue.length === 1) {
-    return false;
-  }
-  while (queue.length !== 0) {
-    const node1 = queue.shift();
-    const node2 = queue.shift();
-    if (node1.val !== node2.val) {
-      return false;
+    const queue = [];
+    p && queue.push(p);
+    q && queue.push(q);
+    if (queue.length === 1) {
+        return false;
     }
-    if (
-      (node1.left == null && node2.left != null) ||
-      (node1.left != null && node2.left == null)
-    ) {
-      return false;
-    }
-    if (
-      (node1.right == null && node2.right != null) ||
-      (node1.right != null && node2.right == null)
-    ) {
-      return false;
-    }
+    while (queue.length !== 0) {
+        const node1 = queue.shift();
+        const node2 = queue.shift();
+        if (node1.val !== node2.val) {
+            return false;
+        }
+        if (
+            (node1.left == null && node2.left != null) ||
+            (node1.left != null && node2.left == null)
+        ) {
+            return false;
+        }
+        if (
+            (node1.right == null && node2.right != null) ||
+            (node1.right != null && node2.right == null)
+        ) {
+            return false;
+        }
 
-    if (node1.left != null) {
-      queue.push(node1.left);
-      queue.push(node2.left);
+        if (node1.left != null) {
+            queue.push(node1.left);
+            queue.push(node2.left);
+        }
+        if (node1.right != null) {
+            queue.push(node1.right);
+            queue.push(node2.right);
+        }
     }
-    if (node1.right != null) {
-      queue.push(node1.right);
-      queue.push(node2.right);
-    }
-  }
-  return true;
+    return true;
 }
 ```
 

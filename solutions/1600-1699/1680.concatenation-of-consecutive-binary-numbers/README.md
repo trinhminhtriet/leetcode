@@ -1,54 +1,56 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1680.Concatenation%20of%20Consecutive%20Binary%20Numbers/README.md
 rating: 1629
-source: Weekly Contest 218 Q3
+source: 第 218 场周赛 Q3
 tags:
-  - Bit Manipulation
-  - Math
-  - Simulation
+    - 位运算
+    - 数学
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [1680. Concatenation of Consecutive Binary Numbers](https://leetcode.com/problems/concatenation-of-consecutive-binary-numbers)
+# [1680. 连接连续二进制数字](https://leetcode.cn/problems/concatenation-of-consecutive-binary-numbers)
 
-## Description
+[English Version](/solution/1600-1699/1680.Concatenation%20of%20Consecutive%20Binary%20Numbers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer <code>n</code>, return <em>the <strong>decimal value</strong> of the binary string formed by concatenating the binary representations of </em><code>1</code><em> to </em><code>n</code><em> in order, <strong>modulo </strong></em><code>10<sup>9 </sup>+ 7</code>.</p>
+<p>给你一个整数 <code>n</code> ，请你将 <code>1</code> 到 <code>n</code> 的二进制表示连接起来，并返回连接结果对应的 <strong>十进制</strong> 数字对 <code>10<sup>9</sup> + 7</code> 取余的结果。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> n = 1
-<strong>Output:</strong> 1
-<strong>Explanation: </strong>&quot;1&quot; in binary corresponds to the decimal value 1. 
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>n = 1
+<b>输出：</b>1
+<strong>解释：</strong>二进制的 "1" 对应着十进制的 1 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 3
-<strong>Output:</strong> 27
-<strong>Explanation: </strong>In binary, 1, 2, and 3 corresponds to &quot;1&quot;, &quot;10&quot;, and &quot;11&quot;.
-After concatenating them, we have &quot;11011&quot;, which corresponds to the decimal value 27.
+<pre><b>输入：</b>n = 3
+<b>输出：</b>27
+<strong>解释：</strong>二进制下，1，2 和 3 分别对应 "1" ，"10" 和 "11" 。
+将它们依次连接，我们得到 "11011" ，对应着十进制的 27 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 12
-<strong>Output:</strong> 505379714
-<strong>Explanation</strong>: The concatenation results in &quot;1101110010111011110001001101010111100&quot;.
-The decimal value of that is 118505380540.
-After modulo 10<sup>9</sup> + 7, the result is 505379714.
+<pre><b>输入：</b>n = 12
+<b>输出：</b>505379714
+<b>解释：</b>连接结果为 "1101110010111011110001001101010111100" 。
+对应的十进制数字为 118505380540 。
+对 10<sup>9</sup> + 7 取余后，结果为 505379714 。
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -56,15 +58,15 @@ After modulo 10<sup>9</sup> + 7, the result is 505379714.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Bit Manipulation
+### 方法一：位运算
 
-By observing the pattern of number concatenation, we can find that when concatenating to the $i$-th number, the result $ans$ formed by concatenating the previous $i-1$ numbers is actually shifted to the left by a certain number of bits, and then $i$ is added. The number of bits shifted, $shift$, is the number of binary digits in $i$. Since $i$ is continuously incremented by $1$, the number of bits shifted either remains the same as the last shift or increases by one. When $i$ is a power of $2$, that is, when there is only one bit in the binary number of $i$ that is $1$, the number of bits shifted increases by $1$ compared to the last time.
+观察数字的连接规律，我们可以发现，当连接到第 $i$ 个数时，实际上是将前 $i-1$ 个数连接而成的结果 $ans$ 往左移动一定的位数，然后再加上 $i$ 这个数，移动的位数 $shift$ 是 $i$ 中二进制的位数。由于 $i$ 在不断加 $1$，移动的位数要么与上一次移动的位数保持不变，要么加一。当 $i$ 为 $2$ 的幂次方的时候，也即是说 $i$ 的二进制数中只有一位是 $1$ 时，移动的位数相比于上次加 $1$。
 
-The time complexity is $O(n)$, where $n$ is the given integer. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为给定的整数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -127,16 +129,16 @@ func concatenatedBinary(n int) (ans int) {
 
 ```ts
 function concatenatedBinary(n: number): number {
-  const mod = BigInt(10 ** 9 + 7);
-  let ans = 0n;
-  let shift = 0n;
-  for (let i = 1n; i <= n; ++i) {
-    if ((i & (i - 1n)) == 0n) {
-      ++shift;
+    const mod = BigInt(10 ** 9 + 7);
+    let ans = 0n;
+    let shift = 0n;
+    for (let i = 1n; i <= n; ++i) {
+        if ((i & (i - 1n)) == 0n) {
+            ++shift;
+        }
+        ans = ((ans << shift) | i) % mod;
     }
-    ans = ((ans << shift) | i) % mod;
-  }
-  return Number(ans);
+    return Number(ans);
 }
 ```
 
@@ -146,7 +148,7 @@ function concatenatedBinary(n: number): number {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

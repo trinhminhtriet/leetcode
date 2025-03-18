@@ -1,61 +1,82 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0940.Distinct%20Subsequences%20II/README.md
 tags:
-  - String
-  - Dynamic Programming
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [940. Distinct Subsequences II](https://leetcode.com/problems/distinct-subsequences-ii)
+# [940. 不同的子序列 II](https://leetcode.cn/problems/distinct-subsequences-ii)
 
-## Description
+[English Version](/solution/0900-0999/0940.Distinct%20Subsequences%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string s, return <em>the number of <strong>distinct non-empty subsequences</strong> of</em> <code>s</code>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
-A <strong>subsequence</strong> of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., <code>&quot;ace&quot;</code> is a subsequence of <code>&quot;<u>a</u>b<u>c</u>d<u>e</u>&quot;</code> while <code>&quot;aec&quot;</code> is not.
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>给定一个字符串 <code>s</code>，计算 <code>s</code> 的 <strong>不同非空子序列</strong> 的个数。因为结果可能很大，所以返回答案需要对<strong> </strong><strong><code>10^9 + 7</code> 取余</strong> 。</p>
 
-<pre>
-<strong>Input:</strong> s = &quot;abc&quot;
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> The 7 distinct subsequences are &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;ab&quot;, &quot;ac&quot;, &quot;bc&quot;, and &quot;abc&quot;.
-</pre>
+<p>字符串的 <strong>子序列</strong> 是经由原字符串删除一些（也可能不删除）字符但不改变剩余字符相对位置的一个新字符串。</p>
 
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;aba&quot;
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> The 6 distinct subsequences are &quot;a&quot;, &quot;b&quot;, &quot;ab&quot;, &quot;aa&quot;, &quot;ba&quot;, and &quot;aba&quot;.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;aaa&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The 3 distinct subsequences are &quot;a&quot;, &quot;aa&quot; and &quot;aaa&quot;.
-</pre>
+<ul>
+	<li>例如，<code>"ace"</code> 是 <code>"<em><strong>a</strong></em>b<em><strong>c</strong></em>d<em><strong>e</strong></em>"</code> 的一个子序列，但 <code>"aec"</code> 不是。</li>
+</ul>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "abc"
+<strong>输出：</strong>7
+<strong>解释：</strong>7 个不同的子序列分别是 "a", "b", "c", "ab", "ac", "bc", 以及 "abc"。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aba"
+<strong>输出：</strong>6
+<strong>解释：</strong>6 个不同的子序列分别是 "a", "b", "ab", "ba", "aa" 以及 "aba"。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "aaa"
+<strong>输出：</strong>3
+<strong>解释：</strong>3 个不同的子序列分别是 "a", "aa" 以及 "aaa"。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 2000</code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code> 仅由小写英文字母组成</li>
 </ul>
+
+<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：动态规划
+
+定义 $dp[i]$ 表示以 $s[i]$ 结尾的不同子序列的个数。由于 $s$ 中只包含小写字母，因此我们可以直接创建一个长度为 $26$ 的数组。初始时 $dp$ 所有元素均为 $0$。答案为 $\sum_{i=0}^{25}dp[i]$。
+
+遍历字符串 $s$，对于每个位置的字符 $s[i]$，我们需要更新以 $s[i]$ 结尾的不同子序列的个数，此时 $dp[i]=\sum_{j=0}^{25}dp[j]+1$。其中 $\sum_{j=0}^{25}dp[j]$ 是此前我们已经计算出所有不同子序列的个数，而 $+1$ 是指 $s[i]$ 本身也可以作为一个子序列。
+
+最后，我们需要对 $dp$ 中的所有元素求和，再对 $10^9+7$ 取余，即为答案。
+
+时间复杂度 $O(n\times C)$，其中 $n$ 是字符串 $s$ 的长度，而 $C$ 是字符集的大小，本题中 $C=26$。空间复杂度 $O(C)$。
 
 <!-- tabs:start -->
 
@@ -146,13 +167,12 @@ func distinctSubseqII(s string) int {
 
 ```ts
 function distinctSubseqII(s: string): number {
-  const mod = 1e9 + 7;
-  const dp = new Array(26).fill(0);
-  for (const c of s) {
-    dp[c.charCodeAt(0) - "a".charCodeAt(0)] =
-      dp.reduce((r, v) => (r + v) % mod, 0) + 1;
-  }
-  return dp.reduce((r, v) => (r + v) % mod, 0);
+    const mod = 1e9 + 7;
+    const dp = new Array(26).fill(0);
+    for (const c of s) {
+        dp[c.charCodeAt(0) - 'a'.charCodeAt(0)] = dp.reduce((r, v) => (r + v) % mod, 0) + 1;
+    }
+    return dp.reduce((r, v) => (r + v) % mod, 0);
 }
 ```
 
@@ -210,7 +230,15 @@ int distinctSubseqII(char* s) {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：优化的动态规划
+
+在方法一的基础上，我们还可以维护当前 $dp$ 数组中所有元素的和 $ans$，这样我们每次更新 $dp[i]$ 时，只需要将 $dp[i]$ 加上 $ans-dp[i]+1$ 即可。
+
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。
+
+相似题目：
+
+-   [1987. 不同的好子序列数目](https://github.com/doocs/leetcode/blob/main/solution/1900-1999/1987.Number%20of%20Unique%20Good%20Subsequences/README.md)
 
 <!-- tabs:start -->
 
@@ -291,7 +319,7 @@ func distinctSubseqII(s string) int {
 
 <!-- solution:start -->
 
-### Solution 3
+### 方法三
 
 <!-- tabs:start -->
 

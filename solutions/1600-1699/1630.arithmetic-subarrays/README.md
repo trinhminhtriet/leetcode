@@ -1,60 +1,61 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1630.Arithmetic%20Subarrays/README.md
 rating: 1421
-source: Weekly Contest 212 Q2
+source: 第 212 场周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Sorting
+    - 数组
+    - 哈希表
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1630. Arithmetic Subarrays](https://leetcode.com/problems/arithmetic-subarrays)
+# [1630. 等差子数组](https://leetcode.cn/problems/arithmetic-subarrays)
 
-## Description
+[English Version](/solution/1600-1699/1630.Arithmetic%20Subarrays/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A sequence of numbers is called <strong>arithmetic</strong> if it consists of at least two elements, and the difference between every two consecutive elements is the same. More formally, a sequence <code>s</code> is arithmetic if and only if <code>s[i+1] - s[i] == s[1] - s[0] </code>for all valid <code>i</code>.</p>
+<p>如果一个数列由至少两个元素组成，且每两个连续元素之间的差值都相同，那么这个序列就是 <strong>等差数列</strong> 。更正式地，数列 <code>s</code> 是等差数列，只需要满足：对于每个有效的 <code>i</code> ， <code>s[i+1] - s[i] == s[1] - s[0]</code> 都成立。</p>
 
-<p>For example, these are <strong>arithmetic</strong> sequences:</p>
+<p>例如，下面这些都是 <strong>等差数列</strong> ：</p>
 
-<pre>
-1, 3, 5, 7, 9
+<pre>1, 3, 5, 7, 9
 7, 7, 7, 7
 3, -1, -5, -9</pre>
 
-<p>The following sequence is not <strong>arithmetic</strong>:</p>
+<p>下面的数列 <strong>不是等差数列</strong> ：</p>
 
-<pre>
-1, 1, 2, 5, 7</pre>
+<pre>1, 1, 2, 5, 7</pre>
 
-<p>You are given an array of <code>n</code> integers, <code>nums</code>, and two arrays of <code>m</code> integers each, <code>l</code> and <code>r</code>, representing the <code>m</code> range queries, where the <code>i<sup>th</sup></code> query is the range <code>[l[i], r[i]]</code>. All the arrays are <strong>0-indexed</strong>.</p>
+<p>给你一个由 <code>n</code> 个整数组成的数组 <code>nums</code>，和两个由 <code>m</code> 个整数组成的数组 <code>l</code> 和 <code>r</code>，后两个数组表示 <code>m</code> 组范围查询，其中第 <code>i</code> 个查询对应范围 <code>[l[i], r[i]]</code> 。所有数组的下标都是 <strong>从 0 开始</strong> 的。</p>
 
-<p>Return <em>a list of </em><code>boolean</code> <em>elements</em> <code>answer</code><em>, where</em> <code>answer[i]</code> <em>is</em> <code>true</code> <em>if the subarray</em> <code>nums[l[i]], nums[l[i]+1], ... , nums[r[i]]</code><em> can be <strong>rearranged</strong> to form an <strong>arithmetic</strong> sequence, and</em> <code>false</code> <em>otherwise.</em></p>
+<p>返回<em> </em><code>boolean</code> 元素构成的答案列表 <code>answer</code> 。如果子数组 <code>nums[l[i]], nums[l[i]+1], ... , nums[r[i]]</code> 可以 <strong>重新排列</strong> 形成 <strong>等差数列</strong> ，<code>answer[i]</code> 的值就是 <code>true</code>；否则<code>answer[i]</code> 的值就是 <code>false</code> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> nums = <code>[4,6,5,9,3,7]</code>, l = <code>[0,0,2]</code>, r = <code>[2,3,5]</code>
-<strong>Output:</strong> <code>[true,false,true]</code>
-<strong>Explanation:</strong>
-In the 0<sup>th</sup> query, the subarray is [4,6,5]. This can be rearranged as [6,5,4], which is an arithmetic sequence.
-In the 1<sup>st</sup> query, the subarray is [4,6,5,9]. This cannot be rearranged as an arithmetic sequence.
-In the 2<sup>nd</sup> query, the subarray is <code>[5,9,3,7]. This</code> can be rearranged as <code>[3,5,7,9]</code>, which is an arithmetic sequence.</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><strong>输入：</strong>nums = <code>[4,6,5,9,3,7]</code>, l = <code>[0,0,2]</code>, r = <code>[2,3,5]</code>
+<strong>输出：</strong><code>[true,false,true]</code>
+<strong>解释：</strong>
+第 0 个查询，对应子数组 [4,6,5] 。可以重新排列为等差数列 [6,5,4] 。
+第 1 个查询，对应子数组 [4,6,5,9] 。无法重新排列形成等差数列。
+第 2 个查询，对应子数组 <code>[5,9,3,7] 。</code>可以重新排列为等差数列 <code>[3,5,7,9] 。</code></pre>
 
-<pre>
-<strong>Input:</strong> nums = [-12,-9,-3,-12,-6,15,20,-25,-20,-15,-10], l = [0,1,6,4,8,7], r = [4,4,9,7,9,10]
-<strong>Output:</strong> [false,true,false,false,true,true]
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>nums = [-12,-9,-3,-12,-6,15,20,-25,-20,-15,-10], l = [0,1,6,4,8,7], r = [4,4,9,7,9,10]
+<strong>输出：</strong>[false,true,false,false,true,true]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -68,11 +69,23 @@ In the 2<sup>nd</sup> query, the subarray is <code>[5,9,3,7]. This</code> can be
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：数学 + 模拟
+
+我们设计一个函数 $check(nums, l, r)$，用于判断子数组 $nums[l], nums[l+1], \dots, nums[r]$ 是否可以重新排列形成等差数列。
+
+函数 $check(nums, l, r)$ 的实现逻辑如下：
+
+-   首先，我们计算子数组的长度 $n = r - l + 1$，并将子数组中的元素放入集合 $s$ 中，方便后续的查找；
+-   然后，我们获取子数组中的最小值 $a_1$ 和最大值 $a_n$，如果 $a_n - a_1$ 不能被 $n - 1$ 整除，那么子数组不可能形成等差数列，直接返回 $false$；否则，我们计算等差数列的公差 $d = \frac{a_n - a_1}{n - 1}$；
+-   接下来从 $a_1$ 开始，依次计算等差数列中第 $i$ 项元素，如果第 $i$ 项元素 $a_1 + (i - 1) \times d$ 不在集合 $s$ 中，那么子数组不可能形成等差数列，直接返回 $false$；否则，当我们遍历完所有的元素，说明子数组可以重新排列形成等差数列，返回 $true$。
+
+在主函数中，我们遍历所有的查询，对于每个查询 $l[i]$ 和 $r[i]$，我们调用函数 $check(nums, l[i], r[i])$ 判断子数组是否可以重新排列形成等差数列，将结果存入答案数组中。
+
+时间复杂度 $O(n \times m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别为数组 $nums$ 的长度以及查询的组数。
 
 <!-- tabs:start -->
 
@@ -201,37 +214,33 @@ func checkArithmeticSubarrays(nums []int, l []int, r []int) (ans []bool) {
 #### TypeScript
 
 ```ts
-function checkArithmeticSubarrays(
-  nums: number[],
-  l: number[],
-  r: number[]
-): boolean[] {
-  const check = (nums: number[], l: number, r: number): boolean => {
-    const s = new Set<number>();
-    const n = r - l + 1;
-    let a1 = 1 << 30;
-    let an = -a1;
-    for (let i = l; i <= r; ++i) {
-      s.add(nums[i]);
-      a1 = Math.min(a1, nums[i]);
-      an = Math.max(an, nums[i]);
+function checkArithmeticSubarrays(nums: number[], l: number[], r: number[]): boolean[] {
+    const check = (nums: number[], l: number, r: number): boolean => {
+        const s = new Set<number>();
+        const n = r - l + 1;
+        let a1 = 1 << 30;
+        let an = -a1;
+        for (let i = l; i <= r; ++i) {
+            s.add(nums[i]);
+            a1 = Math.min(a1, nums[i]);
+            an = Math.max(an, nums[i]);
+        }
+        if ((an - a1) % (n - 1) !== 0) {
+            return false;
+        }
+        const d = Math.floor((an - a1) / (n - 1));
+        for (let i = 1; i < n; ++i) {
+            if (!s.has(a1 + (i - 1) * d)) {
+                return false;
+            }
+        }
+        return true;
+    };
+    const ans: boolean[] = [];
+    for (let i = 0; i < l.length; ++i) {
+        ans.push(check(nums, l[i], r[i]));
     }
-    if ((an - a1) % (n - 1) !== 0) {
-      return false;
-    }
-    const d = Math.floor((an - a1) / (n - 1));
-    for (let i = 1; i < n; ++i) {
-      if (!s.has(a1 + (i - 1) * d)) {
-        return false;
-      }
-    }
-    return true;
-  };
-  const ans: boolean[] = [];
-  for (let i = 0; i < l.length; ++i) {
-    ans.push(check(nums, l[i], r[i]));
-  }
-  return ans;
+    return ans;
 }
 ```
 

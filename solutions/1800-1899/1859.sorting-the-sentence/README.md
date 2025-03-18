@@ -1,88 +1,74 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1859.Sorting%20the%20Sentence/README.md
 rating: 1290
-source: Biweekly Contest 52 Q1
+source: 第 52 场双周赛 Q1
 tags:
-  - String
-  - Sorting
+    - 字符串
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1859. Sorting the Sentence](https://leetcode.com/problems/sorting-the-sentence)
+# [1859. 将句子排序](https://leetcode.cn/problems/sorting-the-sentence)
 
-## Description
+[English Version](/solution/1800-1899/1859.Sorting%20the%20Sentence/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A <strong>sentence</strong> is a list of words that are separated by a single space with no leading or trailing spaces. Each word consists of lowercase and uppercase English letters.</p>
+<p>一个 <strong>句子</strong> 指的是一个序列的单词用单个空格连接起来，且开头和结尾没有任何空格。每个单词都只包含小写或大写英文字母。</p>
 
-<p>A sentence can be <strong>shuffled</strong> by appending the <strong>1-indexed word position</strong> to each word then rearranging the words in the sentence.</p>
+<p>我们可以给一个句子添加 <strong>从 1 开始的单词位置索引 </strong>，并且将句子中所有单词 <strong>打乱顺序</strong> 。</p>
 
 <ul>
-
-    <li>For example, the sentence <code>&quot;This is a sentence&quot;</code> can be shuffled as <code>&quot;sentence4 a3 is2 This1&quot;</code> or <code>&quot;is2 sentence4 This1 a3&quot;</code>.</li>
-
+	<li>比方说，句子 <code>"This is a sentence"</code> 可以被打乱顺序得到 <code>"sentence4 a3 is2 This1"</code> 或者 <code>"is2 sentence4 This1 a3"</code> 。</li>
 </ul>
 
-<p>Given a <strong>shuffled sentence</strong> <code>s</code> containing no more than <code>9</code> words, reconstruct and return <em>the original sentence</em>.</p>
+<p>给你一个 <strong>打乱顺序</strong> 的句子 <code>s</code> ，它包含的单词不超过 <code>9</code> 个，请你重新构造并得到原本顺序的句子。</p>
 
-<p>&nbsp;</p>
+<p> </p>
 
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-
-<strong>Input:</strong> s = &quot;is2 sentence4 This1 a3&quot;
-
-<strong>Output:</strong> &quot;This is a sentence&quot;
-
-<strong>Explanation:</strong> Sort the words in s to their original positions &quot;This1 is2 a3 sentence4&quot;, then remove the numbers.
-
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-
-<strong>Input:</strong> s = &quot;Myself2 Me1 I4 and3&quot;
-
-<strong>Output:</strong> &quot;Me Myself and I&quot;
-
-<strong>Explanation:</strong> Sort the words in s to their original positions &quot;Me1 Myself2 and3 I4&quot;, then remove the numbers.
-
+<b>输入：</b>s = "is2 sentence4 This1 a3"
+<b>输出：</b>"This is a sentence"
+<b>解释：</b>将 s 中的单词按照初始位置排序，得到 "This1 is2 a3 sentence4" ，然后删除数字。
 </pre>
 
-<p>&nbsp;</p>
+<p><strong>示例 2：</strong></p>
 
-<p><strong>Constraints:</strong></p>
+<pre>
+<b>输入：</b>s = "Myself2 Me1 I4 and3"
+<b>输出：</b>"Me Myself and I"
+<b>解释：</b>将 s 中的单词按照初始位置排序，得到 "Me1 Myself2 and3 I4" ，然后删除数字。</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>2 &lt;= s.length &lt;= 200</code></li>
-
-    <li><code>s</code> consists of lowercase and uppercase English letters, spaces, and digits from <code>1</code> to <code>9</code>.</li>
-
-    <li>The number of words in <code>s</code> is between <code>1</code> and <code>9</code>.</li>
-
-    <li>The words in <code>s</code> are separated by a single space.</li>
-
-    <li><code>s</code> contains no leading or trailing spaces.</li>
-
+	<li><code>2 <= s.length <= 200</code></li>
+	<li><code>s</code> 只包含小写和大写英文字母、空格以及从 <code>1</code> 到 <code>9</code> 的数字。</li>
+	<li><code>s</code> 中单词数目为 <code>1</code> 到 <code>9</code> 个。</li>
+	<li><code>s</code> 中的单词由单个空格分隔。</li>
+	<li><code>s</code> 不包含任何前导或者后缀空格。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: String Splitting
+### 方法一：字符串分割
 
-First, we split the string $s$ by spaces to get the array of strings $\textit{ws}$. Then, we iterate through the array $\textit{ws}$, subtracting the character '1' from the last character of each word to get the result as the index of the word. We take the prefix of the word as the content of the word. Finally, we concatenate the words in index order.
+我们先将字符串 $s$ 按照空格分割，得到字符串数组 $\textit{ws}$，然后遍历数组 $\textit{ws}$，将每个单词的最后一个字符减去字符 '1'，得到的结果作为单词的索引，将单词的前缀作为单词的内容，最后将单词按照索引顺序拼接起来即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -91,11 +77,9 @@ The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is 
 ```python
 class Solution:
     def sortSentence(self, s: str) -> str:
-        ws = s.split()
-        ans = [None] * len(ws)
-        for w in ws:
-            ans[int(w[-1]) - 1] = w[:-1]
-        return " ".join(ans)
+        ws = [(w[:-1], int(w[-1])) for w in s.split()]
+        ws.sort(key=lambda x: x[1])
+        return ' '.join(w for w, _ in ws)
 ```
 
 #### Java
@@ -158,12 +142,12 @@ func sortSentence(s string) string {
 
 ```ts
 function sortSentence(s: string): string {
-  const ws = s.split(" ");
-  const ans = Array(ws.length);
-  for (const w of ws) {
-    ans[w.charCodeAt(w.length - 1) - "1".charCodeAt(0)] = w.slice(0, -1);
-  }
-  return ans.join(" ");
+    const ws = s.split(' ');
+    const ans = Array(ws.length);
+    for (const w of ws) {
+        ans[w.charCodeAt(w.length - 1) - '1'.charCodeAt(0)] = w.slice(0, -1);
+    }
+    return ans.join(' ');
 }
 ```
 
@@ -175,12 +159,12 @@ function sortSentence(s: string): string {
  * @return {string}
  */
 var sortSentence = function (s) {
-  const ws = s.split(" ");
-  const ans = Array(ws.length);
-  for (const w of ws) {
-    ans[w.charCodeAt(w.length - 1) - "1".charCodeAt(0)] = w.slice(0, -1);
-  }
-  return ans.join(" ");
+    const ws = s.split(' ');
+    const ans = Array(ws.length);
+    for (const w of ws) {
+        ans[w.charCodeAt(w.length - 1) - '1'.charCodeAt(0)] = w.slice(0, -1);
+    }
+    return ans.join(' ');
 };
 ```
 

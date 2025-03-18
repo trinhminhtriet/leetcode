@@ -1,50 +1,54 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0135.Candy/README.md
 tags:
-  - Greedy
-  - Array
+    - 贪心
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [135. Candy](https://leetcode.com/problems/candy)
+# [135. 分发糖果](https://leetcode.cn/problems/candy)
 
-## Description
+[English Version](/solution/0100-0199/0135.Candy/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> children standing in a line. Each child is assigned a rating value given in the integer array <code>ratings</code>.</p>
+<p><code>n</code> 个孩子站成一排。给你一个整数数组 <code>ratings</code> 表示每个孩子的评分。</p>
 
-<p>You are giving candies to these children subjected to the following requirements:</p>
+<p>你需要按照以下要求，给这些孩子分发糖果：</p>
 
 <ul>
-	<li>Each child must have at least one candy.</li>
-	<li>Children with a higher rating get more candies than their neighbors.</li>
+	<li>每个孩子至少分配到 <code>1</code> 个糖果。</li>
+	<li>相邻两个孩子评分更高的孩子会获得更多的糖果。</li>
 </ul>
 
-<p>Return <em>the minimum number of candies you need to have to distribute the candies to the children</em>.</p>
+<p>请你给每个孩子分发糖果，计算并返回需要准备的 <strong>最少糖果数目</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例&nbsp;1：</strong></p>
 
 <pre>
-<strong>Input:</strong> ratings = [1,0,2]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> You can allocate to the first, second and third child with 2, 1, 2 candies respectively.
+<strong>输入：</strong>ratings = [1,0,2]
+<strong>输出：</strong>5
+<strong>解释：</strong>你可以分别给第一个、第二个、第三个孩子分发 2、1、2 颗糖果。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例&nbsp;2：</strong></p>
 
 <pre>
-<strong>Input:</strong> ratings = [1,2,2]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> You can allocate to the first, second and third child with 1, 2, 1 candies respectively.
-The third child gets 1 candy because it satisfies the above two conditions.
-</pre>
+<strong>输入：</strong>ratings = [1,2,2]
+<strong>输出：</strong>4
+<strong>解释：</strong>你可以分别给第一个、第二个、第三个孩子分发 1、2、1 颗糖果。
+     第三个孩子只得到 1 颗糖果，这满足题面中的两个条件。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == ratings.length</code></li>
@@ -54,19 +58,19 @@ The third child gets 1 candy because it satisfies the above two conditions.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two traversals
+### 方法一：两次遍历
 
-We initialize two arrays $left$ and $right$, where $left[i]$ represents the minimum number of candies the current child should get when the current child's score is higher than the left child's score, and $right[i]$ represents the minimum number of candies the current child should get when the current child's score is higher than the right child's score. Initially, $left[i]=1$, $right[i]=1$.
+我们初始化两个数组 $left$ 和 $right$，其中 $left[i]$ 表示当前孩子比左边孩子评分高时，当前孩子至少应该获得的糖果数，而 $right[i]$ 表示当前孩子比右边孩子评分高时，当前孩子至少应该获得的糖果数。初始时 $left[i]=1$, $right[i]=1$。
 
-We traverse the array from left to right once, and if the current child's score is higher than the left child's score, then $left[i]=left[i-1]+1$; similarly, we traverse the array from right to left once, and if the current child's score is higher than the right child's score, then $right[i]=right[i+1]+1$.
+我们从左到右遍历一遍，如果当前孩子比左边孩子评分高，则 $left[i]=left[i-1]+1$；同理，我们从右到左遍历一遍，如果当前孩子比右边孩子评分高，则 $right[i]=right[i+1]+1$。
 
-Finally, we traverse the array of scores once, and the minimum number of candies each child should get is the maximum of $left[i]$ and $right[i]$, and we add them up to get the answer.
+最后，我们遍历一遍评分数组，每个孩子至少应该获得的糖果数为 $left[i]$ 和 $right[i]$ 中的最大值，将它们累加起来即为答案。
 
-Time complexity $O(n)$, space complexity $O(n)$. Where $n$ is the length of the array of scores.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是评分数组的长度。
 
 <!-- tabs:start -->
 
@@ -178,24 +182,24 @@ func candy(ratings []int) int {
 
 ```ts
 function candy(ratings: number[]): number {
-  const n = ratings.length;
-  const left = new Array(n).fill(1);
-  const right = new Array(n).fill(1);
-  for (let i = 1; i < n; ++i) {
-    if (ratings[i] > ratings[i - 1]) {
-      left[i] = left[i - 1] + 1;
+    const n = ratings.length;
+    const left = new Array(n).fill(1);
+    const right = new Array(n).fill(1);
+    for (let i = 1; i < n; ++i) {
+        if (ratings[i] > ratings[i - 1]) {
+            left[i] = left[i - 1] + 1;
+        }
     }
-  }
-  for (let i = n - 2; i >= 0; --i) {
-    if (ratings[i] > ratings[i + 1]) {
-      right[i] = right[i + 1] + 1;
+    for (let i = n - 2; i >= 0; --i) {
+        if (ratings[i] > ratings[i + 1]) {
+            right[i] = right[i + 1] + 1;
+        }
     }
-  }
-  let ans = 0;
-  for (let i = 0; i < n; ++i) {
-    ans += Math.max(left[i], right[i]);
-  }
-  return ans;
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        ans += Math.max(left[i], right[i]);
+    }
+    return ans;
 }
 ```
 
@@ -234,7 +238,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

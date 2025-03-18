@@ -1,80 +1,85 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1203.Sort%20Items%20by%20Groups%20Respecting%20Dependencies/README.md
 rating: 2418
-source: Weekly Contest 155 Q4
+source: 第 155 场周赛 Q4
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
-  - Topological Sort
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
+    - 拓扑排序
 ---
 
 <!-- problem:start -->
 
-# [1203. Sort Items by Groups Respecting Dependencies](https://leetcode.com/problems/sort-items-by-groups-respecting-dependencies)
+# [1203. 项目管理](https://leetcode.cn/problems/sort-items-by-groups-respecting-dependencies)
 
-## Description
+[English Version](/solution/1200-1299/1203.Sort%20Items%20by%20Groups%20Respecting%20Dependencies/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are&nbsp;<code>n</code>&nbsp;items each&nbsp;belonging to zero or one of&nbsp;<code>m</code>&nbsp;groups where <code>group[i]</code>&nbsp;is the group that the <code>i</code>-th item belongs to and it&#39;s equal to <code>-1</code>&nbsp;if the <code>i</code>-th item belongs to no group. The items and the groups are zero indexed. A group can have no item belonging to it.</p>
+<p>有 <code>n</code> 个项目，每个项目或者不属于任何小组，或者属于 <code>m</code> 个小组之一。<code>group[i]</code> 表示第 <code>i</code> 个项目所属的小组，如果第 <code>i</code> 个项目不属于任何小组，则 <code>group[i]</code> 等于 <code>-1</code>。项目和小组都是从零开始编号的。可能存在小组不负责任何项目，即没有任何项目属于这个小组。</p>
 
-<p>Return a sorted list of the items such that:</p>
+<p>请你帮忙按要求安排这些项目的进度，并返回排序后的项目列表：</p>
 
 <ul>
-	<li>The items that belong to the same group are next to each other in the sorted list.</li>
-	<li>There are some&nbsp;relations&nbsp;between these items where&nbsp;<code>beforeItems[i]</code>&nbsp;is a list containing all the items that should come before the&nbsp;<code>i</code>-th item in the sorted array (to the left of the&nbsp;<code>i</code>-th item).</li>
+	<li>同一小组的项目，排序后在列表中彼此相邻。</li>
+	<li>项目之间存在一定的依赖关系，我们用一个列表 <code>beforeItems</code> 来表示，其中 <code>beforeItems[i]</code> 表示在进行第 <code>i</code> 个项目前（位于第 <code>i</code> 个项目左侧）应该完成的所有项目。</li>
 </ul>
 
-<p>Return any solution if there is more than one solution and return an <strong>empty list</strong>&nbsp;if there is no solution.</p>
+<p>如果存在多个解决方案，只需要返回其中任意一个即可。如果没有合适的解决方案，就请返回一个 <strong>空列表 </strong>。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1203.Sort%20Items%20by%20Groups%20Respecting%20Dependencies/images/1359_ex1.png" style="width: 191px; height: 181px;" /></strong></p>
+<p><strong>示例 1：</strong></p>
 
-<pre>
-<strong>Input:</strong> n = 8, m = 2, group = [-1,-1,1,0,0,1,0,-1], beforeItems = [[],[6],[5],[6],[3,6],[],[],[]]
-<strong>Output:</strong> [6,3,4,1,5,2,0,7]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1203.Sort%20Items%20by%20Groups%20Respecting%20Dependencies/images/1359_ex1.png" style="height: 181px; width: 191px;" /></strong></p>
 
 <pre>
-<strong>Input:</strong> n = 8, m = 2, group = [-1,-1,1,0,0,1,0,-1], beforeItems = [[],[6],[5],[6],[3],[],[4],[]]
-<strong>Output:</strong> []
-<strong>Explanation:</strong>&nbsp;This is the same as example 1 except that 4 needs to be before 6 in the sorted list.
+<strong>输入：</strong>n = 8, m = 2, group = [-1,-1,1,0,0,1,0,-1], beforeItems = [[],[6],[5],[6],[3,6],[],[],[]]
+<strong>输出：</strong>[6,3,4,1,5,2,0,7]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>n = 8, m = 2, group = [-1,-1,1,0,0,1,0,-1], beforeItems = [[],[6],[5],[6],[3],[],[4],[]]
+<strong>输出：</strong>[]
+<strong>解释：</strong>与示例 1 大致相同，但是在排序后的列表中，4 必须放在 6 的前面。
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= m &lt;= n &lt;= 3 * 10<sup>4</sup></code></li>
+	<li><code>1 <= m <= n <= 3 * 10<sup>4</sup></code></li>
 	<li><code>group.length == beforeItems.length == n</code></li>
-	<li><code>-1 &lt;= group[i] &lt;= m - 1</code></li>
-	<li><code>0 &lt;= beforeItems[i].length &lt;= n - 1</code></li>
-	<li><code>0 &lt;= beforeItems[i][j] &lt;= n - 1</code></li>
+	<li><code>-1 <= group[i] <= m - 1</code></li>
+	<li><code>0 <= beforeItems[i].length <= n - 1</code></li>
+	<li><code>0 <= beforeItems[i][j] <= n - 1</code></li>
 	<li><code>i != beforeItems[i][j]</code></li>
-	<li><code>beforeItems[i]&nbsp;</code>does not contain&nbsp;duplicates elements.</li>
+	<li><code>beforeItems[i]</code> 不含重复元素</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Topological Sorting
+### 方法一：拓扑排序
 
-First, we traverse the array $group$. For each project, if it does not belong to any group, we create a new group for it with the ID $m$, and increment $m$. This ensures that all projects belong to some group. Then, we use an array $groupItems$ to record the projects contained in each group. The array index is the group ID, and the array value is the list of projects in the group.
+我们先遍历数组 $group$，对于每个项目，如果其不属于任何小组，则将其新建一个小组，编号为 $m$，并将 $m$ 的值加一。这样我们就能保证所有项目都属于某个小组了。然后，我们用一个数组 $groupItems$ 记录每个小组包含的项目，数组下标为小组编号，数组值为包含的项目列表。
 
-Next, we need to build the graph. For each project, we need to build two types of graphs: one for the projects and one for the groups. We traverse the array $group$. For the current project $i$, its group is $group[i]$. We traverse $beforeItems[i]$, and for each project $j$ in it, if $group[i] = group[j]$, it means that $i$ and $j$ belong to the same group. We add an edge $j \to i$ in the project graph. Otherwise, it means that $i$ and $j$ belong to different groups. We add an edge $group[j] \to group[i]$ in the group graph, and update the corresponding in-degree array.
+接下来，我们需要建图。对于每个项目，我们需要建立两种图，一种是项目间的图，一种是小组间的图。我们遍历数组 $group$，对于当前项目 $i$，它所在的小组为 $group[i]$，我们遍历 $beforeItems[i]$，对于其中的每个项目 $j$，如果 $group[i] = group[j]$，说明 $i$ 和 $j$ 属于同一小组，我们在项目图中添加一条 $j \to i$ 的边，否则说明 $i$ 和 $j$ 属于不同的小组，我们在小组间的图中添加一条 $group[j] \to group[i]$ 的边，并且更新对应的入度数组。
 
-Next, we perform topological sorting on the group graph to get the sorted group list $groupOrder$. If the length of the sorted list is not equal to the total number of groups, it means that the sorting cannot be completed, so we return an empty list. Otherwise, we traverse $groupOrder$, and for each group $gi$, we perform topological sorting on the project list $groupItems[gi]$ to get the sorted project list $itemOrder$. If the length of the sorted list is not equal to the total number of projects in the group, it means that the sorting cannot be completed, so we return an empty list. Otherwise, we add the projects in $itemOrder$ to the answer array, and finally return this answer array.
+接下来，我们先对小组间的图进行拓扑排序，得到排序后的小组列表 $groupOrder$，如果排序后的列表长度不等于小组总数，说明无法完成排序，返回空列表。否则，我们遍历 $groupOrder$，对于其中的每个小组 $gi$，我们将该小组包含的项目列表 $groupItems[gi]$ 进行拓扑排序，得到排序后的项目列表 $itemOrder$，如果排序后的列表长度不等于该小组包含的项目总数，说明无法完成排序，返回空列表。否则，我们将 $itemOrder$ 中的项目加入答案数组中，最终返回该答案数组即可。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Here, $n$ and $m$ are the total number of projects and groups, respectively.
+时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是项目总数和小组总数。
 
 <!-- tabs:start -->
 
@@ -348,73 +353,64 @@ func sortItems(n int, m int, group []int, beforeItems [][]int) []int {
 #### TypeScript
 
 ```ts
-function sortItems(
-  n: number,
-  m: number,
-  group: number[],
-  beforeItems: number[][]
-): number[] {
-  let idx = m;
-  const groupItems: number[][] = new Array(n + m).fill(0).map(() => []);
-  const itemDegree: number[] = new Array(n).fill(0);
-  const gorupDegree: number[] = new Array(n + m).fill(0);
-  const itemGraph: number[][] = new Array(n).fill(0).map(() => []);
-  const groupGraph: number[][] = new Array(n + m).fill(0).map(() => []);
-  for (let i = 0; i < n; ++i) {
-    if (group[i] === -1) {
-      group[i] = idx++;
+function sortItems(n: number, m: number, group: number[], beforeItems: number[][]): number[] {
+    let idx = m;
+    const groupItems: number[][] = new Array(n + m).fill(0).map(() => []);
+    const itemDegree: number[] = new Array(n).fill(0);
+    const gorupDegree: number[] = new Array(n + m).fill(0);
+    const itemGraph: number[][] = new Array(n).fill(0).map(() => []);
+    const groupGraph: number[][] = new Array(n + m).fill(0).map(() => []);
+    for (let i = 0; i < n; ++i) {
+        if (group[i] === -1) {
+            group[i] = idx++;
+        }
+        groupItems[group[i]].push(i);
     }
-    groupItems[group[i]].push(i);
-  }
-  for (let i = 0; i < n; ++i) {
-    for (const j of beforeItems[i]) {
-      if (group[i] === group[j]) {
-        ++itemDegree[i];
-        itemGraph[j].push(i);
-      } else {
-        ++gorupDegree[group[i]];
-        groupGraph[group[j]].push(group[i]);
-      }
+    for (let i = 0; i < n; ++i) {
+        for (const j of beforeItems[i]) {
+            if (group[i] === group[j]) {
+                ++itemDegree[i];
+                itemGraph[j].push(i);
+            } else {
+                ++gorupDegree[group[i]];
+                groupGraph[group[j]].push(group[i]);
+            }
+        }
     }
-  }
-  let items = new Array(n + m).fill(0).map((_, i) => i);
-  const topoSort = (
-    graph: number[][],
-    degree: number[],
-    items: number[]
-  ): number[] => {
-    const q: number[] = [];
-    for (const i of items) {
-      if (degree[i] === 0) {
-        q.push(i);
-      }
+    let items = new Array(n + m).fill(0).map((_, i) => i);
+    const topoSort = (graph: number[][], degree: number[], items: number[]): number[] => {
+        const q: number[] = [];
+        for (const i of items) {
+            if (degree[i] === 0) {
+                q.push(i);
+            }
+        }
+        const ans: number[] = [];
+        while (q.length) {
+            const i = q.pop()!;
+            ans.push(i);
+            for (const j of graph[i]) {
+                if (--degree[j] === 0) {
+                    q.push(j);
+                }
+            }
+        }
+        return ans.length === items.length ? ans : [];
+    };
+    const groupOrder = topoSort(groupGraph, gorupDegree, items);
+    if (groupOrder.length === 0) {
+        return [];
     }
     const ans: number[] = [];
-    while (q.length) {
-      const i = q.pop()!;
-      ans.push(i);
-      for (const j of graph[i]) {
-        if (--degree[j] === 0) {
-          q.push(j);
+    for (const gi of groupOrder) {
+        items = groupItems[gi];
+        const itemOrder = topoSort(itemGraph, itemDegree, items);
+        if (itemOrder.length !== items.length) {
+            return [];
         }
-      }
+        ans.push(...itemOrder);
     }
-    return ans.length === items.length ? ans : [];
-  };
-  const groupOrder = topoSort(groupGraph, gorupDegree, items);
-  if (groupOrder.length === 0) {
-    return [];
-  }
-  const ans: number[] = [];
-  for (const gi of groupOrder) {
-    items = groupItems[gi];
-    const itemOrder = topoSort(itemGraph, itemDegree, items);
-    if (itemOrder.length !== items.length) {
-      return [];
-    }
-    ans.push(...itemOrder);
-  }
-  return ans;
+    return ans;
 }
 ```
 

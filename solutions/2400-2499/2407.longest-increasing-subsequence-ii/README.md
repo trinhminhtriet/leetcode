@@ -1,73 +1,75 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2407.Longest%20Increasing%20Subsequence%20II/README.md
 rating: 2280
-source: Weekly Contest 310 Q4
+source: 第 310 场周赛 Q4
 tags:
-  - Binary Indexed Tree
-  - Segment Tree
-  - Queue
-  - Array
-  - Divide and Conquer
-  - Dynamic Programming
-  - Monotonic Queue
+    - 树状数组
+    - 线段树
+    - 队列
+    - 数组
+    - 分治
+    - 动态规划
+    - 单调队列
 ---
 
 <!-- problem:start -->
 
-# [2407. Longest Increasing Subsequence II](https://leetcode.com/problems/longest-increasing-subsequence-ii)
+# [2407. 最长递增子序列 II](https://leetcode.cn/problems/longest-increasing-subsequence-ii)
 
-## Description
+[English Version](/solution/2400-2499/2407.Longest%20Increasing%20Subsequence%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> and an integer <code>k</code>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。</p>
 
-<p>Find the longest subsequence of <code>nums</code> that meets the following requirements:</p>
+<p>找到&nbsp;<code>nums</code>&nbsp;中满足以下要求的最长子序列：</p>
 
 <ul>
-	<li>The subsequence is <strong>strictly increasing</strong> and</li>
-	<li>The difference between adjacent elements in the subsequence is <strong>at most</strong> <code>k</code>.</li>
+	<li>子序列 <strong>严格递增</strong></li>
+	<li>子序列中相邻元素的差值 <strong>不超过</strong>&nbsp;<code>k</code>&nbsp;。</li>
 </ul>
 
-<p>Return<em> the length of the <strong>longest</strong> <strong>subsequence</strong> that meets the requirements.</em></p>
+<p>请你返回满足上述要求的 <strong>最长子序列</strong>&nbsp;的长度。</p>
 
-<p>A <strong>subsequence</strong> is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.</p>
+<p><strong>子序列</strong>&nbsp;是从一个数组中删除部分元素后，剩余元素不改变顺序得到的数组。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [4,2,1,4,3,4,5,8,15], k = 3
-<strong>Output:</strong> 5
-<strong>Explanation:</strong>
-The longest subsequence that meets the requirements is [1,3,4,5,8].
-The subsequence has a length of 5, so we return 5.
-Note that the subsequence [1,3,4,5,8,15] does not meet the requirements because 15 - 8 = 7 is larger than 3.
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums = [4,2,1,4,3,4,5,8,15], k = 3
+<b>输出：</b>5
+<strong>解释：</strong>
+满足要求的最长子序列是 [1,3,4,5,8] 。
+子序列长度为 5 ，所以我们返回 5 。
+注意子序列 [1,3,4,5,8,15] 不满足要求，因为 15 - 8 = 7 大于 3 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [7,4,5,1,8,12,4,7], k = 5
-<strong>Output:</strong> 4
-<strong>Explanation:</strong>
-The longest subsequence that meets the requirements is [4,5,8,12].
-The subsequence has a length of 4, so we return 4.
+<pre><b>输入：</b>nums = [7,4,5,1,8,12,4,7], k = 5
+<b>输出：</b>4
+<strong>解释：</strong>
+满足要求的最长子序列是 [4,5,8,12] 。
+子序列长度为 4 ，所以我们返回 4 。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [1,5], k = 1
-<strong>Output:</strong> 1
-<strong>Explanation:</strong>
-The longest subsequence that meets the requirements is [1].
-The subsequence has a length of 1, so we return 1.
+<pre><b>输入：</b>nums = [1,5], k = 1
+<b>输出：</b>1
+<strong>解释：</strong>
+满足要求的最长子序列是 [1] 。
+子序列长度为 1 ，所以我们返回 1 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -76,28 +78,28 @@ The subsequence has a length of 1, so we return 1.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Segment Tree
+### 方法一：线段树
 
-We assume that $f[v]$ represents the length of the longest increasing subsequence ending with the number $v$.
+我们假设 $f[v]$ 表示以数字 $v$ 结尾的最长递增子序列的长度。
 
-We traverse each element $v$ in the array $nums$, with the state transition equation: $f[v] = \max(f[v], f[x])$, where the range of $x$ is $[v-k, v-1]$.
+我们遍历数组 $nums$ 中的每个元素 $v$，有状态转移方程：$f[v] = \max(f[v], f[x])$，其中 $x$ 的取值范围是 $[v-k, v-1]$。
 
-Therefore, we need a data structure to maintain the maximum value of the interval. It is not difficult to think of using a segment tree.
+因此，我们需要一个数据结构，来维护区间的最大值，不难想到使用线段树。
 
-The segment tree divides the entire interval into multiple discontinuous subintervals, and the number of subintervals does not exceed $log(width)$. To update the value of an element, only $log(width)$ intervals need to be updated, and these intervals are all contained in a large interval that contains the element.
+线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 $log(width)$。更新某个元素的值，只需要更新 $log(width)$ 个区间，并且这些区间都包含在一个包含该元素的大区间内。
 
-- Each node of the segment tree represents an interval;
-- The segment tree has a unique root node, which represents the entire statistical range, such as $[1,N]$;
-- Each leaf node of the segment tree represents an elementary interval of length $1$, $[x, x]$;
-- For each internal node $[l,r]$, its left child is $[l,mid]$, and the right child is $[mid+1,r]$, where $mid = \left \lfloor \frac{l+r}{2} \right \rfloor$.
+-   线段树的每个节点代表一个区间；
+-   线段树具有唯一的根节点，代表的区间是整个统计范围，如 $[1,N]$；
+-   线段树的每个叶子节点代表一个长度为 $1$ 的元区间 $[x, x]$；
+-   对于每个内部节点 $[l,r]$，它的左儿子是 $[l,mid]$，右儿子是 $[mid+1,r]$, 其中 $mid = \left \lfloor \frac{l+r}{2} \right \rfloor$。
 
-For this problem, the information maintained by the segment tree node is the maximum value within the interval range.
+对于本题，线段树节点维护的信息是区间范围内的最大值。
 
-The time complexity is $O(n \times \log n)$, where $n$ is the length of the array $nums$.
+时间复杂度 $O(n \times \log n)$。其中 $n$ 是数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 

@@ -1,47 +1,52 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0813.Largest%20Sum%20of%20Averages/README.md
 tags:
-  - Array
-  - Dynamic Programming
-  - Prefix Sum
+    - 数组
+    - 动态规划
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [813. Largest Sum of Averages](https://leetcode.com/problems/largest-sum-of-averages)
+# [813. 最大平均值和的分组](https://leetcode.cn/problems/largest-sum-of-averages)
 
-## Description
+[English Version](/solution/0800-0899/0813.Largest%20Sum%20of%20Averages/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> and an integer <code>k</code>. You can partition the array into <strong>at most</strong> <code>k</code> non-empty adjacent subarrays. The <strong>score</strong> of a partition is the sum of the averages of each subarray.</p>
+<p>给定数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。我们将给定的数组&nbsp;<code>nums</code>&nbsp;分成 <strong>最多</strong>&nbsp;<code>k</code>&nbsp;个非空子数组，且数组内部是连续的&nbsp;。&nbsp;<strong>分数</strong> 由每个子数组内的平均值的总和构成。</p>
 
-<p>Note that the partition must use every integer in <code>nums</code>, and that the score is not necessarily an integer.</p>
+<p>注意我们必须使用 <code>nums</code> 数组中的每一个数进行分组，并且分数不一定需要是整数。</p>
 
-<p>Return <em>the maximum <strong>score</strong> you can achieve of all the possible partitions</em>. Answers within <code>10<sup>-6</sup></code> of the actual answer will be accepted.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [9,1,2,3,9], k = 3
-<strong>Output:</strong> 20.00000
-<strong>Explanation:</strong> 
-The best choice is to partition nums into [9], [1, 2, 3], [9]. The answer is 9 + (1 + 2 + 3) / 3 + 9 = 20.
-We could have also partitioned nums into [9, 1], [2], [3, 9], for example.
-That partition would lead to a score of 5 + 2 + 6 = 13, which is worse.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4,5,6,7], k = 4
-<strong>Output:</strong> 20.50000
-</pre>
+<p>返回我们所能得到的最大 <strong>分数</strong> 是多少。答案误差在&nbsp;<code>10<sup>-6</sup></code>&nbsp;内被视为是正确的。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> nums = [9,1,2,3,9], k = 3
+<strong>输出:</strong> 20.00000
+<strong>解释:</strong> 
+nums 的最优分组是[9], [1, 2, 3], [9]. 得到的分数是 9 + (1 + 2 + 3) / 3 + 9 = 20. 
+我们也可以把 nums 分成[9, 1], [2], [3, 9]. 
+这样的分组得到的分数为 5 + 2 + 6 = 13, 但不是最大值.
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> nums = [1,2,3,4,5,6,7], k = 4
+<strong>输出:</strong> 20.50000
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -51,23 +56,25 @@ That partition would lead to a score of 5 + 2 + 6 = 13, which is worse.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Prefix Sum + Memoized Search
+### 方法一：前缀和 + 记忆化搜索
 
-We can preprocess to obtain the prefix sum array $s$, which allows us to quickly get the sum of subarrays.
+我们可以先预处理得到前缀和数组 $s$，方便快速得到子数组的和。
 
-Next, we design a function $\textit{dfs}(i, k)$, which represents the maximum sum of averages when dividing the array starting from index $i$ into at most $k$ groups. The answer is $\textit{dfs}(0, k)$.
+接下来，我们设计一个函数 $\textit{dfs}(i, k)$，表示从数组下标 $i$ 开始，最多分成 $k$ 组的最大平均值和。答案为 $\textit{dfs}(0, k)$。
 
-The execution logic of the function $\textit{dfs}(i, k)$ is as follows:
+函数 $\textit{dfs}(i, k)$ 的执行逻辑如下：
 
-- When $i = n$, it means we have traversed to the end of the array, and we return $0$.
-- When $k = 1$, it means there is only one group left, and we return the average value from index $i$ to the end of the array.
-- Otherwise, we enumerate the starting position $j$ of the next group in the interval $[i + 1, n)$, calculate the average value from $i$ to $j - 1$ as $\frac{s[j] - s[i]}{j - i}$, add the result of $\textit{dfs}(j, k - 1)$, and take the maximum value of all results.
+当 $i = n$ 时，表示已经遍历到数组末尾，此时返回 $0$。
 
-The time complexity is $O(n^2 \times k)$, and the space complexity is $O(n \times k)$. Here, $n$ represents the length of the array $\textit{nums}$.
+当 $k = 1$ 时，表示只剩下一组，此时返回从下标 $i$ 开始到数组末尾的平均值。
+
+否则，我们在 $[i + 1, n)$ 的区间内枚举下一个分组的开始位置 $j$，计算从 $i$ 到 $j - 1$ 的平均值 $\frac{s[j] - s[i]}{j - i}$，加上 $\textit{dfs}(j, k - 1)$ 的结果，取所有结果的最大值。
+
+时间复杂度 $O(n^2 \times k)$，空间复杂度 $O(n \times k)$。其中 $n$ 表示数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -143,7 +150,7 @@ public:
         for (int i = 0; i < n; ++i) {
             s[i + 1] = s[i] + nums[i];
         }
-        auto dfs = [&](auto&& dfs, int i, int k) -> double {
+        auto dfs = [&](this auto&& dfs, int i, int k) -> double {
             if (i == n) {
                 return 0;
             }
@@ -155,11 +162,11 @@ public:
             }
             double ans = 0;
             for (int j = i + 1; j < n; ++j) {
-                ans = max(ans, (s[j] - s[i]) * 1.0 / (j - i) + dfs(dfs, j, k - 1));
+                ans = max(ans, (s[j] - s[i]) * 1.0 / (j - i) + dfs(j, k - 1));
             }
             return f[i][k] = ans;
         };
-        return dfs(dfs, 0, k);
+        return dfs(0, k);
     }
 };
 ```
@@ -203,28 +210,28 @@ func largestSumOfAverages(nums []int, k int) float64 {
 
 ```ts
 function largestSumOfAverages(nums: number[], k: number): number {
-  const n = nums.length;
-  const s: number[] = Array(n + 1).fill(0);
-  for (let i = 0; i < n; i++) {
-    s[i + 1] = s[i] + nums[i];
-  }
-  const f: number[][] = Array.from({ length: n }, () => Array(k + 1).fill(0));
-  const dfs = (i: number, k: number): number => {
-    if (i === n) {
-      return 0;
+    const n = nums.length;
+    const s: number[] = Array(n + 1).fill(0);
+    for (let i = 0; i < n; i++) {
+        s[i + 1] = s[i] + nums[i];
     }
-    if (f[i][k] > 0) {
-      return f[i][k];
-    }
-    if (k === 1) {
-      return (s[n] - s[i]) / (n - i);
-    }
-    for (let j = i + 1; j < n; j++) {
-      f[i][k] = Math.max(f[i][k], dfs(j, k - 1) + (s[j] - s[i]) / (j - i));
-    }
-    return f[i][k];
-  };
-  return dfs(0, k);
+    const f: number[][] = Array.from({ length: n }, () => Array(k + 1).fill(0));
+    const dfs = (i: number, k: number): number => {
+        if (i === n) {
+            return 0;
+        }
+        if (f[i][k] > 0) {
+            return f[i][k];
+        }
+        if (k === 1) {
+            return (s[n] - s[i]) / (n - i);
+        }
+        for (let j = i + 1; j < n; j++) {
+            f[i][k] = Math.max(f[i][k], dfs(j, k - 1) + (s[j] - s[i]) / (j - i));
+        }
+        return f[i][k];
+    };
+    return dfs(0, k);
 }
 ```
 
@@ -234,15 +241,15 @@ function largestSumOfAverages(nums: number[], k: number): number {
 
 <!-- solution:start -->
 
-### Solution 2: Dynamic Programming
+### 方法二：动态规划
 
-We can transform the memoized search from Solution 1 into dynamic programming.
+我们可以将方法一的记忆化搜索转化为动态规划。
 
-Define $f[i][j]$ to represent the maximum sum of averages when dividing the first $i$ elements of the array $\textit{nums}$ into at most $j$ groups. The answer is $f[n][k]$.
+定义 $f[i][j]$ 表示数组 $\textit{nums}$ 的前 $i$ 个元素最多分成 $j$ 组的最大平均值和。答案为 $f[n][k]$。
 
-For $f[i][j]$, we can enumerate the end position $h$ of the previous group, calculate $f[h][j-1]$, add the result of $\frac{s[i] - s[h]}{i - h}$, and take the maximum value of all results.
+对于 $f[i][j]$，我们可以枚举上一组的结束位置 $h$，计算 $f[h][j-1]$，加上 $\frac{s[i]-s[h]}{i-h}$ 的结果，取所有结果的最大值。
 
-The time complexity is $O(n^2 \times k)$, and the space complexity is $O(n \times k)$. Here, $n$ represents the length of the array $\textit{nums}$.
+时间复杂度 $O(n^2 \times k)$，空间复杂度 $O(n \times k)$。其中 $n$ 表示数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -342,23 +349,21 @@ func largestSumOfAverages(nums []int, k int) float64 {
 
 ```ts
 function largestSumOfAverages(nums: number[], k: number): number {
-  const n = nums.length;
-  const s: number[] = Array(n + 1).fill(0);
-  for (let i = 0; i < n; i++) {
-    s[i + 1] = s[i] + nums[i];
-  }
-  const f: number[][] = Array.from({ length: n + 1 }, () =>
-    Array(k + 1).fill(0)
-  );
-  for (let i = 1; i <= n; ++i) {
-    f[i][1] = s[i] / i;
-    for (let j = 2; j <= Math.min(i, k); ++j) {
-      for (let h = 0; h < i; ++h) {
-        f[i][j] = Math.max(f[i][j], f[h][j - 1] + (s[i] - s[h]) / (i - h));
-      }
+    const n = nums.length;
+    const s: number[] = Array(n + 1).fill(0);
+    for (let i = 0; i < n; i++) {
+        s[i + 1] = s[i] + nums[i];
     }
-  }
-  return f[n][k];
+    const f: number[][] = Array.from({ length: n + 1 }, () => Array(k + 1).fill(0));
+    for (let i = 1; i <= n; ++i) {
+        f[i][1] = s[i] / i;
+        for (let j = 2; j <= Math.min(i, k); ++j) {
+            for (let h = 0; h < i; ++h) {
+                f[i][j] = Math.max(f[i][j], f[h][j - 1] + (s[i] - s[h]) / (i - h));
+            }
+        }
+    }
+    return f[n][k];
 }
 ```
 

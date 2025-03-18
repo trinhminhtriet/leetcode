@@ -1,61 +1,70 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0508.Most%20Frequent%20Subtree%20Sum/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Hash Table
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 哈希表
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [508. Most Frequent Subtree Sum](https://leetcode.com/problems/most-frequent-subtree-sum)
+# [508. 出现次数最多的子树元素和](https://leetcode.cn/problems/most-frequent-subtree-sum)
 
-## Description
+[English Version](/solution/0500-0599/0508.Most%20Frequent%20Subtree%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, return the most frequent <strong>subtree sum</strong>. If there is a tie, return all the values with the highest frequency in any order.</p>
+<p>给你一个二叉树的根结点&nbsp;<code>root</code>&nbsp;，请返回出现次数最多的子树元素和。如果有多个元素出现的次数相同，返回所有出现次数最多的子树元素和（不限顺序）。</p>
 
-<p>The <strong>subtree sum</strong> of a node is defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself).</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0508.Most%20Frequent%20Subtree%20Sum/images/freq1-tree.jpg" style="width: 207px; height: 183px;" />
-<pre>
-<strong>Input:</strong> root = [5,2,-3]
-<strong>Output:</strong> [2,-3,4]
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0508.Most%20Frequent%20Subtree%20Sum/images/freq2-tree.jpg" style="width: 207px; height: 183px;" />
-<pre>
-<strong>Input:</strong> root = [5,2,-5]
-<strong>Output:</strong> [2]
-</pre>
+<p>一个结点的&nbsp;<strong>「子树元素和」</strong>&nbsp;定义为以该结点为根的二叉树上所有结点的元素之和（包括结点本身）。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0508.Most%20Frequent%20Subtree%20Sum/images/freq1-tree.jpg" /></p>
+
+<pre>
+<strong>输入:</strong> root = [5,2,-3]
+<strong>输出:</strong> [2,-3,4]
+</pre>
+
+<p><strong>示例&nbsp;2：</strong></p>
+
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0508.Most%20Frequent%20Subtree%20Sum/images/freq2-tree.jpg" /></p>
+
+<pre>
+<strong>输入:</strong> root = [5,2,-5]
+<b>输出:</b> [2]
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
-	<li><code>-10<sup>5</sup> &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
+	<li>节点数在&nbsp;<code>[1, 10<sup>4</sup>]</code>&nbsp;范围内</li>
+	<li><code>-10<sup>5</sup>&nbsp;&lt;= Node.val &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + DFS
+### 方法一：哈希表 + DFS
 
-We can use a hash table $\textit{cnt}$ to record the frequency of each subtree sum. Then, we use depth-first search (DFS) to traverse the entire tree, calculate the sum of elements for each subtree, and update $\textit{cnt}$.
+我们可以使用一个哈希表 $\textit{cnt}$ 记录每个子树元素和出现的次数，然后使用深度优先搜索遍历整棵树，统计每个子树的元素和，并更新 $\textit{cnt}$。
 
-Finally, we traverse $\textit{cnt}$ to find all subtree sums that appear most frequently.
+最后，我们遍历 $\textit{cnt}$，找到所有出现次数最多的子树元素和。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -219,22 +228,22 @@ func findFrequentTreeSum(root *TreeNode) (ans []int) {
  */
 
 function findFrequentTreeSum(root: TreeNode | null): number[] {
-  const cnt = new Map<number, number>();
-  let mx = 0;
-  const dfs = (root: TreeNode | null): number => {
-    if (!root) {
-      return 0;
-    }
-    const { val, left, right } = root;
-    const s = val + dfs(left) + dfs(right);
-    cnt.set(s, (cnt.get(s) ?? 0) + 1);
-    mx = Math.max(mx, cnt.get(s)!);
-    return s;
-  };
-  dfs(root);
-  return Array.from(cnt.entries())
-    .filter(([_, c]) => c === mx)
-    .map(([s, _]) => s);
+    const cnt = new Map<number, number>();
+    let mx = 0;
+    const dfs = (root: TreeNode | null): number => {
+        if (!root) {
+            return 0;
+        }
+        const { val, left, right } = root;
+        const s = val + dfs(left) + dfs(right);
+        cnt.set(s, (cnt.get(s) ?? 0) + 1);
+        mx = Math.max(mx, cnt.get(s)!);
+        return s;
+    };
+    dfs(root);
+    return Array.from(cnt.entries())
+        .filter(([_, c]) => c === mx)
+        .map(([s, _]) => s);
 }
 ```
 

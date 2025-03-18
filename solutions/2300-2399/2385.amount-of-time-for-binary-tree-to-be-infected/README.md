@@ -1,81 +1,84 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2385.Amount%20of%20Time%20for%20Binary%20Tree%20to%20Be%20Infected/README.md
 rating: 1711
-source: Weekly Contest 307 Q3
+source: 第 307 场周赛 Q3
 tags:
-  - Tree
-  - Depth-First Search
-  - Breadth-First Search
-  - Hash Table
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 广度优先搜索
+    - 哈希表
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [2385. Amount of Time for Binary Tree to Be Infected](https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected)
+# [2385. 感染二叉树需要的总时间](https://leetcode.cn/problems/amount-of-time-for-binary-tree-to-be-infected)
 
-## Description
+[English Version](/solution/2300-2399/2385.Amount%20of%20Time%20for%20Binary%20Tree%20to%20Be%20Infected/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given the <code>root</code> of a binary tree with <strong>unique</strong> values, and an integer <code>start</code>. At minute <code>0</code>, an <strong>infection</strong> starts from the node with value <code>start</code>.</p>
+<p>给你一棵二叉树的根节点 <code>root</code> ，二叉树中节点的值 <strong>互不相同</strong> 。另给你一个整数 <code>start</code> 。在第 <code>0</code> 分钟，<strong>感染</strong> 将会从值为 <code>start</code> 的节点开始爆发。</p>
 
-<p>Each minute, a node becomes infected if:</p>
+<p>每分钟，如果节点满足以下全部条件，就会被感染：</p>
 
 <ul>
-	<li>The node is currently uninfected.</li>
-	<li>The node is adjacent to an infected node.</li>
+	<li>节点此前还没有感染。</li>
+	<li>节点与一个已感染节点相邻。</li>
 </ul>
 
-<p>Return <em>the number of minutes needed for the entire tree to be infected.</em></p>
+<p>返回感染整棵树需要的分钟数<em>。</em></p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2385.Amount%20of%20Time%20for%20Binary%20Tree%20to%20Be%20Infected/images/image-20220625231744-1.png" style="width: 400px; height: 306px;" />
-<pre>
-<strong>Input:</strong> root = [1,5,3,null,4,10,6,9,2], start = 3
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The following nodes are infected during:
-- Minute 0: Node 3
-- Minute 1: Nodes 1, 10 and 6
-- Minute 2: Node 5
-- Minute 3: Node 4
-- Minute 4: Nodes 9 and 2
-It takes 4 minutes for the whole tree to be infected so we return 4.
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2385.Amount%20of%20Time%20for%20Binary%20Tree%20to%20Be%20Infected/images/image-20220625231744-1.png" style="width: 400px; height: 306px;">
+<pre><strong>输入：</strong>root = [1,5,3,null,4,10,6,9,2], start = 3
+<strong>输出：</strong>4
+<strong>解释：</strong>节点按以下过程被感染：
+- 第 0 分钟：节点 3
+- 第 1 分钟：节点 1、10、6
+- 第 2 分钟：节点5
+- 第 3 分钟：节点 4
+- 第 4 分钟：节点 9 和 2
+感染整棵树需要 4 分钟，所以返回 4 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2385.Amount%20of%20Time%20for%20Binary%20Tree%20to%20Be%20Infected/images/image-20220625231812-2.png" style="width: 75px; height: 66px;" />
-<pre>
-<strong>Input:</strong> root = [1], start = 1
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> At minute 0, the only node in the tree is infected so we return 0.
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2385.Amount%20of%20Time%20for%20Binary%20Tree%20to%20Be%20Infected/images/image-20220625231812-2.png" style="width: 75px; height: 66px;">
+<pre><strong>输入：</strong>root = [1], start = 1
+<strong>输出：</strong>0
+<strong>解释：</strong>第 0 分钟，树中唯一一个节点处于感染状态，返回 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>5</sup>]</code>.</li>
+	<li>树中节点的数目在范围 <code>[1, 10<sup>5</sup>]</code> 内</li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
-	<li>Each node has a <strong>unique</strong> value.</li>
-	<li>A node with a value of <code>start</code> exists in the tree.</li>
+	<li>每个节点的值 <strong>互不相同</strong></li>
+	<li>树中必定存在值为 <code>start</code> 的节点</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two DFS
+### 方法一：两次 DFS
 
-First, we build a graph through one DFS, and get an adjacency list $g$, where $g[node]$ represents all nodes connected to the node $node$.
+我们先通过一次 $\textit{DFS}$ 建图，得到一个邻接表 $g$，其中 $g[node]$ 表示与节点 $node$ 相连的所有节点。
 
-Then, we use $start$ as the starting point, and search the entire tree through DFS to find the farthest distance, which is the answer.
+然后，我们以 $start$ 作为起点，通过 $\textit{DFS}$ 搜索整棵树，找到最远距离，即为答案。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -262,35 +265,35 @@ func amountOfTime(root *TreeNode, start int) int {
  */
 
 function amountOfTime(root: TreeNode | null, start: number): number {
-  const g: Map<number, number[]> = new Map();
-  const dfs = (node: TreeNode | null, fa: TreeNode | null) => {
-    if (!node) {
-      return;
-    }
-    if (fa) {
-      if (!g.has(node.val)) {
-        g.set(node.val, []);
-      }
-      g.get(node.val)!.push(fa.val);
-      if (!g.has(fa.val)) {
-        g.set(fa.val, []);
-      }
-      g.get(fa.val)!.push(node.val);
-    }
-    dfs(node.left, node);
-    dfs(node.right, node);
-  };
-  const dfs2 = (node: number, fa: number): number => {
-    let ans = 0;
-    for (const nxt of g.get(node) || []) {
-      if (nxt !== fa) {
-        ans = Math.max(ans, 1 + dfs2(nxt, node));
-      }
-    }
-    return ans;
-  };
-  dfs(root, null);
-  return dfs2(start, -1);
+    const g: Map<number, number[]> = new Map();
+    const dfs = (node: TreeNode | null, fa: TreeNode | null) => {
+        if (!node) {
+            return;
+        }
+        if (fa) {
+            if (!g.has(node.val)) {
+                g.set(node.val, []);
+            }
+            g.get(node.val)!.push(fa.val);
+            if (!g.has(fa.val)) {
+                g.set(fa.val, []);
+            }
+            g.get(fa.val)!.push(node.val);
+        }
+        dfs(node.left, node);
+        dfs(node.right, node);
+    };
+    const dfs2 = (node: number, fa: number): number => {
+        let ans = 0;
+        for (const nxt of g.get(node) || []) {
+            if (nxt !== fa) {
+                ans = Math.max(ans, 1 + dfs2(nxt, node));
+            }
+        }
+        return ans;
+    };
+    dfs(root, null);
+    return dfs2(start, -1);
 }
 ```
 

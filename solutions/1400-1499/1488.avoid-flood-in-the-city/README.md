@@ -1,83 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1488.Avoid%20Flood%20in%20The%20City/README.md
 rating: 1973
-source: Weekly Contest 194 Q3
+source: 第 194 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Hash Table
-  - Binary Search
-  - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 哈希表
+    - 二分查找
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1488. Avoid Flood in The City](https://leetcode.com/problems/avoid-flood-in-the-city)
+# [1488. 避免洪水泛滥](https://leetcode.cn/problems/avoid-flood-in-the-city)
 
-## Description
+[English Version](/solution/1400-1499/1488.Avoid%20Flood%20in%20The%20City/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Your country has an infinite number of lakes. Initially, all the lakes are empty, but when it rains over the <code>nth</code> lake, the <code>nth</code> lake becomes full of water. If it rains over a lake that is <strong>full of water</strong>, there will be a <strong>flood</strong>. Your goal is to avoid floods in any lake.</p>
+<p>你的国家有无数个湖泊，所有湖泊一开始都是空的。当第 <code>n</code>&nbsp;个湖泊下雨前是空的，那么它就会装满水。如果第 <code>n</code>&nbsp;个湖泊下雨前是 <strong>满的&nbsp;</strong>，这个湖泊会发生 <strong>洪水</strong> 。你的目标是避免任意一个湖泊发生洪水。</p>
 
-<p>Given an integer array <code>rains</code> where:</p>
+<p>给你一个整数数组&nbsp;<code>rains</code>&nbsp;，其中：</p>
 
 <ul>
-	<li><code>rains[i] &gt; 0</code> means there will be rains over the <code>rains[i]</code> lake.</li>
-	<li><code>rains[i] == 0</code> means there are no rains this day and you can choose <strong>one lake</strong> this day and <strong>dry it</strong>.</li>
+	<li><code>rains[i] &gt; 0</code>&nbsp;表示第 <code>i</code>&nbsp;天时，第 <code>rains[i]</code>&nbsp;个湖泊会下雨。</li>
+	<li><code>rains[i] == 0</code>&nbsp;表示第 <code>i</code>&nbsp;天没有湖泊会下雨，你可以选择 <strong>一个</strong>&nbsp;湖泊并 <strong>抽干</strong>&nbsp;这个湖泊的水。</li>
 </ul>
 
-<p>Return <em>an array <code>ans</code></em> where:</p>
+<p>请返回一个数组<em>&nbsp;</em><code>ans</code>&nbsp;，满足：</p>
 
 <ul>
 	<li><code>ans.length == rains.length</code></li>
-	<li><code>ans[i] == -1</code> if <code>rains[i] &gt; 0</code>.</li>
-	<li><code>ans[i]</code> is the lake you choose to dry in the <code>ith</code> day if <code>rains[i] == 0</code>.</li>
+	<li>如果&nbsp;<code>rains[i] &gt; 0</code> ，那么<code>ans[i] == -1</code>&nbsp;。</li>
+	<li>如果&nbsp;<code>rains[i] == 0</code>&nbsp;，<code>ans[i]</code>&nbsp;是你第&nbsp;<code>i</code>&nbsp;天选择抽干的湖泊。</li>
 </ul>
 
-<p>If there are multiple valid answers return <strong>any</strong> of them. If it is impossible to avoid flood return <strong>an empty array</strong>.</p>
+<p>如果有多种可行解，请返回它们中的 <strong>任意一个</strong>&nbsp;。如果没办法阻止洪水，请返回一个 <strong>空的数组</strong>&nbsp;。</p>
 
-<p>Notice that if you chose to dry a full lake, it becomes empty, but if you chose to dry an empty lake, nothing changes.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> rains = [1,2,3,4]
-<strong>Output:</strong> [-1,-1,-1,-1]
-<strong>Explanation:</strong> After the first day full lakes are [1]
-After the second day full lakes are [1,2]
-After the third day full lakes are [1,2,3]
-After the fourth day full lakes are [1,2,3,4]
-There&#39;s no day to dry any lake and there is no flood in any lake.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> rains = [1,2,0,0,2,1]
-<strong>Output:</strong> [-1,-1,2,1,-1,-1]
-<strong>Explanation:</strong> After the first day full lakes are [1]
-After the second day full lakes are [1,2]
-After the third day, we dry lake 2. Full lakes are [1]
-After the fourth day, we dry lake 1. There is no full lakes.
-After the fifth day, full lakes are [2].
-After the sixth day, full lakes are [1,2].
-It is easy that this scenario is flood-free. [-1,-1,1,2,-1,-1] is another acceptable scenario.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> rains = [1,2,0,1,2]
-<strong>Output:</strong> []
-<strong>Explanation:</strong> After the second day, full lakes are  [1,2]. We have to dry one lake in the third day.
-After that, it will rain over lakes [1,2]. It&#39;s easy to prove that no matter which lake you choose to dry in the 3rd day, the other one will flood.
-</pre>
+<p>请注意，如果你选择抽干一个装满水的湖泊，它会变成一个空的湖泊。但如果你选择抽干一个空的湖泊，那么将无事发生。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>rains = [1,2,3,4]
+<strong>输出：</strong>[-1,-1,-1,-1]
+<strong>解释：</strong>第一天后，装满水的湖泊包括 [1]
+第二天后，装满水的湖泊包括 [1,2]
+第三天后，装满水的湖泊包括 [1,2,3]
+第四天后，装满水的湖泊包括 [1,2,3,4]
+没有哪一天你可以抽干任何湖泊的水，也没有湖泊会发生洪水。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>rains = [1,2,0,0,2,1]
+<strong>输出：</strong>[-1,-1,2,1,-1,-1]
+<strong>解释：</strong>第一天后，装满水的湖泊包括 [1]
+第二天后，装满水的湖泊包括 [1,2]
+第三天后，我们抽干湖泊 2 。所以剩下装满水的湖泊包括 [1]
+第四天后，我们抽干湖泊 1 。所以暂时没有装满水的湖泊了。
+第五天后，装满水的湖泊包括 [2]。
+第六天后，装满水的湖泊包括 [1,2]。
+可以看出，这个方案下不会有洪水发生。同时， [-1,-1,1,2,-1,-1] 也是另一个可行的没有洪水的方案。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>rains = [1,2,0,1,2]
+<strong>输出：</strong>[]
+<strong>解释：</strong>第二天后，装满水的湖泊包括 [1,2]。我们可以在第三天抽干一个湖泊的水。
+但第三天后，湖泊 1 和 2 都会再次下雨，所以不管我们第三天抽干哪个湖泊的水，另一个湖泊都会发生洪水。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= rains.length &lt;= 10<sup>5</sup></code></li>
@@ -86,28 +91,25 @@ After that, it will rain over lakes [1,2]. It&#39;s easy to prove that no matter
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Binary Search
+### 方法一：贪心 + 二分查找
 
-We store all sunny days in the $sunny$ array or a sorted set, and use the hash table $rainy$ to record the last rainy day for each lake. We initialize the answer array $ans$ with each element set to $-1$.
+我们将所有晴天都存入 $sunny$ 数组或者有序集合中，使用哈希表 $rainy$ 记录每个湖泊最近一次下雨的日期。初始化答案数组 $ans$ 每个元素为 $-1$。
 
-Next, we traverse the $rains$ array. For each rainy day $i$, if $rainy[rains[i]]$ exists, it means that the lake has rained before, so we need to find the first date in the $sunny$ array that is greater than $rainy[rains[i]]$, and replace it with the rainy day. Otherwise, it means that the flood cannot be prevented, and we return an empty array. For each non-rainy day $i$, we store $i$ in the $sunny$ array and set $ans[i]$ to $1$.
+接下来，我们遍历 $rains$ 数组。对于每个下雨的日期 $i$，如果 $rainy[rains[i]]$ 存在，说明该湖泊在之前下过雨，那么我们需要找到 $sunny$ 数组中第一个大于 $rainy[rains[i]]$ 的日期，将其替换为下雨的日期，否则说明无法阻止洪水，返回空数组。对于没下雨的日期 $i$，我们将 $i$ 存入 $sunny$ 数组中，并且将 $ans[i]$ 置为 $1$。
 
-After the traversal, we return the answer array.
+遍历结束，返回答案数组。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the $rains$ array.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为 $rains$ 数组的长度。
 
 <!-- tabs:start -->
 
 #### Python3
 
 ```python
-from sortedcontainers import SortedList
-
-
 class Solution:
     def avoidFlood(self, rains: List[int]) -> List[int]:
         n = len(rains)
@@ -228,522 +230,518 @@ func avoidFlood(rains []int) []int {
 
 ```ts
 function avoidFlood(rains: number[]): number[] {
-  const n = rains.length;
-  const ans: number[] = new Array(n).fill(-1);
-  const sunny: TreeSet<number> = new TreeSet<number>();
-  const rainy: Map<number, number> = new Map<number, number>();
-  for (let i = 0; i < n; ++i) {
-    const v = rains[i];
-    if (v > 0) {
-      if (rainy.has(v)) {
-        const t = sunny.higher(rainy.get(v)!);
-        if (t === undefined) {
-          return [];
+    const n = rains.length;
+    const ans: number[] = new Array(n).fill(-1);
+    const sunny: TreeSet<number> = new TreeSet<number>();
+    const rainy: Map<number, number> = new Map<number, number>();
+    for (let i = 0; i < n; ++i) {
+        const v = rains[i];
+        if (v > 0) {
+            if (rainy.has(v)) {
+                const t = sunny.higher(rainy.get(v)!);
+                if (t === undefined) {
+                    return [];
+                }
+                ans[t] = v;
+                sunny.delete(t);
+            }
+            rainy.set(v, i);
+        } else {
+            sunny.add(i);
+            ans[i] = 1;
         }
-        ans[t] = v;
-        sunny.delete(t);
-      }
-      rainy.set(v, i);
-    } else {
-      sunny.add(i);
-      ans[i] = 1;
     }
-  }
-  return ans;
+    return ans;
 }
 
 type Compare<T> = (lhs: T, rhs: T) => number;
 
 class RBTreeNode<T = number> {
-  data: T;
-  count: number;
-  left: RBTreeNode<T> | null;
-  right: RBTreeNode<T> | null;
-  parent: RBTreeNode<T> | null;
-  color: number;
-  constructor(data: T) {
-    this.data = data;
-    this.left = this.right = this.parent = null;
-    this.color = 0;
-    this.count = 1;
-  }
+    data: T;
+    count: number;
+    left: RBTreeNode<T> | null;
+    right: RBTreeNode<T> | null;
+    parent: RBTreeNode<T> | null;
+    color: number;
+    constructor(data: T) {
+        this.data = data;
+        this.left = this.right = this.parent = null;
+        this.color = 0;
+        this.count = 1;
+    }
 
-  sibling(): RBTreeNode<T> | null {
-    if (!this.parent) return null; // sibling null if no parent
-    return this.isOnLeft() ? this.parent.right : this.parent.left;
-  }
+    sibling(): RBTreeNode<T> | null {
+        if (!this.parent) return null; // sibling null if no parent
+        return this.isOnLeft() ? this.parent.right : this.parent.left;
+    }
 
-  isOnLeft(): boolean {
-    return this === this.parent!.left;
-  }
+    isOnLeft(): boolean {
+        return this === this.parent!.left;
+    }
 
-  hasRedChild(): boolean {
-    return (
-      Boolean(this.left && this.left.color === 0) ||
-      Boolean(this.right && this.right.color === 0)
-    );
-  }
+    hasRedChild(): boolean {
+        return (
+            Boolean(this.left && this.left.color === 0) ||
+            Boolean(this.right && this.right.color === 0)
+        );
+    }
 }
 
 class RBTree<T> {
-  root: RBTreeNode<T> | null;
-  lt: (l: T, r: T) => boolean;
-  constructor(
-    compare: Compare<T> = (l: T, r: T) => (l < r ? -1 : l > r ? 1 : 0)
-  ) {
-    this.root = null;
-    this.lt = (l: T, r: T) => compare(l, r) < 0;
-  }
+    root: RBTreeNode<T> | null;
+    lt: (l: T, r: T) => boolean;
+    constructor(compare: Compare<T> = (l: T, r: T) => (l < r ? -1 : l > r ? 1 : 0)) {
+        this.root = null;
+        this.lt = (l: T, r: T) => compare(l, r) < 0;
+    }
 
-  rotateLeft(pt: RBTreeNode<T>): void {
-    const right = pt.right!;
-    pt.right = right.left;
+    rotateLeft(pt: RBTreeNode<T>): void {
+        const right = pt.right!;
+        pt.right = right.left;
 
-    if (pt.right) pt.right.parent = pt;
-    right.parent = pt.parent;
+        if (pt.right) pt.right.parent = pt;
+        right.parent = pt.parent;
 
-    if (!pt.parent) this.root = right;
-    else if (pt === pt.parent.left) pt.parent.left = right;
-    else pt.parent.right = right;
+        if (!pt.parent) this.root = right;
+        else if (pt === pt.parent.left) pt.parent.left = right;
+        else pt.parent.right = right;
 
-    right.left = pt;
-    pt.parent = right;
-  }
+        right.left = pt;
+        pt.parent = right;
+    }
 
-  rotateRight(pt: RBTreeNode<T>): void {
-    const left = pt.left!;
-    pt.left = left.right;
+    rotateRight(pt: RBTreeNode<T>): void {
+        const left = pt.left!;
+        pt.left = left.right;
 
-    if (pt.left) pt.left.parent = pt;
-    left.parent = pt.parent;
+        if (pt.left) pt.left.parent = pt;
+        left.parent = pt.parent;
 
-    if (!pt.parent) this.root = left;
-    else if (pt === pt.parent.left) pt.parent.left = left;
-    else pt.parent.right = left;
+        if (!pt.parent) this.root = left;
+        else if (pt === pt.parent.left) pt.parent.left = left;
+        else pt.parent.right = left;
 
-    left.right = pt;
-    pt.parent = left;
-  }
+        left.right = pt;
+        pt.parent = left;
+    }
 
-  swapColor(p1: RBTreeNode<T>, p2: RBTreeNode<T>): void {
-    const tmp = p1.color;
-    p1.color = p2.color;
-    p2.color = tmp;
-  }
+    swapColor(p1: RBTreeNode<T>, p2: RBTreeNode<T>): void {
+        const tmp = p1.color;
+        p1.color = p2.color;
+        p2.color = tmp;
+    }
 
-  swapData(p1: RBTreeNode<T>, p2: RBTreeNode<T>): void {
-    const tmp = p1.data;
-    p1.data = p2.data;
-    p2.data = tmp;
-  }
+    swapData(p1: RBTreeNode<T>, p2: RBTreeNode<T>): void {
+        const tmp = p1.data;
+        p1.data = p2.data;
+        p2.data = tmp;
+    }
 
-  fixAfterInsert(pt: RBTreeNode<T>): void {
-    let parent = null;
-    let grandParent = null;
+    fixAfterInsert(pt: RBTreeNode<T>): void {
+        let parent = null;
+        let grandParent = null;
 
-    while (pt !== this.root && pt.color !== 1 && pt.parent?.color === 0) {
-      parent = pt.parent;
-      grandParent = pt.parent.parent;
+        while (pt !== this.root && pt.color !== 1 && pt.parent?.color === 0) {
+            parent = pt.parent;
+            grandParent = pt.parent.parent;
 
-      /*  Case : A
+            /*  Case : A
                 Parent of pt is left child of Grand-parent of pt */
-      if (parent === grandParent?.left) {
-        const uncle = grandParent.right;
+            if (parent === grandParent?.left) {
+                const uncle = grandParent.right;
 
-        /* Case : 1
+                /* Case : 1
                    The uncle of pt is also red
                    Only Recoloring required */
-        if (uncle && uncle.color === 0) {
-          grandParent.color = 0;
-          parent.color = 1;
-          uncle.color = 1;
-          pt = grandParent;
-        } else {
-          /* Case : 2
+                if (uncle && uncle.color === 0) {
+                    grandParent.color = 0;
+                    parent.color = 1;
+                    uncle.color = 1;
+                    pt = grandParent;
+                } else {
+                    /* Case : 2
                        pt is right child of its parent
                        Left-rotation required */
-          if (pt === parent.right) {
-            this.rotateLeft(parent);
-            pt = parent;
-            parent = pt.parent;
-          }
+                    if (pt === parent.right) {
+                        this.rotateLeft(parent);
+                        pt = parent;
+                        parent = pt.parent;
+                    }
 
-          /* Case : 3
+                    /* Case : 3
                        pt is left child of its parent
                        Right-rotation required */
-          this.rotateRight(grandParent);
-          this.swapColor(parent!, grandParent);
-          pt = parent!;
-        }
-      } else {
-        /* Case : B
+                    this.rotateRight(grandParent);
+                    this.swapColor(parent!, grandParent);
+                    pt = parent!;
+                }
+            } else {
+                /* Case : B
                Parent of pt is right child of Grand-parent of pt */
-        const uncle = grandParent!.left;
+                const uncle = grandParent!.left;
 
-        /*  Case : 1
+                /*  Case : 1
                     The uncle of pt is also red
                     Only Recoloring required */
-        if (uncle != null && uncle.color === 0) {
-          grandParent!.color = 0;
-          parent.color = 1;
-          uncle.color = 1;
-          pt = grandParent!;
-        } else {
-          /* Case : 2
+                if (uncle != null && uncle.color === 0) {
+                    grandParent!.color = 0;
+                    parent.color = 1;
+                    uncle.color = 1;
+                    pt = grandParent!;
+                } else {
+                    /* Case : 2
                        pt is left child of its parent
                        Right-rotation required */
-          if (pt === parent.left) {
-            this.rotateRight(parent);
-            pt = parent;
-            parent = pt.parent;
-          }
+                    if (pt === parent.left) {
+                        this.rotateRight(parent);
+                        pt = parent;
+                        parent = pt.parent;
+                    }
 
-          /* Case : 3
+                    /* Case : 3
                        pt is right child of its parent
                        Left-rotation required */
-          this.rotateLeft(grandParent!);
-          this.swapColor(parent!, grandParent!);
-          pt = parent!;
-        }
-      }
-    }
-    this.root!.color = 1;
-  }
-
-  delete(val: T): boolean {
-    const node = this.find(val);
-    if (!node) return false;
-    node.count--;
-    if (!node.count) this.deleteNode(node);
-    return true;
-  }
-
-  deleteAll(val: T): boolean {
-    const node = this.find(val);
-    if (!node) return false;
-    this.deleteNode(node);
-    return true;
-  }
-
-  deleteNode(v: RBTreeNode<T>): void {
-    const u = BSTreplace(v);
-
-    // True when u and v are both black
-    const uvBlack = (u === null || u.color === 1) && v.color === 1;
-    const parent = v.parent!;
-
-    if (!u) {
-      // u is null therefore v is leaf
-      if (v === this.root) this.root = null;
-      // v is root, making root null
-      else {
-        if (uvBlack) {
-          // u and v both black
-          // v is leaf, fix double black at v
-          this.fixDoubleBlack(v);
-        } else {
-          // u or v is red
-          if (v.sibling()) {
-            // sibling is not null, make it red"
-            v.sibling()!.color = 0;
-          }
-        }
-        // delete v from the tree
-        if (v.isOnLeft()) parent.left = null;
-        else parent.right = null;
-      }
-      return;
-    }
-
-    if (!v.left || !v.right) {
-      // v has 1 child
-      if (v === this.root) {
-        // v is root, assign the value of u to v, and delete u
-        v.data = u.data;
-        v.left = v.right = null;
-      } else {
-        // Detach v from tree and move u up
-        if (v.isOnLeft()) parent.left = u;
-        else parent.right = u;
-        u.parent = parent;
-        if (uvBlack) this.fixDoubleBlack(u);
-        // u and v both black, fix double black at u
-        else u.color = 1; // u or v red, color u black
-      }
-      return;
-    }
-
-    // v has 2 children, swap data with successor and recurse
-    this.swapData(u, v);
-    this.deleteNode(u);
-
-    // find node that replaces a deleted node in BST
-    function BSTreplace(x: RBTreeNode<T>): RBTreeNode<T> | null {
-      // when node have 2 children
-      if (x.left && x.right) return successor(x.right);
-      // when leaf
-      if (!x.left && !x.right) return null;
-      // when single child
-      return x.left ?? x.right;
-    }
-    // find node that do not have a left child
-    // in the subtree of the given node
-    function successor(x: RBTreeNode<T>): RBTreeNode<T> {
-      let temp = x;
-      while (temp.left) temp = temp.left;
-      return temp;
-    }
-  }
-
-  fixDoubleBlack(x: RBTreeNode<T>): void {
-    if (x === this.root) return; // Reached root
-
-    const sibling = x.sibling();
-    const parent = x.parent!;
-    if (!sibling) {
-      // No sibiling, double black pushed up
-      this.fixDoubleBlack(parent);
-    } else {
-      if (sibling.color === 0) {
-        // Sibling red
-        parent.color = 0;
-        sibling.color = 1;
-        if (sibling.isOnLeft()) this.rotateRight(parent);
-        // left case
-        else this.rotateLeft(parent); // right case
-        this.fixDoubleBlack(x);
-      } else {
-        // Sibling black
-        if (sibling.hasRedChild()) {
-          // at least 1 red children
-          if (sibling.left && sibling.left.color === 0) {
-            if (sibling.isOnLeft()) {
-              // left left
-              sibling.left.color = sibling.color;
-              sibling.color = parent.color;
-              this.rotateRight(parent);
-            } else {
-              // right left
-              sibling.left.color = parent.color;
-              this.rotateRight(sibling);
-              this.rotateLeft(parent);
+                    this.rotateLeft(grandParent!);
+                    this.swapColor(parent!, grandParent!);
+                    pt = parent!;
+                }
             }
-          } else {
-            if (sibling.isOnLeft()) {
-              // left right
-              sibling.right!.color = parent.color;
-              this.rotateLeft(sibling);
-              this.rotateRight(parent);
-            } else {
-              // right right
-              sibling.right!.color = sibling.color;
-              sibling.color = parent.color;
-              this.rotateLeft(parent);
-            }
-          }
-          parent.color = 1;
-        } else {
-          // 2 black children
-          sibling.color = 0;
-          if (parent.color === 1) this.fixDoubleBlack(parent);
-          else parent.color = 1;
         }
-      }
-    }
-  }
-
-  insert(data: T): boolean {
-    // search for a position to insert
-    let parent = this.root;
-    while (parent) {
-      if (this.lt(data, parent.data)) {
-        if (!parent.left) break;
-        else parent = parent.left;
-      } else if (this.lt(parent.data, data)) {
-        if (!parent.right) break;
-        else parent = parent.right;
-      } else break;
+        this.root!.color = 1;
     }
 
-    // insert node into parent
-    const node = new RBTreeNode(data);
-    if (!parent) this.root = node;
-    else if (this.lt(node.data, parent.data)) parent.left = node;
-    else if (this.lt(parent.data, node.data)) parent.right = node;
-    else {
-      parent.count++;
-      return false;
+    delete(val: T): boolean {
+        const node = this.find(val);
+        if (!node) return false;
+        node.count--;
+        if (!node.count) this.deleteNode(node);
+        return true;
     }
-    node.parent = parent;
-    this.fixAfterInsert(node);
-    return true;
-  }
 
-  find(data: T): RBTreeNode<T> | null {
-    let p = this.root;
-    while (p) {
-      if (this.lt(data, p.data)) {
-        p = p.left;
-      } else if (this.lt(p.data, data)) {
-        p = p.right;
-      } else break;
+    deleteAll(val: T): boolean {
+        const node = this.find(val);
+        if (!node) return false;
+        this.deleteNode(node);
+        return true;
     }
-    return p ?? null;
-  }
 
-  *inOrder(root: RBTreeNode<T> = this.root!): Generator<T, undefined, void> {
-    if (!root) return;
-    for (const v of this.inOrder(root.left!)) yield v;
-    yield root.data;
-    for (const v of this.inOrder(root.right!)) yield v;
-  }
+    deleteNode(v: RBTreeNode<T>): void {
+        const u = BSTreplace(v);
 
-  *reverseInOrder(
-    root: RBTreeNode<T> = this.root!
-  ): Generator<T, undefined, void> {
-    if (!root) return;
-    for (const v of this.reverseInOrder(root.right!)) yield v;
-    yield root.data;
-    for (const v of this.reverseInOrder(root.left!)) yield v;
-  }
+        // True when u and v are both black
+        const uvBlack = (u === null || u.color === 1) && v.color === 1;
+        const parent = v.parent!;
+
+        if (!u) {
+            // u is null therefore v is leaf
+            if (v === this.root) this.root = null;
+            // v is root, making root null
+            else {
+                if (uvBlack) {
+                    // u and v both black
+                    // v is leaf, fix double black at v
+                    this.fixDoubleBlack(v);
+                } else {
+                    // u or v is red
+                    if (v.sibling()) {
+                        // sibling is not null, make it red"
+                        v.sibling()!.color = 0;
+                    }
+                }
+                // delete v from the tree
+                if (v.isOnLeft()) parent.left = null;
+                else parent.right = null;
+            }
+            return;
+        }
+
+        if (!v.left || !v.right) {
+            // v has 1 child
+            if (v === this.root) {
+                // v is root, assign the value of u to v, and delete u
+                v.data = u.data;
+                v.left = v.right = null;
+            } else {
+                // Detach v from tree and move u up
+                if (v.isOnLeft()) parent.left = u;
+                else parent.right = u;
+                u.parent = parent;
+                if (uvBlack) this.fixDoubleBlack(u);
+                // u and v both black, fix double black at u
+                else u.color = 1; // u or v red, color u black
+            }
+            return;
+        }
+
+        // v has 2 children, swap data with successor and recurse
+        this.swapData(u, v);
+        this.deleteNode(u);
+
+        // find node that replaces a deleted node in BST
+        function BSTreplace(x: RBTreeNode<T>): RBTreeNode<T> | null {
+            // when node have 2 children
+            if (x.left && x.right) return successor(x.right);
+            // when leaf
+            if (!x.left && !x.right) return null;
+            // when single child
+            return x.left ?? x.right;
+        }
+        // find node that do not have a left child
+        // in the subtree of the given node
+        function successor(x: RBTreeNode<T>): RBTreeNode<T> {
+            let temp = x;
+            while (temp.left) temp = temp.left;
+            return temp;
+        }
+    }
+
+    fixDoubleBlack(x: RBTreeNode<T>): void {
+        if (x === this.root) return; // Reached root
+
+        const sibling = x.sibling();
+        const parent = x.parent!;
+        if (!sibling) {
+            // No sibiling, double black pushed up
+            this.fixDoubleBlack(parent);
+        } else {
+            if (sibling.color === 0) {
+                // Sibling red
+                parent.color = 0;
+                sibling.color = 1;
+                if (sibling.isOnLeft()) this.rotateRight(parent);
+                // left case
+                else this.rotateLeft(parent); // right case
+                this.fixDoubleBlack(x);
+            } else {
+                // Sibling black
+                if (sibling.hasRedChild()) {
+                    // at least 1 red children
+                    if (sibling.left && sibling.left.color === 0) {
+                        if (sibling.isOnLeft()) {
+                            // left left
+                            sibling.left.color = sibling.color;
+                            sibling.color = parent.color;
+                            this.rotateRight(parent);
+                        } else {
+                            // right left
+                            sibling.left.color = parent.color;
+                            this.rotateRight(sibling);
+                            this.rotateLeft(parent);
+                        }
+                    } else {
+                        if (sibling.isOnLeft()) {
+                            // left right
+                            sibling.right!.color = parent.color;
+                            this.rotateLeft(sibling);
+                            this.rotateRight(parent);
+                        } else {
+                            // right right
+                            sibling.right!.color = sibling.color;
+                            sibling.color = parent.color;
+                            this.rotateLeft(parent);
+                        }
+                    }
+                    parent.color = 1;
+                } else {
+                    // 2 black children
+                    sibling.color = 0;
+                    if (parent.color === 1) this.fixDoubleBlack(parent);
+                    else parent.color = 1;
+                }
+            }
+        }
+    }
+
+    insert(data: T): boolean {
+        // search for a position to insert
+        let parent = this.root;
+        while (parent) {
+            if (this.lt(data, parent.data)) {
+                if (!parent.left) break;
+                else parent = parent.left;
+            } else if (this.lt(parent.data, data)) {
+                if (!parent.right) break;
+                else parent = parent.right;
+            } else break;
+        }
+
+        // insert node into parent
+        const node = new RBTreeNode(data);
+        if (!parent) this.root = node;
+        else if (this.lt(node.data, parent.data)) parent.left = node;
+        else if (this.lt(parent.data, node.data)) parent.right = node;
+        else {
+            parent.count++;
+            return false;
+        }
+        node.parent = parent;
+        this.fixAfterInsert(node);
+        return true;
+    }
+
+    find(data: T): RBTreeNode<T> | null {
+        let p = this.root;
+        while (p) {
+            if (this.lt(data, p.data)) {
+                p = p.left;
+            } else if (this.lt(p.data, data)) {
+                p = p.right;
+            } else break;
+        }
+        return p ?? null;
+    }
+
+    *inOrder(root: RBTreeNode<T> = this.root!): Generator<T, undefined, void> {
+        if (!root) return;
+        for (const v of this.inOrder(root.left!)) yield v;
+        yield root.data;
+        for (const v of this.inOrder(root.right!)) yield v;
+    }
+
+    *reverseInOrder(root: RBTreeNode<T> = this.root!): Generator<T, undefined, void> {
+        if (!root) return;
+        for (const v of this.reverseInOrder(root.right!)) yield v;
+        yield root.data;
+        for (const v of this.reverseInOrder(root.left!)) yield v;
+    }
 }
 
 class TreeSet<T = number> {
-  _size: number;
-  tree: RBTree<T>;
-  compare: Compare<T>;
-  constructor(
-    collection: T[] | Compare<T> = [],
-    compare: Compare<T> = (l: T, r: T) => (l < r ? -1 : l > r ? 1 : 0)
-  ) {
-    if (typeof collection === "function") {
-      compare = collection;
-      collection = [];
+    _size: number;
+    tree: RBTree<T>;
+    compare: Compare<T>;
+    constructor(
+        collection: T[] | Compare<T> = [],
+        compare: Compare<T> = (l: T, r: T) => (l < r ? -1 : l > r ? 1 : 0),
+    ) {
+        if (typeof collection === 'function') {
+            compare = collection;
+            collection = [];
+        }
+        this._size = 0;
+        this.compare = compare;
+        this.tree = new RBTree(compare);
+        for (const val of collection) this.add(val);
     }
-    this._size = 0;
-    this.compare = compare;
-    this.tree = new RBTree(compare);
-    for (const val of collection) this.add(val);
-  }
 
-  size(): number {
-    return this._size;
-  }
-
-  has(val: T): boolean {
-    return !!this.tree.find(val);
-  }
-
-  add(val: T): boolean {
-    const successful = this.tree.insert(val);
-    this._size += successful ? 1 : 0;
-    return successful;
-  }
-
-  delete(val: T): boolean {
-    const deleted = this.tree.deleteAll(val);
-    this._size -= deleted ? 1 : 0;
-    return deleted;
-  }
-
-  ceil(val: T): T | undefined {
-    let p = this.tree.root;
-    let higher = null;
-    while (p) {
-      if (this.compare(p.data, val) >= 0) {
-        higher = p;
-        p = p.left;
-      } else {
-        p = p.right;
-      }
+    size(): number {
+        return this._size;
     }
-    return higher?.data;
-  }
 
-  floor(val: T): T | undefined {
-    let p = this.tree.root;
-    let lower = null;
-    while (p) {
-      if (this.compare(val, p.data) >= 0) {
-        lower = p;
-        p = p.right;
-      } else {
-        p = p.left;
-      }
+    has(val: T): boolean {
+        return !!this.tree.find(val);
     }
-    return lower?.data;
-  }
 
-  higher(val: T): T | undefined {
-    let p = this.tree.root;
-    let higher = null;
-    while (p) {
-      if (this.compare(val, p.data) < 0) {
-        higher = p;
-        p = p.left;
-      } else {
-        p = p.right;
-      }
+    add(val: T): boolean {
+        const successful = this.tree.insert(val);
+        this._size += successful ? 1 : 0;
+        return successful;
     }
-    return higher?.data;
-  }
 
-  lower(val: T): T | undefined {
-    let p = this.tree.root;
-    let lower = null;
-    while (p) {
-      if (this.compare(p.data, val) < 0) {
-        lower = p;
-        p = p.right;
-      } else {
-        p = p.left;
-      }
+    delete(val: T): boolean {
+        const deleted = this.tree.deleteAll(val);
+        this._size -= deleted ? 1 : 0;
+        return deleted;
     }
-    return lower?.data;
-  }
 
-  first(): T | undefined {
-    return this.tree.inOrder().next().value;
-  }
+    ceil(val: T): T | undefined {
+        let p = this.tree.root;
+        let higher = null;
+        while (p) {
+            if (this.compare(p.data, val) >= 0) {
+                higher = p;
+                p = p.left;
+            } else {
+                p = p.right;
+            }
+        }
+        return higher?.data;
+    }
 
-  last(): T | undefined {
-    return this.tree.reverseInOrder().next().value;
-  }
+    floor(val: T): T | undefined {
+        let p = this.tree.root;
+        let lower = null;
+        while (p) {
+            if (this.compare(val, p.data) >= 0) {
+                lower = p;
+                p = p.right;
+            } else {
+                p = p.left;
+            }
+        }
+        return lower?.data;
+    }
 
-  shift(): T | undefined {
-    const first = this.first();
-    if (first === undefined) return undefined;
-    this.delete(first);
-    return first;
-  }
+    higher(val: T): T | undefined {
+        let p = this.tree.root;
+        let higher = null;
+        while (p) {
+            if (this.compare(val, p.data) < 0) {
+                higher = p;
+                p = p.left;
+            } else {
+                p = p.right;
+            }
+        }
+        return higher?.data;
+    }
 
-  pop(): T | undefined {
-    const last = this.last();
-    if (last === undefined) return undefined;
-    this.delete(last);
-    return last;
-  }
+    lower(val: T): T | undefined {
+        let p = this.tree.root;
+        let lower = null;
+        while (p) {
+            if (this.compare(p.data, val) < 0) {
+                lower = p;
+                p = p.right;
+            } else {
+                p = p.left;
+            }
+        }
+        return lower?.data;
+    }
 
-  *[Symbol.iterator](): Generator<T, void, void> {
-    for (const val of this.values()) yield val;
-  }
+    first(): T | undefined {
+        return this.tree.inOrder().next().value;
+    }
 
-  *keys(): Generator<T, void, void> {
-    for (const val of this.values()) yield val;
-  }
+    last(): T | undefined {
+        return this.tree.reverseInOrder().next().value;
+    }
 
-  *values(): Generator<T, undefined, void> {
-    for (const val of this.tree.inOrder()) yield val;
-    return undefined;
-  }
+    shift(): T | undefined {
+        const first = this.first();
+        if (first === undefined) return undefined;
+        this.delete(first);
+        return first;
+    }
 
-  /**
-   * Return a generator for reverse order traversing the set
-   */
-  *rvalues(): Generator<T, undefined, void> {
-    for (const val of this.tree.reverseInOrder()) yield val;
-    return undefined;
-  }
+    pop(): T | undefined {
+        const last = this.last();
+        if (last === undefined) return undefined;
+        this.delete(last);
+        return last;
+    }
+
+    *[Symbol.iterator](): Generator<T, void, void> {
+        for (const val of this.values()) yield val;
+    }
+
+    *keys(): Generator<T, void, void> {
+        for (const val of this.values()) yield val;
+    }
+
+    *values(): Generator<T, undefined, void> {
+        for (const val of this.tree.inOrder()) yield val;
+        return undefined;
+    }
+
+    /**
+     * Return a generator for reverse order traversing the set
+     */
+    *rvalues(): Generator<T, undefined, void> {
+        for (const val of this.tree.reverseInOrder()) yield val;
+        return undefined;
+    }
 }
 ```
 

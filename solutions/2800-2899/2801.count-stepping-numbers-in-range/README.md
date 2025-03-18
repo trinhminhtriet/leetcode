@@ -1,86 +1,89 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2801.Count%20Stepping%20Numbers%20in%20Range/README.md
 rating: 2367
-source: Weekly Contest 356 Q4
+source: 第 356 场周赛 Q4
 tags:
-  - String
-  - Dynamic Programming
+    - 字符串
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [2801. Count Stepping Numbers in Range](https://leetcode.com/problems/count-stepping-numbers-in-range)
+# [2801. 统计范围内的步进数字数目](https://leetcode.cn/problems/count-stepping-numbers-in-range)
 
-## Description
+[English Version](/solution/2800-2899/2801.Count%20Stepping%20Numbers%20in%20Range/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two positive integers <code>low</code> and <code>high</code> represented as strings, find the count of <strong>stepping numbers</strong> in the inclusive range <code>[low, high]</code>.</p>
+<p>给你两个正整数&nbsp;<code>low</code> 和&nbsp;<code>high</code>&nbsp;，都用字符串表示，请你统计闭区间 <code>[low, high]</code>&nbsp;内的 <strong>步进数字</strong>&nbsp;数目。</p>
 
-<p>A <strong>stepping number</strong> is an integer such that all of its adjacent digits have an absolute difference of <strong>exactly</strong> <code>1</code>.</p>
+<p>如果一个整数相邻数位之间差的绝对值都 <strong>恰好</strong>&nbsp;是 <code>1</code>&nbsp;，那么这个数字被称为 <strong>步进数字</strong>&nbsp;。</p>
 
-<p>Return <em>an integer denoting the count of stepping numbers in the inclusive range</em> <code>[low, high]</code><em>. </em></p>
+<p>请你返回一个整数，表示闭区间&nbsp;<code>[low, high]</code>&nbsp;之间步进数字的数目。</p>
 
-<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>由于答案可能很大，请你将它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
 
-<p><strong>Note:</strong> A stepping number should not have a leading zero.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> low = &quot;1&quot;, high = &quot;11&quot;
-<strong>Output:</strong> 10
-<strong>Explanation: </strong>The stepping numbers in the range [1,11] are 1, 2, 3, 4, 5, 6, 7, 8, 9 and 10. There are a total of 10 stepping numbers in the range. Hence, the output is 10.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> low = &quot;90&quot;, high = &quot;101&quot;
-<strong>Output:</strong> 2
-<strong>Explanation: </strong>The stepping numbers in the range [90,101] are 98 and 101. There are a total of 2 stepping numbers in the range. Hence, the output is 2. </pre>
+<p><b>注意：</b>步进数字不能有前导 0 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>low = "1", high = "11"
+<b>输出：</b>10
+<strong>解释：</strong>区间 [1,11] 内的步进数字为 1 ，2 ，3 ，4 ，5 ，6 ，7 ，8 ，9 和 10 。总共有 10 个步进数字。所以输出为 10 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>low = "90", high = "101"
+<b>输出：</b>2
+<strong>解释：</strong>区间 [90,101] 内的步进数字为 98 和 101 。总共有 2 个步进数字。所以输出为 2 。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= int(low) &lt;= int(high) &lt; 10<sup>100</sup></code></li>
 	<li><code>1 &lt;= low.length, high.length &lt;= 100</code></li>
-	<li><code>low</code> and <code>high</code> consist of only digits.</li>
-	<li><code>low</code> and <code>high</code> don&#39;t have any leading zeros.</li>
+	<li><code>low</code> 和&nbsp;<code>high</code>&nbsp;只包含数字。</li>
+	<li><code>low</code> 和&nbsp;<code>high</code>&nbsp;都不含前导 0 。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Digit DP
+### 方法一：数位 DP
 
-We notice that the problem is asking for the number of stepping numbers in the interval $[low, high]$. For such an interval $[l,..r]$ problem, we can usually consider transforming it into finding the answers for $[1, r]$ and $[1, l-1]$, and then subtracting the latter from the former. Moreover, the problem only involves the relationship between different digits, not the specific values, so we can consider using Digit DP to solve it.
+我们注意到，题目求的是区间 $[low, high]$ 内的步进数的个数，对于这种区间 $[l,..r]$ 的问题，我们通常可以考虑转化为求 $[1, r]$ 和 $[1, l-1]$ 的答案，然后相减即可。另外，题目中只涉及到不同数位之间的关系，而不涉及具体的数值，因此我们可以考虑使用数位 DP 来解决。
 
-We design a function $dfs(pos, pre, lead, limit)$, which represents the number of schemes when we are currently processing the $pos$-th digit, the previous digit is $pre$, whether the current number only contains leading zeros is $lead$, and whether the current number has reached the upper limit is $limit$. The range of $pos$ is $[0, len(num))$.
+我们设计一个函数 $dfs(pos, pre, lead, limit)$，表示当前处理到第 $pos$ 位，前一位数字是 $pre$，当前数字是否只包含前导零 $lead$，当前数字是否达到上界 $limit$ 的方案数。其中，而 $pos$ 的范围是 $[0, len(num))$。
 
-The execution logic of the function $dfs(pos, pre, lead, limit)$ is as follows:
+函数 $dfs(pos, pre, lead, limit)$ 的执行逻辑如下：
 
-If $pos$ exceeds the length of $num$, it means that we have processed all the digits. If $lead$ is true at this time, it means that the current number only contains leading zeros and is not a valid number. We can return $0$ to indicate that the number of schemes is $0$; otherwise, we return $1$ to indicate that the number of schemes is $1$.
+如果 $pos$ 超出了 $num$ 的长度，说明我们已经处理完了所有数位，如果此时 $lead$ 为真，说明当前数字只包含前导零，不是一个合法的数字，我们可以返回 $0$ 表示方案数为 $0$；否则我们返回 $1$ 表示方案数为 $1$。
 
-Otherwise, we calculate the upper limit $up$ of the current digit, and then enumerate the digit $i$ in the range $[0,..up]$:
+否则，我们计算得到当前数位的上界 $up$，然后在 $[0,..up]$ 范围内枚举当前数位的数字 $i$：
 
-- If $i=0$ and $lead$ is true, it means that the current number only contains leading zeros. We recursively calculate the value of $dfs(pos+1,pre, true, limit\ and\ i=up)$ and add it to the answer.
-- Otherwise, if $pre$ is $-1$, or the absolute difference between $i$ and $pre$ is $1$, it means that the current number is a valid stepping number. We recursively calculate the value of $dfs(pos+1,i, false, limit\ and\ i=up)$ and add it to the answer.
+-   如果 $i=0$ 且 $lead$ 为真，说明当前数字只包含前导零，我们递归计算 $dfs(pos+1,pre, true, limit\ and\ i=up)$ 的值并累加到答案中；
+-   否则，如果 $pre$ 为 $-1$，或者 $i$ 和 $pre$ 之间的差的绝对值为 $1$，说明当前数字是一个合法的步进数，我们递归计算 $dfs(pos+1,i, false, limit\ and\ i=up)$ 的值并累加到答案中。
 
-Finally, we return the answer.
+最终我们返回答案。
 
-In the main function, we calculate the answers $a$ and $b$ for $[1, high]$ and $[1, low-1]$ respectively. The final answer is $a-b$. Note the modulo operation of the answer.
+在主函数中，我们分别计算 $[1, high]$ 和 $[1, low-1]$ 的答案 $a$ 和 $b$，最终答案为 $a-b$。注意答案的取模运算。
 
-The time complexity is $O(\log M \times |\Sigma|^2)$, and the space complexity is $O(\log M \times |\Sigma|)$, where $M$ represents the size of the number $high$, and $|\Sigma|$ represents the digit set.
+时间复杂度 $O(\log M \times |\Sigma|^2)$，空间复杂度 $O(\log M \times |\Sigma|)$，其中 $M$ 表示 $high$ 数字的大小，而 $|\Sigma|$ 表示数字集合。
 
-Similar problems:
+相似题目：
 
-- [2719. Count of Integers](https://github.com/doocs/leetcode/blob/main/solution/2700-2799/2719.Count%20of%20Integers/README_EN.md)
+-   [2719. 统计整数数目](https://github.com/doocs/leetcode/blob/main/solution/2700-2799/2719.Count%20of%20Integers/README.md)
 
 <!-- tabs:start -->
 
@@ -281,46 +284,41 @@ func abs(x int) int {
 
 ```ts
 function countSteppingNumbers(low: string, high: string): number {
-  const mod = 1e9 + 7;
-  const m = high.length;
-  let f: number[][] = Array(m + 1)
-    .fill(0)
-    .map(() => Array(10).fill(-1));
-  let num = high;
-  const dfs = (
-    pos: number,
-    pre: number,
-    lead: boolean,
-    limit: boolean
-  ): number => {
-    if (pos >= num.length) {
-      return lead ? 0 : 1;
-    }
-    if (!lead && !limit && f[pos][pre] !== -1) {
-      return f[pos][pre];
-    }
-    let ans = 0;
-    const up = limit ? +num[pos] : 9;
-    for (let i = 0; i <= up; i++) {
-      if (i == 0 && lead) {
-        ans += dfs(pos + 1, pre, true, limit && i == up);
-      } else if (pre == -1 || Math.abs(pre - i) == 1) {
-        ans += dfs(pos + 1, i, false, limit && i == up);
-      }
-      ans %= mod;
-    }
-    if (!lead && !limit) {
-      f[pos][pre] = ans;
-    }
-    return ans;
-  };
-  const a = dfs(0, -1, true, true);
-  num = (BigInt(low) - 1n).toString();
-  f = Array(m + 1)
-    .fill(0)
-    .map(() => Array(10).fill(-1));
-  const b = dfs(0, -1, true, true);
-  return (a - b + mod) % mod;
+    const mod = 1e9 + 7;
+    const m = high.length;
+    let f: number[][] = Array(m + 1)
+        .fill(0)
+        .map(() => Array(10).fill(-1));
+    let num = high;
+    const dfs = (pos: number, pre: number, lead: boolean, limit: boolean): number => {
+        if (pos >= num.length) {
+            return lead ? 0 : 1;
+        }
+        if (!lead && !limit && f[pos][pre] !== -1) {
+            return f[pos][pre];
+        }
+        let ans = 0;
+        const up = limit ? +num[pos] : 9;
+        for (let i = 0; i <= up; i++) {
+            if (i == 0 && lead) {
+                ans += dfs(pos + 1, pre, true, limit && i == up);
+            } else if (pre == -1 || Math.abs(pre - i) == 1) {
+                ans += dfs(pos + 1, i, false, limit && i == up);
+            }
+            ans %= mod;
+        }
+        if (!lead && !limit) {
+            f[pos][pre] = ans;
+        }
+        return ans;
+    };
+    const a = dfs(0, -1, true, true);
+    num = (BigInt(low) - 1n).toString();
+    f = Array(m + 1)
+        .fill(0)
+        .map(() => Array(10).fill(-1));
+    const b = dfs(0, -1, true, true);
+    return (a - b + mod) % mod;
 }
 ```
 

@@ -1,71 +1,78 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0687.Longest%20Univalue%20Path/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [687. Longest Univalue Path](https://leetcode.com/problems/longest-univalue-path)
+# [687. 最长同值路径](https://leetcode.cn/problems/longest-univalue-path)
 
-## Description
+[English Version](/solution/0600-0699/0687.Longest%20Univalue%20Path/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, return <em>the length of the longest path, where each node in the path has the same value</em>. This path may or may not pass through the root.</p>
+<p>给定一个二叉树的<meta charset="UTF-8" />&nbsp;<code>root</code>&nbsp;，返回&nbsp;<em>最长的路径的长度</em> ，这个路径中的&nbsp;<em>每个节点具有相同值</em>&nbsp;。 这条路径可以经过也可以不经过根节点。</p>
 
-<p><strong>The length of the path</strong> between two nodes is represented by the number of edges between them.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0687.Longest%20Univalue%20Path/images/ex1.jpg" style="width: 450px; height: 238px;" />
-<pre>
-<strong>Input:</strong> root = [5,4,5,1,1,null,5]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The shown image shows that the longest path of the same value (i.e. 5).
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0687.Longest%20Univalue%20Path/images/ex2.jpg" style="width: 450px; height: 238px;" />
-<pre>
-<strong>Input:</strong> root = [1,4,5,4,4,null,5]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The shown image shows that the longest path of the same value (i.e. 4).
-</pre>
+<p><strong>两个节点之间的路径长度</strong>&nbsp;由它们之间的边数表示。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1:</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0687.Longest%20Univalue%20Path/images/ex1.jpg" /></p>
+
+<pre>
+<strong>输入：</strong>root = [5,4,5,1,1,5]
+<strong>输出：</strong>2
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0687.Longest%20Univalue%20Path/images/ex2.jpg" /></p>
+
+<pre>
+<strong>输入：</strong>root = [1,4,5,4,4,5]
+<strong>输出：</strong>2
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
+	<li>树的节点数的范围是<meta charset="UTF-8" />&nbsp;<code>[0, 10<sup>4</sup>]</code>&nbsp;</li>
 	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
-	<li>The depth of the tree will not exceed <code>1000</code>.</li>
+	<li>树的深度将不超过 <code>1000</code>&nbsp;</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-We design a function $\textit{dfs}(root)$, which represents the longest univalue path length extending downward with the $\textit{root}$ node as one endpoint of the path.
+我们设计一个函数 $\textit{dfs}(root)$，表示以 $\textit{root}$ 节点作为路径的其中一个端点，向下延伸的最长同值路径长度。
 
-In $\textit{dfs}(root)$, we first recursively call $\textit{dfs}(root.\textit{left})$ and $\textit{dfs}(root.\textit{right})$ to get two return values $\textit{l}$ and $\textit{r}$. These two return values represent the longest univalue path lengths extending downward with the left and right children of the $\textit{root}$ node as one endpoint of the path, respectively.
+在 $\textit{dfs}(root)$ 中，我们首先递归调用 $\textit{dfs}(root.\textit{left})$ 和 $\textit{dfs}(root.\textit{right})$，得到两个返回值 $\textit{l}$ 和 $\textit{r}$。这两个返回值分别代表了以 $\textit{root}$ 节点的左孩子和右孩子为路径的其中一个端点，向下延伸的最长同值路径长度。
 
-If the $\textit{root}$ has a left child and $\textit{root}.\textit{val} = \textit{root}.\textit{left}.\textit{val}$, then the longest univalue path length extending downward with the left child of the $\textit{root}$ as one endpoint of the path should be $\textit{l} + 1$; otherwise, this length is $0$. If the $\textit{root}$ has a right child and $\textit{root}.\textit{val} = \textit{root}.\textit{right}.\textit{val}$, then the longest univalue path length extending downward with the right child of the $\textit{root}$ as one endpoint of the path should be $\textit{r} + 1$; otherwise, this length is $0$.
+如果 $\textit{root}$ 存在左孩子且 $\textit{root}.\textit{val} = \textit{root}.\textit{left}.\textit{val}$，那么在 $\textit{root}$ 的左孩子为路径的其中一个端点，向下延伸的最长同值路径长度应为 $\textit{l} + 1$；否则，这个长度为 $0$。如果 $\textit{root}$ 存在右孩子且 $\textit{root}.\textit{val} = \textit{root}.\textit{right}.\textit{val}$，那么在 $\textit{root}$ 的右孩子为路径的其中一个端点，向下延伸的最长同值路径长度应为 $\textit{r} + 1$；否则，这个长度为 $0$。
 
-After recursively calling the left and right children, we update the answer to $\max(\textit{ans}, \textit{l} + \textit{r})$, which is the longest univalue path length passing through the $\textit{root}$ with the $\textit{root}$ as one endpoint of the path.
+在递归调用完左右孩子之后，我们更新答案为 $\max(\textit{ans}, \textit{l} + \textit{r})$，即以 $\textit{root}$ 为端点的路径经过 $\textit{root}$ 的最长同值路径长度。
 
-Finally, the $\textit{dfs}(root)$ function returns the longest univalue path length extending downward with the $\textit{root}$ as one endpoint of the path, which is $\max(\textit{l}, \textit{r})$.
+最后，$\textit{dfs}(root)$ 函数返回以 $\textit{root}$ 为端点的向下延伸的最长同值路径长度，即 $\max(\textit{l}, \textit{r})$。
 
-In the main function, we call $\textit{dfs}(root)$ to get the answer.
+在主函数中，我们调用 $\textit{dfs}(root)$，即可得到答案。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
 
 <!-- tabs:start -->
 
@@ -153,18 +160,18 @@ class Solution {
 public:
     int longestUnivaluePath(TreeNode* root) {
         int ans = 0;
-        auto dfs = [&](auto&& dfs, TreeNode* root) -> int {
+        auto dfs = [&](this auto&& dfs, TreeNode* root) -> int {
             if (!root) {
                 return 0;
             }
-            int l = dfs(dfs, root->left);
-            int r = dfs(dfs, root->right);
+            int l = dfs(root->left);
+            int r = dfs(root->right);
             l = root->left && root->left->val == root->val ? l + 1 : 0;
             r = root->right && root->right->val == root->val ? r + 1 : 0;
             ans = max(ans, l + r);
             return max(l, r);
         };
-        dfs(dfs, root);
+        dfs(root);
         return ans;
     }
 };
@@ -224,19 +231,19 @@ func longestUnivaluePath(root *TreeNode) (ans int) {
  */
 
 function longestUnivaluePath(root: TreeNode | null): number {
-  let ans: number = 0;
-  const dfs = (root: TreeNode | null): number => {
-    if (!root) {
-      return 0;
-    }
-    let [l, r] = [dfs(root.left), dfs(root.right)];
-    l = root.left && root.left.val === root.val ? l + 1 : 0;
-    r = root.right && root.right.val === root.val ? r + 1 : 0;
-    ans = Math.max(ans, l + r);
-    return Math.max(l, r);
-  };
-  dfs(root);
-  return ans;
+    let ans: number = 0;
+    const dfs = (root: TreeNode | null): number => {
+        if (!root) {
+            return 0;
+        }
+        let [l, r] = [dfs(root.left), dfs(root.right)];
+        l = root.left && root.left.val === root.val ? l + 1 : 0;
+        r = root.right && root.right.val === root.val ? r + 1 : 0;
+        ans = Math.max(ans, l + r);
+        return Math.max(l, r);
+    };
+    dfs(root);
+    return ans;
 }
 ```
 
@@ -311,19 +318,19 @@ impl Solution {
  * @return {number}
  */
 var longestUnivaluePath = function (root) {
-  let ans = 0;
-  const dfs = (root) => {
-    if (!root) {
-      return 0;
-    }
-    let [l, r] = [dfs(root.left), dfs(root.right)];
-    l = root.left && root.left.val === root.val ? l + 1 : 0;
-    r = root.right && root.right.val === root.val ? r + 1 : 0;
-    ans = Math.max(ans, l + r);
-    return Math.max(l, r);
-  };
-  dfs(root);
-  return ans;
+    let ans = 0;
+    const dfs = root => {
+        if (!root) {
+            return 0;
+        }
+        let [l, r] = [dfs(root.left), dfs(root.right)];
+        l = root.left && root.left.val === root.val ? l + 1 : 0;
+        r = root.right && root.right.val === root.val ? r + 1 : 0;
+        ans = Math.max(ans, l + r);
+        return Math.max(l, r);
+    };
+    dfs(root);
+    return ans;
 };
 ```
 

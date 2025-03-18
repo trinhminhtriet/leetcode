@@ -1,45 +1,50 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0693.Binary%20Number%20with%20Alternating%20Bits/README.md
 tags:
-  - Bit Manipulation
+    - 位运算
 ---
 
 <!-- problem:start -->
 
-# [693. Binary Number with Alternating Bits](https://leetcode.com/problems/binary-number-with-alternating-bits)
+# [693. 交替位二进制数](https://leetcode.cn/problems/binary-number-with-alternating-bits)
 
-## Description
+[English Version](/solution/0600-0699/0693.Binary%20Number%20with%20Alternating%20Bits/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a positive integer, check whether it has alternating bits: namely, if two adjacent bits will always have different values.</p>
+<p>给定一个正整数，检查它的二进制表示是否总是 0、1 交替出现：换句话说，就是二进制表示中相邻两位的数字永不相同。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 5
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The binary representation of 5 is: 101
+<strong>输入：</strong>n = 5
+<strong>输出：</strong>true
+<strong>解释：</strong>5 的二进制表示是：101
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 7
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The binary representation of 7 is: 111.</pre>
+<strong>输入：</strong>n = 7
+<strong>输出：</strong>false
+<strong>解释：</strong>7 的二进制表示是：111.</pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 11
-<strong>Output:</strong> false
-<strong>Explanation:</strong> The binary representation of 11 is: 1011.</pre>
+<strong>输入：</strong>n = 11
+<strong>输出：</strong>false
+<strong>解释：</strong>11 的二进制表示是：1011.</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2<sup>31</sup> - 1</code></li>
@@ -47,11 +52,13 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+n 循环右移直至为 0，依次检测 n 的二进制位是否交替出现。若循环过程中发现 0、1 没有交替出现，直接返回 false。否则循环结束返回 true。
 
 <!-- tabs:start -->
 
@@ -150,7 +157,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：位运算
+
+假设 01 交替出现，那么我们可以通过错位异或将尾部全部转为 1，加 1 可以得到 2 的幂次的一个数 n（n 中只有一个位是 1），接着利用 `n & (n + 1)` 可以消除最后一位的 1。
+
+此时判断是否为 0，若是，说明假设成立，是 01 交替串。
 
 <!-- tabs:start -->
 

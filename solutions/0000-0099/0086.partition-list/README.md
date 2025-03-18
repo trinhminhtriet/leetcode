@@ -1,58 +1,63 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0086.Partition%20List/README.md
 tags:
-  - Linked List
-  - Two Pointers
+    - 链表
+    - 双指针
 ---
 
 <!-- problem:start -->
 
-# [86. Partition List](https://leetcode.com/problems/partition-list)
+# [86. 分隔链表](https://leetcode.cn/problems/partition-list)
 
-## Description
+[English Version](/solution/0000-0099/0086.Partition%20List/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>head</code> of a linked list and a value <code>x</code>, partition it such that all nodes <strong>less than</strong> <code>x</code> come before nodes <strong>greater than or equal</strong> to <code>x</code>.</p>
+<p>给你一个链表的头节点 <code>head</code> 和一个特定值<em> </em><code>x</code> ，请你对链表进行分隔，使得所有 <strong>小于</strong> <code>x</code> 的节点都出现在 <strong>大于或等于</strong> <code>x</code> 的节点之前。</p>
 
-<p>You should <strong>preserve</strong> the original relative order of the nodes in each of the two partitions.</p>
+<p>你应当 <strong>保留</strong> 两个分区中每个节点的初始相对位置。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0086.Partition%20List/images/partition.jpg" style="width: 662px; height: 222px;" />
 <pre>
-<strong>Input:</strong> head = [1,4,3,2,5,2], x = 3
-<strong>Output:</strong> [1,2,2,4,3,5]
+<strong>输入：</strong>head = [1,4,3,2,5,2], x = 3
+<strong>输出</strong>：[1,2,2,4,3,5]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> head = [2,1], x = 2
-<strong>Output:</strong> [1,2]
+<strong>输入：</strong>head = [2,1], x = 2
+<strong>输出</strong>：[1,2]
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the list is in the range <code>[0, 200]</code>.</li>
-	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
-	<li><code>-200 &lt;= x &lt;= 200</code></li>
+	<li>链表中节点的数目在范围 <code>[0, 200]</code> 内</li>
+	<li><code>-100 <= Node.val <= 100</code></li>
+	<li><code>-200 <= x <= 200</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We create two linked lists, one to store nodes less than $x$, and the other to store nodes greater than or equal to $x$. Then we concatenate them.
+我们创建两个链表 $l$ 和 $r$，一个用来存储小于 $x$ 的节点，另一个用来存储大于等于 $x$ 的节点。然后我们将它们拼接起来。
 
-The time complexity is $O(n)$, where $n$ is the length of the original linked list. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是原链表的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -66,19 +71,20 @@ The time complexity is $O(n)$, where $n$ is the length of the original linked li
 #         self.next = next
 class Solution:
     def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
-        d1, d2 = ListNode(), ListNode()
-        t1, t2 = d1, d2
+        l = ListNode()
+        r = ListNode()
+        tl, tr = l, r
         while head:
             if head.val < x:
-                t1.next = head
-                t1 = t1.next
+                tl.next = head
+                tl = tl.next
             else:
-                t2.next = head
-                t2 = t2.next
+                tr.next = head
+                tr = tr.next
             head = head.next
-        t1.next = d2.next
-        t2.next = None
-        return d1.next
+        tr.next = None
+        tl.next = r.next
+        return l.next
 ```
 
 #### Java
@@ -96,22 +102,21 @@ class Solution:
  */
 class Solution {
     public ListNode partition(ListNode head, int x) {
-        ListNode d1 = new ListNode();
-        ListNode d2 = new ListNode();
-        ListNode t1 = d1, t2 = d2;
-        while (head != null) {
+        ListNode l = new ListNode();
+        ListNode r = new ListNode();
+        ListNode tl = l, tr = r;
+        for (; head != null; head = head.next) {
             if (head.val < x) {
-                t1.next = head;
-                t1 = t1.next;
+                tl.next = head;
+                tl = tl.next;
             } else {
-                t2.next = head;
-                t2 = t2.next;
+                tr.next = head;
+                tr = tr.next;
             }
-            head = head.next;
         }
-        t1.next = d2.next;
-        t2.next = null;
-        return d1.next;
+        tr.next = null;
+        tl.next = r.next;
+        return l.next;
     }
 }
 ```
@@ -132,23 +137,22 @@ class Solution {
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        ListNode* d1 = new ListNode();
-        ListNode* d2 = new ListNode();
-        ListNode* t1 = d1;
-        ListNode* t2 = d2;
-        while (head) {
+        ListNode* l = new ListNode();
+        ListNode* r = new ListNode();
+        ListNode* tl = l;
+        ListNode* tr = r;
+        for (; head; head = head->next) {
             if (head->val < x) {
-                t1->next = head;
-                t1 = t1->next;
+                tl->next = head;
+                tl = tl->next;
             } else {
-                t2->next = head;
-                t2 = t2->next;
+                tr->next = head;
+                tr = tr->next;
             }
-            head = head->next;
         }
-        t1->next = d2->next;
-        t2->next = nullptr;
-        return d1->next;
+        tr->next = nullptr;
+        tl->next = r->next;
+        return l->next;
     }
 };
 ```
@@ -164,21 +168,53 @@ public:
  * }
  */
 func partition(head *ListNode, x int) *ListNode {
-	d1, d2 := &ListNode{}, &ListNode{}
-	t1, t2 := d1, d2
-	for head != nil {
+	l, r := &ListNode{}, &ListNode{}
+	tl, tr := l, r
+	for ; head != nil; head = head.Next {
 		if head.Val < x {
-			t1.Next = head
-			t1 = t1.Next
+			tl.Next = head
+			tl = tl.Next
 		} else {
-			t2.Next = head
-			t2 = t2.Next
+			tr.Next = head
+			tr = tr.Next
 		}
-		head = head.Next
 	}
-	t1.Next = d2.Next
-	t2.Next = nil
-	return d1.Next
+	tr.Next = nil
+	tl.Next = r.Next
+	return l.Next
+}
+```
+
+#### TypeScript
+
+```ts
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     val: number
+ *     next: ListNode | null
+ *     constructor(val?: number, next?: ListNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.next = (next===undefined ? null : next)
+ *     }
+ * }
+ */
+
+function partition(head: ListNode | null, x: number): ListNode | null {
+    const [l, r] = [new ListNode(), new ListNode()];
+    let [tl, tr] = [l, r];
+    for (; head; head = head.next) {
+        if (head.val < x) {
+            tl.next = head;
+            tl = tl.next;
+        } else {
+            tr.next = head;
+            tr = tr.next;
+        }
+    }
+    tr.next = null;
+    tl.next = r.next;
+    return l.next;
 }
 ```
 
@@ -203,22 +239,24 @@ func partition(head *ListNode, x int) *ListNode {
 // }
 impl Solution {
     pub fn partition(head: Option<Box<ListNode>>, x: i32) -> Option<Box<ListNode>> {
-        let mut head = head;
-        let mut d1 = Some(Box::new(ListNode::new(0)));
-        let mut d2 = Some(Box::new(ListNode::new(0)));
-        let (mut t1, mut t2) = (&mut d1, &mut d2);
-        while let Some(mut node) = head {
-            head = node.next.take();
+        let mut l = ListNode::new(0);
+        let mut r = ListNode::new(0);
+        let mut tl = &mut l;
+        let mut tr = &mut r;
+        let mut current = head;
+        while let Some(mut node) = current {
+            current = node.next.take();
             if node.val < x {
-                t1.as_mut().unwrap().next = Some(node);
-                t1 = &mut t1.as_mut().unwrap().next;
+                tl.next = Some(node);
+                tl = tl.next.as_mut().unwrap();
             } else {
-                t2.as_mut().unwrap().next = Some(node);
-                t2 = &mut t2.as_mut().unwrap().next;
+                tr.next = Some(node);
+                tr = tr.next.as_mut().unwrap();
             }
         }
-        t1.as_mut().unwrap().next = d2.unwrap().next;
-        d1.unwrap().next
+        tr.next = None;
+        tl.next = r.next;
+        l.next
     }
 }
 ```
@@ -239,24 +277,56 @@ impl Solution {
  * @return {ListNode}
  */
 var partition = function (head, x) {
-  const d1 = new ListNode();
-  const d2 = new ListNode();
-  let t1 = d1,
-    t2 = d2;
-  while (head) {
-    if (head.val < x) {
-      t1.next = head;
-      t1 = t1.next;
-    } else {
-      t2.next = head;
-      t2 = t2.next;
+    const [l, r] = [new ListNode(), new ListNode()];
+    let [tl, tr] = [l, r];
+    for (; head; head = head.next) {
+        if (head.val < x) {
+            tl.next = head;
+            tl = tl.next;
+        } else {
+            tr.next = head;
+            tr = tr.next;
+        }
     }
-    head = head.next;
-  }
-  t1.next = d2.next;
-  t2.next = null;
-  return d1.next;
+    tr.next = null;
+    tl.next = r.next;
+    return l.next;
 };
+```
+
+#### C#
+
+```cs
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode Partition(ListNode head, int x) {
+        ListNode l = new ListNode();
+        ListNode r = new ListNode();
+        ListNode tl = l, tr = r;
+        for (; head != null; head = head.next) {
+            if (head.val < x) {
+                tl.next = head;
+                tl = tl.next;
+            } else {
+                tr.next = head;
+                tr = tr.next;
+            }
+        }
+        tr.next = null;
+        tl.next = r.next;
+        return l.next;
+    }
+}
 ```
 
 <!-- tabs:end -->

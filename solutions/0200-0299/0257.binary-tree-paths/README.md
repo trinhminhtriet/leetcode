@@ -1,56 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0257.Binary%20Tree%20Paths/README.md
 tags:
-  - Tree
-  - Depth-First Search
-  - String
-  - Backtracking
-  - Binary Tree
+    - 树
+    - 深度优先搜索
+    - 字符串
+    - 回溯
+    - 二叉树
 ---
 
 <!-- problem:start -->
 
-# [257. Binary Tree Paths](https://leetcode.com/problems/binary-tree-paths)
+# [257. 二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths)
 
-## Description
+[English Version](/solution/0200-0299/0257.Binary%20Tree%20Paths/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given the <code>root</code> of a binary tree, return <em>all root-to-leaf paths in <strong>any order</strong></em>.</p>
+<p>给你一个二叉树的根节点 <code>root</code> ，按 <strong>任意顺序</strong> ，返回所有从根节点到叶子节点的路径。</p>
 
-<p>A <strong>leaf</strong> is a node with no children.</p>
+<p><strong>叶子节点</strong> 是指没有子节点的节点。</p>
+&nbsp;
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0257.Binary%20Tree%20Paths/images/paths-tree.jpg" style="width: 207px; height: 293px;" />
 <pre>
-<strong>Input:</strong> root = [1,2,3,null,5]
-<strong>Output:</strong> [&quot;1-&gt;2-&gt;5&quot;,&quot;1-&gt;3&quot;]
+<strong>输入：</strong>root = [1,2,3,null,5]
+<strong>输出：</strong>["1-&gt;2-&gt;5","1-&gt;3"]
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> root = [1]
-<strong>Output:</strong> [&quot;1&quot;]
+<strong>输入：</strong>root = [1]
+<strong>输出：</strong>["1"]
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li>The number of nodes in the tree is in the range <code>[1, 100]</code>.</li>
+	<li>树中节点的数目在范围 <code>[1, 100]</code> 内</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：DFS
+
+我们可以使用深度优先搜索的方法遍历整棵二叉树，每一次我们将当前的节点添加到路径中。如果当前的节点是叶子节点，则我们将整个路径加入到答案中。否则我们继续递归遍历节点的孩子节点。最后当我们递归结束返回到当前节点时，我们需要将当前节点从路径中删除。
+
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
 
@@ -224,23 +232,23 @@ func binaryTreePaths(root *TreeNode) (ans []string) {
  */
 
 function binaryTreePaths(root: TreeNode | null): string[] {
-  const ans: string[] = [];
-  const t: number[] = [];
-  const dfs = (root: TreeNode | null) => {
-    if (!root) {
-      return;
-    }
-    t.push(root.val);
-    if (!root.left && !root.right) {
-      ans.push(t.join("->"));
-    } else {
-      dfs(root.left);
-      dfs(root.right);
-    }
-    t.pop();
-  };
-  dfs(root);
-  return ans;
+    const ans: string[] = [];
+    const t: number[] = [];
+    const dfs = (root: TreeNode | null) => {
+        if (!root) {
+            return;
+        }
+        t.push(root.val);
+        if (!root.left && !root.right) {
+            ans.push(t.join('->'));
+        } else {
+            dfs(root.left);
+            dfs(root.right);
+        }
+        t.pop();
+    };
+    dfs(root);
+    return ans;
 }
 ```
 

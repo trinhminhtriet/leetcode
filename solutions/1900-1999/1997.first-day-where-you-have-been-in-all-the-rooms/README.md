@@ -1,69 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1997.First%20Day%20Where%20You%20Have%20Been%20in%20All%20the%20Rooms/README.md
 rating: 2260
-source: Weekly Contest 257 Q3
+source: 第 257 场周赛 Q3
 tags:
-  - Array
-  - Dynamic Programming
+    - 数组
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [1997. First Day Where You Have Been in All the Rooms](https://leetcode.com/problems/first-day-where-you-have-been-in-all-the-rooms)
+# [1997. 访问完所有房间的第一天](https://leetcode.cn/problems/first-day-where-you-have-been-in-all-the-rooms)
 
-## Description
+[English Version](/solution/1900-1999/1997.First%20Day%20Where%20You%20Have%20Been%20in%20All%20the%20Rooms/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> rooms you need to visit, labeled from <code>0</code> to <code>n - 1</code>. Each day is labeled, starting from <code>0</code>. You will go in and visit one room a day.</p>
+<p>你需要访问&nbsp;<code>n</code> 个房间，房间从 <code>0</code> 到 <code>n - 1</code> 编号。同时，每一天都有一个日期编号，从 <code>0</code> 开始，依天数递增。你每天都会访问一个房间。</p>
 
-<p>Initially on day <code>0</code>, you visit room <code>0</code>. The <strong>order</strong> you visit the rooms for the coming days is determined by the following <strong>rules</strong> and a given <strong>0-indexed</strong> array <code>nextVisit</code> of length <code>n</code>:</p>
+<p>最开始的第 <code>0</code> 天，你访问&nbsp;<code>0</code> 号房间。给你一个长度为 <code>n</code> 且 <strong>下标从 0 开始</strong> 的数组 <code>nextVisit</code> 。在接下来的几天中，你访问房间的 <strong>次序</strong> 将根据下面的 <strong>规则</strong> 决定：</p>
 
 <ul>
-	<li>Assuming that on a day, you visit room <code>i</code>,</li>
-	<li>if you have been in room <code>i</code> an <strong>odd</strong> number of times (<strong>including</strong> the current visit), on the <strong>next</strong> day you will visit a room with a <strong>lower or equal room number</strong> specified by <code>nextVisit[i]</code> where <code>0 &lt;= nextVisit[i] &lt;= i</code>;</li>
-	<li>if you have been in room <code>i</code> an <strong>even</strong> number of times (<strong>including</strong> the current visit), on the <strong>next</strong> day you will visit room <code>(i + 1) mod n</code>.</li>
+	<li>假设某一天，你访问&nbsp;<code>i</code> 号房间。</li>
+	<li>如果算上本次访问，访问&nbsp;<code>i</code> 号房间的次数为 <strong>奇数</strong> ，那么 <strong>第二天</strong> 需要访问&nbsp;<code>nextVisit[i]</code> 所指定的房间，其中 <code>0 &lt;= nextVisit[i] &lt;= i</code> 。</li>
+	<li>如果算上本次访问，访问&nbsp;<code>i</code> 号房间的次数为 <strong>偶数</strong> ，那么 <strong>第二天</strong> 需要访问&nbsp;<code>(i + 1) mod n</code> 号房间。</li>
 </ul>
 
-<p>Return <em>the label of the <strong>first</strong> day where you have been in <strong>all</strong> the rooms</em>. It can be shown that such a day exists. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+<p>请返回你访问完所有房间的第一天的日期编号。题目数据保证总是存在这样的一天。由于答案可能很大，返回对 <code>10<sup>9</sup> + 7</code> 取余后的结果。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nextVisit = [0,0]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong>
-- On day 0, you visit room 0. The total times you have been in room 0 is 1, which is odd.
-&nbsp; On the next day you will visit room nextVisit[0] = 0
-- On day 1, you visit room 0, The total times you have been in room 0 is 2, which is even.
-&nbsp; On the next day you will visit room (0 + 1) mod 2 = 1
-- On day 2, you visit room 1. This is the first day where you have been in all the rooms.
+<strong>输入：</strong>nextVisit = [0,0]
+<strong>输出：</strong>2
+<strong>解释：</strong>
+- 第 0 天，你访问房间 0 。访问 0 号房间的总次数为 1 ，次数为奇数。
+&nbsp; 下一天你需要访问房间的编号是 nextVisit[0] = 0
+- 第 1 天，你访问房间 0 。访问 0 号房间的总次数为 2 ，次数为偶数。
+&nbsp; 下一天你需要访问房间的编号是 (0 + 1) mod 2 = 1
+- 第 2 天，你访问房间 1 。这是你第一次完成访问所有房间的那天。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nextVisit = [0,0,2]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong>
-Your room visiting order for each day is: [0,0,1,0,0,1,2,...].
-Day 6 is the first day where you have been in all the rooms.
+<strong>输入：</strong>nextVisit = [0,0,2]
+<strong>输出：</strong>6
+<strong>解释：</strong>
+你每天访问房间的次序是 [0,0,1,0,0,1,2,...] 。
+第 6 天是你访问完所有房间的第一天。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nextVisit = [0,1,2,0]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong>
-Your room visiting order for each day is: [0,0,1,1,2,2,3,...].
-Day 6 is the first day where you have been in all the rooms.
+<strong>输入：</strong>nextVisit = [0,1,2,0]
+<strong>输出：</strong>6
+<strong>解释：</strong>
+你每天访问房间的次序是 [0,0,1,1,2,2,3,...] 。
+第 6 天是你访问完所有房间的第一天。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nextVisit.length</code></li>
@@ -73,21 +78,21 @@ Day 6 is the first day where you have been in all the rooms.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i]$ as the date number of the first visit to the $i$-th room, so the answer is $f[n - 1]$.
+我们定义 $f[i]$ 表示第一次访问第 $i$ 号房间的日期编号，那么答案就是 $f[n - 1]$。
 
-Consider the date number of the first arrival at the $(i-1)$-th room, denoted as $f[i-1]$. At this time, it takes one day to return to the $nextVisit[i-1]$-th room. Why return? Because the problem restricts $0 \leq nextVisit[i] \leq i$.
+我们考虑第一次到达第 $i-1$ 号房间的日期编号，记为 $f[i-1]$，此时需要花一天的时间回退到第 $nextVisit[i-1]$ 号房间，为什么是回退呢？因为题目限制了 $0 \leq nextVisit[i] \leq i$。
 
-After returning, the $nextVisit[i-1]$-th room is visited an odd number of times, and the rooms from $nextVisit[i-1]+1$ to $i-1$ are visited an even number of times. At this time, we go to the $(i-1)$-th room again from the $nextVisit[i-1]$-th room, which takes $f[i-1] - f[nextVisit[i-1]]$ days, and then it takes one more day to reach the $i$-th room. Therefore, $f[i] = f[i-1] + 1 + f[i-1] - f[nextVisit[i-1]] + 1$. Since $f[i]$ may be very large, we need to take the remainder of $10^9 + 7$, and to prevent negative numbers, we need to add $10^9 + 7$.
+回退之后，此时第 $nextVisit[i-1]$ 号房间的访问为奇数次，而第 $[nextVisit[i-1]+1,..i-1]$ 号房间均被访问偶数次，那么这时候我们从第 $nextVisit[i-1]$ 号房间再次走到第 $i-1$ 号房间，就需要花费 $f[i-1] - f[nextVisit[i-1]]$ 天的时间，然后再花费一天的时间到达第 $i$ 号房间，因此 $f[i] = f[i-1] + 1 + f[i-1] - f[nextVisit[i-1]] + 1$。由于 $f[i]$ 可能很大，因此需要对 $10^9 + 7$ 取余，并且为了防止负数，需要加上 $10^9 + 7$。
 
-Finally, return $f[n-1]$.
+最后返回 $f[n-1]$ 即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of rooms.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为房间数。
 
 <!-- tabs:start -->
 
@@ -155,13 +160,13 @@ func firstDayBeenInAllRooms(nextVisit []int) int {
 
 ```ts
 function firstDayBeenInAllRooms(nextVisit: number[]): number {
-  const n = nextVisit.length;
-  const mod = 1e9 + 7;
-  const f: number[] = new Array<number>(n).fill(0);
-  for (let i = 1; i < n; ++i) {
-    f[i] = (f[i - 1] + 1 + f[i - 1] - f[nextVisit[i - 1]] + 1 + mod) % mod;
-  }
-  return f[n - 1];
+    const n = nextVisit.length;
+    const mod = 1e9 + 7;
+    const f: number[] = new Array<number>(n).fill(0);
+    for (let i = 1; i < n; ++i) {
+        f[i] = (f[i - 1] + 1 + f[i - 1] - f[nextVisit[i - 1]] + 1 + mod) % mod;
+    }
+    return f[n - 1];
 }
 ```
 

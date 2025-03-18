@@ -1,80 +1,85 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2851.String%20Transformation/README.md
 rating: 2857
-source: Weekly Contest 362 Q4
+source: 第 362 场周赛 Q4
 tags:
-  - Math
-  - String
-  - Dynamic Programming
-  - String Matching
+    - 数学
+    - 字符串
+    - 动态规划
+    - 字符串匹配
 ---
 
 <!-- problem:start -->
 
-# [2851. String Transformation](https://leetcode.com/problems/string-transformation)
+# [2851. 字符串转换](https://leetcode.cn/problems/string-transformation)
 
-## Description
+[English Version](/solution/2800-2899/2851.String%20Transformation/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two strings <code>s</code> and <code>t</code> of equal length <code>n</code>. You can perform the following operation on the string <code>s</code>:</p>
+<p>给你两个长度都为 <code>n</code>&nbsp;的字符串&nbsp;<code>s</code> 和&nbsp;<code>t</code>&nbsp;。你可以对字符串 <code>s</code>&nbsp;执行以下操作：</p>
 
 <ul>
-	<li>Remove a <strong>suffix</strong> of <code>s</code> of length <code>l</code> where <code>0 &lt; l &lt; n</code> and append it at the start of <code>s</code>.<br />
-	For example, let <code>s = &#39;abcd&#39;</code> then in one operation you can remove the suffix <code>&#39;cd&#39;</code> and append it in front of <code>s</code> making <code>s = &#39;cdab&#39;</code>.</li>
+	<li>将 <code>s</code>&nbsp;长度为 <code>l</code>&nbsp;（<code>0 &lt; l &lt; n</code>）的 <strong>后缀字符串</strong>&nbsp;删除，并将它添加在 <code>s</code>&nbsp;的开头。<br />
+	比方说，<code>s = 'abcd'</code>&nbsp;，那么一次操作中，你可以删除后缀&nbsp;<code>'cd'</code>&nbsp;，并将它添加到&nbsp;<code>s</code>&nbsp;的开头，得到&nbsp;<code>s = 'cdab'</code>&nbsp;。</li>
 </ul>
 
-<p>You are also given an integer <code>k</code>. Return <em>the number of ways in which </em><code>s</code> <em>can be transformed into </em><code>t</code><em> in <strong>exactly</strong> </em><code>k</code><em> operations.</em></p>
+<p>给你一个整数&nbsp;<code>k</code>&nbsp;，请你返回&nbsp;<strong>恰好</strong> <code>k</code>&nbsp;次操作将<em>&nbsp;</em><code>s</code> 变为<em>&nbsp;</em><code>t</code>&nbsp;的方案数。</p>
 
-<p>Since the answer can be large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;abcd&quot;, t = &quot;cdab&quot;, k = 2
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> 
-First way:
-In first operation, choose suffix from index = 3, so resulting s = &quot;dabc&quot;.
-In second operation, choose suffix from index = 3, so resulting s = &quot;cdab&quot;.
-
-Second way:
-In first operation, choose suffix from index = 1, so resulting s = &quot;bcda&quot;.
-In second operation, choose suffix from index = 1, so resulting s = &quot;cdab&quot;.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;ababab&quot;, t = &quot;ababab&quot;, k = 1
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> 
-First way:
-Choose suffix from index = 2, so resulting s = &quot;ababab&quot;.
-
-Second way:
-Choose suffix from index = 4, so resulting s = &quot;ababab&quot;.
-</pre>
+<p>由于答案可能很大，返回答案对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后的结果。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>s = "abcd", t = "cdab", k = 2
+<b>输出：</b>2
+<b>解释：</b>
+第一种方案：
+第一次操作，选择 index = 3 开始的后缀，得到 s = "dabc" 。
+第二次操作，选择 index = 3 开始的后缀，得到 s = "cdab" 。
+
+第二种方案：
+第一次操作，选择 index = 1 开始的后缀，得到 s = "bcda" 。
+第二次操作，选择 index = 1 开始的后缀，得到 s = "cdab" 。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>s = "ababab", t = "ababab", k = 1
+<b>输出：</b>2
+<b>解释：</b>
+第一种方案：
+选择 index = 2 开始的后缀，得到 s = "ababab" 。
+
+第二种方案：
+选择 index = 4 开始的后缀，得到 s = "ababab" 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 5 * 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= k &lt;= 10<sup>15</sup></code></li>
 	<li><code>s.length == t.length</code></li>
-	<li><code>s</code> and <code>t</code> consist of only lowercase English alphabets.</li>
+	<li><code>s</code> 和&nbsp;<code>t</code>&nbsp;都只包含小写英文字母。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

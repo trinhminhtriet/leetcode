@@ -1,60 +1,80 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0372.Super%20Pow/README.md
 tags:
-  - Math
-  - Divide and Conquer
+    - 数学
+    - 分治
 ---
 
 <!-- problem:start -->
 
-# [372. Super Pow](https://leetcode.com/problems/super-pow)
+# [372. 超级次方](https://leetcode.cn/problems/super-pow)
 
-## Description
+[English Version](/solution/0300-0399/0372.Super%20Pow/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Your task is to calculate <code>a<sup>b</sup></code> mod <code>1337</code> where <code>a</code> is a positive integer and <code>b</code> is an extremely large positive integer given in the form of an array.</p>
+<p>你的任务是计算 <code>a<sup>b</sup></code> 对 <code>1337</code> 取模，<code>a</code> 是一个正整数，<code>b</code> 是一个非常大的正整数且会以数组形式给出。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p> </p>
 
-<pre>
-<strong>Input:</strong> a = 2, b = [3]
-<strong>Output:</strong> 8
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> a = 2, b = [1,0]
-<strong>Output:</strong> 1024
+<strong>输入：</strong>a = 2, b = [3]
+<strong>输出：</strong>8
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> a = 1, b = [4,3,3,8,5,2]
-<strong>Output:</strong> 1
+<strong>输入：</strong>a = 2, b = [1,0]
+<strong>输出：</strong>1024
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>a = 1, b = [4,3,3,8,5,2]
+<strong>输出：</strong>1
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>a = 2147483647, b = [2,0,0]
+<strong>输出：</strong>1198
+</pre>
+
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= a &lt;= 2<sup>31</sup> - 1</code></li>
-	<li><code>1 &lt;= b.length &lt;= 2000</code></li>
-	<li><code>0 &lt;= b[i] &lt;= 9</code></li>
-	<li><code>b</code> does not contain leading zeros.</li>
+	<li><code>1 <= a <= 2<sup>31</sup> - 1</code></li>
+	<li><code>1 <= b.length <= 2000</code></li>
+	<li><code>0 <= b[i] <= 9</code></li>
+	<li><code>b</code> 不含前导 0</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：快速幂
+
+我们初始化答案变量 $ans = 1$。
+
+接下来，倒序遍历数组 $b$，每次遍历到一个元素 $e$，我们将答案变量 $ans$ 自乘 $a^e$ 并对 $1337$ 取模，然后将 $a$ 自乘 $10$ 次并对 $1337$ 取模。这里需要用到快速幂。
+
+遍历完数组后，返回答案即可。
+
+时间复杂度 $O(\sum_{i=0}^{n-1} \log b_i)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -155,23 +175,23 @@ func superPow(a int, b []int) int {
 
 ```ts
 function superPow(a: number, b: number[]): number {
-  let ans = 1;
-  const mod = 1337;
-  const qpow = (a: number, n: number): number => {
     let ans = 1;
-    for (; n; n >>= 1) {
-      if (n & 1) {
-        ans = Number((BigInt(ans) * BigInt(a)) % BigInt(mod));
-      }
-      a = Number((BigInt(a) * BigInt(a)) % BigInt(mod));
+    const mod = 1337;
+    const qpow = (a: number, n: number): number => {
+        let ans = 1;
+        for (; n; n >>= 1) {
+            if (n & 1) {
+                ans = Number((BigInt(ans) * BigInt(a)) % BigInt(mod));
+            }
+            a = Number((BigInt(a) * BigInt(a)) % BigInt(mod));
+        }
+        return ans;
+    };
+    for (let i = b.length - 1; ~i; --i) {
+        ans = Number((BigInt(ans) * BigInt(qpow(a, b[i]))) % BigInt(mod));
+        a = qpow(a, 10);
     }
     return ans;
-  };
-  for (let i = b.length - 1; ~i; --i) {
-    ans = Number((BigInt(ans) * BigInt(qpow(a, b[i]))) % BigInt(mod));
-    a = qpow(a, 10);
-  }
-  return ans;
 }
 ```
 

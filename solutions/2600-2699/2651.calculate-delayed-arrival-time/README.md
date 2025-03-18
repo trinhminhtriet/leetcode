@@ -1,45 +1,47 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2651.Calculate%20Delayed%20Arrival%20Time/README.md
 rating: 1168
-source: Weekly Contest 342 Q1
+source: 第 342 场周赛 Q1
 tags:
-  - Math
+    - 数学
 ---
 
 <!-- problem:start -->
 
-# [2651. Calculate Delayed Arrival Time](https://leetcode.com/problems/calculate-delayed-arrival-time)
+# [2651. 计算列车到站时间](https://leetcode.cn/problems/calculate-delayed-arrival-time)
 
-## Description
+[English Version](/solution/2600-2699/2651.Calculate%20Delayed%20Arrival%20Time/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a positive integer <code>arrivalTime</code> denoting the arrival time of a train in hours, and another positive integer <code>delayedTime</code> denoting the amount of delay in hours.</p>
+<p>给你一个正整数 <code>arrivalTime</code> 表示列车正点到站的时间（单位：小时），另给你一个正整数 <code>delayedTime</code> 表示列车延误的小时数。</p>
 
-<p>Return <em>the time when the train will arrive at the station.</em></p>
+<p>返回列车实际到站的时间。</p>
 
-<p>Note that the time in this problem is in 24-hours format.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arrivalTime = 15, delayedTime = 5 
-<strong>Output:</strong> 20 
-<strong>Explanation:</strong> Arrival time of the train was 15:00 hours. It is delayed by 5 hours. Now it will reach at 15+5 = 20 (20:00 hours).
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arrivalTime = 13, delayedTime = 11
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Arrival time of the train was 13:00 hours. It is delayed by 11 hours. Now it will reach at 13+11=24 (Which is denoted by 00:00 in 24 hours format so return 0).
-</pre>
+<p>注意，该问题中的时间采用 24 小时制。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>arrivalTime = 15, delayedTime = 5 
+<strong>输出：</strong>20 
+<strong>解释：</strong>列车正点到站时间是 15:00 ，延误 5 小时，所以列车实际到站的时间是 15 + 5 = 20（20:00）。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>arrivalTime = 13, delayedTime = 11
+<strong>输出：</strong>0
+<strong>解释：</strong>列车正点到站时间是 13:00 ，延误 11 小时，所以列车实际到站的时间是 13 + 11 = 24（在 24 小时制中表示为 00:00 ，所以返回 0）。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arrivaltime &lt;&nbsp;24</code></li>
@@ -48,11 +50,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：数学
+
+我们直接计算列车实际到站的时间，即为 $arrivalTime + delayedTime$，但是由于时间采用 24 小时制，所以我们需要对结果取模，即 $(arrivalTime + delayedTime) \bmod 24$。
+
+时间复杂度 $O(1)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -96,11 +102,8 @@ func findDelayedArrivalTime(arrivalTime int, delayedTime int) int {
 #### TypeScript
 
 ```ts
-function findDelayedArrivalTime(
-  arrivalTime: number,
-  delayedTime: number
-): number {
-  return (arrivalTime + delayedTime) % 24;
+function findDelayedArrivalTime(arrivalTime: number, delayedTime: number): number {
+    return (arrivalTime + delayedTime) % 24;
 }
 ```
 

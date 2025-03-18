@@ -1,67 +1,72 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2945.Find%20Maximum%20Non-decreasing%20Array%20Length/README.md
 rating: 2943
-source: Biweekly Contest 118 Q4
+source: 第 118 场双周赛 Q4
 tags:
-  - Stack
-  - Queue
-  - Array
-  - Binary Search
-  - Dynamic Programming
-  - Monotonic Queue
-  - Monotonic Stack
+    - 栈
+    - 队列
+    - 数组
+    - 二分查找
+    - 动态规划
+    - 单调队列
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [2945. Find Maximum Non-decreasing Array Length](https://leetcode.com/problems/find-maximum-non-decreasing-array-length)
+# [2945. 找到最大非递减数组的长度](https://leetcode.cn/problems/find-maximum-non-decreasing-array-length)
 
-## Description
+[English Version](/solution/2900-2999/2945.Find%20Maximum%20Non-decreasing%20Array%20Length/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;。</p>
 
-<p>You can perform any number of operations, where each operation involves selecting a <strong>subarray</strong> of the array and replacing it with the <strong>sum</strong> of its elements. For example, if the given array is <code>[1,3,5,6]</code> and you select subarray <code>[3,5]</code> the array will convert to <code>[1,8,6]</code>.</p>
+<p>你可以执行任意次操作。每次操作中，你需要选择一个 <strong>子数组</strong>&nbsp;，并将这个子数组用它所包含元素的 <strong>和</strong>&nbsp;替换。比方说，给定数组是&nbsp;<code>[1,3,5,6]</code>&nbsp;，你可以选择子数组&nbsp;<code>[3,5]</code>&nbsp;，用子数组的和 <code>8</code>&nbsp;替换掉子数组，然后数组会变为&nbsp;<code>[1,8,6]</code>&nbsp;。</p>
 
-<p>Return <em>the </em><strong><em>maximum</em></strong><em> length of a </em><strong><em>non-decreasing</em></strong><em> array that can be made after applying operations.</em></p>
+<p>请你返回执行任意次操作以后，可以得到的 <strong>最长非递减</strong>&nbsp;数组的长度。</p>
 
-<p>A <strong>subarray</strong> is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
-
-<p>&nbsp;</p>
-<p><strong>Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [5,2,2]
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> This array with length 3 is not non-decreasing.
-We have two ways to make the array length two.
-First, choosing subarray [2,2] converts the array to [5,4].
-Second, choosing subarray [5,2] converts the array to [7,2].
-In these two ways the array is not non-decreasing.
-And if we choose subarray [5,2,2] and replace it with [9] it becomes non-decreasing. 
-So the answer is 1.
-</pre>
-
-<p><strong>Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The array is non-decreasing. So the answer is 4.
-</pre>
-
-<p><strong>Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [4,3,2,6]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> Replacing [3,2] with [5] converts the given array to [4,5,6] that is non-decreasing.
-Because the given array is not non-decreasing, the maximum<!-- notionvc: 3447a505-d1ee-4411-8cae-e52162f53a55 --> possible answer is 3.</pre>
+<p><strong>子数组</strong>&nbsp;指的是一个数组中一段连续 <strong>非空</strong>&nbsp;的元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [5,2,2]
+<b>输出：</b>1
+<strong>解释：</strong>这个长度为 3 的数组不是非递减的。
+我们有 2 种方案使数组长度为 2 。
+第一种，选择子数组 [2,2] ，对数组执行操作后得到 [5,4] 。
+第二种，选择子数组 [5,2] ，对数组执行操作后得到 [7,2] 。
+这两种方案中，数组最后都不是 <strong>非递减</strong>&nbsp;的，所以不是可行的答案。
+如果我们选择子数组 [5,2,2] ，并将它替换为 [9] ，数组变成非递减的。
+所以答案为 1 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,2,3,4]
+<b>输出：</b>4
+<b>解释：</b>数组已经是非递减的。所以答案为 4 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [4,3,2,6]
+<b>输出：</b>3
+<b>解释：</b>将 [3,2] 替换为 [5] ，得到数组 [4,5,6] ，它是非递减的。
+最大可能的答案为 3 。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -70,11 +75,11 @@ Because the given array is not non-decreasing, the maximum<!-- notionvc: 3447a50
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -169,32 +174,32 @@ func findMaximumLength(nums []int) int {
 
 ```ts
 function findMaximumLength(nums: number[]): number {
-  const n = nums.length;
-  const f: number[] = Array(n + 1).fill(0);
-  const pre: number[] = Array(n + 2).fill(0);
-  const s: number[] = Array(n + 1).fill(0);
-  for (let i = 1; i <= n; ++i) {
-    s[i] = s[i - 1] + nums[i - 1];
-  }
-  const search = (nums: number[], x: number): number => {
-    let [l, r] = [0, nums.length];
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (nums[mid] >= x) {
-        r = mid;
-      } else {
-        l = mid + 1;
-      }
+    const n = nums.length;
+    const f: number[] = Array(n + 1).fill(0);
+    const pre: number[] = Array(n + 2).fill(0);
+    const s: number[] = Array(n + 1).fill(0);
+    for (let i = 1; i <= n; ++i) {
+        s[i] = s[i - 1] + nums[i - 1];
     }
-    return l;
-  };
-  for (let i = 1; i <= n; ++i) {
-    pre[i] = Math.max(pre[i], pre[i - 1]);
-    f[i] = f[pre[i]] + 1;
-    const j = search(s, s[i] * 2 - s[pre[i]]);
-    pre[j] = i;
-  }
-  return f[n];
+    const search = (nums: number[], x: number): number => {
+        let [l, r] = [0, nums.length];
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (nums[mid] >= x) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l;
+    };
+    for (let i = 1; i <= n; ++i) {
+        pre[i] = Math.max(pre[i], pre[i - 1]);
+        f[i] = f[pre[i]] + 1;
+        const j = search(s, s[i] * 2 - s[pre[i]]);
+        pre[j] = i;
+    }
+    return f[n];
 }
 ```
 

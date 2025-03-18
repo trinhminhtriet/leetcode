@@ -1,65 +1,68 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2760.Longest%20Even%20Odd%20Subarray%20With%20Threshold/README.md
 rating: 1420
-source: Weekly Contest 352 Q1
+source: 第 352 场周赛 Q1
 tags:
-  - Array
-  - Sliding Window
+    - 数组
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [2760. Longest Even Odd Subarray With Threshold](https://leetcode.com/problems/longest-even-odd-subarray-with-threshold)
+# [2760. 最长奇偶子数组](https://leetcode.cn/problems/longest-even-odd-subarray-with-threshold)
 
-## Description
+[English Version](/solution/2700-2799/2760.Longest%20Even%20Odd%20Subarray%20With%20Threshold/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>threshold</code>.</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 和一个整数 <code>threshold</code> 。</p>
 
-<p>Find the length of the <strong>longest subarray</strong> of <code>nums</code> starting at index <code>l</code> and ending at index <code>r</code> <code>(0 &lt;= l &lt;= r &lt; nums.length)</code> that satisfies the following conditions:</p>
+<p>请你从 <code>nums</code> 的子数组中找出以下标 <code>l</code> 开头、下标 <code>r</code> 结尾 <code>(0 &lt;= l &lt;= r &lt; nums.length)</code> 且满足以下条件的 <strong>最长子数组</strong> ：</p>
 
 <ul>
 	<li><code>nums[l] % 2 == 0</code></li>
-	<li>For all indices <code>i</code> in the range <code>[l, r - 1]</code>, <code>nums[i] % 2 != nums[i + 1] % 2</code></li>
-	<li>For all indices <code>i</code> in the range <code>[l, r]</code>, <code>nums[i] &lt;= threshold</code></li>
+	<li>对于范围&nbsp;<code>[l, r - 1]</code> 内的所有下标 <code>i</code> ，<code>nums[i] % 2 != nums[i + 1] % 2</code></li>
+	<li>对于范围&nbsp;<code>[l, r]</code> 内的所有下标 <code>i</code> ，<code>nums[i] &lt;= threshold</code></li>
 </ul>
 
-<p>Return <em>an integer denoting the length of the longest such subarray.</em></p>
+<p>以整数形式返回满足题目要求的最长子数组的长度。</p>
 
-<p><strong>Note:</strong> A <strong>subarray</strong> is a contiguous non-empty sequence of elements within an array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [3,2,5,4], threshold = 5
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> In this example, we can select the subarray that starts at l = 1 and ends at r = 3 =&gt; [2,5,4]. This subarray satisfies the conditions.
-Hence, the answer is the length of the subarray, 3. We can show that 3 is the maximum possible achievable length.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2], threshold = 2
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> In this example, we can select the subarray that starts at l = 1 and ends at r = 1 =&gt; [2]. 
-It satisfies all the conditions and we can show that 1 is the maximum possible achievable length.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2,3,4,5], threshold = 4
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> In this example, we can select the subarray that starts at l = 0 and ends at r = 2 =&gt; [2,3,4]. 
-It satisfies all the conditions.
-Hence, the answer is the length of the subarray, 3. We can show that 3 is the maximum possible achievable length.
-</pre>
+<p><strong>注意：子数组</strong> 是数组中的一个连续非空元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [3,2,5,4], threshold = 5
+<strong>输出：</strong>3
+<strong>解释：</strong>在这个示例中，我们选择从 l = 1 开始、到 r = 3 结束的子数组 =&gt; [2,5,4] ，满足上述条件。
+因此，答案就是这个子数组的长度 3 。可以证明 3 是满足题目要求的最大长度。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>nums = [1,2], threshold = 2
+<strong>输出：</strong>1
+<strong>解释：</strong>
+在这个示例中，我们选择从 l = 1 开始、到 r = 1 结束的子数组 =&gt; [2] 。
+该子数组满足上述全部条件。可以证明 1 是满足题目要求的最大长度。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>nums = [2,3,4,5], threshold = 4
+<strong>输出：</strong>3
+<strong>解释：</strong>
+在这个示例中，我们选择从 l = 0 开始、到 r = 2 结束的子数组 =&gt; [2,3,4] 。 
+该子数组满足上述全部条件。
+因此，答案就是这个子数组的长度 3 。可以证明 3 是满足题目要求的最大长度。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100 </code></li>
@@ -69,15 +72,15 @@ Hence, the answer is the length of the subarray, 3. We can show that 3 is the ma
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We enumerate all $l$ in the range $[0,..n-1]$. If $nums[l]$ satisfies $nums[l] \bmod 2 = 0$ and $nums[l] \leq threshold$, then we start from $l+1$ to find the largest $r$ that meets the condition. At this time, the length of the longest odd-even subarray with $nums[l]$ as the left endpoint is $r - l$. We take the maximum of all $r - l$ as the answer.
+我们在 $[0,..n-1]$ 范围内枚举所有 $l$，如果 $nums[l]$ 满足 $nums[l] \bmod 2 = 0$ 并且 $nums[l] \leq threshold$，那么我们就从 $l+1$ 开始，查找第一个不满足条件的 $r$，那么此时以 $nums[l]$ 作为左端点的最长奇偶子数组的长度为 $r - l$，取所有 $r - l$ 的最大值作为答案即可。
 
-The time complexity is $O(n^2)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n^2)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -159,18 +162,18 @@ func longestAlternatingSubarray(nums []int, threshold int) (ans int) {
 
 ```ts
 function longestAlternatingSubarray(nums: number[], threshold: number): number {
-  const n = nums.length;
-  let ans = 0;
-  for (let l = 0; l < n; ++l) {
-    if (nums[l] % 2 === 0 && nums[l] <= threshold) {
-      let r = l + 1;
-      while (r < n && nums[r] % 2 !== nums[r - 1] % 2 && nums[r] <= threshold) {
-        ++r;
-      }
-      ans = Math.max(ans, r - l);
+    const n = nums.length;
+    let ans = 0;
+    for (let l = 0; l < n; ++l) {
+        if (nums[l] % 2 === 0 && nums[l] <= threshold) {
+            let r = l + 1;
+            while (r < n && nums[r] % 2 !== nums[r - 1] % 2 && nums[r] <= threshold) {
+                ++r;
+            }
+            ans = Math.max(ans, r - l);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -180,11 +183,11 @@ function longestAlternatingSubarray(nums: number[], threshold: number): number {
 
 <!-- solution:start -->
 
-### Solution 2: Optimized Enumeration
+### 方法二：枚举优化
 
-We notice that the problem actually divides the array into several disjoint subarrays that meet the condition. We only need to find the longest one among these subarrays. Therefore, when enumerating $l$ and $r$, we don't need to backtrack, we just need to traverse from left to right once.
+我们注意到，题目实际上会把数组划分成不相交的若干个满足条件的子数组，我们只需要找到这些子数组中最长的一个即可。因此，在枚举 $l$ 和 $r$ 时，我们不需要回退，只需要从左往右遍历一遍即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -277,21 +280,21 @@ func longestAlternatingSubarray(nums []int, threshold int) (ans int) {
 
 ```ts
 function longestAlternatingSubarray(nums: number[], threshold: number): number {
-  const n = nums.length;
-  let ans = 0;
-  for (let l = 0; l < n; ) {
-    if (nums[l] % 2 === 0 && nums[l] <= threshold) {
-      let r = l + 1;
-      while (r < n && nums[r] % 2 !== nums[r - 1] % 2 && nums[r] <= threshold) {
-        ++r;
-      }
-      ans = Math.max(ans, r - l);
-      l = r;
-    } else {
-      ++l;
+    const n = nums.length;
+    let ans = 0;
+    for (let l = 0; l < n; ) {
+        if (nums[l] % 2 === 0 && nums[l] <= threshold) {
+            let r = l + 1;
+            while (r < n && nums[r] % 2 !== nums[r - 1] % 2 && nums[r] <= threshold) {
+                ++r;
+            }
+            ans = Math.max(ans, r - l);
+            l = r;
+        } else {
+            ++l;
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

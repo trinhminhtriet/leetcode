@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0374.Guess%20Number%20Higher%20or%20Lower/README.md
 tags:
-  - Binary Search
-  - Interactive
+    - 二分查找
+    - 交互
 ---
 
 <!-- problem:start -->
 
-# [374. Guess Number Higher or Lower](https://leetcode.com/problems/guess-number-higher-or-lower)
+# [374. 猜数字大小](https://leetcode.cn/problems/guess-number-higher-or-lower)
 
-## Description
+[English Version](/solution/0300-0399/0374.Guess%20Number%20Higher%20or%20Lower/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>We are playing the Guess Game. The game is as follows:</p>
+<p>我们正在玩猜数字游戏。猜数字游戏的规则如下：</p>
 
-<p>I pick a number from <code>1</code> to <code>n</code>. You have to guess which number I picked.</p>
+<p>我会从&nbsp;<code>1</code>&nbsp;到&nbsp;<code>n</code> 随机选择一个数字。 请你猜选出的是哪个数字。</p>
 
-<p>Every time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.</p>
+<p>如果你猜错了，我会告诉你，我选出的数字比你猜测的数字大了还是小了。</p>
 
-<p>You call a pre-defined API <code>int guess(int num)</code>, which returns three possible results:</p>
+<p>你可以通过调用一个预先定义好的接口 <code>int guess(int num)</code> 来获取猜测结果，返回值一共有三种可能的情况：</p>
 
 <ul>
-	<li><code>-1</code>: Your guess is higher than the number I picked (i.e. <code>num &gt; pick</code>).</li>
-	<li><code>1</code>: Your guess is lower than the number I picked (i.e. <code>num &lt; pick</code>).</li>
-	<li><code>0</code>: your guess is equal to the number I picked (i.e. <code>num == pick</code>).</li>
+	<li><code>-1</code>：你猜的数字比我选出的数字大 （即&nbsp;<code>num &gt; pick</code>）。</li>
+	<li><code>1</code>：你猜的数字比我选出的数字小&nbsp;（即&nbsp;<code>num &lt;&nbsp;pick</code>）。</li>
+	<li><code>0</code>：你猜的数字与我选出的数字相等。（即&nbsp;<code>num&nbsp;== pick</code>）。</li>
 </ul>
 
-<p>Return <em>the number that I picked</em>.</p>
+<p>返回我选出的数字。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 10, pick = 6
-<strong>Output:</strong> 6
+<strong>输入：</strong>n = 10, pick = 6
+<strong>输出：</strong>6
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 1, pick = 1
-<strong>Output:</strong> 1
+<strong>输入：</strong>n = 1, pick = 1
+<strong>输出：</strong>1
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 2, pick = 1
-<strong>Output:</strong> 1
+<strong>输入：</strong>n = 2, pick = 1
+<strong>输出：</strong>1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2<sup>31</sup> - 1</code></li>
@@ -62,15 +67,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-We perform a binary search in the interval $[1,..n]$, and find the first number that satisfies `guess(x) <= 0`, which is the answer.
+我们在区间 $[1,..n]$ 进行二分查找，找到第一个满足 `guess(x) <= 0` 的数，即为答案。
 
-The time complexity is $O(\log n)$, where $n$ is the upper limit given in the problem. The space complexity is $O(1)$.
+时间复杂度 $O(\log n)$。其中 $n$ 为题目给定的上限。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -180,17 +185,17 @@ func guessNumber(n int) int {
  */
 
 function guessNumber(n: number): number {
-  let l = 1;
-  let r = n;
-  while (l < r) {
-    const mid = (l + r) >>> 1;
-    if (guess(mid) <= 0) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    let l = 1;
+    let r = n;
+    while (l < r) {
+        const mid = (l + r) >>> 1;
+        if (guess(mid) <= 0) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return l;
+    return l;
 }
 ```
 

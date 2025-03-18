@@ -1,82 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0299.Bulls%20and%20Cows/README.md
 tags:
-  - Hash Table
-  - String
-  - Counting
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [299. Bulls and Cows](https://leetcode.com/problems/bulls-and-cows)
+# [299. 猜数字游戏](https://leetcode.cn/problems/bulls-and-cows)
 
-## Description
+[English Version](/solution/0200-0299/0299.Bulls%20and%20Cows/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are playing the <strong><a href="https://en.wikipedia.org/wiki/Bulls_and_Cows" target="_blank">Bulls and Cows</a></strong> game with your friend.</p>
+<p>你在和朋友一起玩 <a href="https://baike.baidu.com/item/%E7%8C%9C%E6%95%B0%E5%AD%97/83200?fromtitle=Bulls+and+Cows&amp;fromid=12003488&amp;fr=aladdin" target="_blank">猜数字（Bulls and Cows）</a>游戏，该游戏规则如下：</p>
 
-<p>You write down a secret number and ask your friend to guess what the number is. When your friend makes a guess, you provide a hint with the following info:</p>
+<p>写出一个秘密数字，并请朋友猜这个数字是多少。朋友每猜测一次，你就会给他一个包含下述信息的提示：</p>
 
 <ul>
-	<li>The number of &quot;bulls&quot;, which are digits in the guess that are in the correct position.</li>
-	<li>The number of &quot;cows&quot;, which are digits in the guess that are in your secret number but are located in the wrong position. Specifically, the non-bull digits in the guess that could be rearranged such that they become bulls.</li>
+	<li>猜测数字中有多少位属于数字和确切位置都猜对了（称为 "Bulls"，公牛），</li>
+	<li>有多少位属于数字猜对了但是位置不对（称为 "Cows"，奶牛）。也就是说，这次猜测中有多少位非公牛数字可以通过重新排列转换成公牛数字。</li>
 </ul>
 
-<p>Given the secret number <code>secret</code> and your friend&#39;s guess <code>guess</code>, return <em>the hint for your friend&#39;s guess</em>.</p>
+<p>给你一个秘密数字&nbsp;<code>secret</code> 和朋友猜测的数字&nbsp;<code>guess</code> ，请你返回对朋友这次猜测的提示。</p>
 
-<p>The hint should be formatted as <code>&quot;xAyB&quot;</code>, where <code>x</code> is the number of bulls and <code>y</code> is the number of cows. Note that both <code>secret</code> and <code>guess</code> may contain duplicate digits.</p>
+<p>提示的格式为 <code>"xAyB"</code> ，<code>x</code> 是公牛个数， <code>y</code> 是奶牛个数，<code>A</code> 表示公牛，<code>B</code>&nbsp;表示奶牛。</p>
+
+<p>请注意秘密数字和朋友猜测的数字都可能含有重复数字。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> secret = &quot;1807&quot;, guess = &quot;7810&quot;
-<strong>Output:</strong> &quot;1A3B&quot;
-<strong>Explanation:</strong> Bulls are connected with a &#39;|&#39; and cows are underlined:
-&quot;1807&quot;
+<strong>输入：</strong>secret = "1807", guess = "7810"
+<strong>输出：</strong>"1A3B"
+<strong>解释：</strong>数字和位置都对（公牛）用 '|' 连接，数字猜对位置不对（奶牛）的采用斜体加粗标识。
+"1807"
   |
-&quot;<u>7</u>8<u>10</u>&quot;</pre>
+"<em><strong>7</strong></em>8<em><strong>10</strong></em>"</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> secret = &quot;1123&quot;, guess = &quot;0111&quot;
-<strong>Output:</strong> &quot;1A1B&quot;
-<strong>Explanation:</strong> Bulls are connected with a &#39;|&#39; and cows are underlined:
-&quot;1123&quot;        &quot;1123&quot;
+<strong>输入：</strong>secret = "1123", guess = "0111"
+<strong>输出：</strong>"1A1B"
+<strong>解释：</strong>数字和位置都对（公牛）用 '|' 连接，数字猜对位置不对（奶牛）的采用斜体加粗标识。
+"1123"        "1123"
   |      or     |
-&quot;01<u>1</u>1&quot;        &quot;011<u>1</u>&quot;
-Note that only one of the two unmatched 1s is counted as a cow since the non-bull digits can only be rearranged to allow one 1 to be a bull.
-</pre>
+"01<em><strong>1</strong></em>1"        "011<em><strong>1</strong></em>"
+注意，两个不匹配的 1 中，只有一个会算作奶牛（数字猜对位置不对）。通过重新排列非公牛数字，其中仅有一个 1 可以成为公牛数字。</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= secret.length, guess.length &lt;= 1000</code></li>
 	<li><code>secret.length == guess.length</code></li>
-	<li><code>secret</code> and <code>guess</code> consist of digits only.</li>
+	<li><code>secret</code> 和 <code>guess</code> 仅由数字组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-We create two counters, $cnt1$ and $cnt2$, to count the occurrence of each digit in the secret number and the friend's guess respectively. At the same time, we create a variable $x$ to count the number of bulls.
+我们创建两个计数器 $cnt1$ 和 $cnt2$，分别用来统计秘密数字和朋友猜测的数字中每个数字出现的次数。同时，我们创建一个变量 $x$ 来统计公牛的数量。
 
-Then we iterate through the secret number and the friend's guess. If the current digit is the same, we increment $x$ by one. Otherwise, we increment the count of the current digit in the secret number and the friend's guess respectively.
+然后我们遍历秘密数字和朋友猜测的数字，如果当前数字相同，我们就将 $x$ 加一。否则，我们分别将秘密数字和朋友猜测的数字中的当前数字的计数加一。
 
-Finally, we iterate through each digit in $cnt1$, take the minimum count of the current digit in $cnt1$ and $cnt2$, and add this minimum value to the variable $y$.
+最后，我们遍历 $cnt1$ 中的每个数字，取 $cnt1$ 和 $cnt2$ 中当前数字的计数的最小值，然后将这个最小值加到变量 $y$ 中。
 
-In the end, we return the values of $x$ and $y$.
+最后，我们返回 $x$ 和 $y$ 的值。
 
-The time complexity is $O(n)$, where $n$ is the length of the secret number and the friend's guess. The space complexity is $O(|\Sigma|)$, where $|\Sigma|$ is the size of the character set. In this problem, the character set is digits, so $|\Sigma| = 10$.
+时间复杂度 $O(n)$，其中 $n$ 是秘密数字和朋友猜测的数字的长度。空间复杂度 $O(|\Sigma|)$，其中 $|\Sigma|$ 是字符集的大小，本题中字符集为数字，所以 $|\Sigma| = 10$。
 
 <!-- tabs:start -->
 
@@ -176,22 +182,22 @@ func getHint(secret string, guess string) string {
 
 ```ts
 function getHint(secret: string, guess: string): string {
-  const cnt1: number[] = Array(10).fill(0);
-  const cnt2: number[] = Array(10).fill(0);
-  let x: number = 0;
-  for (let i = 0; i < secret.length; ++i) {
-    if (secret[i] === guess[i]) {
-      ++x;
-    } else {
-      ++cnt1[+secret[i]];
-      ++cnt2[+guess[i]];
+    const cnt1: number[] = Array(10).fill(0);
+    const cnt2: number[] = Array(10).fill(0);
+    let x: number = 0;
+    for (let i = 0; i < secret.length; ++i) {
+        if (secret[i] === guess[i]) {
+            ++x;
+        } else {
+            ++cnt1[+secret[i]];
+            ++cnt2[+guess[i]];
+        }
     }
-  }
-  let y: number = 0;
-  for (let i = 0; i < 10; ++i) {
-    y += Math.min(cnt1[i], cnt2[i]);
-  }
-  return `${x}A${y}B`;
+    let y: number = 0;
+    for (let i = 0; i < 10; ++i) {
+        y += Math.min(cnt1[i], cnt2[i]);
+    }
+    return `${x}A${y}B`;
 }
 ```
 

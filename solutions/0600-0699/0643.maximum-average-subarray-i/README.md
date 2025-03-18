@@ -1,41 +1,48 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0643.Maximum%20Average%20Subarray%20I/README.md
 tags:
-  - Array
-  - Sliding Window
+    - 数组
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [643. Maximum Average Subarray I](https://leetcode.com/problems/maximum-average-subarray-i)
+# [643. 子数组最大平均数 I](https://leetcode.cn/problems/maximum-average-subarray-i)
 
-## Description
+[English Version](/solution/0600-0699/0643.Maximum%20Average%20Subarray%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> consisting of <code>n</code> elements, and an integer <code>k</code>.</p>
+<p>给你一个由 <code>n</code> 个元素组成的整数数组 <code>nums</code> 和一个整数 <code>k</code> 。</p>
 
-<p>Find a contiguous subarray whose <strong>length is equal to</strong> <code>k</code> that has the maximum average value and return <em>this value</em>. Any answer with a calculation error less than <code>10<sup>-5</sup></code> will be accepted.</p>
+<p>请你找出平均数最大且 <strong>长度为 <code>k</code></strong> 的连续子数组，并输出该最大平均数。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,12,-5,-6,50,3], k = 4
-<strong>Output:</strong> 12.75000
-<strong>Explanation:</strong> Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [5], k = 1
-<strong>Output:</strong> 5.00000
-</pre>
+<p>任何误差小于 <code>10<sup>-5</sup></code> 的答案都将被视为正确答案。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,12,-5,-6,50,3], k = 4
+<strong>输出：</strong>12.75
+<strong>解释：</strong>最大平均数 (12-5-6+50)/4 = 51/4 = 12.75
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [5], k = 1
+<strong>输出：</strong>5.00000
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -45,15 +52,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sliding Window
+### 方法一：滑动窗口
 
-We maintain a sliding window of length $k$, and for each window, we calculate the sum $s$ of the numbers within the window. We take the maximum sum $s$ as the answer.
+我们维护一个长度为 $k$ 的滑动窗口，每次计算窗口内的和 $s$，取最大的和 $s$ 作为答案。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -126,16 +133,16 @@ func findMaxAverage(nums []int, k int) float64 {
 
 ```ts
 function findMaxAverage(nums: number[], k: number): number {
-  let s = 0;
-  for (let i = 0; i < k; ++i) {
-    s += nums[i];
-  }
-  let ans = s;
-  for (let i = k; i < nums.length; ++i) {
-    s += nums[i] - nums[i - k];
-    ans = Math.max(ans, s);
-  }
-  return ans / k;
+    let s = 0;
+    for (let i = 0; i < k; ++i) {
+        s += nums[i];
+    }
+    let ans = s;
+    for (let i = k; i < nums.length; ++i) {
+        s += nums[i] - nums[i - k];
+        ans = Math.max(ans, s);
+    }
+    return ans / k;
 }
 ```
 

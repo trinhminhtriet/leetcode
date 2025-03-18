@@ -1,73 +1,80 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1400.Construct%20K%20Palindrome%20Strings/README.md
 rating: 1530
-source: Biweekly Contest 23 Q2
+source: 第 23 场双周赛 Q2
 tags:
-  - Greedy
-  - Hash Table
-  - String
-  - Counting
+    - 贪心
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [1400. Construct K Palindrome Strings](https://leetcode.com/problems/construct-k-palindrome-strings)
+# [1400. 构造 K 个回文字符串](https://leetcode.cn/problems/construct-k-palindrome-strings)
 
-## Description
+[English Version](/solution/1400-1499/1400.Construct%20K%20Palindrome%20Strings/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code> and an integer <code>k</code>, return <code>true</code> <em>if you can use all the characters in </em><code>s</code><em> to construct </em><code>k</code><em> palindrome strings or </em><code>false</code><em> otherwise</em>.</p>
+<p>给你一个字符串 <code>s</code>&nbsp;和一个整数 <code>k</code>&nbsp;。请你用 <code>s</code>&nbsp;字符串中 <strong>所有字符</strong>&nbsp;构造 <code>k</code>&nbsp;个<strong>非空</strong> <span data-keyword="palindrome-string">回文串</span>&nbsp;。</p>
+
+<p>如果你可以用&nbsp;<code>s</code>&nbsp;中所有字符构造&nbsp;<code>k</code>&nbsp;个回文字符串，那么请你返回 <strong>True</strong>&nbsp;，否则返回&nbsp;<strong>False</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;annabelle&quot;, k = 2
-<strong>Output:</strong> true
-<strong>Explanation:</strong> You can construct two palindromes using all characters in s.
-Some possible constructions &quot;anna&quot; + &quot;elble&quot;, &quot;anbna&quot; + &quot;elle&quot;, &quot;anellena&quot; + &quot;b&quot;
+<strong>输入：</strong>s = "annabelle", k = 2
+<strong>输出：</strong>true
+<strong>解释：</strong>可以用 s 中所有字符构造 2 个回文字符串。
+一些可行的构造方案包括："anna" + "elble"，"anbna" + "elle"，"anellena" + "b"
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;leetcode&quot;, k = 3
-<strong>Output:</strong> false
-<strong>Explanation:</strong> It is impossible to construct 3 palindromes using all the characters of s.
+<strong>输入：</strong>s = "leetcode", k = 3
+<strong>输出：</strong>false
+<strong>解释：</strong>无法用 s 中所有字符构造 3 个回文串。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> s = &quot;true&quot;, k = 4
-<strong>Output:</strong> true
-<strong>Explanation:</strong> The only possible solution is to put each character in a separate string.
+<strong>输入：</strong>s = "true", k = 4
+<strong>输出：</strong>true
+<strong>解释：</strong>唯一可行的方案是让 s 中每个字符单独构成一个字符串。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code>&nbsp;中所有字符都是小写英文字母。</li>
 	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting
+### 方法一：计数
 
-First, we check if the length of string $s$ is less than $k$. If it is, we cannot construct $k$ palindrome strings, so we can directly return `false`.
+我们先判断字符串 $s$ 的长度是否小于 $k$，如果是，那么一定无法构造出 $k$ 个回文串，可以直接返回 `false`。
 
-Otherwise, we use a hash table or an array $cnt$ to count the occurrences of each character in string $s$. Finally, we only need to count the number of characters $x$ that appear an odd number of times in $cnt$. If $x$ is greater than $k$, we cannot construct $k$ palindrome strings, so we return `false`; otherwise, we return `true`.
+否则，我们用一个哈希表或数组 $cnt$ 统计字符串 $s$ 中每个字符出现的次数。最后，我们只需要统计 $cnt$ 中奇数次数的字符个数 $x$，如果 $x$ 大于 $k$，那么一定无法构造出 $k$ 个回文串，返回 `false`；否则，返回 `true`。
 
-The time complexity is $O(n)$, and the space complexity is $O(C)$. Where $n$ is the length of string $s$, and $C$ is the size of the character set, here $C=26$.
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 是字符串 $s$ 的长度；而 $C$ 是字符集大小，这里 $C=26$。
 
 <!-- tabs:start -->
 
@@ -149,18 +156,18 @@ func canConstruct(s string, k int) bool {
 
 ```ts
 function canConstruct(s: string, k: number): boolean {
-  if (s.length < k) {
-    return false;
-  }
-  const cnt: number[] = new Array(26).fill(0);
-  for (const c of s) {
-    ++cnt[c.charCodeAt(0) - "a".charCodeAt(0)];
-  }
-  let x = 0;
-  for (const v of cnt) {
-    x += v & 1;
-  }
-  return x <= k;
+    if (s.length < k) {
+        return false;
+    }
+    const cnt: number[] = new Array(26).fill(0);
+    for (const c of s) {
+        ++cnt[c.charCodeAt(0) - 'a'.charCodeAt(0)];
+    }
+    let x = 0;
+    for (const v of cnt) {
+        x += v & 1;
+    }
+    return x <= k;
 }
 ```
 

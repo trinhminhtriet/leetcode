@@ -1,97 +1,100 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0175.Combine%20Two%20Tables/README.md
 tags:
-  - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [175. Combine Two Tables](https://leetcode.com/problems/combine-two-tables)
+# [175. 组合两个表](https://leetcode.cn/problems/combine-two-tables)
 
-## Description
+[English Version](/solution/0100-0199/0175.Combine%20Two%20Tables/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>Person</code></p>
+<p>表: <code>Person</code></p>
 
 <pre>
 +-------------+---------+
-| Column Name | Type    |
+| 列名         | 类型     |
 +-------------+---------+
-| personId    | int     |
-| lastName    | varchar |
-| firstName   | varchar |
+| PersonId    | int     |
+| FirstName   | varchar |
+| LastName    | varchar |
 +-------------+---------+
-personId is the primary key (column with unique values) for this table.
-This table contains information about the ID of some persons and their first and last names.
+personId 是该表的主键（具有唯一值的列）。
+该表包含一些人的 ID 和他们的姓和名的信息。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Table: <code>Address</code></p>
+<p>表: <code>Address</code></p>
 
 <pre>
 +-------------+---------+
-| Column Name | Type    |
+| 列名         | 类型    |
 +-------------+---------+
-| addressId   | int     |
-| personId    | int     |
-| city        | varchar |
-| state       | varchar |
+| AddressId   | int     |
+| PersonId    | int     |
+| City        | varchar |
+| State       | varchar |
 +-------------+---------+
-addressId is the primary key (column with unique values) for this table.
-Each row of this table contains information about the city and state of one person with ID = PersonId.
+addressId 是该表的主键（具有唯一值的列）。
+该表的每一行都包含一个 ID = PersonId 的人的城市和州的信息。
 </pre>
 
 <p>&nbsp;</p>
 
-<p>Write a solution to report the first name, last name, city, and state of each person in the <code>Person</code> table. If the address of a <code>personId</code> is not present in the <code>Address</code> table, report <code>null</code> instead.</p>
+<p>编写解决方案，报告 <code>Person</code> 表中每个人的姓、名、城市和州。如果 <code>personId</code> 的地址不在&nbsp;<code>Address</code>&nbsp;表中，则报告为&nbsp;<code>null</code>&nbsp;。</p>
 
-<p>Return the result table in <strong>any order</strong>.</p>
+<p>以 <strong>任意顺序</strong> 返回结果表。</p>
 
-<p>The result format is in the following example.</p>
+<p>结果格式如下所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> 
-Person table:
+<strong>输入:</strong> 
+Person表:
 +----------+----------+-----------+
 | personId | lastName | firstName |
 +----------+----------+-----------+
 | 1        | Wang     | Allen     |
 | 2        | Alice    | Bob       |
 +----------+----------+-----------+
-Address table:
+Address表:
 +-----------+----------+---------------+------------+
 | addressId | personId | city          | state      |
 +-----------+----------+---------------+------------+
 | 1         | 2        | New York City | New York   |
 | 2         | 3        | Leetcode      | California |
 +-----------+----------+---------------+------------+
-<strong>Output:</strong> 
+<strong>输出:</strong> 
 +-----------+----------+---------------+----------+
 | firstName | lastName | city          | state    |
 +-----------+----------+---------------+----------+
 | Allen     | Wang     | Null          | Null     |
 | Bob       | Alice    | New York City | New York |
 +-----------+----------+---------------+----------+
-<strong>Explanation:</strong> 
-There is no address in the address table for the personId = 1 so we return null in their city and state.
-addressId = 1 contains information about the address of personId = 2.
-</pre>
+<strong>解释:</strong> 
+地址表中没有 personId = 1 的地址，所以它们的城市和州返回 null。
+addressId = 1 包含了 personId = 2 的地址信息。</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: LEFT JOIN
+### 方法一：左连接
 
-We can use a left join to join the `Person` table with the `Address` table on the condition `Person.personId = Address.personId`, which will give us the first name, last name, city, and state of each person. If the address of a `personId` is not in the `Address` table, it will be reported as `null`.
+我们可以使用左连接，将 `Person` 表左连接 `Address` 表，连接条件为 `Person.personId = Address.personId`，这样就可以得到每个人的姓、名、城市和州。如果 `personId` 的地址不在 `Address` 表中，则报告为空 `null`。
 
 <!-- tabs:start -->
 

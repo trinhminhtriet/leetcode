@@ -1,83 +1,72 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1481.Least%20Number%20of%20Unique%20Integers%20after%20K%20Removals/README.md
 rating: 1284
-source: Weekly Contest 193 Q2
+source: 第 193 场周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Hash Table
-  - Counting
-  - Sorting
+    - 贪心
+    - 数组
+    - 哈希表
+    - 计数
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1481. Least Number of Unique Integers after K Removals](https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals)
+# [1481. 不同整数的最少数目](https://leetcode.cn/problems/least-number-of-unique-integers-after-k-removals)
 
-## Description
+[English Version](/solution/1400-1499/1481.Least%20Number%20of%20Unique%20Integers%20after%20K%20Removals/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of integers&nbsp;<code>arr</code>&nbsp;and an integer <code>k</code>.&nbsp;Find the <em>least number of unique integers</em>&nbsp;after removing <strong>exactly</strong> <code>k</code> elements<b>.</b></p>
+<p>给你一个整数数组 <code>arr</code> 和一个整数 <code>k</code> 。现需要从数组中恰好移除 <code>k</code> 个元素，请找出移除后数组中不同整数的最少数目。</p>
 
 <ol>
-
 </ol>
 
 <p>&nbsp;</p>
 
-<p><strong class="example">Example 1:</strong></p>
+<p><strong>示例 1：</strong></p>
 
-<pre>
-
-<strong>Input: </strong>arr = [5,5,4], k = 1
-
-<strong>Output: </strong>1
-
-<strong>Explanation</strong>: Remove the single 4, only 5 is left.
-
+<pre><strong>输入：</strong>arr = [5,5,4], k = 1
+<strong>输出：</strong>1
+<strong>解释：</strong>移除 1 个 4 ，数组中只剩下 5 一种整数。
 </pre>
 
-<strong class="example">Example 2:</strong>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-
-<strong>Input: </strong>arr = [4,3,1,1,3,3,2], k = 3
-
-<strong>Output: </strong>2
-
-<strong>Explanation</strong>: Remove 4, 2 and either one of the two 1s or three 3s. 1 and 3 will be left.</pre>
+<pre><strong>输入：</strong>arr = [4,3,1,1,3,3,2], k = 3
+<strong>输出：</strong>2
+<strong>解释：</strong>先移除 4、2 ，然后再移除两个 1 中的任意 1 个或者三个 3 中的任意 1 个，最后剩下 1 和 3 两种整数。</pre>
 
 <p>&nbsp;</p>
 
-<p><strong>Constraints:</strong></p>
+<p><strong>提示：</strong></p>
 
 <ul>
-
-    <li><code>1 &lt;= arr.length&nbsp;&lt;= 10^5</code></li>
-
-    <li><code>1 &lt;= arr[i] &lt;= 10^9</code></li>
-
-    <li><code>0 &lt;= k&nbsp;&lt;= arr.length</code></li>
-
+	<li><code>1 &lt;= arr.length&nbsp;&lt;= 10^5</code></li>
+	<li><code>1 &lt;= arr[i] &lt;= 10^9</code></li>
+	<li><code>0 &lt;= k&nbsp;&lt;= arr.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table + Sorting
+### 方法一：哈希表 + 排序
 
-We use the hash table $cnt$ to count the number of times each integer in the array $arr$ appears, and then sort the values in $cnt$ in ascending order, and record them in the array $nums$.
+我们用哈希表 $cnt$ 统计数组 $arr$ 中每个整数出现的次数，然后将 $cnt$ 中的值按照从小到大的顺序排序，记录在数组 $nums$ 中。
 
-Next, we traverse the array $nums$. For the current value that we traverse to $nums[i]$, we subtract $k$ by $nums[i]$. If $k \lt 0$, it means that we have removed $k$ elements, and the minimum number of different integers in the array is the length of $nums$ minus the index $i$ that we traverse to at the current time. Return directly.
+接下来，我们遍历数组 $nums$，对于当前遍历到的每个值 $nums[i]$，我们将 $k$ 减去 $nums[i]$，如果 $k \lt 0$，则说明我们已经移除了 $k$ 个元素，此时数组中不同整数的最少数目为 $nums$ 的长度减去当前遍历到的下标 $i$，直接返回即可。
 
-If we traverse to the end, it means that we have removed all the elements, and the minimum number of different integers in the array is $0$.
+若遍历结束，说明我们移除了所有的元素，此时数组中不同整数的最少数目为 $0$。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $arr$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $arr$ 的长度。
 
 <!-- tabs:start -->
 
@@ -169,20 +158,20 @@ func findLeastNumOfUniqueInts(arr []int, k int) int {
 
 ```ts
 function findLeastNumOfUniqueInts(arr: number[], k: number): number {
-  const cnt: Map<number, number> = new Map();
-  for (const x of arr) {
-    cnt.set(x, (cnt.get(x) ?? 0) + 1);
-  }
-
-  const nums = [...cnt.values()].sort((a, b) => a - b);
-
-  for (let i = 0; i < nums.length; ++i) {
-    k -= nums[i];
-    if (k < 0) {
-      return nums.length - i;
+    const cnt: Map<number, number> = new Map();
+    for (const x of arr) {
+        cnt.set(x, (cnt.get(x) ?? 0) + 1);
     }
-  }
-  return 0;
+
+    const nums = [...cnt.values()].sort((a, b) => a - b);
+
+    for (let i = 0; i < nums.length; ++i) {
+        k -= nums[i];
+        if (k < 0) {
+            return nums.length - i;
+        }
+    }
+    return 0;
 }
 ```
 

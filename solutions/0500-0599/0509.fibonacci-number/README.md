@@ -1,57 +1,62 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0509.Fibonacci%20Number/README.md
 tags:
-  - Recursion
-  - Memoization
-  - Math
-  - Dynamic Programming
+    - 递归
+    - 记忆化搜索
+    - 数学
+    - 动态规划
 ---
 
 <!-- problem:start -->
 
-# [509. Fibonacci Number](https://leetcode.com/problems/fibonacci-number)
+# [509. 斐波那契数](https://leetcode.cn/problems/fibonacci-number)
 
-## Description
+[English Version](/solution/0500-0599/0509.Fibonacci%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>The <b>Fibonacci numbers</b>, commonly denoted <code>F(n)</code> form a sequence, called the <b>Fibonacci sequence</b>, such that each number is the sum of the two preceding ones, starting from <code>0</code> and <code>1</code>. That is,</p>
+<p><strong>斐波那契数</strong>&nbsp;（通常用&nbsp;<code>F(n)</code> 表示）形成的序列称为 <strong>斐波那契数列</strong> 。该数列由&nbsp;<code>0</code> 和 <code>1</code> 开始，后面的每一项数字都是前面两项数字的和。也就是：</p>
 
 <pre>
-F(0) = 0, F(1) = 1
-F(n) = F(n - 1) + F(n - 2), for n &gt; 1.
+F(0) = 0，F(1)&nbsp;= 1
+F(n) = F(n - 1) + F(n - 2)，其中 n &gt; 1
 </pre>
 
-<p>Given <code>n</code>, calculate <code>F(n)</code>.</p>
+<p>给定&nbsp;<code>n</code> ，请计算 <code>F(n)</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 2
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> F(2) = F(1) + F(0) = 1 + 0 = 1.
+<strong>输入：</strong>n = 2
+<strong>输出：</strong>1
+<strong>解释：</strong>F(2) = F(1) + F(0) = 1 + 0 = 1
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 3
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> F(3) = F(2) + F(1) = 1 + 1 = 2.
+<strong>输入：</strong>n = 3
+<strong>输出：</strong>2
+<strong>解释：</strong>F(3) = F(2) + F(1) = 1 + 1 = 2
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 4
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> F(4) = F(3) + F(2) = 2 + 1 = 3.
+<strong>输入：</strong>n = 4
+<strong>输出：</strong>3
+<strong>解释：</strong>F(4) = F(3) + F(2) = 2 + 1 = 3
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= n &lt;= 30</code></li>
@@ -59,19 +64,19 @@ F(n) = F(n - 1) + F(n - 2), for n &gt; 1.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Recurrence
+### 方法一：递推
 
-We define two variables $a$ and $b$, initially $a = 0$ and $b = 1$.
+我们定义两个变量 $a$ 和 $b$，初始时 $a = 0$, $b = 1$。
 
-Next, we perform $n$ iterations. In each iteration, we update the values of $a$ and $b$ to $b$ and $a + b$, respectively.
+接下来，我们进行 $n$ 次循环，每次循环中，我们将 $a$ 和 $b$ 的值分别更新为 $b$ 和 $a + b$。
 
-Finally, we return $a$.
+最后，返回 $a$ 即可。
 
-The time complexity is $O(n)$, where $n$ is the given integer. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为题目给定的整数 $n$。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -135,11 +140,11 @@ func fib(n int) int {
 
 ```ts
 function fib(n: number): number {
-  let [a, b] = [0, 1];
-  while (n--) {
-    [a, b] = [b, a + b];
-  }
-  return a;
+    let [a, b] = [0, 1];
+    while (n--) {
+        [a, b] = [b, a + b];
+    }
+    return a;
 }
 ```
 
@@ -168,11 +173,11 @@ impl Solution {
  * @return {number}
  */
 var fib = function (n) {
-  let [a, b] = [0, 1];
-  while (n--) {
-    [a, b] = [b, a + b];
-  }
-  return a;
+    let [a, b] = [0, 1];
+    while (n--) {
+        [a, b] = [b, a + b];
+    }
+    return a;
 };
 ```
 
@@ -203,11 +208,11 @@ class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Matrix Exponentiation
+### 方法二：矩阵快速幂加速递推
 
-We define $\textit{Fib}(n)$ as a $1 \times 2$ matrix $\begin{bmatrix} F_n & F_{n - 1} \end{bmatrix}$, where $F_n$ and $F_{n - 1}$ are the $n$-th and $(n - 1)$-th Fibonacci numbers, respectively.
+我们设 $\textit{Fib}(n)$ 表示一个 $1 \times 2$ 的矩阵 $\begin{bmatrix} F_n & F_{n - 1} \end{bmatrix}$，其中 $F_n$ 和 $F_{n - 1}$ 分别是第 $n$ 个和第 $n - 1$ 个斐波那契数。
 
-We want to derive $\textit{Fib}(n)$ from $\textit{Fib}(n - 1) = \begin{bmatrix} F_{n - 1} & F_{n - 2} \end{bmatrix}$. In other words, we need a matrix $\textit{base}$ such that $\textit{Fib}(n - 1) \times \textit{base} = \textit{Fib}(n)$, i.e.:
+我们希望根据 $\textit{Fib}(n - 1) = \begin{bmatrix} F_{n - 1} & F_{n - 2} \end{bmatrix}$ 推出 $\textit{Fib}(n)$。也即是说，我们需要一个矩阵 $\textit{base}$，使得 $\textit{Fib}(n - 1) \times \textit{base} = \textit{Fib}(n)$，即：
 
 $$
 \begin{bmatrix}
@@ -215,7 +220,7 @@ F_{n - 1} & F_{n - 2}
 \end{bmatrix} \times \textit{base} = \begin{bmatrix} F_n & F_{n - 1} \end{bmatrix}
 $$
 
-Since $F_n = F_{n - 1} + F_{n - 2}$, the first column of the matrix $\textit{base}$ is:
+由于 $F_n = F_{n - 1} + F_{n - 2}$，所以矩阵 $\textit{base}$ 的第一列为：
 
 $$
 \begin{bmatrix}
@@ -224,7 +229,7 @@ $$
 \end{bmatrix}
 $$
 
-The second column is:
+第二列为：
 
 $$
 \begin{bmatrix}
@@ -233,15 +238,15 @@ $$
 \end{bmatrix}
 $$
 
-Thus, we have:
+因此有：
 
 $$
 \begin{bmatrix} F_{n - 1} & F_{n - 2} \end{bmatrix} \times \begin{bmatrix}1 & 1 \\ 1 & 0\end{bmatrix} = \begin{bmatrix} F_n & F_{n - 1} \end{bmatrix}
 $$
 
-We define the initial matrix $res = \begin{bmatrix} 1 & 0 \end{bmatrix}$, then $F_n$ is equal to the second element of the first row of the result matrix obtained by multiplying $res$ with $\textit{base}^{n}$. We can solve this using matrix exponentiation.
+我们定义初始矩阵 $res = \begin{bmatrix} 1 & 0 \end{bmatrix}$，那么 $F_n$ 等于 $res$ 乘以 $\textit{base}^{n}$ 的结果矩阵中第一行的第二个元素。使用矩阵快速幂求解即可。
 
-The time complexity is $O(\log n)$, and the space complexity is $O(1)$.
+时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -377,36 +382,36 @@ func pow(a [][]int, n int) [][]int {
 
 ```ts
 function fib(n: number): number {
-  const a: number[][] = [
-    [1, 1],
-    [1, 0],
-  ];
-  return pow(a, n)[0][1];
+    const a: number[][] = [
+        [1, 1],
+        [1, 0],
+    ];
+    return pow(a, n)[0][1];
 }
 
 function mul(a: number[][], b: number[][]): number[][] {
-  const [m, n] = [a.length, b[0].length];
-  const c = Array.from({ length: m }, () => Array.from({ length: n }, () => 0));
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      for (let k = 0; k < b.length; ++k) {
-        c[i][j] += a[i][k] * b[k][j];
-      }
+    const [m, n] = [a.length, b[0].length];
+    const c = Array.from({ length: m }, () => Array.from({ length: n }, () => 0));
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            for (let k = 0; k < b.length; ++k) {
+                c[i][j] += a[i][k] * b[k][j];
+            }
+        }
     }
-  }
-  return c;
+    return c;
 }
 
 function pow(a: number[][], n: number): number[][] {
-  let res = [[1, 0]];
-  while (n) {
-    if (n & 1) {
-      res = mul(res, a);
+    let res = [[1, 0]];
+    while (n) {
+        if (n & 1) {
+            res = mul(res, a);
+        }
+        a = mul(a, a);
+        n >>= 1;
     }
-    a = mul(a, a);
-    n >>= 1;
-  }
-  return res;
+    return res;
 }
 ```
 
@@ -457,40 +462,40 @@ fn pow(mut a: Vec<Vec<i32>>, mut n: usize) -> Vec<Vec<i32>> {
  * @return {number}
  */
 var fib = function (n) {
-  const a = [
-    [1, 1],
-    [1, 0],
-  ];
-  return pow(a, n)[0][1];
+    const a = [
+        [1, 1],
+        [1, 0],
+    ];
+    return pow(a, n)[0][1];
 };
 
 function mul(a, b) {
-  const m = a.length,
-    n = b[0].length;
-  const c = Array.from({ length: m }, () => Array(n).fill(0));
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      for (let k = 0; k < b.length; ++k) {
-        c[i][j] += a[i][k] * b[k][j];
-      }
+    const m = a.length,
+        n = b[0].length;
+    const c = Array.from({ length: m }, () => Array(n).fill(0));
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            for (let k = 0; k < b.length; ++k) {
+                c[i][j] += a[i][k] * b[k][j];
+            }
+        }
     }
-  }
-  return c;
+    return c;
 }
 
 function pow(a, n) {
-  let res = [
-    [1, 0],
-    [0, 1],
-  ];
-  while (n > 0) {
-    if (n & 1) {
-      res = mul(res, a);
+    let res = [
+        [1, 0],
+        [0, 1],
+    ];
+    while (n > 0) {
+        if (n & 1) {
+            res = mul(res, a);
+        }
+        a = mul(a, a);
+        n >>= 1;
     }
-    a = mul(a, a);
-    n >>= 1;
-  }
-  return res;
+    return res;
 }
 ```
 

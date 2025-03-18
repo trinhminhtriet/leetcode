@@ -1,51 +1,61 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0067.Add%20Binary/README.md
 tags:
-  - Bit Manipulation
-  - Math
-  - String
-  - Simulation
+    - 位运算
+    - 数学
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [67. Add Binary](https://leetcode.com/problems/add-binary)
+# [67. 二进制求和](https://leetcode.cn/problems/add-binary)
 
-## Description
+[English Version](/solution/0000-0099/0067.Add%20Binary/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given two binary strings <code>a</code> and <code>b</code>, return <em>their sum as a binary string</em>.</p>
+<p>给你两个二进制字符串 <code>a</code> 和 <code>b</code> ，以二进制字符串的形式返回它们的和。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> a = "11", b = "1"
-<strong>Output:</strong> "100"
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> a = "1010", b = "1011"
-<strong>Output:</strong> "10101"
-</pre>
+
+<p><strong>示例&nbsp;1：</strong></p>
+
+<pre>
+<strong>输入:</strong>a = "11", b = "1"
+<strong>输出：</strong>"100"</pre>
+
+<p><strong>示例&nbsp;2：</strong></p>
+
+<pre>
+<strong>输入：</strong>a = "1010", b = "1011"
+<strong>输出：</strong>"10101"</pre>
+
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= a.length, b.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>a</code> and <code>b</code> consist&nbsp;only of <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code> characters.</li>
-	<li>Each string does not contain leading zeros except for the zero itself.</li>
+	<li><code>a</code> 和 <code>b</code> 仅由字符 <code>'0'</code> 或 <code>'1'</code> 组成</li>
+	<li>字符串如果不是 <code>"0"</code> ，就不含前导零</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We use a variable $carry$ to record the current carry, and two pointers $i$ and $j$ to point to the end of $a$ and $b$ respectively, and add them bit by bit from the end to the beginning.
+我们用一个变量 $carry$ 记录当前的进位，用两个指针 $i$ 和 $j$ 分别指向 $a$ 和 $b$ 的末尾，从末尾到开头逐位相加即可。
 
-The time complexity is $O(\max(m, n))$, where $m$ and $n$ are the lengths of strings $a$ and $b$ respectively. The space complexity is $O(1)$.
+时间复杂度 $O(\max(m, n))$，其中 $m$ 和 $n$ 分别为字符串 $a$ 和 $b$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -120,7 +130,7 @@ func addBinary(a string, b string) string {
 
 ```ts
 function addBinary(a: string, b: string): string {
-  return (BigInt("0b" + a) + BigInt("0b" + b)).toString(2);
+    return (BigInt('0b' + a) + BigInt('0b' + b)).toString(2);
 }
 ```
 
@@ -179,7 +189,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -202,16 +212,16 @@ class Solution:
 
 ```ts
 function addBinary(a: string, b: string): string {
-  let i = a.length - 1;
-  let j = b.length - 1;
-  let ans: number[] = [];
-  for (let carry = 0; i >= 0 || j >= 0 || carry; --i, --j) {
-    carry += (i >= 0 ? a[i] : "0").charCodeAt(0) - "0".charCodeAt(0);
-    carry += (j >= 0 ? b[j] : "0").charCodeAt(0) - "0".charCodeAt(0);
-    ans.push(carry % 2);
-    carry >>= 1;
-  }
-  return ans.reverse().join("");
+    let i = a.length - 1;
+    let j = b.length - 1;
+    let ans: number[] = [];
+    for (let carry = 0; i >= 0 || j >= 0 || carry; --i, --j) {
+        carry += (i >= 0 ? a[i] : '0').charCodeAt(0) - '0'.charCodeAt(0);
+        carry += (j >= 0 ? b[j] : '0').charCodeAt(0) - '0'.charCodeAt(0);
+        ans.push(carry % 2);
+        carry >>= 1;
+    }
+    return ans.reverse().join('');
 }
 ```
 

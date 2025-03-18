@@ -1,63 +1,66 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1116.Print%20Zero%20Even%20Odd/README.md
 tags:
-  - Concurrency
+    - 多线程
 ---
 
 <!-- problem:start -->
 
-# [1116. Print Zero Even Odd](https://leetcode.com/problems/print-zero-even-odd)
+# [1116. 打印零与奇偶数](https://leetcode.cn/problems/print-zero-even-odd)
 
-## Description
+[English Version](/solution/1100-1199/1116.Print%20Zero%20Even%20Odd/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You have a function <code>printNumber</code> that can be called with an integer parameter and prints it to the console.</p>
+<p>现有函数 <code>printNumber</code> 可以用一个整数参数调用，并输出该整数到控制台。</p>
 
 <ul>
-	<li>For example, calling <code>printNumber(7)</code> prints <code>7</code> to the console.</li>
+	<li>例如，调用 <code>printNumber(7)</code> 将会输出 <code>7</code> 到控制台。</li>
 </ul>
 
-<p>You are given an instance of the class <code>ZeroEvenOdd</code> that has three functions: <code>zero</code>, <code>even</code>, and <code>odd</code>. The same instance of <code>ZeroEvenOdd</code> will be passed to three different threads:</p>
+<p>给你类 <code>ZeroEvenOdd</code> 的一个实例，该类中有三个函数：<code>zero</code>、<code>even</code> 和 <code>odd</code> 。<code>ZeroEvenOdd</code> 的相同实例将会传递给三个不同线程：</p>
 
 <ul>
-	<li><strong>Thread A:</strong> calls <code>zero()</code> that should only output <code>0</code>&#39;s.</li>
-	<li><strong>Thread B:</strong> calls <code>even()</code> that should only output even numbers.</li>
-	<li><strong>Thread C:</strong> calls <code>odd()</code> that should only output odd numbers.</li>
+	<li><strong>线程 A：</strong>调用 <code>zero()</code> ，只输出 <code>0</code></li>
+	<li><strong>线程 B：</strong>调用 <code>even()</code> ，只输出偶数</li>
+	<li><strong>线程 C：</strong>调用 <code>odd()</code> ，只输出奇数</li>
 </ul>
 
-<p>Modify the given class to output the series <code>&quot;010203040506...&quot;</code> where the length of the series must be <code>2n</code>.</p>
+<p>修改给出的类，以输出序列 <code>"010203040506..."</code> ，其中序列的长度必须为 <code>2n</code> 。</p>
 
-<p>Implement the <code>ZeroEvenOdd</code> class:</p>
+<p>实现 <code>ZeroEvenOdd</code> 类：</p>
 
 <ul>
-	<li><code>ZeroEvenOdd(int n)</code> Initializes the object with the number <code>n</code> that represents the numbers that should be printed.</li>
-	<li><code>void zero(printNumber)</code> Calls <code>printNumber</code> to output one zero.</li>
-	<li><code>void even(printNumber)</code> Calls <code>printNumber</code> to output one even number.</li>
-	<li><code>void odd(printNumber)</code> Calls <code>printNumber</code> to output one odd number.</li>
+	<li><code>ZeroEvenOdd(int n)</code> 用数字 <code>n</code> 初始化对象，表示需要输出的数。</li>
+	<li><code>void zero(printNumber)</code> 调用 <code>printNumber</code> 以输出一个 0 。</li>
+	<li><code>void even(printNumber)</code> 调用<code>printNumber</code> 以输出偶数。</li>
+	<li><code>void odd(printNumber)</code> 调用 <code>printNumber</code> 以输出奇数。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 2
-<strong>Output:</strong> &quot;0102&quot;
-<strong>Explanation:</strong> There are three threads being fired asynchronously.
-One of them calls zero(), the other calls even(), and the last one calls odd().
-&quot;0102&quot; is the correct output.
+<strong>输入：</strong>n = 2
+<strong>输出：</strong>"0102"
+<strong>解释：</strong>三条线程异步执行，其中一个调用 zero()，另一个线程调用 even()，最后一个线程调用odd()。正确的输出为 "0102"。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> n = 5
-<strong>Output:</strong> &quot;0102030405&quot;
+<strong>输入：</strong>n = 5
+<strong>输出：</strong>"0102030405"
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -65,19 +68,19 @@ One of them calls zero(), the other calls even(), and the last one calls odd().
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Multithreading + Semaphore
+### 方法一：多线程 + 信号量
 
-We use three semaphores $z$, $e$, and $o$ to control the execution order of the three threads, where $z$ is initially set to $1$, and $e$ and $o$ are set to $0$.
+我们用三个信号量 $z$, $e$, $o$ 来控制三个线程的执行顺序，其中 $z$ 的初始值为 $1$，$e$ 和 $o$ 的初始值为 $0$。
 
-- Semaphore $z$ controls the execution of the `zero` function. When the value of semaphore $z$ is $1$, the `zero` function can be executed. After execution, the value of semaphore $z$ is set to $0$, and the value of semaphore $e$ or $o$ is set to $1$, depending on whether the `even` function or the `odd` function needs to be executed next.
-- Semaphore $e$ controls the execution of the `even` function. When the value of semaphore $e$ is $1$, the `even` function can be executed. After execution, the value of semaphore $z$ is set to $1$, and the value of semaphore $e$ is set to $0$.
-- Semaphore $o$ controls the execution of the `odd` function. When the value of semaphore $o$ is $1$, the `odd` function can be executed. After execution, the value of semaphore $z$ is set to $1$, and the value of semaphore $o$ is set to $0$.
+-   信号量 $x$ 控制 `zero` 函数的执行，当 $z$ 信号量的值为 $1$ 时，`zero` 函数可以执行，执行完毕后将 $z$ 信号量的值设为 $0$，并将 $e$ 信号量的值设为 $1$ 或 $o$ 信号量的值设为 $1$，具体取决于下一次需要执行的是 `even` 函数还是 `odd` 函数。
+-   信号量 $e$ 控制 `even` 函数的执行，当 $e$ 信号量的值为 $1$ 时，`even` 函数可以执行，执行完毕后将 $z$ 信号量的值设为 $1$，并将 $e$ 信号量的值设为 $0$。
+-   信号量 $o$ 控制 `odd` 函数的执行，当 $o$ 信号量的值为 $1$ 时，`odd` 函数可以执行，执行完毕后将 $z$ 信号量的值设为 $1$，并将 $o$ 信号量的值设为 $0$。
 
-The time complexity is $O(n)$, and the space complexity is $O(1)$.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

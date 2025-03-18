@@ -1,146 +1,153 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0008.String%20to%20Integer%20%28atoi%29/README.md
 tags:
-  - String
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [8. String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi)
+# [8. 字符串转换整数 (atoi)](https://leetcode.cn/problems/string-to-integer-atoi)
 
-## Description
+[English Version](/solution/0000-0099/0008.String%20to%20Integer%20%28atoi%29/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Implement the <code>myAtoi(string s)</code> function, which converts a string to a 32-bit signed integer.</p>
+<p>请你来实现一个&nbsp;<code>myAtoi(string s)</code>&nbsp;函数，使其能将字符串转换成一个 32 位有符号整数。</p>
 
-<p>The algorithm for <code>myAtoi(string s)</code> is as follows:</p>
+<p>函数&nbsp;<code>myAtoi(string s)</code> 的算法如下：</p>
 
 <ol>
-	<li><strong>Whitespace</strong>: Ignore any leading whitespace (<code>&quot; &quot;</code>).</li>
-	<li><strong>Signedness</strong>: Determine the sign by checking if the next character is <code>&#39;-&#39;</code> or <code>&#39;+&#39;</code>, assuming positivity if neither present.</li>
-	<li><strong>Conversion</strong>: Read the integer by skipping leading zeros&nbsp;until a non-digit character is encountered or the end of the string is reached. If no digits were read, then the result is 0.</li>
-	<li><strong>Rounding</strong>: If the integer is out of the 32-bit signed integer range <code>[-2<sup>31</sup>, 2<sup>31</sup> - 1]</code>, then round the integer to remain in the range. Specifically, integers less than <code>-2<sup>31</sup></code> should be rounded to <code>-2<sup>31</sup></code>, and integers greater than <code>2<sup>31</sup> - 1</code> should be rounded to <code>2<sup>31</sup> - 1</code>.</li>
+	<li><strong>空格：</strong>读入字符串并丢弃无用的前导空格（<code>" "</code>）</li>
+	<li><strong>符号：</strong>检查下一个字符（假设还未到字符末尾）为&nbsp;<code>'-'</code> 还是 <code>'+'</code>。如果两者都不存在，则假定结果为正。</li>
+	<li><strong>转换：</strong>通过跳过前置零来读取该整数，直到遇到非数字字符或到达字符串的结尾。如果没有读取数字，则结果为0。</li>
+	<li><b>舍入：</b>如果整数数超过 32 位有符号整数范围 <code>[−2<sup>31</sup>,&nbsp; 2<sup>31&nbsp;</sup>− 1]</code> ，需要截断这个整数，使其保持在这个范围内。具体来说，小于 <code>−2<sup>31</sup></code> 的整数应该被舍入为 <code>−2<sup>31</sup></code> ，大于 <code>2<sup>31&nbsp;</sup>− 1</code> 的整数应该被舍入为 <code>2<sup>31&nbsp;</sup>− 1</code> 。</li>
 </ol>
 
-<p>Return the integer as the final result.</p>
+<p>返回整数作为最终结果。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例&nbsp;1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;42&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">s = "42"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">42</span></p>
+<p><strong>输出：</strong><span class="example-io">42</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong>加粗的字符串为已经读入的字符，插入符号是当前读取的字符。</p>
 
 <pre>
-The underlined characters are what is read in and the caret is the current reader position.
-Step 1: &quot;42&quot; (no characters read because there is no leading whitespace)
+带下划线线的字符是所读的内容，插入符号是当前读入位置。
+第 1 步："42"（当前没有读入字符，因为没有前导空格）
          ^
-Step 2: &quot;42&quot; (no characters read because there is neither a &#39;-&#39; nor &#39;+&#39;)
+第 2 步："42"（当前没有读入字符，因为这里不存在 '-' 或者 '+'）
          ^
-Step 3: &quot;<u>42</u>&quot; (&quot;42&quot; is read in)
+第 3 步："<u>42</u>"（读入 "42"）
            ^
 </pre>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例&nbsp;2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot; -042&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">s = " -042"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">-42</span></p>
+<p><strong>输出：</strong><span class="example-io">-42</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <pre>
-Step 1: &quot;<u>   </u>-042&quot; (leading whitespace is read and ignored)
+第 1 步："<u><strong>   </strong></u>-042"（读入前导空格，但忽视掉）
             ^
-Step 2: &quot;   <u>-</u>042&quot; (&#39;-&#39; is read, so the result should be negative)
+第 2 步："   <u>-</u>042"（读入 '-' 字符，所以结果应该是负数）
              ^
-Step 3: &quot;   -<u>042</u>&quot; (&quot;042&quot; is read in, leading zeros ignored in the result)
+第 3 步："   <u>-042</u>"（读入 "042"，在结果中忽略前导零）
                ^
 </pre>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例&nbsp;3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;1337c0d3&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">s = "</span>1337c0d3<span class="example-io">"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1337</span></p>
+<p><strong>输出：</strong><span class="example-io">1337</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <pre>
-Step 1: &quot;1337c0d3&quot; (no characters read because there is no leading whitespace)
+第 1 步："1337c0d3"（当前没有读入字符，因为没有前导空格）
          ^
-Step 2: &quot;1337c0d3&quot; (no characters read because there is neither a &#39;-&#39; nor &#39;+&#39;)
+第 2 步："1337c0d3"（当前没有读入字符，因为这里不存在 '-' 或者 '+'）
          ^
-Step 3: &quot;<u>1337</u>c0d3&quot; (&quot;1337&quot; is read in; reading stops because the next character is a non-digit)
+第 3 步："1337c0d3"（读入 "1337"；由于下一个字符不是一个数字，所以读入停止）
              ^
 </pre>
 </div>
 
-<p><strong class="example">Example 4:</strong></p>
+<p><strong class="example">示例 4：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;0-1&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">s = "0-1"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><span class="example-io"><b>输出：</b>0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <pre>
-Step 1: &quot;0-1&quot; (no characters read because there is no leading whitespace)
+第 1 步："0-1" (当前没有读入字符，因为没有前导空格)
          ^
-Step 2: &quot;0-1&quot; (no characters read because there is neither a &#39;-&#39; nor &#39;+&#39;)
+第 2 步："0-1" (当前没有读入字符，因为这里不存在 '-' 或者 '+')
          ^
-Step 3: &quot;<u>0</u>-1&quot; (&quot;0&quot; is read in; reading stops because the next character is a non-digit)
+第 3 步："<u>0</u>-1" (读入 "0"；由于下一个字符不是一个数字，所以读入停止)
           ^
 </pre>
 </div>
 
-<p><strong class="example">Example 5:</strong></p>
+<p><strong class="example">示例 5：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;words and 987&quot;</span></p>
+<p><strong>输入：</strong><span class="example-io">s = "words and 987"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong><span class="example-io">0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>Reading stops at the first non-digit character &#39;w&#39;.</p>
+<p>读取在第一个非数字字符“w”处停止。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= s.length &lt;= 200</code></li>
-	<li><code>s</code> consists of English letters (lower-case and upper-case), digits (<code>0-9</code>), <code>&#39; &#39;</code>, <code>&#39;+&#39;</code>, <code>&#39;-&#39;</code>, and <code>&#39;.&#39;</code>.</li>
+	<li><code>s</code> 由英文字母（大写和小写）、数字（<code>0-9</code>）、<code>' '</code>、<code>'+'</code>、<code>'-'</code> 和 <code>'.'</code> 组成</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traverse the String
+### 方法一：遍历字符串
 
-First, we determine whether the string is empty. If it is, we directly return $0$.
+我们首先判断字符串是否为空，如果是，直接返回 $0$。
 
-Otherwise, we need to traverse the string, skip the leading spaces, and determine whether the first non-space character is a positive or negative sign.
+否则，我们需要遍历字符串，跳过前导空格，判断第一个非空格字符是否为正负号。
 
-Then we traverse the following characters. If it is a digit, we judge whether adding this digit will cause integer overflow. If it does, we return the result according to the positive or negative sign. Otherwise, we add the digit to the result. We continue to traverse the following characters until we encounter a non-digit character or the traversal ends.
+接着遍历后面的字符，如果是数字，我们判断添加该数字是否会导致整数溢出，如果会，我们根据正负号返回结果。否则我们将数字添加到结果中。继续遍历后面的字符，直到遇到非数字字符或者遍历结束。
 
-After the traversal ends, we return the result according to the positive or negative sign.
+遍历结束后，我们根据正负号返回结果。
 
-The time complexity is $O(n)$, where $n$ is the length of the string. We only need to process all characters in turn. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为字符串的长度。我们只需要依次处理所有字符。空间复杂度 $O(1)$。
+
+同[面试题 67. 把字符串转换成整数](https://github.com/doocs/leetcode/blob/main/lcof/面试题67.%20把字符串转换成整数/README.md)。
 
 <!-- tabs:start -->
 
@@ -251,28 +258,28 @@ func myAtoi(s string) int {
 
 ```js
 const myAtoi = function (str) {
-  str = str.trim();
-  if (!str) return 0;
-  let isPositive = 1;
-  let i = 0,
-    ans = 0;
-  if (str[i] === "+") {
-    isPositive = 1;
-    i++;
-  } else if (str[i] === "-") {
-    isPositive = 0;
-    i++;
-  }
-  for (; i < str.length; i++) {
-    let t = str.charCodeAt(i) - 48;
-    if (t > 9 || t < 0) break;
-    if (ans > 2147483647 / 10 || ans > (2147483647 - t) / 10) {
-      return isPositive ? 2147483647 : -2147483648;
-    } else {
-      ans = ans * 10 + t;
+    str = str.trim();
+    if (!str) return 0;
+    let isPositive = 1;
+    let i = 0,
+        ans = 0;
+    if (str[i] === '+') {
+        isPositive = 1;
+        i++;
+    } else if (str[i] === '-') {
+        isPositive = 0;
+        i++;
     }
-  }
-  return isPositive ? ans : -ans;
+    for (; i < str.length; i++) {
+        let t = str.charCodeAt(i) - 48;
+        if (t > 9 || t < 0) break;
+        if (ans > 2147483647 / 10 || ans > (2147483647 - t) / 10) {
+            return isPositive ? 2147483647 : -2147483648;
+        } else {
+            ans = ans * 10 + t;
+        }
+    }
+    return isPositive ? ans : -ans;
 };
 ```
 

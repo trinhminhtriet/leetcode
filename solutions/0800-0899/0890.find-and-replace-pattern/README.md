@@ -1,60 +1,60 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0890.Find%20and%20Replace%20Pattern/README.md
 tags:
-  - Array
-  - Hash Table
-  - String
+    - 数组
+    - 哈希表
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [890. Find and Replace Pattern](https://leetcode.com/problems/find-and-replace-pattern)
+# [890. 查找和替换模式](https://leetcode.cn/problems/find-and-replace-pattern)
 
-## Description
+[English Version](/solution/0800-0899/0890.Find%20and%20Replace%20Pattern/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a list of strings <code>words</code> and a string <code>pattern</code>, return <em>a list of</em> <code>words[i]</code> <em>that match</em> <code>pattern</code>. You may return the answer in <strong>any order</strong>.</p>
+<p>你有一个单词列表&nbsp;<code>words</code>&nbsp;和一个模式&nbsp;&nbsp;<code>pattern</code>，你想知道 <code>words</code> 中的哪些单词与模式匹配。</p>
 
-<p>A word matches the pattern if there exists a permutation of letters <code>p</code> so that after replacing every letter <code>x</code> in the pattern with <code>p(x)</code>, we get the desired word.</p>
+<p>如果存在字母的排列 <code>p</code>&nbsp;，使得将模式中的每个字母 <code>x</code> 替换为 <code>p(x)</code> 之后，我们就得到了所需的单词，那么单词与模式是匹配的。</p>
 
-<p>Recall that a permutation of letters is a bijection from letters to letters: every letter maps to another letter, and no two letters map to the same letter.</p>
+<p><em>（回想一下，字母的排列是从字母到字母的双射：每个字母映射到另一个字母，没有两个字母映射到同一个字母。）</em></p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+<p>返回 <code>words</code> 中与给定模式匹配的单词列表。</p>
 
-<pre>
-<strong>Input:</strong> words = [&quot;abc&quot;,&quot;deq&quot;,&quot;mee&quot;,&quot;aqq&quot;,&quot;dkd&quot;,&quot;ccc&quot;], pattern = &quot;abb&quot;
-<strong>Output:</strong> [&quot;mee&quot;,&quot;aqq&quot;]
-<strong>Explanation:</strong> &quot;mee&quot; matches the pattern because there is a permutation {a -&gt; m, b -&gt; e, ...}. 
-&quot;ccc&quot; does not match the pattern because {a -&gt; c, b -&gt; c, ...} is not a permutation, since a and b map to the same letter.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> words = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;], pattern = &quot;a&quot;
-<strong>Output:</strong> [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
-</pre>
+<p>你可以按任何顺序返回答案。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例：</strong></p>
+
+<pre><strong>输入：</strong>words = [&quot;abc&quot;,&quot;deq&quot;,&quot;mee&quot;,&quot;aqq&quot;,&quot;dkd&quot;,&quot;ccc&quot;], pattern = &quot;abb&quot;
+<strong>输出：</strong>[&quot;mee&quot;,&quot;aqq&quot;]
+<strong>解释：
+</strong>&quot;mee&quot; 与模式匹配，因为存在排列 {a -&gt; m, b -&gt; e, ...}。
+&quot;ccc&quot; 与模式不匹配，因为 {a -&gt; c, b -&gt; c, ...} 不是排列。
+因为 a 和 b 映射到同一个字母。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= pattern.length &lt;= 20</code></li>
 	<li><code>1 &lt;= words.length &lt;= 50</code></li>
-	<li><code>words[i].length == pattern.length</code></li>
-	<li><code>pattern</code> and <code>words[i]</code> are lowercase English letters.</li>
+	<li><code>1 &lt;= pattern.length = words[i].length&nbsp;&lt;= 20</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表
 
 <!-- tabs:start -->
 
@@ -158,18 +158,18 @@ func findAndReplacePattern(words []string, pattern string) []string {
 
 ```ts
 function findAndReplacePattern(words: string[], pattern: string): string[] {
-  return words.filter((word) => {
-    const map1 = new Map<string, number>();
-    const map2 = new Map<string, number>();
-    for (let i = 0; i < word.length; i++) {
-      if (map1.get(word[i]) !== map2.get(pattern[i])) {
-        return false;
-      }
-      map1.set(word[i], i);
-      map2.set(pattern[i], i);
-    }
-    return true;
-  });
+    return words.filter(word => {
+        const map1 = new Map<string, number>();
+        const map2 = new Map<string, number>();
+        for (let i = 0; i < word.length; i++) {
+            if (map1.get(word[i]) !== map2.get(pattern[i])) {
+                return false;
+            }
+            map1.set(word[i], i);
+            map2.set(pattern[i], i);
+        }
+        return true;
+    });
 }
 ```
 

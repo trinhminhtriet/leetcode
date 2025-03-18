@@ -1,51 +1,59 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1262.Greatest%20Sum%20Divisible%20by%20Three/README.md
 rating: 1762
-source: Weekly Contest 163 Q3
+source: 第 163 场周赛 Q3
 tags:
-  - Greedy
-  - Array
-  - Dynamic Programming
-  - Sorting
+    - 贪心
+    - 数组
+    - 动态规划
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1262. Greatest Sum Divisible by Three](https://leetcode.com/problems/greatest-sum-divisible-by-three)
+# [1262. 可被三整除的最大和](https://leetcode.cn/problems/greatest-sum-divisible-by-three)
 
-## Description
+[English Version](/solution/1200-1299/1262.Greatest%20Sum%20Divisible%20by%20Three/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code>, return <em>the <strong>maximum possible sum </strong>of elements of the array such that it is divisible by three</em>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>，请你找出并返回能被三整除的元素 <strong>最大和</strong>。</p>
+
+<ol>
+</ol>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [3,6,5,1,8]
-<strong>Output:</strong> 18
-<strong>Explanation:</strong> Pick numbers 3, 6, 1 and 8 their sum is 18 (maximum sum divisible by 3).</pre>
+<strong>输入：</strong>nums = [3,6,5,1,8]
+<strong>输出：</strong>18
+<strong>解释：</strong>选出数字 3, 6, 1 和 8，它们的和是 18（可被 3 整除的最大和）。</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [4]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Since 4 is not divisible by 3, do not pick any number.
+<strong>输入：</strong>nums = [4]
+<strong>输出：</strong>0
+<strong>解释：</strong>4 不能被 3 整除，所以无法选出数字，返回 0。
 </pre>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,3,4,4]
-<strong>Output:</strong> 12
-<strong>Explanation:</strong> Pick numbers 1, 3, 4 and 4 their sum is 12 (maximum sum divisible by 3).
+<strong>输入：</strong>nums = [1,2,3,4,4]
+<strong>输出：</strong>12
+<strong>解释：</strong>选出数字 1, 3, 4 以及 4，它们的和是 12（可被 3 整除的最大和）。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 4 * 10<sup>4</sup></code></li>
@@ -54,30 +62,30 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Dynamic Programming
+### 方法一：动态规划
 
-We define $f[i][j]$ as the maximum sum of several numbers selected from the first $i$ numbers, such that the sum modulo $3$ equals $j$. Initially, $f[0][0]=0$, and the rest are $-\infty$.
+我们定义 $f[i][j]$ 表示前 $i$ 个数中选取若干个数，使得这若干个数的和模 $3$ 余 $j$ 的最大值。初始时 $f[0][0]=0$，其余为 $-\infty$。
 
-For $f[i][j]$, we can consider the state of the $i$th number $x$:
+对于 $f[i][j]$，我们可以考虑第 $i$ 个数 $x$ 的状态：
 
-- If we do not select $x$, then $f[i][j]=f[i-1][j]$;
-- If we select $x$, then $f[i][j]=f[i-1][(j-x \bmod 3 + 3)\bmod 3]+x$.
+-   如果我们不选 $x$，那么 $f[i][j]=f[i-1][j]$；
+-   如果我们选 $x$，那么 $f[i][j]=f[i-1][(j-x \bmod 3 + 3)\bmod 3]+x$。
 
-Therefore, we can get the state transition equation:
+因此我们可以得到状态转移方程：
 
 $$
 f[i][j]=\max\{f[i-1][j],f[i-1][(j-x \bmod 3 + 3)\bmod 3]+x\}
 $$
 
-The final answer is $f[n][0]$.
+最终答案为 $f[n][0]$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
-Note that the value of $f[i][j]$ is only related to $f[i-1][j]$ and $f[i-1][(j-x \bmod 3 + 3)\bmod 3]$, so we can use a rolling array to optimize the space complexity, reducing the space complexity to $O(1)$.
+注意到 $f[i][j]$ 的值只与 $f[i-1][j]$ 和 $f[i-1][(j-x \bmod 3 + 3)\bmod 3]$ 有关，因此我们可以使用滚动数组优化空间复杂度，使空间复杂度降低为 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -159,19 +167,19 @@ func maxSumDivThree(nums []int) int {
 
 ```ts
 function maxSumDivThree(nums: number[]): number {
-  const n = nums.length;
-  const inf = 1 << 30;
-  const f: number[][] = Array(n + 1)
-    .fill(0)
-    .map(() => Array(3).fill(-inf));
-  f[0][0] = 0;
-  for (let i = 1; i <= n; ++i) {
-    const x = nums[i - 1];
-    for (let j = 0; j < 3; ++j) {
-      f[i][j] = Math.max(f[i - 1][j], f[i - 1][(j - (x % 3) + 3) % 3] + x);
+    const n = nums.length;
+    const inf = 1 << 30;
+    const f: number[][] = Array(n + 1)
+        .fill(0)
+        .map(() => Array(3).fill(-inf));
+    f[0][0] = 0;
+    for (let i = 1; i <= n; ++i) {
+        const x = nums[i - 1];
+        for (let j = 0; j < 3; ++j) {
+            f[i][j] = Math.max(f[i - 1][j], f[i - 1][(j - (x % 3) + 3) % 3] + x);
+        }
     }
-  }
-  return f[n][0];
+    return f[n][0];
 }
 ```
 
@@ -181,7 +189,7 @@ function maxSumDivThree(nums: number[]): number {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
@@ -259,15 +267,15 @@ func maxSumDivThree(nums []int) int {
 
 ```ts
 function maxSumDivThree(nums: number[]): number {
-  const inf = 1 << 30;
-  const f: number[] = [0, -inf, -inf];
-  for (const x of nums) {
-    const g = [...f];
-    for (let j = 0; j < 3; ++j) {
-      f[j] = Math.max(g[j], g[(j - (x % 3) + 3) % 3] + x);
+    const inf = 1 << 30;
+    const f: number[] = [0, -inf, -inf];
+    for (const x of nums) {
+        const g = [...f];
+        for (let j = 0; j < 3; ++j) {
+            f[j] = Math.max(g[j], g[(j - (x % 3) + 3) % 3] + x);
+        }
     }
-  }
-  return f[0];
+    return f[0];
 }
 ```
 

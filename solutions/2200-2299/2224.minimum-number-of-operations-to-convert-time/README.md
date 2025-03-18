@@ -1,65 +1,68 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2224.Minimum%20Number%20of%20Operations%20to%20Convert%20Time/README.md
 rating: 1295
-source: Weekly Contest 287 Q1
+source: 第 287 场周赛 Q1
 tags:
-  - Greedy
-  - String
+    - 贪心
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [2224. Minimum Number of Operations to Convert Time](https://leetcode.com/problems/minimum-number-of-operations-to-convert-time)
+# [2224. 转化时间需要的最少操作数](https://leetcode.cn/problems/minimum-number-of-operations-to-convert-time)
 
-## Description
+[English Version](/solution/2200-2299/2224.Minimum%20Number%20of%20Operations%20to%20Convert%20Time/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two strings <code>current</code> and <code>correct</code> representing two <strong>24-hour times</strong>.</p>
+<p>给你两个字符串 <code>current</code> 和 <code>correct</code> ，表示两个 <strong>24 小时制时间</strong> 。</p>
 
-<p>24-hour times are formatted as <code>&quot;HH:MM&quot;</code>, where <code>HH</code> is between <code>00</code> and <code>23</code>, and <code>MM</code> is between <code>00</code> and <code>59</code>. The earliest 24-hour time is <code>00:00</code>, and the latest is <code>23:59</code>.</p>
+<p><strong>24 小时制时间</strong> 按 <code>"HH:MM"</code> 进行格式化，其中 <code>HH</code> 在 <code>00</code> 和 <code>23</code> 之间，而 <code>MM</code> 在 <code>00</code> 和 <code>59</code> 之间。最早的 24 小时制时间为 <code>00:00</code> ，最晚的是 <code>23:59</code> 。</p>
 
-<p>In one operation you can increase the time <code>current</code> by <code>1</code>, <code>5</code>, <code>15</code>, or <code>60</code> minutes. You can perform this operation <strong>any</strong> number of times.</p>
+<p>在一步操作中，你可以将 <code>current</code> 这个时间增加 <code>1</code>、<code>5</code>、<code>15</code> 或 <code>60</code> 分钟。你可以执行这一操作 <strong>任意</strong> 次数。</p>
 
-<p>Return <em>the <strong>minimum number of operations</strong> needed to convert </em><code>current</code><em> to </em><code>correct</code>.</p>
+<p>返回将&nbsp;<code>current</code><em> </em>转化为<em> </em><code>correct</code> 需要的 <strong>最少操作数</strong> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> current = &quot;02:30&quot;, correct = &quot;04:35&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:
-</strong>We can convert current to correct in 3 operations as follows:
-- Add 60 minutes to current. current becomes &quot;03:30&quot;.
-- Add 60 minutes to current. current becomes &quot;04:30&quot;.
-- Add 5 minutes to current. current becomes &quot;04:35&quot;.
-It can be proven that it is not possible to convert current to correct in fewer than 3 operations.</pre>
+<p><strong>示例 1：</strong></p>
 
-<p><strong class="example">Example 2:</strong></p>
+<pre><strong>输入：</strong>current = "02:30", correct = "04:35"
+<strong>输出：</strong>3
+<strong>解释：
+</strong>可以按下述 3 步操作将 current 转换为 correct ：
+- 为 current 加 60 分钟，current 变为 "03:30" 。
+- 为 current 加 60 分钟，current 变为 "04:30" 。 
+- 为 current 加 5 分钟，current 变为 "04:35" 。
+可以证明，无法用少于 3 步操作将 current 转化为 correct 。</pre>
 
-<pre>
-<strong>Input:</strong> current = &quot;11:00&quot;, correct = &quot;11:01&quot;
-<strong>Output:</strong> 1
-<strong>Explanation:</strong> We only have to add one minute to current, so the minimum number of operations needed is 1.
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>current = "11:00", correct = "11:01"
+<strong>输出：</strong>1
+<strong>解释：</strong>只需要为 current 加一分钟，所以最小操作数是 1 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>current</code> and <code>correct</code> are in the format <code>&quot;HH:MM&quot;</code></li>
+	<li><code>current</code> 和 <code>correct</code> 都符合 <code>"HH:MM"</code> 格式</li>
 	<li><code>current &lt;= correct</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：贪心
 
 <!-- tabs:start -->
 

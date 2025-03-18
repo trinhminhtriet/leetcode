@@ -1,71 +1,97 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1477.Find%20Two%20Non-overlapping%20Sub-arrays%20Each%20With%20Target%20Sum/README.md
 rating: 1850
-source: Biweekly Contest 28 Q3
+source: 第 28 场双周赛 Q3
 tags:
-  - Array
-  - Hash Table
-  - Binary Search
-  - Dynamic Programming
-  - Sliding Window
+    - 数组
+    - 哈希表
+    - 二分查找
+    - 动态规划
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [1477. Find Two Non-overlapping Sub-arrays Each With Target Sum](https://leetcode.com/problems/find-two-non-overlapping-sub-arrays-each-with-target-sum)
+# [1477. 找两个和为目标值且不重叠的子数组](https://leetcode.cn/problems/find-two-non-overlapping-sub-arrays-each-with-target-sum)
 
-## Description
+[English Version](/solution/1400-1499/1477.Find%20Two%20Non-overlapping%20Sub-arrays%20Each%20With%20Target%20Sum/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array of integers <code>arr</code> and an integer <code>target</code>.</p>
+<p>给你一个整数数组&nbsp;<code>arr</code> 和一个整数值&nbsp;<code>target</code>&nbsp;。</p>
 
-<p>You have to find <strong>two non-overlapping sub-arrays</strong> of <code>arr</code> each with a sum equal <code>target</code>. There can be multiple answers so you have to find an answer where the sum of the lengths of the two sub-arrays is <strong>minimum</strong>.</p>
+<p>请你在 <code>arr</code>&nbsp;中找 <strong>两个互不重叠的子数组</strong>&nbsp;且它们的和都等于&nbsp;<code>target</code>&nbsp;。可能会有多种方案，请你返回满足要求的两个子数组长度和的 <strong>最小值</strong> 。</p>
 
-<p>Return <em>the minimum sum of the lengths</em> of the two required sub-arrays, or return <code>-1</code> if you cannot find such two sub-arrays.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [3,2,2,4,3], target = 3
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Only two sub-arrays have sum = 3 ([3] and [3]). The sum of their lengths is 2.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [7,3,4,7], target = 7
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> Although we have three non-overlapping sub-arrays of sum = 7 ([7], [3,4] and [7]), but we will choose the first and third sub-arrays as the sum of their lengths is 2.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [4,3,2,6,2,3,4], target = 6
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> We have only one sub-array of sum = 6.
-</pre>
+<p>请返回满足要求的最小长度和，如果无法找到这样的两个子数组，请返回 <strong>-1</strong>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>arr = [3,2,2,4,3], target = 3
+<strong>输出：</strong>2
+<strong>解释：</strong>只有两个子数组和为 3 （[3] 和 [3]）。它们的长度和为 2 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>arr = [7,3,4,7], target = 7
+<strong>输出：</strong>2
+<strong>解释：</strong>尽管我们有 3 个互不重叠的子数组和为 7 （[7], [3,4] 和 [7]），但我们会选择第一个和第三个子数组，因为它们的长度和 2 是最小值。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>arr = [4,3,2,6,2,3,4], target = 6
+<strong>输出：</strong>-1
+<strong>解释：</strong>我们只有一个和为 6 的子数组。
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre><strong>输入：</strong>arr = [5,5,4,4,5], target = 3
+<strong>输出：</strong>-1
+<strong>解释：</strong>我们无法找到和为 3 的子数组。
+</pre>
+
+<p><strong>示例 5：</strong></p>
+
+<pre><strong>输入：</strong>arr = [3,1,1,1,5,1,2,1], target = 3
+<strong>输出：</strong>3
+<strong>解释：</strong>注意子数组 [1,2] 和 [2,1] 不能成为一个方案因为它们重叠了。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= arr.length &lt;= 10^5</code></li>
 	<li><code>1 &lt;= arr[i] &lt;= 1000</code></li>
-	<li><code>1 &lt;= target &lt;= 10<sup>8</sup></code></li>
+	<li><code>1 &lt;= target &lt;= 10^8</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：哈希表 + 前缀和 + 动态规划
+
+我们可以使用哈希表 $d$ 记录前缀和最近一次出现的位置，初始时 $d[0]=0$。
+
+定义 $f[i]$ 表示前 $i$ 个元素中，长度和为 $target$ 的最短子数组的长度。初始时 $f[0]=inf$。
+
+遍历数组 `arr`，对于当前位置 $i$，计算前缀和 $s$，如果 $s-target$ 在哈希表中，记 $j=d[s-target]$，则 $f[i]=min(f[i],i-j)$，答案为 $ans=min(ans,f[j]+i-j)$。继续遍历下个位置。
+
+最后，如果答案大于数组长度，则返回 $-1$，否则返回答案。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
 
 <!-- tabs:start -->
 

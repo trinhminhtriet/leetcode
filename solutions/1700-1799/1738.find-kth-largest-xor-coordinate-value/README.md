@@ -1,59 +1,69 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1738.Find%20Kth%20Largest%20XOR%20Coordinate%20Value/README.md
 rating: 1671
-source: Weekly Contest 225 Q3
+source: 第 225 场周赛 Q3
 tags:
-  - Bit Manipulation
-  - Array
-  - Divide and Conquer
-  - Matrix
-  - Prefix Sum
-  - Quickselect
-  - Sorting
-  - Heap (Priority Queue)
+    - 位运算
+    - 数组
+    - 分治
+    - 矩阵
+    - 前缀和
+    - 快速选择
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1738. Find Kth Largest XOR Coordinate Value](https://leetcode.com/problems/find-kth-largest-xor-coordinate-value)
+# [1738. 找出第 K 大的异或坐标值](https://leetcode.cn/problems/find-kth-largest-xor-coordinate-value)
 
-## Description
+[English Version](/solution/1700-1799/1738.Find%20Kth%20Largest%20XOR%20Coordinate%20Value/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D <code>matrix</code> of size <code>m x n</code>, consisting of non-negative integers. You are also given an integer <code>k</code>.</p>
+<p>给你一个二维矩阵 <code>matrix</code> 和一个整数 <code>k</code> ，矩阵大小为&nbsp;<code>m x n</code> 由非负整数组成。</p>
 
-<p>The <strong>value</strong> of coordinate <code>(a, b)</code> of the matrix is the XOR of all <code>matrix[i][j]</code> where <code>0 &lt;= i &lt;= a &lt; m</code> and <code>0 &lt;= j &lt;= b &lt; n</code> <strong>(0-indexed)</strong>.</p>
+<p>矩阵中坐标 <code>(a, b)</code> 的 <strong>目标值</strong>&nbsp;可以通过对所有元素 <code>matrix[i][j]</code>&nbsp;执行异或运算得到，其中&nbsp;<code>i</code>&nbsp;和&nbsp;<code>j</code> 满足 <code>0 &lt;= i &lt;= a &lt; m</code> 且 <code>0 &lt;= j &lt;= b &lt; n</code>（<strong>下标从 0 开始计数</strong>）。</p>
 
-<p>Find the <code>k<sup>th</sup></code> largest value <strong>(1-indexed)</strong> of all the coordinates of <code>matrix</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> matrix = [[5,2],[1,6]], k = 1
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> The value of coordinate (0,1) is 5 XOR 2 = 7, which is the largest value.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> matrix = [[5,2],[1,6]], k = 2
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The value of coordinate (0,0) is 5 = 5, which is the 2nd largest value.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> matrix = [[5,2],[1,6]], k = 3
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> The value of coordinate (1,0) is 5 XOR 1 = 4, which is the 3rd largest value.</pre>
+<p>请你找出&nbsp;<code>matrix</code> 的所有坐标中第 <code>k</code> 大的目标值（<strong><code>k</code> 的值从 1 开始计数</strong>）。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>matrix = [[5,2],[1,6]], k = 1
+<strong>输出：</strong>7
+<strong>解释：</strong>坐标 (0,1) 的目标值是 5 XOR 2 = 7 ，为最大的目标值。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>matrix = [[5,2],[1,6]], k = 2
+<strong>输出：</strong>5
+<strong>解释：</strong>坐标 (0,0) 的目标值是 5 = 5 ，为第 2 大的目标值。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>matrix = [[5,2],[1,6]], k = 3
+<strong>输出：</strong>4
+<strong>解释：</strong>坐标 (1,0) 的目标值是 5 XOR 1 = 4 ，为第 3 大的目标值。</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>matrix = [[5,2],[1,6]], k = 4
+<strong>输出：</strong>0
+<strong>解释：</strong>坐标 (1,1) 的目标值是 5 XOR 2 XOR 1 XOR 6 = 0 ，为第 4 大的目标值。</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == matrix.length</code></li>
@@ -65,27 +75,27 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two-dimensional Prefix XOR + Sorting or Quick Selection
+### 方法一：二维前缀异或 + 排序或快速选择
 
-We define a two-dimensional prefix XOR array $s$, where $s[i][j]$ represents the XOR result of the elements in the first $i$ rows and the first $j$ columns of the matrix, i.e.,
+我们定义一个二维前缀异或数组 $s$，其中 $s[i][j]$ 表示矩阵前 $i$ 行和前 $j$ 列的元素异或运算的结果，即：
 
 $$
 s[i][j] = \bigoplus_{0 \leq x \leq i, 0 \leq y \leq j} matrix[x][y]
 $$
 
-And $s[i][j]$ can be calculated from the three elements $s[i - 1][j]$, $s[i][j - 1]$ and $s[i - 1][j - 1]$, i.e.,
+而 $s[i][j]$ 可以由 $s[i - 1][j]$, $s[i][j - 1]$ 和 $s[i - 1][j - 1]$ 三个元素计算得到，即：
 
 $$
 s[i][j] = s[i - 1][j] \oplus s[i][j - 1] \oplus s[i - 1][j - 1] \oplus matrix[i - 1][j - 1]
 $$
 
-We traverse the matrix, calculate all $s[i][j]$, then sort them, and finally return the $k$th largest element. If you don't want to use sorting, you can also use the quick selection algorithm, which can optimize the time complexity.
+我们遍历矩阵，计算出所有的 $s[i][j]$，然后将其排序，最后返回第 $k$ 大的元素即可。如果不想使用排序，也可以使用快速选择算法，这样可以优化时间复杂度。
 
-The time complexity is $O(m \times n \times \log (m \times n))$ or $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns of the matrix, respectively.
+时间复杂度 $O(m \times n \times \log (m \times n))$ 或 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
 <!-- tabs:start -->
 
@@ -170,20 +180,18 @@ func kthLargestValue(matrix [][]int, k int) int {
 
 ```ts
 function kthLargestValue(matrix: number[][], k: number): number {
-  const m: number = matrix.length;
-  const n: number = matrix[0].length;
-  const s = Array.from({ length: m + 1 }, () =>
-    Array.from({ length: n + 1 }, () => 0)
-  );
-  const ans: number[] = [];
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      s[i + 1][j + 1] = s[i + 1][j] ^ s[i][j + 1] ^ s[i][j] ^ matrix[i][j];
-      ans.push(s[i + 1][j + 1]);
+    const m: number = matrix.length;
+    const n: number = matrix[0].length;
+    const s = Array.from({ length: m + 1 }, () => Array.from({ length: n + 1 }, () => 0));
+    const ans: number[] = [];
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            s[i + 1][j + 1] = s[i + 1][j] ^ s[i][j + 1] ^ s[i][j] ^ matrix[i][j];
+            ans.push(s[i + 1][j + 1]);
+        }
     }
-  }
-  ans.sort((a, b) => b - a);
-  return ans[k - 1];
+    ans.sort((a, b) => b - a);
+    return ans[k - 1];
 }
 ```
 

@@ -1,67 +1,73 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0387.First%20Unique%20Character%20in%20a%20String/README.md
 tags:
-  - Queue
-  - Hash Table
-  - String
-  - Counting
+    - 队列
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [387. First Unique Character in a String](https://leetcode.com/problems/first-unique-character-in-a-string)
+# [387. 字符串中的第一个唯一字符](https://leetcode.cn/problems/first-unique-character-in-a-string)
 
-## Description
+[English Version](/solution/0300-0399/0387.First%20Unique%20Character%20in%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code>, find the <strong>first</strong> non-repeating character in it and return its index. If it <strong>does not</strong> exist, return <code>-1</code>.</p>
+<p>给定一个字符串&nbsp;<code>s</code>&nbsp;，找到 <em>它的第一个不重复的字符，并返回它的索引</em> 。如果不存在，则返回 <code>-1</code>&nbsp;。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;leetcode&quot;</span></p>
+<p><strong>示例 1：</strong></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<pre>
+<strong>输入:</strong> s = "leetcode"
+<strong>输出:</strong> 0
+</pre>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>示例 2:</strong></p>
 
-<p>The character <code>&#39;l&#39;</code> at index 0 is the first character that does not occur at any other index.</p>
-</div>
+<pre>
+<strong>输入:</strong> s = "loveleetcode"
+<strong>输出:</strong> 2
+</pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 3:</strong></p>
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;loveleetcode&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;aabb&quot;</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">-1</span></p>
-</div>
+<pre>
+<strong>输入:</strong> s = "aabb"
+<strong>输出:</strong> -1
+</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of only lowercase English letters.</li>
+	<li><code>s</code>&nbsp;只包含小写字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：数组或哈希表
+
+我们可以用数组或哈希表 $cnt$ 记录字符串 $s$ 中每个字符出现的次数。
+
+然后我们再遍历字符串 $s$，当遍历到某个字符 $c$ 时，如果 $cnt[c]=1$，则说明 $c$ 是第一个不重复的字符，返回它的索引即可。
+
+如果遍历完字符串 $s$ 仍然没有找到不重复的字符，返回 $-1$。
+
+时间复杂度 $O(n)$，空间复杂度 $O(\Sigma)$，其中 $\Sigma$ 是字符集的大小。
 
 <!-- tabs:start -->
 
@@ -139,16 +145,16 @@ func firstUniqChar(s string) int {
 
 ```ts
 function firstUniqChar(s: string): number {
-  const cnt = new Array(26).fill(0);
-  for (const c of s) {
-    cnt[c.charCodeAt(0) - 97]++;
-  }
-  for (let i = 0; i < s.length; i++) {
-    if (cnt[s.charCodeAt(i) - 97] === 1) {
-      return i;
+    const cnt = new Array(26).fill(0);
+    for (const c of s) {
+        cnt[c.charCodeAt(0) - 97]++;
     }
-  }
-  return -1;
+    for (let i = 0; i < s.length; i++) {
+        if (cnt[s.charCodeAt(i) - 97] === 1) {
+            return i;
+        }
+    }
+    return -1;
 }
 ```
 
@@ -160,16 +166,16 @@ function firstUniqChar(s: string): number {
  * @return {number}
  */
 var firstUniqChar = function (s) {
-  const cnt = new Array(26).fill(0);
-  for (const c of s) {
-    ++cnt[c.charCodeAt() - "a".charCodeAt()];
-  }
-  for (let i = 0; i < s.length; ++i) {
-    if (cnt[s[i].charCodeAt() - "a".charCodeAt()] === 1) {
-      return i;
+    const cnt = new Array(26).fill(0);
+    for (const c of s) {
+        ++cnt[c.charCodeAt() - 'a'.charCodeAt()];
     }
-  }
-  return -1;
+    for (let i = 0; i < s.length; ++i) {
+        if (cnt[s[i].charCodeAt() - 'a'.charCodeAt()] === 1) {
+            return i;
+        }
+    }
+    return -1;
 };
 ```
 

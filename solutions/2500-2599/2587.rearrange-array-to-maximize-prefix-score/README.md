@@ -1,50 +1,53 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2587.Rearrange%20Array%20to%20Maximize%20Prefix%20Score/README.md
 rating: 1336
-source: Weekly Contest 336 Q2
+source: 第 336 场周赛 Q2
 tags:
-  - Greedy
-  - Array
-  - Prefix Sum
-  - Sorting
+    - 贪心
+    - 数组
+    - 前缀和
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2587. Rearrange Array to Maximize Prefix Score](https://leetcode.com/problems/rearrange-array-to-maximize-prefix-score)
+# [2587. 重排数组以得到最大前缀分数](https://leetcode.cn/problems/rearrange-array-to-maximize-prefix-score)
 
-## Description
+[English Version](/solution/2500-2599/2587.Rearrange%20Array%20to%20Maximize%20Prefix%20Score/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. You can rearrange the elements of <code>nums</code> to <strong>any order</strong> (including the given order).</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 。你可以将 <code>nums</code> 中的元素按 <strong>任意顺序</strong> 重排（包括给定顺序）。</p>
 
-<p>Let <code>prefix</code> be the array containing the prefix sums of <code>nums</code> after rearranging it. In other words, <code>prefix[i]</code> is the sum of the elements from <code>0</code> to <code>i</code> in <code>nums</code> after rearranging it. The <strong>score</strong> of <code>nums</code> is the number of positive integers in the array <code>prefix</code>.</p>
+<p>令 <code>prefix</code> 为一个数组，它包含了 <code>nums</code> 重新排列后的前缀和。换句话说，<code>prefix[i]</code> 是 <code>nums</code> 重新排列后下标从 <code>0</code> 到 <code>i</code> 的元素之和。<code>nums</code> 的 <strong>分数</strong> 是 <code>prefix</code> 数组中正整数的个数。</p>
 
-<p>Return <em>the maximum score you can achieve</em>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [2,-1,0,1,-3,3,-3]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> We can rearrange the array into nums = [2,3,1,-1,-3,0,-3].
-prefix = [2,5,6,5,2,2,-1], so the score is 6.
-It can be shown that 6 is the maximum score we can obtain.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [-2,-3,0]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> Any rearrangement of the array will result in a score of 0.
-</pre>
+<p>返回可以得到的最大分数。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>nums = [2,-1,0,1,-3,3,-3]
+<strong>输出：</strong>6
+<strong>解释：</strong>数组重排为 nums = [2,3,1,-1,-3,0,-3] 。
+prefix = [2,5,6,5,2,2,-1] ，分数为 6 。
+可以证明 6 是能够得到的最大分数。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><strong>输入：</strong>nums = [-2,-3,0]
+<strong>输出：</strong>0
+<strong>解释：</strong>不管怎么重排数组得到的分数都是 0 。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -53,17 +56,17 @@ It can be shown that 6 is the maximum score we can obtain.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Sorting
+### 方法一：贪心 + 排序
 
-To maximize the number of positive integers in the prefix sum array, we need to make the elements in the prefix sum array as large as possible, that is, to add as many positive integers as possible. Therefore, we can sort the array $nums$ in descending order, then traverse the array, maintaining the prefix sum $s$. If $s \leq 0$, it means that there can be no more positive integers in the current position and the positions after it, so we can directly return the current position.
+要使得前缀和数组中正整数的个数最多，就要使得前缀和数组中的元素尽可能大，即尽可能多的正整数相加。因此，我们可以将数组 $nums$ 降序排序，然后遍历数组，维护前缀和 $s$，如果 $s \leq 0$，则说明当前位置以及之后的位置都不可能再有正整数，因此直接返回当前位置即可。
 
-Otherwise, after the traversal, we return the length of the array.
+否则，遍历结束后，返回数组长度。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -141,16 +144,16 @@ func maxScore(nums []int) int {
 
 ```ts
 function maxScore(nums: number[]): number {
-  nums.sort((a, b) => a - b);
-  const n = nums.length;
-  let s = 0;
-  for (let i = 0; i < n; ++i) {
-    s += nums[n - i - 1];
-    if (s <= 0) {
-      return i;
+    nums.sort((a, b) => a - b);
+    const n = nums.length;
+    let s = 0;
+    for (let i = 0; i < n; ++i) {
+        s += nums[n - i - 1];
+        if (s <= 0) {
+            return i;
+        }
     }
-  }
-  return n;
+    return n;
 }
 ```
 

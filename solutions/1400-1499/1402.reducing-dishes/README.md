@@ -1,58 +1,62 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1402.Reducing%20Dishes/README.md
 rating: 1679
-source: Biweekly Contest 23 Q4
+source: 第 23 场双周赛 Q4
 tags:
-  - Greedy
-  - Array
-  - Dynamic Programming
-  - Sorting
+    - 贪心
+    - 数组
+    - 动态规划
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [1402. Reducing Dishes](https://leetcode.com/problems/reducing-dishes)
+# [1402. 做菜顺序](https://leetcode.cn/problems/reducing-dishes)
 
-## Description
+[English Version](/solution/1400-1499/1402.Reducing%20Dishes/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A chef has collected data on the <code>satisfaction</code> level of his <code>n</code> dishes. Chef can cook any dish in 1 unit of time.</p>
+<p>一个厨师收集了他&nbsp;<code>n</code>&nbsp;道菜的满意程度&nbsp;<code>satisfaction</code>&nbsp;，这个厨师做出每道菜的时间都是 1 单位时间。</p>
 
-<p><strong>Like-time coefficient</strong> of a dish is defined as the time taken to cook that dish including previous dishes multiplied by its satisfaction level i.e. <code>time[i] * satisfaction[i]</code>.</p>
+<p>一道菜的 「&nbsp;<strong>like-time 系数&nbsp;</strong>」定义为烹饪这道菜结束的时间（包含之前每道菜所花费的时间）乘以这道菜的满意程度，也就是&nbsp;<code>time[i]</code>*<code>satisfaction[i]</code>&nbsp;。</p>
 
-<p>Return the maximum sum of <strong>like-time coefficient </strong>that the chef can obtain after preparing some amount of dishes.</p>
+<p>返回厨师在准备了一定数量的菜肴后可以获得的最大 <strong>like-time 系数</strong> 总和。</p>
 
-<p>Dishes can be prepared in <strong>any </strong>order and the chef can discard some dishes to get this maximum value.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> satisfaction = [-1,-8,0,5,-9]
-<strong>Output:</strong> 14
-<strong>Explanation:</strong> After Removing the second and last dish, the maximum total <strong>like-time coefficient</strong> will be equal to (-1*1 + 0*2 + 5*3 = 14).
-Each dish is prepared in one unit of time.</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> satisfaction = [4,3,2]
-<strong>Output:</strong> 20
-<strong>Explanation:</strong> Dishes can be prepared in any order, (2*1 + 3*2 + 4*3 = 20)
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> satisfaction = [-1,-4,-5]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> People do not like the dishes. No dish is prepared.
-</pre>
+<p>你可以按&nbsp;<strong>任意</strong>&nbsp;顺序安排做菜的顺序，你也可以选择放弃做某些菜来获得更大的总和。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>satisfaction = [-1,-8,0,5,-9]
+<strong>输出：</strong>14
+<strong>解释：</strong>去掉第二道和最后一道菜，最大的 like-time 系数和为 (-1*1 + 0*2 + 5*3 = 14) 。每道菜都需要花费 1 单位时间完成。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>satisfaction = [4,3,2]
+<strong>输出：</strong>20
+<strong>解释：可以</strong>按照任意顺序做菜 (2*1 + 3*2 + 4*3 = 20)
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>satisfaction = [-1,-4,-5]
+<strong>输出：</strong>0
+<strong>解释：</strong>大家都不喜欢这些菜，所以不做任何菜就可以获得最大的 like-time 系数。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == satisfaction.length</code></li>
@@ -62,21 +66,21 @@ Each dish is prepared in one unit of time.</pre>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Sorting
+### 方法一：贪心 + 排序
 
-Suppose we only choose one dish, then we should choose the dish with the highest satisfaction $s_0$, and check whether $s_0$ is greater than 0. If $s_0 \leq 0$, then we don't cook any dishes, otherwise, we cook this dish, and the total satisfaction is $s_0$.
+假如我们只选择一道菜，那么我们应该选择满意度最大的那道菜 $s_0$，并且判断 $s_0$ 是否大于 0，如果 $s_0 \leq 0$，那么我们就不做菜了，否则我们做这道菜，得到的总满意度为 $s_0$。
 
-If we choose two dishes, then we should choose the two dishes with the highest satisfaction $s_0$ and $s_1$, and the satisfaction is $s_1 + 2 \times s_0$. At this time, we need to ensure that the satisfaction after the selection is greater than the satisfaction before the selection, that is, $s_1 + 2 \times s_0 > s_0$, which means as long as $s_1 + s_0 > 0$, we can choose these two dishes.
+假如我们选择两道菜，那么我们应该选择满足度最大的两道菜 $s_0$ 和 $s_1$，满意度为 $s_1 + 2 \times s_0$，此时要保证选择之后的满意度大于选择之前的满意度，即 $s_1 + 2 \times s_0 > s_0$，即 只要满足 $s_1 + s_0 > 0$，我们就可以选择这两道菜。
 
-By analogy, we can find a rule, that is, we should choose the $k$ dishes with the highest satisfaction, and ensure that the sum of the satisfaction of the first $k$ dishes is greater than $0$.
+依此类推，我们可以得到一个规律，即我们应该选择满意度最大的 $k$ 道菜，并且保证前 $k$ 道菜的满意度之和大于 $0$。
 
-In implementation, we can first sort the satisfaction of all dishes, and then start choosing from the dish with the highest satisfaction. Each time we add the satisfaction of the current dish, if the result of the addition is less than or equal to $0$, then we no longer choose the dishes behind, otherwise, we choose this dish.
+在实现上，我们可以先对所有菜的满意度进行排序，然后从满意度最大的菜开始选择，每次累加当前这道菜的满意度，如果累加的结果小于等于 $0$，那么我们就不再选择后面的菜了，否则我们就选择这道菜。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Where $n$ is the length of the array.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
 
@@ -155,16 +159,16 @@ func maxSatisfaction(satisfaction []int) (ans int) {
 
 ```ts
 function maxSatisfaction(satisfaction: number[]): number {
-  satisfaction.sort((a, b) => b - a);
-  let [ans, s] = [0, 0];
-  for (const x of satisfaction) {
-    s += x;
-    if (s <= 0) {
-      break;
+    satisfaction.sort((a, b) => b - a);
+    let [ans, s] = [0, 0];
+    for (const x of satisfaction) {
+        s += x;
+        if (s <= 0) {
+            break;
+        }
+        ans += s;
     }
-    ans += s;
-  }
-  return ans;
+    return ans;
 }
 ```
 

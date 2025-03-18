@@ -1,74 +1,83 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0151.Reverse%20Words%20in%20a%20String/README.md
 tags:
-  - Two Pointers
-  - String
+    - 双指针
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [151. Reverse Words in a String](https://leetcode.com/problems/reverse-words-in-a-string)
+# [151. 反转字符串中的单词](https://leetcode.cn/problems/reverse-words-in-a-string)
 
-## Description
+[English Version](/solution/0100-0199/0151.Reverse%20Words%20in%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an input string <code>s</code>, reverse the order of the <strong>words</strong>.</p>
+<p>给你一个字符串 <code>s</code> ，请你反转字符串中 <strong>单词</strong> 的顺序。</p>
 
-<p>A <strong>word</strong> is defined as a sequence of non-space characters. The <strong>words</strong> in <code>s</code> will be separated by at least one space.</p>
+<p><strong>单词</strong> 是由非空格字符组成的字符串。<code>s</code> 中使用至少一个空格将字符串中的 <strong>单词</strong> 分隔开。</p>
 
-<p>Return <em>a string of the words in reverse order concatenated by a single space.</em></p>
+<p>返回 <strong>单词</strong> 顺序颠倒且 <strong>单词</strong> 之间用单个空格连接的结果字符串。</p>
 
-<p><b>Note</b> that <code>s</code> may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;the sky is blue&quot;
-<strong>Output:</strong> &quot;blue is sky the&quot;
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;  hello world  &quot;
-<strong>Output:</strong> &quot;world hello&quot;
-<strong>Explanation:</strong> Your reversed string should not contain leading or trailing spaces.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> s = &quot;a good   example&quot;
-<strong>Output:</strong> &quot;example good a&quot;
-<strong>Explanation:</strong> You need to reduce multiple spaces between two words to a single space in the reversed string.
-</pre>
+<p><strong>注意：</strong>输入字符串 <code>s</code>中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "the sky is blue"
+<strong>输出：</strong>"blue is sky the"
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = " &nbsp;hello world &nbsp;"
+<strong>输出：</strong>"world hello"
+<strong>解释：</strong>反转后的字符串中不能存在前导空格和尾随空格。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "a good &nbsp; example"
+<strong>输出：</strong>"example good a"
+<strong>解释：</strong>如果两个单词间有多余的空格，反转后的字符串需要将单词间的空格减少到仅有一个。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>s</code> contains English letters (upper-case and lower-case), digits, and spaces <code>&#39; &#39;</code>.</li>
-	<li>There is <strong>at least one</strong> word in <code>s</code>.</li>
+	<li><code>s</code> 包含英文大小写字母、数字和空格 <code>' '</code></li>
+	<li><code>s</code> 中 <strong>至少存在一个</strong> 单词</li>
+</ul>
+
+<ul>
 </ul>
 
 <p>&nbsp;</p>
-<p><b data-stringify-type="bold">Follow-up:&nbsp;</b>If the string data type is mutable in your language, can&nbsp;you solve it&nbsp;<b data-stringify-type="bold">in-place</b>&nbsp;with&nbsp;<code data-stringify-type="code">O(1)</code>&nbsp;extra space?</p>
+
+<p><strong>进阶：</strong>如果字符串在你使用的编程语言中是一种可变数据类型，请尝试使用&nbsp;<code>O(1)</code> 额外空间复杂度的 <strong>原地</strong> 解法。</p>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-We can use two pointers $i$ and $j$ to find each word, add it to the result list, then reverse the result list, and finally concatenate it into a string.
+我们可以使用双指针 $i$ 和 $j$，每次找到一个单词，将其添加到结果列表中，最后将结果列表反转，再拼接成字符串即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
 
 <!-- tabs:start -->
 
@@ -182,23 +191,23 @@ func reverseWords(s string) string {
 
 ```ts
 function reverseWords(s: string): string {
-  const words: string[] = [];
-  const n = s.length;
-  let i = 0;
-  while (i < n) {
-    while (i < n && s[i] === " ") {
-      i++;
+    const words: string[] = [];
+    const n = s.length;
+    let i = 0;
+    while (i < n) {
+        while (i < n && s[i] === ' ') {
+            i++;
+        }
+        if (i < n) {
+            let j = i;
+            while (j < n && s[j] !== ' ') {
+                j++;
+            }
+            words.push(s.slice(i, j));
+            i = j;
+        }
     }
-    if (i < n) {
-      let j = i;
-      while (j < n && s[j] !== " ") {
-        j++;
-      }
-      words.push(s.slice(i, j));
-      i = j;
-    }
-  }
-  return words.reverse().join(" ");
+    return words.reverse().join(' ');
 }
 ```
 
@@ -265,11 +274,11 @@ public class Solution {
 
 <!-- solution:start -->
 
-### Solution 2: String Split
+### 方法二：字符串分割
 
-We can use the built-in string split function to split the string into a list of words by spaces, then reverse the list, and finally concatenate it into a string.
+我们可以使用语言内置的字符串分割函数，将字符串按空格分割成单词列表，然后将列表反转，再拼接成字符串即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
 
 <!-- tabs:start -->
 
@@ -309,7 +318,7 @@ func reverseWords(s string) string {
 
 ```ts
 function reverseWords(s: string): string {
-  return s.trim().split(/\s+/).reverse().join(" ");
+    return s.trim().split(/\s+/).reverse().join(' ');
 }
 ```
 

@@ -1,46 +1,50 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0219.Contains%20Duplicate%20II/README.md
 tags:
-  - Array
-  - Hash Table
-  - Sliding Window
+    - 数组
+    - 哈希表
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [219. Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii)
+# [219. 存在重复元素 II](https://leetcode.cn/problems/contains-duplicate-ii)
 
-## Description
+[English Version](/solution/0200-0299/0219.Contains%20Duplicate%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <code>true</code> <em>if there are two <strong>distinct indices</strong> </em><code>i</code><em> and </em><code>j</code><em> in the array such that </em><code>nums[i] == nums[j]</code><em> and </em><code>abs(i - j) &lt;= k</code>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code> 和一个整数&nbsp;<code>k</code> ，判断数组中是否存在两个 <strong>不同的索引</strong><em>&nbsp;</em><code>i</code>&nbsp;和<em>&nbsp;</em><code>j</code> ，满足 <code>nums[i] == nums[j]</code> 且 <code>abs(i - j) &lt;= k</code> 。如果存在，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例&nbsp;1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,3,1], k = 3
-<strong>Output:</strong> true
-</pre>
+<strong>输入：</strong>nums = [1,2,3,1], k<em> </em>= 3
+<strong>输出：</strong>true</pre>
 
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,0,1,1], k = 1
-<strong>Output:</strong> true
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,2,3,1,2,3], k = 2
-<strong>Output:</strong> false
-</pre>
+<strong>输入：</strong>nums = [1,0,1,1], k<em> </em>=<em> </em>1
+<strong>输出：</strong>true</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,3,1,2,3], k<em> </em>=<em> </em>2
+<strong>输出：</strong>false</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -50,19 +54,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We use a hash table $d$ to store the nearest index of the number it has visited.
+我们用一个哈希表 $\textit{d}$ 存放最近遍历到的数以及对应的下标。
 
-We traverse the array `nums`. For the current element $nums[i]$, if it exists in the hash table, and the difference between its index and the current index is no larger than $k$, then return `true`. Otherwise, we add the current element into the hash table.
+遍历数组 $\textit{nums}$，对于当前遍历到的元素 $\textit{nums}[i]$，如果在哈希表中存在，并且下标与当前元素的下标之差不超过 $k$，则返回 $\text{true}$，否则将当前元素加入哈希表中。
 
-After the traversal, return `false`.
+遍历结束后，返回 $\text{false}$。
 
-The time complexity is $O(n)$ and the space complexity is $O(n)$. Here $n$ is the length of array `nums`.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 
@@ -133,14 +137,14 @@ func containsNearbyDuplicate(nums []int, k int) bool {
 
 ```ts
 function containsNearbyDuplicate(nums: number[], k: number): boolean {
-  const d: Map<number, number> = new Map();
-  for (let i = 0; i < nums.length; ++i) {
-    if (d.has(nums[i]) && i - d.get(nums[i])! <= k) {
-      return true;
+    const d: Map<number, number> = new Map();
+    for (let i = 0; i < nums.length; ++i) {
+        if (d.has(nums[i]) && i - d.get(nums[i])! <= k) {
+            return true;
+        }
+        d.set(nums[i], i);
     }
-    d.set(nums[i], i);
-  }
-  return false;
+    return false;
 }
 ```
 
@@ -153,14 +157,14 @@ function containsNearbyDuplicate(nums: number[], k: number): boolean {
  * @return {boolean}
  */
 var containsNearbyDuplicate = function (nums, k) {
-  const d = new Map();
-  for (let i = 0; i < nums.length; ++i) {
-    if (d.has(nums[i]) && i - d.get(nums[i]) <= k) {
-      return true;
+    const d = new Map();
+    for (let i = 0; i < nums.length; ++i) {
+        if (d.has(nums[i]) && i - d.get(nums[i]) <= k) {
+            return true;
+        }
+        d.set(nums[i], i);
     }
-    d.set(nums[i], i);
-  }
-  return false;
+    return false;
 };
 ```
 
@@ -191,13 +195,12 @@ class Solution {
      * @return Boolean
      */
     function containsNearbyDuplicate($nums, $k) {
-        $hashtable = [];
-        for ($i = 0; $i < count($nums); $i++) {
-            $tmp = $nums[$i];
-            if (array_key_exists($tmp, $hashtable) && $k >= $i - $hashtable[$tmp]) {
+        $d = [];
+        for ($i = 0; $i < count($nums); ++$i) {
+            if (array_key_exists($nums[$i], $d) && $i - $d[$nums[$i]] <= $k) {
                 return true;
             }
-            $hashtable[$tmp] = $i;
+            $d[$nums[$i]] = $i;
         }
         return false;
     }

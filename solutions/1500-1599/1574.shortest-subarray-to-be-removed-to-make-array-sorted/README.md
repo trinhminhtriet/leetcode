@@ -1,71 +1,92 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1574.Shortest%20Subarray%20to%20be%20Removed%20to%20Make%20Array%20Sorted/README.md
 rating: 1931
-source: Biweekly Contest 34 Q3
+source: 第 34 场双周赛 Q3
 tags:
-  - Stack
-  - Array
-  - Two Pointers
-  - Binary Search
-  - Monotonic Stack
+    - 栈
+    - 数组
+    - 双指针
+    - 二分查找
+    - 单调栈
 ---
 
 <!-- problem:start -->
 
-# [1574. Shortest Subarray to be Removed to Make Array Sorted](https://leetcode.com/problems/shortest-subarray-to-be-removed-to-make-array-sorted)
+# [1574. 删除最短的子数组使剩余数组有序](https://leetcode.cn/problems/shortest-subarray-to-be-removed-to-make-array-sorted)
 
-## Description
+[English Version](/solution/1500-1599/1574.Shortest%20Subarray%20to%20be%20Removed%20to%20Make%20Array%20Sorted/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>arr</code>, remove a subarray (can be empty) from <code>arr</code> such that the remaining elements in <code>arr</code> are <strong>non-decreasing</strong>.</p>
+<p>给你一个整数数组 <code>arr</code>&nbsp;，请你删除一个子数组（可以为空），使得 <code>arr</code>&nbsp;中剩下的元素是 <strong>非递减</strong> 的。</p>
 
-<p>Return <em>the length of the shortest subarray to remove</em>.</p>
+<p>一个子数组指的是原数组中连续的一个子序列。</p>
 
-<p>A <strong>subarray</strong> is a contiguous subsequence of the array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1,2,3,10,4,2,3,5]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The shortest subarray we can remove is [10,4,2] of length 3. The remaining elements after that will be [1,2,3,3,5] which are sorted.
-Another correct solution is to remove the subarray [3,10,4].
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [5,4,3,2,1]
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> Since the array is strictly decreasing, we can only keep a single element. Therefore we need to remove a subarray of length 4, either [5,4,3,2] or [4,3,2,1].
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> arr = [1,2,3]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The array is already non-decreasing. We do not need to remove any elements.
-</pre>
+<p>请你返回满足题目要求的最短子数组的长度。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [1,2,3,10,4,2,3,5]
+<strong>输出：</strong>3
+<strong>解释：</strong>我们需要删除的最短子数组是 [10,4,2] ，长度为 3 。剩余元素形成非递减数组 [1,2,3,3,5] 。
+另一个正确的解为删除子数组 [3,10,4] 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [5,4,3,2,1]
+<strong>输出：</strong>4
+<strong>解释：</strong>由于数组是严格递减的，我们只能保留一个元素。所以我们需要删除长度为 4 的子数组，要么删除 [5,4,3,2]，要么删除 [4,3,2,1]。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [1,2,3]
+<strong>输出：</strong>0
+<strong>解释：</strong>数组已经是非递减的了，我们不需要删除任何元素。
+</pre>
+
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>arr = [1]
+<strong>输出：</strong>0
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>0 &lt;= arr[i] &lt;= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= arr.length &lt;= 10^5</code></li>
+	<li><code>0 &lt;= arr[i] &lt;= 10^9</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：双指针 + 二分查找
+
+我们先找出数组的最长非递减前缀和最长非递减后缀，分别记为 $\textit{nums}[0..i]$ 和 $\textit{nums}[j..n-1]$。
+
+如果 $i \geq j$，说明数组本身就是非递减的，返回 $0$。
+
+否则，我们可以选择删除右侧后缀，也可以选择删除左侧前缀，因此初始时答案为 $\min(n - i - 1, j)$。
+
+接下来，我们枚举左侧前缀的最右端点 $l$，对于每个 $l$，我们可以通过二分查找，在 $\textit{nums}[j..n-1]$ 中找到第一个大于等于 $\textit{nums}[l]$ 的位置，记为 $r$，此时我们可以删除 $\textit{nums}[l+1..r-1]$，并且更新答案 $\textit{ans} = \min(\textit{ans}, r - l - 1)$。继续枚举 $l$，最终得到答案。
+
+时间复杂度 $O(n \times \log n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -185,7 +206,17 @@ func findLengthOfShortestSubarray(arr []int) int {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二：双指针
+
+与方法一类似，我们先找出数组的最长非递减前缀和最长非递减后缀，分别记为 $\textit{nums}[0..i]$ 和 $\textit{nums}[j..n-1]$。
+
+如果 $i \geq j$，说明数组本身就是非递减的，返回 $0$。
+
+否则，我们可以选择删除右侧后缀，也可以选择删除左侧前缀，因此初始时答案为 $\min(n - i - 1, j)$。
+
+接下来，我们枚举左侧前缀的最右端点 $l$，对于每个 $l$，我们直接利用双指针找到第一个大于等于 $\textit{nums}[l]$ 的位置，记为 $r$，此时我们可以删除 $\textit{nums}[l+1..r-1]$，并且更新答案 $\textit{ans} = \min(\textit{ans}, r - l - 1)$。继续枚举 $l$，最终得到答案。
+
+时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -292,6 +323,46 @@ func findLengthOfShortestSubarray(arr []int) int {
 		ans = min(ans, r-l-1)
 	}
 	return ans
+}
+```
+
+#### TypeScript
+
+```ts
+function findLengthOfShortestSubarray(arr: number[]): number {
+    let [l, r, n] = [0, arr.length - 1, arr.length];
+
+    while (r && arr[r - 1] <= arr[r]) r--;
+    if (r === 0) return 0;
+
+    let ans = r;
+    while (l < r && (!l || arr[l - 1] <= arr[l])) {
+        while (r < n && arr[l] > arr[r]) r++;
+        ans = Math.min(ans, r - l - 1);
+        l++;
+    }
+
+    return ans;
+}
+```
+
+#### JavaScript
+
+```js
+function findLengthOfShortestSubarray(arr) {
+    let [l, r, n] = [0, arr.length - 1, arr.length];
+
+    while (r && arr[r - 1] <= arr[r]) r--;
+    if (r === 0) return 0;
+
+    let ans = r;
+    while (l < r && (!l || arr[l - 1] <= arr[l])) {
+        while (r < n && arr[l] > arr[r]) r++;
+        ans = Math.min(ans, r - l - 1);
+        l++;
+    }
+
+    return ans;
 }
 ```
 

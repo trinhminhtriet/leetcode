@@ -1,115 +1,117 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1825.Finding%20MK%20Average/README.md
 rating: 2395
-source: Weekly Contest 236 Q4
+source: 第 236 场周赛 Q4
 tags:
-  - Design
-  - Queue
-  - Data Stream
-  - Ordered Set
-  - Heap (Priority Queue)
+    - 设计
+    - 队列
+    - 数据流
+    - 有序集合
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [1825. Finding MK Average](https://leetcode.com/problems/finding-mk-average)
+# [1825. 求出 MK 平均值](https://leetcode.cn/problems/finding-mk-average)
 
-## Description
+[English Version](/solution/1800-1899/1825.Finding%20MK%20Average/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two integers, <code>m</code> and <code>k</code>, and a stream of integers. You are tasked to implement a data structure that calculates the <strong>MKAverage</strong> for the stream.</p>
+<p>给你两个整数&nbsp;<code>m</code>&nbsp;和&nbsp;<code>k</code>&nbsp;，以及数据流形式的若干整数。你需要实现一个数据结构，计算这个数据流的 <b>MK 平均值</b>&nbsp;。</p>
 
-<p>The <strong>MKAverage</strong> can be calculated using these steps:</p>
+<p><strong>MK 平均值</strong>&nbsp;按照如下步骤计算：</p>
 
 <ol>
-	<li>If the number of the elements in the stream is less than <code>m</code> you should consider the <strong>MKAverage</strong> to be <code>-1</code>. Otherwise, copy the last <code>m</code> elements of the stream to a separate container.</li>
-	<li>Remove the smallest <code>k</code> elements and the largest <code>k</code> elements from the container.</li>
-	<li>Calculate the average value for the rest of the elements <strong>rounded down to the nearest integer</strong>.</li>
+	<li>如果数据流中的整数少于 <code>m</code>&nbsp;个，<strong>MK 平均值</strong>&nbsp;为 <code>-1</code>&nbsp;，否则将数据流中最后 <code>m</code>&nbsp;个元素拷贝到一个独立的容器中。</li>
+	<li>从这个容器中删除最小的 <code>k</code>&nbsp;个数和最大的 <code>k</code>&nbsp;个数。</li>
+	<li>计算剩余元素的平均值，并 <strong>向下取整到最近的整数</strong>&nbsp;。</li>
 </ol>
 
-<p>Implement the <code>MKAverage</code> class:</p>
+<p>请你实现&nbsp;<code>MKAverage</code>&nbsp;类：</p>
 
 <ul>
-	<li><code>MKAverage(int m, int k)</code> Initializes the <strong>MKAverage</strong> object with an empty stream and the two integers <code>m</code> and <code>k</code>.</li>
-	<li><code>void addElement(int num)</code> Inserts a new element <code>num</code> into the stream.</li>
-	<li><code>int calculateMKAverage()</code> Calculates and returns the <strong>MKAverage</strong> for the current stream <strong>rounded down to the nearest integer</strong>.</li>
+	<li><code>MKAverage(int m, int k)</code>&nbsp;用一个空的数据流和两个整数 <code>m</code>&nbsp;和 <code>k</code>&nbsp;初始化&nbsp;<strong>MKAverage</strong>&nbsp;对象。</li>
+	<li><code>void addElement(int num)</code>&nbsp;往数据流中插入一个新的元素&nbsp;<code>num</code>&nbsp;。</li>
+	<li><code>int calculateMKAverage()</code>&nbsp;对当前的数据流计算并返回 <strong>MK 平均数</strong>&nbsp;，结果需 <strong>向下取整到最近的整数</strong> 。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input</strong>
-[&quot;MKAverage&quot;, &quot;addElement&quot;, &quot;addElement&quot;, &quot;calculateMKAverage&quot;, &quot;addElement&quot;, &quot;calculateMKAverage&quot;, &quot;addElement&quot;, &quot;addElement&quot;, &quot;addElement&quot;, &quot;calculateMKAverage&quot;]
+<strong>输入：</strong>
+["MKAverage", "addElement", "addElement", "calculateMKAverage", "addElement", "calculateMKAverage", "addElement", "addElement", "addElement", "calculateMKAverage"]
 [[3, 1], [3], [1], [], [10], [], [5], [5], [5], []]
-<strong>Output</strong>
+<strong>输出：</strong>
 [null, null, null, -1, null, 3, null, null, null, 5]
 
-<strong>Explanation</strong>
-<code>MKAverage obj = new MKAverage(3, 1); 
-obj.addElement(3);        // current elements are [3]
-obj.addElement(1);        // current elements are [3,1]
-obj.calculateMKAverage(); // return -1, because m = 3 and only 2 elements exist.
-obj.addElement(10);       // current elements are [3,1,10]
-obj.calculateMKAverage(); // The last 3 elements are [3,1,10].
-                          // After removing smallest and largest 1 element the container will be [3].
-                          // The average of [3] equals 3/1 = 3, return 3
-obj.addElement(5);        // current elements are [3,1,10,5]
-obj.addElement(5);        // current elements are [3,1,10,5,5]
-obj.addElement(5);        // current elements are [3,1,10,5,5,5]
-obj.calculateMKAverage(); // The last 3 elements are [5,5,5].
-                          // After removing smallest and largest 1 element the container will be [5].
-                          // The average of [5] equals 5/1 = 5, return 5
-</code></pre>
+<strong>解释：</strong>
+MKAverage obj = new MKAverage(3, 1); 
+obj.addElement(3);        // 当前元素为 [3]
+obj.addElement(1);        // 当前元素为 [3,1]
+obj.calculateMKAverage(); // 返回 -1 ，因为 m = 3 ，但数据流中只有 2 个元素
+obj.addElement(10);       // 当前元素为 [3,1,10]
+obj.calculateMKAverage(); // 最后 3 个元素为 [3,1,10]
+                          // 删除最小以及最大的 1 个元素后，容器为 [3]
+                          // [3] 的平均值等于 3/1 = 3 ，故返回 3
+obj.addElement(5);        // 当前元素为 [3,1,10,5]
+obj.addElement(5);        // 当前元素为 [3,1,10,5,5]
+obj.addElement(5);        // 当前元素为 [3,1,10,5,5,5]
+obj.calculateMKAverage(); // 最后 3 个元素为 [5,5,5]
+                          // 删除最小以及最大的 1 个元素后，容器为 [5]
+                          // [5] 的平均值等于 5/1 = 5 ，故返回 5
+</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= m &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= k*2 &lt; m</code></li>
 	<li><code>1 &lt;= num &lt;= 10<sup>5</sup></code></li>
-	<li>At most <code>10<sup>5</sup></code> calls will be made to <code>addElement</code> and <code>calculateMKAverage</code>.</li>
+	<li><code>addElement</code> 与&nbsp;<code>calculateMKAverage</code>&nbsp;总操作次数不超过 <code>10<sup>5</sup></code> 次。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Ordered Set + Queue
+### 方法一：有序集合 + 队列
 
-We can maintain the following data structures or variables:
+我们可以维护以下数据结构或变量：
 
-- A queue $q$ of length $m$, where the head of the queue is the earliest added element, and the tail of the queue is the most recently added element;
-- Three ordered sets, namely $lo$, $mid$, $hi$, where $lo$ and $hi$ store the smallest $k$ elements and the largest $k$ elements respectively, and $mid$ stores the remaining elements;
-- A variable $s$, maintaining the sum of all elements in $mid$;
-- Some programming languages (such as Java, Go) additionally maintain two variables $size1$ and $size3$, representing the number of elements in $lo$ and $hi$ respectively.
+-   一个长度为 $m$ 的队列 $q$，其中队首元素为最早加入的元素，队尾元素为最近加入的元素；
+-   三个有序集合，分别为 $lo$, $mid$, $hi$，其中 $lo$ 和 $hi$ 分别存储最小的 $k$ 个元素和最大的 $k$ 个元素，而 $mid$ 存储剩余的元素；
+-   一个变量 $s$，维护 $mid$ 中所有元素的和；
+-   部分编程语言（如 Java, Go）额外维护两个变量 $size1$ 和 $size3$，分别表示 $lo$ 和 $hi$ 中元素的个数。
 
-When calling the $addElement(num)$ function, perform the following operations in order:
+调用 $addElement(num)$ 函数时，顺序执行以下操作：
 
-1. If $lo$ is empty, or $num \leq max(lo)$, then add $num$ to $lo$; otherwise if $hi$ is empty, or $num \geq min(hi)$, then add $num$ to $hi$; otherwise add $num$ to $mid$, and add the value of $num$ to $s$.
-1. Next, add $num$ to the queue $q$. If the length of the queue $q$ is greater than $m$ at this time, remove the head element $x$ from the queue $q$, then choose one of $lo$, $mid$ or $hi$ that contains $x$, and remove $x$ from this set. If the set is $mid$, subtract the value of $x$ from $s$.
-1. If the length of $lo$ is greater than $k$, then repeatedly remove the maximum value $max(lo)$ from $lo$, add $max(lo)$ to $mid$, and add the value of $max(lo)$ to $s$.
-1. If the length of $hi$ is greater than $k$, then repeatedly remove the minimum value $min(hi)$ from $hi$, add $min(hi)$ to $mid$, and add the value of $min(hi)$ to $s$.
-1. If the length of $lo$ is less than $k$ and $mid$ is not empty, then repeatedly remove the minimum value $min(mid)$ from $mid$, add $min(mid)$ to $lo$, and subtract the value of $min(mid)$ from $s$.
-1. If the length of $hi$ is less than $k$ and $mid$ is not empty, then repeatedly remove the maximum value $max(mid)$ from $mid$, add $max(mid)$ to $hi$, and subtract the value of $max(mid)$ from $s$.
+1. 如果 $lo$ 为空，或者 $num \leq max(lo)$，则将 $num$ 加入 $lo$ 中；否则如果 $hi$ 为空，或者 $num \geq min(hi)$，则将 $num$ 加入 $hi$ 中；否则将 $num$ 加入 $mid$ 中，同时将 $num$ 的值加到 $s$ 中。
+1. 接下来将 $num$ 加入队列 $q$ 中，如果此时队列 $q$ 的长度大于 $m$，则将队首元素 $x$ 从队列 $q$ 中移除，接下来从 $lo$, $mid$ 或 $hi$ 中选择其中一个包含 $x$ 的集合，将 $x$ 从该集合中移除，如果该集合为 $mid$，则将 $s$ 减去 $x$ 的值。
+1. 如果 $lo$ 的长度大于 $k$，则循环将 $lo$ 中的最大值 $max(lo)$ 从 $lo$ 中移除，将 $max(lo)$ 加入 $mid$ 中，同时将 $s$ 加上 $max(lo)$ 的值。
+1. 如果 $hi$ 的长度大于 $k$，则循环将 $hi$ 中的最小值 $min(hi)$ 从 $hi$ 中移除，将 $min(hi)$ 加入 $mid$ 中，同时将 $s$ 加上 $min(hi)$ 的值。
+1. 如果 $lo$ 的长度小于 $k$，并且 $mid$ 不为空，则循环将 $mid$ 中的最小值 $min(mid)$ 从 $mid$ 中移除，将 $min(mid)$ 加入 $lo$ 中，同时将 $s$ 减去 $min(mid)$ 的值。
+1. 如果 $hi$ 的长度小于 $k$，并且 $mid$ 不为空，则循环将 $mid$ 中的最大值 $max(mid)$ 从 $mid$ 中移除，将 $max(mid)$ 加入 $hi$ 中，同时将 $s$ 减去 $max(mid)$ 的值。
 
-When calling the $calculateMKAverage()$ function, if the length of $q$ is less than $m$, return $-1$, otherwise return $\frac{s}{m - 2k}$.
+调用 $calculateMKAverage()$ 函数时，如果 $q$ 的长度小于 $m$，则返回 $-1$，否则返回 $\frac{s}{m - 2k}$。
 
-In terms of time complexity, each call to the $addElement(num)$ function has a time complexity of $O(\log m)$, and each call to the $calculateMKAverage()$ function has a time complexity of $O(1)$. The space complexity is $O(m)$.
+时间复杂度方面，每次调用 $addElement(num)$ 函数的时间复杂度为 $O(\log m)$，每次调用 $calculateMKAverage()$ 函数的时间复杂度为 $O(1)$。空间复杂度为 $O(m)$。
 
 <!-- tabs:start -->
 
 #### Python3
 
 ```python
-from sortedcontainers import SortedList
-
-
 class MKAverage:
     def __init__(self, m: int, k: int):
         self.m = m
@@ -442,16 +444,13 @@ func (this *MKAverage) CalculateMKAverage() int {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 
 #### Python3
 
 ```python
-from sortedcontainers import SortedList
-
-
 class MKAverage:
     def __init__(self, m: int, k: int):
         self.m = m

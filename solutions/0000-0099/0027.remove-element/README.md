@@ -1,71 +1,74 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0027.Remove%20Element/README.md
 tags:
-  - Array
-  - Two Pointers
+    - 数组
+    - 双指针
 ---
 
 <!-- problem:start -->
 
-# [27. Remove Element](https://leetcode.com/problems/remove-element)
+# [27. 移除元素](https://leetcode.cn/problems/remove-element)
 
-## Description
+[English Version](/solution/0000-0099/0027.Remove%20Element/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code> and an integer <code>val</code>, remove all occurrences of <code>val</code> in <code>nums</code> <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank"><strong>in-place</strong></a>. The order of the elements may be changed. Then return <em>the number of elements in </em><code>nums</code><em> which are not equal to </em><code>val</code>.</p>
+<p>给你一个数组 <code>nums</code><em>&nbsp;</em>和一个值 <code>val</code>，你需要 <strong><a href="https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95" target="_blank">原地</a></strong> 移除所有数值等于&nbsp;<code>val</code><em>&nbsp;</em>的元素。元素的顺序可能发生改变。然后返回&nbsp;<code>nums</code>&nbsp;中与&nbsp;<code>val</code>&nbsp;不同的元素的数量。</p>
 
-<p>Consider the number of elements in <code>nums</code> which are not equal to <code>val</code> be <code>k</code>, to get accepted, you need to do the following things:</p>
+<p>假设 <code>nums</code> 中不等于 <code>val</code> 的元素数量为 <code>k</code>，要通过此题，您需要执行以下操作：</p>
 
 <ul>
-	<li>Change the array <code>nums</code> such that the first <code>k</code> elements of <code>nums</code> contain the elements which are not equal to <code>val</code>. The remaining elements of <code>nums</code> are not important as well as the size of <code>nums</code>.</li>
-	<li>Return <code>k</code>.</li>
+	<li>更改 <code>nums</code> 数组，使 <code>nums</code> 的前 <code>k</code> 个元素包含不等于 <code>val</code> 的元素。<code>nums</code> 的其余元素和 <code>nums</code> 的大小并不重要。</li>
+	<li>返回 <code>k</code>。</li>
 </ul>
 
-<p><strong>Custom Judge:</strong></p>
+<p><strong>用户评测：</strong></p>
 
-<p>The judge will test your solution with the following code:</p>
+<p>评测机将使用以下代码测试您的解决方案：</p>
 
 <pre>
-int[] nums = [...]; // Input array
-int val = ...; // Value to remove
-int[] expectedNums = [...]; // The expected answer with correct length.
-                            // It is sorted with no values equaling val.
+int[] nums = [...]; // 输入数组
+int val = ...; // 要移除的值
+int[] expectedNums = [...]; // 长度正确的预期答案。
+                            // 它以不等于 val 的值排序。
 
-int k = removeElement(nums, val); // Calls your implementation
+int k = removeElement(nums, val); // 调用你的实现
 
 assert k == expectedNums.length;
-sort(nums, 0, k); // Sort the first k elements of nums
+sort(nums, 0, k); // 排序 nums 的前 k 个元素
 for (int i = 0; i &lt; actualLength; i++) {
     assert nums[i] == expectedNums[i];
-}
-</pre>
+}</pre>
 
-<p>If all assertions pass, then your solution will be <strong>accepted</strong>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [3,2,2,3], val = 3
-<strong>Output:</strong> 2, nums = [2,2,_,_]
-<strong>Explanation:</strong> Your function should return k = 2, with the first two elements of nums being 2.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [0,1,2,2,3,0,4,2], val = 2
-<strong>Output:</strong> 5, nums = [0,1,4,0,3,_,_,_]
-<strong>Explanation:</strong> Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.
-Note that the five elements can be returned in any order.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-</pre>
+<p>如果所有的断言都通过，你的解决方案将会 <strong>通过</strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [3,2,2,3], val = 3
+<strong>输出：</strong>2, nums = [2,2,_,_]
+<strong>解释：</strong>你的函数函数应该返回 k = 2, 并且 nums<em> </em>中的前两个元素均为 2。
+你在返回的 k 个元素之外留下了什么并不重要（因此它们并不计入评测）。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [0,1,2,2,3,0,4,2], val = 2
+<strong>输出：</strong>5, nums = [0,1,4,0,3,_,_,_]
+<strong>解释：</strong>你的函数应该返回 k = 5，并且 nums 中的前五个元素为 0,0,1,3,4。
+注意这五个元素可以任意顺序返回。
+你在返回的 k 个元素之外留下了什么并不重要（因此它们并不计入评测）。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>0 &lt;= nums.length &lt;= 100</code></li>
@@ -75,19 +78,19 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: One Pass
+### 方法一：一次遍历
 
-We use the variable $k$ to record the number of elements that are not equal to $val$.
+我们用变量 $k$ 记录当前不等于 $val$ 的元素个数。
 
-Traverse the array $nums$, if the current element $x$ is not equal to $val$, then assign $x$ to $nums[k]$, and increment $k$ by $1$.
+遍历数组 $nums$，如果当前元素 $x$ 不等于 $val$，则将 $x$ 赋值给 $nums[k]$，并将 $k$ 自增 $1$。
 
-Finally, return $k$.
+最后返回 $k$ 即可。
 
-The time complexity is $O(n)$ and the space complexity is $O(1)$, where $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -156,13 +159,13 @@ func removeElement(nums []int, val int) int {
 
 ```ts
 function removeElement(nums: number[], val: number): number {
-  let k: number = 0;
-  for (const x of nums) {
-    if (x !== val) {
-      nums[k++] = x;
+    let k: number = 0;
+    for (const x of nums) {
+        if (x !== val) {
+            nums[k++] = x;
+        }
     }
-  }
-  return k;
+    return k;
 }
 ```
 
@@ -192,14 +195,30 @@ impl Solution {
  * @return {number}
  */
 var removeElement = function (nums, val) {
-  let k = 0;
-  for (const x of nums) {
-    if (x !== val) {
-      nums[k++] = x;
+    let k = 0;
+    for (const x of nums) {
+        if (x !== val) {
+            nums[k++] = x;
+        }
     }
-  }
-  return k;
+    return k;
 };
+```
+
+#### C#
+
+```cs
+public class Solution {
+    public int RemoveElement(int[] nums, int val) {
+        int k = 0;
+        foreach (int x in nums) {
+            if (x != val) {
+                nums[k++] = x;
+            }
+        }
+        return k;
+    }
+}
 ```
 
 #### PHP

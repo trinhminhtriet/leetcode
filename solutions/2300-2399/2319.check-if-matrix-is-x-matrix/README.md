@@ -1,53 +1,56 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2319.Check%20if%20Matrix%20Is%20X-Matrix/README.md
 rating: 1200
-source: Weekly Contest 299 Q1
+source: 第 299 场周赛 Q1
 tags:
-  - Array
-  - Matrix
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [2319. Check if Matrix Is X-Matrix](https://leetcode.com/problems/check-if-matrix-is-x-matrix)
+# [2319. 判断矩阵是否是一个 X 矩阵](https://leetcode.cn/problems/check-if-matrix-is-x-matrix)
 
-## Description
+[English Version](/solution/2300-2399/2319.Check%20if%20Matrix%20Is%20X-Matrix/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A square matrix is said to be an <strong>X-Matrix</strong> if <strong>both</strong> of the following conditions hold:</p>
+<p>如果一个正方形矩阵满足下述 <strong>全部</strong> 条件，则称之为一个 <strong>X 矩阵</strong> ：</p>
 
 <ol>
-	<li>All the elements in the diagonals of the matrix are <strong>non-zero</strong>.</li>
-	<li>All other elements are 0.</li>
+	<li>矩阵对角线上的所有元素都 <strong>不是 0</strong></li>
+	<li>矩阵中所有其他元素都是 <strong>0</strong></li>
 </ol>
 
-<p>Given a 2D integer array <code>grid</code> of size <code>n x n</code> representing a square matrix, return <code>true</code><em> if </em><code>grid</code><em> is an X-Matrix</em>. Otherwise, return <code>false</code>.</p>
+<p>给你一个大小为 <code>n x n</code> 的二维整数数组 <code>grid</code> ，表示一个正方形矩阵。如果<em> </em><code>grid</code><em> </em>是一个 <strong>X 矩阵 </strong>，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2319.Check%20if%20Matrix%20Is%20X-Matrix/images/ex1.jpg" style="width: 311px; height: 320px;" />
-<pre>
-<strong>Input:</strong> grid = [[2,0,0,1],[0,3,1,0],[0,5,2,0],[4,0,0,2]]
-<strong>Output:</strong> true
-<strong>Explanation:</strong> Refer to the diagram above. 
-An X-Matrix should have the green elements (diagonals) be non-zero and the red elements be 0.
-Thus, grid is an X-Matrix.
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2319.Check%20if%20Matrix%20Is%20X-Matrix/images/ex1.jpg" style="width: 311px; height: 320px;">
+<pre><strong>输入：</strong>grid = [[2,0,0,1],[0,3,1,0],[0,5,2,0],[4,0,0,2]]
+<strong>输出：</strong>true
+<strong>解释：</strong>矩阵如上图所示。
+X 矩阵应该满足：绿色元素（对角线上）都不是 0 ，红色元素都是 0 。
+因此，grid 是一个 X 矩阵。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2319.Check%20if%20Matrix%20Is%20X-Matrix/images/ex2.jpg" style="width: 238px; height: 246px;" />
-<pre>
-<strong>Input:</strong> grid = [[5,7,0],[0,3,1],[0,5,0]]
-<strong>Output:</strong> false
-<strong>Explanation:</strong> Refer to the diagram above.
-An X-Matrix should have the green elements (diagonals) be non-zero and the red elements be 0.
-Thus, grid is not an X-Matrix.
+<p><strong>示例 2：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2319.Check%20if%20Matrix%20Is%20X-Matrix/images/ex2.jpg" style="width: 238px; height: 246px;">
+<pre><strong>输入：</strong>grid = [[5,7,0],[0,3,1],[0,5,0]]
+<strong>输出：</strong>false
+<strong>解释：</strong>矩阵如上图所示。
+X 矩阵应该满足：绿色元素（对角线上）都不是 0 ，红色元素都是 0 。
+因此，grid 不是一个 X 矩阵。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>n == grid.length == grid[i].length</code></li>
@@ -57,11 +60,15 @@ Thus, grid is not an X-Matrix.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：模拟
+
+我们可以直接遍历矩阵，对于每个元素，判断其是否满足 $X$ 矩阵的条件。若不满足，直接返回 $\textit{false}$；若遍历完所有元素都满足，返回 $\textit{true}$。
+
+时间复杂度 $O(n^2)$，其中 $n$ 为矩阵的行数或列数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -148,19 +155,19 @@ func checkXMatrix(grid [][]int) bool {
 
 ```ts
 function checkXMatrix(grid: number[][]): boolean {
-  const n = grid.length;
-  for (let i = 0; i < n; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (i == j || i + j == n - 1) {
-        if (!grid[i][j]) {
-          return false;
+    const n = grid.length;
+    for (let i = 0; i < n; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (i == j || i + j == n - 1) {
+                if (!grid[i][j]) {
+                    return false;
+                }
+            } else if (grid[i][j]) {
+                return false;
+            }
         }
-      } else if (grid[i][j]) {
-        return false;
-      }
     }
-  }
-  return true;
+    return true;
 }
 ```
 

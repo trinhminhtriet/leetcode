@@ -1,66 +1,71 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3033.Modify%20the%20Matrix/README.md
 rating: 1180
-source: Weekly Contest 384 Q1
+source: 第 384 场周赛 Q1
 tags:
-  - Array
-  - Matrix
+    - 数组
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [3033. Modify the Matrix](https://leetcode.com/problems/modify-the-matrix)
+# [3033. 修改矩阵](https://leetcode.cn/problems/modify-the-matrix)
 
-## Description
+[English Version](/solution/3000-3099/3033.Modify%20the%20Matrix/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a <strong>0-indexed</strong> <code>m x n</code> integer matrix <code>matrix</code>, create a new <strong>0-indexed</strong> matrix called <code>answer</code>. Make <code>answer</code> equal to <code>matrix</code>, then replace each element with the value <code>-1</code> with the <strong>maximum</strong> element in its respective column.</p>
+<p>给你一个下标从 <strong>0</strong> 开始、大小为 <code>m x n</code> 的整数矩阵 <code>matrix</code> ，新建一个下标从 <strong>0</strong> 开始、名为 <code>answer</code> 的矩阵。使 <code>answer</code> 与 <code>matrix</code> 相等，接着将其中每个值为 <code>-1</code> 的元素替换为所在列的 <strong>最大</strong> 元素。</p>
 
-<p>Return <em>the matrix</em> <code>answer</code>.</p>
+<p>返回矩阵 <code>answer</code> 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3033.Modify%20the%20Matrix/images/matrix1.png" style="width: 491px; height: 161px;" />
 <pre>
-<strong>Input:</strong> matrix = [[1,2,-1],[4,-1,6],[7,8,9]]
-<strong>Output:</strong> [[1,2,9],[4,8,6],[7,8,9]]
-<strong>Explanation:</strong> The diagram above shows the elements that are changed (in blue).
-- We replace the value in the cell [1][1] with the maximum value in the column 1, that is 8.
-- We replace the value in the cell [0][2] with the maximum value in the column 2, that is 9.
+<strong>输入：</strong>matrix = [[1,2,-1],[4,-1,6],[7,8,9]]
+<strong>输出：</strong>[[1,2,9],[4,8,6],[7,8,9]]
+<strong>解释：</strong>上图显示了发生替换的元素（蓝色区域）。
+- 将单元格 [1][1] 中的值替换为列 1 中的最大值 8 。
+- 将单元格 [0][2] 中的值替换为列 2 中的最大值 9 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3033.Modify%20the%20Matrix/images/matrix2.png" style="width: 411px; height: 111px;" />
 <pre>
-<strong>Input:</strong> matrix = [[3,-1],[5,2]]
-<strong>Output:</strong> [[3,2],[5,2]]
-<strong>Explanation:</strong> The diagram above shows the elements that are changed (in blue).
+<strong>输入：</strong>matrix = [[3,-1],[5,2]]
+<strong>输出：</strong>[[3,2],[5,2]]
+<strong>解释：</strong>上图显示了发生替换的元素（蓝色区域）。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>m == matrix.length</code></li>
 	<li><code>n == matrix[i].length</code></li>
 	<li><code>2 &lt;= m, n &lt;= 50</code></li>
 	<li><code>-1 &lt;= matrix[i][j] &lt;= 100</code></li>
-	<li>The input is generated such that each column contains at least one non-negative integer.</li>
+	<li>测试用例中生成的输入满足每列至少包含一个非负整数。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can follow the problem description, traverse each column, find the maximum value of each column, and then traverse each column again, replacing the elements with a value of -1 with the maximum value of that column.
+我们可以根据题目描述，遍历每一列，找到每一列的最大值，然后再遍历每一列，将值为 -1 的元素替换为该列的最大值。
 
-The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. The space complexity is $O(1)$.
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是矩阵的行数和列数。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -147,19 +152,19 @@ func modifiedMatrix(matrix [][]int) [][]int {
 
 ```ts
 function modifiedMatrix(matrix: number[][]): number[][] {
-  const [m, n] = [matrix.length, matrix[0].length];
-  for (let j = 0; j < n; ++j) {
-    let mx = -1;
-    for (let i = 0; i < m; ++i) {
-      mx = Math.max(mx, matrix[i][j]);
+    const [m, n] = [matrix.length, matrix[0].length];
+    for (let j = 0; j < n; ++j) {
+        let mx = -1;
+        for (let i = 0; i < m; ++i) {
+            mx = Math.max(mx, matrix[i][j]);
+        }
+        for (let i = 0; i < m; ++i) {
+            if (matrix[i][j] === -1) {
+                matrix[i][j] = mx;
+            }
+        }
     }
-    for (let i = 0; i < m; ++i) {
-      if (matrix[i][j] === -1) {
-        matrix[i][j] = mx;
-      }
-    }
-  }
-  return matrix;
+    return matrix;
 }
 ```
 

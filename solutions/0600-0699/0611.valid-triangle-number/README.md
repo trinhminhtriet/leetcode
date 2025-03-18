@@ -1,45 +1,49 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0611.Valid%20Triangle%20Number/README.md
 tags:
-  - Greedy
-  - Array
-  - Two Pointers
-  - Binary Search
-  - Sorting
+    - 贪心
+    - 数组
+    - 双指针
+    - 二分查找
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [611. Valid Triangle Number](https://leetcode.com/problems/valid-triangle-number)
+# [611. 有效三角形的个数](https://leetcode.cn/problems/valid-triangle-number)
 
-## Description
+[English Version](/solution/0600-0699/0611.Valid%20Triangle%20Number/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an integer array <code>nums</code>, return <em>the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle</em>.</p>
+<p>给定一个包含非负整数的数组&nbsp;<code>nums</code> ，返回其中可以组成三角形三条边的三元组个数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [2,2,3,4]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> Valid combinations are: 
-2,3,4 (using the first 2)
-2,3,4 (using the second 2)
+<strong>输入:</strong> nums = [2,2,3,4]
+<strong>输出:</strong> 3
+<strong>解释:</strong>有效的组合是: 
+2,3,4 (使用第一个 2)
+2,3,4 (使用第二个 2)
 2,2,3
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2:</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [4,2,3,4]
-<strong>Output:</strong> 4
-</pre>
+<strong>输入:</strong> nums = [4,2,3,4]
+<strong>输出:</strong> 4</pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -48,11 +52,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一：排序 + 二分查找
+
+一个有效三角形需要满足：**任意两边之和大于第三边**。即：`a + b > c`①, `a + c > b`②, `b + c > a`③。
+
+如果我们将边按从小到大顺序排列，即 `a < b < c`，那么显然 ②③ 成立，我们只需要确保 ① 也成立，就可以形成一个有效三角形。
+
+我们在 `[0, n - 3]` 范围内枚举 i，在 `[i + 1, n - 2]` 范围内枚举 j，在 `[j + 1, n - 1]` 范围内进行二分查找，找出第一个大于等于 `nums[i] + nums[j]` 的下标 left，那么在 `[j + 1, left - 1]` 范围内的 k 满足条件，将其累加到结果 ans。
+
+时间复杂度：$O(n^2\log n)$。
 
 <!-- tabs:start -->
 
@@ -141,22 +153,22 @@ func triangleNumber(nums []int) int {
 
 ```ts
 function triangleNumber(nums: number[]): number {
-  nums.sort((a, b) => a - b);
-  let n = nums.length;
-  let ans = 0;
-  for (let i = n - 1; i >= 2; i--) {
-    let left = 0,
-      right = i - 1;
-    while (left < right) {
-      if (nums[left] + nums[right] > nums[i]) {
-        ans += right - left;
-        right--;
-      } else {
-        left++;
-      }
+    nums.sort((a, b) => a - b);
+    let n = nums.length;
+    let ans = 0;
+    for (let i = n - 1; i >= 2; i--) {
+        let left = 0,
+            right = i - 1;
+        while (left < right) {
+            if (nums[left] + nums[right] > nums[i]) {
+                ans += right - left;
+                right--;
+            } else {
+                left++;
+            }
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -191,7 +203,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2
+### 方法二
 
 <!-- tabs:start -->
 

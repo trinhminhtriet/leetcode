@@ -1,59 +1,64 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2475.Number%20of%20Unequal%20Triplets%20in%20Array/README.md
 rating: 1255
-source: Weekly Contest 320 Q1
+source: 第 320 场周赛 Q1
 tags:
-  - Array
-  - Hash Table
-  - Sorting
+    - 数组
+    - 哈希表
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [2475. Number of Unequal Triplets in Array](https://leetcode.com/problems/number-of-unequal-triplets-in-array)
+# [2475. 数组中不等三元组的数目](https://leetcode.cn/problems/number-of-unequal-triplets-in-array)
 
-## Description
+[English Version](/solution/2400-2499/2475.Number%20of%20Unequal%20Triplets%20in%20Array/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array of positive integers <code>nums</code>. Find the number of triplets <code>(i, j, k)</code> that meet the following conditions:</p>
+<p>给你一个下标从 <strong>0</strong> 开始的正整数数组 <code>nums</code> 。请你找出并统计满足下述条件的三元组 <code>(i, j, k)</code> 的数目：</p>
 
 <ul>
 	<li><code>0 &lt;= i &lt; j &lt; k &lt; nums.length</code></li>
-	<li><code>nums[i]</code>, <code>nums[j]</code>, and <code>nums[k]</code> are <strong>pairwise distinct</strong>.
+	<li><code>nums[i]</code>、<code>nums[j]</code> 和 <code>nums[k]</code> <strong>两两不同</strong> 。
 	<ul>
-		<li>In other words, <code>nums[i] != nums[j]</code>, <code>nums[i] != nums[k]</code>, and <code>nums[j] != nums[k]</code>.</li>
+		<li>换句话说：<code>nums[i] != nums[j]</code>、<code>nums[i] != nums[k]</code> 且 <code>nums[j] != nums[k]</code> 。</li>
 	</ul>
 	</li>
 </ul>
 
-<p>Return <em>the number of triplets that meet the conditions.</em></p>
+<p>返回满足上述条件三元组的数目<em>。</em></p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong>示例 1：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [4,4,2,4,3]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The following triplets meet the conditions:
-- (0, 2, 4) because 4 != 2 != 3
-- (1, 2, 4) because 4 != 2 != 3
-- (2, 3, 4) because 2 != 4 != 3
-Since there are 3 triplets, we return 3.
-Note that (2, 0, 4) is not a valid triplet because 2 &gt; 0.
+<strong>输入：</strong>nums = [4,4,2,4,3]
+<strong>输出：</strong>3
+<strong>解释：</strong>下面列出的三元组均满足题目条件：
+- (0, 2, 4) 因为 4 != 2 != 3
+- (1, 2, 4) 因为 4 != 2 != 3
+- (2, 3, 4) 因为 2 != 4 != 3
+共计 3 个三元组，返回 3 。
+注意 (2, 0, 4) 不是有效的三元组，因为 2 &gt; 0 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,1,1,1,1]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> No triplets meet the conditions so we return 0.
+<strong>输入：</strong>nums = [1,1,1,1,1]
+<strong>输出：</strong>0
+<strong>解释：</strong>不存在满足条件的三元组，所以返回 0 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 100</code></li>
@@ -62,15 +67,15 @@ Note that (2, 0, 4) is not a valid triplet because 2 &gt; 0.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Brute Force Enumeration
+### 方法一：暴力枚举
 
-We can directly enumerate all triples $(i, j, k)$ and count all the ones that meet the conditions.
+我们可以直接枚举所有的三元组 $(i, j, k)$，统计所有符合条件的数量。
 
-The time complexity is $O(n^3)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n^3)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -155,18 +160,18 @@ func unequalTriplets(nums []int) (ans int) {
 
 ```ts
 function unequalTriplets(nums: number[]): number {
-  const n = nums.length;
-  let ans = 0;
-  for (let i = 0; i < n - 2; i++) {
-    for (let j = i + 1; j < n - 1; j++) {
-      for (let k = j + 1; k < n; k++) {
-        if (nums[i] !== nums[j] && nums[j] !== nums[k] && nums[i] !== nums[k]) {
-          ans++;
+    const n = nums.length;
+    let ans = 0;
+    for (let i = 0; i < n - 2; i++) {
+        for (let j = i + 1; j < n - 1; j++) {
+            for (let k = j + 1; k < n; k++) {
+                if (nums[i] !== nums[j] && nums[j] !== nums[k] && nums[i] !== nums[k]) {
+                    ans++;
+                }
+            }
         }
-      }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 
@@ -197,13 +202,13 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: Sorting + Enumeration of Middle Elements + Binary Search
+### 方法二：排序 + 枚举中间元素 + 二分查找
 
-We can also sort the array $nums$ first.
+我们也可以先对数组 $nums$ 进行排序。
 
-Then traverse $nums$, enumerate the middle element $nums[j]$, and use binary search to find the nearest index $i$ on the left side of $nums[j]$ such that $nums[i] < nums[j]$; find the nearest index $k$ on the right side of $nums[j]$ such that $nums[k] > nums[j]$. Then the number of triples with $nums[j]$ as the middle element and meeting the conditions is $(i + 1) \times (n - k)$, which is added to the answer.
+然后遍历 $nums$，枚举中间元素 $nums[j]$，利用二分查找，在 $nums[j]$ 左侧找到最近的下标 $i$，使得 $nums[i] \lt nums[j]$ 成立；在 $nums[j]$ 右侧找到最近的下标 $k$，使得 $nums[k] \gt nums[j]$ 成立。那么以 $nums[j]$ 作为中间元素，且符合条件的三元组数量为 $(i + 1) \times (n - k)$，累加到答案中。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -293,19 +298,19 @@ func unequalTriplets(nums []int) (ans int) {
 
 ```ts
 function unequalTriplets(nums: number[]): number {
-  const n = nums.length;
-  const cnt = new Map<number, number>();
-  for (const num of nums) {
-    cnt.set(num, (cnt.get(num) ?? 0) + 1);
-  }
-  let ans = 0;
-  let a = 0;
-  for (const b of cnt.values()) {
-    const c = n - a - b;
-    ans += a * b * c;
-    a += b;
-  }
-  return ans;
+    const n = nums.length;
+    const cnt = new Map<number, number>();
+    for (const num of nums) {
+        cnt.set(num, (cnt.get(num) ?? 0) + 1);
+    }
+    let ans = 0;
+    let a = 0;
+    for (const b of cnt.values()) {
+        const c = n - a - b;
+        ans += a * b * c;
+        a += b;
+    }
+    return ans;
 }
 ```
 
@@ -338,13 +343,13 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 3: Hash Table
+### 方法三：哈希表
 
-We can also use a hash table $cnt$ to count the number of each element in the array $nums$.
+我们还可以使用哈希表 $cnt$ 来统计数组 $nums$ 中每个元素的数量。
 
-Then traverse the hash table $cnt$, enumerate the number of middle elements $b$, and denote the number of elements on the left as $a$. Then the number of elements on the right is $c = n - a - b$. At this time, the number of triples that meet the conditions is $a \times b \times c$, which is added to the answer. Then update $a = a + b$ and continue to enumerate the number of middle elements $b$.
+然后遍历哈希表 $cnt$，枚举中间元素的个数 $b$，左侧元素个数记为 $a$，那么右侧元素个数有 $c = n - a - b$，此时符合条件的三元组数量为 $a \times b \times c$，累加到答案中。接着更新 $a = a + b$，继续枚举中间元素的个数 $b$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
 
@@ -456,7 +461,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 4
+### 方法四
 
 <!-- tabs:start -->
 

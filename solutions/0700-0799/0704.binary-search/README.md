@@ -1,68 +1,67 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0704.Binary%20Search/README.md
 tags:
-  - Array
-  - Binary Search
+    - 数组
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [704. Binary Search](https://leetcode.com/problems/binary-search)
+# [704. 二分查找](https://leetcode.cn/problems/binary-search)
 
-## Description
+[English Version](/solution/0700-0799/0704.Binary%20Search/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of integers <code>nums</code> which is sorted in ascending order, and an integer <code>target</code>, write a function to search <code>target</code> in <code>nums</code>. If <code>target</code> exists, then return its index. Otherwise, return <code>-1</code>.</p>
+<p>给定一个&nbsp;<code>n</code>&nbsp;个元素有序的（升序）整型数组&nbsp;<code>nums</code> 和一个目标值&nbsp;<code>target</code> &nbsp;，写一个函数搜索&nbsp;<code>nums</code>&nbsp;中的 <code>target</code>，如果目标值存在返回下标，否则返回 <code>-1</code>。</p>
 
-<p>You must write an algorithm with <code>O(log n)</code> runtime complexity.</p>
+<p><br>
+<strong>示例 1:</strong></p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [-1,0,3,5,9,12], target = 9
-<strong>Output:</strong> 4
-<strong>Explanation:</strong> 9 exists in nums and its index is 4
+<pre><strong>输入:</strong> <code>nums</code> = [-1,0,3,5,9,12], <code>target</code> = 9
+<strong>输出:</strong> 4
+<strong>解释:</strong> 9 出现在 <code>nums</code> 中并且下标为 4
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例&nbsp;2:</strong></p>
 
-<pre>
-<strong>Input:</strong> nums = [-1,0,3,5,9,12], target = 2
-<strong>Output:</strong> -1
-<strong>Explanation:</strong> 2 does not exist in nums so return -1
+<pre><strong>输入:</strong> <code>nums</code> = [-1,0,3,5,9,12], <code>target</code> = 2
+<strong>输出:</strong> -1
+<strong>解释:</strong> 2 不存在 <code>nums</code> 中因此返回 -1
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
 
-<ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt; nums[i], target &lt; 10<sup>4</sup></code></li>
-	<li>All the integers in <code>nums</code> are <strong>unique</strong>.</li>
-	<li><code>nums</code> is sorted in ascending order.</li>
-</ul>
+<p><strong>提示：</strong></p>
+
+<ol>
+	<li>你可以假设 <code>nums</code>&nbsp;中的所有元素是不重复的。</li>
+	<li><code>n</code>&nbsp;将在&nbsp;<code>[1, 10000]</code>之间。</li>
+	<li><code>nums</code>&nbsp;的每个元素都将在&nbsp;<code>[-9999, 9999]</code>之间。</li>
+</ol>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Binary Search
+### 方法一：二分查找
 
-We define the left boundary $l=0$ and the right boundary $r=n-1$ for binary search.
+我们定义二分查找的左边界 $l=0$，右边界 $r=n-1$。
 
-In each iteration, we calculate the middle position $\textit{mid}=(l+r)/2$, then compare the size of $\textit{nums}[\textit{mid}]$ and $\textit{target}$.
+每一次循环，我们计算中间位置 $\textit{mid}=(l+r)/2$，然后比较 $\textit{nums}[\textit{mid}]$ 和 $\textit{target}$ 的大小。
 
-- If $\textit{nums}[\textit{mid}] \geq \textit{target}$, it means $\textit{target}$ is in the left half, so we move the right boundary $r$ to $\textit{mid}$;
-- Otherwise, it means $\textit{target}$ is in the right half, so we move the left boundary $l$ to $\textit{mid}+1$.
+-   如果 $\textit{nums}[\textit{mid}] \geq \textit{target}$，说明 $\textit{target}$ 在左半部分，我们将右边界 $r$ 移动到 $\textit{mid}$；
+-   否则，说明 $\textit{target}$ 在右半部分，我们将左边界 $l$ 移动到 $\textit{mid}+1$。
 
-The loop ends when $l<r$, at this point $\textit{nums}[l]$ is the target value we are looking for. If $\textit{nums}[l]=\textit{target}$, return $l$; otherwise, return $-1$.
+循环结束的条件是 $l<r$，此时 $\textit{nums}[l]$ 就是我们要找的目标值，如果 $\textit{nums}[l]=\textit{target}$，返回 $l$，否则返回 $-1$。
 
-The time complexity is $O(\log n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
+时间复杂度 $O(\log n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -144,16 +143,16 @@ func search(nums []int, target int) int {
 
 ```ts
 function search(nums: number[], target: number): number {
-  let [l, r] = [0, nums.length - 1];
-  while (l < r) {
-    const mid = (l + r) >> 1;
-    if (nums[mid] >= target) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    let [l, r] = [0, nums.length - 1];
+    while (l < r) {
+        const mid = (l + r) >> 1;
+        if (nums[mid] >= target) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return nums[l] === target ? l : -1;
+    return nums[l] === target ? l : -1;
 }
 ```
 
@@ -190,16 +189,16 @@ impl Solution {
  * @return {number}
  */
 var search = function (nums, target) {
-  let [l, r] = [0, nums.length - 1];
-  while (l < r) {
-    const mid = (l + r) >> 1;
-    if (nums[mid] >= target) {
-      r = mid;
-    } else {
-      l = mid + 1;
+    let [l, r] = [0, nums.length - 1];
+    while (l < r) {
+        const mid = (l + r) >> 1;
+        if (nums[mid] >= target) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-  }
-  return nums[l] === target ? l : -1;
+    return nums[l] === target ? l : -1;
 };
 ```
 

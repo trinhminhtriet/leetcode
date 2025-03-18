@@ -1,60 +1,65 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2972.Count%20the%20Number%20of%20Incremovable%20Subarrays%20II/README.md
 rating: 2152
-source: Biweekly Contest 120 Q3
+source: 第 120 场双周赛 Q3
 tags:
-  - Array
-  - Two Pointers
-  - Binary Search
+    - 数组
+    - 双指针
+    - 二分查找
 ---
 
 <!-- problem:start -->
 
-# [2972. Count the Number of Incremovable Subarrays II](https://leetcode.com/problems/count-the-number-of-incremovable-subarrays-ii)
+# [2972. 统计移除递增子数组的数目 II](https://leetcode.cn/problems/count-the-number-of-incremovable-subarrays-ii)
 
-## Description
+[English Version](/solution/2900-2999/2972.Count%20the%20Number%20of%20Incremovable%20Subarrays%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> array of <strong>positive</strong> integers <code>nums</code>.</p>
+<p>给你一个下标从 <strong>0</strong>&nbsp;开始的 <b>正</b>&nbsp;整数数组&nbsp;<code>nums</code>&nbsp;。</p>
 
-<p>A subarray of <code>nums</code> is called <strong>incremovable</strong> if <code>nums</code> becomes <strong>strictly increasing</strong> on removing the subarray. For example, the subarray <code>[3, 4]</code> is an incremovable subarray of <code>[5, 3, 4, 6, 7]</code> because removing this subarray changes the array <code>[5, 3, 4, 6, 7]</code> to <code>[5, 6, 7]</code> which is strictly increasing.</p>
+<p>如果 <code>nums</code>&nbsp;的一个子数组满足：移除这个子数组后剩余元素 <strong>严格递增</strong>&nbsp;，那么我们称这个子数组为 <strong>移除递增</strong>&nbsp;子数组。比方说，<code>[5, 3, 4, 6, 7]</code>&nbsp;中的 <code>[3, 4]</code>&nbsp;是一个移除递增子数组，因为移除该子数组后，<code>[5, 3, 4, 6, 7]</code>&nbsp;变为&nbsp;<code>[5, 6, 7]</code>&nbsp;，是严格递增的。</p>
 
-<p>Return <em>the total number of <strong>incremovable</strong> subarrays of</em> <code>nums</code>.</p>
+<p>请你返回 <code>nums</code>&nbsp;中 <b>移除递增</b>&nbsp;子数组的总数目。</p>
 
-<p><strong>Note</strong> that an empty array is considered strictly increasing.</p>
+<p><b>注意</b>&nbsp;，剩余元素为空的数组也视为是递增的。</p>
 
-<p>A <strong>subarray</strong> is a contiguous non-empty sequence of elements within an array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4]
-<strong>Output:</strong> 10
-<strong>Explanation:</strong> The 10 incremovable subarrays are: [1], [2], [3], [4], [1,2], [2,3], [3,4], [1,2,3], [2,3,4], and [1,2,3,4], because on removing any one of these subarrays nums becomes strictly increasing. Note that you cannot select an empty subarray.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [6,5,7,8]
-<strong>Output:</strong> 7
-<strong>Explanation:</strong> The 7 incremovable subarrays are: [5], [6], [5,7], [6,5], [5,7,8], [6,5,7] and [6,5,7,8].
-It can be shown that there are only 7 incremovable subarrays in nums.
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [8,7,6,6]
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> The 3 incremovable subarrays are: [8,7,6], [7,6,6], and [8,7,6,6]. Note that [8,7] is not an incremovable subarray because after removing [8,7] nums becomes [6,6], which is sorted in ascending order but not strictly increasing.
-</pre>
+<p><strong>子数组</strong> 指的是一个数组中一段连续的元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,2,3,4]
+<b>输出：</b>10
+<b>解释：</b>10 个移除递增子数组分别为：[1], [2], [3], [4], [1,2], [2,3], [3,4], [1,2,3], [2,3,4] 和 [1,2,3,4]。移除任意一个子数组后，剩余元素都是递增的。注意，空数组不是移除递增子数组。
+</pre>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [6,5,7,8]
+<b>输出：</b>7
+<b>解释：</b>7<strong>&nbsp;</strong>个移除递增子数组分别为：[5], [6], [5,7], [6,5], [5,7,8], [6,5,7] 和 [6,5,7,8] 。
+nums 中只有这 7 个移除递增子数组。
+</pre>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [8,7,6,6]
+<b>输出：</b>3
+<b>解释：</b>3 个移除递增子数组分别为：[8,7,6], [7,6,6] 和 [8,7,6,6] 。注意 [8,7] 不是移除递增子数组因为移除 [8,7] 后 nums 变为 [6,6] ，它不是严格递增的。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -63,37 +68,37 @@ It can be shown that there are only 7 incremovable subarrays in nums.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two Pointers
+### 方法一：双指针
 
-According to the problem description, after removing a subarray, the remaining elements are strictly increasing. Therefore, there are several situations:
+根据题目描述，移除一个子数组后，剩余元素严格递增，那么存在以下几种情况：
 
-1. The remaining elements only include the prefix of the array $nums$ (which can be empty);
-2. The remaining elements only include the suffix of the array $nums$;
-3. The remaining elements include both the prefix and the suffix of the array $nums$.
+1. 剩余元素仅包含数组 $nums$ 的前缀（可以为空）；
+1. 剩余元素仅包含数组 $nums$ 的后缀；
+1. 剩余元素包含数组 $nums$ 的前缀和后缀。
 
-The second and third situations can be combined into one, that is, the remaining elements include the suffix of the array $nums$. So there are two situations in total:
+其中第 $2$ 和第 $3$ 种情况可以合并为一种情况，即剩余元素包含数组 $nums$ 的后缀。即一共有以下两种情况：
 
-1. The remaining elements only include the prefix of the array $nums$ (which can be empty);
-2. The remaining elements include the suffix of the array $nums$.
+1. 剩余元素仅包含数组 $nums$ 的前缀（可以为空）；
+1. 剩余元素包含数组 $nums$ 的后缀。
 
-First, consider the first situation, that is, the remaining elements only include the prefix of the array $nums$. We can use a pointer $i$ to point to the last element of the longest increasing prefix of the array $nums$, that is, $nums[0] \lt nums[1] \lt \cdots \lt nums[i]$, then the number of remaining elements is $n - i - 1$, where $n$ is the length of the array $nums$. Therefore, for this situation, to make the remaining elements strictly increasing, we can choose to remove the following subarrays:
+我们先考虑第一种情况，即剩余元素仅包含数组 $nums$ 的前缀。我们可以用一个指针 $i$ 指向数组 $nums$ 的最长递增前缀的最后一个元素，即 $nums[0] \lt nums[1] \lt \cdots \lt nums[i]$，那么剩余元素的个数为 $n - i - 1$，其中 $n$ 为数组 $nums$ 的长度。因此，对于这种情况，要使得剩余元素严格递增，我们可以选择移除以下子数组：
 
-1. $nums[i+1,...,n-1]$;
-2. $nums[i,...,n-1]$;
-3. $nums[i-1,...,n-1]$;
-4. $nums[i-2,...,n-1]$;
-5. $\cdots$;
-6. $nums[0,...,n-1]$.
+1. $nums[i+1,...,n-1]$；
+1. $nums[i,...,n-1]$；
+1. $nums[i-1,...,n-1]$；
+1. $nums[i-2,...,n-1]$；
+1. $\cdots$；
+1. $nums[0,...,n-1]$。
 
-There are $i + 2$ situations in total, so for this situation, the number of removed increasing subarrays is $i + 2$.
+这一共有 $i + 2$ 种情况，因此对于这种情况，移除递增子数组的数目为 $i + 2$。
 
-Next, consider the second situation, that is, the remaining elements include the suffix of the array $nums$. We can use a pointer $j$ to point to the first element of the increasing suffix of the array $nums$. We enumerate $j$ as the first element of the increasing suffix in the range $[n - 1,...,1]$. Each time, we need to move the pointer $i$ to make $nums[i] \lt nums[j]$, then the number of removed increasing subarrays increases by $i + 2$. When $nums[j - 1] \ge nums[j]$, we stop enumerating because the suffix is not strictly increasing at this time.
+再考虑第二种情况，即剩余元素包含数组 $nums$ 的后缀。我们可以用一个指针 $j$ 指向数组 $nums$ 的递增后缀的第一个元素，我们在 $[n - 1,...,1]$ 的范围内枚举 $j$ 作为递增后缀的第一个元素，每一次，我们需要移动指针 $i$ 使得 $nums[i] \lt nums[j]$，那么移除递增子数组的数组增加 $i + 2$。当 $nums[j - 1] \ge nums[j]$ 时，我们停止枚举，因为此时后缀不是严格递增。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
@@ -203,25 +208,25 @@ func incremovableSubarrayCount(nums []int) int64 {
 
 ```ts
 function incremovableSubarrayCount(nums: number[]): number {
-  const n = nums.length;
-  let i = 0;
-  while (i + 1 < n && nums[i] < nums[i + 1]) {
-    i++;
-  }
-  if (i === n - 1) {
-    return (n * (n + 1)) / 2;
-  }
-  let ans = i + 2;
-  for (let j = n - 1; j; --j) {
-    while (i >= 0 && nums[i] >= nums[j]) {
-      --i;
+    const n = nums.length;
+    let i = 0;
+    while (i + 1 < n && nums[i] < nums[i + 1]) {
+        i++;
     }
-    ans += i + 2;
-    if (nums[j - 1] >= nums[j]) {
-      break;
+    if (i === n - 1) {
+        return (n * (n + 1)) / 2;
     }
-  }
-  return ans;
+    let ans = i + 2;
+    for (let j = n - 1; j; --j) {
+        while (i >= 0 && nums[i] >= nums[j]) {
+            --i;
+        }
+        ans += i + 2;
+        if (nums[j - 1] >= nums[j]) {
+            break;
+        }
+    }
+    return ans;
 }
 ```
 

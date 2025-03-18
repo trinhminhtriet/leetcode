@@ -1,51 +1,54 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2364.Count%20Number%20of%20Bad%20Pairs/README.md
 rating: 1622
-source: Biweekly Contest 84 Q2
+source: 第 84 场双周赛 Q2
 tags:
-  - Array
-  - Hash Table
-  - Math
-  - Counting
+    - 数组
+    - 哈希表
+    - 数学
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2364. Count Number of Bad Pairs](https://leetcode.com/problems/count-number-of-bad-pairs)
+# [2364. 统计坏数对的数目](https://leetcode.cn/problems/count-number-of-bad-pairs)
 
-## Description
+[English Version](/solution/2300-2399/2364.Count%20Number%20of%20Bad%20Pairs/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. A pair of indices <code>(i, j)</code> is a <strong>bad pair</strong> if <code>i &lt; j</code> and <code>j - i != nums[j] - nums[i]</code>.</p>
+<p>给你一个下标从<strong>&nbsp;0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;。如果 <code>i &lt; j</code>&nbsp;且&nbsp;<code>j - i != nums[j] - nums[i]</code>&nbsp;，那么我们称&nbsp;<code>(i, j)</code>&nbsp;是一个 <strong>坏</strong><strong>数对</strong>&nbsp;。</p>
 
-<p>Return<em> the total number of <strong>bad pairs</strong> in </em><code>nums</code>.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [4,1,3,3]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The pair (0, 1) is a bad pair since 1 - 0 != 1 - 4.
-The pair (0, 2) is a bad pair since 2 - 0 != 3 - 4, 2 != -1.
-The pair (0, 3) is a bad pair since 3 - 0 != 3 - 4, 3 != -1.
-The pair (1, 2) is a bad pair since 2 - 1 != 3 - 1, 1 != 2.
-The pair (2, 3) is a bad pair since 3 - 2 != 3 - 3, 1 != 0.
-There are a total of 5 bad pairs, so we return 5.
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<pre>
-<strong>Input:</strong> nums = [1,2,3,4,5]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> There are no bad pairs.
-</pre>
+<p>请你返回 <code>nums</code>&nbsp;中 <strong>坏数对</strong>&nbsp;的总数目。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre><b>输入：</b>nums = [4,1,3,3]
+<b>输出：</b>5
+<b>解释：</b>数对 (0, 1) 是坏数对，因为 1 - 0 != 1 - 4 。
+数对 (0, 2) 是坏数对，因为 2 - 0 != 3 - 4, 2 != -1 。
+数对 (0, 3) 是坏数对，因为 3 - 0 != 3 - 4, 3 != -1 。
+数对 (1, 2) 是坏数对，因为 2 - 1 != 3 - 1, 1 != 2 。
+数对 (2, 3) 是坏数对，因为 3 - 2 != 3 - 3, 1 != 0 。
+总共有 5 个坏数对，所以我们返回 5 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre><b>输入：</b>nums = [1,2,3,4,5]
+<b>输出：</b>0
+<strong>解释：</strong>没有坏数对。
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -54,21 +57,21 @@ There are a total of 5 bad pairs, so we return 5.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Equation Transformation + Hash Table
+### 方法一：式子转换 + 哈希表
 
-From the problem description, we know that for any $i < j$, if $j - i \neq nums[j] - nums[i]$, then $(i, j)$ is a bad pair.
+根据题目描述，我们可以得知，对于任意的 $i \lt j$，如果 $j - i \neq nums[j] - nums[i]$，则 $(i, j)$ 是一个坏数对。
 
-We can transform the equation to $i - nums[i] \neq j - nums[j]$. This inspires us to use a hash table $cnt$ to count the occurrences of $i - nums[i]$.
+我们可以将式子转换为 $i - nums[i] \neq j - nums[j]$。这启发我们用哈希表 $cnt$ 来统计 $i - nums[i]$ 的出现次数。
 
-We iterate through the array. For the current element $nums[i]$, we add $i - cnt[i - nums[i]]$ to the answer, then increment the count of $i - nums[i]$ by $1$.
+我们遍历数组，对于当前元素 $nums[i]$，我们将 $i - cnt[i - nums[i]]$ 加到答案中，然后将 $i - nums[i]$ 的出现次数加 $1$。
 
-Finally, we return the answer.
+最终，我们返回答案即可。
 
-The time complexity is $O(n)$ and the space complexity is $O(n)$, where $n$ is the length of the array.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
 
 <!-- tabs:start -->
 
@@ -138,14 +141,14 @@ func countBadPairs(nums []int) (ans int64) {
 
 ```ts
 function countBadPairs(nums: number[]): number {
-  const cnt = new Map<number, number>();
-  let ans = 0;
-  for (let i = 0; i < nums.length; ++i) {
-    const x = i - nums[i];
-    ans += i - (cnt.get(x) ?? 0);
-    cnt.set(x, (cnt.get(x) ?? 0) + 1);
-  }
-  return ans;
+    const cnt = new Map<number, number>();
+    let ans = 0;
+    for (let i = 0; i < nums.length; ++i) {
+        const x = i - nums[i];
+        ans += i - (cnt.get(x) ?? 0);
+        cnt.set(x, (cnt.get(x) ?? 0) + 1);
+    }
+    return ans;
 }
 ```
 

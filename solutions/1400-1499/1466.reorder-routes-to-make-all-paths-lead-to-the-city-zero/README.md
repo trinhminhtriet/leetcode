@@ -1,82 +1,86 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1466.Reorder%20Routes%20to%20Make%20All%20Paths%20Lead%20to%20the%20City%20Zero/README.md
 rating: 1633
-source: Weekly Contest 191 Q3
+source: 第 191 场周赛 Q3
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [1466. Reorder Routes to Make All Paths Lead to the City Zero](https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero)
+# [1466. 重新规划路线](https://leetcode.cn/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero)
 
-## Description
+[English Version](/solution/1400-1499/1466.Reorder%20Routes%20to%20Make%20All%20Paths%20Lead%20to%20the%20City%20Zero/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>There are <code>n</code> cities numbered from <code>0</code> to <code>n - 1</code> and <code>n - 1</code> roads such that there is only one way to travel between two different cities (this network form a tree). Last year, The ministry of transport decided to orient the roads in one direction because they are too narrow.</p>
+<p><code>n</code> 座城市，从 <code>0</code> 到 <code>n-1</code> 编号，其间共有 <code>n-1</code> 条路线。因此，要想在两座不同城市之间旅行只有唯一一条路线可供选择（路线网形成一颗树）。去年，交通运输部决定重新规划路线，以改变交通拥堵的状况。</p>
 
-<p>Roads are represented by <code>connections</code> where <code>connections[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> represents a road from city <code>a<sub>i</sub></code> to city <code>b<sub>i</sub></code>.</p>
+<p>路线用 <code>connections</code> 表示，其中 <code>connections[i] = [a, b]</code> 表示从城市 <code>a</code> 到 <code>b</code> 的一条有向路线。</p>
 
-<p>This year, there will be a big event in the capital (city <code>0</code>), and many people want to travel to this city.</p>
+<p>今年，城市 0 将会举办一场大型比赛，很多游客都想前往城市 0 。</p>
 
-<p>Your task consists of reorienting some roads such that each city can visit the city <code>0</code>. Return the <strong>minimum</strong> number of edges changed.</p>
+<p>请你帮助重新规划路线方向，使每个城市都可以访问城市 0 。返回需要变更方向的最小路线数。</p>
 
-<p>It&#39;s <strong>guaranteed</strong> that each city can reach city <code>0</code> after reorder.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1466.Reorder%20Routes%20to%20Make%20All%20Paths%20Lead%20to%20the%20City%20Zero/images/sample_1_1819.png" style="width: 311px; height: 189px;" />
-<pre>
-<strong>Input:</strong> n = 6, connections = [[0,1],[1,3],[2,3],[4,0],[4,5]]
-<strong>Output:</strong> 3
-<strong>Explanation: </strong>Change the direction of edges show in red such that each node can reach the node 0 (capital).
-</pre>
-
-<p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1466.Reorder%20Routes%20to%20Make%20All%20Paths%20Lead%20to%20the%20City%20Zero/images/sample_2_1819.png" style="width: 509px; height: 79px;" />
-<pre>
-<strong>Input:</strong> n = 5, connections = [[1,0],[1,2],[3,2],[3,4]]
-<strong>Output:</strong> 2
-<strong>Explanation: </strong>Change the direction of edges show in red such that each node can reach the node 0 (capital).
-</pre>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<pre>
-<strong>Input:</strong> n = 3, connections = [[1,0],[2,0]]
-<strong>Output:</strong> 0
-</pre>
+<p>题目数据 <strong>保证</strong> 每个城市在重新规划路线方向后都能到达城市 0 。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>示例 1：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1466.Reorder%20Routes%20to%20Make%20All%20Paths%20Lead%20to%20the%20City%20Zero/images/sample_1_1819.png" style="height: 150px; width: 240px;"></strong></p>
+
+<pre><strong>输入：</strong>n = 6, connections = [[0,1],[1,3],[2,3],[4,0],[4,5]]
+<strong>输出：</strong>3
+<strong>解释：</strong>更改以红色显示的路线的方向，使每个城市都可以到达城市 0 。</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1466.Reorder%20Routes%20to%20Make%20All%20Paths%20Lead%20to%20the%20City%20Zero/images/sample_2_1819.png" style="height: 60px; width: 380px;"></strong></p>
+
+<pre><strong>输入：</strong>n = 5, connections = [[1,0],[1,2],[3,2],[3,4]]
+<strong>输出：</strong>2
+<strong>解释：</strong>更改以红色显示的路线的方向，使每个城市都可以到达城市 0 。</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre><strong>输入：</strong>n = 3, connections = [[1,0],[2,0]]
+<strong>输出：</strong>0
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>2 &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>connections.length == n - 1</code></li>
+	<li><code>2 &lt;= n &lt;= 5 * 10^4</code></li>
+	<li><code>connections.length == n-1</code></li>
 	<li><code>connections[i].length == 2</code></li>
-	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n - 1</code></li>
-	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
+	<li><code>0 &lt;= connections[i][0], connections[i][1] &lt;= n-1</code></li>
+	<li><code>connections[i][0] != connections[i][1]</code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: DFS
+### 方法一：DFS
 
-The route map given in the problem has $n$ nodes and $n-1$ edges. If we ignore the direction of the edges, then these $n$ nodes form a tree. The problem requires us to change the direction of some edges so that each node can reach node $0$.
+题目给定的路线图中有 $n$ 个节点和 $n-1$ 条边，如果我们忽略边的方向，那么这 $n$ 个节点构成了一棵树。而题目需要我们改变某些边的方向，使得每个节点都能到达节点 $0$。
 
-We might as well consider starting from node $0$ and reaching all other nodes. The direction is opposite to the problem description, which means that when we build the graph, for the directed edge $[a, b]$, we should regard it as the directed edge $[b, a]$. That is to say, if it is from $a$ to $b$, we need to change the direction once; if it is from $b$ to $a$, no direction change is needed.
+我们不妨考虑从节点 $0$ 出发，到达其他所有节点。方向与题目描述相反，意味着我们在构建图的时候，对于有向边 $[a, b]$，我们应该视为有向边 $[b, a]$。也即是说，如果要从 $a$ 到 $b$，我们需要变更一次方向；如果要从 $b$ 到 $a$，则不需要变更方向。
 
-Next, we only need to start from node $0$, search all other nodes, and during the process, if we encounter an edge that needs to change direction, we accumulate the number of direction changes once.
+接下来，我们只需要从节点 $0$ 出发，搜索其他所有节点，过程中，如果遇到需要变更方向的边，则累加一次变更方向的次数。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the problem.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是题目中节点的数量。
 
 <!-- tabs:start -->
 
@@ -178,21 +182,21 @@ func minReorder(n int, connections [][]int) int {
 
 ```ts
 function minReorder(n: number, connections: number[][]): number {
-  const g: [number, number][][] = Array.from({ length: n }, () => []);
-  for (const [a, b] of connections) {
-    g[a].push([b, 1]);
-    g[b].push([a, 0]);
-  }
-  const dfs = (a: number, fa: number): number => {
-    let ans = 0;
-    for (const [b, c] of g[a]) {
-      if (b !== fa) {
-        ans += c + dfs(b, a);
-      }
+    const g: [number, number][][] = Array.from({ length: n }, () => []);
+    for (const [a, b] of connections) {
+        g[a].push([b, 1]);
+        g[b].push([a, 0]);
     }
-    return ans;
-  };
-  return dfs(0, -1);
+    const dfs = (a: number, fa: number): number => {
+        let ans = 0;
+        for (const [b, c] of g[a]) {
+            if (b !== fa) {
+                ans += c + dfs(b, a);
+            }
+        }
+        return ans;
+    };
+    return dfs(0, -1);
 }
 ```
 
@@ -228,11 +232,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### Solution 2: BFS
+### 方法二：BFS
 
-We can use the Breadth-First Search (BFS) method, starting from node $0$, to search all other nodes. During the process, if we encounter an edge that requires a change of direction, we increment the count of direction changes.
+我们可以使用广度优先搜索的方法，从节点 $0$ 出发，搜索其他所有节点，过程中，如果遇到需要变更方向的边，则累加一次变更方向的次数。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes in the problem.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是题目中节点的数量。
 
 <!-- tabs:start -->
 
@@ -348,28 +352,28 @@ func minReorder(n int, connections [][]int) (ans int) {
 
 ```ts
 function minReorder(n: number, connections: number[][]): number {
-  const g: [number, number][][] = Array.from({ length: n }, () => []);
-  for (const [a, b] of connections) {
-    g[a].push([b, 1]);
-    g[b].push([a, 0]);
-  }
-
-  const q: number[] = [0];
-  const vis = new Set<number>();
-  vis.add(0);
-
-  let ans = 0;
-  while (q.length) {
-    const a = q.pop()!;
-    for (const [b, c] of g[a]) {
-      if (!vis.has(b)) {
-        vis.add(b);
-        q.push(b);
-        ans += c;
-      }
+    const g: [number, number][][] = Array.from({ length: n }, () => []);
+    for (const [a, b] of connections) {
+        g[a].push([b, 1]);
+        g[b].push([a, 0]);
     }
-  }
-  return ans;
+
+    const q: number[] = [0];
+    const vis = new Set<number>();
+    vis.add(0);
+
+    let ans = 0;
+    while (q.length) {
+        const a = q.pop()!;
+        for (const [b, c] of g[a]) {
+            if (!vis.has(b)) {
+                vis.add(b);
+                q.push(b);
+                ans += c;
+            }
+        }
+    }
+    return ans;
 }
 ```
 

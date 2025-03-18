@@ -1,75 +1,78 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2351.First%20Letter%20to%20Appear%20Twice/README.md
 rating: 1155
-source: Weekly Contest 303 Q1
+source: 第 303 场周赛 Q1
 tags:
-  - Bit Manipulation
-  - Hash Table
-  - String
-  - Counting
+    - 位运算
+    - 哈希表
+    - 字符串
+    - 计数
 ---
 
 <!-- problem:start -->
 
-# [2351. First Letter to Appear Twice](https://leetcode.com/problems/first-letter-to-appear-twice)
+# [2351. 第一个出现两次的字母](https://leetcode.cn/problems/first-letter-to-appear-twice)
 
-## Description
+[English Version](/solution/2300-2399/2351.First%20Letter%20to%20Appear%20Twice/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given a string <code>s</code> consisting of lowercase English letters, return <em>the first letter to appear <strong>twice</strong></em>.</p>
+<p>给你一个由小写英文字母组成的字符串 <code>s</code> ，请你找出并返回第一个出现 <strong>两次</strong> 的字母。</p>
 
-<p><strong>Note</strong>:</p>
+<p><strong>注意：</strong></p>
 
 <ul>
-	<li>A letter <code>a</code> appears twice before another letter <code>b</code> if the <strong>second</strong> occurrence of <code>a</code> is before the <strong>second</strong> occurrence of <code>b</code>.</li>
-	<li><code>s</code> will contain at least one letter that appears twice.</li>
+	<li>如果 <code>a</code> 的 <strong>第二次</strong> 出现比 <code>b</code> 的 <strong>第二次</strong> 出现在字符串中的位置更靠前，则认为字母 <code>a</code> 在字母 <code>b</code> 之前出现两次。</li>
+	<li><code>s</code> 包含至少一个出现两次的字母。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;abccbaacz&quot;
-<strong>Output:</strong> &quot;c&quot;
-<strong>Explanation:</strong>
-The letter &#39;a&#39; appears on the indexes 0, 5 and 6.
-The letter &#39;b&#39; appears on the indexes 1 and 4.
-The letter &#39;c&#39; appears on the indexes 2, 3 and 7.
-The letter &#39;z&#39; appears on the index 8.
-The letter &#39;c&#39; is the first letter to appear twice, because out of all the letters the index of its second occurrence is the smallest.
+<p><strong>示例 1：</strong></p>
+
+<pre><strong>输入：</strong>s = "abccbaacz"
+<strong>输出：</strong>"c"
+<strong>解释：</strong>
+字母 'a' 在下标 0 、5 和 6 处出现。
+字母 'b' 在下标 1 和 4 处出现。
+字母 'c' 在下标 2 、3 和 7 处出现。
+字母 'z' 在下标 8 处出现。
+字母 'c' 是第一个出现两次的字母，因为在所有字母中，'c' 第二次出现的下标是最小的。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
-<pre>
-<strong>Input:</strong> s = &quot;abcdd&quot;
-<strong>Output:</strong> &quot;d&quot;
-<strong>Explanation:</strong>
-The only letter that appears twice is &#39;d&#39; so we return &#39;d&#39;.
+<pre><strong>输入：</strong>s = "abcdd"
+<strong>输出：</strong>"d"
+<strong>解释：</strong>
+只有字母 'd' 出现两次，所以返回 'd' 。
 </pre>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
-	<li><code>s</code> has at least one repeated letter.</li>
+	<li><code>s</code> 由小写英文字母组成</li>
+	<li><code>s</code> 包含至少一个重复字母</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Array or Hash Table
+### 方法一：数组或哈希表
 
-We traverse the string $s$, using an array or hash table `cnt` to record the occurrence of each letter. When a letter appears twice, we return that letter.
+遍历字符串 $s$，用数组或哈希表 `cnt` 记录每个字母出现的次数，当某个字母出现两次时，返回该字母。
 
-The time complexity is $O(n)$ and the space complexity is $O(C)$. Here, $n$ is the length of the string $s$, and $C$ is the size of the character set. In this problem, $C = 26$.
+时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为字符串 $s$ 的长度，而 $C$ 为字符集大小。本题中 $C = 26$。
 
 <!-- tabs:start -->
 
@@ -135,15 +138,15 @@ func repeatedCharacter(s string) byte {
 
 ```ts
 function repeatedCharacter(s: string): string {
-  const vis = new Array(26).fill(false);
-  for (const c of s) {
-    const i = c.charCodeAt(0) - "a".charCodeAt(0);
-    if (vis[i]) {
-      return c;
+    const vis = new Array(26).fill(false);
+    for (const c of s) {
+        const i = c.charCodeAt(0) - 'a'.charCodeAt(0);
+        if (vis[i]) {
+            return c;
+        }
+        vis[i] = true;
     }
-    vis[i] = true;
-  }
-  return " ";
+    return ' ';
 }
 ```
 
@@ -204,11 +207,11 @@ char repeatedCharacter(char* s) {
 
 <!-- solution:start -->
 
-### Solution 2: Bit Manipulation
+### 方法二：位运算
 
-We can also use an integer `mask` to record whether each letter has appeared, where the $i$-th bit of `mask` indicates whether the $i$-th letter has appeared. When a letter appears twice, we return that letter.
+我们也可以用一个整数 `mask` 记录每个字母是否出现过，其中 `mask` 的第 $i$ 位表示第 $i$ 个字母是否出现过。当某个字母出现两次时，返回该字母。
 
-The time complexity is $O(n)$ and the space complexity is $O(1)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 
@@ -277,15 +280,15 @@ func repeatedCharacter(s string) byte {
 
 ```ts
 function repeatedCharacter(s: string): string {
-  let mask = 0;
-  for (const c of s) {
-    const i = c.charCodeAt(0) - "a".charCodeAt(0);
-    if (mask & (1 << i)) {
-      return c;
+    let mask = 0;
+    for (const c of s) {
+        const i = c.charCodeAt(0) - 'a'.charCodeAt(0);
+        if (mask & (1 << i)) {
+            return c;
+        }
+        mask |= 1 << i;
     }
-    mask |= 1 << i;
-  }
-  return " ";
+    return ' ';
 }
 ```
 

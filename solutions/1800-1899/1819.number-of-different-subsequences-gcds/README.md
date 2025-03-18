@@ -1,79 +1,84 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1819.Number%20of%20Different%20Subsequences%20GCDs/README.md
 rating: 2539
-source: Weekly Contest 235 Q4
+source: 第 235 场周赛 Q4
 tags:
-  - Array
-  - Math
-  - Counting
-  - Number Theory
+    - 数组
+    - 数学
+    - 计数
+    - 数论
 ---
 
 <!-- problem:start -->
 
-# [1819. Number of Different Subsequences GCDs](https://leetcode.com/problems/number-of-different-subsequences-gcds)
+# [1819. 序列中不同最大公约数的数目](https://leetcode.cn/problems/number-of-different-subsequences-gcds)
 
-## Description
+[English Version](/solution/1800-1899/1819.Number%20of%20Different%20Subsequences%20GCDs/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>nums</code> that consists of positive integers.</p>
+<p>给你一个由正整数组成的数组 <code>nums</code> 。</p>
 
-<p>The <strong>GCD</strong> of a sequence of numbers is defined as the greatest integer that divides <strong>all</strong> the numbers in the sequence evenly.</p>
+<p>数字序列的 <strong>最大公约数</strong> 定义为序列中所有整数的共有约数中的最大整数。</p>
 
 <ul>
-	<li>For example, the GCD of the sequence <code>[4,6,16]</code> is <code>2</code>.</li>
+	<li>例如，序列 <code>[4,6,16]</code> 的最大公约数是 <code>2</code> 。</li>
 </ul>
 
-<p>A <strong>subsequence</strong> of an array is a sequence that can be formed by removing some elements (possibly none) of the array.</p>
+<p>数组的一个 <strong>子序列</strong> 本质是一个序列，可以通过删除数组中的某些元素（或者不删除）得到。</p>
 
 <ul>
-	<li>For example, <code>[2,5,10]</code> is a subsequence of <code>[1,2,1,<strong><u>2</u></strong>,4,1,<u><strong>5</strong></u>,<u><strong>10</strong></u>]</code>.</li>
+	<li>例如，<code>[2,5,10]</code> 是 <code>[1,2,1,<strong>2</strong>,4,1,<strong>5</strong>,<strong>10</strong>]</code> 的一个子序列。</li>
 </ul>
 
-<p>Return <em>the <strong>number</strong> of <strong>different</strong> GCDs among all <strong>non-empty</strong> subsequences of</em> <code>nums</code>.</p>
+<p>计算并返回 <code>nums</code> 的所有 <strong>非空</strong> 子序列中 <strong>不同</strong> 最大公约数的 <strong>数目</strong> 。</p>
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1819.Number%20of%20Different%20Subsequences%20GCDs/images/image-1.png" style="width: 149px; height: 309px;" />
+<p> </p>
+
+<p><strong>示例 1：</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1819.Number%20of%20Different%20Subsequences%20GCDs/images/image-1.png" />
 <pre>
-<strong>Input:</strong> nums = [6,10,3]
-<strong>Output:</strong> 5
-<strong>Explanation:</strong> The figure shows all the non-empty subsequences and their GCDs.
-The different GCDs are 6, 10, 3, 2, and 1.
+<strong>输入：</strong>nums = [6,10,3]
+<strong>输出：</strong>5
+<strong>解释：</strong>上图显示了所有的非空子序列与各自的最大公约数。
+不同的最大公约数为 6 、10 、3 、2 和 1 。
 </pre>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong>示例 2：</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [5,15,40,5,6]
-<strong>Output:</strong> 7
+<strong>输入：</strong>nums = [5,15,40,5,6]
+<strong>输出：</strong>7
 </pre>
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+<p> </p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 2 * 10<sup>5</sup></code></li>
+	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
+	<li><code>1 <= nums[i] <= 2 * 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration + Mathematics
+### 方法一：枚举 + 数学
 
-For all sub-sequences of the array $nums$, their greatest common divisor (GCD) will not exceed the maximum value $mx$ in the array.
+对于数组 $nums$ 的所有子序列，其最大公约数一定不超过数组中的最大值 $mx$。
 
-Therefore, we can enumerate each number $x$ in $[1,.. mx]$, and determine whether $x$ is the GCD of a sub-sequence of the array $nums$. If it is, then we increment the answer by one.
+因此我们可以枚举 $[1,.. mx]$ 中的每个数 $x$，判断 $x$ 是否为数组 $nums$ 的子序列的最大公约数，如果是，则答案加一。
 
-So the problem is transformed into: determining whether $x$ is the GCD of a sub-sequence of the array $nums$. We can do this by enumerating the multiples $y$ of $x$, and checking whether $y$ exists in the array $nums$. If $y$ exists in the array $nums$, then we calculate the GCD $g$ of $y$. If $g = x$ occurs, then $x$ is the GCD of a sub-sequence of the array $nums$.
+那么问题转换为：判断 $x$ 是否为数组 $nums$ 的子序列的最大公约数。我们可以通过枚举 $x$ 的倍数 $y$，判断 $y$ 是否在数组 $nums$ 中，如果 $y$ 在数组 $nums$ 中，则计算 $y$ 的最大公约数 $g$，如果出现 $g = x$，则 $x$ 是数组 $nums$ 的子序列的最大公约数。
 
-The time complexity is $O(n + M \times \log M)$, and the space complexity is $O(M)$. Here, $n$ and $M$ are the length of the array $nums$ and the maximum value in the array $nums$, respectively.
+时间复杂度 $O(n + M \times \log M)$，空间复杂度 $O(M)$。其中 $n$ 和 $M$ 分别是数组 $nums$ 的长度和数组 $nums$ 中的最大值。
 
 <!-- tabs:start -->
 
