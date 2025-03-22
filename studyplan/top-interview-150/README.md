@@ -140,7 +140,7 @@
 
 98. [Implement Trie (Prefix Tree)](../../solutions/0200-0299/0208.implement-trie-prefix-tree/README.md)
 99. [Design Add and Search Words Data Structure](../../solutions/0200-0299/0211.design-add-and-search-words-data-structure/README.md)
-100.  [Word Search II](../../solutions/0200-0299/0212.word-search-ii/README.md)
+100. [Word Search II](../../solutions/0200-0299/0212.word-search-ii/README.md)
 
 ## Backtracking
 
