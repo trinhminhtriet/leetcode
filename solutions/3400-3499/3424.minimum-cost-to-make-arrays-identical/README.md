@@ -1,67 +1,74 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3424.Minimum%20Cost%20to%20Make%20Arrays%20Identical/README.md
 rating: 1502
-source: Biweekly Contest 148 Q2
+source: 第 148 场双周赛 Q2
 tags:
-    - Greedy
-    - Array
-    - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3424. Minimum Cost to Make Arrays Identical](https://leetcode.com/problems/minimum-cost-to-make-arrays-identical)
+# [3424. 将数组变相同的最小代价](https://leetcode.cn/problems/minimum-cost-to-make-arrays-identical)
 
-## Description
+[English Version](/solution/3400-3499/3424.Minimum%20Cost%20to%20Make%20Arrays%20Identical/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two integer arrays <code>arr</code> and <code>brr</code> of length <code>n</code>, and an integer <code>k</code>. You can perform the following operations on <code>arr</code> <em>any</em> number of times:</p>
+<p>给你两个长度都为 <code>n</code>&nbsp;的整数数组&nbsp;<code>arr</code> 和&nbsp;<code>brr</code>&nbsp;以及一个整数&nbsp;<code>k</code>&nbsp;。你可以对 <code>arr</code>&nbsp;执行以下操作任意次：</p>
 
 <ul>
-	<li>Split <code>arr</code> into <em>any</em> number of <strong>contiguous</strong> <span data-keyword="subarray-nonempty">subarrays</span> and rearrange these subarrays in <em>any order</em>. This operation has a fixed cost of <code>k</code>.</li>
+	<li>将&nbsp;<code>arr</code>&nbsp;分割成若干个&nbsp;<strong>连续的</strong>&nbsp;子数组，并将这些子数组按任意顺序重新排列。这个操作的代价为&nbsp;<code>k</code>&nbsp;。</li>
 	<li>
-	<p>Choose any element in <code>arr</code> and add or subtract a positive integer <code>x</code> to it. The cost of this operation is <code>x</code>.</p>
+	<p>选择 <code>arr</code>&nbsp;中的任意一个元素，将它增加或者减少一个正整数&nbsp;<code>x</code>&nbsp;。这个操作的代价为 <code>x</code>&nbsp;。</p>
 	</li>
 </ul>
 
-<p>Return the <strong>minimum </strong>total cost to make <code>arr</code> <strong>equal</strong> to <code>brr</code>.</p>
+<p>请你返回将 <code>arr</code>&nbsp;变为 <code>brr</code>&nbsp;的 <strong>最小</strong>&nbsp;总代价。</p>
+
+<p><strong>子数组</strong>&nbsp;是一个数组中一段连续 <strong>非空</strong>&nbsp;的元素序列。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">arr = [-7,9,5], brr = [7,-2,-5], k = 2</span></p>
+<p><span class="example-io"><b>输入：</b>arr = [-7,9,5], brr = [7,-2,-5], k = 2</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">13</span></p>
+<p><span class="example-io"><b>输出：</b>13</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><b>解释：</b></p>
 
 <ul>
-	<li>Split <code>arr</code> into two contiguous subarrays: <code>[-7]</code> and <code>[9, 5]</code> and rearrange them as <code>[9, 5, -7]</code>, with a cost of 2.</li>
-	<li>Subtract 2 from element <code>arr[0]</code>. The array becomes <code>[7, 5, -7]</code>. The cost of this operation is 2.</li>
-	<li>Subtract 7 from element <code>arr[1]</code>. The array becomes <code>[7, -2, -7]</code>. The cost of this operation is 7.</li>
-	<li>Add 2 to element <code>arr[2]</code>. The array becomes <code>[7, -2, -5]</code>. The cost of this operation is 2.</li>
+	<li>将&nbsp;<code>arr</code>&nbsp;分割成两个连续子数组：<code>[-7]</code> 和&nbsp;<code>[9, 5]</code>&nbsp;然后将它们重新排列成&nbsp;<code>[9, 5, -7]</code>&nbsp;，代价为 2 。</li>
+	<li>将&nbsp;<code>arr[0]</code>&nbsp;减小 2 ，数组变为&nbsp;<code>[7, 5, -7]</code>&nbsp;，操作代价为 2 。</li>
+	<li>将&nbsp;<code>arr[1]</code>&nbsp;减小 7 ，数组变为&nbsp;<code>[7, -2, -7]</code>&nbsp;，操作代价为 7 。</li>
+	<li>将&nbsp;<code>arr[2]</code>&nbsp;增加 2 ，数组变为&nbsp;<code>[7, -2, -5]</code>&nbsp;，操作代价为 2 。</li>
 </ul>
 
-<p>The total cost to make the arrays equal is <code>2 + 2 + 7 + 2 = 13</code>.</p>
+<p>将两个数组变相等的总代价为&nbsp;<code>2 + 2 + 7 + 2 = 13</code>&nbsp;。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">arr = [2,1], brr = [2,1], k = 0</span></p>
+<p><span class="example-io"><b>输入：</b>arr = [2,1], brr = [2,1], k = 0</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><span class="example-io"><b>输出：</b>0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><b>解释：</b></p>
 
-<p>Since the arrays are already equal, no operations are needed, and the total cost is 0.</p>
+<p>由于数组已经相等，不需要进行任何操作，所以总代价为 0 。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length == brr.length &lt;= 10<sup>5</sup></code></li>
@@ -72,11 +79,11 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

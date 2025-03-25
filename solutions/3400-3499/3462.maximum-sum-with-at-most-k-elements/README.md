@@ -1,66 +1,71 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3462.Maximum%20Sum%20With%20at%20Most%20K%20Elements/README.md
 tags:
-    - Greedy
-    - Array
-    - Matrix
-    - Sorting
-    - Heap (Priority Queue)
+    - 贪心
+    - 数组
+    - 矩阵
+    - 排序
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [3462. Maximum Sum With at Most K Elements](https://leetcode.com/problems/maximum-sum-with-at-most-k-elements)
+# [3462. 提取至多 K 个元素的最大总和](https://leetcode.cn/problems/maximum-sum-with-at-most-k-elements)
 
-## Description
+[English Version](/solution/3400-3499/3462.Maximum%20Sum%20With%20at%20Most%20K%20Elements/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p data-pm-slice="1 3 []">You are given a 2D integer matrix <code>grid</code> of size <code>n x m</code>, an integer array <code>limits</code> of length <code>n</code>, and an integer <code>k</code>. The task is to find the <strong>maximum sum</strong> of <strong>at most</strong> <code>k</code> elements from the matrix <code>grid</code> such that:</p>
+<p data-pm-slice="1 3 []">给你一个大小为 <code>n x m</code>&nbsp;的二维矩阵&nbsp;<code>grid</code>&nbsp;，以及一个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>limits</code>&nbsp;，和一个整数&nbsp;<code>k</code>&nbsp;。你的目标是从矩阵 <code>grid</code> 中提取出&nbsp;<strong>至多</strong> <code>k</code>&nbsp;个元素，并计算这些元素的最大总和，提取时需满足以下限制<b>：</b></p>
 
 <ul data-spread="false">
 	<li>
-	<p>The number of elements taken from the <code>i<sup>th</sup></code> row of <code>grid</code> does not exceed <code>limits[i]</code>.</p>
+	<p>从 <code>grid</code>&nbsp;的第 <code>i</code> 行提取的元素数量不超过 <code>limits[i]</code> 。</p>
 	</li>
 </ul>
 
-<p data-pm-slice="1 1 []">Return the <strong>maximum sum</strong>.</p>
+<p data-pm-slice="1 1 []">返回最大总和。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><b>示例 1：</b></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[1,2],[3,4]], limits = [1,2], k = 2</span></p>
+<p><span class="example-io"><b>输入：</b>grid = [[1,2],[3,4]], limits = [1,2], k = 2</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">7</span></p>
+<p><span class="example-io"><b>输出：</b>7</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><b>解释：</b></p>
 
 <ul>
-	<li>From the second row, we can take at most 2 elements. The elements taken are 4 and 3.</li>
-	<li>The maximum possible sum of at most 2 selected elements is <code>4 + 3 = 7</code>.</li>
+	<li>从第 2 行提取至多 2 个元素，取出 4 和 3 。</li>
+	<li>至多提取 2 个元素时的最大总和&nbsp;<code>4 + 3 = 7</code>&nbsp;。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><b>示例 2：</b></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[5,3,7],[8,2,6]], limits = [2,2], k = 3</span></p>
+<p><span class="example-io"><b>输入：</b></span><span class="example-io">grid = [[5,3,7],[8,2,6]], limits = [2,2], k = 3</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">21</span></p>
+<p><span class="example-io"><b>输出：</b></span><span class="example-io">21</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><b>解释：</b></p>
 
 <ul>
-	<li>From the first row, we can take at most 2 elements. The element taken is 7.</li>
-	<li>From the second row, we can take at most 2 elements. The elements taken are 8 and 6.</li>
-	<li>The maximum possible sum of at most 3 selected elements is <code>7 + 8 + 6 = 21</code>.</li>
+	<li>从第 1&nbsp;行提取至多 2 个元素，取出 7 。</li>
+	<li>从第 2 行提取至多 2 个元素，取出&nbsp;8 和 6 。</li>
+	<li>至多提取 3&nbsp;个元素时的最大总和 <code>7 + 8 + 6 = 21</code>&nbsp;。</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><b>提示：</b></p>
 
 <ul>
 	<li><code>n == grid.length == limits.length</code></li>
@@ -73,19 +78,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Priority Queue (Min-Heap)
+### 方法一：贪心 + 优先队列（小根堆）
 
-We can use a priority queue (min-heap) $\textit{pq}$ to maintain the largest $k$ elements.
+我们可以用一个优先队列（小根堆） $\textit{pq}$ 来维护最大的 $k$ 个元素。
 
-Traverse each row, sort the elements in each row, and then take the largest $\textit{limit}$ elements from each row and add them to $\textit{pq}$. If the size of $\textit{pq}$ exceeds $k$, pop the top element of the heap.
+遍历每一行，对每一行的元素进行排序，然后取出每一行最大的 $\textit{limit}$ 个元素，将这些元素加入 $\textit{pq}$ 中。如果 $\textit{pq}$ 的大小超过了 $k$，就将堆顶元素弹出。
 
-Finally, sum the elements in $\textit{pq}$.
+最后，将 $\textit{pq}$ 中的元素相加即可。
 
-The time complexity is $O(n \times m \times (\log m + \log k))$, and the space complexity is $O(k)$. Here, $n$ and $m$ are the number of rows and columns of the matrix $\textit{grid}$, respectively.
+时间复杂度 $O(n \times m \times (\log m + \log k))$，空间复杂度 $O(k)$。其中 $n$ 和 $m$ 分别为矩阵 $\textit{grid}$ 的行数和列数。
 
 <!-- tabs:start -->
 

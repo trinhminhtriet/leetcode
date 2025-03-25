@@ -1,80 +1,85 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3431.Minimum%20Unlocked%20Indices%20to%20Sort%20Nums/README.md
 tags:
-    - Array
-    - Hash Table
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [3431. Minimum Unlocked Indices to Sort Nums 🔒](https://leetcode.com/problems/minimum-unlocked-indices-to-sort-nums)
+# [3431. 对数字排序的最小解锁下标 🔒](https://leetcode.cn/problems/minimum-unlocked-indices-to-sort-nums)
 
-## Description
+[English Version](/solution/3400-3499/3431.Minimum%20Unlocked%20Indices%20to%20Sort%20Nums/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>nums</code> consisting of integers between 1 and 3, and a <strong>binary</strong> array <code>locked</code> of the same size.</p>
+<p>给定一个仅包含 1、2、3 的整数的数组&nbsp;<code>nums</code>，以及一个相同大小的&nbsp;<strong>二进制</strong>&nbsp;数组&nbsp;<code>locked</code>。</p>
 
-<p>We consider <code>nums</code> <strong>sortable</strong> if it can be sorted using adjacent swaps, where a swap between two indices <code>i</code> and <code>i + 1</code> is allowed if <code>nums[i] - nums[i + 1] == 1</code> and <code>locked[i] == 0</code>.</p>
+<p>当满足&nbsp;<code>nums[i] - nums[i + 1] == 1</code> 且 <code>locked[i] == 0</code>时，则允许交换下标&nbsp;<code>i</code> 和 <code>i + 1</code> 处的元素；如果可以通过交换相邻元素将&nbsp;<code>nums</code>&nbsp;升序排序，我们认为 <code>nums</code> 是 <strong>可排序的。</strong></p>
 
-<p>In one operation, you can unlock any index <code>i</code> by setting <code>locked[i]</code> to 0.</p>
+<p>你可以进行若干次操作，每次操作可以将 <code>locked[i]</code> 设置为 <code>0</code>，从而解锁下标&nbsp;<code>i</code>。</p>
 
-<p>Return the <strong>minimum</strong> number of operations needed to make <code>nums</code> <strong>sortable</strong>. If it is not possible to make <code>nums</code> sortable, return -1.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,2,1,2,3,2], locked = [1,0,1,1,0,1]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>We can sort <code>nums</code> using the following swaps:</p>
-
-<ul>
-	<li>swap indices 1 with 2</li>
-	<li>swap indices 4 with 5</li>
-</ul>
-
-<p>So, there is no need to unlock any index.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,2,1,1,3,2,2], locked = [1,0,1,1,0,1,0]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>If we unlock indices 2 and 5, we can sort <code>nums</code> using the following swaps:</p>
-
-<ul>
-	<li>swap indices 1 with 2</li>
-	<li>swap indices 2 with 3</li>
-	<li>swap indices 4 with 5</li>
-	<li>swap indices 5 with 6</li>
-</ul>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,2,1,2,3,2,1], locked = [0,0,0,0,0,0,0]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">-1</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>Even if all indices are unlocked, it can be shown that <code>nums</code> is not sortable.</p>
-</div>
+<p>返回使&nbsp;<code>nums</code>&nbsp;满足&nbsp;<strong>可排序的</strong> 所需 <strong>最小</strong>&nbsp;操作次数。如果不可能使&nbsp;<code>nums</code>&nbsp;<strong>可排序</strong>，返回 -1。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>nums = [1,2,1,2,3,2], locked = [1,0,1,1,0,1]</span></p>
+
+<p><span class="example-io"><b>输出：</b>0</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>我们可以按如下交换来排序&nbsp;<code>nums</code>。</p>
+
+<ul>
+	<li>交换下标 1 和 2</li>
+	<li>交换下标 4 和 5</li>
+</ul>
+
+<p>所以，不需要解锁任何下标。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>nums = [1,2,1,1,3,2,2], locked = [1,0,1,1,0,1,0]</span></p>
+
+<p><span class="example-io"><b>输出：</b>2</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>如果我们解锁下标 2 和 5，我们可以按如下交换来排序&nbsp;<code>nums</code>。</p>
+
+<ul>
+	<li>交换下标 1 和 2</li>
+	<li>交换下标 2 和 3</li>
+	<li>交换下标 4 和 5</li>
+	<li>交换下标 5 和 6</li>
+</ul>
+</div>
+
+<p><strong class="example">示例 3：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong><span class="example-io">nums = [1,2,1,2,3,2,1], locked = [0,0,0,0,0,0,0]</span></p>
+
+<p><span class="example-io"><b>输出：</b>-1</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>尽管所有下标都是解锁的，可以发现&nbsp;<code>nums</code>&nbsp;不可排序。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -85,19 +90,19 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Brain Teaser
+### 方法一：脑筋急转弯
 
-According to the problem description, to make $\textit{nums}$ a sortable array, the position of the number $3$ must be after the position of the number $1$. If the position of the number $3$ is before the position of the number $1$, no matter how we swap, the number $3$ cannot reach the position of the number $1$, so it is impossible to make $\textit{nums}$ a sortable array.
+根据题目描述，要使得 $\textit{nums}$ 变成可排序的数组，需要满足数字 $3$ 的位置在数字 $1$ 的位置之后。如果数字 $3$ 的位置在数字 $1$ 的位置之前，那么无论怎么交换，数字 $3$ 都无法到达数字 $1$ 的位置，因此无法使得 $\textit{nums}$ 变成可排序的数组。
 
-We use $\textit{first2}$ and $\textit{first3}$ to represent the first occurrence positions of the numbers $2$ and $3$, and $\textit{last1}$ and $\textit{last2}$ to represent the last occurrence positions of the numbers $1$ and $2$.
+我们分别用 $\textit{first2}$ 和 $\textit{first3}$ 表示数字 $2$ 和 $3$ 第一次出现的位置，用 $\textit{last1}$ 和 $\textit{last2}$ 表示数字 $1$ 和 $2$ 最后一次出现的位置。
 
-When the index $i$ is in the range $[\textit{first2}, \textit{last1})$ or $[\textit{first3}, \textit{last2})]$, the corresponding $\textit{locked}[i]$ must be $0$, otherwise, we need one operation. Therefore, we only need to traverse the array $\textit{locked}$ and count the indices that do not meet the condition.
+那么当下标 $i$ 位于 $[\textit{first2}, \textit{last1})$ 或者 $[\textit{first3}, \textit{last2})]$ 时，对应的 $\textit{locked}[i]$ 必须为 $0$，否则我们需要一次操作。因此，我们只需要遍历数组 $\textit{locked}$，统计不满足条件的下标即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

@@ -1,15 +1,18 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3475.DNA%20Pattern%20Recognition/README.md
 tags:
-    - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [3475. DNA Pattern Recognition](https://leetcode.com/problems/dna-pattern-recognition)
+# [3475. DNA Pattern Recognition](https://leetcode.cn/problems/dna-pattern-recognition)
 
-## Description
+[English Version](/solution/3400-3499/3475.DNA%20Pattern%20Recognition/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
@@ -146,18 +149,18 @@ Each row contains a DNA sequence represented as a string of characters (A, T, G,
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Fuzzy Matching + Regular Expressions
+### 方法一：模糊匹配 + 正则表达式
 
-We can use `LIKE` and `REGEXP` for pattern matching, where:
+我们可以利用 `LIKE` 和 `REGEXP` 来进行模式匹配，其中：
 
--   LIKE `'ATG%'` checks if it starts with ATG
--   REGEXP `'TAA$|TAG$|TGA$'` checks if it ends with TAA, TAG, or TGA ($ indicates the end of the string)
--   LIKE `'%ATAT%'` checks if it contains ATAT
--   REGEXP `'GGG+'` checks if it contains at least 3 consecutive Gs
+-   LIKE `'ATG%'` 检测是否以 ATG 开头
+-   REGEXP `'TAA$|TAG$|TGA$'` 检测是否以 TAA、TAG 或 TGA 结尾（$ 表示字符串结尾）
+-   LIKE `'%ATAT%'` 检测是否包含 ATAT
+-   REGEXP `'GGG+'` 检测是否包含至少 3 个 G
 
 <!-- tabs:start -->
 

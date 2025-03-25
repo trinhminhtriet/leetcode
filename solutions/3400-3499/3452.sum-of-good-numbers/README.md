@@ -1,49 +1,54 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3452.Sum%20of%20Good%20Numbers/README.md
 tags:
-    - Array
+    - 数组
 ---
 
 <!-- problem:start -->
 
-# [3452. Sum of Good Numbers](https://leetcode.com/problems/sum-of-good-numbers)
+# [3452. 好数字之和](https://leetcode.cn/problems/sum-of-good-numbers)
 
-## Description
+[English Version](/solution/3400-3499/3452.Sum%20of%20Good%20Numbers/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Given an array of integers <code>nums</code> and an integer <code>k</code>, an element <code>nums[i]</code> is considered <strong>good</strong> if it is <strong>strictly</strong> greater than the elements at indices <code>i - k</code> and <code>i + k</code> (if those indices exist). If neither of these indices <em>exists</em>, <code>nums[i]</code> is still considered <strong>good</strong>.</p>
+<p>给定一个整数数组 <code>nums</code> 和一个整数 <code>k</code>，如果元素 <code>nums[i]</code> <strong>严格</strong> 大于下标&nbsp;<code>i - k</code> 和 <code>i + k</code> 处的元素（如果这些元素存在），则该元素 <code>nums[i]</code> 被认为是 <strong>好</strong> 的。如果这两个下标都不存在，那么 <code>nums[i]</code> 仍然被认为是 <strong>好</strong> 的。</p>
 
-<p>Return the <strong>sum</strong> of all the <strong>good</strong> elements in the array.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,3,2,1,5,4], k = 2</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">12</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The good numbers are <code>nums[1] = 3</code>, <code>nums[4] = 5</code>, and <code>nums[5] = 4</code> because they are strictly greater than the numbers at indices <code>i - k</code> and <code>i + k</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [2,1], k = 1</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>The only good number is <code>nums[0] = 2</code> because it is strictly greater than <code>nums[1]</code>.</p>
-</div>
+<p>返回数组中所有 <strong>好</strong> 元素的 <strong>和</strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">nums = [1,3,2,1,5,4], k = 2</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">12</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>好的数字包括&nbsp;<code>nums[1] = 3</code>，<code>nums[4] = 5</code> 和 <code>nums[5] = 4</code>，因为它们严格大于下标&nbsp;<code>i - k</code> 和 <code>i + k</code> 处的数字。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">nums = [2,1], k = 1</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">2</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>唯一的好数字是 <code>nums[0] = 2</code>，因为它严格大于 <code>nums[1]</code>。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 100</code></li>
@@ -53,21 +58,21 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Traversal
+### 方法一：遍历
 
-We can traverse the array $\textit{nums}$ and check each element $\textit{nums}[i]$ to see if it meets the conditions:
+我们可以遍历数组 $\textit{nums}$，对于每个元素 $\textit{nums}[i]$，检查是否满足条件：
 
--   If $i \ge k$ and $\textit{nums}[i] \le \textit{nums}[i - k]$, then $\textit{nums}[i]$ is not a good number.
--   If $i + k < \textit{len}(\textit{nums})$ and $\textit{nums}[i] \le \textit{nums}[i + k]$, then $\textit{nums}[i]$ is not a good number.
--   Otherwise, $\textit{nums}[i]$ is a good number, and we add it to the answer.
+-   如果 $i \ge k$ 且 $\textit{nums}[i] \le \textit{nums}[i - k]$，则 $\textit{nums}[i]$ 不是好数字；
+-   如果 $i + k < \textit{len}(\textit{nums})$ 且 $\textit{nums}[i] \le \textit{nums}[i + k]$，则 $\textit{nums}[i]$ 不是好数字。
+-   否则，$\textit{nums}[i]$ 是好数字，我们将其累加到答案中。
 
-After traversing, we return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
+时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 

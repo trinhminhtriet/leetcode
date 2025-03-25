@@ -1,82 +1,87 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3446.Sort%20Matrix%20by%20Diagonals/README.md
 tags:
-    - Array
-    - Matrix
-    - Sorting
+    - 数组
+    - 矩阵
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3446. Sort Matrix by Diagonals](https://leetcode.com/problems/sort-matrix-by-diagonals)
+# [3446. 按对角线进行矩阵排序](https://leetcode.cn/problems/sort-matrix-by-diagonals)
 
-## Description
+[English Version](/solution/3400-3499/3446.Sort%20Matrix%20by%20Diagonals/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an <code>n x n</code> square matrix of integers <code>grid</code>. Return the matrix such that:</p>
+<p>给你一个大小为&nbsp;<code>n x n</code> 的整数方阵 <code>grid</code>。返回一个经过如下调整的矩阵：</p>
 
 <ul>
-	<li>The diagonals in the <strong>bottom-left triangle</strong> (including the middle diagonal) are sorted in <strong>non-increasing order</strong>.</li>
-	<li>The diagonals in the <strong>top-right triangle</strong> are sorted in <strong>non-decreasing order</strong>.</li>
+	<li><strong>左下角三角形</strong>（包括中间对角线）的对角线按&nbsp;<strong>非递增顺序&nbsp;</strong>排序。</li>
+	<li><strong>右上角三角形&nbsp;</strong>的对角线按&nbsp;<strong>非递减顺序&nbsp;</strong>排序。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[1,7,3],[9,8,2],[4,5,6]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">grid = [[1,7,3],[9,8,2],[4,5,6]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[[8,2,3],[9,6,7],[4,5,1]]</span></p>
+<p><strong>输出：</strong> <span class="example-io">[[8,2,3],[9,6,7],[4,5,1]]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3446.Sort%20Matrix%20by%20Diagonals/images/4052example1drawio.png" style="width: 461px; height: 181px;" /></p>
 
-<p>The diagonals with a black arrow (bottom-left triangle) should be sorted in non-increasing order:</p>
+<p>标有黑色箭头的对角线（左下角三角形）应按非递增顺序排序：</p>
 
 <ul>
-	<li><code>[1, 8, 6]</code> becomes <code>[8, 6, 1]</code>.</li>
-	<li><code>[9, 5]</code> and <code>[4]</code> remain unchanged.</li>
+	<li><code>[1, 8, 6]</code> 变为 <code>[8, 6, 1]</code>。</li>
+	<li><code>[9, 5]</code> 和 <code>[4]</code> 保持不变。</li>
 </ul>
 
-<p>The diagonals with a blue arrow (top-right triangle) should be sorted in non-decreasing order:</p>
+<p>标有蓝色箭头的对角线（右上角三角形）应按非递减顺序排序：</p>
 
 <ul>
-	<li><code>[7, 2]</code> becomes <code>[2, 7]</code>.</li>
-	<li><code>[3]</code> remains unchanged.</li>
+	<li><code>[7, 2]</code> 变为 <code>[2, 7]</code>。</li>
+	<li><code>[3]</code> 保持不变。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[0,1],[1,2]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">grid = [[0,1],[1,2]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[[2,1],[1,0]]</span></p>
+<p><strong>输出：</strong> <span class="example-io">[[2,1],[1,0]]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3446.Sort%20Matrix%20by%20Diagonals/images/4052example2adrawio.png" style="width: 383px; height: 141px;" /></p>
 
-<p>The diagonals with a black arrow must be non-increasing, so <code>[0, 2]</code> is changed to <code>[2, 0]</code>. The other diagonals are already in the correct order.</p>
+<p>标有黑色箭头的对角线必须按非递增顺序排序，因此 <code>[0, 2]</code> 变为 <code>[2, 0]</code>。其他对角线已经符合要求。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">grid = [[1]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">grid = [[1]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[[1]]</span></p>
+<p><strong>输出：</strong> <span class="example-io">[[1]]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>Diagonals with exactly one element are already in order, so no changes are needed.</p>
+<p>只有一个元素的对角线已经符合要求，因此无需修改。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>grid.length == grid[i].length == n</code></li>
@@ -86,17 +91,17 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation + Sorting
+### 方法一：模拟 + 排序
 
-We can simulate the diagonal sorting process as described in the problem.
+我们可以按照题目描述的要求，模拟对角线的排序过程。
 
-First, we sort the diagonals of the lower-left triangle, including the main diagonal, in non-increasing order. Then, we sort the diagonals of the upper-right triangle in non-decreasing order. Finally, we return the sorted matrix.
+我们首先对左下角三角形的对角线进行排序，然后对右上角三角形的对角线进行排序。最后返回排序后的矩阵即可。
 
-The time complexity is $O(n^2 \log n)$, and the space complexity is $O(n)$. Here, $n$ is the size of the matrix.
+时间复杂度 $O(n^2 \log n)$，空间复杂度 $O(n)$。其中 $n$ 是矩阵的大小。
 
 <!-- tabs:start -->
 

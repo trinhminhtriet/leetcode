@@ -1,13 +1,16 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3491.Phone%20Number%20Prefix/README.md
 ---
 
 <!-- problem:start -->
 
-# [3491. Phone Number Prefix 🔒](https://leetcode.com/problems/phone-number-prefix)
+# [3491. Phone Number Prefix 🔒](https://leetcode.cn/problems/phone-number-prefix)
 
-## Description
+[English Version](/solution/3400-3499/3491.Phone%20Number%20Prefix/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
@@ -49,15 +52,15 @@ difficulty: Easy
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Sorting + Prefix Checking
+### 方法一：排序 + 前缀判断
 
-We can first sort the array $\textit{numbers}$ based on the length of strings. Then, we iterate through each string $\textit{s}$ in the array and check if there is any previous string $\textit{t}$ that is a prefix of $\textit{s}$. If such a string exists, it means there is a string that is a prefix of another string, so we return $\textit{false}$. If we have checked all strings and haven't found any prefix relationships, we return $\textit{true}$.
+我们可以先对 $\textit{numbers}$ 数组按照字符串长度进行排序，然后遍历数组中的每一个字符串 $\textit{s}$，判断此前是否有字符串 $\textit{t}$ 是 $\textit{s}$ 的前缀，如果有，说明存在一个字符串是另一个字符串的前缀，返回 $\textit{false}$。如果遍历完所有字符串都没有找到前缀关系，返回 $\textit{true}$。
 
-The time complexity is $O(n^2 \times m + n \times \log n)$, and the space complexity is $O(m + \log n)$, where $n$ is the length of the array $\textit{numbers}$, and $m$ is the average length of strings in the array $\textit{numbers}$.
+时间复杂度 $(n^2 \times m + n \times \log n)$，空间复杂度 $(m + \log n)$，其中 $n$ 是 $\textit{numbers}$ 数组的长度，而 $m$ 是 $\textit{numbers}$ 数组中字符串的平均长度。
 
 <!-- tabs:start -->
 

@@ -1,80 +1,86 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3471.Find%20the%20Largest%20Almost%20Missing%20Integer/README.md
 tags:
-    - Array
-    - Hash Table
+    - 数组
+    - 哈希表
 ---
 
 <!-- problem:start -->
 
-# [3471. Find the Largest Almost Missing Integer](https://leetcode.com/problems/find-the-largest-almost-missing-integer)
+# [3471. 找出最大的几近缺失整数](https://leetcode.cn/problems/find-the-largest-almost-missing-integer)
 
-## Description
+[English Version](/solution/3400-3499/3471.Find%20the%20Largest%20Almost%20Missing%20Integer/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> and an integer <code>k</code>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code> 。</p>
 
-<p>An integer <code>x</code> is <strong>almost missing</strong> from <code>nums</code> if <code>x</code> appears in <em>exactly</em> one subarray of size <code>k</code> within <code>nums</code>.</p>
+<p>如果整数 <code>x</code>&nbsp;恰好仅出现在&nbsp;<code>nums</code>&nbsp;中的一个大小为 <code>k</code>&nbsp;的子数组中，则认为&nbsp;<code>x</code>&nbsp;是 <code>nums</code>&nbsp;中的几近缺失（<strong>almost missing</strong>）整数。</p>
 
-<p>Return the <b>largest</b> <strong>almost missing</strong> integer from <code>nums</code>. If no such integer exists, return <code>-1</code>.</p>
-A <strong>subarray</strong> is a contiguous sequence of elements within an array.
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [3,9,2,1,7], k = 3</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">7</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<ul>
-	<li>1 appears in 2 subarrays of size 3: <code>[9, 2, 1]</code> and <code>[2, 1, 7]</code>.</li>
-	<li>2 appears in 3 subarrays of size 3: <code>[3, 9, 2]</code>, <code>[9, 2, 1]</code>, <code>[2, 1, 7]</code>.</li>
-	<li index="2">3 appears in 1 subarray of size 3: <code>[3, 9, 2]</code>.</li>
-	<li index="3">7 appears in 1 subarray of size 3: <code>[2, 1, 7]</code>.</li>
-	<li index="4">9 appears in 2 subarrays of size 3: <code>[3, 9, 2]</code>, and <code>[9, 2, 1]</code>.</li>
-</ul>
-
-<p>We return 7 since it is the largest integer that appears in exactly one subarray of size <code>k</code>.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [3,9,7,2,1,7], k = 4</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<ul>
-	<li>1 appears in 2 subarrays of size 4: <code>[9, 7, 2, 1]</code>, <code>[7, 2, 1, 7]</code>.</li>
-	<li>2 appears in 3 subarrays of size 4: <code>[3, 9, 7, 2]</code>, <code>[9, 7, 2, 1]</code>, <code>[7, 2, 1, 7]</code>.</li>
-	<li>3 appears in 1 subarray of size 4: <code>[3, 9, 7, 2]</code>.</li>
-	<li>7 appears in 3 subarrays of size 4: <code>[3, 9, 7, 2]</code>, <code>[9, 7, 2, 1]</code>, <code>[7, 2, 1, 7]</code>.</li>
-	<li>9 appears in 2 subarrays of size 4: <code>[3, 9, 7, 2]</code>, <code>[9, 7, 2, 1]</code>.</li>
-</ul>
-
-<p>We return 3 since it is the largest and only integer that appears in exactly one subarray of size <code>k</code>.</p>
-</div>
-
-<p><strong class="example">Example 3:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [0,0], k = 1</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">-1</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>There is no integer that appears in only one subarray of size 1.</p>
-</div>
+<p>返回 <code>nums</code> 中 <strong>最大的几近缺失</strong> 整数，如果不存在这样的整数，返回&nbsp;<code>-1</code>&nbsp;。</p>
+<strong>子数组</strong> 是数组中的一个连续元素序列。
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><b>示例 1：</b></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>nums = [3,9,2,1,7], k = 3</span></p>
+
+<p><span class="example-io"><b>输出：</b>7</span></p>
+
+<p><b>解释：</b></p>
+
+<ul>
+	<li>1 出现在两个大小为 3 的子数组中：<code>[9, 2, 1]</code>、<code>[2, 1, 7]</code></li>
+	<li>2 出现在三个大小为&nbsp;3 的子数组中：<code>[3, 9, 2]</code>、<code>[9, 2, 1]</code>、<code>[2, 1, 7]</code></li>
+	<li index="2">3 出现在一个大小为 3 的子数组中：<code>[3, 9, 2]</code></li>
+	<li index="3">7 出现在一个大小为 3 的子数组中：<code>[2, 1, 7]</code></li>
+	<li index="4">9 出现在两个大小为 3 的子数组中：<code>[3, 9, 2]</code>、<code>[9, 2, 1]</code></li>
+</ul>
+
+<p>返回 7 ，因为它满足题意的所有整数中最大的那个。</p>
+</div>
+
+<p><b>示例 2：</b></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>nums = [3,9,7,2,1,7], k = 4</span></p>
+
+<p><span class="example-io"><b>输出：</b>3</span></p>
+
+<p><b>解释：</b></p>
+
+<ul>
+	<li>1 出现在两个大小为 3 的子数组中：<code>[9, 7, 2, 1]</code>、<code>[7, 2, 1, 7]</code></li>
+	<li>2 出现在三个大小为 3 的子数组中：<code>[3, 9, 7, 2]</code>、<code>[9, 7, 2, 1]</code>、<code>[7, 2, 1, 7]</code></li>
+	<li>3 出现在一个大小为 3 的子数组中：<code>[3, 9, 7, 2]</code></li>
+	<li>7 出现在三个大小为 3 的子数组中：<code>[3, 9, 7, 2]</code>、<code>[9, 7, 2, 1]</code>、<code>[7, 2, 1, 7]</code></li>
+	<li>9 出现在两个大小为 3 的子数组中：<code>[3, 9, 7, 2]</code>、<code>[9, 7, 2, 1]</code></li>
+</ul>
+
+<p>返回 3&nbsp;，因为它满足题意的所有整数中最大的那个。</p>
+</div>
+
+<p><b>示例 3：</b></p>
+
+<div class="example-block">
+<p><span class="example-io"><b>输入：</b>nums = [0,0], k = 1</span></p>
+
+<p><span class="example-io"><b>输出：</b>-1</span></p>
+
+<p><b>解释：</b></p>
+
+<p>不存在满足题意的整数。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><b>提示：</b></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 50</code></li>
@@ -84,21 +90,21 @@ A <strong>subarray</strong> is a contiguous sequence of elements within an array
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Case Analysis
+### 方法一：分情况讨论
 
-If $k = 1$, then each element in the array forms a subarray of size $1$. In this case, we only need to find the maximum value among the elements that appear exactly once in the array.
+如果 $k = 1$，那么数组中每个元素都构成一个大小为 $1$ 的子数组，此时我们只需要统计数组中只出现一次的元素中的最大值即可。
 
-If $k = n$, then the entire array forms a subarray of size $n$. In this case, we only need to return the maximum value in the array.
+如果 $k = n$，那么整个数组构成一个大小为 $n$ 的子数组，此时我们只需要返回数组中的最大值即可。
 
-If $1 < k < n$, only $\textit{nums}[0]$ and $\textit{nums}[n-1]$ can be the almost missing integers. If they appear elsewhere in the array, they are not almost missing integers. Therefore, we only need to check if $\textit{nums}[0]$ and $\textit{nums}[n-1]$ appear elsewhere in the array and return the maximum value among them.
+如果 $1 < k < n$，只有 $\textit{nums}[0]$ 和 $\textit{nums}[n-1]$ 可能是几近缺失整数，如果它们在数组中的其他位置出现过，那么它们就不是几近缺失整数。因此我们只需要判断 $\textit{nums}[0]$ 和 $\textit{nums}[n-1]$ 是否在数组中的其他位置出现过即可，取其中的最大值返回。
 
-If no almost missing integer exists, return $-1$.
+如果不存在几近缺失整数，返回 $-1$。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
 

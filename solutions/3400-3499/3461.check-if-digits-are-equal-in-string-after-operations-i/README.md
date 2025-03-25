@@ -1,99 +1,104 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3461.Check%20If%20Digits%20Are%20Equal%20in%20String%20After%20Operations%20I/README.md
 tags:
-    - Math
-    - String
-    - Combinatorics
-    - Number Theory
-    - Simulation
+    - 数学
+    - 字符串
+    - 组合数学
+    - 数论
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [3461. Check If Digits Are Equal in String After Operations I](https://leetcode.com/problems/check-if-digits-are-equal-in-string-after-operations-i)
+# [3461. 判断操作后字符串中的数字是否相等 I](https://leetcode.cn/problems/check-if-digits-are-equal-in-string-after-operations-i)
 
-## Description
+[English Version](/solution/3400-3499/3461.Check%20If%20Digits%20Are%20Equal%20in%20String%20After%20Operations%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code> consisting of digits. Perform the following operation repeatedly until the string has <strong>exactly</strong> two digits:</p>
+<p>给你一个由数字组成的字符串 <code>s</code>&nbsp;。重复执行以下操作，直到字符串恰好包含&nbsp;<strong>两个&nbsp;</strong>数字：</p>
 
 <ul>
-	<li>For each pair of consecutive digits in <code>s</code>, starting from the first digit, calculate a new digit as the sum of the two digits <strong>modulo</strong> 10.</li>
-	<li>Replace <code>s</code> with the sequence of newly calculated digits, <em>maintaining the order</em> in which they are computed.</li>
+	<li>从第一个数字开始，对于 <code>s</code> 中的每一对连续数字，计算这两个数字的和&nbsp;<strong>模&nbsp;</strong>10。</li>
+	<li>用计算得到的新数字依次替换 <code>s</code>&nbsp;的每一个字符，并保持原本的顺序。</li>
 </ul>
 
-<p>Return <code>true</code> if the final two digits in <code>s</code> are the <strong>same</strong>; otherwise, return <code>false</code>.</p>
+<p>如果 <code>s</code>&nbsp;最后剩下的两个数字 <strong>相同</strong> ，返回 <code>true</code>&nbsp;。否则，返回 <code>false</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;3902&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">s = "3902"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
+<p><strong>输出：</strong> <span class="example-io">true</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li>Initially, <code>s = &quot;3902&quot;</code></li>
-	<li>First operation:
+	<li>一开始，<code>s = "3902"</code></li>
+	<li>第一次操作：
 	<ul>
 		<li><code>(s[0] + s[1]) % 10 = (3 + 9) % 10 = 2</code></li>
 		<li><code>(s[1] + s[2]) % 10 = (9 + 0) % 10 = 9</code></li>
 		<li><code>(s[2] + s[3]) % 10 = (0 + 2) % 10 = 2</code></li>
-		<li><code>s</code> becomes <code>&quot;292&quot;</code></li>
+		<li><code>s</code> 变为 <code>"292"</code></li>
 	</ul>
 	</li>
-	<li>Second operation:
+	<li>第二次操作：
 	<ul>
 		<li><code>(s[0] + s[1]) % 10 = (2 + 9) % 10 = 1</code></li>
 		<li><code>(s[1] + s[2]) % 10 = (9 + 2) % 10 = 1</code></li>
-		<li><code>s</code> becomes <code>&quot;11&quot;</code></li>
+		<li><code>s</code> 变为 <code>"11"</code></li>
 	</ul>
 	</li>
-	<li>Since the digits in <code>&quot;11&quot;</code> are the same, the output is <code>true</code>.</li>
+	<li>由于 <code>"11"</code> 中的数字相同，输出为 <code>true</code>。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;34789&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">s = "34789"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
+<p><strong>输出：</strong> <span class="example-io">false</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li>Initially, <code>s = &quot;34789&quot;</code>.</li>
-	<li>After the first operation, <code>s = &quot;7157&quot;</code>.</li>
-	<li>After the second operation, <code>s = &quot;862&quot;</code>.</li>
-	<li>After the third operation, <code>s = &quot;48&quot;</code>.</li>
-	<li>Since <code>&#39;4&#39; != &#39;8&#39;</code>, the output is <code>false</code>.</li>
+	<li>一开始，<code>s = "34789"</code>。</li>
+	<li>第一次操作后，<code>s = "7157"</code>。</li>
+	<li>第二次操作后，<code>s = "862"</code>。</li>
+	<li>第三次操作后，<code>s = "48"</code>。</li>
+	<li>由于 <code>'4' != '8'</code>，输出为 <code>false</code>。</li>
 </ul>
-</div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+</div>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>3 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> consists of only digits.</li>
+	<li><code>s</code> 仅由数字组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can simulate the operations described in the problem until the string $s$ contains exactly two digits, and then check if these two digits are the same.
+我们可以模拟题目描述的操作，直到字符串 $s$ 中只剩下两个数字为止，判断这两个数字是否相同。
 
-The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
+时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
 

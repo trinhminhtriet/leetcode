@@ -1,105 +1,110 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3440.Reschedule%20Meetings%20for%20Maximum%20Free%20Time%20II/README.md
 tags:
-    - Greedy
-    - Array
-    - Enumeration
+    - 贪心
+    - 数组
+    - 枚举
 ---
 
 <!-- problem:start -->
 
-# [3440. Reschedule Meetings for Maximum Free Time II](https://leetcode.com/problems/reschedule-meetings-for-maximum-free-time-ii)
+# [3440. 重新安排会议得到最多空余时间 II](https://leetcode.cn/problems/reschedule-meetings-for-maximum-free-time-ii)
 
-## Description
+[English Version](/solution/3400-3499/3440.Reschedule%20Meetings%20for%20Maximum%20Free%20Time%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer <code>eventTime</code> denoting the duration of an event. You are also given two integer arrays <code>startTime</code> and <code>endTime</code>, each of length <code>n</code>.</p>
+<p>给你一个整数&nbsp;<code>eventTime</code>&nbsp;表示一个活动的总时长，这个活动开始于&nbsp;<code>t = 0</code>&nbsp;，结束于&nbsp;<code>t = eventTime</code>&nbsp;。</p>
 
-<p>These represent the start and end times of <code>n</code> <strong>non-overlapping</strong> meetings that occur during the event between time <code>t = 0</code> and time <code>t = eventTime</code>, where the <code>i<sup>th</sup></code> meeting occurs during the time <code>[startTime[i], endTime[i]].</code></p>
+<p>同时给你两个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>startTime</code> 和&nbsp;<code>endTime</code>&nbsp;。它们表示这次活动中 <code>n</code>&nbsp;个时间&nbsp;<strong>没有重叠</strong>&nbsp;的会议，其中第&nbsp;<code>i</code>&nbsp;个会议的时间为&nbsp;<code>[startTime[i], endTime[i]]</code>&nbsp;。</p>
 
-<p>You can reschedule <strong>at most </strong>one meeting by moving its start time while maintaining the <strong>same duration</strong>, such that the meetings remain non-overlapping, to <strong>maximize</strong> the <strong>longest</strong> <em>continuous period of free time</em> during the event.</p>
+<p>你可以重新安排 <strong>至多</strong>&nbsp;一个会议，安排的规则是将会议时间平移，且保持原来的 <strong>会议时长</strong>&nbsp;，你的目的是移动会议后 <strong>最大化</strong>&nbsp;相邻两个会议之间的 <strong>最长</strong> 连续空余时间。</p>
 
-<p>Return the <strong>maximum</strong> amount of free time possible after rearranging the meetings.</p>
+<p>请你返回重新安排会议以后，可以得到的 <strong>最大</strong>&nbsp;空余时间。</p>
 
-<p><strong>Note</strong> that the meetings can <strong>not</strong> be rescheduled to a time outside the event and they should remain non-overlapping.</p>
+<p><b>注意</b>，会议 <strong>不能</strong>&nbsp;安排到整个活动的时间以外，且会议之间需要保持互不重叠。</p>
 
-<p><strong>Note:</strong> <em>In this version</em>, it is <strong>valid</strong> for the relative ordering of the meetings to change after rescheduling one meeting.</p>
+<p><b>注意：</b>重新安排会议以后，会议之间的顺序可以发生改变。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">eventTime = 5, startTime = [1,3], endTime = [2,5]</span></p>
+<p><span class="example-io"><b>输入：</b>eventTime = 5, startTime = [1,3], endTime = [2,5]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><span class="example-io"><b>输出：</b>2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3440.Reschedule%20Meetings%20for%20Maximum%20Free%20Time%20II/images/example0_rescheduled.png" style="width: 375px; height: 123px;" /></p>
 
-<p>Reschedule the meeting at <code>[1, 2]</code> to <code>[2, 3]</code>, leaving no meetings during the time <code>[0, 2]</code>.</p>
+<p>将&nbsp;<code>[1, 2]</code>&nbsp;的会议安排到&nbsp;<code>[2, 3]</code>&nbsp;，得到空余时间&nbsp;<code>[0, 2]</code>&nbsp;。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">eventTime = 10, startTime = [0,7,9], endTime = [1,8,10]</span></p>
+<p><span class="example-io"><b>输入：</b>eventTime = 10, startTime = [0,7,9], endTime = [1,8,10]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">7</span></p>
+<p><span class="example-io"><b>输出：</b>7</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3440.Reschedule%20Meetings%20for%20Maximum%20Free%20Time%20II/images/rescheduled_example0.png" style="width: 375px; height: 125px;" /></p>
 
-<p>Reschedule the meeting at <code>[0, 1]</code> to <code>[8, 9]</code>, leaving no meetings during the time <code>[0, 7]</code>.</p>
+<p>将&nbsp;<code>[0, 1]</code>&nbsp;的会议安排到&nbsp;<code>[8, 9]</code>&nbsp;，得到空余时间&nbsp;<code>[0, 7]</code>&nbsp;。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">eventTime = 10, startTime = [0,3,7,9], endTime = [1,4,8,10]</span></p>
+<p><span class="example-io"><b>输入：</b>eventTime = 10, startTime = [0,3,7,9], endTime = [1,4,8,10]</span></p>
 
-<p><strong>Output:</strong> 6</p>
+<p><b>输出：</b>6</p>
 
-<p><strong>Explanation:</strong></p>
+<p><b>解释：</b></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3440.Reschedule%20Meetings%20for%20Maximum%20Free%20Time%20II/images/image3.png" style="width: 375px; height: 125px;" /></strong></p>
 
-<p>Reschedule the meeting at <code>[3, 4]</code> to <code>[8, 9]</code>, leaving no meetings during the time <code>[1, 7]</code>.</p>
+<p>将&nbsp;<code>[3, 4]</code>&nbsp;的会议安排到&nbsp;<code>[8, 9]</code>&nbsp;，得到空余时间&nbsp;<code>[1, 7]</code>&nbsp;。</p>
 </div>
 
-<p><strong class="example">Example 4:</strong></p>
+<p><strong class="example">示例 4：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">eventTime = 5, startTime = [0,1,2,3,4], endTime = [1,2,3,4,5]</span></p>
+<p><span class="example-io"><b>输入：</b>eventTime = 5, startTime = [0,1,2,3,4], endTime = [1,2,3,4,5]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><span class="example-io"><b>输出：</b>0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><b>解释：</b></p>
 
-<p>There is no time during the event not occupied by meetings.</p>
+<p>活动中的所有时间都被会议安排满了。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= eventTime &lt;= 10<sup>9</sup></code></li>
 	<li><code>n == startTime.length == endTime.length</code></li>
 	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= startTime[i] &lt; endTime[i] &lt;= eventTime</code></li>
-	<li><code>endTime[i] &lt;= startTime[i + 1]</code> where <code>i</code> lies in the range <code>[0, n - 2]</code>.</li>
+	<li><code>endTime[i] &lt;= startTime[i + 1]</code> 其中&nbsp;<code>i</code> 在范围&nbsp;<code>[0, n - 2]</code>&nbsp;之间。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

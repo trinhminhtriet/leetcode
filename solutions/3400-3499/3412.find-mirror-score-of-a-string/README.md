@@ -1,91 +1,96 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3412.Find%20Mirror%20Score%20of%20a%20String/README.md
 rating: 1578
-source: Weekly Contest 431 Q2
+source: 第 431 场周赛 Q2
 tags:
-    - Stack
-    - Hash Table
-    - String
-    - Simulation
+    - 栈
+    - 哈希表
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [3412. Find Mirror Score of a String](https://leetcode.com/problems/find-mirror-score-of-a-string)
+# [3412. 计算字符串的镜像分数](https://leetcode.cn/problems/find-mirror-score-of-a-string)
 
-## Description
+[English Version](/solution/3400-3499/3412.Find%20Mirror%20Score%20of%20a%20String/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>s</code>.</p>
+<p>给你一个字符串 <code>s</code>。</p>
 
-<p>We define the <strong>mirror</strong> of a letter in the English alphabet as its corresponding letter when the alphabet is reversed. For example, the mirror of <code>&#39;a&#39;</code> is <code>&#39;z&#39;</code>, and the mirror of <code>&#39;y&#39;</code> is <code>&#39;b&#39;</code>.</p>
+<p>英文字母中每个字母的&nbsp;<strong>镜像&nbsp;</strong>定义为反转字母表之后对应位置上的字母。例如，<code>'a'</code> 的镜像是 <code>'z'</code>，<code>'y'</code> 的镜像是 <code>'b'</code>。</p>
 
-<p>Initially, all characters in the string <code>s</code> are <strong>unmarked</strong>.</p>
+<p>最初，字符串 <code>s</code> 中的所有字符都&nbsp;<strong>未标记&nbsp;</strong>。</p>
 
-<p>You start with a score of 0, and you perform the following process on the string <code>s</code>:</p>
+<p>字符串 <code>s</code>&nbsp;的初始分数为 0 ，你需要对其执行以下过程：</p>
 
 <ul>
-	<li>Iterate through the string from left to right.</li>
-	<li>At each index <code>i</code>, find the closest <strong>unmarked</strong> index <code>j</code> such that <code>j &lt; i</code> and <code>s[j]</code> is the mirror of <code>s[i]</code>. Then, <strong>mark</strong> both indices <code>i</code> and <code>j</code>, and add the value <code>i - j</code> to the total score.</li>
-	<li>If no such index <code>j</code> exists for the index <code>i</code>, move on to the next index without making any changes.</li>
+	<li>从左到右遍历字符串。</li>
+	<li>对于每个下标&nbsp;<code>i&nbsp;</code>，找到距离最近的&nbsp;<strong>未标记</strong> 下标&nbsp;<code>j</code>，下标 <code>j</code> 需要满足&nbsp;<code>j &lt; i</code> 且 <code>s[j]</code> 是 <code>s[i]</code> 的镜像。然后&nbsp;<strong>标记</strong> 下标&nbsp;<code>i</code> 和 <code>j</code>，总分加上&nbsp;<code>i - j</code>&nbsp;的值。</li>
+	<li>如果对于下标&nbsp;<code>i</code>，不存在满足条件的下标&nbsp;<code>j</code>，则跳过该下标，继续处理下一个下标，不需要进行标记。</li>
 </ul>
 
-<p>Return the total score at the end of the process.</p>
+<p>返回最终的总分。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;aczzx&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">s = "aczzx"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">5</span></p>
+<p><strong>输出：</strong> <span class="example-io">5</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li><code>i = 0</code>. There is no index <code>j</code> that satisfies the conditions, so we skip.</li>
-	<li><code>i = 1</code>. There is no index <code>j</code> that satisfies the conditions, so we skip.</li>
-	<li><code>i = 2</code>. The closest index <code>j</code> that satisfies the conditions is <code>j = 0</code>, so we mark both indices 0 and 2, and then add <code>2 - 0 = 2</code> to the score.</li>
-	<li><code>i = 3</code>. There is no index <code>j</code> that satisfies the conditions, so we skip.</li>
-	<li><code>i = 4</code>. The closest index <code>j</code> that satisfies the conditions is <code>j = 1</code>, so we mark both indices 1 and 4, and then add <code>4 - 1 = 3</code> to the score.</li>
+	<li><code>i = 0</code>。没有符合条件的下标&nbsp;<code>j</code>，跳过。</li>
+	<li><code>i = 1</code>。没有符合条件的下标&nbsp;<code>j</code>，跳过。</li>
+	<li><code>i = 2</code>。距离最近的符合条件的下标是 <code>j = 0</code>，因此标记下标&nbsp;0 和 2，然后将总分加上&nbsp;<code>2 - 0 = 2</code>&nbsp;。</li>
+	<li><code>i = 3</code>。没有符合条件的下标&nbsp;<code>j</code>，跳过。</li>
+	<li><code>i = 4</code>。距离最近的符合条件的下标是 <code>j = 1</code>，因此标记下标&nbsp;1 和 4，然后将总分加上&nbsp;<code>4 - 1 = 3</code>&nbsp;。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">s = &quot;abcdef&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">s = "abcdef"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong> <span class="example-io">0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>For each index <code>i</code>, there is no index <code>j</code> that satisfies the conditions.</p>
+<p>对于每个下标&nbsp;<code>i</code>，都不存在满足条件的下标&nbsp;<code>j</code>。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists only of lowercase English letters.</li>
+	<li><code>s</code> 仅由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We can use a hash table $\textit{d}$ to store the index list of each unmarked character, where the key is the character and the value is the list of indices.
+我们可以用一个哈希表 $\textit{d}$ 来存储每个未标记的字符的下标列表，其中键是字符，值是下标列表。
 
-We traverse the string $\textit{s}$, and for each character $\textit{x}$, we find its mirror character $\textit{y}$. If $\textit{d}$ contains $\textit{y}$, we take out the index list $\textit{ls}$ corresponding to $\textit{y}$, take out the last element $\textit{j}$ from $\textit{ls}$, and remove $\textit{j}$ from $\textit{ls}$. If $\textit{ls}$ becomes empty, we remove $\textit{y}$ from $\textit{d}$. At this point, we have found a pair of indices $(\textit{j}, \textit{i})$ that meet the condition, and we add $\textit{i} - \textit{j}$ to the answer. Otherwise, we add $\textit{x}$ to $\textit{d}$.
+我们遍历字符串 $\textit{s}$，对于每个字符 $\textit{x}$，我们找到其镜像字符 $\textit{y}$，如果 $\textit{d}$ 中存在 $\textit{y}$，我们就取出 $\textit{y}$ 对应的下标列表 $\textit{ls}$，取出 $\textit{ls}$ 的最后一个元素 $\textit{j}$，并将 $\textit{j}$ 从 $\textit{ls}$ 中移除。如果 $\textit{ls}$ 变为空，我们就将 $\textit{y}$ 从 $\textit{d}$ 中移除。此时，我们就找到了一个满足条件的下标对 $(\textit{j}, \textit{i})$，并将 $\textit{i} - \textit{j}$ 加到答案中。否则，我们将 $\textit{x}$ 加入到 $\textit{d}$ 中。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $\textit{s}$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $\textit{s}$ 的长度。
 
 <!-- tabs:start -->
 

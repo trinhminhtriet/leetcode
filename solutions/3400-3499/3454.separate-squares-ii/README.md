@@ -1,60 +1,65 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3454.Separate%20Squares%20II/README.md
 tags:
-    - Segment Tree
-    - Array
-    - Binary Search
-    - Line Sweep
+    - 线段树
+    - 数组
+    - 二分查找
+    - 扫描线
 ---
 
 <!-- problem:start -->
 
-# [3454. Separate Squares II](https://leetcode.com/problems/separate-squares-ii)
+# [3454. 分割正方形 II](https://leetcode.cn/problems/separate-squares-ii)
 
-## Description
+[English Version](/solution/3400-3499/3454.Separate%20Squares%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a 2D integer array <code>squares</code>. Each <code>squares[i] = [x<sub>i</sub>, y<sub>i</sub>, l<sub>i</sub>]</code> represents the coordinates of the bottom-left point and the side length of a square parallel to the x-axis.</p>
+<p>给你一个二维整数数组 <code>squares</code>&nbsp;，其中&nbsp;<code>squares[i] = [x<sub>i</sub>, y<sub>i</sub>, l<sub>i</sub>]</code> 表示一个与 x 轴平行的正方形的左下角坐标和正方形的边长。</p>
 
-<p>Find the <strong>minimum</strong> y-coordinate value of a horizontal line such that the total area covered by squares above the line <em>equals</em> the total area covered by squares below the line.</p>
+<p>找到一个<strong>最小的</strong> y 坐标，它对应一条水平线，该线需要满足它以上正方形的总面积 <strong>等于</strong> 该线以下正方形的总面积。</p>
 
-<p>Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</p>
+<p>答案如果与实际答案的误差在 <code>10<sup>-5</sup></code> 以内，将视为正确答案。</p>
 
-<p><strong>Note</strong>: Squares <strong>may</strong> overlap. Overlapping areas should be counted <strong>only once</strong> in this version.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">squares = [[0,0,1],[2,2,1]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">1.00000</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3454.Separate%20Squares%20II/images/4065example1drawio.png" style="width: 269px; height: 203px;" /></p>
-
-<p>Any horizontal line between <code>y = 1</code> and <code>y = 2</code> results in an equal split, with 1 square unit above and 1 square unit below. The minimum y-value is 1.</p>
-</div>
-
-<p><strong class="example">Example 2:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">squares = [[0,0,2],[1,1,1]]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">1.00000</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3454.Separate%20Squares%20II/images/4065example2drawio.png" style="width: 269px; height: 203px;" /></p>
-
-<p>Since the blue square overlaps with the red square, it will not be counted again. Thus, the line <code>y = 1</code> splits the squares into two equal parts.</p>
-</div>
+<p><strong>注意</strong>：正方形&nbsp;<strong>可能会&nbsp;</strong>重叠。重叠区域只&nbsp;<strong>统计一次&nbsp;</strong>。</p>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">squares = [[0,0,1],[2,2,1]]</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">1.00000</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3454.Separate%20Squares%20II/images/1739609602-zhNmeC-4065example1drawio.png" style="width: 269px; height: 203px;" /></p>
+
+<p>任何在 <code>y = 1</code> 和 <code>y = 2</code> 之间的水平线都会有 1 平方单位的面积在其上方，1 平方单位的面积在其下方。最小的 y 坐标是 1。</p>
+</div>
+
+<p><strong class="example">示例 2：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">squares = [[0,0,2],[1,1,1]]</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">1.00000</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3454.Separate%20Squares%20II/images/1739609605-ezeVgk-4065example2drawio.png" style="width: 269px; height: 203px;" /></p>
+
+<p>由于蓝色正方形和红色正方形有重叠区域且重叠区域只统计一次。所以直线&nbsp;<code>y = 1</code>&nbsp;将正方形分割成两部分且面积相等。</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= squares.length &lt;= 5 * 10<sup>4</sup></code></li>
@@ -62,16 +67,16 @@ tags:
 	<li><code>squares[i].length == 3</code></li>
 	<li><code>0 &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
 	<li><code>1 &lt;= l<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
-	<li>The total area of all the squares will not exceed <code>10<sup>15</sup></code>.</li>
+	<li>所有正方形的总面积不超过 <code>10<sup>15</sup></code>。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

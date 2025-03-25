@@ -1,92 +1,97 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3457.Eat%20Pizzas%21/README.md
 tags:
-    - Greedy
-    - Array
-    - Sorting
+    - 贪心
+    - 数组
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3457. Eat Pizzas!](https://leetcode.com/problems/eat-pizzas)
+# [3457. 吃披萨](https://leetcode.cn/problems/eat-pizzas)
 
-## Description
+[English Version](/solution/3400-3499/3457.Eat%20Pizzas%21/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>pizzas</code> of size <code>n</code>, where <code>pizzas[i]</code> represents the weight of the <code>i<sup>th</sup></code> pizza. Every day, you eat <strong>exactly</strong> 4 pizzas. Due to your incredible metabolism, when you eat pizzas of weights <code>W</code>, <code>X</code>, <code>Y</code>, and <code>Z</code>, where <code>W &lt;= X &lt;= Y &lt;= Z</code>, you gain the weight of only 1 pizza!</p>
+<p>给你一个长度为 <code>n</code>&nbsp;的整数数组 <code>pizzas</code>，其中 <code>pizzas[i]</code> 表示第 <code>i</code>&nbsp;个披萨的重量。每天你会吃&nbsp;<strong>恰好</strong> 4 个披萨。由于你的新陈代谢能力惊人，当你吃重量为 <code>W</code>、<code>X</code>、<code>Y</code> 和 <code>Z</code> 的披萨（其中 <code>W &lt;= X &lt;= Y &lt;= Z</code>）时，你只会增加 1 个披萨的重量！体重增加规则如下：</p>
 
 <ul>
-	<li>On <strong><span style="box-sizing: border-box; margin: 0px; padding: 0px;">odd-numbered</span></strong> days <strong>(1-indexed)</strong>, you gain a weight of <code>Z</code>.</li>
-	<li>On <strong>even-numbered</strong> days, you gain a weight of <code>Y</code>.</li>
+	<li>在&nbsp;<strong><span style="box-sizing: border-box; margin: 0px; padding: 0px;">奇数天</span></strong>（按 <strong>1 开始计数</strong>）你会增加 <code>Z</code> 的重量。</li>
+	<li>在&nbsp;<strong>偶数天</strong>，你会增加 <code>Y</code> 的重量。</li>
 </ul>
 
-<p>Find the <strong>maximum</strong> total weight you can gain by eating <strong>all</strong> pizzas optimally.</p>
+<p>请你设计吃掉&nbsp;<strong>所有&nbsp;</strong>披萨的最优方案，并计算你可以增加的&nbsp;<strong>最大&nbsp;</strong>总重量。</p>
 
-<p><strong>Note</strong>: It is guaranteed that <code>n</code> is a multiple of 4, and each pizza can be eaten only once.</p>
+<p><strong>注意：</strong>保证 <code>n</code> 是 4 的倍数，并且每个披萨只吃一次。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">pizzas = [1,2,3,4,5,6,7,8]</span></p>
+<p><strong>输入：</strong> <span class="example-io">pizzas = [1,2,3,4,5,6,7,8]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">14</span></p>
+<p><strong>输出：</strong> <span class="example-io">14</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li>On day 1, you eat pizzas at indices <code>[1, 2, 4, 7] = [2, 3, 5, 8]</code>. You gain a weight of 8.</li>
-	<li>On day 2, you eat pizzas at indices <code>[0, 3, 5, 6] = [1, 4, 6, 7]</code>. You gain a weight of 6.</li>
+	<li>第 1 天，你吃掉下标为 <code>[1, 2, 4, 7] = [2, 3, 5, 8]</code> 的披萨。你增加的重量为 8。</li>
+	<li>第 2 天，你吃掉下标为 <code>[0, 3, 5, 6] = [1, 4, 6, 7]</code> 的披萨。你增加的重量为 6。</li>
 </ul>
 
-<p>The total weight gained after eating all the pizzas is <code>8 + 6 = 14</code>.</p>
+<p>吃掉所有披萨后，你增加的总重量为 <code>8 + 6 = 14</code>。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">pizzas = [2,1,1,1,1,1,1,1]</span></p>
+<p><strong>输入：</strong> <span class="example-io">pizzas = [2,1,1,1,1,1,1,1]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">3</span></p>
+<p><strong>输出：</strong> <span class="example-io">3</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li>On day 1, you eat pizzas at indices <code>[4, 5, 6, 0] = [1, 1, 1, 2]</code>. You gain a weight of 2.</li>
-	<li>On day 2, you eat pizzas at indices <code>[1, 2, 3, 7] = [1, 1, 1, 1]</code>. You gain a weight of 1.</li>
+	<li>第 1 天，你吃掉下标为 <code>[4, 5, 6, 0] = [1, 1, 1, 2]</code> 的披萨。你增加的重量为 2。</li>
+	<li>第 2 天，你吃掉下标为 <code>[1, 2, 3, 7] = [1, 1, 1, 1]</code> 的披萨。你增加的重量为 1。</li>
 </ul>
 
-<p>The total weight gained after eating all the pizzas is <code>2 + 1 = 3.</code></p>
+<p>吃掉所有披萨后，你增加的总重量为 <code>2 + 1 = 3</code>。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>4 &lt;= n == pizzas.length &lt;= 2 * 10<sup><span style="font-size: 10.8333px;">5</span></sup></code></li>
 	<li><code>1 &lt;= pizzas[i] &lt;= 10<sup>5</sup></code></li>
-	<li><code>n</code> is a multiple of 4.</li>
+	<li><code>n</code> 是 4 的倍数。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Greedy + Sorting
+### 方法一：贪心 + 排序
 
-According to the problem description, we can eat $4$ pizzas each day. On odd days, we get the maximum value among these $4$ pizzas, and on even days, we get the second largest value among these $4$ pizzas.
+根据题目描述，我们每天可以吃 $4$ 个披萨。在奇数天，我们可以得到这 $4$ 个披萨中的最大值，而在偶数天，我们可以得到这 $4$ 个披萨中的第二大值。
 
-Therefore, we can sort the pizzas by weight in ascending order. We can eat for $\textit{days} = n / 4$ days, with $\textit{odd} = (\textit{days} + 1) / 2$ days being odd days and $\textit{even} = \textit{days} - \textit{odd}$ days being even days.
+因此，我们可以将披萨按重量从小到大排序，一共能吃 $\textit{days} = n / 4$ 天，那么一共有 $\textit{odd} = (\textit{days} + 1) / 2$ 天是奇数天，一共有 $\textit{even} = \textit{days} - \textit{odd}$ 天是偶数天。
 
-For odd days, we can choose the largest $\textit{odd}$ pizzas and the smallest $\textit{odd} \times 3$ pizzas, with the increased weight being $\sum_{i = n - \textit{odd}}^{n - 1} \textit{pizzas}[i]$.
+考虑奇数天，我们可以选择最大的 $\textit{odd}$ 个披萨，以及最小的 $\textit{odd} \times 3$ 个披萨，增加的重量为 $\sum_{i = n - \textit{odd}}^{n - 1} \textit{pizzas}[i]$。
 
-For even days, among the remaining pizzas, we greedily choose the largest two pizzas and the smallest two pizzas each time, with the increased weight being $\sum_{i = n - \textit{odd} - 2}^{n - \textit{odd} - 2 \times \textit{even}} \textit{pizzas}[i]$.
+考虑偶数天，我们在剩余的披萨中，每次贪心地选择最大的两个披萨，以及最小的两个披萨，增加的重量为 $\sum_{i = n - \textit{odd} - 2}^{n - \textit{odd} - 2 \times \textit{even}} \textit{pizzas}[i]$。
 
-The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{pizzas}$.
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 $\textit{pizzas}$ 的长度。
 
 <!-- tabs:start -->
 

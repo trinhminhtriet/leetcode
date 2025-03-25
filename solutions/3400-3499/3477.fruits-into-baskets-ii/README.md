@@ -1,67 +1,72 @@
 ---
 comments: true
-difficulty: Easy
+difficulty: 简单
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3477.Fruits%20Into%20Baskets%20II/README.md
 ---
 
 <!-- problem:start -->
 
-# [3477. Fruits Into Baskets II](https://leetcode.com/problems/fruits-into-baskets-ii)
+# [3477. 将水果放入篮子 II](https://leetcode.cn/problems/fruits-into-baskets-ii)
 
-## Description
+[English Version](/solution/3400-3499/3477.Fruits%20Into%20Baskets%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given two arrays of integers, <code>fruits</code> and <code>baskets</code>, each of length <code>n</code>, where <code>fruits[i]</code> represents the <strong>quantity</strong> of the <code>i<sup>th</sup></code> type of fruit, and <code>baskets[j]</code> represents the <strong>capacity</strong> of the <code>j<sup>th</sup></code> basket.</p>
+<p>给你两个长度为 <code>n</code>&nbsp;的整数数组，<code>fruits</code> 和 <code>baskets</code>，其中 <code>fruits[i]</code> 表示第 <code>i</code>&nbsp;种水果的 <strong>数量</strong>，<code>baskets[j]</code> 表示第 <code>j</code>&nbsp;个篮子的 <strong>容量</strong>。</p>
 
-<p>From left to right, place the fruits according to these rules:</p>
+<p>你需要对 <code>fruits</code> 数组从左到右按照以下规则放置水果：</p>
 
 <ul>
-	<li>Each fruit type must be placed in the <strong>leftmost available basket</strong> with a capacity <strong>greater than or equal</strong> to the quantity of that fruit type.</li>
-	<li>Each basket can hold <b>only one</b> type of fruit.</li>
-	<li>If a fruit type <b>cannot be placed</b> in any basket, it remains <b>unplaced</b>.</li>
+	<li>每种水果必须放入第一个 <strong>容量大于等于</strong> 该水果数量的 <strong>最左侧可用篮子</strong> 中。</li>
+	<li>每个篮子只能装 <b>一种</b> 水果。</li>
+	<li>如果一种水果 <b>无法放入</b> 任何篮子，它将保持 <b>未放置</b>。</li>
 </ul>
 
-<p>Return the number of fruit types that remain unplaced after all possible allocations are made.</p>
+<p>返回所有可能分配完成后，剩余未放置的水果种类的数量。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">fruits = [4,2,5], baskets = [3,5,4]</span></p>
+<p><strong>输入：</strong> <span class="example-io">fruits = [4,2,5], baskets = [3,5,4]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1</span></p>
+<p><strong>输出：</strong> <span class="example-io">1</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li><code>fruits[0] = 4</code> is placed in <code>baskets[1] = 5</code>.</li>
-	<li><code>fruits[1] = 2</code> is placed in <code>baskets[0] = 3</code>.</li>
-	<li><code>fruits[2] = 5</code> cannot be placed in <code>baskets[2] = 4</code>.</li>
+	<li><code>fruits[0] = 4</code> 放入 <code>baskets[1] = 5</code>。</li>
+	<li><code>fruits[1] = 2</code> 放入 <code>baskets[0] = 3</code>。</li>
+	<li><code>fruits[2] = 5</code> 无法放入 <code>baskets[2] = 4</code>。</li>
 </ul>
 
-<p>Since one fruit type remains unplaced, we return 1.</p>
+<p>由于有一种水果未放置，我们返回 1。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">fruits = [3,6,1], baskets = [6,4,7]</span></p>
+<p><strong>输入：</strong> <span class="example-io">fruits = [3,6,1], baskets = [6,4,7]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">0</span></p>
+<p><strong>输出：</strong> <span class="example-io">0</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li><code>fruits[0] = 3</code> is placed in <code>baskets[0] = 6</code>.</li>
-	<li><code>fruits[1] = 6</code> cannot be placed in <code>baskets[1] = 4</code> (insufficient capacity) but can be placed in the next available basket, <code>baskets[2] = 7</code>.</li>
-	<li><code>fruits[2] = 1</code> is placed in <code>baskets[1] = 4</code>.</li>
+	<li><code>fruits[0] = 3</code> 放入 <code>baskets[0] = 6</code>。</li>
+	<li><code>fruits[1] = 6</code> 无法放入 <code>baskets[1] = 4</code>（容量不足），但可以放入下一个可用的篮子 <code>baskets[2] = 7</code>。</li>
+	<li><code>fruits[2] = 1</code> 放入 <code>baskets[1] = 4</code>。</li>
 </ul>
 
-<p>Since all fruits are successfully placed, we return 0.</p>
+<p>由于所有水果都已成功放置，我们返回 0。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><b>提示：</b></p>
 
 <ul>
 	<li><code>n == fruits.length == baskets.length</code></li>
@@ -71,19 +76,19 @@ difficulty: Easy
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We use a boolean array $\textit{vis}$ of length $n$ to record the baskets that have already been used, and a variable $\textit{ans}$ to record the number of fruits that have not been placed, initially $\textit{ans} = n$.
+我们用一个长度为 $n$ 的布尔数组 $\textit{vis}$ 记录已经被使用的篮子，用一个答案变量 $\textit{ans}$ 记录所有未被放置的水果，初始时 $\textit{ans} = n$。
 
-Next, we traverse each fruit $x$. For the current fruit, we traverse all the baskets to find the first unused basket $i$ with a capacity greater than or equal to $x$. If found, we decrement $\textit{ans}$ by $1$.
+接下来，我们遍历每一种水果 $x$，对于当前水果，我们遍历所有的篮子，找出第一个未被使用，且容量大于等于 $x$ 的篮子 $i$。如果找到了，那么答案 $\textit{ans}$ 减 $1$。
 
-After traversing, we return the answer.
+遍历结束后，返回答案即可。
 
-The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{fruits}$.
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{fruits}$ 的长度。
 
 <!-- tabs:start -->
 

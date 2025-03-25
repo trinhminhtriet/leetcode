@@ -1,84 +1,89 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3484.Design%20Spreadsheet/README.md
 tags:
-    - Design
-    - Array
-    - Hash Table
-    - String
-    - Matrix
+    - 设计
+    - 数组
+    - 哈希表
+    - 字符串
+    - 矩阵
 ---
 
 <!-- problem:start -->
 
-# [3484. Design Spreadsheet](https://leetcode.com/problems/design-spreadsheet)
+# [3484. 设计电子表格](https://leetcode.cn/problems/design-spreadsheet)
 
-## Description
+[English Version](/solution/3400-3499/3484.Design%20Spreadsheet/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>A spreadsheet is a grid with 26 columns (labeled from <code>&#39;A&#39;</code> to <code>&#39;Z&#39;</code>) and a given number of <code>rows</code>. Each cell in the spreadsheet can hold an integer value between 0 and 10<sup>5</sup>.</p>
+<p>电子表格是一个网格，它有 26 列（从 <code>'A'</code> 到 <code>'Z'</code>）和指定数量的 <code>rows</code>。每个单元格可以存储一个 0 到 10<sup>5</sup>&nbsp;之间的整数值。</p>
 
-<p>Implement the <code>Spreadsheet</code> class:</p>
+<p>请你实现一个&nbsp;<code>Spreadsheet</code> 类：</p>
 
 <ul>
-	<li><code>Spreadsheet(int rows)</code> Initializes a spreadsheet with 26 columns (labeled <code>&#39;A&#39;</code> to <code>&#39;Z&#39;</code>) and the specified number of rows. All cells are initially set to 0.</li>
-	<li><code>void setCell(String cell, int value)</code> Sets the value of the specified <code>cell</code>. The cell reference is provided in the format <code>&quot;AX&quot;</code> (e.g., <code>&quot;A1&quot;</code>, <code>&quot;B10&quot;</code>), where the letter represents the column (from <code>&#39;A&#39;</code> to <code>&#39;Z&#39;</code>) and the number represents a <strong>1-indexed</strong> row.</li>
-	<li><code>void resetCell(String cell)</code> Resets the specified cell to 0.</li>
-	<li><code>int getValue(String formula)</code> Evaluates a formula of the form <code>&quot;=X+Y&quot;</code>, where <code>X</code> and <code>Y</code> are <strong>either</strong> cell references or non-negative integers, and returns the computed sum.</li>
+	<li><code>Spreadsheet(int rows)</code> 初始化一个具有 26 列（从 <code>'A'</code> 到 <code>'Z'</code>）和指定行数的电子表格。所有单元格最初的值都为 0 。</li>
+	<li><code>void setCell(String cell, int value)</code> 设置指定单元格的值。单元格引用以 <code>"AX"</code> 的格式提供（例如，<code>"A1"</code>，<code>"B10"</code>），其中字母表示列（从 <code>'A'</code> 到 <code>'Z'</code>），数字表示从<strong>&nbsp;</strong><strong>1</strong>&nbsp;开始的行号。</li>
+	<li><code>void resetCell(String cell)</code> 重置指定单元格的值为 0 。</li>
+	<li><code>int getValue(String formula)</code> 计算一个公式的值，格式为 <code>"=X+Y"</code>，其中 <code>X</code> 和 <code>Y</code>&nbsp;<strong>要么</strong> 是单元格引用，要么非负整数，返回计算的和。</li>
 </ul>
 
-<p><strong>Note:</strong> If <code>getValue</code> references a cell that has not been explicitly set using <code>setCell</code>, its value is considered 0.</p>
+<p><strong>注意：</strong> 如果 <code>getValue</code> 引用一个未通过 <code>setCell</code> 明确设置的单元格，则该单元格的值默认为 0 。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong><br />
-<span class="example-io">[&quot;Spreadsheet&quot;, &quot;getValue&quot;, &quot;setCell&quot;, &quot;getValue&quot;, &quot;setCell&quot;, &quot;getValue&quot;, &quot;resetCell&quot;, &quot;getValue&quot;]<br />
-[[3], [&quot;=5+7&quot;], [&quot;A1&quot;, 10], [&quot;=A1+6&quot;], [&quot;B2&quot;, 15], [&quot;=A1+B2&quot;], [&quot;A1&quot;], [&quot;=A1+B2&quot;]]</span></p>
+<p><strong>输入：</strong><br />
+<span class="example-io">["Spreadsheet", "getValue", "setCell", "getValue", "setCell", "getValue", "resetCell", "getValue"]<br />
+[[3], ["=5+7"], ["A1", 10], ["=A1+6"], ["B2", 15], ["=A1+B2"], ["A1"], ["=A1+B2"]]</span></p>
 
-<p><strong>Output:</strong><br />
+<p><strong>输出：</strong><br />
 <span class="example-io">[null, 12, null, 16, null, 25, null, 15] </span></p>
 
-<p><strong>Explanation</strong></p>
-Spreadsheet spreadsheet = new Spreadsheet(3); // Initializes a spreadsheet with 3 rows and 26 columns<br data-end="321" data-start="318" />
-spreadsheet.getValue(&quot;=5+7&quot;); // returns 12 (5+7)<br data-end="373" data-start="370" />
-spreadsheet.setCell(&quot;A1&quot;, 10); // sets A1 to 10<br data-end="423" data-start="420" />
-spreadsheet.getValue(&quot;=A1+6&quot;); // returns 16 (10+6)<br data-end="477" data-start="474" />
-spreadsheet.setCell(&quot;B2&quot;, 15); // sets B2 to 15<br data-end="527" data-start="524" />
-spreadsheet.getValue(&quot;=A1+B2&quot;); // returns 25 (10+15)<br data-end="583" data-start="580" />
-spreadsheet.resetCell(&quot;A1&quot;); // resets A1 to 0<br data-end="634" data-start="631" />
-spreadsheet.getValue(&quot;=A1+B2&quot;); // returns 15 (0+15)</div>
+<p><strong>解释</strong></p>
+Spreadsheet spreadsheet = new Spreadsheet(3); // 初始化一个具有 3 行和 26 列的电子表格<br data-end="321" data-start="318" />
+spreadsheet.getValue("=5+7"); // 返回 12 (5+7)<br data-end="373" data-start="370" />
+spreadsheet.setCell("A1", 10); // 设置 A1 为 10<br data-end="423" data-start="420" />
+spreadsheet.getValue("=A1+6"); // 返回 16 (10+6)<br data-end="477" data-start="474" />
+spreadsheet.setCell("B2", 15); // 设置 B2 为 15<br data-end="527" data-start="524" />
+spreadsheet.getValue("=A1+B2"); // 返回 25 (10+15)<br data-end="583" data-start="580" />
+spreadsheet.resetCell("A1"); // 重置 A1 为 0<br data-end="634" data-start="631" />
+spreadsheet.getValue("=A1+B2"); // 返回 15 (0+15)</div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= rows &lt;= 10<sup>3</sup></code></li>
 	<li><code>0 &lt;= value &lt;= 10<sup>5</sup></code></li>
-	<li>The formula is always in the format <code>&quot;=X+Y&quot;</code>, where <code>X</code> and <code>Y</code> are either valid cell references or <strong>non-negative</strong> integers with values less than or equal to <code>10<sup>5</sup></code>.</li>
-	<li>Each cell reference consists of a capital letter from <code>&#39;A&#39;</code> to <code>&#39;Z&#39;</code> followed by a row number between <code>1</code> and <code>rows</code>.</li>
-	<li>At most <code>10<sup>4</sup></code> calls will be made in <strong>total</strong> to <code>setCell</code>, <code>resetCell</code>, and <code>getValue</code>.</li>
+	<li>公式保证采用 <code>"=X+Y"</code> 格式，其中 <code>X</code> 和 <code>Y</code> 要么是有效的单元格引用，要么是小于等于 <code>10<sup>5</sup></code> 的 <strong>非负</strong> 整数。</li>
+	<li>每个单元格引用由一个大写字母 <code>'A'</code> 到 <code>'Z'</code> 和一个介于 <code>1</code> 和 <code>rows</code> 之间的行号组成。</li>
+	<li><strong>总共</strong> 最多会对 <code>setCell</code>、<code>resetCell</code> 和 <code>getValue</code> 调用 <code>10<sup>4</sup></code> 次。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Hash Table
+### 方法一：哈希表
 
-We use a hash table $\textit{d}$ to record the values of all cells, where the key is the cell reference and the value is the cell's value.
+我们用一个哈希表 $\textit{d}$ 来记录所有单元格的值，其中键为单元格引用，值为单元格的值。
 
-When calling the `setCell` method, we store the cell reference and value in the hash table.
+调用 `setCell` 方法时，我们将单元格引用和值存入哈希表中。
 
-When calling the `resetCell` method, we remove the cell reference from the hash table.
+调用 `resetCell` 方法时，我们将单元格引用从哈希表中删除。
 
-When calling the `getValue` method, we split the formula into two cell references, calculate their values, and then return their sum.
+调用 `getValue` 方法时，我们将公式分割成两个单元格引用，然后计算它们的值，最后返回它们的和。
 
-The time complexity is $O(L)$, and the space complexity is $O(L)$. Where $L$ is the length of the formula.
+时间复杂度 $(L)$，空间复杂度 $(L)$。其中 $L$ 为公式的长度。
 
 <!-- tabs:start -->
 
