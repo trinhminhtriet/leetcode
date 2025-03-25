@@ -7,14 +7,15 @@ from typing import List, Dict
 class ReadMeFileManager:
     """Recursively manages solution files in subfolders, handling README file operations."""
 
-    def __init__(self, base_dir: str = "../solutions"):
+    def __init__(self, base_dir: str = "solutions"):
         """Initialize with base directory and setup logging."""
         self.base_dir = Path(base_dir)
         self.setup_logging()
         self.processed_files: Dict[str, List[str]] = {
             "removed": [],
             "renamed": [],
-            "skipped": []
+            "skipped": [],
+            "modified": []
         }
 
     def setup_logging(self) -> None:
@@ -55,6 +56,27 @@ class ReadMeFileManager:
                 logging.error(f"Error renaming {file_path}: {e}")
                 self.processed_files["skipped"].append(str(file_path))
 
+    def clean_readme(self, readme_path: Path) -> None:
+        """Remove lines starting with 'edit_url:' from README.md."""
+        try:
+            with open(readme_path, 'r', encoding='utf-8') as file:
+                lines = file.readlines()
+
+            # Filter out lines starting with "edit_url:"
+            cleaned_lines = [
+                line for line in lines if not line.strip().startswith("edit_url:")]
+
+            # Only rewrite if content changed
+            if len(cleaned_lines) != len(lines):
+                with open(readme_path, 'w', encoding='utf-8') as file:
+                    file.writelines(cleaned_lines)
+                self.processed_files["modified"].append(str(readme_path))
+                logging.info(
+                    f"Modified {readme_path}: removed edit_url line(s)")
+        except (IOError, UnicodeDecodeError) as e:
+            logging.error(f"Error processing {readme_path}: {e}")
+            self.processed_files["skipped"].append(str(readme_path))
+
     def process_directory(self, directory: Path) -> None:
         """Recursively process all files and subdirectories."""
         if not directory.exists() or not directory.is_dir():
@@ -67,6 +89,11 @@ class ReadMeFileManager:
         for item in directory.iterdir():
             if item.is_file():
                 self.process_file(item, directory)
+                # After processing, clean any existing or newly created README.md
+                if item.name == "README_EN.md" or (item.name == "README.md" and not item.exists()):
+                    readme_path = directory / "README.md"
+                    if readme_path.exists():
+                        self.clean_readme(readme_path)
             elif item.is_dir():
                 # Recursively process subdirectories
                 self.process_directory(item)
@@ -89,6 +116,11 @@ class ReadMeFileManager:
 
         logging.info(f"Files renamed: {len(self.processed_files['renamed'])}")
         for path in self.processed_files["renamed"]:
+            logging.info(f"  - {path}")
+
+        logging.info(
+            f"Files modified: {len(self.processed_files['modified'])}")
+        for path in self.processed_files["modified"]:
             logging.info(f"  - {path}")
 
         logging.info(
