@@ -1,24 +1,24 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3481.Apply%20Substitutions/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3481.Apply%20Substitutions/README_EN.md
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 图
-    - 拓扑排序
-    - 数组
-    - 哈希表
-    - 字符串
+    - Depth-First Search
+    - Breadth-First Search
+    - Graph
+    - Topological Sort
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3481. Apply Substitutions 🔒](https://leetcode.cn/problems/apply-substitutions)
+# [3481. Apply Substitutions 🔒](https://leetcode.com/problems/apply-substitutions)
 
-[English Version](/solution/3400-3499/3481.Apply%20Substitutions/README_EN.md)
+[中文文档](/solution/3400-3499/3481.Apply%20Substitutions/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
@@ -80,24 +80,24 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 递归
+### Solution 1: Hash Table + Recursion
 
-我们用一个哈希表 $\textit{d}$ 来存储替换的映射关系，然后定义一个函数 $\textit{dfs}$ 来递归地替换字符串中的占位符。
+We use a hash table $\textit{d}$ to store the substitution mapping, and then define a function $\textit{dfs}$ to recursively replace the placeholders in the string.
 
-函数 $\textit{dfs}$ 的执行逻辑如下：
+The execution logic of the function $\textit{dfs}$ is as follows:
 
-1. 在字符串 $\textit{s}$ 中查找第一个占位符的起始位置 $i$，如果找不到，则返回 $\textit{s}$；
-2. 在字符串 $\textit{s}$ 中查找第一个占位符的结束位置 $j$，如果找不到，则返回 $\textit{s}$；
-3. 截取占位符的键值 $key$，然后递归地替换占位符的值 $d[key]$；
-4. 返回替换后的字符串。
+1. Find the starting position $i$ of the first placeholder in the string $\textit{s}$. If not found, return $\textit{s}$;
+2. Find the ending position $j$ of the first placeholder in the string $\textit{s}$. If not found, return $\textit{s}$;
+3. Extract the key of the placeholder, and then recursively replace the value of the placeholder $d[key]$;
+4. Return the replaced string.
 
-在主函数中，我们调用 $\textit{dfs}$ 函数，传入文本字符串 $\textit{text}$，并返回结果。
+In the main function, we call the $\textit{dfs}$ function, pass in the text string $\textit{text}$, and return the result.
 
-时间复杂度 $O(m + n \times L)$，空间复杂度 $O(m + n \times L)$。其中 $m$ 为替换映射的长度，而 $n$ 和 $L$ 分别为文本字符串的长度和占位符的平均长度。
+The time complexity is $O(m + n \times L)$, and the space complexity is $O(m + n \times L)$. Where $m$ is the length of the substitution mapping, and $n$ and $L$ are the length of the text string and the average length of the placeholders, respectively.
 
 <!-- tabs:start -->
 

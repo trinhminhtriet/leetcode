@@ -1,46 +1,44 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3427.Sum%20of%20Variable%20Length%20Subarrays/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3427.Sum%20of%20Variable%20Length%20Subarrays/README_EN.md
 rating: 1215
-source: 第 433 场周赛 Q1
+source: Weekly Contest 433 Q1
 tags:
-    - 数组
-    - 前缀和
+    - Array
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [3427. 变长子数组求和](https://leetcode.cn/problems/sum-of-variable-length-subarrays)
+# [3427. Sum of Variable Length Subarrays](https://leetcode.com/problems/sum-of-variable-length-subarrays)
 
-[English Version](/solution/3400-3499/3427.Sum%20of%20Variable%20Length%20Subarrays/README_EN.md)
+[中文文档](/solution/3400-3499/3427.Sum%20of%20Variable%20Length%20Subarrays/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;。对于 <strong>每个</strong> 下标&nbsp;<code>i</code>（<code>0 &lt;= i &lt; n</code>），定义对应的子数组&nbsp;<code>nums[start ... i]</code>（<code>start = max(0, i - nums[i])</code>）。</p>
+<p>You are given an integer array <code>nums</code> of size <code>n</code>. For <strong>each</strong> index <code>i</code> where <code>0 &lt;= i &lt; n</code>, define a <span data-keyword="subarray-nonempty">subarray</span> <code>nums[start ... i]</code> where <code>start = max(0, i - nums[i])</code>.</p>
 
-<p>返回为数组中每个下标定义的子数组中所有元素的总和。</p>
-<strong>子数组</strong>&nbsp;是数组中的一个连续、<strong>非空</strong> 的元素序列。
+<p>Return the total sum of all elements from the subarray defined for each index in the array.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><b>输入：</b><span class="example-io">nums = [2,3,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,3,1]</span></p>
 
-<p><span class="example-io"><b>输出：</b>11</span></p>
+<p><strong>Output:</strong> <span class="example-io">11</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <table style="border: 1px solid black;">
 	<tbody>
 		<tr>
-			<th style="border: 1px solid black;">下标 i</th>
-			<th style="border: 1px solid black;">子数组</th>
-			<th style="border: 1px solid black;">和</th>
+			<th style="border: 1px solid black;">i</th>
+			<th style="border: 1px solid black;">Subarray</th>
+			<th style="border: 1px solid black;">Sum</th>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">0</td>
@@ -58,31 +56,31 @@ tags:
 			<td style="border: 1px solid black;">4</td>
 		</tr>
 		<tr>
-			<td style="border: 1px solid black;"><b>总和</b></td>
+			<td style="border: 1px solid black;"><strong>Total Sum</strong></td>
 			<td style="border: 1px solid black;">&nbsp;</td>
 			<td style="border: 1px solid black;">11</td>
 		</tr>
 	</tbody>
 </table>
 
-<p>总和为 11 。因此，输出 11 。</p>
+<p>The total sum is 11. Hence, 11 is the output.</p>
 </div>
 
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [3,1,1,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [3,1,1,2]</span></p>
 
-<p><span class="example-io"><b>输出：</b>13</span></p>
+<p><strong>Output:</strong> <span class="example-io">13</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <table style="border: 1px solid black;">
 	<tbody>
 		<tr>
-			<th style="border: 1px solid black;">下标 i</th>
-			<th style="border: 1px solid black;">子数组</th>
-			<th style="border: 1px solid black;">和</th>
+			<th style="border: 1px solid black;">i</th>
+			<th style="border: 1px solid black;">Subarray</th>
+			<th style="border: 1px solid black;">Sum</th>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">0</td>
@@ -105,19 +103,18 @@ tags:
 			<td style="border: 1px solid black;">4</td>
 		</tr>
 		<tr>
-			<td style="border: 1px solid black;"><b>总和</b></td>
+			<td style="border: 1px solid black;"><strong>Total Sum</strong></td>
 			<td style="border: 1px solid black;">&nbsp;</td>
 			<td style="border: 1px solid black;">13</td>
 		</tr>
 	</tbody>
 </table>
 
-<p>总和为 13 。因此，输出为 13 。</p>
+<p>The total sum is 13. Hence, 13 is the output.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums.length &lt;= 100</code></li>
@@ -126,11 +123,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

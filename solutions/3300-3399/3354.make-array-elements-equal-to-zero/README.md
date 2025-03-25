@@ -1,68 +1,67 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3354.Make%20Array%20Elements%20Equal%20to%20Zero/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3354.Make%20Array%20Elements%20Equal%20to%20Zero/README_EN.md
 rating: 1397
-source: 第 424 场周赛 Q1
+source: Weekly Contest 424 Q1
 tags:
-    - 数组
-    - 前缀和
-    - 模拟
+    - Array
+    - Prefix Sum
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3354. 使数组元素等于零](https://leetcode.cn/problems/make-array-elements-equal-to-zero)
+# [3354. Make Array Elements Equal to Zero](https://leetcode.com/problems/make-array-elements-equal-to-zero)
 
-[English Version](/solution/3300-3399/3354.Make%20Array%20Elements%20Equal%20to%20Zero/README_EN.md)
+[中文文档](/solution/3300-3399/3354.Make%20Array%20Elements%20Equal%20to%20Zero/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code> 。</p>
+<p>You are given an integer array <code>nums</code>.</p>
 
-<p>开始时，选择一个满足 <code>nums[curr] == 0</code> 的起始位置&nbsp;<code>curr</code>&nbsp;，并选择一个移动 <strong>方向</strong>&nbsp;：向左或者向右。</p>
+<p>Start by selecting a starting position <code>curr</code> such that <code>nums[curr] == 0</code>, and choose a movement <strong>direction</strong> of&nbsp;either left or right.</p>
 
-<p>此后，你需要重复下面的过程：</p>
+<p>After that, you repeat the following process:</p>
 
 <ul>
-	<li>如果&nbsp;<code>curr</code>&nbsp;超过范围&nbsp;<code>[0, n - 1]</code> ，过程结束。</li>
-	<li>如果&nbsp;<code>nums[curr] == 0</code> ，沿当前方向继续移动：如果向右移，则 <strong>递增</strong>&nbsp;<code>curr</code>&nbsp;；如果向左移，则 <strong>递减</strong>&nbsp;<code>curr</code>&nbsp;。</li>
-	<li>如果&nbsp;<code>nums[curr] &gt; 0</code>:
+	<li>If <code>curr</code> is out of the range <code>[0, n - 1]</code>, this process ends.</li>
+	<li>If <code>nums[curr] == 0</code>, move in the current direction by <strong>incrementing</strong> <code>curr</code> if you are moving right, or <strong>decrementing</strong> <code>curr</code> if you are moving left.</li>
+	<li>Else if <code>nums[curr] &gt; 0</code>:
 	<ul>
-		<li>将&nbsp;<code>nums[curr]</code>&nbsp;减&nbsp;1 。</li>
-		<li><strong>反转</strong>&nbsp;移动方向（向左变向右，反之亦然）。</li>
-		<li>沿新方向移动一步。</li>
+		<li>Decrement <code>nums[curr]</code> by 1.</li>
+		<li><strong>Reverse</strong>&nbsp;your movement direction (left becomes right and vice versa).</li>
+		<li>Take a step in your new direction.</li>
 	</ul>
 	</li>
 </ul>
 
-<p>如果在结束整个过程后，<code>nums</code>&nbsp;中的所有元素都变为 0 ，则认为选出的初始位置和移动方向 <strong>有效</strong>&nbsp;。</p>
+<p>A selection of the initial position <code>curr</code> and movement direction is considered <strong>valid</strong> if every element in <code>nums</code> becomes 0 by the end of the process.</p>
 
-<p>返回可能的有效选择方案数目。</p>
+<p>Return the number of possible <strong>valid</strong> selections.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,0,2,0,3]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,0,2,0,3]</span></p>
 
-<p><span class="example-io"><b>输出：</b>2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>可能的有效选择方案如下：</p>
+<p>The only possible valid selections are the following:</p>
 
 <ul>
-	<li>选择&nbsp;<code>curr = 3</code>&nbsp;并向左移动。
+	<li>Choose <code>curr = 3</code>, and a movement direction to the left.
 
     <ul>
     	<li><code>[1,0,2,<strong><u>0</u></strong>,3] -&gt; [1,0,<strong><u>2</u></strong>,0,3] -&gt; [1,0,1,<strong><u>0</u></strong>,3] -&gt; [1,0,1,0,<strong><u>3</u></strong>] -&gt; [1,0,1,<strong><u>0</u></strong>,2] -&gt; [1,0,<strong><u>1</u></strong>,0,2] -&gt; [1,0,0,<strong><u>0</u></strong>,2] -&gt; [1,0,0,0,<strong><u>2</u></strong>] -&gt; [1,0,0,<strong><u>0</u></strong>,1] -&gt; [1,0,<strong><u>0</u></strong>,0,1] -&gt; [1,<strong><u>0</u></strong>,0,0,1] -&gt; [<strong><u>1</u></strong>,0,0,0,1] -&gt; [0,<strong><u>0</u></strong>,0,0,1] -&gt; [0,0,<strong><u>0</u></strong>,0,1] -&gt; [0,0,0,<strong><u>0</u></strong>,1] -&gt; [0,0,0,0,<strong><u>1</u></strong>] -&gt; [0,0,0,0,0]</code>.</li>
     </ul>
     </li>
-    <li>选择&nbsp;<code>curr = 3</code>&nbsp;并向右移动。
+    <li>Choose <code>curr = 3</code>, and a movement direction to the right.
     <ul>
     	<li><code>[1,0,2,<strong><u>0</u></strong>,3] -&gt; [1,0,2,0,<strong><u>3</u></strong>] -&gt; [1,0,2,<strong><u>0</u></strong>,2] -&gt; [1,0,<strong><u>2</u></strong>,0,2] -&gt; [1,0,1,<strong><u>0</u></strong>,2] -&gt; [1,0,1,0,<strong><u>2</u></strong>] -&gt; [1,0,1,<strong><u>0</u></strong>,1] -&gt; [1,0,<strong><u>1</u></strong>,0,1] -&gt; [1,0,0,<strong><u>0</u></strong>,1] -&gt; [1,0,0,0,<strong><u>1</u></strong>] -&gt; [1,0,0,<strong><u>0</u></strong>,0] -&gt; [1,0,<strong><u>0</u></strong>,0,0] -&gt; [1,<strong><u>0</u></strong>,0,0,0] -&gt; [<strong><u>1</u></strong>,0,0,0,0] -&gt; [0,0,0,0,0].</code></li>
     </ul>
@@ -71,41 +70,40 @@ tags:
 </ul>
 </div>
 
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [2,3,4,0,4,1,0]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,3,4,0,4,1,0]</span></p>
 
-<p><span class="example-io"><b>输出：</b>0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>不存在有效的选择方案。</p>
+<p>There are no possible valid selections.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
 	<li><code>0 &lt;= nums[i] &lt;= 100</code></li>
-	<li>至少存在一个元素&nbsp;<code>i</code>&nbsp;满足&nbsp;<code>nums[i] == 0</code> 。</li>
+	<li>There is at least one element <code>i</code> where <code>nums[i] == 0</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举 + 前缀和
+### Solution 1: Enumeration + Prefix Sum
 
-假设我们初始向左移动，遇到了一个非零元素，那么我们就需要将这个元素减一，然后改变移动方向，继续移动。
+Suppose we initially move to the left and encounter a non-zero element. In that case, we need to decrement this element by one, then change the direction of movement and continue moving.
 
-因此，我们可以维护每个零值元素左侧的元素和 $l$，右侧元素的和 $s - l$。如果 $l = s - l$，即左侧元素和等于右侧元素和，那么我们可以选择当前零值元素，向左或向右移动，答案加 $2$；如果 $|l - (s - l)| = 1$，此时如果左侧元素和更大，那么我们可以选择当前零值元素，向左移动，答案加 $1$，如果右侧元素和更大，那么我们可以选择当前零值元素，向右移动，答案加 $1$。
+Therefore, we can maintain the sum of elements to the left of each zero-value element as $l$, and the sum of elements to the right as $s - l$. If $l = s - l$, meaning the sum of elements on the left equals the sum of elements on the right, we can choose the current zero-value element and move either left or right, adding $2$ to the answer. If $|l - (s - l)| = 1$, and the sum of elements on the left is greater, we can choose the current zero-value element and move left, adding $1$ to the answer. If the sum of elements on the right is greater, we can choose the current zero-value element and move right, adding $1$ to the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

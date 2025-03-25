@@ -1,22 +1,22 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3358.Books%20with%20NULL%20Ratings/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3358.Books%20with%20NULL%20Ratings/README_EN.md
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3358. 评分为 NULL 的图书 🔒](https://leetcode.cn/problems/books-with-null-ratings)
+# [3358. Books with NULL Ratings 🔒](https://leetcode.com/problems/books-with-null-ratings)
 
-[English Version](/solution/3300-3399/3358.Books%20with%20NULL%20Ratings/README_EN.md)
+[中文文档](/solution/3300-3399/3358.Books%20with%20NULL%20Ratings/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>books</code></p>
+<p>Table: <code>books</code></p>
 
 <pre>
 +----------------+---------+
@@ -28,25 +28,24 @@ tags:
 | published_year | int     |
 | rating         | decimal |
 +----------------+---------+
-book_id 是这张表的唯一主键。
-这张表的每一行包含关于一本书的唯一 ID，题目，作者，出版年份以及评分的信息。
-评分可能为 NULL，表示这本书还没有被评分。
+book_id is the unique key for this table.
+Each row of this table contains information about a book including its unique ID, title, author, publication year, and rating.
+rating can be NULL, indicating that the book hasn&#39;t been rated yet.
 </pre>
 
-<p>编写一个解决方案来找到所有还没有被评分的图书。（即评分为 <strong>NULL</strong>）</p>
+<p>Write a solution to find all books that have not been rated yet (i.e., have a <strong>NULL</strong> rating).</p>
 
-<p>返回结果表以&nbsp;<code>book_id</code>&nbsp;<strong>升序&nbsp;</strong>排序。</p>
+<p>Return <em>the result table</em> <em>ordered by</em> <code>book_id</code> in <strong>ascending</strong> order.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>books 表：</p>
+<p>books table:</p>
 
 <pre class="example-io">
 +---------+------------------------+------------------+----------------+--------+
@@ -61,7 +60,7 @@ book_id 是这张表的唯一主键。
 +---------+------------------------+------------------+----------------+--------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +---------+------------------------+------------------+----------------+
@@ -73,26 +72,26 @@ book_id 是这张表的唯一主键。
 +---------+------------------------+------------------+----------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>book_id 为 2，4，6 的书评分为 NULL。</li>
-	<li>这些书被包含在结果表中。</li>
-	<li>其它书（book_id 为 1，3，5）有评分并且没有被包含。</li>
+	<li>The books with book_id 2, 4, and 6 have NULL ratings.</li>
+	<li>These books are included in the result table.</li>
+	<li>The other books (book_id 1, 3, and 5) have ratings and are not included.</li>
 </ul>
-结果以 book_id 升序排序。</div>
+The result is ordered by book_id in ascending order</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：条件筛选
+### Solution 1: Conditional Filtering
 
-我们直接筛选出 `rating` 为 `NULL` 的书籍，然后按照 `book_id` 升序排序即可。
+We directly filter out books where `rating` is `NULL`, then sort them in ascending order by `book_id`.
 
-注意，结果集中只包含 `book_id`、`title`、`author` 和 `published_year` 四个字段。
+Note that the result set should only include the fields `book_id`, `title`, `author`, and `published_year`.
 
 <!-- tabs:start -->
 

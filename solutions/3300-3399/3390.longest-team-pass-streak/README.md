@@ -1,18 +1,18 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3390.Longest%20Team%20Pass%20Streak/README.md
+difficulty: Hard
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3390.Longest%20Team%20Pass%20Streak/README_EN.md
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3390. Longest Team Pass Streak 🔒](https://leetcode.cn/problems/longest-team-pass-streak)
+# [3390. Longest Team Pass Streak 🔒](https://leetcode.com/problems/longest-team-pass-streak)
 
-[English Version](/solution/3300-3399/3390.Longest%20Team%20Pass%20Streak/README_EN.md)
+[中文文档](/solution/3300-3399/3390.Longest%20Team%20Pass%20Streak/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
@@ -140,11 +140,11 @@ pass_to is the player_id of the player receiving the pass.
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

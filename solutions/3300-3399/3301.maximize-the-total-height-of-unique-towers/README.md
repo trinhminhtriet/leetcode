@@ -1,77 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3301.Maximize%20the%20Total%20Height%20of%20Unique%20Towers/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3301.Maximize%20the%20Total%20Height%20of%20Unique%20Towers/README_EN.md
 rating: 1448
-source: 第 140 场双周赛 Q2
+source: Biweekly Contest 140 Q2
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [3301. 高度互不相同的最大塔高和](https://leetcode.cn/problems/maximize-the-total-height-of-unique-towers)
+# [3301. Maximize the Total Height of Unique Towers](https://leetcode.com/problems/maximize-the-total-height-of-unique-towers)
 
-[English Version](/solution/3300-3399/3301.Maximize%20the%20Total%20Height%20of%20Unique%20Towers/README_EN.md)
+[中文文档](/solution/3300-3399/3301.Maximize%20the%20Total%20Height%20of%20Unique%20Towers/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组&nbsp;<code>maximumHeight</code>&nbsp;，其中&nbsp;<code>maximumHeight[i]</code>&nbsp;表示第 <code>i</code>&nbsp;座塔可以达到的 <strong>最大</strong>&nbsp;高度。</p>
+<p>You are given an array <code>maximumHeight</code>, where <code>maximumHeight[i]</code> denotes the <strong>maximum</strong> height the <code>i<sup>th</sup></code> tower can be assigned.</p>
 
-<p>你的任务是给每一座塔分别设置一个高度，使得：</p>
+<p>Your task is to assign a height to each tower so that:</p>
 
 <ol>
-	<li>第 <code>i</code>&nbsp;座塔的高度是一个正整数，且不超过&nbsp;<code>maximumHeight[i]</code>&nbsp;。</li>
-	<li>所有塔的高度互不相同。</li>
+	<li>The height of the <code>i<sup>th</sup></code> tower is a positive integer and does not exceed <code>maximumHeight[i]</code>.</li>
+	<li>No two towers have the same height.</li>
 </ol>
 
-<p>请你返回设置完所有塔的高度后，可以达到的 <strong>最大</strong>&nbsp;总高度。如果没有合法的设置，返回 <code>-1</code>&nbsp;。</p>
+<p>Return the <strong>maximum</strong> possible total sum of the tower heights. If it&#39;s not possible to assign heights, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><b>输入：</b>maximumHeight<span class="example-io"> = [2,3,4,3]</span></p>
+<p><strong>Input:</strong> maximumHeight<span class="example-io"> = [2,3,4,3]</span></p>
 
-<p><span class="example-io"><b>输出：</b>10</span></p>
+<p><strong>Output:</strong> <span class="example-io">10</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>我们可以将塔的高度设置为：<code>[1, 2, 4, 3]</code>&nbsp;。</p>
+<p>We can assign heights in the following way: <code>[1, 2, 4, 3]</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><b>输入：</b>maximumHeight<span class="example-io"> = [15,10]</span></p>
+<p><strong>Input:</strong> maximumHeight<span class="example-io"> = [15,10]</span></p>
 
-<p><span class="example-io"><b>输出：</b>25</span></p>
+<p><strong>Output:</strong> <span class="example-io">25</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>我们可以将塔的高度设置为：<code>[15, 10]</code>&nbsp;。</p>
+<p>We can assign heights in the following way: <code>[15, 10]</code>.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><b>输入：</b>maximumHeight<span class="example-io"> = [2,2,1]</span></p>
+<p><strong>Input:</strong> maximumHeight<span class="example-io"> = [2,2,1]</span></p>
 
-<p><span class="example-io"><b>输出：</b>-1</span></p>
+<p><strong>Output:</strong> <span class="example-io">-1</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>无法设置塔的高度为正整数且高度互不相同。</p>
+<p>It&#39;s impossible to assign positive heights to each index so that no two towers have the same height.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= maximumHeight.length&nbsp;&lt;= 10<sup>5</sup></code></li>
@@ -80,19 +78,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 贪心
+### Solution 1: Sorting + Greedy
 
-我们可以将塔的最大高度按照从大到小排序，然后从最大高度开始逐个分配高度，用一个变量 $mx$ 记录当前分配的最大高度。
+We can sort the maximum heights of the towers in descending order, then allocate the heights one by one starting from the maximum height. Use a variable $mx$ to record the current maximum allocated height.
 
-如果当前高度 $x$ 大于 $mx - 1$，则将 $x$ 更新为 $mx - 1$。此时如果 $x$ 小于等于 $0$，说明无法分配高度，直接返回 $-1$。否则，我们将 $x$ 加到答案中，并更新 $mx$ 为 $x$。
+If the current height $x$ is greater than $mx - 1$, update $x$ to $mx - 1$. If $x$ is less than or equal to $0$, it means the height cannot be allocated, and we directly return $-1$. Otherwise, we add $x$ to the answer and update $mx$ to $x$.
 
-最后返回答案即可。
+Finally, return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 $\textit{maximumHeight}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{maximumHeight}$.
 
 <!-- tabs:start -->
 

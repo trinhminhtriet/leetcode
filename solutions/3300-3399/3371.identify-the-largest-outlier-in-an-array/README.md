@@ -1,97 +1,95 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3371.Identify%20the%20Largest%20Outlier%20in%20an%20Array/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3371.Identify%20the%20Largest%20Outlier%20in%20an%20Array/README_EN.md
 rating: 1643
-source: 第 426 场周赛 Q2
+source: Weekly Contest 426 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 计数
-    - 枚举
+    - Array
+    - Hash Table
+    - Counting
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [3371. 识别数组中的最大异常值](https://leetcode.cn/problems/identify-the-largest-outlier-in-an-array)
+# [3371. Identify the Largest Outlier in an Array](https://leetcode.com/problems/identify-the-largest-outlier-in-an-array)
 
-[English Version](/solution/3300-3399/3371.Identify%20the%20Largest%20Outlier%20in%20an%20Array/README_EN.md)
+[中文文档](/solution/3300-3399/3371.Identify%20the%20Largest%20Outlier%20in%20an%20Array/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>。该数组包含 <code>n</code> 个元素，其中&nbsp;<strong>恰好&nbsp;</strong>有 <code>n - 2</code> 个元素是&nbsp;<strong>特殊数字&nbsp;</strong>。剩下的&nbsp;<strong>两个&nbsp;</strong>元素中，一个是所有&nbsp;<strong>特殊数字&nbsp;</strong>的 <strong>和</strong> ，另一个是&nbsp;<strong>异常值&nbsp;</strong>。</p>
+<p>You are given an integer array <code>nums</code>. This array contains <code>n</code> elements, where <strong>exactly</strong> <code>n - 2</code> elements are <strong>special</strong><strong> numbers</strong>. One of the remaining <strong>two</strong> elements is the <em>sum</em> of these <strong>special numbers</strong>, and the other is an <strong>outlier</strong>.</p>
 
-<p><strong>异常值</strong> 的定义是：既不是原始特殊数字之一，也不是所有特殊数字的和。</p>
+<p>An <strong>outlier</strong> is defined as a number that is <em>neither</em> one of the original special numbers <em>nor</em> the element representing the sum of those numbers.</p>
 
-<p><strong>注意</strong>，特殊数字、和 以及 异常值 的下标必须&nbsp;<strong>不同&nbsp;</strong>，但可以共享&nbsp;<strong>相同</strong> 的值。</p>
+<p><strong>Note</strong> that special numbers, the sum element, and the outlier must have <strong>distinct</strong> indices, but <em>may </em>share the <strong>same</strong> value.</p>
 
-<p>返回 <code>nums</code> 中可能的&nbsp;<strong>最大</strong><strong>异常值</strong>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [2,3,5,10]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">10</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>特殊数字可以是 2 和 3，因此和为 5，异常值为 10。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [-2,-1,-3,-6,4]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">4</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>特殊数字可以是 -2、-1 和 -3，因此和为 -6，异常值为 4。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,1,1,1,1,5,5]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">5</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>特殊数字可以是 1、1、1、1 和 1，因此和为 5，另一个 5 为异常值。</p>
-</div>
+<p>Return the <strong>largest</strong><strong> </strong>potential<strong> outlier</strong> in <code>nums</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [2,3,5,10]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">10</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The special numbers could be 2 and 3, thus making their sum 5 and the outlier 10.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [-2,-1,-3,-6,4]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The special numbers could be -2, -1, and -3, thus making their sum -6 and the outlier 4.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,1,1,1,1,5,5]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The special numbers could be 1, 1, 1, 1, and 1, thus making their sum 5 and the other 5 as the outlier.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>-1000 &lt;= nums[i] &lt;= 1000</code></li>
-	<li>输入保证 <code>nums</code> 中至少存在&nbsp;<strong>一个&nbsp;</strong>可能的异常值。</li>
+	<li>The input is generated such that at least <strong>one</strong> potential outlier exists in <code>nums</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举
+### Solution 1: Hash Table + Enumeration
 
-我们用一个哈希表 $\textit{cnt}$ 记录数组 $\textit{nums}$ 中每个元素出现的次数。
+We use a hash table $\textit{cnt}$ to record the frequency of each element in the array $\textit{nums}$.
 
-接下来，我们枚举数组 $\textit{nums}$ 中的每个元素 $x$ 作为可能的异常值，对于每个 $x$，我们计算数组 $\textit{nums}$ 中除了 $x$ 之外的所有元素的和 $t$，如果 $t$ 不是偶数，或者 $t$ 的一半不在 $\textit{cnt}$ 中，那么 $x$ 不满足条件，我们跳过这个 $x$。否则，如果 $x$ 不等于 $t$ 的一半，或者 $x$ 在 $\textit{cnt}$ 中出现的次数大于 $1$，那么 $x$ 是一个可能的异常值，我们更新答案。
+Next, we enumerate each element $x$ in the array $\textit{nums}$ as a possible outlier. For each $x$, we calculate the sum $t$ of all elements in the array $\textit{nums}$ except $x$. If $t$ is not even, or half of $t$ is not in $\textit{cnt}$, then $x$ does not meet the condition, and we skip this $x$. Otherwise, if $x$ is not equal to half of $t$, or $x$ appears more than once in $\textit{cnt}$, then $x$ is a possible outlier, and we update the answer.
 
-枚举结束后，返回答案即可。
+After enumerating all elements, we return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

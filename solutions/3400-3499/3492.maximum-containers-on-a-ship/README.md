@@ -1,56 +1,54 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3492.Maximum%20Containers%20on%20a%20Ship/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3492.Maximum%20Containers%20on%20a%20Ship/README_EN.md
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [3492. 船上可以装载的最大集装箱数量](https://leetcode.cn/problems/maximum-containers-on-a-ship)
+# [3492. Maximum Containers on a Ship](https://leetcode.com/problems/maximum-containers-on-a-ship)
 
-[English Version](/solution/3400-3499/3492.Maximum%20Containers%20on%20a%20Ship/README_EN.md)
+[中文文档](/solution/3400-3499/3492.Maximum%20Containers%20on%20a%20Ship/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数 <code>n</code>，表示船上的一个 <code>n x n</code> 的货物甲板。甲板上的每个单元格可以装载一个重量<strong> 恰好 </strong>为 <code>w</code> 的集装箱。</p>
+<p>You are given a positive integer <code>n</code> representing an <code>n x n</code> cargo deck on a ship. Each cell on the deck can hold one container with a weight of <strong>exactly</strong> <code>w</code>.</p>
 
-<p>然而，如果将所有集装箱装载到甲板上，其总重量不能超过船的最大承载重量 <code>maxWeight</code>。</p>
+<p>However, the total weight of all containers, if loaded onto the deck, must not exceed the ship&#39;s maximum weight capacity, <code>maxWeight</code>.</p>
 
-<p>请返回可以装载到船上的 <strong>最大 </strong>集装箱数量。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">n = 2, w = 3, maxWeight = 15</span></p>
-
-<p><strong>输出：</strong> 4</p>
-
-<p><strong>解释：</strong></p>
-
-<p>甲板有 4 个单元格，每个集装箱的重量为 3。将所有集装箱装载后，总重量为 12，未超过 <code>maxWeight</code>。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">n = 3, w = 5, maxWeight = 20</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">4</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>甲板有 9 个单元格，每个集装箱的重量为 5。可以装载的最大集装箱数量为 4，此时总重量不超过 <code>maxWeight</code>。</p>
-</div>
+<p>Return the <strong>maximum</strong> number of containers that can be loaded onto the ship.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 2, w = 3, maxWeight = 15</span></p>
+
+<p><strong>Output:</strong> 4</p>
+
+<p><strong>Explanation: </strong></p>
+
+<p>The deck has 4 cells, and each container weighs 3. The total weight of loading all containers is 12, which does not exceed <code>maxWeight</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 3, w = 5, maxWeight = 20</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
+
+<p><strong>Explanation: </strong></p>
+
+<p>The deck has 9 cells, and each container weighs 5. The maximum number of containers that can be loaded without exceeding <code>maxWeight</code> is 4.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -60,15 +58,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-我们先计算出船上可以装载的最大重量，即 $n \times n \times w$，然后取其与 $\text{maxWeight}$ 的最小值，再除以 $w$ 即可。
+First, we calculate the maximum weight the boat can carry, which is $n \times n \times w$. Then, we take the minimum of this value and $\text{maxWeight}$, and divide it by $w$.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,76 +1,73 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3487.Maximum%20Unique%20Subarray%20Sum%20After%20Deletion/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3487.Maximum%20Unique%20Subarray%20Sum%20After%20Deletion/README_EN.md
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
+    - Greedy
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [3487. 删除后的最大子数组元素和](https://leetcode.cn/problems/maximum-unique-subarray-sum-after-deletion)
+# [3487. Maximum Unique Subarray Sum After Deletion](https://leetcode.com/problems/maximum-unique-subarray-sum-after-deletion)
 
-[English Version](/solution/3400-3499/3487.Maximum%20Unique%20Subarray%20Sum%20After%20Deletion/README_EN.md)
+[中文文档](/solution/3400-3499/3487.Maximum%20Unique%20Subarray%20Sum%20After%20Deletion/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given an integer array <code>nums</code>.</p>
 
-<p>你可以从数组 <code>nums</code> 中删除任意数量的元素，但不能将其变为 <strong>空</strong> 数组。执行删除操作后，选出&nbsp;<code>nums</code>&nbsp;中满足下述条件的一个子数组：</p>
+<p>You are allowed to delete any number of elements from <code>nums</code> without making it <strong>empty</strong>. After performing the deletions, select a <span data-keyword="subarray-nonempty">subarray</span> of <code>nums</code> such that:</p>
 
 <ol>
-	<li>子数组中的所有元素 <strong>互不相同</strong> 。</li>
-	<li><strong>最大化</strong> 子数组的元素和。</li>
+	<li>All elements in the subarray are <strong>unique</strong>.</li>
+	<li>The sum of the elements in the subarray is <strong>maximized</strong>.</li>
 </ol>
 
-<p>返回子数组的 <strong>最大元素和</strong> 。</p>
-<strong>子数组</strong> 是数组的一个连续、<strong>非空</strong> 的元素序列。
+<p>Return the <strong>maximum sum</strong> of such a subarray.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,3,4,5]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4,5]</span></p>
 
-<p><span class="example-io"><b>输出：</b>15</span></p>
+<p><strong>Output:</strong> <span class="example-io">15</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>不删除任何元素，选中整个数组得到最大元素和。</p>
+<p>Select the entire array without deleting any element to obtain the maximum sum.</p>
 </div>
 
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">nums = [1,1,0,1,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,1,0,1,1]</span></p>
 
-<p><span class="example-io"><b>输出：</b></span>1</p>
+<p><strong>Output:</strong> 1</p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>删除元素&nbsp;<code>nums[0] == 1</code>、<code>nums[1] == 1</code>、<code>nums[2] == 0</code>&nbsp;和&nbsp;<code>nums[3] == 1</code>&nbsp;。选中整个数组&nbsp;<code>[1]</code>&nbsp;得到最大元素和。</p>
+<p>Delete the element <code>nums[0] == 1</code>, <code>nums[1] == 1</code>, <code>nums[2] == 0</code>, and <code>nums[3] == 1</code>. Select the entire array <code>[1]</code> to obtain the maximum sum.</p>
 </div>
 
-<p><b>示例 3：</b></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">nums = [1,2,-1,-2,1,0,-1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,-1,-2,1,0,-1]</span></p>
 
-<p><span class="example-io"><b>输出：</b></span>3</p>
+<p><strong>Output:</strong> 3</p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>删除元素&nbsp;<code>nums[2] == -1</code>&nbsp;和&nbsp;<code>nums[3] == -2</code>&nbsp;，从&nbsp;<code>[1, 2, 1, 0, -1]</code>&nbsp;中选中子数组&nbsp;<code>[2, 1]</code>&nbsp;以获得最大元素和。</p>
+<p>Delete the elements <code>nums[2] == -1</code> and <code>nums[3] == -2</code>, and select the subarray <code>[2, 1]</code> from <code>[1, 2, 1, 0, -1]</code> to obtain the maximum sum.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -79,17 +76,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 哈希表
+### Solution 1: Greedy + Hash Table
 
-我们先找出数组中的最大值 $\textit{mx}$，如果 $\textit{mx} \leq 0$，那么数组中所有元素都小于等于 $0$，由于需要选出一个元素和最大的非空子数组，那么最大元素和就是 $\textit{mx}$。
+We first find the maximum value $\textit{mx}$ in the array. If $\textit{mx} \leq 0$, then all elements in the array are less than or equal to 0. Since we need to select a non-empty subarray with the maximum element sum, the maximum element sum would be $\textit{mx}$.
 
-如果 $\textit{mx} > 0$，那么我们需要找出数组中所有不同的正整数，并且这些正整数的和最大。我们可以使用一个哈希表 $\textit{s}$ 来记录所有不同的正整数，然后遍历数组，将所有不同的正整数加起来即可。
+If $\textit{mx} > 0$, then we need to find all distinct positive integers in the array such that their sum is maximized. We can use a hash table $\textit{s}$ to record all distinct positive integers, and then iterate through the array, adding up all distinct positive integers.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

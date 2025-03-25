@@ -1,107 +1,105 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3305.Count%20of%20Substrings%20Containing%20Every%20Vowel%20and%20K%20Consonants%20I/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3305.Count%20of%20Substrings%20Containing%20Every%20Vowel%20and%20K%20Consonants%20I/README_EN.md
 rating: 1563
-source: 第 417 场周赛 Q2
+source: Weekly Contest 417 Q2
 tags:
-    - 哈希表
-    - 字符串
-    - 滑动窗口
+    - Hash Table
+    - String
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [3305. 元音辅音字符串计数 I](https://leetcode.cn/problems/count-of-substrings-containing-every-vowel-and-k-consonants-i)
+# [3305. Count of Substrings Containing Every Vowel and K Consonants I](https://leetcode.com/problems/count-of-substrings-containing-every-vowel-and-k-consonants-i)
 
-[English Version](/solution/3300-3399/3305.Count%20of%20Substrings%20Containing%20Every%20Vowel%20and%20K%20Consonants%20I/README_EN.md)
+[中文文档](/solution/3300-3399/3305.Count%20of%20Substrings%20Containing%20Every%20Vowel%20and%20K%20Consonants%20I/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>word</code> 和一个 <strong>非负 </strong>整数 <code>k</code>。</p>
+<p>You are given a string <code>word</code> and a <strong>non-negative</strong> integer <code>k</code>.</p>
 
-<p>返回 <code>word</code> 的 <span data-keyword="substring-nonempty">子字符串</span> 中，每个元音字母（<code>'a'</code>、<code>'e'</code>、<code>'i'</code>、<code>'o'</code>、<code>'u'</code>）<strong>至少</strong> 出现一次，并且 <strong>恰好 </strong>包含 <code>k</code> 个辅音字母的子字符串的总数。</p>
+<p>Return the total number of <span data-keyword="substring-nonempty">substrings</span> of <code>word</code> that contain every vowel (<code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, and <code>&#39;u&#39;</code>) <strong>at least</strong> once and <strong>exactly</strong> <code>k</code> consonants.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">word = "aeioqq", k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">word = &quot;aeioqq&quot;, k = 1</span></p>
 
-<p><strong>输出：</strong><span class="example-io">0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>不存在包含所有元音字母的子字符串。</p>
+<p>There is no substring with every vowel.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">word = "aeiou", k = 0</span></p>
+<p><strong>Input:</strong> <span class="example-io">word = &quot;aeiou&quot;, k = 0</span></p>
 
-<p><strong>输出：</strong><span class="example-io">1</span></p>
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>唯一一个包含所有元音字母且不含辅音字母的子字符串是 <code>word[0..4]</code>，即 <code>"aeiou"</code>。</p>
+<p>The only substring with every vowel and zero consonants is <code>word[0..4]</code>, which is <code>&quot;aeiou&quot;</code>.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">word = "ieaouqqieaouqq", k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">word = &quot;</span>ieaouqqieaouqq<span class="example-io">&quot;, k = 1</span></p>
 
-<p><strong>输出：</strong>3</p>
+<p><strong>Output:</strong> 3</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>包含所有元音字母并且恰好含有一个辅音字母的子字符串有：</p>
+<p>The substrings with every vowel and one consonant are:</p>
 
 <ul>
-	<li><code>word[0..5]</code>，即 <code>"ieaouq"</code>。</li>
-	<li><code>word[6..11]</code>，即 <code>"qieaou"</code>。</li>
-	<li><code>word[7..12]</code>，即 <code>"ieaouq"</code>。</li>
+	<li><code>word[0..5]</code>, which is <code>&quot;ieaouq&quot;</code>.</li>
+	<li><code>word[6..11]</code>, which is <code>&quot;qieaou&quot;</code>.</li>
+	<li><code>word[7..12]</code>, which is <code>&quot;ieaouq&quot;</code>.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>5 &lt;= word.length &lt;= 250</code></li>
-	<li><code>word</code> 仅由小写英文字母组成。</li>
+	<li><code>word</code> consists only of lowercase English letters.</li>
 	<li><code>0 &lt;= k &lt;= word.length - 5</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：问题转换 + 滑动窗口
+### Solution 1: Problem Transformation + Sliding Window
 
-我们可以转换为求以下两个问题：
+We can transform the problem into solving the following two subproblems:
 
-1. 求每个元音字母至少出现一次，且至少包含 $k$ 个辅音字母的子字符串的总数 $\textit{f}(k)$；
-2. 求每个元音字母至少出现一次，且至少包含 $k + 1$ 个辅音字母的子字符串的总数 $\textit{f}(k + 1)$。
+1. Find the total number of substrings where each vowel appears at least once and contains at least $k$ consonants, denoted as $\textit{f}(k)$;
+2. Find the total number of substrings where each vowel appears at least once and contains at least $k + 1$ consonants, denoted as $\textit{f}(k + 1)$.
 
-那么答案就是 $\textit{f}(k) - \textit{f}(k + 1)$。
+Then the answer is $\textit{f}(k) - \textit{f}(k + 1)$.
 
-因此，我们设计一个函数 $\textit{f}(k)$，用于统计每个元音字母至少出现一次，且至少包含 $k$ 个辅音字母的子字符串的总数。
+Therefore, we design a function $\textit{f}(k)$ to count the total number of substrings where each vowel appears at least once and contains at least $k$ consonants.
 
-我们可以用一个哈希表 $\textit{cnt}$ 统计每个元音字母的出现次数，用一个变量 $\textit{ans}$ 统计答案，用一个变量 $\textit{l}$ 记录滑动窗口的左边界，用一个变量 $\textit{x}$ 记录当前窗口中辅音字母的个数。
+We can use a hash table $\textit{cnt}$ to count the occurrences of each vowel, a variable $\textit{ans}$ to store the answer, a variable $\textit{l}$ to record the left boundary of the sliding window, and a variable $\textit{x}$ to record the number of consonants in the current window.
 
-遍历字符串，如果当前字符是元音字母，则将其加入哈希表 $\textit{cnt}$ 中，否则将 $\textit{x}$ 加一。如果此时 $\textit{x} \ge k$ 且哈希表 $\textit{cnt}$ 的大小为 $5$，说明当前窗口满足条件，我们循环移动左边界，直到窗口不满足条件。此时，以右边界 $\textit{r}$ 为结尾、且左边界在 $[0,.. \textit{l} - 1]$ 范围内的子字符串都满足条件，一共有 $\textit{l}$ 个。我们将 $\textit{l}$ 加到答案中。继续遍历字符串，直到遍历结束，我们就得到了 $\textit{f}(k)$。
+Traverse the string. If the current character is a vowel, add it to the hash table $\textit{cnt}$; otherwise, increment $\textit{x}$ by one. If $\textit{x} \ge k$ and the size of the hash table $\textit{cnt}$ is $5$, it means the current window meets the conditions. We then move the left boundary in a loop until the window no longer meets the conditions. At this point, all substrings ending at the right boundary $\textit{r}$ and with the left boundary in the range $[0, .. \textit{l} - 1]$ meet the conditions, totaling $\textit{l}$ substrings. We add $\textit{l}$ to the answer. Continue traversing the string until the end, and we get $\textit{f}(k)$.
 
-最后，我们返回 $\textit{f}(k) - \textit{f}(k + 1)$。
+Finally, we return $\textit{f}(k) - \textit{f}(k + 1)$.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串 $\textit{word}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $\textit{word}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,84 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3418.Maximum%20Amount%20of%20Money%20Robot%20Can%20Earn/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3418.Maximum%20Amount%20of%20Money%20Robot%20Can%20Earn/README_EN.md
 rating: 1798
-source: 第 432 场周赛 Q2
+source: Weekly Contest 432 Q2
 tags:
-    - 数组
-    - 动态规划
-    - 矩阵
+    - Array
+    - Dynamic Programming
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [3418. 机器人可以获得的最大金币数](https://leetcode.cn/problems/maximum-amount-of-money-robot-can-earn)
+# [3418. Maximum Amount of Money Robot Can Earn](https://leetcode.com/problems/maximum-amount-of-money-robot-can-earn)
 
-[English Version](/solution/3400-3499/3418.Maximum%20Amount%20of%20Money%20Robot%20Can%20Earn/README_EN.md)
+[中文文档](/solution/3400-3499/3418.Maximum%20Amount%20of%20Money%20Robot%20Can%20Earn/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>m x n</code> 的网格。一个机器人从网格的左上角 <code>(0, 0)</code> 出发，目标是到达网格的右下角 <code>(m - 1, n - 1)</code>。在任意时刻，机器人只能向右或向下移动。</p>
+<p>You are given an <code>m x n</code> grid. A robot starts at the top-left corner of the grid <code>(0, 0)</code> and wants to reach the bottom-right corner <code>(m - 1, n - 1)</code>. The robot can move either right or down at any point in time.</p>
 
-<p>网格中的每个单元格包含一个值 <code>coins[i][j]</code>：</p>
+<p>The grid contains a value <code>coins[i][j]</code> in each cell:</p>
 
 <ul>
-	<li>如果 <code>coins[i][j] &gt;= 0</code>，机器人可以获得该单元格的金币。</li>
-	<li>如果 <code>coins[i][j] &lt; 0</code>，机器人会遇到一个强盗，强盗会抢走该单元格数值的&nbsp;<strong>绝对值</strong> 的金币。</li>
+	<li>If <code>coins[i][j] &gt;= 0</code>, the robot gains that many coins.</li>
+	<li>If <code>coins[i][j] &lt; 0</code>, the robot encounters a robber, and the robber steals the <strong>absolute</strong> value of <code>coins[i][j]</code> coins.</li>
 </ul>
 
-<p>机器人有一项特殊能力，可以在行程中&nbsp;<strong>最多感化&nbsp;</strong>2个单元格的强盗，从而防止这些单元格的金币被抢走。</p>
+<p>The robot has a special ability to <strong>neutralize robbers</strong> in at most <strong>2 cells</strong> on its path, preventing them from stealing coins in those cells.</p>
 
-<p><strong>注意：</strong>机器人的总金币数可以是负数。</p>
+<p><strong>Note:</strong> The robot&#39;s total coins can be negative.</p>
 
-<p>返回机器人在路径上可以获得的&nbsp;<strong>最大金币数&nbsp;</strong>。</p>
+<p>Return the <strong>maximum</strong> profit the robot can gain on the route.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">coins = [[0,1,-1],[1,-2,3],[2,-3,4]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">coins = [[0,1,-1],[1,-2,3],[2,-3,4]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">8</span></p>
+<p><strong>Output:</strong> <span class="example-io">8</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>一个获得最多金币的最优路径如下：</p>
+<p>An optimal path for maximum coins is:</p>
 
 <ol>
-	<li>从 <code>(0, 0)</code> 出发，初始金币为 <code>0</code>（总金币 = <code>0</code>）。</li>
-	<li>移动到 <code>(0, 1)</code>，获得 <code>1</code> 枚金币（总金币 = <code>0 + 1 = 1</code>）。</li>
-	<li>移动到 <code>(1, 1)</code>，遇到强盗抢走 <code>2</code> 枚金币。机器人在此处使用一次感化能力，避免被抢（总金币 = <code>1</code>）。</li>
-	<li>移动到 <code>(1, 2)</code>，获得 <code>3</code> 枚金币（总金币 = <code>1 + 3 = 4</code>）。</li>
-	<li>移动到 <code>(2, 2)</code>，获得 <code>4</code> 枚金币（总金币 = <code>4 + 4 = 8</code>）。</li>
+	<li>Start at <code>(0, 0)</code> with <code>0</code> coins (total coins = <code>0</code>).</li>
+	<li>Move to <code>(0, 1)</code>, gaining <code>1</code> coin (total coins = <code>0 + 1 = 1</code>).</li>
+	<li>Move to <code>(1, 1)</code>, where there&#39;s a robber stealing <code>2</code> coins. The robot uses one neutralization here, avoiding the robbery (total coins = <code>1</code>).</li>
+	<li>Move to <code>(1, 2)</code>, gaining <code>3</code> coins (total coins = <code>1 + 3 = 4</code>).</li>
+	<li>Move to <code>(2, 2)</code>, gaining <code>4</code> coins (total coins = <code>4 + 4 = 8</code>).</li>
 </ol>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">coins = [[10,10,10],[10,10,10]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">coins = [[10,10,10],[10,10,10]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">40</span></p>
+<p><strong>Output:</strong> <span class="example-io">40</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>一个获得最多金币的最优路径如下：</p>
+<p>An optimal path for maximum coins is:</p>
 
 <ol>
-	<li>从 <code>(0, 0)</code> 出发，初始金币为 <code>10</code>（总金币 = <code>10</code>）。</li>
-	<li>移动到 <code>(0, 1)</code>，获得 <code>10</code> 枚金币（总金币 = <code>10 + 10 = 20</code>）。</li>
-	<li>移动到 <code>(0, 2)</code>，再获得 <code>10</code> 枚金币（总金币 = <code>20 + 10 = 30</code>）。</li>
-	<li>移动到 <code>(1, 2)</code>，获得 <code>10</code> 枚金币（总金币 = <code>30 + 10 = 40</code>）。</li>
+	<li>Start at <code>(0, 0)</code> with <code>10</code> coins (total coins = <code>10</code>).</li>
+	<li>Move to <code>(0, 1)</code>, gaining <code>10</code> coins (total coins = <code>10 + 10 = 20</code>).</li>
+	<li>Move to <code>(0, 2)</code>, gaining another <code>10</code> coins (total coins = <code>20 + 10 = 30</code>).</li>
+	<li>Move to <code>(1, 2)</code>, gaining the final <code>10</code> coins (total coins = <code>30 + 10 = 40</code>).</li>
 </ol>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == coins.length</code></li>
@@ -89,21 +87,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoized Search
 
-我们设计一个函数 $\textit{dfs}(i, j, k)$，表示机器人从 $(i, j)$ 出发，还剩下 $k$ 次感化机会时，能够获得的最大金币数。机器人只能向右或向下移动，因此 $\textit{dfs}(i, j, k)$ 的值只与 $\textit{dfs}(i + 1, j, k)$ 和 $\textit{dfs}(i, j + 1, k)$ 有关。
+We design a function $\textit{dfs}(i, j, k)$, which represents the maximum amount of coins the robot can collect starting from $(i, j)$ with $k$ conversion opportunities left. The robot can only move right or down, so the value of $\textit{dfs}(i, j, k)$ depends only on $\textit{dfs}(i + 1, j, k)$ and $\textit{dfs}(i, j + 1, k)$.
 
--   如果 $i \geq m$ 或 $j \geq n$，表示机器人走出了网格，此时返回一个极小值。
--   如果 $i = m - 1$ 且 $j = n - 1$，表示机器人到达了网格的右下角，此时如果 $k > 0$，则机器人可以选择感化当前位置的强盗，因此返回 $\max(0, \textit{coins}[i][j])$；如果 $k = 0$，则机器人不能感化当前位置的强盗，因此返回 $\textit{coins}[i][j]$。
--   如果 $\textit{coins}[i][j] < 0$，表示当前位置有强盗，此时如果 $k > 0$，则机器人可以选择感化当前位置的强盗，因此返回 $\textit{coins}[i][j] + \max(\textit{dfs}(i + 1, j, k), \textit{dfs}(i, j + 1, k))$；如果 $k = 0$，则机器人不能感化当前位置的强盗，因此返回 $\textit{coins}[i][j] + \max(\textit{dfs}(i + 1, j, k), \textit{dfs}(i, j + 1, k))$。
+-   If $i \geq m$ or $j \geq n$, it means the robot has moved out of the grid, so we return a very small value.
+-   If $i = m - 1$ and $j = n - 1$, it means the robot has reached the bottom-right corner of the grid. If $k > 0$, the robot can choose to convert the bandit at the current position, so we return $\max(0, \textit{coins}[i][j])$. If $k = 0$, the robot cannot convert the bandit at the current position, so we return $\textit{coins}[i][j]$.
+-   If $\textit{coins}[i][j] < 0$, it means there is a bandit at the current position. If $k > 0$, the robot can choose to convert the bandit at the current position, so we return $\textit{coins}[i][j] + \max(\textit{dfs}(i + 1, j, k), \textit{dfs}(i, j + 1, k))$. If $k = 0$, the robot cannot convert the bandit at the current position, so we return $\textit{coins}[i][j] + \max(\textit{dfs}(i + 1, j, k), \textit{dfs}(i, j + 1, k))$.
 
-根据上述分析，我们可以编写出记忆化搜索的代码。
+Based on the above analysis, we can write the code for memoized search.
 
-时间复杂度 $O(m \times n \times k)$，空间复杂度 $O(m \times n \times k)$。其中 $m$ 和 $n$ 分别是二维数组 $\textit{coins}$ 的行数和列数，而 $k$ 是感化机会的状态数，本题中 $k = 3$。
+The time complexity is $O(m \times n \times k)$, and the space complexity is $O(m \times n \times k)$. Here, $m$ and $n$ are the number of rows and columns of the 2D array $\textit{coins}$, and $k$ is the number of conversion opportunities, which is $3$ in this problem.
 
 <!-- tabs:start -->
 

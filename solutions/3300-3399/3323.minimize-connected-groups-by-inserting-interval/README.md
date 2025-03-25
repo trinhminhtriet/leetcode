@@ -1,71 +1,69 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3323.Minimize%20Connected%20Groups%20by%20Inserting%20Interval/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3323.Minimize%20Connected%20Groups%20by%20Inserting%20Interval/README_EN.md
 tags:
-    - 数组
-    - 二分查找
-    - 排序
-    - 滑动窗口
+    - Array
+    - Binary Search
+    - Sorting
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [3323. 通过插入区间最小化连通组 🔒](https://leetcode.cn/problems/minimize-connected-groups-by-inserting-interval)
+# [3323. Minimize Connected Groups by Inserting Interval 🔒](https://leetcode.com/problems/minimize-connected-groups-by-inserting-interval)
 
-[English Version](/solution/3300-3399/3323.Minimize%20Connected%20Groups%20by%20Inserting%20Interval/README_EN.md)
+[中文文档](/solution/3300-3399/3323.Minimize%20Connected%20Groups%20by%20Inserting%20Interval/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 2 维数组&nbsp;<code>intervals</code>，其中&nbsp;<code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>&nbsp;表示区间&nbsp;<code>i</code>&nbsp;的开头和结尾。另外还给定一个整数&nbsp;<code>k</code>。</p>
+<p>You are given a 2D array <code>intervals</code>, where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> represents the start and the end of interval <code>i</code>. You are also given an integer <code>k</code>.</p>
 
-<p>你必须向数组 <strong>恰好添加一个</strong>&nbsp;新的区间&nbsp;<code>[start<sub>new</sub>, end<sub>new</sub>]</code>&nbsp;使得：</p>
-
-<ul>
-	<li>新区间的长度，<code>end<sub>new</sub> - start<sub>new</sub></code>&nbsp;最多为&nbsp;<code>k</code>。</li>
-	<li>在添加之后，<code>intervals</code>&nbsp;中 <strong>连通组</strong>&nbsp;的数量 <strong>最少</strong>。</li>
-</ul>
-
-<p>区间的 <strong>连通组</strong>&nbsp;是一起覆盖了从最小点到最大点的连续范围，中间没有间隙的区间的最大集合。下面是一些例子：</p>
+<p>You must add <strong>exactly one</strong> new interval <code>[start<sub>new</sub>, end<sub>new</sub>]</code> to the array such that:</p>
 
 <ul>
-	<li>区间组&nbsp;<code>[[1, 2], [2, 5], [3, 3]]</code>&nbsp;是连通的，因为它们一起覆盖了 1 到 5 的范围，中间没有任何间隔。</li>
-	<li>然而，区间组&nbsp;<code>[[1, 2], [3, 4]]</code>&nbsp;不是连通的，因为&nbsp;<code>(2, 3)</code>&nbsp;段没有被覆盖。</li>
+	<li>The length of the new interval, <code>end<sub>new</sub> - start<sub>new</sub></code>, is at most <code>k</code>.</li>
+	<li>After adding, the number of <strong>connected groups</strong> in <code>intervals</code> is <strong>minimized</strong>.</li>
 </ul>
 
-<p>返回在数组&nbsp;<strong>恰好添加一个</strong> 新区间后，连通组的 <strong>最小</strong> 数量。</p>
+<p>A <strong>connected group</strong> of intervals is a maximal collection of intervals that, when considered together, cover a continuous range from the smallest point to the largest point with no gaps between them. Here are some examples:</p>
+
+<ul>
+	<li>A group of intervals <code>[[1, 2], [2, 5], [3, 3]]</code> is connected because together they cover the range from 1 to 5 without any gaps.</li>
+	<li>However, a group of intervals <code>[[1, 2], [3, 4]]</code> is not connected because the segment <code>(2, 3)</code> is not covered.</li>
+</ul>
+
+<p>Return the <strong>minimum</strong> number of connected groups after adding <strong>exactly one</strong> new interval to the array.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>intervals = [[1,3],[5,6],[8,10]], k = 3</span></p>
+<p><strong>Input:</strong> <span class="example-io">intervals = [[1,3],[5,6],[8,10]], k = 3</span></p>
 
-<p><span class="example-io"><b>输出：</b>2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>在添加区间&nbsp;<code>[3, 5]</code>&nbsp;后，我们有两个连通组：<code>[[1, 3], [3, 5], [5, 6]]</code> 和&nbsp;<code>[[8, 10]]</code>。</p>
+<p>After adding the interval <code>[3, 5]</code>, we have two connected groups: <code>[[1, 3], [3, 5], [5, 6]]</code> and <code>[[8, 10]]</code>.</p>
 </div>
 
-<p><strong class="example">示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>intervals = [[5,10],[1,1],[3,3]], k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">intervals = [[5,10],[1,1],[3,3]], k = 1</span></p>
 
-<p><span class="example-io"><b>输出：</b>3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>在添加区间&nbsp;<code>[1, 1]</code>&nbsp;后，我们有三个连通组：<code>[[1, 1], [1, 1]]</code>，<code>[[3, 3]]</code>，和&nbsp;<code>[[5, 10]]</code>。</p>
+<p>After adding the interval <code>[1, 1]</code>, we have three connected groups: <code>[[1, 1], [1, 1]]</code>, <code>[[3, 3]]</code>, and <code>[[5, 10]]</code>.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= intervals.length &lt;= 10<sup>5</sup></code></li>
@@ -76,21 +74,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 二分查找
+### Solution 1: Sorting + Binary Search
 
-首先，我们对给定的区间集合 $\textit{intervals}$ 按照区间的左端点进行排序，然后合并所有相交的区间，得到一个新的区间集合 $\textit{merged}$。
+First, we sort the given set of intervals $\textit{intervals}$ by their left endpoints, then merge all overlapping intervals to obtain a new set of intervals $\textit{merged}$.
 
-那么我们可以将初始答案设为 $\textit{merged}$ 的长度。
+We can then set the initial answer to the length of $\textit{merged}$.
 
-接下来，我们枚举 $\textit{merged}$ 中的每一个区间 $[\_, e]$，我们可以通过二分查找，在 $\textit{merged}$ 中找到第一个左端点大于等于 $e + k + 1$ 的区间，设其下标为 $j$，那么我们可以将答案更新，即 $\textit{ans} = \min(\textit{ans}, |\textit{merged}| - (j - i - 1))$。
+Next, we enumerate each interval $[\_, e]$ in $\textit{merged}$. Using binary search, we find the first interval in $\textit{merged}$ whose left endpoint is greater than or equal to $e + k + 1$, and let its index be $j$. We can then update the answer as $\textit{ans} = \min(\textit{ans}, |\textit{merged}| - (j - i - 1))$.
 
-最终，我们返回答案 $\textit{ans}$ 即可。
+Finally, we return the answer $\textit{ans}$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为区间的数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of intervals.
 
 <!-- tabs:start -->
 

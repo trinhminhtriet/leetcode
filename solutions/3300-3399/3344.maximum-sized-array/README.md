@@ -1,43 +1,42 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3344.Maximum%20Sized%20Array/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3344.Maximum%20Sized%20Array/README_EN.md
 tags:
-    - 位运算
-    - 二分查找
+    - Bit Manipulation
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [3344. 最大尺寸数组 🔒](https://leetcode.cn/problems/maximum-sized-array)
+# [3344. Maximum Sized Array 🔒](https://leetcode.com/problems/maximum-sized-array)
 
-[English Version](/solution/3300-3399/3344.Maximum%20Sized%20Array/README_EN.md)
+[中文文档](/solution/3300-3399/3344.Maximum%20Sized%20Array/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个正整数&nbsp;<code>s</code>，令&nbsp;<code>A</code>&nbsp;为一个&nbsp;<code>n × n × n</code>&nbsp;的三维数组，其中每个元素&nbsp;<code>A[i][j][k]</code>&nbsp;定义为：</p>
+<p>Given a positive integer <code>s</code>, let <code>A</code> be a 3D array of dimensions<!-- notionvc: f8069282-c5f5-4da1-91b8-fa0c1c168ea1 --> <code>n &times; n &times; n</code>, where each element <code>A[i][j][k]</code> is defined as:</p>
 
 <ul>
-	<li><code>A[i][j][k] = i * (j OR k)</code>，其中&nbsp;<code>0 &lt;= i, j, k &lt; n</code>。</li>
+	<li><code>A[i][j][k] = i * (j OR k)</code>, where <code>0 &lt;= i, j, k &lt; n</code>.</li>
 </ul>
 
-<p>返回使数组 <code>A</code> 中所有元素的和不超过 <code>s</code>&nbsp;的 <strong>最大的</strong>&nbsp;<code>n</code>。</p>
+<p>Return the <strong>maximum</strong> possible value of <code>n</code> such that the <strong>sum</strong> of all elements in array <code>A</code> does not exceed <code>s</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = 10</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = 10</span></p>
 
-<p><strong>输出：</strong><span class="example-io">2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li><code>n = 2</code><strong>&nbsp;</strong>时数组&nbsp;<code>A</code> 的元素：
+	<li>Elements of the array <code>A</code> for <code>n = 2</code><strong>:</strong>
 
     <ul>
     	<li><code>A[0][0][0] = 0 * (0 OR 0) = 0</code></li>
@@ -50,35 +49,34 @@ tags:
     	<li><code>A[1][1][1] = 1 * (1 OR 1) = 1</code></li>
     </ul>
     </li>
-    <li>数组&nbsp;<code>A</code>&nbsp;中元素的总和为 3，没有超过 10，所以&nbsp;<code>n</code>&nbsp;的最大值为 2。</li>
+    <li>The total sum of the elements in array <code>A</code> is 3, which does not exceed 10, so the maximum possible value of <code>n</code> is 2.</li>
 
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = 0</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = 0</span></p>
 
-<p><span class="example-io"><b>输出：</b>1</span></p>
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li><code>n = 1</code><strong>&nbsp;</strong>时数组&nbsp;<code>A</code> 的元素：
+	<li>Elements of the array <code>A</code> for <code>n = 1</code>:
 
     <ul>
     	<li><code>A[0][0][0] = 0 * (0 OR 0) = 0</code></li>
     </ul>
     </li>
-    <li>数组&nbsp;<code>A</code>&nbsp;中元素的总和为&nbsp;0，没有超过 0，所以&nbsp;<code>n</code>&nbsp;的最大值为 1。</li>
+    <li>The total sum of the elements in array <code>A</code> is 0, which does not exceed 0, so the maximum possible value of <code>n</code> is 1.</li>
 
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= s &lt;= 10<sup>15</sup></code></li>
@@ -86,17 +84,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：预处理 + 二分查找
+### Solution 1: Preprocessing + Binary Search
 
-我们可以粗略估算出 $n$ 的最大值，对于 $j \lor k$，结果的和大致为 $n^2 (n - 1) / 2$，再与 $i \in [0, n)$ 的每个 $i$ 相乘，结果约等于 $(n-1)^5 / 4$，要使得 $(n - 1)^5 / 4 \leq s$，那么 $n \leq 1320$。
+We can roughly estimate the maximum value of $n$. For $j \lor k$, the sum of the results is approximately $n^2 (n - 1) / 2$. Multiplying this by each $i \in [0, n)$, the result is approximately $(n-1)^5 / 4$. To ensure $(n - 1)^5 / 4 \leq s$, we have $n \leq 1320$.
 
-因此，我们不妨预处理出 $f[n] = \sum_{i=0}^{n-1} \sum_{j=0}^{i} (i \lor j)$，然后使用二分查找找到最大的 $n$，使得 $f[n-1] \cdot (n-1) \cdot n / 2 \leq s$。
+Therefore, we can preprocess $f[n] = \sum_{i=0}^{n-1} \sum_{j=0}^{i} (i \lor j)$, and then use binary search to find the largest $n$ such that $f[n-1] \cdot (n-1) \cdot n / 2 \leq s$.
 
-时间复杂度方面，预处理的时间复杂度为 $O(n^2)$，二分查找的时间复杂度为 $O(\log n)$，因此总时间复杂度为 $O(n^2 + \log n)$。空间复杂度为 $O(n)$。
+In terms of time complexity, the preprocessing has a time complexity of $O(n^2)$, and the binary search has a time complexity of $O(\log n)$. Therefore, the total time complexity is $O(n^2 + \log n)$. The space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

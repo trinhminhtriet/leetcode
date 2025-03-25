@@ -1,22 +1,22 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3328.Find%20Cities%20in%20Each%20State%20II/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3328.Find%20Cities%20in%20Each%20State%20II/README_EN.md
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3328. 查找每个州的城市 II 🔒](https://leetcode.cn/problems/find-cities-in-each-state-ii)
+# [3328. Find Cities in Each State II 🔒](https://leetcode.com/problems/find-cities-in-each-state-ii)
 
-[English Version](/solution/3300-3399/3328.Find%20Cities%20in%20Each%20State%20II/README_EN.md)
+[中文文档](/solution/3300-3399/3328.Find%20Cities%20in%20Each%20State%20II/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>cities</code></p>
+<p>Table: <code>cities</code></p>
 
 <pre>
 +-------------+---------+
@@ -25,30 +25,29 @@ tags:
 | state       | varchar |
 | city        | varchar |
 +-------------+---------+
-(state, city) 是这张表中值互不相同的列的组合。
-这张表的每一行包含州名和其中的城市名。
+(state, city) is the combination of columns with unique values for this table.
+Each row of this table contains the state name and the city name within that state.
 </pre>
 
-<p>编写一个解决方案来找到 <strong>每个州</strong>&nbsp;中的 <strong>所有城市</strong>&nbsp;并且根据下列条件分析它们：</p>
+<p>Write a solution to find <strong>all the cities</strong> in <strong>each state</strong> and analyze them based on the following requirements:</p>
 
 <ul>
-	<li>用 <b>逗号分隔</b>&nbsp;字符串组合每一个州的所有城市。</li>
-	<li>只显示有 <strong>至少</strong>&nbsp;<code>3</code>&nbsp;个城市的州。</li>
-	<li>只显示&nbsp;<strong>至少有一个城市</strong>&nbsp;以与 <strong>州名相同字母开头</strong>&nbsp;的州。</li>
+	<li>Combine all cities into a <strong>comma-separated</strong> string for each state.</li>
+	<li>Only include states that have <strong>at least</strong> <code>3</code> cities.</li>
+	<li>Only include states where <strong>at least one city</strong> starts with the <strong>same letter as the state name</strong>.</li>
 </ul>
 
-<p>返回结果表以字母匹配城市的数量 <strong>降序</strong> 排序，然后按州名称 <strong>升序</strong> 排序的结果表。</p>
+<p>Return <em>the result table ordered by</em> <em>the count of matching-letter cities in <strong>descending</strong> order</em>&nbsp;<em>and then by state name in <strong>ascending</strong> order</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>cities 表：</p>
+<p>cities table:</p>
 
 <pre class="example-io">
 +--------------+---------------+
@@ -72,7 +71,7 @@ tags:
 +--------------+---------------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +-------------+-------------------------------------------+-----------------------+
@@ -84,58 +83,58 @@ tags:
 +-------------+-------------------------------------------+-----------------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
 	<li><strong>Pennsylvania</strong>:
 
     <ul>
-    	<li>有 3 个城市（符合最低条件）</li>
-    	<li>所有的 3 个城市都以 'P' 开头（与州相同）</li>
+    	<li>Has 3 cities (meets minimum requirement)</li>
+    	<li>All 3 cities start with &#39;P&#39; (same as state)</li>
     	<li>matching_letter_count = 3</li>
     </ul>
     </li>
     <li><strong>Texas</strong>:
     <ul>
-    	<li>有 4 个城市（符合最低条件）</li>
-    	<li>3 个城市 (Taylor, Temple, Tyler) 以 'T' 开头（与州相同）</li>
+    	<li>Has 4 cities (meets minimum requirement)</li>
+    	<li>3 cities (Taylor, Temple, Tyler) start with &#39;T&#39; (same as state)</li>
     	<li>matching_letter_count = 3</li>
     </ul>
     </li>
     <li><strong>New York</strong>:
     <ul>
-    	<li>有 4 个城市（符合最低条件）</li>
-    	<li>2 个城市 (Newark, New York City) 以 'N' 开头（与州相同）</li>
+    	<li>Has 4 cities (meets minimum requirement)</li>
+    	<li>2 cities (Newark, New York City) start with &#39;N&#39; (same as state)</li>
     	<li>matching_letter_count = 2</li>
     </ul>
     </li>
-    <li><strong>California</strong> 没有包含在输出表，因为：
+    <li><strong>California</strong> is not included in the output because:
     <ul>
-    	<li>尽管它有 4 个城市（符合最低条件）</li>
-    	<li>没有城市以 'C' 开头（不符合字母匹配条件）</li>
+    	<li>Although it has 4 cities (meets minimum requirement)</li>
+    	<li>No cities start with &#39;C&#39; (doesn&#39;t meet the matching letter requirement)</li>
     </ul>
     </li>
 
 </ul>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note:</strong></p>
 
 <ul>
-	<li>结果以 matching_letter_count 降序排序。</li>
-	<li>当 matching_letter_count 持平（Texas 和 New York 都为 2），按州名字母序排序。</li>
-	<li>每一行的城市也以字母序排序。</li>
+	<li>Results are ordered by matching_letter_count in descending order</li>
+	<li>When matching_letter_count is the same (Texas and New York both have 2), they are ordered by state name alphabetically</li>
+	<li>Cities in each row are ordered alphabetically</li>
 </ul>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组聚合 + 过滤
+### Solution 1: Group Aggregation + Filtering
 
-我们可以将 `cities` 表按照 `state` 字段进行分组聚合，然后对每个分组进行过滤，筛选出满足条件的分组。
+We can group the `cities` table by the `state` field, then apply filtering on each group to retain only the groups that meet the specified conditions.
 
 <!-- tabs:start -->
 

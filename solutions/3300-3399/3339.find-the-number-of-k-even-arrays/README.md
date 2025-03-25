@@ -1,45 +1,44 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3339.Find%20the%20Number%20of%20K-Even%20Arrays/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3339.Find%20the%20Number%20of%20K-Even%20Arrays/README_EN.md
 tags:
-    - 动态规划
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3339. 查找 K 偶数数组的数量 🔒](https://leetcode.cn/problems/find-the-number-of-k-even-arrays)
+# [3339. Find the Number of K-Even Arrays 🔒](https://leetcode.com/problems/find-the-number-of-k-even-arrays)
 
-[English Version](/solution/3300-3399/3339.Find%20the%20Number%20of%20K-Even%20Arrays/README_EN.md)
+[中文文档](/solution/3300-3399/3339.Find%20the%20Number%20of%20K-Even%20Arrays/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定三个整数&nbsp;<code>n</code>，<code>m</code>&nbsp;和&nbsp;<code>k</code>。</p>
+<p>You are given three integers <code>n</code>, <code>m</code>, and <code>k</code>.</p>
 
-<p>一个数组&nbsp;<code>arr</code>&nbsp;如果 <strong>恰好</strong>&nbsp;有&nbsp;<code>k</code>&nbsp;个下标，其中的每个下标&nbsp;<code>i</code> (<code>0 &lt;= i &lt; n - 1</code>) 满足下述条件，则被称为是 <strong>K 偶数</strong>的：</p>
+<p>An array <code>arr</code> is called <strong>k-even</strong> if there are <strong>exactly</strong> <code>k</code> indices such that, for each of these indices <code>i</code> (<code>0 &lt;= i &lt; n - 1</code>):</p>
 
 <ul>
-	<li><code>(arr[i] * arr[i + 1]) - arr[i] - arr[i + 1]</code>&nbsp;是偶数。</li>
+	<li><code>(arr[i] * arr[i + 1]) - arr[i] - arr[i + 1]</code> is <em>even</em>.</li>
 </ul>
 
-<p>返回长度为 <code>n</code>&nbsp;的满足&nbsp;<strong>K 偶数</strong> 的数组的数量，其中所有元素的范围在&nbsp;<code>[1, m]</code>。</p>
+<p>Return the number of possible <strong>k-even</strong> arrays of size <code>n</code> where all elements are in the range <code>[1, m]</code>.</p>
 
-<p>因为答案可能很大，返回答案对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;取模。</p>
+<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">n = 3, m = 4, k = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 3, m = 4, k = 2</span></p>
 
-<p><span class="example-io"><b>输出：</b>8</span></p>
+<p><strong>Output:</strong> <span class="example-io">8</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>8 个满足的 2 偶数的数组是：</p>
+<p>The 8 possible 2-even arrays are:</p>
 
 <ul>
 	<li><code>[2, 2, 2]</code></li>
@@ -53,29 +52,28 @@ tags:
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">n = 5, m = 1, k = 0</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 5, m = 1, k = 0</span></p>
 
-<p><span class="example-io"><b>输出：</b>1</span></p>
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>仅有的 0 偶数的数组是&nbsp;<code>[1, 1, 1, 1, 1]</code>。</p>
+<p>The only 0-even array is <code>[1, 1, 1, 1, 1]</code>.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">n = 7, m = 7, k = 5</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 7, m = 7, k = 5</span></p>
 
-<p><span class="example-io"><b>输出：</b>5832</span></p>
+<p><strong>Output:</strong> <span class="example-io">5832</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 750</code></li>
@@ -85,23 +83,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-由于有 $[1, m]$ 个数，那么偶数有 $\textit{cnt0} = \lfloor \frac{m}{2} \rfloor$ 个，奇数有 $\textit{cnt1} = m - \textit{cnt0}$ 个。
+Given the numbers $[1, m]$, there are $\textit{cnt0} = \lfloor \frac{m}{2} \rfloor$ even numbers and $\textit{cnt1} = m - \textit{cnt0}$ odd numbers.
 
-我们设计一个函数 $\textit{dfs}(i, j, k)$，表示当前已经填到第 $i$ 个位置，剩余 $j$ 个位置需要满足条件，且上一个位置的奇偶性为 $k$ 的方案数，其中 $k = 0$ 表示上一个位置为偶数，而 $k = 1$ 表示上一个位置为奇数。那么答案就是 $\textit{dfs}(0, k, 1)$。
+We design a function $\textit{dfs}(i, j, k)$, which represents the number of ways to fill up to the $i$-th position, with $j$ remaining positions needing to satisfy the condition, and the parity of the last position being $k$, where $k = 0$ indicates the last position is even, and $k = 1$ indicates the last position is odd. The answer is $\textit{dfs}(0, k, 1)$.
 
-函数 $\textit{dfs}(i, j, k)$ 的执行逻辑如下：
+The execution logic of the function $\textit{dfs}(i, j, k)$ is as follows:
 
--   如果 $j < 0$，表示剩余位置数小于 $0$，直接返回 $0$；
--   如果 $i \ge n$，表示已经填完了，如果此时 $j = 0$，表示满足条件，返回 $1$，否则返回 $0$；
--   否则，我们可以选择填奇数或者偶数，分别计算填奇数和填偶数的方案数，最后返回两者之和。
+-   If $j < 0$, it means the remaining positions are less than $0$, so return $0$;
+-   If $i \ge n$, it means all positions are filled. If $j = 0$, it means the condition is satisfied, so return $1$, otherwise return $0$;
+-   Otherwise, we can choose to fill with an odd or even number, calculate the number of ways for both, and return their sum.
 
-时间复杂度 $O(n \times k)$，空间复杂度 $O(n \times k)$。其中 $n$ 和 $k$ 为题目给定的参数。
+The time complexity is $O(n \times k)$, and the space complexity is $O(n \times k)$. Here, $n$ and $k$ are the parameters given in the problem.
 
 <!-- tabs:start -->
 
@@ -261,15 +259,15 @@ function countOfArrays(n: number, m: number, k: number): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们可以将方法一的记忆化搜索转换为动态规划。
+We can convert the memoized search from Solution 1 into dynamic programming.
 
-定义 $f[i][j][k]$ 表示当前已经填完第 $i$ 个位置，且有 $j$ 个位置满足条件，且上一个位置的奇偶性为 $k$ 的方案数。那么答案就是 $\sum_{k = 0}^{1} f[n][k]$。
+Define $f[i][j][k]$ to represent the number of ways to fill the $i$-th position, with $j$ positions satisfying the condition, and the parity of the previous position being $k$. The answer will be $\sum_{k = 0}^{1} f[n][k]$.
 
-初始时，我们将 $f[0][0][1]$ 置为 $1$，表示填完第 $0$ 个位置，且有 $0$ 个位置满足条件，且上一个位置的奇偶性为奇数的方案数为 $1$。其余 $f[i][j][k] = 0$。
+Initially, we set $f[0][0][1] = 1$, indicating that after filling the $0$-th position, there are $0$ positions satisfying the condition, and the parity of the previous position is odd. All other $f[i][j][k]$ are initialized to $0$.
 
-状态转移方程如下：
+The state transition equations are as follows:
 
 $$
 \begin{aligned}
@@ -278,7 +276,7 @@ f[i][j][1] &= \left( f[i - 1][j][0] + f[i - 1][j][1] \right) \times \textit{cnt1
 \end{aligned}
 $$
 
-时间复杂度 $O(n \times k)$，空间复杂度 $O(n \times k)$。其中 $n$ 和 $k$ 为题目给定的参数。
+The time complexity is $O(n \times k)$, and the space complexity is $O(n \times k)$, where $n$ and $k$ are the parameters given in the problem.
 
 <!-- tabs:start -->
 
@@ -398,11 +396,11 @@ function countOfArrays(n: number, m: number, k: number): number {
 
 <!-- solution:start -->
 
-### 方法三：动态规划（空间优化）
+### Solution 3: Dynamic Programming (Space Optimization)
 
-我们注意到，对于 $f[i]$ 的计算只与 $f[i - 1]$ 有关，因此我们可以使用滚动数组优化空间。
+We observe that the computation of $f[i]$ only depends on $f[i - 1]$, allowing us to optimize the space usage with a rolling array.
 
-时间复杂度 $O(n \times k)$，空间复杂度 $O(k)$。其中 $n$ 和 $k$ 为题目给定的参数。
+The time complexity is $O(n \times k)$, and the space complexity is $O(k)$, where $n$ and $k$ are the parameters given in the problem.
 
 <!-- tabs:start -->
 

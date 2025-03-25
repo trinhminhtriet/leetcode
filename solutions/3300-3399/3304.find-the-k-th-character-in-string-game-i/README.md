@@ -1,73 +1,71 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3304.Find%20the%20K-th%20Character%20in%20String%20Game%20I/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3304.Find%20the%20K-th%20Character%20in%20String%20Game%20I/README_EN.md
 rating: 1288
-source: 第 417 场周赛 Q1
+source: Weekly Contest 417 Q1
 tags:
-    - 位运算
-    - 递归
-    - 数学
-    - 模拟
+    - Bit Manipulation
+    - Recursion
+    - Math
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3304. 找出第 K 个字符 I](https://leetcode.cn/problems/find-the-k-th-character-in-string-game-i)
+# [3304. Find the K-th Character in String Game I](https://leetcode.com/problems/find-the-k-th-character-in-string-game-i)
 
-[English Version](/solution/3300-3399/3304.Find%20the%20K-th%20Character%20in%20String%20Game%20I/README_EN.md)
+[中文文档](/solution/3300-3399/3304.Find%20the%20K-th%20Character%20in%20String%20Game%20I/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Alice 和 Bob 正在玩一个游戏。最初，Alice 有一个字符串 <code>word = "a"</code>。</p>
+<p>Alice and Bob are playing a game. Initially, Alice has a string <code>word = &quot;a&quot;</code>.</p>
 
-<p>给定一个<strong>正整数</strong> <code>k</code>。</p>
+<p>You are given a <strong>positive</strong> integer <code>k</code>.</p>
 
-<p>现在 Bob 会要求 Alice 执行以下操作<strong> 无限次 </strong>:</p>
+<p>Now Bob will ask Alice to perform the following operation <strong>forever</strong>:</p>
 
 <ul>
-	<li>将 <code>word</code> 中的每个字符<strong> 更改 </strong>为英文字母表中的<strong> 下一个 </strong>字符来生成一个新字符串，并将其<strong> 追加 </strong>到原始的 <code>word</code>。</li>
+	<li>Generate a new string by <strong>changing</strong> each character in <code>word</code> to its <strong>next</strong> character in the English alphabet, and <strong>append</strong> it to the <em>original</em> <code>word</code>.</li>
 </ul>
 
-<p>例如，对 <code>"c"</code> 进行操作生成 <code>"cd"</code>，对 <code>"zb"</code> 进行操作生成 <code>"zbac"</code>。</p>
+<p>For example, performing the operation on <code>&quot;c&quot;</code> generates <code>&quot;cd&quot;</code> and performing the operation on <code>&quot;zb&quot;</code> generates <code>&quot;zbac&quot;</code>.</p>
 
-<p>在执行足够多的操作后， <code>word</code> 中 <strong>至少 </strong>存在 <code>k</code> 个字符，此时返回 <code>word</code> 中第 <code>k</code> 个字符的值。</p>
+<p>Return the value of the <code>k<sup>th</sup></code> character in <code>word</code>, after enough operations have been done for <code>word</code> to have <strong>at least</strong> <code>k</code> characters.</p>
 
-<p><strong>注意</strong>，在操作中字符 <code>'z'</code> 可以变成 <code>'a'</code>。</p>
+<p><strong>Note</strong> that the character <code>&#39;z&#39;</code> can be changed to <code>&#39;a&#39;</code> in the operation.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">k = 5</span></p>
+<p><strong>Input:</strong> <span class="example-io">k = 5</span></p>
 
-<p><strong>输出：</strong><span class="example-io">"b"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;b&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>最初，<code>word = "a"</code>。需要进行三次操作:</p>
+<p>Initially, <code>word = &quot;a&quot;</code>. We need to do the operation three times:</p>
 
 <ul>
-	<li>生成的字符串是 <code>"b"</code>，<code>word</code> 变为 <code>"ab"</code>。</li>
-	<li>生成的字符串是 <code>"bc"</code>，<code>word</code> 变为 <code>"abbc"</code>。</li>
-	<li>生成的字符串是 <code>"bccd"</code>，<code>word</code> 变为 <code>"abbcbccd"</code>。</li>
+	<li>Generated string is <code>&quot;b&quot;</code>, <code>word</code> becomes <code>&quot;ab&quot;</code>.</li>
+	<li>Generated string is <code>&quot;bc&quot;</code>, <code>word</code> becomes <code>&quot;abbc&quot;</code>.</li>
+	<li>Generated string is <code>&quot;bccd&quot;</code>, <code>word</code> becomes <code>&quot;abbcbccd&quot;</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">k = 10</span></p>
+<p><strong>Input:</strong> <span class="example-io">k = 10</span></p>
 
-<p><strong>输出：</strong><span class="example-io">"c"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;c&quot;</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= 500</code></li>
@@ -75,17 +73,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以使用一个数组 $\textit{word}$ 来存储每次操作后的字符串，当 $\textit{word}$ 的长度小于 $k$ 时，我们不断地对 $\textit{word}$ 进行操作。
+We can use an array $\textit{word}$ to store the string after each operation. When the length of $\textit{word}$ is less than $k$, we continuously perform operations on $\textit{word}$.
 
-最后返回 $\textit{word}[k - 1]$ 即可。
+Finally, return $\textit{word}[k - 1]$.
 
-时间复杂度 $O(k)$，空间复杂度 $O(k)$。其中 $k$ 为输入参数。
+The time complexity is $O(k)$, and the space complexity is $O(k)$. Here, $k$ is the input parameter.
 
 <!-- tabs:start -->
 

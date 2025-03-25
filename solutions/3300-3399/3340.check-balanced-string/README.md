@@ -1,79 +1,77 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3340.Check%20Balanced%20String/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3340.Check%20Balanced%20String/README_EN.md
 rating: 1190
-source: 第 422 场周赛 Q1
+source: Weekly Contest 422 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3340. 检查平衡字符串](https://leetcode.cn/problems/check-balanced-string)
+# [3340. Check Balanced String](https://leetcode.com/problems/check-balanced-string)
 
-[English Version](/solution/3300-3399/3340.Check%20Balanced%20String/README_EN.md)
+[中文文档](/solution/3300-3399/3340.Check%20Balanced%20String/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个仅由数字 0 - 9 组成的字符串 <code>num</code>。如果偶数下标处的数字之和等于奇数下标处的数字之和，则认为该数字字符串是一个 <b>平衡字符串</b>。</p>
+<p>You are given a string <code>num</code> consisting of only digits. A string of digits is called <b>balanced </b>if the sum of the digits at even indices is equal to the sum of digits at odd indices.</p>
 
-<p>如果 <code>num</code> 是一个 <strong>平衡字符串</strong>，则返回 <code>true</code>；否则，返回 <code>false</code>。</p>
+<p>Return <code>true</code> if <code>num</code> is <strong>balanced</strong>, otherwise return <code>false</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong>num<span class="example-io"> = "1234"</span></p>
+<p><strong>Input:</strong> num<span class="example-io"> = &quot;1234&quot;</span></p>
 
-<p><strong>输出：</strong><span class="example-io">false</span></p>
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>偶数下标处的数字之和为 <code>1 + 3 = 4</code>，奇数下标处的数字之和为 <code>2 + 4 = 6</code>。</li>
-	<li>由于 4 不等于 6，<code>num</code> 不是平衡字符串。</li>
+	<li>The sum of digits at even indices is <code>1 + 3 == 4</code>, and the sum of digits at odd indices is <code>2 + 4 == 6</code>.</li>
+	<li>Since 4 is not equal to 6, <code>num</code> is not balanced.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong>num<span class="example-io"> = "24123"</span></p>
+<p><strong>Input:</strong> num<span class="example-io"> = &quot;24123&quot;</span></p>
 
-<p><strong>输出：</strong>true</p>
+<p><strong>Output:</strong> true</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>偶数下标处的数字之和为 <code>2 + 1 + 3 = 6</code>，奇数下标处的数字之和为 <code>4 + 2 = 6</code>。</li>
-	<li>由于两者相等，<code>num</code> 是平衡字符串。</li>
+	<li>The sum of digits at even indices is <code>2 + 1 + 3 == 6</code>, and the sum of digits at odd indices is <code>4 + 2 == 6</code>.</li>
+	<li>Since both are equal the <code>num</code> is balanced.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= num.length &lt;= 100</code></li>
-	<li><code>num</code> 仅由数字 0 - 9 组成。</li>
+	<li><code><font face="monospace">num</font></code> consists of digits only</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以用一个长度为 $2$ 的数组 $f$ 来记录偶数下标和奇数下标的数字之和，然后遍历字符串 $\textit{nums}$，根据下标的奇偶性将数字加到对应的位置上，最后判断 $f[0]$ 是否等于 $f[1]$ 即可。
+We can use an array $f$ of length $2$ to record the sum of numbers at even indices and odd indices. Then, we traverse the string $\textit{nums}$ and add the numbers to the corresponding positions based on the parity of the indices. Finally, we check whether $f[0]$ is equal to $f[1]$.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
