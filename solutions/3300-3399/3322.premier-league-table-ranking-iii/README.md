@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3322.Premier%20League%20Table%20Ranking%20III/README.md
 tags:
-    - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [3322. Premier League Table Ranking III 🔒](https://leetcode.com/problems/premier-league-table-ranking-iii)
+# [3322. 英超积分榜排名 III 🔒](https://leetcode.cn/problems/premier-league-table-ranking-iii)
 
-## Description
+[English Version](/solution/3300-3399/3322.Premier%20League%20Table%20Ranking%20III/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>SeasonStats</code></p>
+<p>表：<code>SeasonStats</code></p>
 
 <pre>
 +------------------+---------+
@@ -29,38 +32,39 @@ tags:
 | goals_for        | int     |
 | goals_against    | int     |
 +------------------+---------+
-(season_id, team_id) is the unique key for this table.
-This table contains season id, team id, team name, matches played, wins, draws, losses, goals scored (goals_for), and goals conceded (goals_against) for each team in each season.
+(season_id, team_id) 是这张表的唯一主键。
+这张表包含每个赛季中每支球队的赛季 id，队伍 id，队伍名，比赛场次，赢场，平局，输场，进球数 (goals_for)，以及失球数 (goals_against)。
 </pre>
 
-<p>Write a solution to calculate the <strong>points</strong>, <strong>goal difference</strong>, and <b>position&nbsp;</b>for <strong>each team</strong> in <strong>each season</strong>. The position ranking should be determined as follows:</p>
+<p>编写一个解决方案来计算&nbsp;<strong>每个赛季每支球队的积分，净胜球&nbsp;</strong>和&nbsp;<strong>排名</strong>。排名应确定如下：</p>
 
 <ul>
-	<li>Teams are first ranked by their total points (highest to lowest)</li>
-	<li>If points are tied, teams are then ranked by their goal difference (highest to lowest)</li>
-	<li>If goal difference is also tied, teams are then ranked alphabetically by team name</li>
+	<li>球队首先按总分排名（从高到低）</li>
+	<li>如果积分持平，球队就会根据净胜球（从最高到最低）进行排名</li>
+	<li>如果净胜球也持平，则球队将按球队名称按字母顺序排名</li>
 </ul>
 
-<p>Points are calculated as follows:</p>
+<p>积分如下计算：</p>
 
 <ul>
-	<li><code>3</code> points for a <strong>win</strong></li>
-	<li><code>1</code> point for a <strong>draw</strong></li>
-	<li><code>0</code> points for a <strong>loss</strong></li>
+	<li><strong>赢局</strong> 有&nbsp;<code>3</code>&nbsp;点得分</li>
+	<li><strong>平局</strong> 有&nbsp;<code>1</code>&nbsp;点得分</li>
+	<li><strong>输局</strong> 有&nbsp;<code>0</code>&nbsp;点得分</li>
 </ul>
 
-<p>Goal difference is calculated as: <code>goals_for - goals_against</code></p>
+<p>净胜球计算如下：<code>goals_for - goals_against</code></p>
 
-<p>Return <em>the result table ordered&nbsp;by</em> <code>season_id</code> <em>in <strong>ascending</strong> order, then by</em>&nbsp;<font face="monospace">position&nbsp;</font><em>in <strong>ascending</strong> order, and finally by</em> <code>team_name</code> <em>in <strong>ascending</strong> order.</em></p>
+<p>返回结果表以&nbsp;<code>season_id</code> <strong>升序</strong>&nbsp;排序，然后以&nbsp;<code>rank</code> <strong>升序</strong>&nbsp;排序，最后以&nbsp;<code>team_name</code> <strong>升序&nbsp;</strong>排序。</p>
 
-<p>The query result format is in the following example.</p>
+<p>结果格式如下所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example:</strong></p>
 
-<p><strong>Input:</strong></p>
+<p><strong class="example">示例：</strong></p>
 
-<p><code>SeasonStats</code> table:</p>
+<p><strong>输入：</strong></p>
+
+<p><code>SeasonStats</code>&nbsp;表：</p>
 
 <pre>
 +------------+---------+-------------------+----------------+------+-------+--------+-----------+---------------+
@@ -79,7 +83,7 @@ This table contains season id, team id, team name, matches played, wins, draws, 
 +------------+---------+-------------------+----------------+------+-------+--------+-----------+---------------+
 </pre>
 
-<p><strong>Output:</strong></p>
+<p><strong>输出：</strong></p>
 
 <pre>
 +------------+---------+-------------------+--------+-----------------+----------+
@@ -98,42 +102,42 @@ This table contains season id, team id, team name, matches played, wins, draws, 
 +------------+---------+-------------------+--------+-----------------+----------+
 </pre>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li>For the 2021 season:
+	<li>对于 2021 赛季：
 	<ul>
-		<li>Manchester City has 93 points (29 * 3 + 6 * 1) and a goal difference of 73 (99 - 26).</li>
-		<li>Liverpool has 92 points (28 * 3 + 8 * 1) and a goal difference of 68 (94 - 26).</li>
-		<li>Chelsea has 74 points (21 * 3 + 11 * 1) and a goal difference of 43 (76 - 33).</li>
-		<li>Tottenham has 71 points (22 * 3 + 5 * 1) and a goal difference of 29 (69 - 40).</li>
-		<li>Arsenal has 69 points (22 * 3 + 3 * 1) and a goal difference of 13 (61 - 48).</li>
+		<li>曼城有 93 积分 (29 * 3 + 6 * 1) 以及 73&nbsp;(99 - 26)&nbsp;个净胜球。</li>
+		<li>利物浦有 92 积分 (28 * 3 + 8 * 1) 以及 68 (94 - 26) 个净胜球。</li>
+		<li>切尔西有&nbsp;74 积分 (21 * 3 + 11 * 1) 以及 43 (76 - 33)&nbsp;个净胜球。</li>
+		<li>托特纳姆有 71 积分 (22 * 3 + 5 * 1) 以及 29 (69 - 40)&nbsp;个净胜球。</li>
+		<li>阿森纳有 69 积分 (22 * 3 + 3 * 1) 以及 13 (61 - 48) 个净胜球。</li>
 	</ul>
 	</li>
-	<li>For the 2022 season:
+	<li>对于 2022 赛季：
 	<ul>
-		<li>Manchester City has 89 points (28 * 3 + 5 * 1) and a goal difference of 61 (94 - 33).</li>
-		<li>Arsenal has 84 points (26 * 3 + 6 * 1) and a goal difference of 45 (88 - 43).</li>
-		<li>Manchester United has 75 points (23 * 3 + 6 * 1) and a goal difference of 15 (58 - 43).</li>
-		<li>Newcastle has 71 points (19 * 3 + 14 * 1) and a goal difference of 35 (68 - 33).</li>
-		<li>Liverpool has 67 points (19 * 3 + 10 * 1) and a goal difference of 28 (75 - 47).</li>
+		<li>曼城有 89 积分 (28 * 3 + 5 * 1) 以及 61 (94 - 33)&nbsp;个净胜球。</li>
+		<li>阿森纳有 84 积分 (26 * 3 + 6 * 1) 以及 45 (88 - 43)&nbsp;个净胜球。</li>
+		<li>曼联有&nbsp;75 积分 (23 * 3 + 6 * 1) 以及 15 (58 - 43)&nbsp;个净胜球。</li>
+		<li>纽卡斯尔有&nbsp;71 积分 (19 * 3 + 14 * 1) 以及 35 (68 - 33)&nbsp;个净胜球。</li>
+		<li>利物浦有 67 积分 (19 * 3 + 10 * 1) 以及 28 (75 - 47)&nbsp;个净胜球。</li>
 	</ul>
 	</li>
-	<li>The teams are ranked first by points, then by goal difference, and finally by team name.</li>
-	<li>The output is ordered by season_id ascending, then by rank ascending, and finally by team_name ascending.</li>
+	<li>球队首先以积分排名，然后是净胜球，最后是球队名称。</li>
+	<li>输出以 season_id 升序排序，然后以排名升序排序，最后以 team_name 升序排序。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Window Function
+### 方法一：窗口函数
 
-We can use the window function `RANK()` to rank the teams by grouping them by season and sorting based on points, goal difference, and team name.
+我们可以使用窗口函数 `RANK()`，将球队按照赛季分组，按照积分、净胜球和球队名称的顺序进行排名。
 
-Finally, we just need to sort by `season_id`, `position`, and `team_name`.
+最后，我们只需要按照 `season_id`、`position` 和 `team_name` 进行排序即可。
 
 <!-- tabs:start -->
 

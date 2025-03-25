@@ -1,119 +1,126 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3387.Maximize%20Amount%20After%20Two%20Days%20of%20Conversions/README.md
 rating: 1787
-source: Weekly Contest 428 Q2
+source: 第 428 场周赛 Q2
 tags:
-    - Depth-First Search
-    - Breadth-First Search
-    - Graph
-    - Array
-    - String
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
+    - 数组
+    - 字符串
 ---
 
 <!-- problem:start -->
 
-# [3387. Maximize Amount After Two Days of Conversions](https://leetcode.com/problems/maximize-amount-after-two-days-of-conversions)
+# [3387. 两天自由外汇交易后的最大货币数](https://leetcode.cn/problems/maximize-amount-after-two-days-of-conversions)
 
-## Description
+[English Version](/solution/3300-3399/3387.Maximize%20Amount%20After%20Two%20Days%20of%20Conversions/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>initialCurrency</code>, and you start with <code>1.0</code> of <code>initialCurrency</code>.</p>
+<p>给你一个字符串 <code>initialCurrency</code>，表示初始货币类型，并且你一开始拥有 <code>1.0</code> 单位的 <code>initialCurrency</code>。</p>
 
-<p>You are also given four arrays with currency pairs (strings) and rates (real numbers):</p>
-
-<ul>
-	<li><code>pairs1[i] = [startCurrency<sub>i</sub>, targetCurrency<sub>i</sub>]</code> denotes that you can convert from <code>startCurrency<sub>i</sub></code> to <code>targetCurrency<sub>i</sub></code> at a rate of <code>rates1[i]</code> on <strong>day 1</strong>.</li>
-	<li><code>pairs2[i] = [startCurrency<sub>i</sub>, targetCurrency<sub>i</sub>]</code> denotes that you can convert from <code>startCurrency<sub>i</sub></code> to <code>targetCurrency<sub>i</sub></code> at a rate of <code>rates2[i]</code> on <strong>day 2</strong>.</li>
-	<li>Also, each <code>targetCurrency</code> can be converted back to its corresponding <code>startCurrency</code> at a rate of <code>1 / rate</code>.</li>
-</ul>
-
-<p>You can perform <strong>any</strong> number of conversions, <strong>including zero</strong>, using <code>rates1</code> on day 1, <strong>followed</strong> by any number of additional conversions, <strong>including zero</strong>, using <code>rates2</code> on day 2.</p>
-
-<p>Return the <strong>maximum</strong> amount of <code>initialCurrency</code> you can have after performing any number of conversions on both days <strong>in order</strong>.</p>
-
-<p><strong>Note: </strong>Conversion rates are valid, and there will be no contradictions in the rates for either day. The rates for the days are independent of each other.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">initialCurrency = &quot;EUR&quot;, pairs1 = [[&quot;EUR&quot;,&quot;USD&quot;],[&quot;USD&quot;,&quot;JPY&quot;]], rates1 = [2.0,3.0], pairs2 = [[&quot;JPY&quot;,&quot;USD&quot;],[&quot;USD&quot;,&quot;CHF&quot;],[&quot;CHF&quot;,&quot;EUR&quot;]], rates2 = [4.0,5.0,6.0]</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">720.00000</span></p>
-
-<p><strong>Explanation:</strong></p>
-
-<p>To get the maximum amount of <strong>EUR</strong>, starting with 1.0 <strong>EUR</strong>:</p>
+<p>另给你四个数组，分别表示货币对（字符串）和汇率（实数）：</p>
 
 <ul>
-	<li>On Day 1:
-	<ul>
-		<li>Convert <strong>EUR </strong>to <strong>USD</strong> to get 2.0 <strong>USD</strong>.</li>
-		<li>Convert <strong>USD</strong> to <strong>JPY</strong> to get 6.0 <strong>JPY</strong>.</li>
-	</ul>
-	</li>
-	<li>On Day 2:
-	<ul>
-		<li>Convert <strong>JPY</strong> to <strong>USD</strong> to get 24.0 <strong>USD</strong>.</li>
-		<li>Convert <strong>USD</strong> to <strong>CHF</strong> to get 120.0 <strong>CHF</strong>.</li>
-		<li>Finally, convert <strong>CHF</strong> to <strong>EUR</strong> to get 720.0 <strong>EUR</strong>.</li>
-	</ul>
-	</li>
+	<li><code>pairs1[i] = [startCurrency<sub>i</sub>, targetCurrency<sub>i</sub>]</code> 表示在&nbsp;<strong>第 1 天</strong>，可以按照汇率 <code>rates1[i]</code> 将 <code>startCurrency<sub>i</sub></code> 转换为 <code>targetCurrency<sub>i</sub></code>。</li>
+	<li><code>pairs2[i] = [startCurrency<sub>i</sub>, targetCurrency<sub>i</sub>]</code> 表示在&nbsp;<strong>第 2 天</strong>，可以按照汇率 <code>rates2[i]</code> 将 <code>startCurrency<sub>i</sub></code> 转换为 <code>targetCurrency<sub>i</sub></code>。</li>
+	<li>此外，每种 <code>targetCurrency</code> 都可以以汇率 <code>1 / rate</code> 转换回对应的 <code>startCurrency</code>。</li>
+</ul>
+
+<p>你可以在&nbsp;<strong>第 1 天&nbsp;</strong>使用 <code>rates1</code> 进行任意次数的兑换（包括 0 次），然后在&nbsp;<strong>第 2 天&nbsp;</strong>使用 <code>rates2</code> 再进行任意次数的兑换（包括 0 次）。</p>
+
+<p>返回在两天兑换后，最大可能拥有的 <code>initialCurrency</code> 的数量。</p>
+
+<p><strong>注意：</strong>汇率是有效的，并且第 1 天和第 2 天的汇率之间相互独立，不会产生矛盾。</p>
+
+<p>&nbsp;</p>
+
+<p><strong class="example">示例 1：</strong></p>
+
+<div class="example-block">
+<p><strong>输入：</strong> <span class="example-io">initialCurrency = "EUR", pairs1 = [["EUR","USD"],["USD","JPY"]], rates1 = [2.0,3.0], pairs2 = [["JPY","USD"],["USD","CHF"],["CHF","EUR"]], rates2 = [4.0,5.0,6.0]</span></p>
+
+<p><strong>输出：</strong> <span class="example-io">720.00000</span></p>
+
+<p><strong>解释：</strong></p>
+
+<p>根据题目要求，需要最大化最终的 <strong>EUR</strong> 数量，从 1.0 <strong>EUR</strong> 开始：</p>
+
+<ul>
+	<li><strong>第 1 天：</strong>
+
+    <ul>
+    	<li>将 <strong>EUR</strong> 换成 <strong>USD</strong>，得到 2.0&nbsp;<strong>USD</strong>。</li>
+    	<li>将 <strong>USD</strong> 换成 <strong>JPY</strong>，得到 6.0 <strong>JPY</strong>。</li>
+    </ul>
+    </li>
+    <li><strong>第 2 天：</strong>
+    <ul>
+    	<li>将 <strong>JPY</strong> 换成 <strong>USD</strong>，得到 24.0 <strong>USD</strong>。</li>
+    	<li>将 <strong>USD</strong> 换成 <strong>CHF</strong>，得到 120.0 <strong>CHF</strong>。</li>
+    	<li>最后将 <strong>CHF</strong> 换回 <strong>EUR</strong>，得到 720.0 <strong>EUR</strong>。</li>
+    </ul>
+    </li>
+
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">initialCurrency = &quot;NGN&quot;, pairs1 = </span>[[&quot;NGN&quot;,&quot;EUR&quot;]]<span class="example-io">, rates1 = </span>[9.0]<span class="example-io">, pairs2 = </span>[[&quot;NGN&quot;,&quot;EUR&quot;]]<span class="example-io">, rates2 = </span>[6.0]</p>
+<p><strong>输入：</strong> <span class="example-io">initialCurrency = "NGN", pairs1 = [["NGN","EUR"]], rates1 = [9.0], pairs2 = [["NGN","EUR"]], rates2 = [6.0]</span></p>
 
-<p><strong>Output:</strong> 1.50000</p>
+<p><strong>输出：</strong> <span class="example-io">1.50000</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>Converting <strong>NGN</strong> to <strong>EUR</strong> on day 1 and <strong>EUR</strong> to <strong>NGN</strong> using the inverse rate on day 2 gives the maximum amount.</p>
+<p>在第 1 天将 <strong>NGN</strong> 换成 <strong>EUR</strong>，并在第 2 天用反向汇率将 <strong>EUR</strong> 换回 <strong>NGN</strong>，可以最大化最终的 <strong>NGN</strong> 数量。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">initialCurrency = &quot;USD&quot;, pairs1 = [[&quot;USD&quot;,&quot;EUR&quot;]], rates1 = [1.0], pairs2 = [[&quot;EUR&quot;,&quot;JPY&quot;]], rates2 = [10.0]</span></p>
+<p><strong>输入：</strong> <span class="example-io">initialCurrency = "USD", pairs1 = [["USD","EUR"]], rates1 = [1.0], pairs2 = [["EUR","JPY"]], rates2 = [10.0]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">1.00000</span></p>
+<p><strong>输出：</strong> <span class="example-io">1.00000</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>In this example, there is no need to make any conversions on either day.</p>
+<p>在这个例子中，不需要在任何一天进行任何兑换。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= initialCurrency.length &lt;= 3</code></li>
-	<li><code>initialCurrency</code> consists only of uppercase English letters.</li>
+	<li><code>initialCurrency</code> 仅由大写英文字母组成。</li>
 	<li><code>1 &lt;= n == pairs1.length &lt;= 10</code></li>
 	<li><code>1 &lt;= m == pairs2.length &lt;= 10</code></li>
-	<li><code>pairs1[i] == [startCurrency<sub>i</sub>, targetCurrency<sub>i</sub>]</code><!-- notionvc: c31b5bb8-4df6-4987-9bcd-6dff8a5f7cd4 --></li>
-	<li><code>pairs2[i] == [startCurrency<sub>i</sub>, targetCurrency<sub>i</sub>]</code><!--{C}%3C!%2D%2D%20notionvc%3A%20c31b5bb8-4df6-4987-9bcd-6dff8a5f7cd4%20%2D%2D%3E--></li>
+	<li><code>pairs1[i] == [startCurrency<sub>i</sub>, targetCurrency<sub>i</sub>]</code></li>
+	<li><code>pairs2[i] == [startCurrency<sub>i</sub>, targetCurrency<sub>i</sub>]</code></li>
 	<li><code>1 &lt;= startCurrency<sub>i</sub>.length, targetCurrency<sub>i</sub>.length &lt;= 3</code></li>
-	<li><code>startCurrency<sub>i</sub></code> and <code>targetCurrency<sub>i</sub></code> consist only of uppercase English letters.</li>
+	<li><code>startCurrency<sub>i</sub></code> 和 <code>targetCurrency<sub>i</sub></code> 仅由大写英文字母组成。</li>
 	<li><code>rates1.length == n</code></li>
 	<li><code>rates2.length == m</code></li>
 	<li><code>1.0 &lt;= rates1[i], rates2[i] &lt;= 10.0</code></li>
-	<li>The input is generated such that there are no contradictions or cycles in the conversion graphs for either day.</li>
-	<li>The input is generated such that the output is <strong>at most</strong> <code>5 * 10<sup>10</sup></code>.</li>
+	<li>输入保证两个转换图在各自的天数中没有矛盾或循环。</li>
+	<li>输入保证输出&nbsp;<strong>最大</strong>&nbsp;为&nbsp;<code>5 * 10<sup>10</sup></code>。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

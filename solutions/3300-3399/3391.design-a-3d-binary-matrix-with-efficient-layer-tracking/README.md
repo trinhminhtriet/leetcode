@@ -1,98 +1,103 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3391.Design%20a%203D%20Binary%20Matrix%20with%20Efficient%20Layer%20Tracking/README.md
 tags:
-    - Design
-    - Array
-    - Hash Table
-    - Matrix
-    - Ordered Set
-    - Heap (Priority Queue)
+    - 设计
+    - 数组
+    - 哈希表
+    - 矩阵
+    - 有序集合
+    - 堆（优先队列）
 ---
 
 <!-- problem:start -->
 
-# [3391. Design a 3D Binary Matrix with Efficient Layer Tracking 🔒](https://leetcode.com/problems/design-a-3d-binary-matrix-with-efficient-layer-tracking)
+# [3391. 设计一个高效的层跟踪三维二进制矩阵 🔒](https://leetcode.cn/problems/design-a-3d-binary-matrix-with-efficient-layer-tracking)
 
-## Description
+[English Version](/solution/3300-3399/3391.Design%20a%203D%20Binary%20Matrix%20with%20Efficient%20Layer%20Tracking/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a <code>n x n x n</code> <strong>binary</strong> 3D array <code>matrix</code>.</p>
+<p>给定一个&nbsp;<code>n x n x n</code>&nbsp;的 <strong>二进制&nbsp;</strong>三维数组&nbsp;<code>matrix</code>。</p>
 
-<p>Implement the <code>Matrix3D</code> class:</p>
+<p>实现&nbsp;<code>Matrix3D</code>&nbsp;类：</p>
 
 <ul>
-	<li><code>Matrix3D(int n)</code> Initializes the object with the 3D binary array <code>matrix</code>, where <strong>all</strong> elements are initially set to 0.</li>
-	<li><code>void setCell(int x, int y, int z)</code> Sets the value at <code>matrix[x][y][z]</code> to 1.</li>
-	<li><code>void unsetCell(int x, int y, int z)</code> Sets the value at <code>matrix[x][y][z]</code> to 0.</li>
-	<li><code>int largestMatrix()</code> Returns the index <code>x</code> where <code>matrix[x]</code> contains the most number of 1&#39;s. If there are multiple such indices, return the <strong>largest</strong> <code>x</code>.</li>
+	<li><code>Matrix3D(int n)</code>&nbsp;用三维二进制数组&nbsp;<code>matrix</code>&nbsp;初始化对象，其中 <strong>所有</strong>&nbsp;元素都初始化为 0。</li>
+	<li><code>void setCell(int x, int y, int z)</code>&nbsp;将 <code>matrix[x][y][z]</code>&nbsp;的值设为 1。</li>
+	<li><code>void unsetCell(int x, int y, int z)</code>&nbsp;将 <code>matrix[x][y][z]</code>&nbsp;的值设为 0。</li>
+	<li><code>int largestMatrix()</code>&nbsp;返回包含最多 1 的 <code>matrix[x]</code>&nbsp;的下标&nbsp;<code>x</code>。如果这样的对应值有多个，返回&nbsp;<strong>最大的</strong>&nbsp;<code>x</code>。</li>
 </ul>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong><br />
-<span class="example-io">[&quot;Matrix3D&quot;, &quot;setCell&quot;, &quot;largestMatrix&quot;, &quot;setCell&quot;, &quot;largestMatrix&quot;, &quot;setCell&quot;, &quot;largestMatrix&quot;]<br />
+<p><strong>输入：</strong><br />
+<span class="example-io">["Matrix3D", "setCell", "largestMatrix", "setCell", "largestMatrix", "setCell", "largestMatrix"]<br />
 [[3], [0, 0, 0], [], [1, 1, 2], [], [0, 0, 1], []]</span></p>
 
-<p><strong>Output:</strong><br />
+<p><strong>输出：</strong><br />
 <span class="example-io">[null, null, 0, null, 1, null, 0] </span></p>
 
-<p><strong>Explanation</strong></p>
-Matrix3D matrix3D = new Matrix3D(3); // Initializes a <code>3 x 3 x 3</code> 3D array <code>matrix</code>, filled with all 0&#39;s.<br />
-matrix3D.setCell(0, 0, 0); // Sets <code>matrix[0][0][0]</code> to 1.<br />
-matrix3D.largestMatrix(); // Returns 0. <code>matrix[0]</code> has the most number of 1&#39;s.<br />
-matrix3D.setCell(1, 1, 2); // Sets <code>matrix[1][1][2]</code> to 1.<br />
-matrix3D.largestMatrix(); // Returns 1. <code>matrix[0]</code> and <code>matrix[1]</code> tie with the most number of 1&#39;s, but index 1 is bigger.<br />
-matrix3D.setCell(0, 0, 1); // Sets <code>matrix[0][0][1]</code> to 1.<br />
-matrix3D.largestMatrix(); // Returns 0. <code>matrix[0]</code> has the most number of 1&#39;s.</div>
+<p><strong>解释：</strong></p>
+Matrix3D matrix3D = new Matrix3D(3); // 初始化一个&nbsp;<code>3 x 3 x 3</code>&nbsp;的三维数组&nbsp;<code>matrix</code>，用全 0 填充。<br />
+matrix3D.setCell(0, 0, 0); // 将&nbsp;<code>matrix[0][0][0]</code> 设为 1。<br />
+matrix3D.largestMatrix(); // 返回 0。<code>matrix[0]</code>&nbsp;1 的数量最多。<br />
+matrix3D.setCell(1, 1, 2); // 将 <code>matrix[1][1][2]</code> 设为 1。<br />
+matrix3D.largestMatrix(); // 返回 1。<code>matrix[0]</code> 和&nbsp;<code>matrix[1]</code>&nbsp;1 的数量一样多，但下标 1 更大。<br />
+matrix3D.setCell(0, 0, 1); // 将 <code>matrix[0][0][1]</code> 设为 1。<br />
+matrix3D.largestMatrix(); // 返回 0。<code>matrix[0]</code>&nbsp;1 的数量最多。</div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong><br />
-<span class="example-io">[&quot;Matrix3D&quot;, &quot;setCell&quot;, &quot;largestMatrix&quot;, &quot;unsetCell&quot;, &quot;largestMatrix&quot;]<br />
+<p><strong>输入：</strong><br />
+<span class="example-io">["Matrix3D", "setCell", "largestMatrix", "unsetCell", "largestMatrix"]<br />
 [[4], [2, 1, 1], [], [2, 1, 1], []]</span></p>
 
-<p><strong>Output:</strong><br />
+<p><strong>输出：</strong><br />
 <span class="example-io">[null, null, 2, null, 3] </span></p>
 
-<p><strong>Explanation</strong></p>
-Matrix3D matrix3D = new Matrix3D(4); // Initializes a <code>4 x 4 x 4</code> 3D array <code>matrix</code>, filled with all 0&#39;s.<br />
-matrix3D.setCell(2, 1, 1); // Sets <code>matrix[2][1][1]</code> to 1.<br />
-matrix3D.largestMatrix(); // Returns 2. <code>matrix[2]</code> has the most number of 1&#39;s.<br />
-matrix3D.unsetCell(2, 1, 1); // Sets <code>matrix[2][1][1]</code> to 0.<br />
-matrix3D.largestMatrix(); // Returns 3. All indices from 0 to 3 tie with the same number of 1&#39;s, but index 3 is the biggest.</div>
+<p><strong>解释：</strong></p>
+Matrix3D matrix3D = new matrix3D(4); // 初始化一个&nbsp;<code>4 x 4 x 4</code>&nbsp;的三维数组&nbsp;<code>matrix</code>，用全 0 填充。<br />
+matrix3D.setCell(2, 1, 1); // 将&nbsp;<code>matrix[2][1][1]</code> 设为 1。<br />
+matrix3D.largestMatrix(); // 返回 2。<code>matrix[2]</code>&nbsp;1 的数量最多。<br />
+matrix3D.unsetCell(2, 1, 1); // 将 <code>matrix[2][1][1]</code> 设为 0。<br />
+matrix3D.largestMatrix(); // 返回 3。0 到 3 的对应值都有相同数量的 1，但下标 3 最大。</div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
 	<li><code>0 &lt;= x, y, z &lt; n</code></li>
-	<li>At most <code>10<sup>5</sup></code> calls are made in total to <code>setCell</code> and <code>unsetCell</code>.</li>
-	<li>At most <code>10<sup>4</sup></code> calls are made to <code>largestMatrix</code>.</li>
+	<li>最多总共调用&nbsp;<code>10<sup>5</sup></code>&nbsp;次&nbsp;<code>setCell</code> 和&nbsp;<code>unsetCell</code>。</li>
+	<li>最多调用&nbsp;<code>10<sup>4</sup></code> 次&nbsp;<code>largestMatrix</code>。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Counting + Ordered Set
+### 方法一：计数 + 有序集合
 
-We use a three-dimensional array $\textit{g}$ to represent the matrix, where $\textit{g}[x][y][z]$ represents the value at coordinate $(x, y, z)$ in the matrix. We use an array $\textit{cnt}$ of length $n$ to record the number of 1s in each layer. We use an ordered set $\textit{sl}$ to maintain the number of 1s and the layer number for each layer. The elements in $\textit{sl}$ are $(\textit{cnt}[x], x)$, so $\textit{sl}$ can be sorted in descending order by the number of 1s, and in descending order by layer number if the number of 1s is the same.
+我们使用一个三维数组 $\textit{g}$ 来表示矩阵，其中 $\textit{g}[x][y][z]$ 表示矩阵中坐标 $(x, y, z)$ 的值，用一个长度为 $n$ 的数组 $\textit{cnt}$ 来记录每一层的 $1$ 的个数，用一个有序集合 $\textit{sl}$ 来维护每一层的 $1$ 的个数和层数，其中 $\textit{sl}$ 中的元素是 $(\textit{cnt}[x], x)$，这样 $\textit{sl}$ 就能按照 $1$ 的个数降序排序，如果 $1$ 的个数相同，则按照层数降序排序。
 
-When calling the `setCell` method, we first check if $(x, y, z)$ has already been set to 1. If it has, we return directly. Otherwise, we set $\textit{g}[x][y][z]$ to 1, remove $(\textit{cnt}[x], x)$ from $\textit{sl}$, increment $\textit{cnt}[x]$ by 1, and add $(\textit{cnt}[x], x)$ to $\textit{sl}$.
+调用 `setCell` 方法时，我们先判断 $(x, y, z)$ 是否已经被设置为 $1$，如果是则直接返回，否则将 $\textit{g}[x][y][z]$ 设置为 $1$，然后将 $(\textit{cnt}[x], x)$ 从 $\textit{sl}$ 中删除，将 $\textit{cnt}[x]$ 加一，再将 $(\textit{cnt}[x], x)$ 加入 $\textit{sl}$。
 
-When calling the `unsetCell` method, we first check if $(x, y, z)$ has already been set to 0. If it has, we return directly. Otherwise, we set $\textit{g}[x][y][z]$ to 0, remove $(\textit{cnt}[x], x)$ from $\textit{sl}$, decrement $\textit{cnt}[x]$ by 1, and if $\textit{cnt}[x]$ is greater than 0, add $(\textit{cnt}[x], x)$ to $\textit{sl}$.
+调用 `unsetCell` 方法时，我们先判断 $(x, y, z)$ 是否已经被设置为 $0$，如果是则直接返回，否则将 $\textit{g}[x][y][z]$ 设置为 $0$，然后将 $(\textit{cnt}[x], x)$ 从 $\textit{sl}$ 中删除，将 $\textit{cnt}[x]$ 减一，如果 $\textit{cnt}[x]$ 大于 $0$，则将 $(\textit{cnt}[x], x)$ 加入 $\textit{sl}$。
 
-When calling the `largestMatrix` method, we return the second value of the first element in $\textit{sl}$. If $\textit{sl}$ is empty, we return $n - 1$.
+调用 `largestMatrix` 方法时，我们返回 $\textit{sl}$ 中第一个元素的第二个值，如果 $\textit{sl}$ 为空，则返回 $n - 1$。
 
-In terms of time complexity, the `setCell` and `unsetCell` methods both have a time complexity of $O(\log n)$, and the `largestMatrix` method has a time complexity of $O(1)$. The space complexity is $O(n^3)$.
+时间复杂度方面，`setCell` 和 `unsetCell` 方法的时间复杂度均为 $O(\log n)$，`largestMatrix` 方法的时间复杂度为 $O(1)$。空间复杂度 $O(n^3)$。
 
 <!-- tabs:start -->
 

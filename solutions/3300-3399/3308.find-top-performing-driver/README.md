@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3308.Find%20Top%20Performing%20Driver/README.md
 tags:
-    - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [3308. Find Top Performing Driver 🔒](https://leetcode.com/problems/find-top-performing-driver)
+# [3308. 寻找表现最佳的司机 🔒](https://leetcode.cn/problems/find-top-performing-driver)
 
-## Description
+[English Version](/solution/3300-3399/3308.Find%20Top%20Performing%20Driver/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <font face="monospace"><code>Drivers</code></font></p>
+<p>表：<font face="monospace"><code>Drivers</code></font></p>
 
 <pre>
 +--------------+---------+
@@ -25,11 +28,11 @@ tags:
 | experience   | int     |
 | accidents    | int     |
 +--------------+---------+
-(driver_id) is the unique key for this table.
-Each row includes a driver&#39;s ID, their name, age, years of driving experience, and the number of accidents they&rsquo;ve had.
+(driver_id) 是这张表的唯一主键。
+每一行包含一个司机 ID，他们的名字，年龄，驾龄年数，以及事故数。
 </pre>
 
-<p>Table: <font face="monospace"><code>Vehicles</code></font></p>
+<p>表：<font face="monospace"><code>Vehicles</code></font></p>
 
 <pre>
 +--------------+---------+
@@ -39,11 +42,11 @@ Each row includes a driver&#39;s ID, their name, age, years of driving experienc
 | fuel_type    | varchar |
 | mileage      | int     |
 +--------------+---------+
-(vehicle_id, driver_id, fuel_type) is the unique key for this table.
-Each row includes the vehicle&#39;s ID, the driver who operates it, the model, fuel type, and mileage.
+(vehicle_id, driver_id, fuel_type) 是这张表的唯一主键。
+每一行包含机动车 ID，驾驶员，车型，动力类型和里程数。
 </pre>
 
-<p>Table: <font face="monospace"><code>Trips</code></font></p>
+<p>表：<font face="monospace"><code>Trips</code></font></p>
 
 <pre>
 +--------------+---------+
@@ -53,29 +56,30 @@ Each row includes the vehicle&#39;s ID, the driver who operates it, the model, f
 | duration     | int     |
 | rating       | int     |
 +--------------+---------+
-(trip_id) is the unique key for this table.
-Each row includes a trip&#39;s ID, the vehicle used, the distance covered (in miles), the trip duration (in minutes), and the passenger&#39;s rating (1-5).
+(trip_id) 是这张表的唯一主键。
+每一行包含行程 ID，使用的机动车，覆盖的距离（以米计），行程市场（以分钟计），以及乘客评分（1-5）。
 </pre>
 
-<p>Uber is analyzing drivers based on their trips. Write a solution to find the <strong>top-performing driver</strong> for <strong>each fuel type</strong> based on the following criteria:</p>
+<p>优步正在基于司机的行程分析他们的情况。编写一个解决方案，根据下列标准来找到 <strong>每种动力类型</strong> 中&nbsp;<strong>表现最好的司机</strong>：</p>
 
 <ol>
-	<li>A driver&#39;s performance is calculated as the <strong>average rating</strong> across all their trips. Average rating should be rounded to <code>2</code> decimal places.</li>
-	<li>If two drivers have the same average rating, the driver with the <strong>longer total distance</strong> traveled should be ranked higher.</li>
-	<li>If there is <strong>still a tie</strong>, choose the driver with the <strong>fewest accidents</strong>.</li>
+	<li>一个司机的表现由他们行程的 <strong>平均评分</strong>&nbsp;计算。平均评分应该舍入到&nbsp;<code>2</code>&nbsp;位小数。</li>
+	<li>如果两个司机有相同的平均评分，<strong>里程数更多</strong>&nbsp;的司机评分更高。</li>
+	<li>如果 <strong>依旧持平</strong>，选择 <strong>事故数最少</strong>&nbsp;的司机。</li>
 </ol>
 
-<p>Return <em>the result table ordered by</em> <code>fuel_type</code> <em>in </em><strong>ascending</strong><em> order.</em></p>
+<p>返回结果表以&nbsp;<code>fuel_type</code> <strong>升序&nbsp;</strong>排序。</p>
 
-<p>The result format is in the following example.</p>
+<p>结果格式如下所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example:</strong></p>
+
+<p><strong class="example">示例：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong></p>
+<p><strong>输入：</strong></p>
 
-<p><code>Drivers</code> table:</p>
+<p><code>Drivers</code> 表：</p>
 
 <pre class="example-io">
 +-----------+----------+-----+------------+-----------+
@@ -87,7 +91,7 @@ Each row includes a trip&#39;s ID, the vehicle used, the distance covered (in mi
 +-----------+----------+-----+------------+-----------+
 </pre>
 
-<p><code>Vehicles</code> table:</p>
+<p><code>Vehicles</code> 表：</p>
 
 <pre class="example-io">
 +------------+-----------+---------+-----------+---------+
@@ -99,7 +103,7 @@ Each row includes a trip&#39;s ID, the vehicle used, the distance covered (in mi
 +------------+-----------+---------+-----------+---------+
 </pre>
 
-<p><code>Trips</code> table:</p>
+<p><code>Trips</code> 表：</p>
 
 <pre class="example-io">
 +---------+------------+----------+----------+--------+
@@ -114,7 +118,7 @@ Each row includes a trip&#39;s ID, the vehicle used, the distance covered (in mi
 +---------+------------+----------+----------+--------+
 </pre>
 
-<p><strong>Output:</strong></p>
+<p><strong>输出：</strong></p>
 
 <pre class="example-io">
 +-----------+-----------+--------+----------+
@@ -125,25 +129,25 @@ Each row includes a trip&#39;s ID, the vehicle used, the distance covered (in mi
 +-----------+-----------+--------+----------+
 </pre>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li>For fuel type <code>Gasoline</code>, both Alice (Driver 1) and Charlie (Driver 3) have trips. Charlie has an average rating of 5.0, while Alice has 4.5. Therefore, Charlie is selected.</li>
-	<li>For fuel type <code>Electric</code>, Bob (Driver 2) is the only driver with an average rating of 4.5, so he is selected.</li>
+	<li>对于动力类型&nbsp;<code>Gasoline</code>，Alice（司机 1）和&nbsp;Charlie（司机 3）有行程。Charlie 平均评分为 5.0，而 Alice 为 4.5。因此，选择 Charlie。</li>
+	<li>对于动力类型&nbsp;<code>Electric</code>，Bob（司机 2）是唯一的司机，评分为 4.5，因此选择他。</li>
 </ul>
 
-<p>The output table is ordered by <code>fuel_type</code> in ascending order.</p>
+<p>输出表以&nbsp;<code>fuel_type</code>&nbsp;升序排序。</p>
 </div>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Equi-join + Grouping + Window Function
+### 方法一：等值连接 + 分组 + 窗口函数
 
-We can use equi-join to join the `Drivers` table with the `Vehicles` table on `driver_id`, and then join with the `Trips` table on `vehicle_id`. Next, we group by `fuel_type` and `driver_id` to calculate each driver's average rating, total mileage, and total accident count. Then, using the `RANK()` window function, we rank the drivers of each fuel type in descending order of rating, descending order of total mileage, and ascending order of total accident count. Finally, we filter out the driver ranked 1 for each fuel type.
+我们可以使用等值连接，将 `Drivers` 表和 `Vehicles` 表按照 `driver_id` 连接，再与 `Trips` 表按照 `vehicle_id` 连接，然后按照 `fuel_type`、`driver_id` 分组，计算每个司机的平均评分、总行驶里程、总事故次数，然后使用 `RANK()` 窗口函数，将每种燃料类型的司机按照评分降序、总行驶里程降序、总事故次数升序排名，最后筛选出每种燃料类型的排名为 1 的司机。
 
 <!-- tabs:start -->
 

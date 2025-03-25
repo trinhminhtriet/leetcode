@@ -1,19 +1,22 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3374.First%20Letter%20Capitalization%20II/README.md
 tags:
-    - Database
+    - 数据库
 ---
 
 <!-- problem:start -->
 
-# [3374. First Letter Capitalization II](https://leetcode.com/problems/first-letter-capitalization-ii)
+# [3374. 首字母大写 II](https://leetcode.cn/problems/first-letter-capitalization-ii)
 
-## Description
+[English Version](/solution/3300-3399/3374.First%20Letter%20Capitalization%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>Table: <code>user_content</code></p>
+<p>表：<code>user_content</code></p>
 
 <pre>
 +-------------+---------+
@@ -22,33 +25,34 @@ tags:
 | content_id  | int     |
 | content_text| varchar |
 +-------------+---------+
-content_id is the unique key for this table.
-Each row contains a unique ID and the corresponding text content.
+content_id 是这张表的唯一主键。
+每一行包含一个不同的 ID 以及对应的文本内容。
 </pre>
 
-<p>Write a solution to transform the text in the <code>content_text</code> column by applying the following rules:</p>
+<p>编写一个解决方案来根据下面的规则来转换&nbsp;<code>content_text</code>&nbsp;列中的文本：</p>
 
 <ul>
-	<li>Convert the <strong>first letter</strong> of each word to <strong>uppercase</strong> and the <strong>remaining</strong> letters to <strong>lowercase</strong></li>
-	<li>Special handling for words containing special characters:
+	<li>将每个单词的 <strong>第一个字母</strong>&nbsp;转换为 <strong>大写</strong>，其余字母 <strong>保持小写</strong>。</li>
+	<li>特殊处理包含特殊字符的单词：
 	<ul>
-		<li>For words connected with a hyphen <code>-</code>, <strong>both parts</strong> should be <strong>capitalized</strong> (<strong>e.g.</strong>, top-rated&nbsp;&rarr; Top-Rated)</li>
+		<li>对于用短横&nbsp;<code>-</code>&nbsp;连接的词语，<strong>两个部份</strong>&nbsp;都应该&nbsp;<strong>大写</strong>（<strong>例如</strong>，top-rated&nbsp;→ Top-Rated）</li>
 	</ul>
 	</li>
-	<li>All other <strong>formatting</strong> and <strong>spacing</strong> should remain <strong>unchanged</strong></li>
+	<li>所有其他 <strong>格式</strong> 和 <strong>空格</strong> 应保持 <strong>不变</strong></li>
 </ul>
 
-<p>Return <em>the result table that includes both the original <code>content_text</code> and the modified text following the above rules</em>.</p>
+<p>返回结果表同时包含原始的&nbsp;<code>content_text</code> 以及根据上述规则修改后的文本。</p>
 
-<p>The result format is in the following example.</p>
+<p>结果格式如下例所示。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example:</strong></p>
+
+<p><strong class="example">示例：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong></p>
+<p><strong>输入：</strong></p>
 
-<p>user_content table:</p>
+<p>user_content 表：</p>
 
 <pre class="example-io">
 +------------+---------------------------------+
@@ -61,7 +65,7 @@ Each row contains a unique ID and the corresponding text content.
 +------------+---------------------------------+
 </pre>
 
-<p><strong>Output:</strong></p>
+<p><strong>输出：</strong></p>
 
 <pre class="example-io">
 +------------+---------------------------------+---------------------------------+
@@ -74,30 +78,30 @@ Each row contains a unique ID and the corresponding text content.
 +------------+---------------------------------+---------------------------------+
 </pre>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li>For content_id = 1:
+	<li>对于 content_id = 1：
 	<ul>
-		<li>Each word&#39;s first letter is capitalized: &quot;Hello World Of Sql&quot;</li>
+		<li>每个单词的首字母都是大写的："Hello World Of Sql"</li>
 	</ul>
 	</li>
-	<li>For content_id = 2:
+	<li>对于 content_id = 2：
 	<ul>
-		<li>Contains the hyphenated word &quot;QUICK-brown&quot; which becomes &quot;Quick-Brown&quot;</li>
-		<li>Other words follow normal capitalization rules</li>
+		<li>包含的连字符词 "QUICK-brown" 变为 "Quick-Brown"</li>
+		<li>其它单词遵循普通的首字母大写规则</li>
 	</ul>
 	</li>
-	<li>For content_id = 3:
+	<li>对于 content_id = 3：
 	<ul>
-		<li>Hyphenated word &quot;modern-day&quot; becomes &quot;Modern-Day&quot;</li>
-		<li>&quot;DATA&quot; is converted to &quot;Data&quot;</li>
+		<li>连字符词 "modern-day" 变为 "Modern-Day"</li>
+		<li>"DATA" 转换为 "Data"</li>
 	</ul>
 	</li>
-	<li>For content_id = 4:
+	<li>对于 content_id = 4：
 	<ul>
-		<li>Contains two hyphenated words: &quot;web-based&quot; &rarr; &quot;Web-Based&quot;</li>
-		<li>And &quot;FRONT-end&quot; &rarr; &quot;Front-End&quot;</li>
+		<li>包含两个连字符词："web-based" → "Web-Based"</li>
+		<li>以及 "FRONT-end" → "Front-End"</li>
 	</ul>
 	</li>
 </ul>
@@ -105,11 +109,11 @@ Each row contains a unique ID and the corresponding text content.
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 

@@ -1,77 +1,81 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3355.Zero%20Array%20Transformation%20I/README.md
 rating: 1591
-source: Weekly Contest 424 Q2
+source: 第 424 场周赛 Q2
 tags:
-    - Array
-    - Prefix Sum
+    - 数组
+    - 前缀和
 ---
 
 <!-- problem:start -->
 
-# [3355. Zero Array Transformation I](https://leetcode.com/problems/zero-array-transformation-i)
+# [3355. 零数组变换 I](https://leetcode.cn/problems/zero-array-transformation-i)
 
-## Description
+[English Version](/solution/3300-3399/3355.Zero%20Array%20Transformation%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> of length <code>n</code> and a 2D array <code>queries</code>, where <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code>.</p>
+<p>给定一个长度为 <code>n</code> 的整数数组 <code>nums</code> 和一个二维数组 <code>queries</code>，其中 <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code>。</p>
 
-<p>For each <code>queries[i]</code>:</p>
+<p>对于每个查询&nbsp;<code>queries[i]</code>：</p>
 
 <ul>
-	<li>Select a <span data-keyword="subset">subset</span> of indices within the range <code>[l<sub>i</sub>, r<sub>i</sub>]</code> in <code>nums</code>.</li>
-	<li>Decrement the values at the selected indices by 1.</li>
+	<li>在&nbsp;<code>nums</code>&nbsp;的下标范围&nbsp;<code>[l<sub>i</sub>, r<sub>i</sub>]</code>&nbsp;内选择一个下标 <span data-keyword="subset">子集</span>。</li>
+	<li>将选中的每个下标对应的元素值减 1。</li>
 </ul>
 
-<p>A <strong>Zero Array</strong> is an array where all elements are equal to 0.</p>
+<p><strong>零数组&nbsp;</strong>是指所有元素都等于 0 的数组。</p>
 
-<p>Return <code>true</code> if it is <em>possible</em> to transform <code>nums</code> into a <strong>Zero Array </strong>after processing all the queries sequentially, otherwise return <code>false</code>.</p>
+<p>如果在按顺序处理所有查询后，可以将 <code>nums</code> 转换为&nbsp;<strong>零数组&nbsp;</strong>，则返回 <code>true</code>，否则返回 <code>false</code>。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,0,1], queries = [[0,2]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">nums = [1,0,1], queries = [[0,2]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">true</span></p>
+<p><strong>输出：</strong> <span class="example-io">true</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li><strong>For i = 0:</strong>
+	<li><strong>对于 i = 0：</strong>
 
     <ul>
-    	<li>Select the subset of indices as <code>[0, 2]</code> and decrement the values at these indices by 1.</li>
-    	<li>The array will become <code>[0, 0, 0]</code>, which is a Zero Array.</li>
+    	<li>选择下标子集 <code>[0, 2]</code> 并将这些下标处的值减 1。</li>
+    	<li>数组将变为 <code>[0, 0, 0]</code>，这是一个零数组。</li>
     </ul>
     </li>
 
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [4,3,2,1], queries = [[1,3],[0,2]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">nums = [4,3,2,1], queries = [[1,3],[0,2]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">false</span></p>
+<p><strong>输出：</strong> <span class="example-io">false</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
 <ul>
-	<li><strong>For i = 0:</strong>
+	<li><strong>对于 i = 0：</strong>&nbsp;
 
     <ul>
-    	<li>Select the subset of indices as <code>[1, 2, 3]</code> and decrement the values at these indices by 1.</li>
-    	<li>The array will become <code>[4, 2, 1, 0]</code>.</li>
+    	<li>选择下标子集 <code>[1, 2, 3]</code> 并将这些下标处的值减 1。</li>
+    	<li>数组将变为 <code>[4, 2, 1, 0]</code>。</li>
     </ul>
     </li>
-    <li><strong>For i = 1:</strong>
+    <li><strong>对于 i = 1：</strong>
     <ul>
-    	<li>Select the subset of indices as <code>[0, 1, 2]</code> and decrement the values at these indices by 1.</li>
-    	<li>The array will become <code>[3, 1, 0, 0]</code>, which is not a Zero Array.</li>
+    	<li>选择下标子集 <code>[0, 1, 2]</code> 并将这些下标处的值减 1。</li>
+    	<li>数组将变为 <code>[3, 1, 0, 0]</code>，这不是一个零数组。</li>
     </ul>
     </li>
 
@@ -79,7 +83,8 @@ tags:
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -91,21 +96,21 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Difference Array
+### 方法一：差分数组
 
-We can use a difference array to solve this problem.
+我们可以使用差分数组来解决这个问题。
 
-Define an array $d$ of length $n + 1$, with all initial values set to $0$. For each query $[l, r]$, we add $1$ to $d[l]$ and subtract $1$ from $d[r + 1]$.
+定义一个长度为 $n + 1$ 的数组 $d$，初始值全部为 $0$。对于每个查询 $[l, r]$，我们将 $d[l]$ 加 $1$，将 $d[r + 1]$ 减 $1$。
 
-Then we traverse the array $d$ within the range $[0, n - 1]$, accumulating the prefix sum $s$. If $\textit{nums}[i] > s$, it means $\textit{nums}$ cannot be converted to a zero array, so we return $\textit{false}$.
+然后我们遍历数组 $d$ 在 $[0, n - 1]$ 范围内的每个元素，累加前缀和 $s$，如果 $\textit{nums}[i] > s$，说明 $\textit{nums}$ 不能转换为零数组，返回 $\textit{false}$。
 
-After traversing, return $\textit{true}$.
+遍历结束后，返回 $\textit{true}$。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(n)$. Here, $n$ and $m$ are the lengths of the array $\textit{nums}$ and the number of queries, respectively.
+时间复杂度 $O(n + m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别为数组 $\textit{nums}$ 和 $\textit{queries}$ 的长度。
 
 <!-- tabs:start -->
 

@@ -1,102 +1,107 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3380.Maximum%20Area%20Rectangle%20With%20Point%20Constraints%20I/README.md
 rating: 1743
-source: Weekly Contest 427 Q2
+source: 第 427 场周赛 Q2
 tags:
-    - Binary Indexed Tree
-    - Segment Tree
-    - Geometry
-    - Array
-    - Math
-    - Enumeration
-    - Sorting
+    - 树状数组
+    - 线段树
+    - 几何
+    - 数组
+    - 数学
+    - 枚举
+    - 排序
 ---
 
 <!-- problem:start -->
 
-# [3380. Maximum Area Rectangle With Point Constraints I](https://leetcode.com/problems/maximum-area-rectangle-with-point-constraints-i)
+# [3380. 用点构造面积最大的矩形 I](https://leetcode.cn/problems/maximum-area-rectangle-with-point-constraints-i)
 
-## Description
+[English Version](/solution/3300-3399/3380.Maximum%20Area%20Rectangle%20With%20Point%20Constraints%20I/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an array <code>points</code> where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> represents the coordinates of a point on an infinite plane.</p>
+<p>给你一个数组 <code>points</code>，其中 <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> 表示无限平面上一点的坐标。</p>
 
-<p>Your task is to find the <strong>maximum </strong>area of a rectangle that:</p>
+<p>你的任务是找出满足以下条件的矩形可能的&nbsp;<strong>最大&nbsp;</strong>面积：</p>
 
 <ul>
-	<li>Can be formed using <strong>four</strong> of these points as its corners.</li>
-	<li>Does <strong>not</strong> contain any other point inside or on its border.</li>
-	<li>Has its edges&nbsp;<strong>parallel</strong> to the axes.</li>
+	<li>矩形的四个顶点必须是数组中的&nbsp;<strong>四个&nbsp;</strong>点。</li>
+	<li>矩形的内部或边界上&nbsp;<strong>不能&nbsp;</strong>包含任何其他点。</li>
+	<li>矩形的边与坐标轴&nbsp;<strong>平行&nbsp;</strong>。</li>
 </ul>
 
-<p>Return the <strong>maximum area</strong> that you can obtain or -1 if no such rectangle is possible.</p>
+<p>返回可以获得的&nbsp;<strong>最大面积&nbsp;</strong>，如果无法形成这样的矩形，则返回 -1。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">points = [[1,1],[1,3],[3,1],[3,3]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">points = [[1,1],[1,3],[3,1],[3,3]]</span></p>
 
-<p><strong>Output: </strong>4</p>
+<p><strong>输出：</strong>4</p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p><strong class="example"><img alt="Example 1 diagram" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3380.Maximum%20Area%20Rectangle%20With%20Point%20Constraints%20I/images/example1.png" style="width: 229px; height: 228px;" /></strong></p>
+<p><strong class="example"><img alt="示例 1 图示" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3380.Maximum%20Area%20Rectangle%20With%20Point%20Constraints%20I/images/example1.png" style="width: 229px; height: 228px;" /></strong></p>
 
-<p>We can make a rectangle with these 4 points as corners and there is no other point that lies inside or on the border<!-- notionvc: f270d0a3-a596-4ed6-9997-2c7416b2b4ee -->. Hence, the maximum possible area would be 4.</p>
+<p>我们可以用这 4 个点作为顶点构成一个矩形，并且矩形内部或边界上没有其他点。因此，最大面积为 4 。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">points = [[1,1],[1,3],[3,1],[3,3],[2,2]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">points = [[1,1],[1,3],[3,1],[3,3],[2,2]]</span></p>
 
-<p><strong>Output:</strong><b> </b>-1</p>
+<p><strong>输出：</strong>-1</p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p><strong class="example"><img alt="Example 2 diagram" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3380.Maximum%20Area%20Rectangle%20With%20Point%20Constraints%20I/images/example2.png" style="width: 229px; height: 228px;" /></strong></p>
+<p><strong class="example"><img alt="示例 2 图示" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3380.Maximum%20Area%20Rectangle%20With%20Point%20Constraints%20I/images/example2.png" style="width: 229px; height: 228px;" /></strong></p>
 
-<p>There is only one rectangle possible is with points <code>[1,1], [1,3], [3,1]</code> and <code>[3,3]</code> but <code>[2,2]</code> will always lie inside it. Hence, returning -1.</p>
+<p>唯一一组可能构成矩形的点为 <code>[1,1], [1,3], [3,1]</code> 和 <code>[3,3]</code>，但点 <code>[2,2]</code> 总是位于矩形内部。因此，返回 -1 。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">points = [[1,1],[1,3],[3,1],[3,3],[1,2],[3,2]]</span></p>
+<p><strong>输入：</strong> <span class="example-io">points = [[1,1],[1,3],[3,1],[3,3],[1,2],[3,2]]</span></p>
 
-<p><strong>Output: </strong>2</p>
+<p><strong>输出：</strong>2</p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p><strong class="example"><img alt="Example 3 diagram" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3380.Maximum%20Area%20Rectangle%20With%20Point%20Constraints%20I/images/example3.png" style="width: 229px; height: 228px;" /></strong></p>
+<p><strong class="example"><img alt="示例 3 图示" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3380.Maximum%20Area%20Rectangle%20With%20Point%20Constraints%20I/images/example3.png" style="width: 229px; height: 228px;" /></strong></p>
 
-<p>The maximum area rectangle is formed by the points <code>[1,3], [1,2], [3,2], [3,3]</code>, which has an area of 2. Additionally, the points <code>[1,1], [1,2], [3,1], [3,2]</code> also form a valid rectangle with the same area.</p>
+<p>点 <code>[1,3], [1,2], [3,2], [3,3]</code>&nbsp;可以构成面积最大的矩形，面积为 2。此外，点 <code>[1,1], [1,2], [3,1], [3,2]</code> 也可以构成一个符合题目要求的矩形，面积相同。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= points.length &lt;= 10</code></li>
 	<li><code>points[i].length == 2</code></li>
 	<li><code>0 &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 100</code></li>
-	<li>All the given points are <strong>unique</strong>.</li>
+	<li>给定的所有点都是 <strong>唯一</strong> 的。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Enumeration
+### 方法一：枚举
 
-We can enumerate the bottom-left corner $(x_3, y_3)$ and the top-right corner $(x_4, y_4)$ of the rectangle. Then, we enumerate all points $(x, y)$ and check if the point is inside or on the boundary of the rectangle. If it is, it does not meet the condition. Otherwise, we exclude the points outside the rectangle and check if there are 4 remaining points. If there are, these 4 points can form a rectangle. We calculate the area of the rectangle and take the maximum value.
+我们可以枚举矩形的左下角下标 $(x_3, y_3)$ 和右上角下标 $(x_4, y_4)$，然后枚举所有的点 $(x, y)$，判断点是否在矩形的内部或边界上，如果是，说明不满足条件，否则，我们排除掉在矩形外部的点，然后判断剩下的点是否有 4 个，如果有，说明这 4 个点可以构成一个矩形，计算矩形的面积，取最大值即可。
 
-The time complexity is $O(n^3)$, where $n$ is the length of the array $\textit{points}$. The space complexity is $O(1)$.
+时间复杂度 $O(n^3)$，其中 $n$ 是数组 $\textit{points}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
 
