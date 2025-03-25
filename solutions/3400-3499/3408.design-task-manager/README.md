@@ -1,74 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3408.Design%20Task%20Manager/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3408.Design%20Task%20Manager/README_EN.md
 rating: 1806
-source: 第 147 场双周赛 Q2
+source: Biweekly Contest 147 Q2
 tags:
-    - 设计
-    - 哈希表
-    - 有序集合
-    - 堆（优先队列）
+    - Design
+    - Hash Table
+    - Ordered Set
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [3408. 设计任务管理器](https://leetcode.cn/problems/design-task-manager)
+# [3408. Design Task Manager](https://leetcode.com/problems/design-task-manager)
 
-[English Version](/solution/3400-3499/3408.Design%20Task%20Manager/README_EN.md)
+[中文文档](/solution/3400-3499/3408.Design%20Task%20Manager/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个任务管理器系统可以让用户管理他们的任务，每个任务有一个优先级。这个系统需要高效地处理添加、修改、执行和删除任务的操作。</p>
+<p>There is a task management system that allows users to manage their tasks, each associated with a priority. The system should efficiently handle adding, modifying, executing, and removing tasks.</p>
 
-<p>请你设计一个&nbsp;<code>TaskManager</code>&nbsp;类：</p>
+<p>Implement the <code>TaskManager</code> class:</p>
 
 <ul>
 	<li>
-	<p><code>TaskManager(vector&lt;vector&lt;int&gt;&gt;&amp; tasks)</code>&nbsp;初始化任务管理器，初始化的数组格式为&nbsp;<code>[userId, taskId, priority]</code>&nbsp;，表示给 <code>userId</code>&nbsp;添加一个优先级为 <code>priority</code>&nbsp;的任务 <code>taskId</code>&nbsp;。</p>
+	<p><code>TaskManager(vector&lt;vector&lt;int&gt;&gt;&amp; tasks)</code> initializes the task manager with a list of user-task-priority triples. Each element in the input list is of the form <code>[userId, taskId, priority]</code>, which adds a task to the specified user with the given priority.</p>
 	</li>
 	<li>
-	<p><code>void add(int userId, int taskId, int priority)</code>&nbsp;表示给用户 <code>userId</code>&nbsp;添加一个优先级为 <code>priority</code>&nbsp;的任务 <code>taskId</code>&nbsp;，输入 <strong>保证&nbsp;</strong><code>taskId</code>&nbsp;不在系统中。</p>
+	<p><code>void add(int userId, int taskId, int priority)</code> adds a task with the specified <code>taskId</code> and <code>priority</code> to the user with <code>userId</code>. It is <strong>guaranteed</strong> that <code>taskId</code> does not <em>exist</em> in the system.</p>
 	</li>
 	<li>
-	<p><code>void edit(int taskId, int newPriority)</code>&nbsp;更新已经存在的任务&nbsp;<code>taskId</code>&nbsp;的优先级为&nbsp;<code>newPriority</code>&nbsp;。输入 <strong>保证</strong>&nbsp;<code>taskId</code>&nbsp;存在于系统中。</p>
+	<p><code>void edit(int taskId, int newPriority)</code> updates the priority of the existing <code>taskId</code> to <code>newPriority</code>. It is <strong>guaranteed</strong> that <code>taskId</code> <em>exists</em> in the system.</p>
 	</li>
 	<li>
-	<p><code>void rmv(int taskId)</code>&nbsp;从系统中删除任务&nbsp;<code>taskId</code>&nbsp;。输入 <strong>保证</strong>&nbsp;<code>taskId</code>&nbsp;存在于系统中。</p>
+	<p><code>void rmv(int taskId)</code> removes the task identified by <code>taskId</code> from the system. It is <strong>guaranteed</strong> that <code>taskId</code> <em>exists</em> in the system.</p>
 	</li>
 	<li>
-	<p><code>int execTop()</code>&nbsp;执行所有用户的任务中优先级 <strong>最高</strong>&nbsp;的任务，如果有多个任务优先级相同且都为 <strong>最高</strong>&nbsp;，执行&nbsp;<code>taskId</code>&nbsp;最大的一个任务。执行完任务后，<code>taskId</code><strong>&nbsp;</strong>从系统中 <strong>删除</strong>&nbsp;。同时请你返回这个任务所属的用户&nbsp;<code>userId</code>&nbsp;。如果不存在任何任务，返回&nbsp;-1 。</p>
+	<p><code>int execTop()</code> executes the task with the <strong>highest</strong> priority across all users. If there are multiple tasks with the same <strong>highest</strong> priority, execute the one with the highest <code>taskId</code>. After executing, the<strong> </strong><code>taskId</code><strong> </strong>is <strong>removed</strong> from the system. Return the <code>userId</code> associated with the executed task. If no tasks are available, return -1.</p>
 	</li>
 </ul>
 
-<p><strong>注意</strong> ，一个用户可能被安排多个任务。</p>
+<p><strong>Note</strong> that a user may be assigned multiple tasks.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><br />
-<span class="example-io">["TaskManager", "add", "edit", "execTop", "rmv", "add", "execTop"]<br />
+<p><strong>Input:</strong><br />
+<span class="example-io">[&quot;TaskManager&quot;, &quot;add&quot;, &quot;edit&quot;, &quot;execTop&quot;, &quot;rmv&quot;, &quot;add&quot;, &quot;execTop&quot;]<br />
 [[[[1, 101, 10], [2, 102, 20], [3, 103, 15]]], [4, 104, 5], [102, 8], [], [101], [5, 105, 15], []]</span></p>
 
-<p><strong>输出：</strong><br />
+<p><strong>Output:</strong><br />
 <span class="example-io">[null, null, null, 3, null, null, 5] </span></p>
 
-<p><strong>解释：</strong></p>
-TaskManager taskManager = new TaskManager([[1, 101, 10], [2, 102, 20], [3, 103, 15]]); // 分别给用户 1 ，2 和 3 初始化一个任务。<br />
-taskManager.add(4, 104, 5); // 给用户 4 添加优先级为 5 的任务 104 。<br />
-taskManager.edit(102, 8); // 更新任务 102 的优先级为 8 。<br />
-taskManager.execTop(); // 返回 3 。执行用户 3 的任务 103 。<br />
-taskManager.rmv(101); // 将系统中的任务 101 删除。<br />
-taskManager.add(5, 105, 15); // 给用户 5 添加优先级为 15 的任务 105 。<br />
-taskManager.execTop(); // 返回 5 。执行用户 5 的任务 105 。</div>
+<p><strong>Explanation</strong></p>
+TaskManager taskManager = new TaskManager([[1, 101, 10], [2, 102, 20], [3, 103, 15]]); // Initializes with three tasks for Users 1, 2, and 3.<br />
+taskManager.add(4, 104, 5); // Adds task 104 with priority 5 for User 4.<br />
+taskManager.edit(102, 8); // Updates priority of task 102 to 8.<br />
+taskManager.execTop(); // return 3. Executes task 103 for User 3.<br />
+taskManager.rmv(101); // Removes task 101 from the system.<br />
+taskManager.add(5, 105, 15); // Adds task 105 with priority 15 for User 5.<br />
+taskManager.execTop(); // return 5. Executes task 105 for User 5.</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= tasks.length &lt;= 10<sup>5</sup></code></li>
@@ -76,17 +74,17 @@ taskManager.execTop(); // 返回 5 。执行用户 5 的任务 105 。</div>
 	<li><code>0 &lt;= taskId &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= priority &lt;= 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= newPriority &lt;= 10<sup>9</sup></code></li>
-	<li><code>add</code>&nbsp;，<code>edit</code>&nbsp;，<code>rmv</code>&nbsp;和&nbsp;<code>execTop</code>&nbsp;的总操作次数 <strong>加起来</strong>&nbsp;不超过&nbsp;<code>2 * 10<sup>5</sup></code> 次。</li>
-	<li>输入保证&nbsp;<code>taskId</code> 是合法的。</li>
+	<li>At most <code>2 * 10<sup>5</sup></code> calls will be made in <strong>total</strong> to <code>add</code>, <code>edit</code>, <code>rmv</code>, and <code>execTop</code> methods.</li>
+	<li>The input is generated such that <code>taskId</code> will be valid.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

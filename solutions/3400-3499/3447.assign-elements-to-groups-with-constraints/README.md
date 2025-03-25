@@ -1,85 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3447.Assign%20Elements%20to%20Groups%20with%20Constraints/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3447.Assign%20Elements%20to%20Groups%20with%20Constraints/README_EN.md
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [3447. 将元素分配给有约束条件的组](https://leetcode.cn/problems/assign-elements-to-groups-with-constraints)
+# [3447. Assign Elements to Groups with Constraints](https://leetcode.com/problems/assign-elements-to-groups-with-constraints)
 
-[English Version](/solution/3400-3499/3447.Assign%20Elements%20to%20Groups%20with%20Constraints/README_EN.md)
+[中文文档](/solution/3400-3499/3447.Assign%20Elements%20to%20Groups%20with%20Constraints/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>groups</code>，其中 <code>groups[i]</code> 表示第 <code>i</code> 组的大小。另给你一个整数数组 <code>elements</code>。</p>
+<p>You are given an integer array <code>groups</code>, where <code>groups[i]</code> represents the size of the <code>i<sup>th</sup></code> group. You are also given an integer array <code>elements</code>.</p>
 
-<p>请你根据以下规则为每个组分配&nbsp;<strong>一个&nbsp;</strong>元素：</p>
+<p>Your task is to assign <strong>one</strong> element to each group based on the following rules:</p>
 
 <ul>
-	<li>如果 <code>groups[i]</code> 能被 <code>elements[j]</code> 整除，则下标为&nbsp;<code>j</code>&nbsp;的元素可以分配给组 <code>i</code>。</li>
-	<li>如果有多个元素满足条件，则分配 <strong>最小的下标</strong>&nbsp;<code>j</code>&nbsp;的元素。</li>
-	<li>如果没有元素满足条件，则分配 -1 。</li>
+	<li>An element at index <code>j</code> can be assigned to a group <code>i</code> if <code>groups[i]</code> is <strong>divisible</strong> by <code>elements[j]</code>.</li>
+	<li>If there are multiple elements that can be assigned, assign the element with the <strong>smallest index</strong> <code>j</code>.</li>
+	<li>If no element satisfies the condition for a group, assign -1 to that group.</li>
 </ul>
 
-<p>返回一个整数数组 <code>assigned</code>，其中 <code>assigned[i]</code> 是分配给组 <code>i</code> 的元素的索引，若无合适的元素，则为 -1。</p>
+<p>Return an integer array <code>assigned</code>, where <code>assigned[i]</code> is the index of the element chosen for group <code>i</code>, or -1 if no suitable element exists.</p>
 
-<p><strong>注意：</strong>一个元素可以分配给多个组。</p>
+<p><strong>Note</strong>: An element may be assigned to more than one group.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">groups = [8,4,3,2,4], elements = [4,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">groups = [8,4,3,2,4], elements = [4,2]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[0,0,-1,1,0]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[0,0,-1,1,0]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li><code>elements[0] = 4</code> 被分配给组 0、1 和 4。</li>
-	<li><code>elements[1] = 2</code> 被分配给组 3。</li>
-	<li>无法为组 2 分配任何元素，分配 -1 。</li>
+	<li><code>elements[0] = 4</code> is assigned to groups 0, 1, and 4.</li>
+	<li><code>elements[1] = 2</code> is assigned to group 3.</li>
+	<li>Group 2 cannot be assigned any element.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">groups = [2,3,5,7], elements = [5,3,3]</span></p>
+<p><strong>Input:</strong> <span class="example-io">groups = [2,3,5,7], elements = [5,3,3]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[-1,1,0,-1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[-1,1,0,-1]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li><code>elements[1] = 3</code> 被分配给组 1。</li>
-	<li><code>elements[0] = 5</code> 被分配给组 2。</li>
-	<li>无法为组 0 和组 3 分配任何元素，分配 -1 。</li>
+	<li><code>elements[1] = 3</code> is assigned to group 1.</li>
+	<li><code>elements[0] = 5</code> is assigned to group 2.</li>
+	<li>Groups 0 and 3 cannot be assigned any element.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">groups = [10,21,30,41], elements = [2,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">groups = [10,21,30,41], elements = [2,1]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[0,1,0,1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[0,1,0,1]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p><code>elements[0] = 2</code> 被分配给所有偶数值的组，而 <code>elements[1] = 1</code> 被分配给所有奇数值的组。</p>
+<p><code>elements[0] = 2</code> is assigned to the groups with even values, and <code>elements[1] = 1</code> is assigned to the groups with odd values.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= groups.length &lt;= 10<sup>5</sup></code></li>
@@ -90,19 +88,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们先找到数组 $\textit{groups}$ 中的最大值，记为 $\textit{mx}$。用一个数组 $\textit{d}$ 记录每个元素对应的下标，初始时 $\textit{d}[x] = -1$ 表示元素 $x$ 还没有被分配。
+First, we find the maximum value in the array $\textit{groups}$, denoted as $\textit{mx}$. We use an array $\textit{d}$ to record the index corresponding to each element. Initially, $\textit{d}[x] = -1$ indicates that the element $x$ has not been assigned yet.
 
-然后我们遍历数组 $\textit{elements}$，对于每个元素 $x$，如果 $x > \textit{mx}$ 或者 $\textit{d}[x] \neq -1$，说明元素 $x$ 无法被分配或者已经被分配，直接跳过。否则，我们从 $x$ 开始，每次加上 $x$，将 $\textit{d}[y]$ 设为 $j$，表示元素 $y$ 被分配给了下标 $j$。
+Then, we traverse the array $\textit{elements}$. For each element $x$, if $x > \textit{mx}$ or $\textit{d}[x] \neq -1$, it means that the element $x$ cannot be assigned or has already been assigned, so we skip it directly. Otherwise, starting from $x$, we increment by $x$ each time and set $\textit{d}[y]$ to $j$, indicating that the element $y$ is assigned to the index $j$.
 
-最后我们遍历数组 $\textit{groups}$，根据 $\textit{d}$ 数组的记录，得到答案。
+Finally, we traverse the array $\textit{groups}$ and obtain the answer based on the records in the $\textit{d}$ array.
 
-时间复杂度 $O(M \times \log m + n)$，空间复杂度 $O(M)$。其中 $n$ 和 $m$ 分别是数组 $\textit{groups}$ 和 $\textit{elements}$ 的长度；而 $M$ 是数组 $\textit{groups}$ 中的最大值。
+The time complexity is $O(M \times \log m + n)$, and the space complexity is $O(M)$. Here, $n$ and $m$ are the lengths of the arrays $\textit{groups}$ and $\textit{elements}$, respectively, while $M$ is the maximum value in the array $\textit{groups}$.
 
 <!-- tabs:start -->
 

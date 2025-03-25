@@ -1,96 +1,90 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3314.Construct%20the%20Minimum%20Bitwise%20Array%20I/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3314.Construct%20the%20Minimum%20Bitwise%20Array%20I/README_EN.md
 rating: 1378
-source: 第 141 场双周赛 Q1
+source: Biweekly Contest 141 Q1
 tags:
-    - 位运算
-    - 数组
+    - Bit Manipulation
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [3314. 构造最小位运算数组 I](https://leetcode.cn/problems/construct-the-minimum-bitwise-array-i)
+# [3314. Construct the Minimum Bitwise Array I](https://leetcode.com/problems/construct-the-minimum-bitwise-array-i)
 
-[English Version](/solution/3300-3399/3314.Construct%20the%20Minimum%20Bitwise%20Array%20I/README_EN.md)
+[中文文档](/solution/3300-3399/3314.Construct%20the%20Minimum%20Bitwise%20Array%20I/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>&nbsp;的<span data-keyword="prime">质数</span>数组&nbsp;<code>nums</code>&nbsp;。你的任务是返回一个长度为 <code>n</code>&nbsp;的数组 <code>ans</code>&nbsp;，对于每个下标 <code>i</code>&nbsp;，以下<strong>&nbsp;条件</strong>&nbsp;均成立：</p>
+<p>You are given an array <code>nums</code> consisting of <code>n</code> <span data-keyword="prime-number">prime</span> integers.</p>
 
-<ul>
-	<li><code>ans[i] OR (ans[i] + 1) == nums[i]</code></li>
-</ul>
+<p>You need to construct an array <code>ans</code> of length <code>n</code>, such that, for each index <code>i</code>, the bitwise <code>OR</code> of <code>ans[i]</code> and <code>ans[i] + 1</code> is equal to <code>nums[i]</code>, i.e. <code>ans[i] OR (ans[i] + 1) == nums[i]</code>.</p>
 
-<p>除此以外，你需要 <strong>最小化</strong>&nbsp;结果数组里每一个&nbsp;<code>ans[i]</code>&nbsp;。</p>
+<p>Additionally, you must <strong>minimize</strong> each value of <code>ans[i]</code> in the resulting array.</p>
 
-<p>如果没法找到符合 <strong>条件</strong>&nbsp;的&nbsp;<code>ans[i]</code>&nbsp;，那么&nbsp;<code>ans[i] = -1</code>&nbsp;。</p>
-
-<p><strong>质数</strong>&nbsp;指的是一个大于 1 的自然数，且它只有 1 和自己两个因数。</p>
+<p>If it is <em>not possible</em> to find such a value for <code>ans[i]</code> that satisfies the <strong>condition</strong>, then set <code>ans[i] = -1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [2,3,5,7]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,3,5,7]</span></p>
 
-<p><span class="example-io"><b>输出：</b>[-1,1,4,3]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[-1,1,4,3]</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>对于&nbsp;<code>i = 0</code>&nbsp;，不存在&nbsp;<code>ans[0]</code>&nbsp;满足&nbsp;<code>ans[0] OR (ans[0] + 1) = 2</code>&nbsp;，所以&nbsp;<code>ans[0] = -1</code>&nbsp;。</li>
-	<li>对于&nbsp;<code>i = 1</code>&nbsp;，满足 <code>ans[1] OR (ans[1] + 1) = 3</code>&nbsp;的最小&nbsp;<code>ans[1]</code>&nbsp;为&nbsp;<code>1</code>&nbsp;，因为&nbsp;<code>1 OR (1 + 1) = 3</code>&nbsp;。</li>
-	<li>对于&nbsp;<code>i = 2</code>&nbsp;，满足 <code>ans[2] OR (ans[2] + 1) = 5</code>&nbsp;的最小 <code>ans[2]</code>&nbsp;为&nbsp;<code>4</code>&nbsp;，因为&nbsp;<code>4 OR (4 + 1) = 5</code>&nbsp;。</li>
-	<li>对于&nbsp;<code>i = 3</code>&nbsp;，满足&nbsp;<code>ans[3] OR (ans[3] + 1) = 7</code>&nbsp;的最小&nbsp;<code>ans[3]</code>&nbsp;为&nbsp;<code>3</code>&nbsp;，因为&nbsp;<code>3 OR (3 + 1) = 7</code>&nbsp;。</li>
+	<li>For <code>i = 0</code>, as there is no value for <code>ans[0]</code> that satisfies <code>ans[0] OR (ans[0] + 1) = 2</code>, so <code>ans[0] = -1</code>.</li>
+	<li>For <code>i = 1</code>, the smallest <code>ans[1]</code> that satisfies <code>ans[1] OR (ans[1] + 1) = 3</code> is <code>1</code>, because <code>1 OR (1 + 1) = 3</code>.</li>
+	<li>For <code>i = 2</code>, the smallest <code>ans[2]</code> that satisfies <code>ans[2] OR (ans[2] + 1) = 5</code> is <code>4</code>, because <code>4 OR (4 + 1) = 5</code>.</li>
+	<li>For <code>i = 3</code>, the smallest <code>ans[3]</code> that satisfies <code>ans[3] OR (ans[3] + 1) = 7</code> is <code>3</code>, because <code>3 OR (3 + 1) = 7</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [11,13,31]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [11,13,31]</span></p>
 
-<p><span class="example-io"><b>输出：</b>[9,12,15]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[9,12,15]</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>对于&nbsp;<code>i = 0</code>&nbsp;，满足&nbsp;<code>ans[0] OR (ans[0] + 1) = 11</code> 的最小&nbsp;<code>ans[0]</code>&nbsp;为&nbsp;<code>9</code>&nbsp;，因为&nbsp;<code>9 OR (9 + 1) = 11</code>&nbsp;。</li>
-	<li>对于&nbsp;<code>i = 1</code>&nbsp;，满足&nbsp;<code>ans[1] OR (ans[1] + 1) = 13</code>&nbsp;的最小&nbsp;<code>ans[1]</code>&nbsp;为&nbsp;<code>12</code>&nbsp;，因为&nbsp;<code>12 OR (12 + 1) = 13</code>&nbsp;。</li>
-	<li>对于&nbsp;<code>i = 2</code>&nbsp;，满足&nbsp;<code>ans[2] OR (ans[2] + 1) = 31</code>&nbsp;的最小&nbsp;<code>ans[2]</code>&nbsp;为&nbsp;<code>15</code>&nbsp;，因为&nbsp;<code>15 OR (15 + 1) = 31</code>&nbsp;。</li>
+	<li>For <code>i = 0</code>, the smallest <code>ans[0]</code> that satisfies <code>ans[0] OR (ans[0] + 1) = 11</code> is <code>9</code>, because <code>9 OR (9 + 1) = 11</code>.</li>
+	<li>For <code>i = 1</code>, the smallest <code>ans[1]</code> that satisfies <code>ans[1] OR (ans[1] + 1) = 13</code> is <code>12</code>, because <code>12 OR (12 + 1) = 13</code>.</li>
+	<li>For <code>i = 2</code>, the smallest <code>ans[2]</code> that satisfies <code>ans[2] OR (ans[2] + 1) = 31</code> is <code>15</code>, because <code>15 OR (15 + 1) = 31</code>.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
 	<li><code>2 &lt;= nums[i] &lt;= 1000</code></li>
-	<li><code>nums[i]</code>&nbsp;是一个质数。</li>
+	<li><code>nums[i]</code> is a prime number.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bit Manipulation
 
-对于一个整数 $a$，满足 $a \lor (a + 1)$ 的结果一定为奇数，因此，如果 $\text{nums[i]}$ 是偶数，那么 $\text{ans}[i]$ 一定不存在，直接返回 $-1$。本题中 $\textit{nums}[i]$ 是质数，判断是否是偶数，只需要判断是否等于 $2$ 即可。
+For an integer $a$, the result of $a \lor (a + 1)$ is always odd. Therefore, if $\text{nums[i]}$ is even, then $\text{ans}[i]$ does not exist, and we directly return $-1$. In this problem, $\textit{nums}[i]$ is a prime number, so to check if it is even, we only need to check if it equals $2$.
 
-如果 $\text{nums[i]}$ 是奇数，假设 $\text{nums[i]} = \text{0b1101101}$，由于 $a \lor (a + 1) = \text{nums[i]}$，等价于将 $a$ 的最后一个为 $0$ 的二进制位变为 $1$。那么求解 $a$，就等价于将 $\text{nums[i]}$ 的最后一个 $0$ 的下一位 $1$ 变为 $0$。我们只需要从低位（下标为 $1$）开始遍历，找到第一个为 $0$ 的二进制位，如果是第 $i$ 位，那么我们就将 $\text{nums[i]}$ 的第 $i - 1$ 位变为 $1$，即 $\text{ans}[i] = \text{nums[i]} \oplus 2^{i - 1}$。
+If $\text{nums[i]}$ is odd, suppose $\text{nums[i]} = \text{0b1101101}$. Since $a \lor (a + 1) = \text{nums[i]}$, this is equivalent to changing the last $0$ bit of $a$ to $1$. To solve for $a$, we need to change the bit after the last $0$ in $\text{nums[i]}$ to $0$. We start traversing from the least significant bit (index $1$) and find the first $0$ bit. If it is at position $i$, we change the $(i - 1)$-th bit of $\text{nums[i]}$ to $1$, i.e., $\text{ans}[i] = \text{nums[i]} \oplus 2^{i - 1}$.
 
-遍历所有的 $\text{nums[i]}$，即可得到答案。
+By traversing all elements in $\text{nums}$, we can obtain the answer.
 
-时间复杂度 $O(n \times \log M)$，其中 $n$ 和 $M$ 分别是数组 $\text{nums}$ 的长度和数组中的最大值。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log M)$, where $n$ and $M$ are the length of the array $\text{nums}$ and the maximum value in the array, respectively. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

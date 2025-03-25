@@ -1,86 +1,84 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3407.Substring%20Matching%20Pattern/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3407.Substring%20Matching%20Pattern/README_EN.md
 rating: 1472
-source: 第 147 场双周赛 Q1
+source: Biweekly Contest 147 Q1
 tags:
-    - 字符串
-    - 字符串匹配
+    - String
+    - String Matching
 ---
 
 <!-- problem:start -->
 
-# [3407. 子字符串匹配模式](https://leetcode.cn/problems/substring-matching-pattern)
+# [3407. Substring Matching Pattern](https://leetcode.com/problems/substring-matching-pattern)
 
-[English Version](/solution/3400-3499/3407.Substring%20Matching%20Pattern/README_EN.md)
+[中文文档](/solution/3400-3499/3407.Substring%20Matching%20Pattern/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;和一个模式字符串&nbsp;<code>p</code>&nbsp;，其中&nbsp;<code>p</code> <strong>恰好</strong>&nbsp;包含 <strong>一个</strong>&nbsp;<code>'*'</code>&nbsp;符号。</p>
+<p>You are given a string <code>s</code> and a pattern string <code>p</code>, where <code>p</code> contains <strong>exactly one</strong> <code>&#39;*&#39;</code> character.</p>
 
-<p><code>p</code>&nbsp;中的 <code>'*'</code>&nbsp;符号可以被替换为零个或多个字符组成的任意字符序列。</p>
+<p>The <code>&#39;*&#39;</code> in <code>p</code> can be replaced with any sequence of zero or more characters.</p>
 
-<p>如果 <code>p</code>&nbsp;可以变成 <code>s</code>&nbsp;的 <span data-keyword="substring-nonempty">子字符串</span>，那么返回&nbsp;<code>true</code>&nbsp;，否则返回 <code>false</code>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "leetcode", p = "ee*e"</span></p>
-
-<p><span class="example-io"><b>输出：</b>true</span></p>
-
-<p><b>解释：</b></p>
-
-<p>将&nbsp;<code>'*'</code>&nbsp;替换为&nbsp;<code>"tcod"</code>&nbsp;，子字符串&nbsp;<code>"eetcode"</code>&nbsp;匹配模式串。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "car", p = "c*v"</span></p>
-
-<p><span class="example-io"><b>输出：</b>false</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>不存在匹配模式串的子字符串。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "luck", p = "u*"</span></p>
-
-<p><span class="example-io"><b>输出：</b>true</span></p>
-
-<p><b>解释：</b></p>
-
-<p>子字符串&nbsp;<code>"u"</code>&nbsp;，<code>"uc"</code>&nbsp;和&nbsp;<code>"uck"</code>&nbsp;都匹配模式串。</p>
-</div>
+<p>Return <code>true</code> if <code>p</code> can be made a <span data-keyword="substring-nonempty">substring</span> of <code>s</code>, and <code>false</code> otherwise.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;leetcode&quot;, p = &quot;ee*e&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>By replacing the <code>&#39;*&#39;</code> with <code>&quot;tcod&quot;</code>, the substring <code>&quot;eetcode&quot;</code> matches the pattern.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;car&quot;, p = &quot;c*v&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There is no substring matching the pattern.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;luck&quot;, p = &quot;u*&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The substrings <code>&quot;u&quot;</code>, <code>&quot;uc&quot;</code>, and <code>&quot;uck&quot;</code> match the pattern.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 50</code></li>
 	<li><code>1 &lt;= p.length &lt;= 50 </code></li>
-	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
-	<li><code>p</code>&nbsp;只包含小写英文字母和一个&nbsp;<code>'*'</code> 符号。</li>
+	<li><code>s</code> contains only lowercase English letters.</li>
+	<li><code>p</code> contains only lowercase English letters and exactly one <code>&#39;*&#39;</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

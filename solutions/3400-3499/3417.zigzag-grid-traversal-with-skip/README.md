@@ -1,83 +1,81 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3417.Zigzag%20Grid%20Traversal%20With%20Skip/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3417.Zigzag%20Grid%20Traversal%20With%20Skip/README_EN.md
 rating: 1290
-source: 第 432 场周赛 Q1
+source: Weekly Contest 432 Q1
 tags:
-    - 数组
-    - 矩阵
-    - 模拟
+    - Array
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3417. 跳过交替单元格的之字形遍历](https://leetcode.cn/problems/zigzag-grid-traversal-with-skip)
+# [3417. Zigzag Grid Traversal With Skip](https://leetcode.com/problems/zigzag-grid-traversal-with-skip)
 
-[English Version](/solution/3400-3499/3417.Zigzag%20Grid%20Traversal%20With%20Skip/README_EN.md)
+[中文文档](/solution/3400-3499/3417.Zigzag%20Grid%20Traversal%20With%20Skip/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>m x n</code> 的二维数组 <code>grid</code>，数组由&nbsp;<strong>正整数</strong> 组成。</p>
+<p>You are given an <code>m x n</code> 2D array <code>grid</code> of <strong>positive</strong> integers.</p>
 
-<p>你的任务是以&nbsp;<strong>之字形&nbsp;</strong>遍历 <code>grid</code>，同时跳过每个&nbsp;<strong>交替&nbsp;</strong>的单元格。</p>
+<p>Your task is to traverse <code>grid</code> in a <strong>zigzag</strong> pattern while skipping every <strong>alternate</strong> cell.</p>
 
-<p>之字形遍历的定义如下：</p>
+<p>Zigzag pattern traversal is defined as following the below actions:</p>
 
 <ul>
-	<li>从左上角的单元格 <code>(0, 0)</code> 开始。</li>
-	<li>在当前行中向 <strong>右</strong> 移动，直到到达该行的末尾。</li>
-	<li>下移到下一行，然后在该行中向&nbsp;<strong>左</strong><em>&nbsp;</em>移动，直到到达该行的开头。</li>
-	<li>继续在行间交替向右和向左移动，直到所有行都被遍历完。</li>
+	<li>Start at the top-left cell <code>(0, 0)</code>.</li>
+	<li>Move <em>right</em> within a row until the end of the row is reached.</li>
+	<li>Drop down to the next row, then traverse <em>left</em> until the beginning of the row is reached.</li>
+	<li>Continue <strong>alternating</strong> between right and left traversal until every row has been traversed.</li>
 </ul>
 
-<p><strong>注意：</strong>在遍历过程中，必须跳过每个&nbsp;<strong>交替&nbsp;</strong>的单元格。</p>
+<p><strong>Note </strong>that you <strong>must skip</strong> every <em>alternate</em> cell during the traversal.</p>
 
-<p>返回一个整数数组 <code>result</code>，其中包含按&nbsp;<strong>顺序&nbsp;</strong>记录的、且跳过交替单元格后的之字形遍历中访问到的单元格值。</p>
+<p>Return an array of integers <code>result</code> containing, <strong>in order</strong>, the value of the cells visited during the zigzag traversal with skips.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">grid = [[1,2],[3,4]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[1,2],[3,4]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[1,4]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[1,4]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3417.Zigzag%20Grid%20Traversal%20With%20Skip/images/4012_example0.png" style="width: 200px; height: 200px;" /></strong></p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">grid = [[2,1],[2,1],[2,1]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[2,1],[2,1],[2,1]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[2,1,2]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[2,1,2]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3417.Zigzag%20Grid%20Traversal%20With%20Skip/images/4012_example1.png" style="width: 200px; height: 240px;" /></p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">grid = [[1,2,3],[4,5,6],[7,8,9]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[1,2,3],[4,5,6],[7,8,9]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[1,3,5,7,9]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[1,3,5,7,9]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3417.Zigzag%20Grid%20Traversal%20With%20Skip/images/4012_example2.png" style="width: 260px; height: 250px;" /></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == grid.length &lt;= 50</code></li>
@@ -87,15 +85,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们遍历每一行，如果当前行的索引是奇数，我们就将这一行的元素逆序，然后遍历这一行的元素，按照题目要求的规则将元素加入答案数组中。
+We traverse each row. If the current row index is odd, we reverse the elements of that row. Then, we traverse the elements of the row and add them to the answer array according to the rules specified in the problem.
 
-时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是二维数组 $\textit{grid}$ 的行数和列数。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns of the 2D array $\textit{grid}$, respectively. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,64 +1,62 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3397.Maximum%20Number%20of%20Distinct%20Elements%20After%20Operations/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3397.Maximum%20Number%20of%20Distinct%20Elements%20After%20Operations/README_EN.md
 rating: 1687
-source: 第 429 场周赛 Q2
+source: Weekly Contest 429 Q2
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [3397. 执行操作后不同元素的最大数量](https://leetcode.cn/problems/maximum-number-of-distinct-elements-after-operations)
+# [3397. Maximum Number of Distinct Elements After Operations](https://leetcode.com/problems/maximum-number-of-distinct-elements-after-operations)
 
-[English Version](/solution/3300-3399/3397.Maximum%20Number%20of%20Distinct%20Elements%20After%20Operations/README_EN.md)
+[中文文档](/solution/3300-3399/3397.Maximum%20Number%20of%20Distinct%20Elements%20After%20Operations/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code>。</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>.</p>
 
-<p>你可以对数组中的每个元素&nbsp;<strong>最多</strong> 执行 <strong>一次&nbsp;</strong>以下操作：</p>
+<p>You are allowed to perform the following <strong>operation</strong> on each element of the array <strong>at most</strong> <em>once</em>:</p>
 
 <ul>
-	<li>将一个在范围&nbsp;<code>[-k, k]</code> 内的整数加到该元素上。</li>
+	<li>Add an integer in the range <code>[-k, k]</code> to the element.</li>
 </ul>
 
-<p>返回执行这些操作后，<code>nums</code> 中可能拥有的不同元素的&nbsp;<strong>最大&nbsp;</strong>数量。</p>
+<p>Return the <strong>maximum</strong> possible number of <strong>distinct</strong> elements in <code>nums</code> after performing the <strong>operations</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,2,2,3,3,4], k = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,2,3,3,4], k = 2</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">6</span></p>
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>对前四个元素执行操作，<code>nums</code> 变为 <code>[-1, 0, 1, 2, 3, 4]</code>，可以获得 6 个不同的元素。</p>
+<p><code>nums</code> changes to <code>[-1, 0, 1, 2, 3, 4]</code> after performing operations on the first four elements.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [4,4,4,4], k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [4,4,4,4], k = 1</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>对 <code>nums[0]</code> 加 -1，以及对 <code>nums[1]</code> 加 1，<code>nums</code> 变为 <code>[3, 5, 4, 4]</code>，可以获得 3 个不同的元素。</p>
+<p>By adding -1 to <code>nums[0]</code> and 1 to <code>nums[1]</code>, <code>nums</code> changes to <code>[3, 5, 4, 4]</code>.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -68,21 +66,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 排序
+### Solution 1: Greedy + Sorting
 
-我们不妨对数组 $\textit{nums}$ 排序，然后从左到右考虑每个元素 $x$。
+We can sort the array $\textit{nums}$ and then consider each element $x$ from left to right.
 
-对于第一个元素，我们可以贪心地将其变为 $x - k$，这样可以使得 $x$ 尽可能小，给后续的元素留下更多的空间。我们用变量 $\textit{pre}$ 当前使用到的元素的最大值，初始化为负无穷大。
+For the first element, we can greedily change it to $x - k$, making $x$ as small as possible to leave more space for subsequent elements. We use the variable $\textit{pre}$ to track the maximum value of the elements used so far, initialized to negative infinity.
 
-对于后续的元素 $x$，我们可以贪心地将其变为 $\min(x + k, \max(x - k, \textit{pre} + 1))$。这里的 $\max(x - k, \textit{pre} + 1)$ 表示我们尽可能地将 $x$ 变得更小，但不能小于 $\textit{pre} + 1$，如果存在该值，且小于 $x + k$，我们就可以将 $x$ 变为该值，不重复元素数加一，然后我们更新 $\textit{pre}$ 为该值。
+For subsequent elements $x$, we can greedily change it to $\min(x + k, \max(x - k, \textit{pre} + 1))$. Here, $\max(x - k, \textit{pre} + 1)$ means we try to make $x$ as small as possible but not smaller than $\textit{pre} + 1$. If this value exists and is less than $x + k$, we can change $x$ to this value, increment the count of distinct elements, and update $\textit{pre}$ to this value.
 
-遍历结束，我们就得到了不重复元素的最大数量。
+After traversing the array, we obtain the maximum number of distinct elements.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

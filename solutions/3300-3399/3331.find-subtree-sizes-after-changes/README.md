@@ -1,96 +1,90 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3331.Find%20Subtree%20Sizes%20After%20Changes/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3331.Find%20Subtree%20Sizes%20After%20Changes/README_EN.md
 rating: 2045
-source: 第 142 场双周赛 Q2
+source: Biweekly Contest 142 Q2
 tags:
-    - 树
-    - 深度优先搜索
-    - 数组
-    - 哈希表
-    - 字符串
+    - Tree
+    - Depth-First Search
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3331. 修改后子树的大小](https://leetcode.cn/problems/find-subtree-sizes-after-changes)
+# [3331. Find Subtree Sizes After Changes](https://leetcode.com/problems/find-subtree-sizes-after-changes)
 
-[English Version](/solution/3300-3399/3331.Find%20Subtree%20Sizes%20After%20Changes/README_EN.md)
+[中文文档](/solution/3300-3399/3331.Find%20Subtree%20Sizes%20After%20Changes/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵 <code>n</code>&nbsp;个节点且根节点为编号 0 的树，节点编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;。这棵树用一个长度为&nbsp;<code>n</code>&nbsp;的数组&nbsp;<code>parent</code>&nbsp;表示，其中&nbsp;<code>parent[i]</code>&nbsp;是第 <code>i</code>&nbsp;个节点的父亲节点的编号。由于节点 0 是根，<code>parent[0] == -1</code>&nbsp;。</p>
+<p>You are given a tree rooted at node 0 that consists of <code>n</code> nodes numbered from <code>0</code> to <code>n - 1</code>. The tree is represented by an array <code>parent</code> of size <code>n</code>, where <code>parent[i]</code> is the parent of node <code>i</code>. Since node 0 is the root, <code>parent[0] == -1</code>.</p>
 
-<p>给你一个长度为 <code>n</code>&nbsp;的字符串&nbsp;<code>s</code>&nbsp;，其中&nbsp;<code>s[i]</code>&nbsp;是节点 <code>i</code>&nbsp;对应的字符。</p>
+<p>You are also given a string <code>s</code> of length <code>n</code>, where <code>s[i]</code> is the character assigned to node <code>i</code>.</p>
 
-<p>对于节点编号从 <code>1</code>&nbsp;到 <code>n - 1</code>&nbsp;的每个节点 <code>x</code>&nbsp;，我们 <strong>同时</strong> 执行以下操作 <strong>一次</strong>&nbsp;：</p>
+<p>We make the following changes on the tree <strong>one</strong> time <strong>simultaneously</strong> for all nodes <code>x</code> from <code>1</code> to <code>n - 1</code>:</p>
 
 <ul>
-	<li>找到距离节点 <code>x</code>&nbsp;<strong>最近</strong>&nbsp;的祖先节点 <code>y</code>&nbsp;，且&nbsp;<code>s[x] == s[y]</code>&nbsp;。</li>
-	<li>如果节点 <code>y</code>&nbsp;不存在，那么不做任何修改。</li>
-	<li>否则，将节点 <code>x</code>&nbsp;与它父亲节点之间的边 <strong>删除</strong>&nbsp;，在 <code>x</code>&nbsp;与 <code>y</code>&nbsp;之间连接一条边，使&nbsp;<code>y</code>&nbsp;变为 <code>x</code>&nbsp;新的父节点。</li>
+	<li>Find the <strong>closest</strong> node <code>y</code> to node <code>x</code> such that <code>y</code> is an ancestor of <code>x</code>, and <code>s[x] == s[y]</code>.</li>
+	<li>If node <code>y</code> does not exist, do nothing.</li>
+	<li>Otherwise, <strong>remove</strong> the edge between <code>x</code> and its current parent and make node <code>y</code> the new parent of <code>x</code> by adding an edge between them.</li>
 </ul>
 
-<p>请你返回一个长度为 <code>n</code>&nbsp;的数组&nbsp;<code>answer</code>&nbsp;，其中&nbsp;<code>answer[i]</code>&nbsp;是 <strong>最终</strong>&nbsp;树中，节点 <code>i</code>&nbsp;为根的 <span data-keyword="subtree">子树</span> 的 <strong>大小</strong>&nbsp;。</p>
+<p>Return an array <code>answer</code> of size <code>n</code> where <code>answer[i]</code> is the <strong>size</strong> of the <span data-keyword="subtree">subtree</span> rooted at node <code>i</code> in the <strong>final</strong> tree.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>parent = [-1,0,0,1,1,1], s = "abaabc"</span></p>
+<p><strong>Input:</strong> <span class="example-io">parent = [-1,0,0,1,1,1], s = &quot;abaabc&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>[6,3,1,1,1,1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[6,3,1,1,1,1]</span></p>
 
-<p><strong>解释：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3331.Find%20Subtree%20Sizes%20After%20Changes/images/graphex1drawio.png" style="width: 230px; height: 277px;" /></p>
-
-<p>节点 3 的父节点从节点 1 变为节点 0 。</p>
+<p><strong>Explanation:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3331.Find%20Subtree%20Sizes%20After%20Changes/images/graphex1drawio.png" style="width: 230px; height: 277px;" />
+<p>The parent of node 3 will change from node 1 to node 0.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>parent = [-1,0,4,0,1], s = "abbba"</span></p>
+<p><strong>Input:</strong> <span class="example-io">parent = [-1,0,4,0,1], s = &quot;abbba&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>[5,2,1,1,1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[5,2,1,1,1]</span></p>
 
-<p><b>解释：</b></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3331.Find%20Subtree%20Sizes%20After%20Changes/images/exgraph2drawio.png" style="width: 160px; height: 308px;" /></p>
-
-<p>以下变化会同时发生：</p>
+<p><strong>Explanation:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3331.Find%20Subtree%20Sizes%20After%20Changes/images/exgraph2drawio.png" style="width: 160px; height: 308px;" />
+<p>The following changes will happen at the same time:</p>
 
 <ul>
-	<li>节点 4 的父节点从节点 1 变为节点 0 。</li>
-	<li>节点 2 的父节点从节点 4 变为节点 1 。</li>
+	<li>The parent of node 4 will change from node 1 to node 0.</li>
+	<li>The parent of node 2 will change from node 4 to node 1.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == parent.length == s.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li>对于所有的&nbsp;<code>i &gt;= 1</code>&nbsp;，都有&nbsp;<code>0 &lt;= parent[i] &lt;= n - 1</code>&nbsp;。</li>
+	<li><code>0 &lt;= parent[i] &lt;= n - 1</code> for all <code>i &gt;= 1</code>.</li>
 	<li><code>parent[0] == -1</code></li>
-	<li><code>parent</code>&nbsp;表示一棵合法的树。</li>
-	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>parent</code> represents a valid tree.</li>
+	<li><code>s</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

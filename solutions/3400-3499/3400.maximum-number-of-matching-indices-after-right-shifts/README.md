@@ -1,60 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3400.Maximum%20Number%20of%20Matching%20Indices%20After%20Right%20Shifts/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3400.Maximum%20Number%20of%20Matching%20Indices%20After%20Right%20Shifts/README_EN.md
 tags:
-    - 数组
-    - 双指针
-    - 模拟
+    - Array
+    - Two Pointers
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3400. 右移后的最大匹配索引数 🔒](https://leetcode.cn/problems/maximum-number-of-matching-indices-after-right-shifts)
+# [3400. Maximum Number of Matching Indices After Right Shifts 🔒](https://leetcode.com/problems/maximum-number-of-matching-indices-after-right-shifts)
 
-[English Version](/solution/3400-3499/3400.Maximum%20Number%20of%20Matching%20Indices%20After%20Right%20Shifts/README_EN.md)
+[中文文档](/solution/3400-3499/3400.Maximum%20Number%20of%20Matching%20Indices%20After%20Right%20Shifts/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个长度相同的整数数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>。</p>
+<p>You are given two integer arrays, <code>nums1</code> and <code>nums2</code>, of the same length.</p>
 
-<p>如果&nbsp;<code>nums1[i] == nums2[i]</code>&nbsp;则认为下标&nbsp;<code>i</code> 是 <strong>匹配</strong> 的。</p>
+<p>An index <code>i</code> is considered <strong>matching</strong> if <code>nums1[i] == nums2[i]</code>.</p>
 
-<p>返回在&nbsp;<code>nums1</code>&nbsp;上进行任意次数 <strong>右移</strong>&nbsp;后 <strong>最大</strong>&nbsp;的 <strong>匹配&nbsp;</strong>下标数量。</p>
+<p>Return the <strong>maximum</strong> number of <strong>matching</strong> indices after performing any number of <strong>right shifts</strong> on <code>nums1</code>.</p>
 
-<p><strong>右移&nbsp;</strong>是对于所有下标，将位于下标&nbsp;<code>i</code>&nbsp;的元素移动到&nbsp;<code>(i + 1) % n</code>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums1 = [3,1,2,3,1,2], nums2 = [1,2,3,1,2,3]</span></p>
-
-<p><span class="example-io"><b>输出：</b>6</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>如果我们右移&nbsp;<code>nums1</code> 2 次，它变为&nbsp;<code>[1, 2, 3, 1, 2, 3]</code>。每个下标都匹配，所以输出为 6。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums1 = [1,4,2,5,3,1], nums2 = [2,3,1,2,4,6]</span></p>
-
-<p><span class="example-io"><b>输出：</b>3</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>如果我们右移&nbsp;<code>nums1</code> 3 次，它变为&nbsp;<code>[5, 3, 1, 1, 4, 2]</code>。下标 1，2，4 匹配，所以输出为 3。</p>
-</div>
+<p>A <strong>right shift</strong> is defined as shifting the element at index <code>i</code> to index <code>(i + 1) % n</code>, for all indices.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums1 = [3,1,2,3,1,2], nums2 = [1,2,3,1,2,3]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>If we right shift <code>nums1</code> 2 times, it becomes <code>[1, 2, 3, 1, 2, 3]</code>. Every index matches, so the output is 6.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums1 = [1,4,2,5,3,1], nums2 = [2,3,1,2,4,6]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>If we right shift <code>nums1</code> 3 times, it becomes <code>[5, 3, 1, 1, 4, 2]</code>. Indices 1, 2, and 4 match, so the output is 3.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>nums1.length == nums2.length</code></li>
@@ -64,15 +62,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以枚举右移的次数 $k$，其中 $0 \leq k \lt n$。对于每一个 $k$，我们可以计算出右移 $k$ 次后的数组 $\textit{nums1}$ 和 $\textit{nums2}$ 的匹配下标数量，取最大值作为答案即可。
+We can enumerate the number of right shifts $k$, where $0 \leq k < n$. For each $k$, we can calculate the number of matching indices between the array $\textit{nums1}$ after right shifting $k$ times and $\textit{nums2}$. The maximum value is taken as the answer.
 
-时间复杂度 $O(n^2)$，其中 $n$ 为数组 $\textit{nums1}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the length of the array $\textit{nums1}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

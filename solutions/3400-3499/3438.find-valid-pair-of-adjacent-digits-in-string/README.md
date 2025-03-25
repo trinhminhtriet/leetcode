@@ -1,94 +1,92 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3438.Find%20Valid%20Pair%20of%20Adjacent%20Digits%20in%20String/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3438.Find%20Valid%20Pair%20of%20Adjacent%20Digits%20in%20String/README_EN.md
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [3438. 找到字符串中合法的相邻数字](https://leetcode.cn/problems/find-valid-pair-of-adjacent-digits-in-string)
+# [3438. Find Valid Pair of Adjacent Digits in String](https://leetcode.com/problems/find-valid-pair-of-adjacent-digits-in-string)
 
-[English Version](/solution/3400-3499/3438.Find%20Valid%20Pair%20of%20Adjacent%20Digits%20in%20String/README_EN.md)
+[中文文档](/solution/3400-3499/3438.Find%20Valid%20Pair%20of%20Adjacent%20Digits%20in%20String/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个只包含数字的字符串&nbsp;<code>s</code>&nbsp;。如果 <code>s</code>&nbsp;中两个 <strong>相邻</strong>&nbsp;的数字满足以下条件，我们称它们是 <strong>合法的</strong>&nbsp;：</p>
+<p>You are given a string <code>s</code> consisting only of digits. A <strong>valid pair</strong> is defined as two <strong>adjacent</strong> digits in <code>s</code> such that:</p>
 
 <ul>
-	<li>前面的数字 <strong>不等于</strong> 第二个数字。</li>
-	<li>两个数字在 <code>s</code>&nbsp;中出现的次数 <strong>恰好</strong>&nbsp;分别等于这个数字本身。</li>
+	<li>The first digit is <strong>not equal</strong> to the second.</li>
+	<li>Each digit in the pair appears in <code>s</code> <strong>exactly</strong> as many times as its numeric value.</li>
 </ul>
 
-<p>请你从左到右遍历字符串 <code>s</code>&nbsp;，并返回最先找到的 <strong>合法</strong>&nbsp;相邻数字。如果这样的相邻数字不存在，请你返回一个空字符串。</p>
+<p>Return the first <strong>valid pair</strong> found in the string <code>s</code> when traversing from left to right. If no valid pair exists, return an empty string.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "2523533"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;2523533&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>"23"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;23&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>数字&nbsp;<code>'2'</code>&nbsp;出现 2 次，数字&nbsp;<code>'3'</code>&nbsp;出现 3 次。<code>"23"</code>&nbsp;中每个数字在 <code>s</code>&nbsp;中出现的次数都恰好分别等于数字本身。所以输出&nbsp;<code>"23"</code>&nbsp;。</p>
+<p>Digit <code>&#39;2&#39;</code> appears 2 times and digit <code>&#39;3&#39;</code> appears 3 times. Each digit in the pair <code>&quot;23&quot;</code> appears in <code>s</code> exactly as many times as its numeric value. Hence, the output is <code>&quot;23&quot;</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "221"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;221&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>"21"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;21&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>数字&nbsp;<code>'2'</code>&nbsp;出现 2 次，数字&nbsp;<code>'1'</code>&nbsp;出现 1 次。所以输出&nbsp;<code>"21"</code>&nbsp;。</p>
+<p>Digit <code>&#39;2&#39;</code> appears 2 times and digit <code>&#39;1&#39;</code> appears 1 time. Hence, the output is <code>&quot;21&quot;</code>.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "22"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;22&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>""</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>没有合法的相邻数字。</p>
+<p>There are no valid adjacent pairs.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code>&nbsp;只包含&nbsp;<code>'1'</code> 到&nbsp;<code>'9'</code> 的数字。</li>
+	<li><code>s</code> only consists of digits from <code>&#39;1&#39;</code> to <code>&#39;9&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以用一个长度为 $10$ 的数组 $\textit{cnt}$ 记录字符串 $\textit{s}$ 中每个数字出现的次数。
+We can use an array $\textit{cnt}$ of length $10$ to record the occurrences of each digit in the string $\textit{s}$.
 
-然后我们遍历字符串 $\textit{s}$ 中的相邻数字对，如果这两个数字不相等且满足这两个数字出现的次数分别等于这两个数字本身，我们就找到了一个合法的相邻数字对，返回即可。
+Then, we traverse the adjacent digit pairs in the string $\textit{s}$. If the two digits are not equal and the occurrences of these two digits are equal to the digits themselves, we have found a valid pair of adjacent digits and return it.
 
-遍历结束后，如果没有找到合法的相邻数字对，我们返回一个空字符串。
+After traversing, if no valid pair of adjacent digits is found, we return an empty string.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $\textit{s}$ 的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 为字符串 $\textit{s}$ 中出现的字符集，本题中 $\Sigma = \{1, 2, \ldots, 9\}$。
+The time complexity is $O(n)$, where $n$ is the length of the string $\textit{s}$. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the character set of the string $\textit{s}$. In this problem, $\Sigma = \{1, 2, \ldots, 9\}$.
 
 <!-- tabs:start -->
 

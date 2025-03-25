@@ -1,70 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3334.Find%20the%20Maximum%20Factor%20Score%20of%20Array/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3334.Find%20the%20Maximum%20Factor%20Score%20of%20Array/README_EN.md
 rating: 1518
-source: 第 421 场周赛 Q1
+source: Weekly Contest 421 Q1
 tags:
-    - 数组
-    - 数学
-    - 数论
+    - Array
+    - Math
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [3334. 数组的最大因子得分](https://leetcode.cn/problems/find-the-maximum-factor-score-of-array)
+# [3334. Find the Maximum Factor Score of Array](https://leetcode.com/problems/find-the-maximum-factor-score-of-array)
 
-[English Version](/solution/3300-3399/3334.Find%20the%20Maximum%20Factor%20Score%20of%20Array/README_EN.md)
+[中文文档](/solution/3300-3399/3334.Find%20the%20Maximum%20Factor%20Score%20of%20Array/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>。</p>
+<p>You are given an integer array <code>nums</code>.</p>
 
-<p><strong>因子得分 </strong>定义为数组所有元素的最小公倍数（LCM）与最大公约数（GCD）的<strong> 乘积</strong>。</p>
+<p>The <strong>factor score</strong> of an array is defined as the <em>product</em> of the LCM and GCD of all elements of that array.</p>
 
-<p>在 <strong>最多</strong> 移除一个元素的情况下，返回 <code>nums</code> 的<strong> 最大因子得分</strong>。</p>
+<p>Return the <strong>maximum factor score</strong> of <code>nums</code> after removing <strong>at most</strong> one element from it.</p>
 
-<p><strong>注意</strong>，单个数字的 <span data-keyword="lcm-function">LCM</span> 和 <span data-keyword="gcd-function">GCD</span> 都是其本身，而<strong> </strong><strong>空数组</strong> 的因子得分为 0。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [2,4,8,16]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">64</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>移除数字 2 后，剩余元素的 GCD 为 4，LCM 为 16，因此最大因子得分为 <code>4 * 16 = 64</code>。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,2,3,4,5]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">60</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>无需移除任何元素即可获得最大因子得分 60。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [3]</span></p>
-
-<p><strong>输出：</strong> 9</p>
-</div>
+<p><strong>Note</strong> that <em>both</em> the <span data-keyword="lcm-function">LCM</span> and <span data-keyword="gcd-function">GCD</span> of a single number are the number itself, and the <em>factor score</em> of an <strong>empty</strong> array is 0.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [2,4,8,16]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">64</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>On removing 2, the GCD of the rest of the elements is 4 while the LCM is 16, which gives a maximum factor score of <code>4 * 16 = 64</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4,5]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">60</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The maximum factor score of 60 can be obtained without removing any elements.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [3]</span></p>
+
+<p><strong>Output:</strong> 9</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -73,11 +71,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

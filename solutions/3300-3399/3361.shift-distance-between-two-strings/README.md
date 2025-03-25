@@ -1,92 +1,90 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3361.Shift%20Distance%20Between%20Two%20Strings/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3361.Shift%20Distance%20Between%20Two%20Strings/README_EN.md
 rating: 1553
-source: 第 144 场双周赛 Q2
+source: Biweekly Contest 144 Q2
 tags:
-    - 数组
-    - 字符串
-    - 前缀和
+    - Array
+    - String
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [3361. 两个字符串的切换距离](https://leetcode.cn/problems/shift-distance-between-two-strings)
+# [3361. Shift Distance Between Two Strings](https://leetcode.com/problems/shift-distance-between-two-strings)
 
-[English Version](/solution/3300-3399/3361.Shift%20Distance%20Between%20Two%20Strings/README_EN.md)
+[中文文档](/solution/3300-3399/3361.Shift%20Distance%20Between%20Two%20Strings/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个长度相同的字符串&nbsp;<code>s</code> 和&nbsp;<code>t</code>&nbsp;，以及两个整数数组&nbsp;<code>nextCost</code> 和&nbsp;<code>previousCost</code>&nbsp;。</p>
+<p>You are given two strings <code>s</code> and <code>t</code> of the same length, and two integer arrays <code>nextCost</code> and <code>previousCost</code>.</p>
 
-<p>一次操作中，你可以选择 <code>s</code>&nbsp;中的一个下标 <code>i</code>&nbsp;，执行以下操作 <strong>之一</strong>&nbsp;：</p>
+<p>In one operation, you can pick any index <code>i</code> of <code>s</code>, and perform <strong>either one</strong> of the following actions:</p>
 
 <ul>
-	<li>将&nbsp;<code>s[i]</code>&nbsp;切换为字母表中的下一个字母，如果&nbsp;<code>s[i] == 'z'</code>&nbsp;，切换后得到&nbsp;<code>'a'</code>&nbsp;。操作的代价为&nbsp;<code>nextCost[j]</code>&nbsp;，其中&nbsp;<code>j</code>&nbsp;表示&nbsp;<code>s[i]</code>&nbsp;在字母表中的下标。</li>
-	<li>将&nbsp;<code>s[i]</code>&nbsp;切换为字母表中的上一个字母，如果&nbsp;<code>s[i] == 'a'</code>&nbsp;，切换后得到&nbsp;<code>'z'</code>&nbsp;。操作的代价为&nbsp;<code>previousCost[j]</code>&nbsp;，其中&nbsp;<code>j</code> 是&nbsp;<code>s[i]</code>&nbsp;在字母表中的下标。</li>
+	<li>Shift <code>s[i]</code> to the next letter in the alphabet. If <code>s[i] == &#39;z&#39;</code>, you should replace it with <code>&#39;a&#39;</code>. This operation costs <code>nextCost[j]</code> where <code>j</code> is the index of <code>s[i]</code> in the alphabet.</li>
+	<li>Shift <code>s[i]</code> to the previous letter in the alphabet. If <code>s[i] == &#39;a&#39;</code>, you should replace it with <code>&#39;z&#39;</code>. This operation costs <code>previousCost[j]</code> where <code>j</code> is the index of <code>s[i]</code> in the alphabet.</li>
 </ul>
 
-<p><strong>切换距离</strong>&nbsp;指的是将字符串 <code>s</code>&nbsp;变为字符串 <code>t</code>&nbsp;的 <strong>最少</strong>&nbsp;操作代价总和。</p>
+<p>The <strong>shift distance</strong> is the <strong>minimum</strong> total cost of operations required to transform <code>s</code> into <code>t</code>.</p>
 
-<p>请你返回从 <code>s</code>&nbsp;到 <code>t</code>&nbsp;的 <strong>切换距离</strong>&nbsp;。</p>
+<p>Return the <strong>shift distance</strong> from <code>s</code> to <code>t</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "abab", t = "baba", nextCost = [100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], previousCost = [1,100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abab&quot;, t = &quot;baba&quot;, nextCost = [100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], previousCost = [1,100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]</span></p>
 
-<p><span class="example-io"><b>输出：</b>2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>选择下标&nbsp;<code>i = 0</code>&nbsp;并将&nbsp;<code>s[0]</code>&nbsp;向前切换 25 次，总代价为 1 。</li>
-	<li>选择下标&nbsp;<code>i = 1</code>&nbsp;并将&nbsp;<code>s[1]</code>&nbsp;向后切换 25 次，总代价为 0 。</li>
-	<li>选择下标&nbsp;<code>i = 2</code>&nbsp;并将&nbsp;<code>s[2]</code>&nbsp;向前切换 25 次，总代价为 1 。</li>
-	<li>选择下标&nbsp;<code>i = 3</code>&nbsp;并将&nbsp;<code>s[3]</code>&nbsp;向后切换 25 次，总代价为 0 。</li>
+	<li>We choose index <code>i = 0</code> and shift <code>s[0]</code> 25 times to the previous character for a total cost of 1.</li>
+	<li>We choose index <code>i = 1</code> and shift <code>s[1]</code> 25 times to the next character for a total cost of 0.</li>
+	<li>We choose index <code>i = 2</code> and shift <code>s[2]</code> 25 times to the previous character for a total cost of 1.</li>
+	<li>We choose index <code>i = 3</code> and shift <code>s[3]</code> 25 times to the next character for a total cost of 0.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "leet", t = "code", nextCost = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], previousCost = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;leet&quot;, t = &quot;code&quot;, nextCost = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], previousCost = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]</span></p>
 
-<p><span class="example-io"><b>输出：</b>31</span></p>
+<p><strong>Output:</strong> <span class="example-io">31</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>选择下标&nbsp;<code>i = 0</code>&nbsp;并将&nbsp;<code>s[0]</code>&nbsp;向前切换 9 次，总代价为 9 。</li>
-	<li>选择下标&nbsp;<code>i = 1</code>&nbsp;并将&nbsp;<code>s[1]</code>&nbsp;向后切换 10 次，总代价为 10 。</li>
-	<li>选择下标&nbsp;<code>i = 2</code> 并将&nbsp;<code>s[2]</code>&nbsp;向前切换 1 次，总代价为 1 。</li>
-	<li>选择下标 <code>i = 3</code> 并将&nbsp;<code>s[3]</code>&nbsp;向后切换 11 次，总代价为 11 。</li>
+	<li>We choose index <code>i = 0</code> and shift <code>s[0]</code> 9 times to the previous character for a total cost of 9.</li>
+	<li>We choose index <code>i = 1</code> and shift <code>s[1]</code> 10 times to the next character for a total cost of 10.</li>
+	<li>We choose index <code>i = 2</code> and shift <code>s[2]</code> 1 time to the previous character for a total cost of 1.</li>
+	<li>We choose index <code>i = 3</code> and shift <code>s[3]</code> 11 times to the next character for a total cost of 11.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length == t.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 和&nbsp;<code>t</code>&nbsp;都只包含小写英文字母。</li>
+	<li><code>s</code> and <code>t</code> consist only of lowercase English letters.</li>
 	<li><code>nextCost.length == previousCost.length == 26</code></li>
 	<li><code>0 &lt;= nextCost[i], previousCost[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

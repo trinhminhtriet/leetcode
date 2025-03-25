@@ -1,76 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3496.Maximize%20Score%20After%20Pair%20Deletions/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3496.Maximize%20Score%20After%20Pair%20Deletions/README_EN.md
 ---
 
 <!-- problem:start -->
 
-# [3496. 最大化配对删除后的得分 🔒](https://leetcode.cn/problems/maximize-score-after-pair-deletions)
+# [3496. Maximize Score After Pair Deletions 🔒](https://leetcode.com/problems/maximize-score-after-pair-deletions)
 
-[English Version](/solution/3400-3499/3496.Maximize%20Score%20After%20Pair%20Deletions/README_EN.md)
+[中文文档](/solution/3400-3499/3496.Maximize%20Score%20After%20Pair%20Deletions/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组&nbsp;<code>nums</code>。当数组中元素超过两个时，你 <strong>必须</strong> 重复执行以下操作中的一个：</p>
+<p>You are given an array of integers <code>nums</code>. You <strong>must</strong> repeatedly perform one of the following operations while the array has more than two elements:</p>
 
 <ul>
-	<li>删除最前面的两个元素。</li>
-	<li>删除最后面的两个元素。</li>
-	<li>删除第一和最后一个元素。</li>
+	<li>Remove the first two elements.</li>
+	<li>Remove the last two elements.</li>
+	<li>Remove the first and last element.</li>
 </ul>
 
-<p>对于每次操作，将移除的元素之和加到你的总分上。</p>
+<p>For each operation, add the sum of the removed elements to your total score.</p>
 
-<p>返回你可以达到的 <strong>最高</strong> 分数。</p>
+<p>Return the <strong>maximum</strong> possible score you can achieve.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [2,4,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,4,1]</span></p>
 
-<p><span class="example-io"><b>输出：</b>6</span></p>
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>可能的操作有：</p>
+<p>The possible operations are:</p>
 
 <ul>
-	<li>删除最前面的两个元素&nbsp;<code>(2 + 4) = 6</code>。剩余的数组是&nbsp;<code>[1]</code>。</li>
-	<li>删除最后面的两个元素&nbsp;<code>(4 + 1) = 5</code>。剩余的数组是 <code>[2]</code>。</li>
-	<li>删除第一个和最后一个元素&nbsp;<code>(2 + 1) = 3</code>。剩余的数组是 <code>[4]</code>。</li>
+	<li>Remove the first two elements <code>(2 + 4) = 6</code>. The remaining array is <code>[1]</code>.</li>
+	<li>Remove the last two elements <code>(4 + 1) = 5</code>. The remaining array is <code>[2]</code>.</li>
+	<li>Remove the first and last elements <code>(2 + 1) = 3</code>. The remaining array is <code>[4]</code>.</li>
 </ul>
 
-<p>通过删除最前面的两个元素可以得到最高分，因此最终分数是 6。</p>
+<p>The maximum score is obtained by removing the first two elements, resulting in a final score of 6.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [5,-1,4,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [5,-1,4,2]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">7</span></p>
+<p><strong>Output:</strong> <span class="example-io">7</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>可能的操作是：</p>
+<p>The possible operations are:</p>
 
 <ul>
-	<li>删除第一个和最后一个元素&nbsp;<code>(5 + 2) = 7</code>。剩余的数组是&nbsp;<code>[-1, 4]</code>。</li>
-	<li>删除最前面的两个元素 <code>(5 + -1) = 4</code>。剩余的数组是&nbsp;<code>[4, 2]</code>。</li>
-	<li>删除最后面的两个元素 <code>(4 + 2) = 6</code>。剩余的数组是&nbsp;<code>[5, -1]</code>。</li>
+	<li>Remove the first and last elements <code>(5 + 2) = 7</code>. The remaining array is <code>[-1, 4]</code>.</li>
+	<li>Remove the first two elements <code>(5 + -1) = 4</code>. The remaining array is <code>[4, 2]</code>.</li>
+	<li>Remove the last two elements <code>(4 + 2) = 6</code>. The remaining array is <code>[5, -1]</code>.</li>
 </ul>
 
-<p>通过删除第一个和最后一个元素可以得到最高分，因此最终分数是 7。</p>
+<p>The maximum score is obtained by removing the first and last elements, resulting in a total score of 7.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -79,19 +77,19 @@ edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3496.Ma
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：逆向思维
+### Solution 1: Reverse Thinking
 
-根据题目描述，每次操作会移除掉端点的两个元素。因此，当元素个数为奇数时，最终会剩下 1 个元素；当元素个数为偶数时，最终会剩下数组中的连续两个元素。
+According to the problem description, each operation removes the two elements at the endpoints. Therefore, when the number of elements is odd, one element will eventually remain; when the number of elements is even, two consecutive elements in the array will eventually remain.
 
-为了使得删除后的得分最大化，我们应该使得剩下的元素最小。
+To maximize the score after deletions, we should minimize the remaining elements.
 
-因此，如果数组 $\textit{nums}$ 元素个数为奇数，那么答案就是数组 $\textit{nums}$ 所有元素的总和 $s$，减去数组 $\textit{nums}$ 中的最小值 $\textit{mi}$；如果数组 $\textit{nums}$ 元素个数为偶数，那么答案就是数组 $\textit{nums}$ 所有元素的总和 $s$，减去数组连续两个元素之和的最小值。
+Thus, if the array $\textit{nums}$ has an odd number of elements, the answer is the sum of all elements $s$ in the array $\textit{nums}$ minus the minimum value $\textit{mi}$ in $\textit{nums}$; if the array $\textit{nums}$ has an even number of elements, the answer is the sum of all elements $s$ in the array $\textit{nums}$ minus the minimum sum of any two consecutive elements.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

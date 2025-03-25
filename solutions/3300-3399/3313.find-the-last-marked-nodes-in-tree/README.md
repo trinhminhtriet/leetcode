@@ -1,116 +1,114 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3313.Find%20the%20Last%20Marked%20Nodes%20in%20Tree/README.md
+difficulty: Hard
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3313.Find%20the%20Last%20Marked%20Nodes%20in%20Tree/README_EN.md
 tags:
-    - 树
-    - 深度优先搜索
+    - Tree
+    - Depth-First Search
 ---
 
 <!-- problem:start -->
 
-# [3313. 查找树中最后标记的节点 🔒](https://leetcode.cn/problems/find-the-last-marked-nodes-in-tree)
+# [3313. Find the Last Marked Nodes in Tree 🔒](https://leetcode.com/problems/find-the-last-marked-nodes-in-tree)
 
-[English Version](/solution/3300-3399/3313.Find%20the%20Last%20Marked%20Nodes%20in%20Tree/README_EN.md)
+[中文文档](/solution/3300-3399/3313.Find%20the%20Last%20Marked%20Nodes%20in%20Tree/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一棵有&nbsp;<code>n</code>&nbsp;个节点，编号从&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code> 的&nbsp;<strong>无向</strong> 树。给定一个长度为&nbsp;<code>n - 1</code>&nbsp;的整数数组&nbsp;<code>edges</code>，其中&nbsp;<code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code>&nbsp;表示树中的&nbsp;<code>u<sub>i</sub></code> 和&nbsp;<code>v<sub>i</sub></code>&nbsp;之间有一条边。</p>
+<p>There exists an <strong>undirected</strong> tree with <code>n</code> nodes numbered <code>0</code> to <code>n - 1</code>. You are given a 2D integer array <code>edges</code> of length <code>n - 1</code>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> indicates that there is an edge between nodes <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> in the tree.</p>
 
-<p>一开始，<strong>所有</strong>&nbsp;节点都 <b>未标记</b>。之后的每一秒，你需要标记所有 <strong>至少</strong>&nbsp;有一个已标记节点相邻的未标记节点。</p>
+<p>Initially, <strong>all</strong> nodes are <strong>unmarked</strong>. After every second, you mark all unmarked nodes which have <strong>at least</strong> one marked node <em>adjacent</em> to them.</p>
 
-<p>返回一个数组 <code>nodes</code>，表示在时刻 <code>t = 0</code> 标记了节点 <code>i</code>，那么树中最后标记的节点是 <code>nodes[i]</code>。如果对于任意节点&nbsp;<code>i</code>&nbsp;有多个&nbsp;<code>nodes[i]</code>，你可以选择 <strong>任意</strong>&nbsp;一个作为答案。</p>
+<p>Return an array <code>nodes</code> where <code>nodes[i]</code> is the last node to get marked in the tree, if you mark node <code>i</code> at time <code>t = 0</code>. If <code>nodes[i]</code> has <em>multiple</em> answers for any node <code>i</code>, you can choose<strong> any</strong> one answer.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>edges = [[0,1],[0,2]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">edges = [[0,1],[0,2]]</span></p>
 
-<p><b>输出：</b>[2,2,1]</p>
+<p><strong>Output:</strong> [2,2,1]</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3313.Find%20the%20Last%20Marked%20Nodes%20in%20Tree/images/screenshot-2024-06-02-122236.png" style="width: 450px; height: 217px;" /></p>
 
 <ul>
-	<li>对于&nbsp;<code>i = 0</code>，节点以如下序列标记：<code>[0] -&gt; [0,1,2]</code>。1 和 2 都可以是答案。</li>
-	<li>对于 <code>i = 1</code>，节点以如下序列标记：<code>[1] -&gt; [0,1] -&gt; [0,1,2]</code>。节点 2 最后被标记。</li>
-	<li>对于 <code>i = 2</code>，节点以如下序列标记：<code>[2] -&gt; [0,2] -&gt; [0,1,2]</code>。节点 1 最后被标记。</li>
+	<li>For <code>i = 0</code>, the nodes are marked in the sequence: <code>[0] -&gt; [0,1,2]</code>. Either 1 or 2 can be the answer.</li>
+	<li>For <code>i = 1</code>, the nodes are marked in the sequence: <code>[1] -&gt; [0,1] -&gt; [0,1,2]</code>. Node 2 is marked last.</li>
+	<li>For <code>i = 2</code>, the nodes are marked in the sequence: <code>[2] -&gt; [0,2] -&gt; [0,1,2]</code>. Node 1 is marked last.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>edges = [[0,1]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">edges = [[0,1]]</span></p>
 
-<p><b>输出：</b>[1,0]</p>
+<p><strong>Output:</strong> [1,0]</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3313.Find%20the%20Last%20Marked%20Nodes%20in%20Tree/images/screenshot-2024-06-02-122249.png" style="width: 350px; height: 180px;" /></p>
 
 <ul>
-	<li>对于&nbsp;<code>i = 0</code>，节点以如下序列被标记：<code>[0] -&gt; [0,1]</code>。</li>
-	<li>对于&nbsp;<code>i = 1</code>，节点以如下序列被标记：<code>[1] -&gt; [0,1]</code>。</li>
+	<li>For <code>i = 0</code>, the nodes are marked in the sequence: <code>[0] -&gt; [0,1]</code>.</li>
+	<li>For <code>i = 1</code>, the nodes are marked in the sequence: <code>[1] -&gt; [0,1]</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>edges = [[0,1],[0,2],[2,3],[2,4]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">edges = [[0,1],[0,2],[2,3],[2,4]]</span></p>
 
-<p><b>输出：</b>[3,3,1,1,1]</p>
+<p><strong>Output:</strong> [3,3,1,1,1]</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3313.Find%20the%20Last%20Marked%20Nodes%20in%20Tree/images/screenshot-2024-06-03-210550.png" style="height: 240px; width: 450px;" /></p>
 
 <ul>
-	<li>对于&nbsp;<code>i = 0</code>，节点以如下序列被标记：<code>[0] -&gt; [0,1,2] -&gt; [0,1,2,3,4]</code>。</li>
-	<li>对于 <code>i = 1</code>，节点以如下序列被标记：<code>[1] -&gt; [0,1] -&gt; [0,1,2] -&gt; [0,1,2,3,4]</code>。</li>
-	<li>对于 <code>i = 2</code>，节点以如下序列被标记：<code>[2] -&gt; [0,2,3,4] -&gt; [0,1,2,3,4]</code>。</li>
-	<li>对于 <code>i = 3</code>，节点以如下序列被标记：<code>[3] -&gt; [2,3] -&gt; [0,2,3,4] -&gt; [0,1,2,3,4]</code>。</li>
-	<li>对于 <code>i = 4</code>，节点以如下序列被标记：<code>[4] -&gt; [2,4] -&gt; [0,2,3,4] -&gt; [0,1,2,3,4]</code>。</li>
+	<li>For <code>i = 0</code>, the nodes are marked in the sequence: <code>[0] -&gt; [0,1,2] -&gt; [0,1,2,3,4]</code>.</li>
+	<li>For <code>i = 1</code>, the nodes are marked in the sequence: <code>[1] -&gt; [0,1] -&gt; [0,1,2] -&gt; [0,1,2,3,4]</code>.</li>
+	<li>For <code>i = 2</code>, the nodes are marked in the sequence: <code>[2] -&gt; [0,2,3,4] -&gt; [0,1,2,3,4]</code>.</li>
+	<li>For <code>i = 3</code>, the nodes are marked in the sequence: <code>[3] -&gt; [2,3] -&gt; [0,2,3,4] -&gt; [0,1,2,3,4]</code>.</li>
+	<li>For <code>i = 4</code>, the nodes are marked in the sequence: <code>[4] -&gt; [2,4] -&gt; [0,2,3,4] -&gt; [0,1,2,3,4]</code>.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= edges[i][0], edges[i][1] &lt;= n - 1</code></li>
-	<li>输入保证&nbsp;<code>edges</code>&nbsp;形成一棵合法的树。</li>
+	<li>The input is generated such that <code>edges</code> represents a valid tree.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：求树的直径 + DFS
+### Solution 1: Find the Diameter of the Tree + DFS
 
-根据题目描述，最后一个被标记的节点一定是树的直径的一个端点，因为树的直径上的节点到直径上的任意一个节点的距离最大。
+According to the problem description, the last marked node must be one endpoint of the tree's diameter, because the distance from any node on the diameter to any other node on the diameter is the greatest.
 
-我们可以从任意一个节点开始进行深度优先搜索，找到距离最远的节点 $a$，这个节点就是树的直径的一个端点。
+We can start a depth-first search (DFS) from any node to find the farthest node $a$, which is one endpoint of the tree's diameter.
 
-然后从节点 $a$ 开始进行深度优先搜索，找到距离最远的节点 $b$，这个节点就是树的直径的另一个端点，在这个过程中，我们计算出了每个节点到节点 $a$ 的距离，记为 $\textit{dist2}$。
+Then, starting from node $a$, we perform another depth-first search to find the farthest node $b$, which is the other endpoint of the tree's diameter. During this process, we calculate the distance from each node to node $a$, denoted as $\textit{dist2}$.
 
-接着从节点 $b$ 开始进行深度优先搜索，计算出每个节点到节点 $b$ 的距离，记为 $\textit{dist3}$。
+Next, we perform a depth-first search starting from node $b$ to calculate the distance from each node to node $b$, denoted as $\textit{dist3}$.
 
-那么，对于每一个节点 $i$，如果 $\textit{dist2}[i] > \textit{dist3}[i]$，那么节点 $a$ 到节点 $i$ 的距离更远，所以节点 $a$ 是最后一个被标记的节点；否则，节点 $b$ 是最后一个被标记的节点。
+For each node $i$, if $\textit{dist2}[i] > $\textit{dist3}[i]$, then the distance from node $a$ to node $i$ is greater, so node $a$ is the last marked node; otherwise, node $b$ is the last marked node.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是节点的数量。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

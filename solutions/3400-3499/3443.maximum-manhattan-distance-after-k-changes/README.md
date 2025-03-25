@@ -1,82 +1,79 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3443.Maximum%20Manhattan%20Distance%20After%20K%20Changes/README.md
+difficulty: Medium
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3443.Maximum%20Manhattan%20Distance%20After%20K%20Changes/README_EN.md
 tags:
-    - 哈希表
-    - 数学
-    - 字符串
-    - 计数
+    - Hash Table
+    - Math
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [3443. K 次修改后的最大曼哈顿距离](https://leetcode.cn/problems/maximum-manhattan-distance-after-k-changes)
+# [3443. Maximum Manhattan Distance After K Changes](https://leetcode.com/problems/maximum-manhattan-distance-after-k-changes)
 
-[English Version](/solution/3400-3499/3443.Maximum%20Manhattan%20Distance%20After%20K%20Changes/README_EN.md)
+[中文文档](/solution/3400-3499/3443.Maximum%20Manhattan%20Distance%20After%20K%20Changes/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由字符 <code>'N'</code>、<code>'S'</code>、<code>'E'</code> 和 <code>'W'</code> 组成的字符串 <code>s</code>，其中 <code>s[i]</code> 表示在无限网格中的移动操作：</p>
+<p>You are given a string <code>s</code> consisting of the characters <code>&#39;N&#39;</code>, <code>&#39;S&#39;</code>, <code>&#39;E&#39;</code>, and <code>&#39;W&#39;</code>, where <code>s[i]</code> indicates movements in an infinite grid:</p>
 
 <ul>
-	<li><code>'N'</code>：向北移动 1 个单位。</li>
-	<li><code>'S'</code>：向南移动 1 个单位。</li>
-	<li><code>'E'</code>：向东移动 1 个单位。</li>
-	<li><code>'W'</code>：向西移动 1 个单位。</li>
+	<li><code>&#39;N&#39;</code> : Move north by 1 unit.</li>
+	<li><code>&#39;S&#39;</code> : Move south by 1 unit.</li>
+	<li><code>&#39;E&#39;</code> : Move east by 1 unit.</li>
+	<li><code>&#39;W&#39;</code> : Move west by 1 unit.</li>
 </ul>
 
-<p>初始时，你位于原点 <code>(0, 0)</code>。你 <strong>最多</strong> 可以修改 <code>k</code> 个字符为任意四个方向之一。</p>
+<p>Initially, you are at the origin <code>(0, 0)</code>. You can change <strong>at most</strong> <code>k</code> characters to any of the four directions.</p>
 
-<p>请找出在 <strong>按顺序</strong> 执行所有移动操作过程中的 <strong>任意时刻</strong> ，所能达到的离原点的&nbsp;<strong>最大曼哈顿距离&nbsp;</strong>。</p>
-
-<p><strong>曼哈顿距离&nbsp;</strong>定义为两个坐标点 <code>(x<sub>i</sub>, y<sub>i</sub>)</code> 和 <code>(x<sub>j</sub>, y<sub>j</sub>)</code> 的横向距离绝对值与纵向距离绝对值之和，即 <code>|x<sub>i</sub> - x<sub>j</sub>| + |y<sub>i</sub> - y<sub>j</sub>|</code>。</p>
-
+<p>Find the <strong>maximum</strong> <strong>Manhattan distance</strong> from the origin that can be achieved <strong>at any time</strong> while performing the movements <strong>in order</strong>.</p>
+The <strong>Manhattan Distance</strong> between two cells <code>(x<sub>i</sub>, y<sub>i</sub>)</code> and <code>(x<sub>j</sub>, y<sub>j</sub>)</code> is <code>|x<sub>i</sub> - x<sub>j</sub>| + |y<sub>i</sub> - y<sub>j</sub>|</code>.
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "NWSE", k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;NWSE&quot;, k = 1</span></p>
 
-<p><span class="example-io"><b>输出：</b>3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>将&nbsp;<code>s[2]</code>&nbsp;从&nbsp;<code>'S'</code>&nbsp;改为&nbsp;<code>'N'</code> ，字符串&nbsp;<code>s</code>&nbsp;变为&nbsp;<code>"NWNE"</code> 。</p>
+<p>Change <code>s[2]</code> from <code>&#39;S&#39;</code> to <code>&#39;N&#39;</code>. The string <code>s</code> becomes <code>&quot;NWNE&quot;</code>.</p>
 
 <table style="border: 1px solid black;">
 	<thead>
 		<tr>
-			<th style="border: 1px solid black;">移动操作</th>
-			<th style="border: 1px solid black;">位置 (x, y)</th>
-			<th style="border: 1px solid black;">曼哈顿距离</th>
-			<th style="border: 1px solid black;">最大值</th>
+			<th style="border: 1px solid black;">Movement</th>
+			<th style="border: 1px solid black;">Position (x, y)</th>
+			<th style="border: 1px solid black;">Manhattan Distance</th>
+			<th style="border: 1px solid black;">Maximum</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td style="border: 1px solid black;">s[0] == 'N'</td>
+			<td style="border: 1px solid black;">s[0] == &#39;N&#39;</td>
 			<td style="border: 1px solid black;">(0, 1)</td>
 			<td style="border: 1px solid black;">0 + 1 = 1</td>
 			<td style="border: 1px solid black;">1</td>
 		</tr>
 		<tr>
-			<td style="border: 1px solid black;">s[1] == 'W'</td>
+			<td style="border: 1px solid black;">s[1] == &#39;W&#39;</td>
 			<td style="border: 1px solid black;">(-1, 1)</td>
 			<td style="border: 1px solid black;">1 + 1 = 2</td>
 			<td style="border: 1px solid black;">2</td>
 		</tr>
 		<tr>
-			<td style="border: 1px solid black;">s[2] == 'N'</td>
+			<td style="border: 1px solid black;">s[2] == &#39;N&#39;</td>
 			<td style="border: 1px solid black;">(-1, 2)</td>
 			<td style="border: 1px solid black;">1 + 2 = 3</td>
 			<td style="border: 1px solid black;">3</td>
 		</tr>
 		<tr>
-			<td style="border: 1px solid black;">s[3] == 'E'</td>
+			<td style="border: 1px solid black;">s[3] == &#39;E&#39;</td>
 			<td style="border: 1px solid black;">(0, 2)</td>
 			<td style="border: 1px solid black;">0 + 2 = 2</td>
 			<td style="border: 1px solid black;">3</td>
@@ -84,52 +81,51 @@ tags:
 	</tbody>
 </table>
 
-<p>执行移动操作过程中，距离原点的最大曼哈顿距离是 3 。</p>
+<p>The maximum Manhattan distance from the origin that can be achieved is 3. Hence, 3 is the output.</p>
 </div>
 
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "NSWWEW", k = 3</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;NSWWEW&quot;, k = 3</span></p>
 
-<p><span class="example-io"><b>输出：</b>6</span></p>
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>将&nbsp;<code>s[1]</code>&nbsp;从&nbsp;<code>'S'</code>&nbsp;改为&nbsp;<code>'N'</code> ，将&nbsp;<code>s[4]</code>&nbsp;从&nbsp;<code>'E'</code>&nbsp;改为&nbsp;<code>'W'</code> 。字符串&nbsp;<code>s</code>&nbsp;变为&nbsp;<code>"NNWWWW"</code>&nbsp;。</p>
+<p>Change <code>s[1]</code> from <code>&#39;S&#39;</code> to <code>&#39;N&#39;</code>, and <code>s[4]</code> from <code>&#39;E&#39;</code> to <code>&#39;W&#39;</code>. The string <code>s</code> becomes <code>&quot;NNWWWW&quot;</code>.</p>
 
-<p>执行移动操作过程中，距离原点的最大曼哈顿距离是 6&nbsp;。</p>
+<p>The maximum Manhattan distance from the origin that can be achieved is 6. Hence, 6 is the output.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= k &lt;= s.length</code></li>
-	<li><code>s</code>&nbsp;仅由&nbsp;<code>'N'</code>、<code>'S'</code>、<code>'E'</code>&nbsp;和&nbsp;<code>'W'</code> 。</li>
+	<li><code>s</code> consists of only <code>&#39;N&#39;</code>, <code>&#39;S&#39;</code>, <code>&#39;E&#39;</code>, and <code>&#39;W&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举 + 贪心
+### Solution 1: Enumeration + Greedy
 
-我们可以枚举四种情况，分别为 $\textit{SE}$, $\textit{SW}$, $\textit{NE}$, $\textit{NW}$，然后计算每种情况下的最大曼哈顿距离。
+We can enumerate four cases: $\textit{SE}$, $\textit{SW}$, $\textit{NE}$, and $\textit{NW}$, and then calculate the maximum Manhattan distance for each case.
 
-我们定义一个函数 $\text{calc}(a, b)$，用于计算最终生效方向为 $\textit{a}$ 和 $\textit{b}$ 时的最大曼哈顿距离。
+We define a function $\text{calc}(a, b)$ to calculate the maximum Manhattan distance when the effective directions are $\textit{a}$ and $\textit{b}$.
 
-我们定义变量 $\textit{mx}$ 用于记录当前的曼哈顿距离，定义 $\textit{cnt}$ 用于记录已经修改的次数，答案 $\textit{ans}$ 初始化为 $0$。
+We define a variable $\textit{mx}$ to record the current Manhattan distance, a variable $\textit{cnt}$ to record the number of changes made, and initialize the answer $\textit{ans}$ to $0$.
 
-遍历字符串 $\textit{s}$，如果当前字符为 $\textit{a}$ 或 $\textit{b}$，则 $\textit{mx}$ 加 $1$，否则如果 $\textit{cnt} < k$，则 $\textit{mx}$ 加 $1$，而 $\textit{cnt}$ 加 $1$，否则 $\textit{mx}$ 减 $1$。然后更新 $\textit{ans} = \max(\textit{ans}, \textit{mx})$。
+Traverse the string $\textit{s}$. If the current character is $\textit{a}$ or $\textit{b}$, increment $\textit{mx}$ by $1$. Otherwise, if $\textit{cnt} < k$, increment $\textit{mx}$ by $1$ and increment $\textit{cnt}$ by $1$. Otherwise, decrement $\textit{mx}$ by $1$. Then update $\textit{ans} = \max(\textit{ans}, \textit{mx})$.
 
-最后返回四种情况下的最大值。
+Finally, return the maximum value among the four cases.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $\textit{s}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $\textit{s}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

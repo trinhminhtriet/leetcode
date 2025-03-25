@@ -1,85 +1,81 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3396.Minimum%20Number%20of%20Operations%20to%20Make%20Elements%20in%20Array%20Distinct/README.md
+difficulty: Easy
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3396.Minimum%20Number%20of%20Operations%20to%20Make%20Elements%20in%20Array%20Distinct/README_EN.md
 rating: 1299
-source: 第 429 场周赛 Q1
+source: Weekly Contest 429 Q1
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [3396. 使数组元素互不相同所需的最少操作次数](https://leetcode.cn/problems/minimum-number-of-operations-to-make-elements-in-array-distinct)
+# [3396. Minimum Number of Operations to Make Elements in Array Distinct](https://leetcode.com/problems/minimum-number-of-operations-to-make-elements-in-array-distinct)
 
-[English Version](/solution/3300-3399/3396.Minimum%20Number%20of%20Operations%20to%20Make%20Elements%20in%20Array%20Distinct/README_EN.md)
+[中文文档](/solution/3300-3399/3396.Minimum%20Number%20of%20Operations%20to%20Make%20Elements%20in%20Array%20Distinct/README.md)
 
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>，你需要确保数组中的元素&nbsp;<strong>互不相同&nbsp;</strong>。为此，你可以执行以下操作任意次：</p>
+<p>You are given an integer array <code>nums</code>. You need to ensure that the elements in the array are <strong>distinct</strong>. To achieve this, you can perform the following operation any number of times:</p>
 
 <ul>
-	<li>从数组的开头移除 3 个元素。如果数组中元素少于 3 个，则移除所有剩余元素。</li>
+	<li>Remove 3 elements from the beginning of the array. If the array has fewer than 3 elements, remove all remaining elements.</li>
 </ul>
 
-<p><strong>注意：</strong>空数组也视作为数组元素互不相同。返回使数组元素互不相同所需的&nbsp;<strong>最少操作次数&nbsp;</strong>。<!-- notionvc: 210ee4f2-90af-4cdf-8dbc-96d1fa8f67c7 --></p>
+<p><strong>Note</strong> that an empty array is considered to have distinct elements. Return the <strong>minimum</strong> number of operations needed to make the elements in the array distinct.<!-- notionvc: 210ee4f2-90af-4cdf-8dbc-96d1fa8f67c7 --></p>
 
 <p>&nbsp;</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,2,3,4,2,3,3,5,7]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4,2,3,3,5,7]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>第一次操作：移除前 3 个元素，数组变为 <code>[4, 2, 3, 3, 5, 7]</code>。</li>
-	<li>第二次操作：再次移除前 3 个元素，数组变为 <code>[3, 5, 7]</code>，此时数组中的元素互不相同。</li>
+	<li>In the first operation, the first 3 elements are removed, resulting in the array <code>[4, 2, 3, 3, 5, 7]</code>.</li>
+	<li>In the second operation, the next 3 elements are removed, resulting in the array <code>[3, 5, 7]</code>, which has distinct elements.</li>
 </ul>
 
-<p>因此，答案是 2。</p>
+<p>Therefore, the answer is 2.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [4,5,6,4,4]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [4,5,6,4,4]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">2</span></p>
+<p><strong>Output:</strong> 2</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>第一次操作：移除前 3 个元素，数组变为 <code>[4, 4]</code>。</li>
-	<li>第二次操作：移除所有剩余元素，数组变为空。</li>
+	<li>In the first operation, the first 3 elements are removed, resulting in the array <code>[4, 4]</code>.</li>
+	<li>In the second operation, all remaining elements are removed, resulting in an empty array.</li>
 </ul>
 
-<p>因此，答案是 2。</p>
+<p>Therefore, the answer is 2.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [6,7,8,9]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [6,7,8,9]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>数组中的元素已经互不相同，因此不需要进行任何操作，答案是 0。</p>
+<p>The array already contains distinct elements. Therefore, the answer is 0.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -88,17 +84,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 倒序遍历
+### Solution 1: Hash Table + Reverse Traversal
 
-我们可以倒序遍历数组 $\textit{nums}$，并使用哈希表 $\textit{s}$ 记录已经遍历过的元素。当遍历到元素 $\textit{nums}[i]$ 时，如果 $\textit{nums}[i]$ 已经在哈希表 $\textit{s}$ 中，那么说明我们需要移除 $\textit{nums}[0..i]$ 的所有元素，需要的操作次数为 $\left\lfloor \frac{i}{3} \right\rfloor + 1$。否则，我们将 $\textit{nums}[i]$ 加入哈希表 $\textit{s}$ 中，并继续遍历下一个元素。
+We can traverse the array $\textit{nums}$ in reverse order and use a hash table $\textit{s}$ to record the elements that have already been traversed. When we encounter an element $\textit{nums}[i]$, if $\textit{nums}[i]$ is already in the hash table $\textit{s}$, it means we need to remove all elements from $\textit{nums}[0..i]$. The number of operations required is $\left\lfloor \frac{i}{3} \right\rfloor + 1$. Otherwise, we add $\textit{nums}[i]$ to the hash table $\textit{s}$ and continue to the next element.
 
-遍历结束后，如果没有找到重复的元素，那么数组中的元素已经互不相同，不需要进行任何操作，答案为 $0$。
+After traversing, if no duplicate elements are found, the elements in the array are already distinct, and no operations are needed, so the answer is $0$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 
