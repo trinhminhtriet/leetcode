@@ -6,7 +6,7 @@ from config.config import LeetCodeConfig
 from typing import Optional
 
 
-class LeetCodeAPIService:
+class LeetCodeApiSolution:
     """Handles interactions with LeetCode API."""
 
     def __init__(self):

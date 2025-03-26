@@ -3,7 +3,7 @@ import logging
 from typing import Dict, Optional
 from config.config import LeetCodeConfig
 from services.database import DatabaseService
-from services.leetcode_api import LeetCodeAPIService
+from tools.leetcode_solver.services.leetcode_api_solution import LeetCodeApiSolution
 from models.models import LeetcodeQuestion
 from utils.utils import get_folder_path  # Assuming this exists
 
@@ -14,7 +14,7 @@ class LeetCodeProblemSolver:
     def __init__(self):
         self.config = LeetCodeConfig()
         self.db_service = DatabaseService()
-        self.api_service = LeetCodeAPIService()
+        self.api_service = LeetCodeApiSolution()
 
     def get_question_by_frontend_id(self, frontend_question_id: int) -> Optional[LeetcodeQuestion]:
         """Retrieve question entity from database by frontend_question_id."""
