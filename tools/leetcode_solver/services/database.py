@@ -22,16 +22,21 @@ class DatabaseService:
         """Upsert solution into database."""
         from models.models import LeetcodeSolution
 
-        solution_entity = self.session.query(LeetcodeSolution).filter(
-            LeetcodeSolution.question_id == question.question_id,
-            LeetcodeSolution.lang == lang
-        ).first()
+        solution_entity = (
+            self.session.query(LeetcodeSolution)
+            .filter(
+                LeetcodeSolution.question_id == question.question_id,
+                LeetcodeSolution.lang == lang,
+            )
+            .first()
+        )
 
         if solution_entity:
             solution_entity.solution = solution
             solution_entity.updated_at = func.now()
             logging.info(
-                f"[{question.frontend_question_id}] Updated solution in {lang}")
+                f"[{question.frontend_question_id}] Updated solution in {lang}"
+            )
         else:
             solution_entity = LeetcodeSolution(
                 question_id=question.question_id,
@@ -41,11 +46,12 @@ class DatabaseService:
                 solution=solution,
                 created_at=func.now(),
                 updated_at=func.now(),
-                published_at=func.now()
+                published_at=func.now(),
             )
             self.session.add(solution_entity)
             logging.info(
-                f"[{question.frontend_question_id}] Stored new solution in {lang}")
+                f"[{question.frontend_question_id}] Stored new solution in {lang}"
+            )
 
         self.session.commit()
 
@@ -64,8 +70,50 @@ class DatabaseService:
             submitted_by=LeetCodeConfig.STRAPI_USERNAME,
             submitted_at=func.now(),
             created_at=func.now(),
-            updated_at=func.now()
+            updated_at=func.now(),
         )
         self.session.add(submission)
         self.session.commit()
         logging.info(f"[{question.frontend_question_id}] Submission saved")
+
+    def upsert_question(self, question_data: dict, content: str) -> None:
+        from models.models import LeetcodeQuestion
+
+        """Upsert a question into the database."""
+        session = self.session
+        question_id = question_data["stat"]["question_id"]
+
+        question_entity = (
+            session.query(LeetcodeQuestion)
+            .filter(LeetcodeQuestion.question_id == question_id)
+            .first()
+        )
+
+        if question_entity:
+            question_entity.frontend_question_id = question_data["stat"][
+                "frontend_question_id"
+            ]
+            question_entity.title = question_data["stat"]["question__title"]
+            question_entity.slug = question_data["stat"]["question__title_slug"]
+            question_entity.content = content
+            question_entity.difficulty_level = question_data["difficulty"]["level"]
+            question_entity.updated_at = func.now()
+            logging.info(f"[{question_entity.frontend_question_id}] Updated question")
+        else:
+            question_entity = LeetcodeQuestion(
+                question_id=question_id,
+                frontend_question_id=question_data["stat"]["frontend_question_id"],
+                title=question_data["stat"]["question__title"],
+                slug=question_data["stat"]["question__title_slug"],
+                content=content,
+                difficulty_level=question_data["difficulty"]["level"],
+                created_at=func.now(),
+                updated_at=func.now(),
+                published_at=func.now(),
+            )
+            session.add(question_entity)
+            logging.info(
+                f"[{question_entity.frontend_question_id}] Stored new question"
+            )
+
+        session.commit()

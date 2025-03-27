@@ -5,7 +5,7 @@ Base = declarative_base()
 
 
 class LeetcodeQuestion(Base):
-    __tablename__ = 'leetcode_questions'
+    __tablename__ = "leetcode_questions"
     question_id = Column(Integer, primary_key=True)
     frontend_question_id = Column(Integer)
     title = Column(String)
@@ -20,7 +20,7 @@ class LeetcodeQuestion(Base):
 
 
 class LeetcodeSolution(Base):
-    __tablename__ = 'leetcode_solutions'
+    __tablename__ = "leetcode_solutions"
     id = Column(Integer, primary_key=True, autoincrement=True)
     question_id = Column(Integer)
     frontend_question_id = Column(Integer)
@@ -33,7 +33,7 @@ class LeetcodeSolution(Base):
 
 
 class LeetcodeSubmission(Base):
-    __tablename__ = 'leetcode_submissions'
+    __tablename__ = "leetcode_submissions"
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(String)
     question_id = Column(Integer)

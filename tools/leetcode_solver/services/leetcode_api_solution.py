@@ -26,7 +26,7 @@ class LeetCodeApiSolution:
         payload = {
             "question_id": question.question_id,
             "lang": lang,
-            "typed_code": solution
+            "typed_code": solution,
         }
 
         response = self.session.post(url, json=payload)
@@ -36,20 +36,21 @@ class LeetCodeApiSolution:
             return None
         elif response.status_code != 200:
             logging.error(
-                f"[{frontend_id}] Submission failed with status: {response.status_code}")
+                f"[{frontend_id}] Submission failed with status: {response.status_code}"
+            )
             return None
 
         try:
-            submission_id = response.json().get('submission_id')
+            submission_id = response.json().get("submission_id")
             if submission_id:
                 logging.info(
-                    f"[{frontend_id}] Submitted successfully, ID: {submission_id}")
+                    f"[{frontend_id}] Submitted successfully, ID: {submission_id}"
+                )
                 return submission_id
             logging.error(f"[{frontend_id}] No submission ID in response")
             return None
         except json.JSONDecodeError:
-            logging.error(
-                f"[{frontend_id}] Failed to parse submission response")
+            logging.error(f"[{frontend_id}] Failed to parse submission response")
             return None
 
     def check_submission(self, submission_id: str, frontend_id: int) -> bool:
@@ -62,13 +63,13 @@ class LeetCodeApiSolution:
         if response.status_code == 200:
             try:
                 result = response.json()
-                status = result.get('status_msg')
+                status = result.get("status_msg")
                 logging.info(f"[{frontend_id}] Submission status: {status}")
                 return status == "Accepted"
             except json.JSONDecodeError:
-                logging.error(
-                    f"[{frontend_id}] Failed to parse check response")
+                logging.error(f"[{frontend_id}] Failed to parse check response")
                 return False
         logging.error(
-            f"[{frontend_id}] Check failed with status: {response.status_code}")
+            f"[{frontend_id}] Check failed with status: {response.status_code}"
+        )
         return False

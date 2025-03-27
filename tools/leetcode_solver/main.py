@@ -2,13 +2,14 @@ import logging
 from cmd.problem_solver import LeetCodeProblemSolver
 
 # Setup logging
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 def main():
     solver = LeetCodeProblemSolver()
-    frontend_question_id = 4
+    frontend_question_id = 2780
     success = solver.solve_by_frontend_question_id(frontend_question_id)
     if success:
         logging.info(f"Problem {frontend_question_id} solved successfully")
