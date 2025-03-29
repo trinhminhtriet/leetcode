@@ -1,11 +1,15 @@
-import os
 import logging
 from typing import Dict, Optional
 from config.config import LeetCodeConfig
-from services.database import DatabaseService
-from services.leetcode_api_solution import LeetCodeApiSolution
+from services.database.question import QuestionDatabaseService
+from services.database.solution import SolutionDatabaseService
+from services.database.submission import SubmissionDatabaseService
+from services.api.submit_solution import SubmitSolutionAPIService
+from services.api.check_submission import CheckSubmissionAPIService
+from services.file.json_manager import JsonFileManager
+from services.file.html_manager import HtmlFileManager
 from models.models import LeetcodeQuestion, LeetcodeSolution
-from utils.utils import get_folder_path
+import os
 
 
 class LeetCodeProblemSolver:
@@ -13,14 +17,19 @@ class LeetCodeProblemSolver:
 
     def __init__(self):
         self.config = LeetCodeConfig()
-        self.db_service = DatabaseService()
-        self.api_service = LeetCodeApiSolution()
+        self.question_db = QuestionDatabaseService()
+        self.solution_db = SolutionDatabaseService()
+        self.submission_db = SubmissionDatabaseService()
+        self.submit_service = SubmitSolutionAPIService()
+        self.check_service = CheckSubmissionAPIService()
+        self.json_manager = JsonFileManager()
+        self.html_manager = HtmlFileManager()
 
     def get_question_by_frontend_id(
         self, frontend_question_id: int
     ) -> Optional[LeetcodeQuestion]:
         """Retrieve question entity from database by frontend_question_id."""
-        session = self.db_service.get_session()
+        session = self.question_db.get_session()
         question = (
             session.query(LeetcodeQuestion)
             .filter(LeetcodeQuestion.frontend_question_id == frontend_question_id)
@@ -37,7 +46,7 @@ class LeetCodeProblemSolver:
         solutions = {}
         frontend_id = question.frontend_question_id
         slug = question.slug
-        folder_path = get_folder_path(frontend_id, slug)
+        folder_path = self._get_folder_path(frontend_id, slug)
 
         if not os.path.exists(folder_path):
             logging.warning(f"[{frontend_id}] Solution folder not found: {folder_path}")
@@ -48,9 +57,15 @@ class LeetCodeProblemSolver:
             if os.path.exists(solution_file):
                 with open(solution_file, "r", encoding="utf-8") as file:
                     solutions[lang] = file.read()
-                self.db_service.upsert_solution(question, lang, solutions[lang])
+                self.solution_db.upsert_solution(question, lang, solutions[lang])
                 logging.info(f"[{frontend_id}] Found solution in {lang}")
         return solutions
+
+    def _get_folder_path(self, frontend_id: int, slug: str) -> str:
+        """Generate folder path for solutions (simplified assumption)."""
+        start = (frontend_id // 100) * 100
+        end = start + 99
+        return f"../../solutions/{start:04d}-{end:04d}/{frontend_id:04d}.{slug}"
 
     def solve_by_frontend_question_id(self, frontend_question_id: int) -> bool:
         """Solve a problem by frontend_question_id."""
@@ -67,7 +82,6 @@ class LeetCodeProblemSolver:
             logging.error(f"[{frontend_question_id}] No solutions found")
             return False
 
-        # Try solutions in preferred language first, then others
         langs_to_try = [self.config.MAIN_LANGUAGE] + [
             lang for lang in solutions.keys() if lang != self.config.MAIN_LANGUAGE
         ]
@@ -78,18 +92,19 @@ class LeetCodeProblemSolver:
 
             logging.info(f"[{frontend_question_id}] Attempting solution in {lang}")
             solution = solutions[lang]
-            submission_id = self.api_service.submit_solution(question, lang, solution)
+            submission_id = self.submit_service.submit_solution(
+                question, lang, solution
+            )
 
-            if submission_id and self.api_service.check_submission(
+            if submission_id and self.check_service.check_submission(
                 submission_id, frontend_question_id
             ):
-                self.db_service.save_submission(question, lang, solution)
+                self.submission_db.save_submission(question, lang, solution)
                 logging.info(f"[{frontend_question_id}] Successfully solved in {lang}")
                 return True
             else:
                 logging.warning(f"[{frontend_question_id}] Solution in {lang} failed")
-                # Remove failed solution from database
-                session = self.db_service.get_session()
+                session = self.solution_db.get_session()
                 failed_solution = (
                     session.query(LeetcodeSolution)
                     .filter(

@@ -1,28 +1,19 @@
-import requests
-import time
 import json
 import logging
-from config.config import LeetCodeConfig
 from typing import Optional
+from services.api.base import LeetCodeAPIBaseService
 
 
-class LeetCodeApiSolution:
-    """Handles interactions with LeetCode API."""
-
-    def __init__(self):
-        self.config = LeetCodeConfig()
-        self.session = requests.Session()
-        self.session.headers.update(self.config.DEFAULT_HEADERS)
+class SubmitSolutionAPIService(LeetCodeAPIBaseService):
+    """Service to submit a solution to LeetCode."""
 
     def submit_solution(self, question, lang: str, solution: str) -> Optional[str]:
-        """Submit a solution to LeetCode and return submission ID if successful."""
+        """Submit a solution and return submission ID if successful."""
         frontend_id = question.frontend_question_id
         slug = question.slug
         url = f"{self.config.BASE_URL}/problems/{slug}/submit/"
 
         self.session.headers["Referer"] = f"{self.config.BASE_URL}/problems/{slug}/"
-        self.session.headers.update(self.session.headers)
-
         payload = {
             "question_id": question.question_id,
             "lang": lang,
@@ -52,24 +43,3 @@ class LeetCodeApiSolution:
         except json.JSONDecodeError:
             logging.error(f"[{frontend_id}] Failed to parse submission response")
             return None
-
-    def check_submission(self, submission_id: str, frontend_id: int) -> bool:
-        """Check submission status and return True if accepted."""
-        check_url = f"{self.config.BASE_URL}/submissions/detail/{submission_id}/check/"
-
-        time.sleep(10)  # Wait for LeetCode to process
-        response = self.session.get(check_url)
-
-        if response.status_code == 200:
-            try:
-                result = response.json()
-                status = result.get("status_msg")
-                logging.info(f"[{frontend_id}] Submission status: {status}")
-                return status == "Accepted"
-            except json.JSONDecodeError:
-                logging.error(f"[{frontend_id}] Failed to parse check response")
-                return False
-        logging.error(
-            f"[{frontend_id}] Check failed with status: {response.status_code}"
-        )
-        return False
