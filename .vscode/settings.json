@@ -1,4 +1,5 @@
 {
   "editor.indentSize": 2,
-  "editor.formatOnSave": true
+  "editor.wordWrap": "off",
+  "editor.formatOnSave": false
 }
