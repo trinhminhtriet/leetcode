@@ -1,49 +1,71 @@
+import java.util.*;
+
 class Solution {
     public boolean[] findAnswer(int n, int[][] edges) {
-        List<int[]>[] g = new List[n];
-        Arrays.setAll(g, k -> new ArrayList<>());
-        int m = edges.length;
-        for (int i = 0; i < m; ++i) {
-            int a = edges[i][0], b = edges[i][1], w = edges[i][2];
-            g[a].add(new int[] {b, w, i});
-            g[b].add(new int[] {a, w, i});
+        boolean[] res = new boolean[edges.length];
+        boolean[] visited = new boolean[n];
+
+        List<List<int[]>> al = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            al.add(new ArrayList<>());
         }
+
+        for (int i = 0; i < edges.length; i++) {
+            int[] edge = edges[i];
+            al.get(edge[0]).add(new int[]{edge[1], i});
+            al.get(edge[1]).add(new int[]{edge[0], i});
+        }
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
         int[] dist = new int[n];
-        final int inf = 1 << 30;
-        Arrays.fill(dist, inf);
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        pq.offer(new int[]{0, 0});
         dist[0] = 0;
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-        pq.offer(new int[] {0, 0});
+
         while (!pq.isEmpty()) {
-            var p = pq.poll();
-            int da = p[0], a = p[1];
-            if (da > dist[a]) {
-                continue;
-            }
-            for (var e : g[a]) {
-                int b = e[0], w = e[1];
-                if (dist[b] > dist[a] + w) {
-                    dist[b] = dist[a] + w;
-                    pq.offer(new int[] {dist[b], b});
+            int[] current = pq.poll();
+            int d = current[0];
+            int u = current[1];
+
+            if (d > dist[u]) continue;
+
+            for (int[] neighbor : al.get(u)) {
+                int v = neighbor[0];
+                int e = neighbor[1];
+                int newDist = d + edges[e][2];
+                if (newDist < dist[v]) {
+                    dist[v] = newDist;
+                    pq.offer(new int[]{dist[v], v});
                 }
             }
         }
-        boolean[] ans = new boolean[m];
-        if (dist[n - 1] == inf) {
-            return ans;
+
+        if (dist[n - 1] == Integer.MAX_VALUE) {
+            return res;
         }
-        Deque<Integer> q = new ArrayDeque<>();
-        q.offer(n - 1);
-        while (!q.isEmpty()) {
-            int a = q.poll();
-            for (var e : g[a]) {
-                int b = e[0], w = e[1], i = e[2];
-                if (dist[a] == dist[b] + w) {
-                    ans[i] = true;
-                    q.offer(b);
+
+        pq = new PriorityQueue<>((a, b) -> b[0] - a[0]);
+        pq.offer(new int[]{dist[n - 1], n - 1});
+        visited[n - 1] = true;
+
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int d = current[0];
+            int u = current[1];
+
+            for (int[] neighbor : al.get(u)) {
+                int v = neighbor[0];
+                int e = neighbor[1];
+                if (d - edges[e][2] == dist[v]) {
+                    res[e] = true;
+                    if (!visited[v]) {
+                        visited[v] = true;
+                        pq.offer(new int[]{dist[v], v});
+                    }
                 }
             }
         }
-        return ans;
+
+        return res;
     }
 }
