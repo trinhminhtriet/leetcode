@@ -4,7 +4,7 @@ class Solution:
         r = min(k, r)
 
         c1 = r
-        
+
         c2_elements = k - r if l >= k - r else l
         c2 = r * c2_elements
 
@@ -26,8 +26,8 @@ class Solution:
                 val = arr[poppedInd]
                 leftCertainInd = monotonic_stack[-1] + 1 if monotonic_stack else 0
                 left_sub_array = (poppedInd + 1 - leftCertainInd)
-                right_sub_array = ind  - poppedInd 
-                
+                right_sub_array = ind  - poppedInd
+
                 ans += self.find_number_of_subarrays(left_sub_array, right_sub_array, k) * arr[poppedInd]
 
             monotonic_stack.append(ind)
@@ -37,10 +37,10 @@ class Solution:
             val = arr[poppedInd]
             leftCertainInd = monotonic_stack[-1] + 1 if monotonic_stack else 0
             left_sub_array = (poppedInd + 1 - leftCertainInd)
-            right_sub_array = len(arr)  - poppedInd 
-            
+            right_sub_array = len(arr)  - poppedInd
+
             ans += self.find_number_of_subarrays(left_sub_array, right_sub_array, k) * arr[poppedInd]
-        
+
         return ans
 
     def minMaxSubarraySum(self, arr: List[int], k: int) -> int:
