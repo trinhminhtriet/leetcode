@@ -34,7 +34,9 @@ class LeetCodeSolutionController:
 
     def solve_by_submmitted_language(self, submitted_by: str, lang: str):
         questions = self.question_repo.find_by_submmitted_language(
-            submitted_by=submitted_by, lang=lang, limit=10
+            submitted_by=submitted_by,
+            lang=lang,
+            limit=400
         )
 
         if not questions:

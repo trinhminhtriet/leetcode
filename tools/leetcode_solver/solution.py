@@ -11,7 +11,6 @@ def solve_by_submmitted_language():
     ctl = LeetCodeSolutionController()
     ctl.solve_by_submmitted_language(submitted_by="trinhminhtriet", lang="java")
 
-
 def solve_daily_question():
     ctl = LeetCodeSolutionController()
     ctl.solve_daily_question()
@@ -26,4 +25,4 @@ def get_unsolved_questions():
     ctl.get_unsolved_questions(submitted_by="trinhminhtriet", limit=100)
 
 if __name__ == "__main__":
-    get_unsolved_questions()
+    solve_by_submmitted_language()
