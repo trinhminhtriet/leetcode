@@ -6,8 +6,6 @@ from services.database.solution import SolutionDatabaseService
 from services.database.submission import SubmissionDatabaseService
 from services.api.submit_solution import SubmitSolutionAPIService
 from services.api.check_submission import CheckSubmissionAPIService
-from services.file.json_manager import JsonFileManager
-from services.file.html_manager import HtmlFileManager
 from models.models import LeetcodeQuestion, LeetcodeSolution
 import os
 
@@ -22,8 +20,6 @@ class LeetCodeProblemSolver:
         self.submission_db = SubmissionDatabaseService()
         self.submit_service = SubmitSolutionAPIService()
         self.check_service = CheckSubmissionAPIService()
-        self.json_manager = JsonFileManager()
-        self.html_manager = HtmlFileManager()
 
     def get_question_by_frontend_id(
         self, frontend_question_id: int
@@ -124,3 +120,44 @@ class LeetCodeProblemSolver:
             f"[{frontend_question_id}] Failed to solve with any available solution"
         )
         return False
+
+    def solve_by_frontend_question_ids(self, frontend_question_ids: list[int]) -> bool:
+        """Solve problems by a list of frontend_question_ids."""
+        logging.info(
+            f"Attempting to solve problems with frontend_question_ids: {frontend_question_ids}"
+        )
+
+        for frontend_question_id in frontend_question_ids:
+            if not self.solve_by_frontend_question_id(frontend_question_id):
+                logging.error(
+                    f"Failed to solve problem with frontend_question_id: {frontend_question_id}"
+                )
+        logging.info(
+            f"Finished attempting to solve problems with frontend_question_ids: {frontend_question_ids}"
+        )
+        return True
+
+    def solve_by_difficulty(self, difficulty: str):
+        """Solve problems by difficulty level."""
+        logging.info(f"Attempting to solve problems with difficulty: {difficulty}")
+
+        session = self.question_db.get_session()
+        questions = (
+            session.query(LeetcodeQuestion)
+            .filter(LeetcodeQuestion.difficulty_level == difficulty)
+            .all()
+        )
+
+        if not questions:
+            logging.error(f"No questions found with difficulty: {difficulty}")
+            return False
+
+        for question in questions:
+            if not self.solve_by_frontend_question_id(question.frontend_question_id):
+                logging.error(
+                    f"Failed to solve problem with frontend_question_id: {question.frontend_question_id}"
+                )
+        logging.info(
+            f"Finished attempting to solve problems with difficulty: {difficulty}"
+        )
+        return True
