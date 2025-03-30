@@ -7,7 +7,7 @@ from typing import List, Dict
 class ReadMeFileManager:
     """Recursively manages solution files in subfolders, handling README file operations."""
 
-    def __init__(self, base_dir: str = "solutions"):
+    def __init__(self, base_dir: str = "../solutions"):
         """Initialize with base directory and setup logging."""
         self.base_dir = Path(base_dir)
         self.setup_logging()
