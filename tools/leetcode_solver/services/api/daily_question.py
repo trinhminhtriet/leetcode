@@ -61,7 +61,8 @@ class DailyQuestionAPIService(LeetCodeAPIBaseService):
                 logging.info(f"Daily question frontend ID: {frontend_id}")
                 return frontend_id
             else:
-                logging.info("Daily question already started or completed")
+                frontend_id = daily_data["question"]["frontendQuestionId"]
+                logging.warning(f"Daily question [{frontend_id}] already started or completed")
                 return None
         except (json.JSONDecodeError, KeyError) as e:
             logging.error(f"Error processing daily question response: {e}")

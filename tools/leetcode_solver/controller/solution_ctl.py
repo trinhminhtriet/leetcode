@@ -3,7 +3,7 @@ from typing import List
 from models.models import LeetcodeQuestion
 from repository.question import LeetCodeQuestionRepository
 from solver.problem_solver import LeetCodeProblemSolver
-
+from services.api.daily_question import DailyQuestionAPIService
 
 class LeetCodeSolutionController:
     def __init__(self):
@@ -29,7 +29,7 @@ class LeetCodeSolutionController:
                 question.frontend_question_id
             )
 
-    def find_by_submmitted_language(self, submitted_by: str, lang: str):
+    def solve_by_submmitted_language(self, submitted_by: str, lang: str):
         questions = self.question_repo.find_by_submmitted_language(
             submitted_by=submitted_by, lang=lang, limit=10
         )
@@ -39,3 +39,9 @@ class LeetCodeSolutionController:
             return
 
         self.solve_questions(questions=questions)
+
+    def solve_daily_question(self):
+        svc = DailyQuestionAPIService()
+        fronted_question_id = svc.get_daily_question()
+        if fronted_question_id:
+            self.solution_solver.solve_by_frontend_question_id(fronted_question_id)

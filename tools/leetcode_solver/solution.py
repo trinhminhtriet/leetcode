@@ -7,10 +7,13 @@ logging.basicConfig(
 )
 
 
-def main():
+def find_by_submmitted_language():
     ctl = LeetCodeSolutionController()
     ctl.find_by_submmitted_language("trinhminhtriet", "java")
 
+def solve_daily_question():
+    ctl = LeetCodeSolutionController()
+    ctl.solve_daily_question()
 
 if __name__ == "__main__":
-    main()
+    solve_daily_question()
