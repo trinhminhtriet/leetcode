@@ -12,6 +12,19 @@ class LeetCodeQuestionRepository:
         self.config = LeetCodeConfig()
         self.question_db = QuestionDatabaseService()
 
+    def get_by_frontend_question_id(self, frontend_question_id: int) -> Optional[LeetcodeQuestion]:
+        session = self.question_db.get_session()
+        question = (
+            session.query(LeetcodeQuestion)
+            .filter(LeetcodeQuestion.frontend_question_id == frontend_question_id)
+            .first()
+        )
+        if not question:
+            logging.warning(f"Question [{frontend_question_id}] not found")
+            return False
+
+        return question
+
     def get_unsolved_questions(self, submitted_by: str, limit: int) -> Dict[str, str]:
         """Retrieve unsubmitted solutions from the database."""
         session = self.question_db.get_session()
