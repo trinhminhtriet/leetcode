@@ -7,9 +7,9 @@ logging.basicConfig(
 )
 
 
-def find_by_submmitted_language():
+def solve_by_submmitted_language():
     ctl = LeetCodeSolutionController()
-    ctl.find_by_submmitted_language("trinhminhtriet", "java")
+    ctl.solve_by_submmitted_language(submitted_by="trinhminhtriet", lang="java")
 
 
 def solve_daily_question():
@@ -21,5 +21,9 @@ def public_solution():
     ctl = LeetCodeSolutionController()
     ctl.publish_solution(frontend_question_id)
 
+def get_unsolved_questions():
+    ctl = LeetCodeSolutionController()
+    ctl.get_unsolved_questions(submitted_by="trinhminhtriet", limit=100)
+
 if __name__ == "__main__":
-    public_solution()
+    get_unsolved_questions()

@@ -25,7 +25,7 @@ class LeetCodeQuestionRepository:
 
         return question
 
-    def get_unsolved_questions(self, submitted_by: str, limit: int) -> Dict[str, str]:
+    def get_unsolved_questions(self, submitted_by: str, limit: int = 10) -> Dict[str, str]:
         """Retrieve unsubmitted solutions from the database."""
         session = self.question_db.get_session()
         sub_query_submitted_by = (

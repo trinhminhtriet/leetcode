@@ -68,3 +68,11 @@ class LeetCodeSolutionController:
         )
 
         logging.info(question.slug)
+
+    def get_unsolved_questions(self, submitted_by: str, limit: int = 10):
+        questions = self.question_repo.get_unsolved_questions(
+            submitted_by=submitted_by,
+            limit=limit
+        )
+        for question in questions:
+            logging.info(question.frontend_question_id)
