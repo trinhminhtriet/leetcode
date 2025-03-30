@@ -2,14 +2,14 @@ import logging
 import argparse
 import os
 from solver.problem_solver import LeetCodeProblemSolver
-from controller.question import LeetCodeQuestionController
+from repository.question import LeetCodeQuestionRepository
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 def main():
-    controller = LeetCodeQuestionController()
+    controller = LeetCodeQuestionRepository()
     questions = controller.get_unsolved_questions(
         submitted_by=os.environ.get("STRAPI_USERNAME"), limit=3500
     )
