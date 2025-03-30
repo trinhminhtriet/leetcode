@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, Optional
 from config.config import LeetCodeConfig
 from services.database.question import QuestionDatabaseService
@@ -25,4 +26,22 @@ class LeetCodeQuestionRepository:
             .limit(limit)
             .all()
         )
+        return questions
+
+    def get_by_difficulty(self, difficulty: str, limit:int) -> Optional[LeetcodeQuestion]:
+        """Get problems by difficulty level from the database."""
+
+        session = self.question_db.get_session()
+        questions = (
+            session.query(LeetcodeQuestion)
+            .filter(LeetcodeQuestion.difficulty_level == difficulty)
+            .order_by(LeetcodeQuestion.frontend_question_id.desc())
+            .limit(limit)
+            .all()
+        )
+
+        if not questions:
+            logging.error(f"No questions found with difficulty: {difficulty}")
+            return False
+
         return questions

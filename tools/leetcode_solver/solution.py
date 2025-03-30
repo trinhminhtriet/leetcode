@@ -9,13 +9,15 @@ logging.basicConfig(
 )
 
 def main():
-    controller = LeetCodeQuestionRepository()
-    questions = controller.get_unsolved_questions(
-        submitted_by=os.environ.get("STRAPI_USERNAME"), limit=3500
+    repo = LeetCodeQuestionRepository()
+    questions = repo.get_by_difficulty(
+        difficulty=1, limit=3500
     )
-
+    if not questions:
+        logging.error("No questions found with the specified difficulty.")
+        return
     for question in questions:
-        logging.info(f"Unsolved question: {question.frontend_question_id}")
+        logging.info(f"Question: {question.frontend_question_id}")
         # solver = LeetCodeProblemSolver()
         # success = solver.solve_by_frontend_question_id(question.frontend_question_id)
         # if success:
@@ -24,7 +26,7 @@ def main():
         #     logging.error(f"Failed to solve problem {question.frontend_question_id}")
 
     # Uncomment the above lines to actually solve the problems
-    logging.info(f"Unsolved solutions count: {len(questions)}")
+    logging.info(f"Questions count: {len(questions)}")
 
 if __name__ == "__main__":
     main()
