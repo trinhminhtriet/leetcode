@@ -13,15 +13,14 @@ class LeetCodeStudyPlanManager:
 
         # Configure logging
         logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s'
+            level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
         )
 
         # Initialize instance variables from environment
-        self.cookie = os.environ.get('COOKIE')
-        self.csrf_token = os.environ.get('CSRF_TOKEN')
-        self.uuuserid = os.environ.get('UUUSERID')
-        self.random_uuid = os.environ.get('RANDOM_UUID')
+        self.cookie = os.environ.get("COOKIE")
+        self.csrf_token = os.environ.get("CSRF_TOKEN")
+        self.uuuserid = os.environ.get("UUUSERID")
+        self.random_uuid = os.environ.get("RANDOM_UUID")
 
         # Base URL for API
         self.api_url = "https://leetcode.com/graphql/"
@@ -34,7 +33,7 @@ class LeetCodeStudyPlanManager:
             "X-CSRFToken": self.csrf_token,
             "Cookie": self.cookie,
             "uuuserid": self.uuuserid,
-            "random-uuid": self.random_uuid
+            "random-uuid": self.random_uuid,
         }
 
         # GraphQL query template
@@ -106,12 +105,12 @@ class LeetCodeStudyPlanManager:
         self._create_folder(folder_path)
 
         # Read study plan details
-        with open(f"{folder_path}/study_plan_details.json", 'r') as f:
+        with open(f"{folder_path}/study_plan_details.json", "r") as f:
             data = json.load(f)
 
         # Build README content
         header = f"# {data['data']['studyPlanV2Detail']['name']}\n"
-        plan_subgroups = data['data']['studyPlanV2Detail']['planSubGroups']
+        plan_subgroups = data["data"]["studyPlanV2Detail"]["planSubGroups"]
 
         question_counter = 0
         sections_content = ""
@@ -121,14 +120,13 @@ class LeetCodeStudyPlanManager:
 
             for question in questions:
                 folder_path = get_folder_path(
-                    question.get("questionFrontendId"),
-                    question.get("titleSlug")
+                    question.get("questionFrontendId"), question.get("titleSlug")
                 )
                 question_counter += 1
                 sections_content += f"{question_counter}. [{question.get('title')}]({folder_path}/README.md)\n"
 
         # Write to README file
-        with open(f"../studyplan/{studyplan_slug}/README.md", 'w') as f:
+        with open(f"../studyplan/{studyplan_slug}/README.md", "w") as f:
             f.write(header + sections_content)
 
         logging.info(f"Generated README for {studyplan_slug}")
@@ -146,12 +144,11 @@ class LeetCodeStudyPlanManager:
         payload = {
             "query": self.query,
             "variables": variables,
-            "operationName": "studyPlanDetail"
+            "operationName": "studyPlanDetail",
         }
 
         try:
-            response = requests.post(
-                self.api_url, headers=self.headers, json=payload)
+            response = requests.post(self.api_url, headers=self.headers, json=payload)
             response.raise_for_status()
 
             # Save response to JSON file

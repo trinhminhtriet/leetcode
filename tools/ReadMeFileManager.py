@@ -15,14 +15,13 @@ class ReadMeFileManager:
             "removed": [],
             "renamed": [],
             "skipped": [],
-            "modified": []
+            "modified": [],
         }
 
     def setup_logging(self) -> None:
         """Configure logging format and level."""
         logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s'
+            level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
         )
 
     def process_file(self, file_path: Path, directory: Path) -> None:
@@ -49,8 +48,7 @@ class ReadMeFileManager:
                 # Only rename if README.md doesn't exist or was just removed
                 if not new_path.exists() or both_exist:
                     file_path.rename(new_path)
-                    self.processed_files["renamed"].append(
-                        f"{file_path} -> {new_path}")
+                    self.processed_files["renamed"].append(f"{file_path} -> {new_path}")
                     logging.info(f"Renamed: {file_path} to {new_path}")
             except OSError as e:
                 logging.error(f"Error renaming {file_path}: {e}")
@@ -59,20 +57,20 @@ class ReadMeFileManager:
     def clean_readme(self, readme_path: Path) -> None:
         """Remove lines starting with 'edit_url:' from README.md."""
         try:
-            with open(readme_path, 'r', encoding='utf-8') as file:
+            with open(readme_path, "r", encoding="utf-8") as file:
                 lines = file.readlines()
 
             # Filter out lines starting with "edit_url:"
             cleaned_lines = [
-                line for line in lines if not line.strip().startswith("edit_url:")]
+                line for line in lines if not line.strip().startswith("edit_url:")
+            ]
 
             # Only rewrite if content changed
             if len(cleaned_lines) != len(lines):
-                with open(readme_path, 'w', encoding='utf-8') as file:
+                with open(readme_path, "w", encoding="utf-8") as file:
                     file.writelines(cleaned_lines)
                 self.processed_files["modified"].append(str(readme_path))
-                logging.info(
-                    f"Modified {readme_path}: removed edit_url line(s)")
+                logging.info(f"Modified {readme_path}: removed edit_url line(s)")
         except (IOError, UnicodeDecodeError) as e:
             logging.error(f"Error processing {readme_path}: {e}")
             self.processed_files["skipped"].append(str(readme_path))
@@ -90,7 +88,9 @@ class ReadMeFileManager:
             if item.is_file():
                 self.process_file(item, directory)
                 # After processing, clean any existing or newly created README.md
-                if item.name == "README_EN.md" or (item.name == "README.md" and not item.exists()):
+                if item.name == "README_EN.md" or (
+                    item.name == "README.md" and not item.exists()
+                ):
                     readme_path = directory / "README.md"
                     if readme_path.exists():
                         self.clean_readme(readme_path)
@@ -118,13 +118,11 @@ class ReadMeFileManager:
         for path in self.processed_files["renamed"]:
             logging.info(f"  - {path}")
 
-        logging.info(
-            f"Files modified: {len(self.processed_files['modified'])}")
+        logging.info(f"Files modified: {len(self.processed_files['modified'])}")
         for path in self.processed_files["modified"]:
             logging.info(f"  - {path}")
 
-        logging.info(
-            f"Files skipped (errors): {len(self.processed_files['skipped'])}")
+        logging.info(f"Files skipped (errors): {len(self.processed_files['skipped'])}")
         for path in self.processed_files["skipped"]:
             logging.info(f"  - {path}")
 

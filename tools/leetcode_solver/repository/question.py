@@ -2,7 +2,7 @@ import logging
 from typing import Dict, Optional
 from config.config import LeetCodeConfig
 from services.database.question import QuestionDatabaseService
-from models.models import LeetcodeQuestion, LeetcodeSubmission
+from models.models import LeetcodeQuestion, LeetcodeSolution, LeetcodeSubmission
 
 
 class LeetCodeQuestionRepository:
@@ -15,14 +15,15 @@ class LeetCodeQuestionRepository:
     def get_unsolved_questions(self, submitted_by: str, limit: int) -> Dict[str, str]:
         """Retrieve unsubmitted solutions from the database."""
         session = self.question_db.get_session()
-        sub_query = (
+        sub_query_submitted_by = (
             session.query(LeetcodeSubmission.question_id)
             .filter(LeetcodeSubmission.submitted_by == submitted_by)
             .subquery()
         )
+
         questions = (
             session.query(LeetcodeQuestion)
-            .filter(LeetcodeQuestion.question_id.not_in(sub_query))
+            .filter(LeetcodeQuestion.question_id.not_in(sub_query_submitted_by))
             .order_by(LeetcodeQuestion.frontend_question_id.desc())
             .limit(limit)
             .all()
@@ -54,17 +55,25 @@ class LeetCodeQuestionRepository:
     ) -> Optional[LeetcodeQuestion]:
         """Retrieve questions by submitted language."""
         session = self.question_db.get_session()
-        sub_query = (
+        sub_query_submitted_by = (
             session.query(LeetcodeSubmission.question_id)
             .filter(
                 LeetcodeSubmission.submitted_by == submitted_by,
-                LeetcodeSubmission.lang == lang,
             )
+            .subquery()
+        )
+        sub_query_lang = (
+            session.query(LeetcodeSolution.question_id)
+            .filter(LeetcodeSolution.lang == lang)
             .subquery()
         )
         questions = (
             session.query(LeetcodeQuestion)
-            .filter(LeetcodeQuestion.question_id.in_(sub_query))
+            .filter(
+                LeetcodeQuestion.question_id.in_(sub_query_submitted_by),
+                LeetcodeQuestion.question_id.in_(sub_query_lang),
+                LeetcodeQuestion.difficulty_level.in_([1]),
+            )
             .order_by(LeetcodeQuestion.frontend_question_id.desc())
             .limit(limit)
             .all()

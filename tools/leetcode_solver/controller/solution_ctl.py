@@ -25,7 +25,9 @@ class LeetCodeSolutionController:
             return False
         for question in questions:
             logging.info(f"Frontend question id: {question.frontend_question_id}")
-            # self.solution_solver.solve_by_frontend_question_id(question.frontend_question_id)
+            self.solution_solver.solve_by_frontend_question_id(
+                question.frontend_question_id
+            )
 
     def find_by_submmitted_language(self, submitted_by: str, lang: str):
         questions = self.question_repo.find_by_submmitted_language(
