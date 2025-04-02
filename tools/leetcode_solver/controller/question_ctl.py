@@ -49,7 +49,6 @@ class LeetCodeQuestionController:
                 return
 
         for question in data:
-            logging.info("===============================================")
             question = question.get("stat", {})
             frontend_question_id = question.get("frontend_question_id")
             question_slug = question.get("question__title_slug")
@@ -61,12 +60,6 @@ class LeetCodeQuestionController:
             end_str = f"{end0:04d}"
             src_folder_path = f"{SRC_DIR}/solution/{start_str}-{end_str}/{frontend_question_id:04d}.{question_title}"
             dist_folder_path = f"{DIST_DIR}/solutions/{start_str}-{end_str}/{frontend_question_id:04d}.{question_slug}"
-
-            removed_folder_path = f"{DIST_DIR}/solutions/{start_str}-{end_str}/{frontend_question_id:04d}.{question_title}"
-            if os.path.exists(removed_folder_path):
-                logging.info(
-                    f"Removed folder path exists: {removed_folder_path}")
-                shutil.rmtree(removed_folder_path)
 
             # if frontend_question_id < 3496:
             # logging.info(f"Skip question {frontend_question_id} - {question_title}")
