@@ -85,4 +85,4 @@ class LeetCodeQuestionController:
                             logging.info(f"Copied {src_file} to {dest_file}")
             else:
                 logging.warning(
-                    f"Original file path does not exist: {src_folder_path}")
+                    f"[{frontend_question_id}] Src folder path does not exist.")
