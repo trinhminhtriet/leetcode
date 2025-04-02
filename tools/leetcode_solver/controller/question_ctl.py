@@ -64,7 +64,8 @@ class LeetCodeQuestionController:
 
             removed_folder_path = f"{DIST_DIR}/solutions/{start_str}-{end_str}/{frontend_question_id:04d}.{question_title}"
             if os.path.exists(removed_folder_path):
-                logging.info(f"Removed folder path exists: {removed_folder_path}")
+                logging.info(
+                    f"Removed folder path exists: {removed_folder_path}")
                 shutil.rmtree(removed_folder_path)
 
             # if frontend_question_id < 3496:
@@ -73,10 +74,16 @@ class LeetCodeQuestionController:
 
             if not os.path.exists(dist_folder_path):
                 os.makedirs(dist_folder_path)
-                logging.info(f"Created distination directory: {dist_folder_path}")
+                logging.info(
+                    f"Created distination directory: {dist_folder_path}")
 
             if os.path.exists(src_folder_path):
                 for filename in os.listdir(src_folder_path):
+                    if filename == "README.md":
+                        continue
+                    if filename == "README_EN.md":
+                        filename = "README.md"
+
                     src_file = os.path.join(src_folder_path, filename)
                     dest_file = os.path.join(dist_folder_path, filename)
                     if os.path.isfile(src_file):
@@ -84,4 +91,5 @@ class LeetCodeQuestionController:
                             shutil.copy(src_file, dest_file)
                             logging.info(f"Copied {src_file} to {dest_file}")
             else:
-                logging.warning(f"Original file path does not exist: {src_folder_path}")
+                logging.warning(
+                    f"Original file path does not exist: {src_folder_path}")
