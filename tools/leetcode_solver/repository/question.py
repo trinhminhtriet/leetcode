@@ -12,7 +12,9 @@ class LeetCodeQuestionRepository:
         self.config = LeetCodeConfig()
         self.question_db = QuestionDatabaseService()
 
-    def get_by_frontend_question_id(self, frontend_question_id: int) -> Optional[LeetcodeQuestion]:
+    def get_by_frontend_question_id(
+        self, frontend_question_id: int
+    ) -> Optional[LeetcodeQuestion]:
         session = self.question_db.get_session()
         question = (
             session.query(LeetcodeQuestion)
@@ -25,7 +27,9 @@ class LeetCodeQuestionRepository:
 
         return question
 
-    def get_unsolved_questions(self, submitted_by: str, limit: int = 10) -> Dict[str, str]:
+    def get_unsolved_questions(
+        self, submitted_by: str, limit: int = 10
+    ) -> Dict[str, str]:
         """Retrieve unsubmitted solutions from the database."""
         session = self.question_db.get_session()
         sub_query_submitted_by = (

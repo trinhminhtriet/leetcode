@@ -6,6 +6,7 @@ from services.api.base import LeetCodeAPIBaseService
 
 class PublishSolutionAPIService(LeetCodeAPIBaseService):
     """Service to publish a solution article on LeetCode via GraphQL mutation."""
+
     def publish_solution(
         self,
         title: str,

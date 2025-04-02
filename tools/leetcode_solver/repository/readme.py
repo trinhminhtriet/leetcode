@@ -16,7 +16,7 @@ class LeetcodeSolutionReadmeRepository:
             "tags": [],
             "content": "",
             "thumbnail": "",  # Add if you have a thumbnail URL
-            "is_serialized": False
+            "is_serialized": False,
         }
 
     def set_question(self, question: LeetcodeQuestion):
@@ -24,8 +24,12 @@ class LeetcodeSolutionReadmeRepository:
 
     def get_solution(self):
         self.solution["slug"] = self.question.slug
-        self.solution["title"] = f"✅ Detailed explanation with many programming languages."
-        self.solution["summary"] = f"Solution for {self.question.title} in many programming languages."
+        self.solution["title"] = (
+            f"✅ Detailed explanation with many programming languages."
+        )
+        self.solution["summary"] = (
+            f"Solution for {self.question.title} in many programming languages."
+        )
         self.get_solution_detail()
         return self.solution
 

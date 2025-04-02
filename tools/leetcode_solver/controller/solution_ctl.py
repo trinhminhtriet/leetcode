@@ -8,6 +8,7 @@ from solver.problem_solver import LeetCodeProblemSolver
 from services.api.daily_question import DailyQuestionAPIService
 from services.api.publish_solution import PublishSolutionAPIService
 
+
 class LeetCodeSolutionController:
     def __init__(self):
         self.question_repo = LeetCodeQuestionRepository()
@@ -32,11 +33,11 @@ class LeetCodeSolutionController:
                 question.frontend_question_id
             )
 
-    def solve_by_submmitted_language(self, submitted_by: str, lang: str, limit: int = 100):
+    def solve_by_submmitted_language(
+        self, submitted_by: str, lang: str, limit: int = 100
+    ):
         questions = self.question_repo.find_by_submmitted_language(
-            submitted_by=submitted_by,
-            lang=lang,
-            limit=limit
+            submitted_by=submitted_by, lang=lang, limit=limit
         )
 
         if not questions:
@@ -66,15 +67,14 @@ class LeetCodeSolutionController:
             content=solution["content"],
             tags=solution["tags"],
             question_slug=question.slug,
-            summary=solution["summary"]
+            summary=solution["summary"],
         )
 
         logging.info(question.slug)
 
     def get_unsolved_questions(self, submitted_by: str, limit: int = 10):
         questions = self.question_repo.get_unsolved_questions(
-            submitted_by=submitted_by,
-            limit=limit
+            submitted_by=submitted_by, limit=limit
         )
         for question in questions:
             logging.info(question.frontend_question_id)
