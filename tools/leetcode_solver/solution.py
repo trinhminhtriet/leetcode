@@ -9,7 +9,7 @@ logging.basicConfig(
 
 def solve_by_submmitted_language():
     ctl = LeetCodeSolutionController()
-    ctl.solve_by_submmitted_language(submitted_by="trinhminhtriet", lang="java")
+    ctl.solve_by_submmitted_language(submitted_by="trinhminhtriet", lang="java", limit=450)
 
 def solve_daily_question():
     ctl = LeetCodeSolutionController()

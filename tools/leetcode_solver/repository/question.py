@@ -64,7 +64,7 @@ class LeetCodeQuestionRepository:
         return questions
 
     def find_by_submmitted_language(
-        self, submitted_by: str, lang: str, limit: int
+        self, submitted_by: str, lang: str, limit: int = 100
     ) -> Optional[LeetcodeQuestion]:
         """Retrieve questions by submitted language."""
         session = self.question_db.get_session()
