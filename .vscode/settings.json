@@ -1,5 +1,3 @@
 {
-  "editor.indentSize": 4,
-  "editor.wordWrap": "off",
-  "editor.formatOnSave": false
+  "editor.formatOnSave": true
 }
