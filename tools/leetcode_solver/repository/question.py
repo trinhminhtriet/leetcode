@@ -62,7 +62,8 @@ class LeetCodeQuestionRepository:
         )
 
         if not questions:
-            logging.warning(f"No questions found with difficulty: {difficulty}")
+            logging.warning(
+                f"No questions found with difficulty: {difficulty}")
             return False
 
         return questions
@@ -93,10 +94,12 @@ class LeetCodeQuestionRepository:
             )
             .order_by(LeetcodeQuestion.frontend_question_id.desc())
             .limit(limit)
+            .offset(200)
             .all()
         )
         if not questions:
-            logging.warning(f"No questions found with submitted language: {lang}")
+            logging.warning(
+                f"No questions found with submitted language: {lang}")
             return False
         logging.info(
             f"Found {len(questions)} questions with submitted language: {lang}"

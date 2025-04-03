@@ -24,7 +24,7 @@ class SubmitSolutionAPIService(LeetCodeAPIBaseService):
 
         if response.status_code == 429:
             logging.error(f"[{frontend_id}] Rate limit exceeded")
-            return None
+            exit(1)
         elif response.status_code != 200:
             logging.error(
                 f"[{frontend_id}] Submission failed with status: {response.status_code}"
@@ -41,5 +41,6 @@ class SubmitSolutionAPIService(LeetCodeAPIBaseService):
             logging.error(f"[{frontend_id}] No submission ID in response")
             return None
         except json.JSONDecodeError:
-            logging.error(f"[{frontend_id}] Failed to parse submission response")
+            logging.error(
+                f"[{frontend_id}] Failed to parse submission response")
             return None
