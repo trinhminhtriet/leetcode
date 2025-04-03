@@ -9,11 +9,17 @@ logging.basicConfig(
 LEETCODE_USER = os.environ.get("STRAPI_USERNAME")
 
 
-def fetch_all_questions():
+def sync_all_questions():
     ctl = LeetCodeQuestionController()
     # ctl.fetch_all_questions()
     ctl.mkdir()
 
 
+def sync_by_frontend_question_id(frontend_question_id: int):
+    ctl = LeetCodeQuestionController()
+    ctl.sync_by_frontend_question_id(frontend_question_id)
+
+
 if __name__ == "__main__":
-    fetch_all_questions()
+    # sync_all_questions()
+    sync_by_frontend_question_id(437)

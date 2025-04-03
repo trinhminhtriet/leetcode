@@ -36,8 +36,6 @@ class LeetCodeQuestionController:
 
     def mkdir(self):
         """Create directories for storing questions."""
-        SRC_DIR = "/Users/triettrinh/project/triet/trinhminhtriet/leetcode-doocs"
-        DIST_DIR = "/Users/triettrinh/project/triet/trinhminhtriet/leetcode"
         if not os.path.exists(DIST_DIR):
             logging.error(f"Directory does not exist: {DIST_DIR}")
             return
@@ -50,39 +48,55 @@ class LeetCodeQuestionController:
 
         for question in data:
             question = question.get("stat", {})
-            frontend_question_id = question.get("frontend_question_id")
-            question_slug = question.get("question__title_slug")
-            question_title = question.get("question__title")
+            self._copy_by_question(question)
 
-            start0 = int(int(frontend_question_id) / 100) * 100
-            start_str = f"{start0:04d}"
-            end0 = start0 + 99
-            end_str = f"{end0:04d}"
-            src_folder_path = f"{SRC_DIR}/solution/{start_str}-{end_str}/{frontend_question_id:04d}.{question_title}"
-            dist_folder_path = f"{DIST_DIR}/solutions/{start_str}-{end_str}/{frontend_question_id:04d}.{question_slug}"
+    def sync_by_frontend_question_id(self, frontend_question_id: int):
+        """Synchronize question by frontend question ID."""
+        with open("../data/output/leetcode_questions.json", "r") as file:
+            data = json.load(file)
+            if not data:
+                logging.error("No data to process")
+                return
 
-            # if frontend_question_id < 3496:
-            # logging.info(f"Skip question {frontend_question_id} - {question_title}")
-            # continue
+        for question in data:
+            question = question.get("stat", {})
+            if question.get("frontend_question_id") == frontend_question_id:
+                self._copy_by_question(question)
+                break
 
-            if not os.path.exists(dist_folder_path):
-                os.makedirs(dist_folder_path)
-                logging.info(
-                    f"Created distination directory: {dist_folder_path}")
+    def _copy_by_question(self, question):
+        SRC_DIR = "/Users/triettrinh/project/triet/trinhminhtriet/leetcode-doocs"
+        DIST_DIR = "/Users/triettrinh/project/triet/trinhminhtriet/leetcode"
 
-            if os.path.exists(src_folder_path):
-                for filename in os.listdir(src_folder_path):
-                    if filename == "README.md":
-                        continue
-                    if filename == "README_EN.md":
-                        filename = "README.md"
+        frontend_question_id = question.get("frontend_question_id")
+        question_slug = question.get("question__title_slug")
+        question_title = question.get("question__title")
 
-                    src_file = os.path.join(src_folder_path, filename)
-                    dest_file = os.path.join(dist_folder_path, filename)
-                    if os.path.isfile(src_file):
-                        if not os.path.exists(dest_file):
-                            shutil.copy(src_file, dest_file)
-                            logging.info(f"Copied {src_file} to {dest_file}")
-            else:
-                logging.warning(
-                    f"[{frontend_question_id}] Src folder path does not exist.")
+        start0 = int(int(frontend_question_id) / 100) * 100
+        start_str = f"{start0:04d}"
+        end0 = start0 + 99
+        end_str = f"{end0:04d}"
+        src_folder_path = f"{SRC_DIR}/solution/{start_str}-{end_str}/{frontend_question_id:04d}.{question_title}"
+        dist_folder_path = f"{DIST_DIR}/solutions/{start_str}-{end_str}/{frontend_question_id:04d}.{question_slug}"
+
+        if not os.path.exists(dist_folder_path):
+            os.makedirs(dist_folder_path)
+            logging.info(
+                f"Created distination directory: {dist_folder_path}")
+
+        if os.path.exists(src_folder_path):
+            for filename in os.listdir(src_folder_path):
+                if filename == "README.md":
+                    continue
+                if filename == "README_EN.md":
+                    filename = "README.md"
+
+                src_file = os.path.join(src_folder_path, filename)
+                dest_file = os.path.join(dist_folder_path, filename)
+                if os.path.isfile(src_file):
+                    if not os.path.exists(dest_file):
+                        shutil.copy(src_file, dest_file)
+                        logging.info(f"Copied {src_file} to {dest_file}")
+        else:
+            logging.warning(
+                f"[{frontend_question_id}] Src folder path does not exist.")
