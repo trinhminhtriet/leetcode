@@ -28,7 +28,8 @@ class LeetCodeSolutionController:
             logging.warning("No questions")
             return False
         for question in questions:
-            logging.info(f"Frontend question id: {question.frontend_question_id}")
+            logging.info(
+                f"Frontend question id: {question.frontend_question_id}")
             self.solution_solver.solve_by_frontend_question_id(
                 question.frontend_question_id
             )
@@ -50,10 +51,12 @@ class LeetCodeSolutionController:
         svc = DailyQuestionAPIService()
         frontend_question_id = svc.get_daily_question()
         if frontend_question_id:
-            self.solution_solver.solve_by_frontend_question_id(frontend_question_id)
+            self.solution_solver.solve_by_frontend_question_id(
+                frontend_question_id)
 
     def publish_solution(self, frontend_question_id: int):
-        question = self.question_repo.get_by_frontend_question_id(frontend_question_id)
+        question = self.question_repo.get_by_frontend_question_id(
+            frontend_question_id)
 
         repo = LeetcodeSolutionReadmeRepository()
         repo.set_question(question=question)
@@ -78,3 +81,5 @@ class LeetCodeSolutionController:
         )
         for question in questions:
             logging.info(question.frontend_question_id)
+
+        return questions

@@ -11,7 +11,8 @@ LEETCODE_USER = os.environ.get("STRAPI_USERNAME")
 
 def solve_by_submmitted_language():
     ctl = LeetCodeSolutionController()
-    ctl.solve_by_submmitted_language(submitted_by=LEETCODE_USER, lang="java", limit=450)
+    ctl.solve_by_submmitted_language(
+        submitted_by=LEETCODE_USER, lang="java", limit=450)
 
 
 def solve_daily_question():
@@ -31,4 +32,4 @@ def get_unsolved_questions():
 
 
 if __name__ == "__main__":
-    get_unsolved_questions()
+    solve_by_submmitted_language()
