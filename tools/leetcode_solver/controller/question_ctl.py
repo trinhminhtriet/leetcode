@@ -35,11 +35,6 @@ class LeetCodeQuestionController:
         return True
 
     def mkdir(self):
-        """Create directories for storing questions."""
-        if not os.path.exists(DIST_DIR):
-            logging.error(f"Directory does not exist: {DIST_DIR}")
-            return
-
         with open("../data/output/leetcode_questions.json", "r") as file:
             data = json.load(file)
             if not data:
