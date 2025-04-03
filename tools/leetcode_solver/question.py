@@ -11,8 +11,7 @@ LEETCODE_USER = os.environ.get("STRAPI_USERNAME")
 
 def sync_all_questions():
     ctl = LeetCodeQuestionController()
-    # ctl.fetch_all_questions()
-    ctl.mkdir()
+    ctl.sync_all_questions()
 
 
 def sync_by_frontend_question_id(frontend_question_id: int):
@@ -21,5 +20,5 @@ def sync_by_frontend_question_id(frontend_question_id: int):
 
 
 if __name__ == "__main__":
-    # sync_all_questions()
-    sync_by_frontend_question_id(437)
+    sync_all_questions()
+    # sync_by_frontend_question_id(437)

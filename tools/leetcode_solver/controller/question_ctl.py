@@ -4,7 +4,7 @@ import os
 import shutil
 from typing import List
 from services.api.all_questions import AllQuestionsAPIService
-from utils.utils import get_folder_path
+from utils.utils import convert_crlf_to_lf, get_folder_path
 
 
 class LeetCodeQuestionController:
@@ -19,10 +19,10 @@ class LeetCodeQuestionController:
         if not questions:
             logging.error("No questions fetched")
             return []
-        self.save_questions(questions)
+        self._save_questions(questions)
         return questions
 
-    def save_questions(self, questions: List[dict]):
+    def _save_questions(self, questions: List[dict]):
         """Save questions to local JSON file."""
         if not questions:
             logging.warning("No questions to save")
@@ -34,7 +34,7 @@ class LeetCodeQuestionController:
         logging.info(f"Saved {len(questions)} questions successfully")
         return True
 
-    def mkdir(self):
+    def sync_all_questions(self):
         with open("../data/output/leetcode_questions.json", "r") as file:
             data = json.load(file)
             if not data:
@@ -90,6 +90,7 @@ class LeetCodeQuestionController:
                 dest_file = os.path.join(dist_folder_path, filename)
                 if os.path.isfile(src_file):
                     if not os.path.exists(dest_file):
+                        convert_crlf_to_lf(src_file)
                         shutil.copy(src_file, dest_file)
                         logging.info(f"Copied {src_file} to {dest_file}")
         else:
