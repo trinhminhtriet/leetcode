@@ -41,7 +41,7 @@ class LeetcodeSolutionReadmeRepository:
         start = (frontend_question_id // 100) * 100
         end = start + 99
         return (
-            f"../../solutions/{start:04d}-{end:04d}/{frontend_question_id:04d}.{slug}"
+            f"solutions/{start:04d}-{end:04d}/{frontend_question_id:04d}.{slug}"
         )
 
     def collect_languages(self, content: str):
@@ -60,11 +60,20 @@ class LeetcodeSolutionReadmeRepository:
     def get_solution_detail(self):
         frontend_question_id = self.question.frontend_question_id
         folder_path = self._get_folder_path()
-        if not os.path.exists(f"{folder_path}/{self.filename}"):
+
+        readme_path = f"../../{folder_path}/{self.filename}"
+        if not os.path.exists(readme_path):
             logging.error(f"[{frontend_question_id}] Solution not found.")
             return
 
-        with open(f"{folder_path}/{self.filename}", "r") as f:
+        published_folder_path = f"../data/{folder_path}"
+        if not os.path.exists(published_folder_path):
+            os.makedirs(published_folder_path)
+            logging.info(
+                f"[{frontend_question_id}] Created folder: {published_folder_path}"
+            )
+
+        with open(readme_path, "r") as f:
             solution_readme = f.read()
 
         self.collect_languages(solution_readme)
@@ -73,34 +82,35 @@ class LeetcodeSolutionReadmeRepository:
         solution_end = solution_readme.find("<!-- tabs:start -->")
 
         if solution_start == -1 or solution_end == -1:
-            logging.error(f"[{frontend_question_id}] Solution section not found.")
+            logging.error(
+                f"[{frontend_question_id}] Solution section not found.")
             return
 
         solution_text = solution_readme[solution_start:solution_end].strip()
 
         prompt_text = """
-    ---
-    Rewrite solution above by this Markdown format:
+---
+Rewrite solution above by this Markdown format:
 
-    # Intuition
-    <!-- Describe your first thoughts on how to solve this problem. -->
+# Intuition
+<!-- Describe your first thoughts on how to solve this problem. -->
 
-    # Approach
-    <!-- Describe your approach to solving the problem. -->
+# Approach
+<!-- Describe your approach to solving the problem. -->
 
-    # Complexity
-    - Time complexity:
-    <!-- Add your time complexity here, e.g. $$O(n)$$ -->
+# Complexity
+- Time complexity:
+<!-- Add your time complexity here, e.g. $$O(n)$$ -->
 
-    - Space complexity:
-    <!-- Add your space complexity here, e.g. $$O(n)$$ -->
-    """
+- Space complexity:
+<!-- Add your space complexity here, e.g. $$O(n)$$ -->
+"""
         prompt_full = solution_text + prompt_text
-        output_file_path = f"{folder_path}/prompt.md"
+        output_file_path = f"{published_folder_path}/Prompt.md"
         with open(output_file_path, "w") as f:
             f.write(prompt_full)
         logging.info(f"[{frontend_question_id}] Solution detail written to {
-                    output_file_path}.")
+            output_file_path}.")
 
         tabs_start = solution_readme.find("<!-- tabs:start -->")
         tabs_end = solution_readme.find("<!-- tabs:end -->")
@@ -110,7 +120,7 @@ class LeetcodeSolutionReadmeRepository:
             return
 
         codeblock = solution_readme[
-            tabs_start : tabs_end + len("<!-- tabs:end -->")
+            tabs_start: tabs_end + len("<!-- tabs:end -->")
         ].strip()
         codeblock = codeblock.replace("<!-- tabs:start -->", "").replace(
             "<!-- tabs:end -->", ""
@@ -118,31 +128,30 @@ class LeetcodeSolutionReadmeRepository:
 
         codeblock2 = """
 
-    # Code
-    """
+## Code
+"""
         codeblock3 = codeblock2 + codeblock
 
         contact_text = """
+## Contact information
 
-    # Contact information
-    If you have any questions or suggestions, please feel free to contact me at https://trinhminhtriet.com/
-    - Website: [trinhminhtriet.com](https://trinhminhtriet.com/)
-    - Github: [trinhminhtriet](https://github.com/trinhminhtriet)
-    - LinkedIn: [trinhminhtriet](https://www.linkedin.com/in/triet-trinh/)
-    - Facebook: [trinhminhtriet](https://www.facebook.com/trinhminhtriet)
-    - Twitter: [trinhminhtriet](https://twitter.com/trinhminhtriet)
-    - Email: [contact@trinhminhtriet.com](mailto:contact@trinhminhtriet.com)
-    """
+If you have any questions or suggestions, please feel free to contact me at https://trinhminhtriet.com/
+- Website: [trinhminhtriet.com](https://trinhminhtriet.com/)
+- Github: [trinhminhtriet](https://github.com/trinhminhtriet)
+- LinkedIn: [trinhminhtriet](https://www.linkedin.com/in/triet-trinh/)
+- Twitter: [trinhminhtriet](https://twitter.com/trinhminhtriet)
+- Email: [contact@trinhminhtriet.com](mailto:contact@trinhminhtriet.com)
+"""
 
         solution_full = solution_text + codeblock3 + contact_text
         solution_full = solution_full.replace("### Solution 1:", "# Solution:")
 
-        with open(f"{folder_path}/SOLUTION.md", "w") as f:
+        with open(f"{published_folder_path}/Solution.md", "w") as f:
             f.write(solution_full)
         logging.info(
-            f"[{frontend_question_id}] Solution detail written to {folder_path}/SOLUTION.md"
+            f"[{frontend_question_id}] Solution detail written to {published_folder_path}/Solution.md"
         )
 
-        self.solution["content"] = solution_text
+        self.solution["content"] = solution_full
 
-        return solution_text
+        return solution_full

@@ -1,5 +1,6 @@
 import json
 import logging
+import time
 from typing import List
 from models.models import LeetcodeQuestion
 from repository.question import LeetCodeQuestionRepository
@@ -52,17 +53,38 @@ class LeetCodeSolutionController:
         frontend_question_id = svc.get_daily_question()
         if frontend_question_id:
             self.solution_solver.solve_by_frontend_question_id(
-                frontend_question_id)
+                frontend_question_id=frontend_question_id)
+            self.publish_solution(
+                frontend_question_id=frontend_question_id)
+
+    def publish_submmitted_language(
+        self, submitted_by: str, lang: str, limit: int = 10
+    ):
+        questions = self.question_repo.find_by_submmitted_language(
+            submitted_by=submitted_by, lang=lang, limit=limit
+        )
+
+        if not questions:
+            logging.error("No questions found with the specified language.")
+            return
+
+        for question in questions:
+            self.publish_solution(
+                frontend_question_id=question.frontend_question_id
+            )
+            logging.info(
+                f"Published for {question.frontend_question_id} in {lang} language... Sleeping for 5 minutes..."
+            )
+            time.sleep(5*60)  # Sleep for 5 minutes between each publish
 
     def publish_solution(self, frontend_question_id: int):
         question = self.question_repo.get_by_frontend_question_id(
-            frontend_question_id)
+            frontend_question_id=frontend_question_id)
 
         repo = LeetcodeSolutionReadmeRepository()
         repo.set_question(question=question)
 
         solution = repo.get_solution()
-        logging.info(json.dumps(solution, indent=2))
 
         svc = PublishSolutionAPIService()
         svc.publish_solution(
