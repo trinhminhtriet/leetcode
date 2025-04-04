@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  leetcode:
+    image: trinhminhtriet/leetcode
+    container_name: leetcode
+    stdin_open: true # keep stdin open even if not attached
+    tty: true # allocate a pseudo-TTY
+    volumes:
+      - ../:/app

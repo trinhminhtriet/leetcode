@@ -20,7 +20,7 @@ def solve_daily_question():
     ctl.solve_daily_question()
 
 
-def public_solution():
+def publish_solution():
     frontend_question_id = 2
     ctl = LeetCodeSolutionController()
     ctl.publish_solution(frontend_question_id)
@@ -32,4 +32,5 @@ def get_unsolved_questions():
 
 
 if __name__ == "__main__":
-    solve_by_submmitted_language()
+    # solve_by_submmitted_language()
+    publish_solution()
