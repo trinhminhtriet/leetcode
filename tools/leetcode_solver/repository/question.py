@@ -28,7 +28,7 @@ class LeetCodeQuestionRepository:
         return question
 
     def get_unsolved_questions(
-        self, submitted_by: str, limit: int = 10
+        self, submitted_by: str, limit: int = 100
     ) -> Dict[str, str]:
         """Retrieve unsubmitted solutions from the database."""
         session = self.question_db.get_session()
@@ -48,7 +48,7 @@ class LeetCodeQuestionRepository:
         return questions
 
     def get_by_difficulty(
-        self, difficulty: str, limit: int
+        self, difficulty: str, limit: int = 100
     ) -> Optional[LeetcodeQuestion]:
         """Get problems by difficulty level from the database."""
 
@@ -94,7 +94,6 @@ class LeetCodeQuestionRepository:
             )
             .order_by(LeetcodeQuestion.frontend_question_id.desc())
             .limit(limit)
-            .offset(200)
             .all()
         )
         if not questions:

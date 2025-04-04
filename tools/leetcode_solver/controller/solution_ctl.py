@@ -75,7 +75,7 @@ class LeetCodeSolutionController:
 
         logging.info(question.slug)
 
-    def get_unsolved_questions(self, submitted_by: str, limit: int = 10):
+    def get_unsolved_questions(self, submitted_by: str, limit: int = 100):
         questions = self.question_repo.get_unsolved_questions(
             submitted_by=submitted_by, limit=limit
         )
