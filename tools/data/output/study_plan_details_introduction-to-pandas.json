@@ -1,0 +1,98 @@
+{
+  "data": {
+    "studyPlanV2Detail": {
+      "planSubGroups": [
+        {
+          "slug": "introduction-to-pandas-169-mqac",
+          "questions": [
+            {
+              "titleSlug": "create-a-dataframe-from-list",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "introduction-to-pandas-170-g8ep",
+          "questions": [
+            {
+              "titleSlug": "get-the-size-of-a-dataframe",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "display-the-first-three-rows",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "introduction-to-pandas-171-9gs2",
+          "questions": [
+            {
+              "titleSlug": "select-data",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "create-a-new-column",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "introduction-to-pandas-172-9vva",
+          "questions": [
+            {
+              "titleSlug": "drop-duplicate-rows",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "drop-missing-data",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "modify-columns",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "rename-columns",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "change-data-type",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "fill-missing-data",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "introduction-to-pandas-173-e1wz",
+          "questions": [
+            {
+              "titleSlug": "reshape-data-concatenate",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "reshape-data-pivot",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "reshape-data-melt",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "introduction-to-pandas-174-vjsb",
+          "questions": [
+            {
+              "titleSlug": "method-chaining",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

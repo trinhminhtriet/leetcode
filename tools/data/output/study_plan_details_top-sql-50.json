@@ -1,0 +1,243 @@
+{
+  "data": {
+    "studyPlanV2Detail": {
+      "planSubGroups": [
+        {
+          "slug": "top-sql-50-128-cxxp",
+          "questions": [
+            {
+              "titleSlug": "recyclable-and-low-fat-products",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-customer-referee",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "big-countries",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "article-views-i",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "invalid-tweets",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-sql-50-129-ggw5",
+          "questions": [
+            {
+              "titleSlug": "replace-employee-id-with-the-unique-identifier",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "product-sales-analysis-i",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "customer-who-visited-but-did-not-make-any-transactions",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "rising-temperature",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "average-time-of-process-per-machine",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "employee-bonus",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "students-and-examinations",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "managers-with-at-least-5-direct-reports",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "confirmation-rate",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-sql-50-130-9fkf",
+          "questions": [
+            {
+              "titleSlug": "not-boring-movies",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "average-selling-price",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "project-employees-i",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "percentage-of-users-attended-a-contest",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "queries-quality-and-percentage",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "monthly-transactions-i",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "immediate-food-delivery-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "game-play-analysis-iv",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-sql-50-131-ouut",
+          "questions": [
+            {
+              "titleSlug": "number-of-unique-subjects-taught-by-each-teacher",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "user-activity-for-the-past-30-days-i",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "product-sales-analysis-iii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "classes-more-than-5-students",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-followers-count",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "biggest-single-number",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "customers-who-bought-all-products",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-sql-50-132-oc5p",
+          "questions": [
+            {
+              "titleSlug": "the-number-of-employees-which-report-to-each-employee",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "primary-department-for-each-employee",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "triangle-judgement",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "consecutive-numbers",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "product-price-at-a-given-date",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "last-person-to-fit-in-the-bus",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "count-salary-categories",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-sql-50-133-0stx",
+          "questions": [
+            {
+              "titleSlug": "employees-whose-manager-left-the-company",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "exchange-seats",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "movie-rating",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "restaurant-growth",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "friend-requests-ii-who-has-the-most-friends",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "investments-in-2016",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "department-top-three-salaries",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-sql-50-134-jwwc",
+          "questions": [
+            {
+              "titleSlug": "fix-names-in-a-table",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "patients-with-a-condition",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "delete-duplicate-emails",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "second-highest-salary",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "group-sold-products-by-the-date",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "list-the-products-ordered-in-a-period",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-users-with-valid-e-mails",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,418 @@
+{
+  "data": {
+    "studyPlanV2Detail": {
+      "planSubGroups": [
+        {
+          "slug": "leetcode-75-24-ocvm",
+          "questions": [
+            {
+              "titleSlug": "merge-strings-alternately",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "greatest-common-divisor-of-strings",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "kids-with-the-greatest-number-of-candies",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "can-place-flowers",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "reverse-vowels-of-a-string",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "reverse-words-in-a-string",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "product-of-array-except-self",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "increasing-triplet-subsequence",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "string-compression",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-25-0zdf",
+          "questions": [
+            {
+              "titleSlug": "move-zeroes",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "is-subsequence",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "container-with-most-water",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "max-number-of-k-sum-pairs",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-26-43fm",
+          "questions": [
+            {
+              "titleSlug": "maximum-average-subarray-i",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "maximum-number-of-vowels-in-a-substring-of-given-length",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "max-consecutive-ones-iii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "longest-subarray-of-1s-after-deleting-one-element",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-27-wtsd",
+          "questions": [
+            {
+              "titleSlug": "find-the-highest-altitude",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-pivot-index",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-28-j7cd",
+          "questions": [
+            {
+              "titleSlug": "find-the-difference-of-two-arrays",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "unique-number-of-occurrences",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "determine-if-two-strings-are-close",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "equal-row-and-column-pairs",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-29-jubo",
+          "questions": [
+            {
+              "titleSlug": "removing-stars-from-a-string",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "asteroid-collision",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "decode-string",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-30-1a5r",
+          "questions": [
+            {
+              "titleSlug": "number-of-recent-calls",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "dota2-senate",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-31-tr16",
+          "questions": [
+            {
+              "titleSlug": "delete-the-middle-node-of-a-linked-list",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "odd-even-linked-list",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "reverse-linked-list",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "maximum-twin-sum-of-a-linked-list",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-32-iuby",
+          "questions": [
+            {
+              "titleSlug": "maximum-depth-of-binary-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "leaf-similar-trees",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "count-good-nodes-in-binary-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "path-sum-iii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "longest-zigzag-path-in-a-binary-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "lowest-common-ancestor-of-a-binary-tree",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-33-ibku",
+          "questions": [
+            {
+              "titleSlug": "binary-tree-right-side-view",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "maximum-level-sum-of-a-binary-tree",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-34-o6nm",
+          "questions": [
+            {
+              "titleSlug": "search-in-a-binary-search-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "delete-node-in-a-bst",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-35-udu6",
+          "questions": [
+            {
+              "titleSlug": "keys-and-rooms",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "number-of-provinces",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "reorder-routes-to-make-all-paths-lead-to-the-city-zero",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "evaluate-division",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-36-8hgd",
+          "questions": [
+            {
+              "titleSlug": "nearest-exit-from-entrance-in-maze",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "rotting-oranges",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-37-s8hv",
+          "questions": [
+            {
+              "titleSlug": "kth-largest-element-in-an-array",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "smallest-number-in-infinite-set",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "maximum-subsequence-score",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "total-cost-to-hire-k-workers",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-38-mv3u",
+          "questions": [
+            {
+              "titleSlug": "guess-number-higher-or-lower",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "successful-pairs-of-spells-and-potions",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-peak-element",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "koko-eating-bananas",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-39-17n8",
+          "questions": [
+            {
+              "titleSlug": "letter-combinations-of-a-phone-number",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "combination-sum-iii",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-40-yz6i",
+          "questions": [
+            {
+              "titleSlug": "n-th-tribonacci-number",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "min-cost-climbing-stairs",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "house-robber",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "domino-and-tromino-tiling",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-41-yome",
+          "questions": [
+            {
+              "titleSlug": "unique-paths",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "longest-common-subsequence",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "best-time-to-buy-and-sell-stock-with-transaction-fee",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "edit-distance",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-42-0tkm",
+          "questions": [
+            {
+              "titleSlug": "counting-bits",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "single-number",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "minimum-flips-to-make-a-or-b-equal-to-c",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-43-icuq",
+          "questions": [
+            {
+              "titleSlug": "implement-trie-prefix-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "search-suggestions-system",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-44-3wd2",
+          "questions": [
+            {
+              "titleSlug": "non-overlapping-intervals",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "minimum-number-of-arrows-to-burst-balloons",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "leetcode-75-45-ztok",
+          "questions": [
+            {
+              "titleSlug": "daily-temperatures",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "online-stock-span",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

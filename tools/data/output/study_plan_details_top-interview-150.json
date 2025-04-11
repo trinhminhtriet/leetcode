@@ -1,0 +1,723 @@
+{
+  "data": {
+    "studyPlanV2Detail": {
+      "planSubGroups": [
+        {
+          "slug": "top-interview-150-1-yf91",
+          "questions": [
+            {
+              "titleSlug": "merge-sorted-array",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "remove-element",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "remove-duplicates-from-sorted-array",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "remove-duplicates-from-sorted-array-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "majority-element",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "rotate-array",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "best-time-to-buy-and-sell-stock",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "best-time-to-buy-and-sell-stock-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "jump-game",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "jump-game-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "h-index",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "insert-delete-getrandom-o1",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "product-of-array-except-self",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "gas-station",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "candy",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "trapping-rain-water",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "roman-to-integer",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "integer-to-roman",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "length-of-last-word",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "longest-common-prefix",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "reverse-words-in-a-string",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "zigzag-conversion",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-the-index-of-the-first-occurrence-in-a-string",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "text-justification",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-2-o7jr",
+          "questions": [
+            {
+              "titleSlug": "valid-palindrome",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "is-subsequence",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "two-sum-ii-input-array-is-sorted",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "container-with-most-water",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "3sum",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-3-h81e",
+          "questions": [
+            {
+              "titleSlug": "minimum-size-subarray-sum",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "longest-substring-without-repeating-characters",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "substring-with-concatenation-of-all-words",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "minimum-window-substring",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-4-ukui",
+          "questions": [
+            {
+              "titleSlug": "valid-sudoku",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "spiral-matrix",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "rotate-image",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "set-matrix-zeroes",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "game-of-life",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-5-nfzq",
+          "questions": [
+            {
+              "titleSlug": "ransom-note",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "isomorphic-strings",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "word-pattern",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "valid-anagram",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "group-anagrams",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "two-sum",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "happy-number",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "contains-duplicate-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "longest-consecutive-sequence",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-6-ni2n",
+          "questions": [
+            {
+              "titleSlug": "summary-ranges",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "merge-intervals",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "insert-interval",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "minimum-number-of-arrows-to-burst-balloons",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-7-x7pk",
+          "questions": [
+            {
+              "titleSlug": "valid-parentheses",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "simplify-path",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "min-stack",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "evaluate-reverse-polish-notation",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "basic-calculator",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-8-rvcb",
+          "questions": [
+            {
+              "titleSlug": "linked-list-cycle",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "add-two-numbers",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "merge-two-sorted-lists",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "copy-list-with-random-pointer",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "reverse-linked-list-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "reverse-nodes-in-k-group",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "remove-nth-node-from-end-of-list",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "remove-duplicates-from-sorted-list-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "rotate-list",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "partition-list",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "lru-cache",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-9-ozek",
+          "questions": [
+            {
+              "titleSlug": "maximum-depth-of-binary-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "same-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "invert-binary-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "symmetric-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "construct-binary-tree-from-preorder-and-inorder-traversal",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "construct-binary-tree-from-inorder-and-postorder-traversal",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "populating-next-right-pointers-in-each-node-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "flatten-binary-tree-to-linked-list",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "path-sum",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "sum-root-to-leaf-numbers",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "binary-tree-maximum-path-sum",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "binary-search-tree-iterator",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "count-complete-tree-nodes",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "lowest-common-ancestor-of-a-binary-tree",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-10-ibmi",
+          "questions": [
+            {
+              "titleSlug": "binary-tree-right-side-view",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "average-of-levels-in-binary-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "binary-tree-level-order-traversal",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "binary-tree-zigzag-level-order-traversal",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-11-z3y5",
+          "questions": [
+            {
+              "titleSlug": "minimum-absolute-difference-in-bst",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "kth-smallest-element-in-a-bst",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "validate-binary-search-tree",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-12-7djr",
+          "questions": [
+            {
+              "titleSlug": "number-of-islands",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "surrounded-regions",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "clone-graph",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "evaluate-division",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "course-schedule",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "course-schedule-ii",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-13-9z8t",
+          "questions": [
+            {
+              "titleSlug": "snakes-and-ladders",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "minimum-genetic-mutation",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "word-ladder",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-14-lih2",
+          "questions": [
+            {
+              "titleSlug": "implement-trie-prefix-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "design-add-and-search-words-data-structure",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "word-search-ii",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-15-rpt9",
+          "questions": [
+            {
+              "titleSlug": "letter-combinations-of-a-phone-number",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "combinations",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "permutations",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "combination-sum",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "n-queens-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "generate-parentheses",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "word-search",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-16-z95i",
+          "questions": [
+            {
+              "titleSlug": "convert-sorted-array-to-binary-search-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "sort-list",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "construct-quad-tree",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "merge-k-sorted-lists",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-17-tjhz",
+          "questions": [
+            {
+              "titleSlug": "maximum-subarray",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "maximum-sum-circular-subarray",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-18-quur",
+          "questions": [
+            {
+              "titleSlug": "search-insert-position",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "search-a-2d-matrix",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-peak-element",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "search-in-rotated-sorted-array",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-first-and-last-position-of-element-in-sorted-array",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-minimum-in-rotated-sorted-array",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "median-of-two-sorted-arrays",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-19-w23l",
+          "questions": [
+            {
+              "titleSlug": "kth-largest-element-in-an-array",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "ipo",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-k-pairs-with-smallest-sums",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "find-median-from-data-stream",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-20-m490",
+          "questions": [
+            {
+              "titleSlug": "add-binary",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "reverse-bits",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "number-of-1-bits",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "single-number",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "single-number-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "bitwise-and-of-numbers-range",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-21-098q",
+          "questions": [
+            {
+              "titleSlug": "palindrome-number",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "plus-one",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "factorial-trailing-zeroes",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "sqrtx",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "powx-n",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "max-points-on-a-line",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-22-p3qn",
+          "questions": [
+            {
+              "titleSlug": "climbing-stairs",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "house-robber",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "word-break",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "coin-change",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "longest-increasing-subsequence",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        },
+        {
+          "slug": "top-interview-150-23-cpbf",
+          "questions": [
+            {
+              "titleSlug": "triangle",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "minimum-path-sum",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "unique-paths-ii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "longest-palindromic-substring",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "interleaving-string",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "edit-distance",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "best-time-to-buy-and-sell-stock-iii",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "best-time-to-buy-and-sell-stock-iv",
+              "status": "PAST_SOLVED"
+            },
+            {
+              "titleSlug": "maximal-square",
+              "status": "PAST_SOLVED"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
