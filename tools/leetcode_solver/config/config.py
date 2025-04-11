@@ -37,3 +37,7 @@ class LeetCodeConfig:
         "X-CSRFToken": CSRF_TOKEN,
         "Cookie": COOKIE,
     }
+
+    QUESTIONS_JSON_PATH = "../data/output/leetcode_questions.json"
+    QUESTIONS_HTML_DIR = "../data/questions/html"
+    QUESTIONS_JSON_DIR = "../data/questions/json"

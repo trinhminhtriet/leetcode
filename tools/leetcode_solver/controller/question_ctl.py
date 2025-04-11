@@ -84,10 +84,11 @@ class LeetCodeQuestionController:
                 if filename == "README.md":
                     continue
                 if filename == "README_EN.md":
-                    filename = "README.md"
-
-                src_file = os.path.join(src_folder_path, filename)
-                dest_file = os.path.join(dist_folder_path, filename)
+                    src_file = os.path.join(src_folder_path, "README_EN.md")
+                    dest_file = os.path.join(dist_folder_path, "README.md")
+                else:
+                    src_file = os.path.join(src_folder_path, filename)
+                    dest_file = os.path.join(dist_folder_path, filename)
                 if os.path.isfile(src_file):
                     if not os.path.exists(dest_file):
                         convert_crlf_to_lf(src_file)

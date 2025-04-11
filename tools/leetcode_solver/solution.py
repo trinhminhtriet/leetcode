@@ -9,10 +9,15 @@ logging.basicConfig(
 LEETCODE_USER = os.environ.get("STRAPI_USERNAME")
 
 
+def solve_by_frontend_question_id():
+    ctl = LeetCodeSolutionController()
+    ctl.solve_by_frontend_question_id(question_frontend_id=3510)
+
+
 def solve_by_submmitted_language():
     ctl = LeetCodeSolutionController()
     ctl.solve_by_submmitted_language(
-        submitted_by=LEETCODE_USER, lang="java", limit=100)
+        submitted_by=LEETCODE_USER, lang="java", limit=9)
 
 
 def solve_daily_question():
@@ -20,10 +25,16 @@ def solve_daily_question():
     ctl.solve_daily_question()
 
 
-def publish_solution():
-    frontend_question_id = 2
+def publish_submmitted_language():
     ctl = LeetCodeSolutionController()
-    ctl.publish_solution(frontend_question_id)
+    ctl.publish_submmitted_language(
+        submitted_by=LEETCODE_USER, lang="java", limit=7)
+
+
+def publish_solution():
+    frontend_question_id = 3509
+    ctl = LeetCodeSolutionController()
+    ctl.publish_solution(frontend_question_id=frontend_question_id)
 
 
 def get_unsolved_questions():
@@ -32,5 +43,7 @@ def get_unsolved_questions():
 
 
 if __name__ == "__main__":
-    solve_by_submmitted_language()
-    # publish_solution()
+    # solve_by_frontend_question_id()
+    # solve_by_submmitted_language()
+    # publish_submmitted_language()
+    solve_daily_question()

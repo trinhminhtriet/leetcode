@@ -56,7 +56,8 @@ class LeetCodeStudyPlanClient:
         headers["Referer"] = f"https://leetcode.com/studyplan/{plan_slug}/"
 
         try:
-            response = self.session.post(self.BASE_URL, headers=headers, json=payload)
+            response = self.session.post(
+                self.BASE_URL, headers=headers, json=payload)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
@@ -166,7 +167,7 @@ class LeetCodeStudyPlanClient:
         for plan_slug in config.study_plans:
             logging.info(f"{'='*40}\nProcessing study plan: {plan_slug}")
 
-            self.quit_study_plan(plan_slug)
+            # self.quit_study_plan(plan_slug)
             time.sleep(2)  # Reduced sleep time
 
             self.join_study_plan(plan_slug)
@@ -199,6 +200,6 @@ class LeetCodeStudyPlanClient:
 
 
 if __name__ == "__main__":
-    client = LeetCodeClient()
+    client = LeetCodeStudyPlanClient()
     config = StudyPlanConfig()
     client.process_study_plans(config)
