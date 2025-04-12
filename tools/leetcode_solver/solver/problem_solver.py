@@ -32,14 +32,14 @@ class LeetCodeProblemSolver:
             .first()
         )
         if question:
-            logging.info(
-                f"[{frontend_question_id}] Found question: {question.slug}")
+            logging.info(f"[{frontend_question_id}] Found question: {question.slug}")
             return question
-        logging.error(
-            f"[{frontend_question_id}] Question not found in database")
+        logging.error(f"[{frontend_question_id}] Question not found in database")
         return None
 
-    def find_solutions(self, question: LeetcodeQuestion, upsert: bool = False) -> Dict[str, str]:
+    def find_solutions(
+        self, question: LeetcodeQuestion, upsert: bool = False
+    ) -> Dict[str, str]:
         """Find solutions for a question in various languages from local filesystem."""
         solutions = {}
         frontend_id = question.frontend_question_id
@@ -47,8 +47,7 @@ class LeetCodeProblemSolver:
         folder_path = self._get_folder_path(frontend_id, slug)
 
         if not os.path.exists(folder_path):
-            logging.warning(
-                f"[{frontend_id}] Solution folder not found: {folder_path}")
+            logging.warning(f"[{frontend_id}] Solution folder not found: {folder_path}")
             return solutions
 
         for lang, ext in self.config.EXTENSIONS.items():
@@ -58,8 +57,7 @@ class LeetCodeProblemSolver:
                     solutions[lang] = file.read()
 
                 if upsert:
-                    self.solution_db.upsert_solution(
-                        question, lang, solutions[lang])
+                    self.solution_db.upsert_solution(question, lang, solutions[lang])
                 logging.info(f"[{frontend_id}] Found solution in {lang}")
         return solutions
 
@@ -92,8 +90,7 @@ class LeetCodeProblemSolver:
             if lang not in solutions:
                 continue
 
-            logging.info(
-                f"[{frontend_question_id}] Attempting solution in {lang}")
+            logging.info(f"[{frontend_question_id}] Attempting solution in {lang}")
             solution = solutions[lang]
             submission_id = self.submit_service.submit_solution(
                 question, lang, solution
@@ -103,12 +100,10 @@ class LeetCodeProblemSolver:
                 submission_id, frontend_question_id
             ):
                 self.submission_db.save_submission(question, lang, solution)
-                logging.info(
-                    f"[{frontend_question_id}] Successfully solved in {lang}")
+                logging.info(f"[{frontend_question_id}] Successfully solved in {lang}")
                 return True
             else:
-                logging.warning(
-                    f"[{frontend_question_id}] Solution in {lang} failed")
+                logging.warning(f"[{frontend_question_id}] Solution in {lang} failed")
                 session = self.solution_db.get_session()
                 failed_solution = (
                     session.query(LeetcodeSolution)

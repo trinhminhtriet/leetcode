@@ -41,6 +41,5 @@ class SubmitSolutionAPIService(LeetCodeAPIBaseService):
             logging.error(f"[{frontend_id}] No submission ID in response")
             return None
         except json.JSONDecodeError:
-            logging.error(
-                f"[{frontend_id}] Failed to parse submission response")
+            logging.error(f"[{frontend_id}] Failed to parse submission response")
             return None

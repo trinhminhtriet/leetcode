@@ -76,8 +76,7 @@ class LeetCodeQuestionController:
 
         if not os.path.exists(dist_folder_path):
             os.makedirs(dist_folder_path)
-            logging.info(
-                f"Created distination directory: {dist_folder_path}")
+            logging.info(f"Created distination directory: {dist_folder_path}")
 
         if os.path.exists(src_folder_path):
             for filename in os.listdir(src_folder_path):
@@ -95,5 +94,4 @@ class LeetCodeQuestionController:
                         shutil.copy(src_file, dest_file)
                         logging.info(f"Copied {src_file} to {dest_file}")
         else:
-            logging.warning(
-                f"[{frontend_question_id}] Src folder path does not exist.")
+            logging.warning(f"[{frontend_question_id}] Src folder path does not exist.")

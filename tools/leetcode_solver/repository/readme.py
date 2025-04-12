@@ -40,9 +40,7 @@ class LeetcodeSolutionReadmeRepository:
 
         start = (frontend_question_id // 100) * 100
         end = start + 99
-        return (
-            f"solutions/{start:04d}-{end:04d}/{frontend_question_id:04d}.{slug}"
-        )
+        return f"solutions/{start:04d}-{end:04d}/{frontend_question_id:04d}.{slug}"
 
     def collect_languages(self, content: str):
         code_blocks = re.findall(r"#### (\w+)\n", content, re.DOTALL)
@@ -82,8 +80,7 @@ class LeetcodeSolutionReadmeRepository:
         solution_end = solution_readme.find("<!-- tabs:start -->")
 
         if solution_start == -1 or solution_end == -1:
-            logging.error(
-                f"[{frontend_question_id}] Solution section not found.")
+            logging.error(f"[{frontend_question_id}] Solution section not found.")
             return
 
         solution_text = solution_readme[solution_start:solution_end].strip()
@@ -120,7 +117,7 @@ Rewrite solution above by this Markdown format:
             return
 
         codeblock = solution_readme[
-            tabs_start: tabs_end + len("<!-- tabs:end -->")
+            tabs_start : tabs_end + len("<!-- tabs:end -->")
         ].strip()
         codeblock = codeblock.replace("<!-- tabs:start -->", "").replace(
             "<!-- tabs:end -->", ""

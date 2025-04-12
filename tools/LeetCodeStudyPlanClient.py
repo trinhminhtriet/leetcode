@@ -56,8 +56,7 @@ class LeetCodeStudyPlanClient:
         headers["Referer"] = f"https://leetcode.com/studyplan/{plan_slug}/"
 
         try:
-            response = self.session.post(
-                self.BASE_URL, headers=headers, json=payload)
+            response = self.session.post(self.BASE_URL, headers=headers, json=payload)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
