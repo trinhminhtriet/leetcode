@@ -38,8 +38,7 @@ class QuestionStore:
         if not questions:
             questions = self.all_questions_service.fetch_all_questions()
             if questions:
-                self.json_manager.save_questions(
-                    {"stat_status_pairs": questions})
+                self.json_manager.save_questions({"stat_status_pairs": questions})
 
         if not questions and not daily_frontend_id:
             logging.error("No questions retrieved to store")
@@ -59,8 +58,7 @@ class QuestionStore:
                 None,
             )
             if not daily_question:
-                daily_question = self._fetch_question_by_frontend_id(
-                    daily_frontend_id)
+                daily_question = self._fetch_question_by_frontend_id(daily_frontend_id)
                 if daily_question:
                     self._process_question(daily_question, min_frontend_id)
             else:
@@ -103,6 +101,5 @@ class QuestionStore:
         for question in all_questions:
             if question["stat"]["frontend_question_id"] == frontend_id:
                 return question
-        logging.error(
-            f"Could not find question with frontend ID {frontend_id}")
+        logging.error(f"Could not find question with frontend ID {frontend_id}")
         return None

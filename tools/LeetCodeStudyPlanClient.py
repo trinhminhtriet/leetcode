@@ -19,7 +19,7 @@ class StudyPlanConfig:
                 "top-100-liked",
                 "leetcode-75",
                 "top-sql-50",
-                "introduction-to-pandas",
+                # "introduction-to-pandas",
             ]
 
 
@@ -167,7 +167,8 @@ class LeetCodeStudyPlanClient:
             logging.info(f"{'='*40}\nProcessing study plan: {plan_slug}")
 
             # self.quit_study_plan(plan_slug)
-            time.sleep(2)  # Reduced sleep time
+            # Reduced sleep time
+            # time.sleep(2)
 
             self.join_study_plan(plan_slug)
             time.sleep(2)

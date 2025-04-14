@@ -16,8 +16,7 @@ class JsonFileManager(FileBaseService):
                 self.config.QUESTIONS_JSON_PATH, "r", encoding="utf-8"
             ) as json_file:
                 data = json.load(json_file)
-                logging.info(
-                    f"Loaded questions from {self.config.QUESTIONS_JSON_PATH}")
+                logging.info(f"Loaded questions from {self.config.QUESTIONS_JSON_PATH}")
                 # return data.get("stat_status_pairs", [])
                 return data
         logging.info(
