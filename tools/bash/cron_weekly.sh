@@ -7,8 +7,8 @@ python --version
 python -m venv .venv
 . ./.venv/bin/activate
 
-python -m pip install --upgrade pip
-python -m pip install --upgrade -r requirements.txt
+# python -m pip install --upgrade pip
+# python -m pip install --upgrade -r requirements.txt
 
 python --version
 pip --version
