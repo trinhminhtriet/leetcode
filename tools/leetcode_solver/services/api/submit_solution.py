@@ -22,7 +22,10 @@ class SubmitSolutionAPIService(LeetCodeAPIBaseService):
 
         response = self.session.post(url, json=payload)
 
-        if response.status_code == 429:
+        if response.status_code == 403:
+            logging.error(f"[{frontend_id}] Forbidden: Invalid session or token")
+            exit(1)
+        elif response.status_code == 429:
             logging.error(f"[{frontend_id}] Rate limit exceeded")
             exit(1)
         elif response.status_code != 200:
