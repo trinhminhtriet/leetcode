@@ -1,42 +1,51 @@
 class Solution {
-    public List<String> getWordsInLongestSubsequence(int n, String[] words, int[] groups) {
-        int[] f = new int[n];
-        int[] g = new int[n];
-        Arrays.fill(f, 1);
-        Arrays.fill(g, -1);
-        int mx = 1;
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < i; ++j) {
-                if (groups[i] != groups[j] && f[i] < f[j] + 1 && check(words[i], words[j])) {
-                    f[i] = f[j] + 1;
-                    g[i] = j;
-                    mx = Math.max(mx, f[i]);
+
+    public List<String> getWordsInLongestSubsequence(
+        String[] words,
+        int[] groups
+    ) {
+        int n = groups.length;
+        int[] dp = new int[n];
+        int[] prev = new int[n];
+        Arrays.fill(dp, 1);
+        Arrays.fill(prev, -1);
+        int maxIndex = 0;
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (
+                    check(words[i], words[j]) &&
+                    dp[j] + 1 > dp[i] &&
+                    groups[i] != groups[j]
+                ) {
+                    dp[i] = dp[j] + 1;
+                    prev[i] = j;
                 }
+            }
+            if (dp[i] > dp[maxIndex]) {
+                maxIndex = i;
             }
         }
         List<String> ans = new ArrayList<>();
-        for (int i = 0; i < n; ++i) {
-            if (f[i] == mx) {
-                for (int j = i; j >= 0; j = g[j]) {
-                    ans.add(words[j]);
-                }
-                break;
-            }
+        for (int i = maxIndex; i >= 0; i = prev[i]) {
+            ans.add(words[i]);
         }
         Collections.reverse(ans);
         return ans;
     }
 
-    private boolean check(String s, String t) {
-        if (s.length() != t.length()) {
+    private boolean check(String s1, String s2) {
+        if (s1.length() != s2.length()) {
             return false;
         }
-        int cnt = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) != t.charAt(i)) {
-                ++cnt;
+        int diff = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                if (++diff > 1) {
+                    return false;
+                }
             }
         }
-        return cnt == 1;
+        return diff == 1;
     }
 }
+
