@@ -10,7 +10,8 @@ logging.basicConfig(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="LeetCode Question Store and Solver")
+    parser = argparse.ArgumentParser(
+        description="LeetCode Question Store and Solver")
     parser.add_argument("--store", action="store_true", help="Store questions")
     parser.add_argument(
         "--daily", action="store_true", help="Include the daily question when storing"
@@ -22,22 +23,39 @@ def main():
         help="Minimum frontend ID to process when storing",
     )
     parser.add_argument(
-        "--solve", type=int, help="Solve a problem by frontend_question_id"
+        "--question", type=int, help="Solve a problem by frontend_question_id"
+    )
+
+    parser.add_argument(
+        "--start", type=int, help="Solve a problem by frontend_question_id"
+    )
+    parser.add_argument(
+        "--end", type=int, help="Solve a problem by frontend_question_id"
     )
 
     args = parser.parse_args()
 
     if args.store:
         store = QuestionStore()
-        store.store_questions(min_frontend_id=args.min_id, include_daily=args.daily)
+        store.store_questions(min_frontend_id=args.min_id,
+                              include_daily=args.daily)
 
-    if args.solve:
+    if args.question:
         solver = LeetCodeProblemSolver()
-        success = solver.solve_by_frontend_question_id(args.solve)
+        success = solver.solve_by_frontend_question_id(args.question)
         if success:
-            logging.info(f"Problem {args.solve} solved successfully")
+            logging.info(f"Problem {args.question} solved successfully")
         else:
-            logging.error(f"Failed to solve problem {args.solve}")
+            logging.error(f"Failed to solve problem {args.question}")
+
+    if args.start and args.end:
+        solver = LeetCodeProblemSolver()
+        for problem_id in range(args.start, args.end):
+            success = solver.solve_by_frontend_question_id(problem_id)
+            if success:
+                logging.info(f"Problem {problem_id} solved successfully")
+            else:
+                logging.error(f"Failed to solve problem {problem_id}")
 
 
 if __name__ == "__main__":
