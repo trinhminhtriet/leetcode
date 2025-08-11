@@ -106,8 +106,7 @@ Rewrite solution above by this Markdown format:
         output_file_path = f"{published_folder_path}/Prompt.md"
         with open(output_file_path, "w") as f:
             f.write(prompt_full)
-        logging.info(f"[{frontend_question_id}] Solution detail written to {
-            output_file_path}.")
+        logging.info(f"[{frontend_question_id}] Solution detail written to {output_file_path}.")
 
         tabs_start = solution_readme.find("<!-- tabs:start -->")
         tabs_end = solution_readme.find("<!-- tabs:end -->")

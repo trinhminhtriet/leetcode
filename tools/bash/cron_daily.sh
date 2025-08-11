@@ -1,18 +1,18 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-cd /data/trinhminhtriet/leetcode/tools
+cd /workspace/trinhminhtriet/leetcode/tools
 
-python --version
+# python --version
 
-python -m venv .venv
+python3 -m venv .venv
 . ./.venv/bin/activate
 
-# python -m pip install --upgrade pip
-# python -m pip install --upgrade -r requirements.txt
+python -m pip install --upgrade pip
+python -m pip install --upgrade -r requirements.txt
 
 python --version
 pip --version
 
-cd /data/trinhminhtriet/leetcode/tools/leetcode_solver
+cd /workspace/trinhminhtriet/leetcode/tools/leetcode_solver
 
 python daily.py
