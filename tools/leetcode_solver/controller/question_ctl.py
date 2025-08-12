@@ -60,8 +60,8 @@ class LeetCodeQuestionController:
                 break
 
     def _copy_by_question(self, question):
-        SRC_DIR = "/Users/triettrinh/project/triet/trinhminhtriet/leetcode-doocs"
-        DIST_DIR = "/Users/triettrinh/project/triet/trinhminhtriet/leetcode"
+        SRC_DIR = "/workspace/trinhminhtriet/leetcode-doocs"
+        DIST_DIR = "/workspace/trinhminhtriet/leetcode"
 
         frontend_question_id = question.get("frontend_question_id")
         question_slug = question.get("question__title_slug")

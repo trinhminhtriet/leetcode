@@ -13,14 +13,13 @@ python3 --version
 python --version
 pip --version
 
-cd /workspace/trinhminhtriet/leetcode/tools
-
-echo ">>> Running Leetcode Study Plan Weekly"
-python LeetCodeStudyPlanClient.py
-
 cd /workspace/trinhminhtriet/leetcode/tools/leetcode_solver
-echo ">>> Copy solutions from leetcode-doocs to leetcode"
+
 python question.py
+echo ">>> Copied solutions from leetcode-doocs to leetcode"
+sleep 2
 
 cd /workspace/trinhminhtriet/leetcode/tools
 python ReadMeFileManager.py
+echo ">>> Copied ReadMe files"
+echo ">>> Finished Weekly Tasks"
