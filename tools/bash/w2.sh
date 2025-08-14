@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -ex
 
 cd /workspace/trinhminhtriet/leetcode-doocs
 echo ">>> Go to leetcode-doocs repository"
@@ -25,4 +26,15 @@ sleep 2
 cd /workspace/trinhminhtriet/leetcode/tools
 python ReadMeFileManager.py
 echo ">>> Copied ReadMe files"
+
+cd /workspace/trinhminhtriet/leetcode
+if ! git diff --quiet ./solutions; then
+    echo ">>> ./solutions has changes"
+    git add ./solutions
+    git commit -m "Update solutions"
+    git push origin develop
+else
+    echo ">>> ./solutions is clean"
+fi
+
 echo ">>> Finished Weekly Tasks"
