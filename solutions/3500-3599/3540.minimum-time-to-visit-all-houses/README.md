@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3540.Minimum%20Time%20to%20Visit%20All%20Houses/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3540. Minimum Time to Visit All Houses 🔒](https://leetcode.com/problems/minimum-time-to-visit-all-houses)
 
-[中文文档](/solution/3500-3599/3540.Minimum%20Time%20to%20Visit%20All%20Houses/README.md)
+[README](/solution/3500-3599/3540.Minimum%20Time%20to%20Visit%20All%20Houses/README.md)
 
 ## Description
 

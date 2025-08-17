@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3596.Minimum%20Cost%20Path%20with%20Alternating%20Directions%20I/README_EN.md
 tags:
     - Brainteaser
     - Math
@@ -11,7 +10,7 @@ tags:
 
 # [3596. Minimum Cost Path with Alternating Directions I 🔒](https://leetcode.com/problems/minimum-cost-path-with-alternating-directions-i)
 
-[中文文档](/solution/3500-3599/3596.Minimum%20Cost%20Path%20with%20Alternating%20Directions%20I/README.md)
+[README](/solution/3500-3599/3596.Minimum%20Cost%20Path%20with%20Alternating%20Directions%20I/README.md)
 
 ## Description
 

@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3610.Minimum%20Number%20of%20Primes%20to%20Sum%20to%20Target/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3610. Minimum Number of Primes to Sum to Target 🔒](https://leetcode.com/problems/minimum-number-of-primes-to-sum-to-target)
 
-[中文文档](/solution/3600-3699/3610.Minimum%20Number%20of%20Primes%20to%20Sum%20to%20Target/README.md)
+[README](/solution/3600-3699/3610.Minimum%20Number%20of%20Primes%20to%20Sum%20to%20Target/README.md)
 
 ## Description
 

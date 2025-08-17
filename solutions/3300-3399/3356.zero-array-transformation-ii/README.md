@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3356.Zero%20Array%20Transformation%20II/README_EN.md
 rating: 1913
 source: Weekly Contest 424 Q3
 tags:
@@ -14,7 +13,7 @@ tags:
 
 # [3356. Zero Array Transformation II](https://leetcode.com/problems/zero-array-transformation-ii)
 
-[中文文档](/solution/3300-3399/3356.Zero%20Array%20Transformation%20II/README.md)
+[README](/solution/3300-3399/3356.Zero%20Array%20Transformation%20II/README.md)
 
 ## Description
 

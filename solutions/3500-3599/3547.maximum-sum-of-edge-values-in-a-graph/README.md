@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3547.Maximum%20Sum%20of%20Edge%20Values%20in%20a%20Graph/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3547. Maximum Sum of Edge Values in a Graph](https://leetcode.com/problems/maximum-sum-of-edge-values-in-a-graph)
 
-[中文文档](/solution/3500-3599/3547.Maximum%20Sum%20of%20Edge%20Values%20in%20a%20Graph/README.md)
+[README](/solution/3500-3599/3547.Maximum%20Sum%20of%20Edge%20Values%20in%20a%20Graph/README.md)
 
 ## Description
 

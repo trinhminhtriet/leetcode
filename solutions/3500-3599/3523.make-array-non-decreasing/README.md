@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3523.Make%20Array%20Non-decreasing/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3523. Make Array Non-decreasing](https://leetcode.com/problems/make-array-non-decreasing)
 
-[中文文档](/solution/3500-3599/3523.Make%20Array%20Non-decreasing/README.md)
+[README](/solution/3500-3599/3523.Make%20Array%20Non-decreasing/README.md)
 
 ## Description
 

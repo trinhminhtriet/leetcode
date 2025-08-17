@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3557.Find%20Maximum%20Number%20of%20Non%20Intersecting%20Substrings/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3557. Find Maximum Number of Non Intersecting Substrings](https://leetcode.com/problems/find-maximum-number-of-non-intersecting-substrings)
 
-[中文文档](/solution/3500-3599/3557.Find%20Maximum%20Number%20of%20Non%20Intersecting%20Substrings/README.md)
+[README](/solution/3500-3599/3557.Find%20Maximum%20Number%20of%20Non%20Intersecting%20Substrings/README.md)
 
 ## Description
 

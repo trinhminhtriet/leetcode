@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3592.Inverse%20Coin%20Change/README_EN.md
 tags:
     - Array
     - Dynamic Programming
@@ -11,7 +10,7 @@ tags:
 
 # [3592. Inverse Coin Change](https://leetcode.com/problems/inverse-coin-change)
 
-[中文文档](/solution/3500-3599/3592.Inverse%20Coin%20Change/README.md)
+[README](/solution/3500-3599/3592.Inverse%20Coin%20Change/README.md)
 
 ## Description
 

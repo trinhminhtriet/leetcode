@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3352.Count%20K-Reducible%20Numbers%20Less%20Than%20N/README_EN.md
 rating: 2450
 source: Weekly Contest 423 Q4
 tags:
@@ -15,7 +14,7 @@ tags:
 
 # [3352. Count K-Reducible Numbers Less Than N](https://leetcode.com/problems/count-k-reducible-numbers-less-than-n)
 
-[中文文档](/solution/3300-3399/3352.Count%20K-Reducible%20Numbers%20Less%20Than%20N/README.md)
+[README](/solution/3300-3399/3352.Count%20K-Reducible%20Numbers%20Less%20Than%20N/README.md)
 
 ## Description
 

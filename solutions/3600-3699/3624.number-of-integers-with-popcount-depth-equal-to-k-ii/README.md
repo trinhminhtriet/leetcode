@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3624.Number%20of%20Integers%20With%20Popcount-Depth%20Equal%20to%20K%20II/README_EN.md
 tags:
     - Segment Tree
     - Array
@@ -11,7 +10,7 @@ tags:
 
 # [3624. Number of Integers With Popcount-Depth Equal to K II](https://leetcode.com/problems/number-of-integers-with-popcount-depth-equal-to-k-ii)
 
-[中文文档](/solution/3600-3699/3624.Number%20of%20Integers%20With%20Popcount-Depth%20Equal%20to%20K%20II/README.md)
+[README](/solution/3600-3699/3624.Number%20of%20Integers%20With%20Popcount-Depth%20Equal%20to%20K%20II/README.md)
 
 ## Description
 

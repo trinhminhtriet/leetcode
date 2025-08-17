@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3427.Sum%20of%20Variable%20Length%20Subarrays/README_EN.md
 rating: 1215
 source: Weekly Contest 433 Q1
 tags:
@@ -13,7 +12,7 @@ tags:
 
 # [3427. Sum of Variable Length Subarrays](https://leetcode.com/problems/sum-of-variable-length-subarrays)
 
-[中文文档](/solution/3400-3499/3427.Sum%20of%20Variable%20Length%20Subarrays/README.md)
+[README](/solution/3400-3499/3427.Sum%20of%20Variable%20Length%20Subarrays/README.md)
 
 ## Description
 

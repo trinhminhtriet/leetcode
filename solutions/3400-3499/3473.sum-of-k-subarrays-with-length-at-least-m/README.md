@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3473.Sum%20of%20K%20Subarrays%20With%20Length%20at%20Least%20M/README_EN.md
 tags:
     - Array
     - Dynamic Programming
@@ -12,7 +11,7 @@ tags:
 
 # [3473. Sum of K Subarrays With Length at Least M](https://leetcode.com/problems/sum-of-k-subarrays-with-length-at-least-m)
 
-[中文文档](/solution/3400-3499/3473.Sum%20of%20K%20Subarrays%20With%20Length%20at%20Least%20M/README.md)
+[README](/solution/3400-3499/3473.Sum%20of%20K%20Subarrays%20With%20Length%20at%20Least%20M/README.md)
 
 ## Description
 

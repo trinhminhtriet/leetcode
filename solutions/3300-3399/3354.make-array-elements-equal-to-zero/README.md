@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3354.Make%20Array%20Elements%20Equal%20to%20Zero/README_EN.md
 rating: 1397
 source: Weekly Contest 424 Q1
 tags:
@@ -14,7 +13,7 @@ tags:
 
 # [3354. Make Array Elements Equal to Zero](https://leetcode.com/problems/make-array-elements-equal-to-zero)
 
-[中文文档](/solution/3300-3399/3354.Make%20Array%20Elements%20Equal%20to%20Zero/README.md)
+[README](/solution/3300-3399/3354.Make%20Array%20Elements%20Equal%20to%20Zero/README.md)
 
 ## Description
 

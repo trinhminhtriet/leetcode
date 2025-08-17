@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3312.Sorted%20GCD%20Pair%20Queries/README_EN.md
 rating: 2532
 source: Weekly Contest 418 Q4
 tags:
@@ -19,7 +18,7 @@ tags:
 
 # [3312. Sorted GCD Pair Queries](https://leetcode.com/problems/sorted-gcd-pair-queries)
 
-[中文文档](/solution/3300-3399/3312.Sorted%20GCD%20Pair%20Queries/README.md)
+[README](/solution/3300-3399/3312.Sorted%20GCD%20Pair%20Queries/README.md)
 
 ## Description
 

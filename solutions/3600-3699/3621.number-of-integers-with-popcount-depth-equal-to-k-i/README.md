@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3621.Number%20of%20Integers%20With%20Popcount-Depth%20Equal%20to%20K%20I/README_EN.md
 tags:
     - Math
     - Dynamic Programming
@@ -12,7 +11,7 @@ tags:
 
 # [3621. Number of Integers With Popcount-Depth Equal to K I](https://leetcode.com/problems/number-of-integers-with-popcount-depth-equal-to-k-i)
 
-[中文文档](/solution/3600-3699/3621.Number%20of%20Integers%20With%20Popcount-Depth%20Equal%20to%20K%20I/README.md)
+[README](/solution/3600-3699/3621.Number%20of%20Integers%20With%20Popcount-Depth%20Equal%20to%20K%20I/README.md)
 
 ## Description
 

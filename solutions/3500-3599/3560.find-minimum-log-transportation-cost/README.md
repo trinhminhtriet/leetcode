@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3560.Find%20Minimum%20Log%20Transportation%20Cost/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3560. Find Minimum Log Transportation Cost](https://leetcode.com/problems/find-minimum-log-transportation-cost)
 
-[中文文档](/solution/3500-3599/3560.Find%20Minimum%20Log%20Transportation%20Cost/README.md)
+[README](/solution/3500-3599/3560.Find%20Minimum%20Log%20Transportation%20Cost/README.md)
 
 ## Description
 

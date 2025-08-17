@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3351.Sum%20of%20Good%20Subsequences/README_EN.md
 rating: 2085
 source: Weekly Contest 423 Q3
 tags:
@@ -14,7 +13,7 @@ tags:
 
 # [3351. Sum of Good Subsequences](https://leetcode.com/problems/sum-of-good-subsequences)
 
-[中文文档](/solution/3300-3399/3351.Sum%20of%20Good%20Subsequences/README.md)
+[README](/solution/3300-3399/3351.Sum%20of%20Good%20Subsequences/README.md)
 
 ## Description
 

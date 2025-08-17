@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3546.Equal%20Sum%20Grid%20Partition%20I/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3546. Equal Sum Grid Partition I](https://leetcode.com/problems/equal-sum-grid-partition-i)
 
-[中文文档](/solution/3500-3599/3546.Equal%20Sum%20Grid%20Partition%20I/README.md)
+[README](/solution/3500-3599/3546.Equal%20Sum%20Grid%20Partition%20I/README.md)
 
 ## Description
 

@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3646.Next%20Special%20Palindrome%20Number/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3646. Next Special Palindrome Number](https://leetcode.com/problems/next-special-palindrome-number)
 
-[中文文档](/solution/3600-3699/3646.Next%20Special%20Palindrome%20Number/README.md)
+[README](/solution/3600-3699/3646.Next%20Special%20Palindrome%20Number/README.md)
 
 ## Description
 

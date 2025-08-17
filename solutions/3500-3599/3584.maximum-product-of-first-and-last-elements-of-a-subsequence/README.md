@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3584.Maximum%20Product%20of%20First%20and%20Last%20Elements%20of%20a%20Subsequence/README_EN.md
 tags:
     - Array
     - Two Pointers
@@ -11,7 +10,7 @@ tags:
 
 # [3584. Maximum Product of First and Last Elements of a Subsequence](https://leetcode.com/problems/maximum-product-of-first-and-last-elements-of-a-subsequence)
 
-[中文文档](/solution/3500-3599/3584.Maximum%20Product%20of%20First%20and%20Last%20Elements%20of%20a%20Subsequence/README.md)
+[README](/solution/3500-3599/3584.Maximum%20Product%20of%20First%20and%20Last%20Elements%20of%20a%20Subsequence/README.md)
 
 ## Description
 

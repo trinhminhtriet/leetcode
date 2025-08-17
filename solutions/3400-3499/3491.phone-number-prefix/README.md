@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3491.Phone%20Number%20Prefix/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3491. Phone Number Prefix 🔒](https://leetcode.com/problems/phone-number-prefix)
 
-[中文文档](/solution/3400-3499/3491.Phone%20Number%20Prefix/README.md)
+[README](/solution/3400-3499/3491.Phone%20Number%20Prefix/README.md)
 
 ## Description
 

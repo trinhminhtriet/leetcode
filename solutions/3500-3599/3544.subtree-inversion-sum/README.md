@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3544.Subtree%20Inversion%20Sum/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3544. Subtree Inversion Sum](https://leetcode.com/problems/subtree-inversion-sum)
 
-[中文文档](/solution/3500-3599/3544.Subtree%20Inversion%20Sum/README.md)
+[README](/solution/3500-3599/3544.Subtree%20Inversion%20Sum/README.md)
 
 ## Description
 

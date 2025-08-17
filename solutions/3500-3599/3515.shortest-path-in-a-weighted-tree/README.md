@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3515.Shortest%20Path%20in%20a%20Weighted%20Tree/README_EN.md
 tags:
     - Tree
     - Depth-First Search
@@ -14,7 +13,7 @@ tags:
 
 # [3515. Shortest Path in a Weighted Tree](https://leetcode.com/problems/shortest-path-in-a-weighted-tree)
 
-[中文文档](/solution/3500-3599/3515.Shortest%20Path%20in%20a%20Weighted%20Tree/README.md)
+[README](/solution/3500-3599/3515.Shortest%20Path%20in%20a%20Weighted%20Tree/README.md)
 
 ## Description
 

@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3564.Seasonal%20Sales%20Analysis/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3564. Seasonal Sales Analysis](https://leetcode.com/problems/seasonal-sales-analysis)
 
-[中文文档](/solution/3500-3599/3564.Seasonal%20Sales%20Analysis/README.md)
+[README](/solution/3500-3599/3564.Seasonal%20Sales%20Analysis/README.md)
 
 ## Description
 

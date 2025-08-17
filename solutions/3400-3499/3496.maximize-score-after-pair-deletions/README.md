@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3496. Maximize Score After Pair Deletions 🔒](https://leetcode.com/problems/maximize-score-after-pair-deletions)
 
-[中文文档](/solution/3400-3499/3496.Maximize%20Score%20After%20Pair%20Deletions/README.md)
+[README](/solution/3400-3499/3496.Maximize%20Score%20After%20Pair%20Deletions/README.md)
 
 ## Description
 

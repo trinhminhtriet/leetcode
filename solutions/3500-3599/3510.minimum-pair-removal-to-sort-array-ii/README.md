@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3510.Minimum%20Pair%20Removal%20to%20Sort%20Array%20II/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3510. Minimum Pair Removal to Sort Array II](https://leetcode.com/problems/minimum-pair-removal-to-sort-array-ii)
 
-[中文文档](/solution/3500-3599/3510.Minimum%20Pair%20Removal%20to%20Sort%20Array%20II/README.md)
+[README](/solution/3500-3599/3510.Minimum%20Pair%20Removal%20to%20Sort%20Array%20II/README.md)
 
 ## Description
 

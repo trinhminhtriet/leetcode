@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3313.Find%20the%20Last%20Marked%20Nodes%20in%20Tree/README_EN.md
 tags:
     - Tree
     - Depth-First Search
@@ -11,7 +10,7 @@ tags:
 
 # [3313. Find the Last Marked Nodes in Tree 🔒](https://leetcode.com/problems/find-the-last-marked-nodes-in-tree)
 
-[中文文档](/solution/3300-3399/3313.Find%20the%20Last%20Marked%20Nodes%20in%20Tree/README.md)
+[README](/solution/3300-3399/3313.Find%20the%20Last%20Marked%20Nodes%20in%20Tree/README.md)
 
 ## Description
 

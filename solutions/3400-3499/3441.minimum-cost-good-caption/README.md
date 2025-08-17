@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3441.Minimum%20Cost%20Good%20Caption/README_EN.md
 tags:
     - String
     - Dynamic Programming
@@ -11,7 +10,7 @@ tags:
 
 # [3441. Minimum Cost Good Caption](https://leetcode.com/problems/minimum-cost-good-caption)
 
-[中文文档](/solution/3400-3499/3441.Minimum%20Cost%20Good%20Caption/README.md)
+[README](/solution/3400-3499/3441.Minimum%20Cost%20Good%20Caption/README.md)
 
 ## Description
 

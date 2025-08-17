@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3386.Button%20with%20Longest%20Push%20Time/README_EN.md
 rating: 1255
 source: Weekly Contest 428 Q1
 tags:
@@ -12,7 +11,7 @@ tags:
 
 # [3386. Button with Longest Push Time](https://leetcode.com/problems/button-with-longest-push-time)
 
-[中文文档](/solution/3300-3399/3386.Button%20with%20Longest%20Push%20Time/README.md)
+[README](/solution/3300-3399/3386.Button%20with%20Longest%20Push%20Time/README.md)
 
 ## Description
 

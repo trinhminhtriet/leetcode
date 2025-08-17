@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3465.Find%20Products%20with%20Valid%20Serial%20Numbers/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3465. Find Products with Valid Serial Numbers](https://leetcode.com/problems/find-products-with-valid-serial-numbers)
 
-[中文文档](/solution/3400-3499/3465.Find%20Products%20with%20Valid%20Serial%20Numbers/README.md)
+[README](/solution/3400-3499/3465.Find%20Products%20with%20Valid%20Serial%20Numbers/README.md)
 
 ## Description
 

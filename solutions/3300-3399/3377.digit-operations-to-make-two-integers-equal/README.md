@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3377.Digit%20Operations%20to%20Make%20Two%20Integers%20Equal/README_EN.md
 rating: 2186
 source: Biweekly Contest 145 Q3
 tags:
@@ -16,7 +15,7 @@ tags:
 
 # [3377. Digit Operations to Make Two Integers Equal](https://leetcode.com/problems/digit-operations-to-make-two-integers-equal)
 
-[中文文档](/solution/3300-3399/3377.Digit%20Operations%20to%20Make%20Two%20Integers%20Equal/README.md)
+[README](/solution/3300-3399/3377.Digit%20Operations%20to%20Make%20Two%20Integers%20Equal/README.md)
 
 ## Description
 

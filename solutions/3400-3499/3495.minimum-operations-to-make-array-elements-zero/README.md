@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3495.Minimum%20Operations%20to%20Make%20Array%20Elements%20Zero/README_EN.md
 tags:
     - Bit Manipulation
     - Array
@@ -12,7 +11,7 @@ tags:
 
 # [3495. Minimum Operations to Make Array Elements Zero](https://leetcode.com/problems/minimum-operations-to-make-array-elements-zero)
 
-[中文文档](/solution/3400-3499/3495.Minimum%20Operations%20to%20Make%20Array%20Elements%20Zero/README.md)
+[README](/solution/3400-3499/3495.Minimum%20Operations%20to%20Make%20Array%20Elements%20Zero/README.md)
 
 ## Description
 

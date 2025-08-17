@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3647.Maximum%20Weight%20in%20Two%20Bags/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3647. Maximum Weight in Two Bags 🔒](https://leetcode.com/problems/maximum-weight-in-two-bags)
 
-[中文文档](/solution/3600-3699/3647.Maximum%20Weight%20in%20Two%20Bags/README.md)
+[README](/solution/3600-3699/3647.Maximum%20Weight%20in%20Two%20Bags/README.md)
 
 ## Description
 

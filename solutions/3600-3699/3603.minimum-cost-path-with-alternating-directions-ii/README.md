@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3603.Minimum%20Cost%20Path%20with%20Alternating%20Directions%20II/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3603. Minimum Cost Path with Alternating Directions II](https://leetcode.com/problems/minimum-cost-path-with-alternating-directions-ii)
 
-[中文文档](/solution/3600-3699/3603.Minimum%20Cost%20Path%20with%20Alternating%20Directions%20II/README.md)
+[README](/solution/3600-3699/3603.Minimum%20Cost%20Path%20with%20Alternating%20Directions%20II/README.md)
 
 ## Description
 

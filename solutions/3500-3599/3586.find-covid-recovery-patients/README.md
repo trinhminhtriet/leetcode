@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3586.Find%20COVID%20Recovery%20Patients/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3586. Find COVID Recovery Patients](https://leetcode.com/problems/find-covid-recovery-patients)
 
-[中文文档](/solution/3500-3599/3586.Find%20COVID%20Recovery%20Patients/README.md)
+[README](/solution/3500-3599/3586.Find%20COVID%20Recovery%20Patients/README.md)
 
 ## Description
 

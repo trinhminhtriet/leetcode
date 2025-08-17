@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3572.Maximize%20Y%E2%80%91Sum%20by%20Picking%20a%20Triplet%20of%20Distinct%20X%E2%80%91Values/README_EN.md
 tags:
     - Greedy
     - Array
@@ -14,7 +13,7 @@ tags:
 
 # [3572. Maximize Y‑Sum by Picking a Triplet of Distinct X‑Values](https://leetcode.com/problems/maximize-ysum-by-picking-a-triplet-of-distinct-xvalues)
 
-[中文文档](/solution/3500-3599/3572.Maximize%20Y%E2%80%91Sum%20by%20Picking%20a%20Triplet%20of%20Distinct%20X%E2%80%91Values/README.md)
+[README](/solution/3500-3599/3572.Maximize%20Y%E2%80%91Sum%20by%20Picking%20a%20Triplet%20of%20Distinct%20X%E2%80%91Values/README.md)
 
 ## Description
 

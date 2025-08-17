@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3414.Maximum%20Score%20of%20Non-overlapping%20Intervals/README_EN.md
 rating: 2723
 source: Weekly Contest 431 Q4
 tags:
@@ -15,7 +14,7 @@ tags:
 
 # [3414. Maximum Score of Non-overlapping Intervals](https://leetcode.com/problems/maximum-score-of-non-overlapping-intervals)
 
-[中文文档](/solution/3400-3499/3414.Maximum%20Score%20of%20Non-overlapping%20Intervals/README.md)
+[README](/solution/3400-3499/3414.Maximum%20Score%20of%20Non-overlapping%20Intervals/README.md)
 
 ## Description
 

@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3520.Minimum%20Threshold%20for%20Inversion%20Pairs%20Count/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3520. Minimum Threshold for Inversion Pairs Count 🔒](https://leetcode.com/problems/minimum-threshold-for-inversion-pairs-count)
 
-[中文文档](/solution/3500-3599/3520.Minimum%20Threshold%20for%20Inversion%20Pairs%20Count/README.md)
+[README](/solution/3500-3599/3520.Minimum%20Threshold%20for%20Inversion%20Pairs%20Count/README.md)
 
 ## Description
 

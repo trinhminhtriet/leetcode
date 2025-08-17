@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3554.Find%20Category%20Recommendation%20Pairs/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3554. Find Category Recommendation Pairs](https://leetcode.com/problems/find-category-recommendation-pairs)
 
-[中文文档](/solution/3500-3599/3554.Find%20Category%20Recommendation%20Pairs/README.md)
+[README](/solution/3500-3599/3554.Find%20Category%20Recommendation%20Pairs/README.md)
 
 ## Description
 

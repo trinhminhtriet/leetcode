@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3607.Power%20Grid%20Maintenance/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3607. Power Grid Maintenance](https://leetcode.com/problems/power-grid-maintenance)
 
-[中文文档](/solution/3600-3699/3607.Power%20Grid%20Maintenance/README.md)
+[README](/solution/3600-3699/3607.Power%20Grid%20Maintenance/README.md)
 
 ## Description
 

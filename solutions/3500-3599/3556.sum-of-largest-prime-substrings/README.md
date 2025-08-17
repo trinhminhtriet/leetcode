@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3556.Sum%20of%20Largest%20Prime%20Substrings/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3556. Sum of Largest Prime Substrings](https://leetcode.com/problems/sum-of-largest-prime-substrings)
 
-[中文文档](/solution/3500-3599/3556.Sum%20of%20Largest%20Prime%20Substrings/README.md)
+[README](/solution/3500-3599/3556.Sum%20of%20Largest%20Prime%20Substrings/README.md)
 
 ## Description
 

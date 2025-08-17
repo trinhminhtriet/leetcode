@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3322.Premier%20League%20Table%20Ranking%20III/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3322. Premier League Table Ranking III 🔒](https://leetcode.com/problems/premier-league-table-ranking-iii)
 
-[中文文档](/solution/3300-3399/3322.Premier%20League%20Table%20Ranking%20III/README.md)
+[README](/solution/3300-3399/3322.Premier%20League%20Table%20Ranking%20III/README.md)
 
 ## Description
 

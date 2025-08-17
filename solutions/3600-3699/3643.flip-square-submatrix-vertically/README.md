@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3643.Flip%20Square%20Submatrix%20Vertically/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3643. Flip Square Submatrix Vertically](https://leetcode.com/problems/flip-square-submatrix-vertically)
 
-[中文文档](/solution/3600-3699/3643.Flip%20Square%20Submatrix%20Vertically/README.md)
+[README](/solution/3600-3699/3643.Flip%20Square%20Submatrix%20Vertically/README.md)
 
 ## Description
 

@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3608.Minimum%20Time%20for%20K%20Connected%20Components/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3608. Minimum Time for K Connected Components](https://leetcode.com/problems/minimum-time-for-k-connected-components)
 
-[中文文档](/solution/3600-3699/3608.Minimum%20Time%20for%20K%20Connected%20Components/README.md)
+[README](/solution/3600-3699/3608.Minimum%20Time%20for%20K%20Connected%20Components/README.md)
 
 ## Description
 

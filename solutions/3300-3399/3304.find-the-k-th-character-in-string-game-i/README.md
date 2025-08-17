@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3304.Find%20the%20K-th%20Character%20in%20String%20Game%20I/README_EN.md
 rating: 1288
 source: Weekly Contest 417 Q1
 tags:
@@ -15,7 +14,7 @@ tags:
 
 # [3304. Find the K-th Character in String Game I](https://leetcode.com/problems/find-the-k-th-character-in-string-game-i)
 
-[中文文档](/solution/3300-3399/3304.Find%20the%20K-th%20Character%20in%20String%20Game%20I/README.md)
+[README](/solution/3300-3399/3304.Find%20the%20K-th%20Character%20in%20String%20Game%20I/README.md)
 
 ## Description
 

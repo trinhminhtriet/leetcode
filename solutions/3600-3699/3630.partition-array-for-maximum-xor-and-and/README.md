@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3630.Partition%20Array%20for%20Maximum%20XOR%20and%20AND/README_EN.md
 rating: 2743
 source: Weekly Contest 460 Q4
 ---
@@ -10,7 +9,7 @@ source: Weekly Contest 460 Q4
 
 # [3630. Partition Array for Maximum XOR and AND](https://leetcode.com/problems/partition-array-for-maximum-xor-and-and)
 
-[中文文档](/solution/3600-3699/3630.Partition%20Array%20for%20Maximum%20XOR%20and%20AND/README.md)
+[README](/solution/3600-3699/3630.Partition%20Array%20for%20Maximum%20XOR%20and%20AND/README.md)
 
 ## Description
 

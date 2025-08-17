@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3400.Maximum%20Number%20of%20Matching%20Indices%20After%20Right%20Shifts/README_EN.md
 tags:
     - Array
     - Two Pointers
@@ -12,7 +11,7 @@ tags:
 
 # [3400. Maximum Number of Matching Indices After Right Shifts 🔒](https://leetcode.com/problems/maximum-number-of-matching-indices-after-right-shifts)
 
-[中文文档](/solution/3400-3499/3400.Maximum%20Number%20of%20Matching%20Indices%20After%20Right%20Shifts/README.md)
+[README](/solution/3400-3499/3400.Maximum%20Number%20of%20Matching%20Indices%20After%20Right%20Shifts/README.md)
 
 ## Description
 

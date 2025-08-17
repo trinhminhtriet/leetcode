@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3425.Longest%20Special%20Path/README_EN.md
 rating: 2434
 source: Biweekly Contest 148 Q3
 tags:
@@ -16,7 +15,7 @@ tags:
 
 # [3425. Longest Special Path](https://leetcode.com/problems/longest-special-path)
 
-[中文文档](/solution/3400-3499/3425.Longest%20Special%20Path/README.md)
+[README](/solution/3400-3499/3425.Longest%20Special%20Path/README.md)
 
 ## Description
 

@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3478.Choose%20K%20Elements%20With%20Maximum%20Sum/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3478. Choose K Elements With Maximum Sum](https://leetcode.com/problems/choose-k-elements-with-maximum-sum)
 
-[中文文档](/solution/3400-3499/3478.Choose%20K%20Elements%20With%20Maximum%20Sum/README.md)
+[README](/solution/3400-3499/3478.Choose%20K%20Elements%20With%20Maximum%20Sum/README.md)
 
 ## Description
 

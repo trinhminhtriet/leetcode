@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3613.Minimize%20Maximum%20Component%20Cost/README_EN.md
 tags:
     - Sort
     - Union Find
@@ -13,7 +12,7 @@ tags:
 
 # [3613. Minimize Maximum Component Cost](https://leetcode.com/problems/minimize-maximum-component-cost)
 
-[中文文档](/solution/3600-3699/3613.Minimize%20Maximum%20Component%20Cost/README.md)
+[README](/solution/3600-3699/3613.Minimize%20Maximum%20Component%20Cost/README.md)
 
 ## Description
 

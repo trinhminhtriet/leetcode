@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3618.Split%20Array%20by%20Prime%20Indices/README_EN.md
 tags:
     - Array
     - Math
@@ -12,7 +11,7 @@ tags:
 
 # [3618. Split Array by Prime Indices](https://leetcode.com/problems/split-array-by-prime-indices)
 
-[中文文档](/solution/3600-3699/3618.Split%20Array%20by%20Prime%20Indices/README.md)
+[README](/solution/3600-3699/3618.Split%20Array%20by%20Prime%20Indices/README.md)
 
 ## Description
 

@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3508.Implement%20Router/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3508. Implement Router](https://leetcode.com/problems/implement-router)
 
-[中文文档](/solution/3500-3599/3508.Implement%20Router/README.md)
+[README](/solution/3500-3599/3508.Implement%20Router/README.md)
 
 ## Description
 

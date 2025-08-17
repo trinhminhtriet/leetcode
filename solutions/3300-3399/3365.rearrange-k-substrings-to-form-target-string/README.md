@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3365.Rearrange%20K%20Substrings%20to%20Form%20Target%20String/README_EN.md
 rating: 1513
 source: Weekly Contest 425 Q2
 tags:
@@ -14,7 +13,7 @@ tags:
 
 # [3365. Rearrange K Substrings to Form Target String](https://leetcode.com/problems/rearrange-k-substrings-to-form-target-string)
 
-[中文文档](/solution/3300-3399/3365.Rearrange%20K%20Substrings%20to%20Form%20Target%20String/README.md)
+[README](/solution/3300-3399/3365.Rearrange%20K%20Substrings%20to%20Form%20Target%20String/README.md)
 
 ## Description
 

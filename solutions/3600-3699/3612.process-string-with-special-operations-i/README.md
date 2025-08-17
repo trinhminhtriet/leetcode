@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3612.Process%20String%20with%20Special%20Operations%20I/README_EN.md
 tags:
     - String
     - Simulation
@@ -11,7 +10,7 @@ tags:
 
 # [3612. Process String with Special Operations I](https://leetcode.com/problems/process-string-with-special-operations-i)
 
-[中文文档](/solution/3600-3699/3612.Process%20String%20with%20Special%20Operations%20I/README.md)
+[README](/solution/3600-3699/3612.Process%20String%20with%20Special%20Operations%20I/README.md)
 
 ## Description
 

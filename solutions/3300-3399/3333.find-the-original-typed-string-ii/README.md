@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3333.Find%20the%20Original%20Typed%20String%20II/README_EN.md
 rating: 2628
 source: Biweekly Contest 142 Q4
 tags:
@@ -14,7 +13,7 @@ tags:
 
 # [3333. Find the Original Typed String II](https://leetcode.com/problems/find-the-original-typed-string-ii)
 
-[中文文档](/solution/3300-3399/3333.Find%20the%20Original%20Typed%20String%20II/README.md)
+[README](/solution/3300-3399/3333.Find%20the%20Original%20Typed%20String%20II/README.md)
 
 ## Description
 

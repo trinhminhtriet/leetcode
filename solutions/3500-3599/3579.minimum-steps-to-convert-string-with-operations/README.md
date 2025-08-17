@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3579.Minimum%20Steps%20to%20Convert%20String%20with%20Operations/README_EN.md
 tags:
     - Greedy
     - String
@@ -12,7 +11,7 @@ tags:
 
 # [3579. Minimum Steps to Convert String with Operations](https://leetcode.com/problems/minimum-steps-to-convert-string-with-operations)
 
-[中文文档](/solution/3500-3599/3579.Minimum%20Steps%20to%20Convert%20String%20with%20Operations/README.md)
+[README](/solution/3500-3599/3579.Minimum%20Steps%20to%20Convert%20String%20with%20Operations/README.md)
 
 ## Description
 

@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3527.Find%20the%20Most%20Common%20Response/README_EN.md
 tags:
     - Array
     - Hash Table
@@ -13,7 +12,7 @@ tags:
 
 # [3527. Find the Most Common Response](https://leetcode.com/problems/find-the-most-common-response)
 
-[中文文档](/solution/3500-3599/3527.Find%20the%20Most%20Common%20Response/README.md)
+[README](/solution/3500-3599/3527.Find%20the%20Most%20Common%20Response/README.md)
 
 ## Description
 

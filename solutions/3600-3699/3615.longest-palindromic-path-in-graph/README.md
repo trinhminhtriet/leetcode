@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3615.Longest%20Palindromic%20Path%20in%20Graph/README_EN.md
 tags:
     - Bit Manipulation
     - Graph
@@ -14,7 +13,7 @@ tags:
 
 # [3615. Longest Palindromic Path in Graph](https://leetcode.com/problems/longest-palindromic-path-in-graph)
 
-[中文文档](/solution/3600-3699/3615.Longest%20Palindromic%20Path%20in%20Graph/README.md)
+[README](/solution/3600-3699/3615.Longest%20Palindromic%20Path%20in%20Graph/README.md)
 
 ## Description
 

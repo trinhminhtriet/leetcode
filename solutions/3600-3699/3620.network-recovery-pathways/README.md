@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3620.Network%20Recovery%20Pathways/README_EN.md
 tags:
     - Graph
     - Topological Sort
@@ -16,7 +15,7 @@ tags:
 
 # [3620. Network Recovery Pathways](https://leetcode.com/problems/network-recovery-pathways)
 
-[中文文档](/solution/3600-3699/3620.Network%20Recovery%20Pathways/README.md)
+[README](/solution/3600-3699/3620.Network%20Recovery%20Pathways/README.md)
 
 ## Description
 

@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3604.Minimum%20Time%20to%20Reach%20Destination%20in%20Directed%20Graph/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3604. Minimum Time to Reach Destination in Directed Graph](https://leetcode.com/problems/minimum-time-to-reach-destination-in-directed-graph)
 
-[中文文档](/solution/3600-3699/3604.Minimum%20Time%20to%20Reach%20Destination%20in%20Directed%20Graph/README.md)
+[README](/solution/3600-3699/3604.Minimum%20Time%20to%20Reach%20Destination%20in%20Directed%20Graph/README.md)
 
 ## Description
 

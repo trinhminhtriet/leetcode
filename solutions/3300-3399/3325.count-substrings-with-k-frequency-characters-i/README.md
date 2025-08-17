@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3325.Count%20Substrings%20With%20K-Frequency%20Characters%20I/README_EN.md
 rating: 1454
 source: Weekly Contest 420 Q2
 tags:
@@ -14,7 +13,7 @@ tags:
 
 # [3325. Count Substrings With K-Frequency Characters I](https://leetcode.com/problems/count-substrings-with-k-frequency-characters-i)
 
-[中文文档](/solution/3300-3399/3325.Count%20Substrings%20With%20K-Frequency%20Characters%20I/README.md)
+[README](/solution/3300-3399/3325.Count%20Substrings%20With%20K-Frequency%20Characters%20I/README.md)
 
 ## Description
 

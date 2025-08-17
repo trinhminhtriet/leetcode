@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3565.Sequential%20Grid%20Path%20Cover/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3565. Sequential Grid Path Cover 🔒](https://leetcode.com/problems/sequential-grid-path-cover)
 
-[中文文档](/solution/3500-3599/3565.Sequential%20Grid%20Path%20Cover/README.md)
+[README](/solution/3500-3599/3565.Sequential%20Grid%20Path%20Cover/README.md)
 
 ## Description
 

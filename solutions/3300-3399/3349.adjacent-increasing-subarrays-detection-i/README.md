@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3349.Adjacent%20Increasing%20Subarrays%20Detection%20I/README_EN.md
 rating: 1298
 source: Weekly Contest 423 Q1
 tags:
@@ -12,7 +11,7 @@ tags:
 
 # [3349. Adjacent Increasing Subarrays Detection I](https://leetcode.com/problems/adjacent-increasing-subarrays-detection-i)
 
-[中文文档](/solution/3300-3399/3349.Adjacent%20Increasing%20Subarrays%20Detection%20I/README.md)
+[README](/solution/3300-3399/3349.Adjacent%20Increasing%20Subarrays%20Detection%20I/README.md)
 
 ## Description
 

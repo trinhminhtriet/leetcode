@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3306.Count%20of%20Substrings%20Containing%20Every%20Vowel%20and%20K%20Consonants%20II/README_EN.md
 rating: 2200
 source: Weekly Contest 417 Q3
 tags:
@@ -14,7 +13,7 @@ tags:
 
 # [3306. Count of Substrings Containing Every Vowel and K Consonants II](https://leetcode.com/problems/count-of-substrings-containing-every-vowel-and-k-consonants-ii)
 
-[中文文档](/solution/3300-3399/3306.Count%20of%20Substrings%20Containing%20Every%20Vowel%20and%20K%20Consonants%20II/README.md)
+[README](/solution/3300-3399/3306.Count%20of%20Substrings%20Containing%20Every%20Vowel%20and%20K%20Consonants%20II/README.md)
 
 ## Description
 

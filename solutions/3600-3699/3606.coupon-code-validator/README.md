@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3606.Coupon%20Code%20Validator/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3606. Coupon Code Validator](https://leetcode.com/problems/coupon-code-validator)
 
-[中文文档](/solution/3600-3699/3606.Coupon%20Code%20Validator/README.md)
+[README](/solution/3600-3699/3606.Coupon%20Code%20Validator/README.md)
 
 ## Description
 

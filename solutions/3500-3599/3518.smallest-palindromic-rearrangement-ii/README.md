@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3518.Smallest%20Palindromic%20Rearrangement%20II/README_EN.md
 tags:
     - Hash Table
     - Math
@@ -14,7 +13,7 @@ tags:
 
 # [3518. Smallest Palindromic Rearrangement II](https://leetcode.com/problems/smallest-palindromic-rearrangement-ii)
 
-[中文文档](/solution/3500-3599/3518.Smallest%20Palindromic%20Rearrangement%20II/README.md)
+[README](/solution/3500-3599/3518.Smallest%20Palindromic%20Rearrangement%20II/README.md)
 
 ## Description
 

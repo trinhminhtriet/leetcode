@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3605.Minimum%20Stability%20Factor%20of%20Array/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3605. Minimum Stability Factor of Array](https://leetcode.com/problems/minimum-stability-factor-of-array)
 
-[中文文档](/solution/3600-3699/3605.Minimum%20Stability%20Factor%20of%20Array/README.md)
+[README](/solution/3600-3699/3605.Minimum%20Stability%20Factor%20of%20Array/README.md)
 
 ## Description
 

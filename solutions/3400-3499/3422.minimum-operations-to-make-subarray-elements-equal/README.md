@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3422.Minimum%20Operations%20to%20Make%20Subarray%20Elements%20Equal/README_EN.md
 tags:
     - Array
     - Hash Table
@@ -14,7 +13,7 @@ tags:
 
 # [3422. Minimum Operations to Make Subarray Elements Equal 🔒](https://leetcode.com/problems/minimum-operations-to-make-subarray-elements-equal)
 
-[中文文档](/solution/3400-3499/3422.Minimum%20Operations%20to%20Make%20Subarray%20Elements%20Equal/README.md)
+[README](/solution/3400-3499/3422.Minimum%20Operations%20to%20Make%20Subarray%20Elements%20Equal/README.md)
 
 ## Description
 

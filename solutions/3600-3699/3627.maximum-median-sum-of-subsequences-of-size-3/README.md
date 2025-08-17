@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3627.Maximum%20Median%20Sum%20of%20Subsequences%20of%20Size%203/README_EN.md
 rating: 1262
 source: Weekly Contest 460 Q1
 ---
@@ -10,7 +9,7 @@ source: Weekly Contest 460 Q1
 
 # [3627. Maximum Median Sum of Subsequences of Size 3](https://leetcode.com/problems/maximum-median-sum-of-subsequences-of-size-3)
 
-[中文文档](/solution/3600-3699/3627.Maximum%20Median%20Sum%20of%20Subsequences%20of%20Size%203/README.md)
+[README](/solution/3600-3699/3627.Maximum%20Median%20Sum%20of%20Subsequences%20of%20Size%203/README.md)
 
 ## Description
 

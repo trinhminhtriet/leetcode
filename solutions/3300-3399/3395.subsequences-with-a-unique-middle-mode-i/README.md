@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3395.Subsequences%20with%20a%20Unique%20Middle%20Mode%20I/README_EN.md
 rating: 2799
 source: Biweekly Contest 146 Q4
 tags:
@@ -15,7 +14,7 @@ tags:
 
 # [3395. Subsequences with a Unique Middle Mode I](https://leetcode.com/problems/subsequences-with-a-unique-middle-mode-i)
 
-[中文文档](/solution/3300-3399/3395.Subsequences%20with%20a%20Unique%20Middle%20Mode%20I/README.md)
+[README](/solution/3300-3399/3395.Subsequences%20with%20a%20Unique%20Middle%20Mode%20I/README.md)
 
 ## Description
 

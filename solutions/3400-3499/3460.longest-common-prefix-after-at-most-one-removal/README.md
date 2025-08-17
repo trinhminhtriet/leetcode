@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3460.Longest%20Common%20Prefix%20After%20at%20Most%20One%20Removal/README_EN.md
 tags:
     - Two Pointers
     - String
@@ -11,7 +10,7 @@ tags:
 
 # [3460. Longest Common Prefix After at Most One Removal 🔒](https://leetcode.com/problems/longest-common-prefix-after-at-most-one-removal)
 
-[中文文档](/solution/3400-3499/3460.Longest%20Common%20Prefix%20After%20at%20Most%20One%20Removal/README.md)
+[README](/solution/3400-3499/3460.Longest%20Common%20Prefix%20After%20at%20Most%20One%20Removal/README.md)
 
 ## Description
 

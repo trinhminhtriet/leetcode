@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3437.Permutations%20III/README_EN.md
 tags:
     - Array
     - Backtracking
@@ -11,7 +10,7 @@ tags:
 
 # [3437. Permutations III 🔒](https://leetcode.com/problems/permutations-iii)
 
-[中文文档](/solution/3400-3499/3437.Permutations%20III/README.md)
+[README](/solution/3400-3499/3437.Permutations%20III/README.md)
 
 ## Description
 

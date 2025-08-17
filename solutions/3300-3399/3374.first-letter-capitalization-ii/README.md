@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3374.First%20Letter%20Capitalization%20II/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3374. First Letter Capitalization II](https://leetcode.com/problems/first-letter-capitalization-ii)
 
-[中文文档](/solution/3300-3399/3374.First%20Letter%20Capitalization%20II/README.md)
+[README](/solution/3300-3399/3374.First%20Letter%20Capitalization%20II/README.md)
 
 ## Description
 

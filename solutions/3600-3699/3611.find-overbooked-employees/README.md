@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3611.Find%20Overbooked%20Employees/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3611. Find Overbooked Employees](https://leetcode.com/problems/find-overbooked-employees)
 
-[中文文档](/solution/3600-3699/3611.Find%20Overbooked%20Employees/README.md)
+[README](/solution/3600-3699/3611.Find%20Overbooked%20Employees/README.md)
 
 ## Description
 

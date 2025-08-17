@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3343.Count%20Number%20of%20Balanced%20Permutations/README_EN.md
 rating: 2614
 source: Weekly Contest 422 Q4
 tags:
@@ -15,7 +14,7 @@ tags:
 
 # [3343. Count Number of Balanced Permutations](https://leetcode.com/problems/count-number-of-balanced-permutations)
 
-[中文文档](/solution/3300-3399/3343.Count%20Number%20of%20Balanced%20Permutations/README.md)
+[README](/solution/3300-3399/3343.Count%20Number%20of%20Balanced%20Permutations/README.md)
 
 ## Description
 

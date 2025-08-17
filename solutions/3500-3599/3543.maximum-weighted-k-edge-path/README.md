@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3543.Maximum%20Weighted%20K-Edge%20Path/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3543. Maximum Weighted K-Edge Path](https://leetcode.com/problems/maximum-weighted-k-edge-path)
 
-[中文文档](/solution/3500-3599/3543.Maximum%20Weighted%20K-Edge%20Path/README.md)
+[README](/solution/3500-3599/3543.Maximum%20Weighted%20K-Edge%20Path/README.md)
 
 ## Description
 

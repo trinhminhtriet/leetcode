@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3594.Minimum%20Time%20to%20Transport%20All%20Individuals/README_EN.md
 tags:
     - Bit Manipulation
     - Graph
@@ -16,7 +15,7 @@ tags:
 
 # [3594. Minimum Time to Transport All Individuals](https://leetcode.com/problems/minimum-time-to-transport-all-individuals)
 
-[中文文档](/solution/3500-3599/3594.Minimum%20Time%20to%20Transport%20All%20Individuals/README.md)
+[README](/solution/3500-3599/3594.Minimum%20Time%20to%20Transport%20All%20Individuals/README.md)
 
 ## Description
 

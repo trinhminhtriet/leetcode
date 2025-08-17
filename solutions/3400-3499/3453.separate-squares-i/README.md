@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3453.Separate%20Squares%20I/README_EN.md
 tags:
     - Array
     - Binary Search
@@ -11,7 +10,7 @@ tags:
 
 # [3453. Separate Squares I](https://leetcode.com/problems/separate-squares-i)
 
-[中文文档](/solution/3400-3499/3453.Separate%20Squares%20I/README.md)
+[README](/solution/3400-3499/3453.Separate%20Squares%20I/README.md)
 
 ## Description
 

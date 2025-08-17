@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3471.Find%20the%20Largest%20Almost%20Missing%20Integer/README_EN.md
 tags:
     - Array
     - Hash Table
@@ -11,7 +10,7 @@ tags:
 
 # [3471. Find the Largest Almost Missing Integer](https://leetcode.com/problems/find-the-largest-almost-missing-integer)
 
-[中文文档](/solution/3400-3499/3471.Find%20the%20Largest%20Almost%20Missing%20Integer/README.md)
+[README](/solution/3400-3499/3471.Find%20the%20Largest%20Almost%20Missing%20Integer/README.md)
 
 ## Description
 

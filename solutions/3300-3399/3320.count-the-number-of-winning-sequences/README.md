@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3320.Count%20The%20Number%20of%20Winning%20Sequences/README_EN.md
 rating: 2153
 source: Weekly Contest 419 Q3
 tags:
@@ -13,7 +12,7 @@ tags:
 
 # [3320. Count The Number of Winning Sequences](https://leetcode.com/problems/count-the-number-of-winning-sequences)
 
-[中文文档](/solution/3300-3399/3320.Count%20The%20Number%20of%20Winning%20Sequences/README.md)
+[README](/solution/3300-3399/3320.Count%20The%20Number%20of%20Winning%20Sequences/README.md)
 
 ## Description
 

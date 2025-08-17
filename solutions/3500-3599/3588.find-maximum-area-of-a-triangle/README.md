@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3588.Find%20Maximum%20Area%20of%20a%20Triangle/README_EN.md
 tags:
     - Greedy
     - Geometry
@@ -15,7 +14,7 @@ tags:
 
 # [3588. Find Maximum Area of a Triangle](https://leetcode.com/problems/find-maximum-area-of-a-triangle)
 
-[中文文档](/solution/3500-3599/3588.Find%20Maximum%20Area%20of%20a%20Triangle/README.md)
+[README](/solution/3500-3599/3588.Find%20Maximum%20Area%20of%20a%20Triangle/README.md)
 
 ## Description
 

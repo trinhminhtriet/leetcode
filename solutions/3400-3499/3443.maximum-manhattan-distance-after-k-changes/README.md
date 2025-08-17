@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3443.Maximum%20Manhattan%20Distance%20After%20K%20Changes/README_EN.md
 tags:
     - Hash Table
     - Math
@@ -13,7 +12,7 @@ tags:
 
 # [3443. Maximum Manhattan Distance After K Changes](https://leetcode.com/problems/maximum-manhattan-distance-after-k-changes)
 
-[中文文档](/solution/3400-3499/3443.Maximum%20Manhattan%20Distance%20After%20K%20Changes/README.md)
+[README](/solution/3400-3499/3443.Maximum%20Manhattan%20Distance%20After%20K%20Changes/README.md)
 
 ## Description
 

@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3622.Check%20Divisibility%20by%20Digit%20Sum%20and%20Product/README_EN.md
 tags:
     - Math
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3622. Check Divisibility by Digit Sum and Product](https://leetcode.com/problems/check-divisibility-by-digit-sum-and-product)
 
-[中文文档](/solution/3600-3699/3622.Check%20Divisibility%20by%20Digit%20Sum%20and%20Product/README.md)
+[README](/solution/3600-3699/3622.Check%20Divisibility%20by%20Digit%20Sum%20and%20Product/README.md)
 
 ## Description
 

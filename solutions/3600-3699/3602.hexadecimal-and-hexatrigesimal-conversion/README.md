@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3602.Hexadecimal%20and%20Hexatrigesimal%20Conversion/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3602. Hexadecimal and Hexatrigesimal Conversion](https://leetcode.com/problems/hexadecimal-and-hexatrigesimal-conversion)
 
-[中文文档](/solution/3600-3699/3602.Hexadecimal%20and%20Hexatrigesimal%20Conversion/README.md)
+[README](/solution/3600-3699/3602.Hexadecimal%20and%20Hexatrigesimal%20Conversion/README.md)
 
 ## Description
 

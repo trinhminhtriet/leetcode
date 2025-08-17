@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3490.Count%20Beautiful%20Numbers/README_EN.md
 tags:
     - Dynamic Programming
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3490. Count Beautiful Numbers](https://leetcode.com/problems/count-beautiful-numbers)
 
-[中文文档](/solution/3400-3499/3490.Count%20Beautiful%20Numbers/README.md)
+[README](/solution/3400-3499/3490.Count%20Beautiful%20Numbers/README.md)
 
 ## Description
 

@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3469.Find%20Minimum%20Cost%20to%20Remove%20Array%20Elements/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3469. Find Minimum Cost to Remove Array Elements](https://leetcode.com/problems/find-minimum-cost-to-remove-array-elements)
 
-[中文文档](/solution/3400-3499/3469.Find%20Minimum%20Cost%20to%20Remove%20Array%20Elements/README.md)
+[README](/solution/3400-3499/3469.Find%20Minimum%20Cost%20to%20Remove%20Array%20Elements/README.md)
 
 ## Description
 

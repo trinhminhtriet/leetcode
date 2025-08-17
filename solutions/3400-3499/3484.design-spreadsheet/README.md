@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3484.Design%20Spreadsheet/README_EN.md
 tags:
     - Design
     - Array
@@ -14,7 +13,7 @@ tags:
 
 # [3484. Design Spreadsheet](https://leetcode.com/problems/design-spreadsheet)
 
-[中文文档](/solution/3400-3499/3484.Design%20Spreadsheet/README.md)
+[README](/solution/3400-3499/3484.Design%20Spreadsheet/README.md)
 
 ## Description
 

@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3617.Find%20Students%20with%20Study%20Spiral%20Pattern/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3617. Find Students with Study Spiral Pattern](https://leetcode.com/problems/find-students-with-study-spiral-pattern)
 
-[中文文档](/solution/3600-3699/3617.Find%20Students%20with%20Study%20Spiral%20Pattern/README.md)
+[README](/solution/3600-3699/3617.Find%20Students%20with%20Study%20Spiral%20Pattern/README.md)
 
 ## Description
 

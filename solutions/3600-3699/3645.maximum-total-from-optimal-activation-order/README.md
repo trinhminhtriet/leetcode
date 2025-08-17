@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3645.Maximum%20Total%20from%20Optimal%20Activation%20Order/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3645. Maximum Total from Optimal Activation Order](https://leetcode.com/problems/maximum-total-from-optimal-activation-order)
 
-[中文文档](/solution/3600-3699/3645.Maximum%20Total%20from%20Optimal%20Activation%20Order/README.md)
+[README](/solution/3600-3699/3645.Maximum%20Total%20from%20Optimal%20Activation%20Order/README.md)
 
 ## Description
 

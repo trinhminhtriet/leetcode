@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3486.Longest%20Special%20Path%20II/README_EN.md
 tags:
     - Tree
     - Depth-First Search
@@ -14,7 +13,7 @@ tags:
 
 # [3486. Longest Special Path II](https://leetcode.com/problems/longest-special-path-ii)
 
-[中文文档](/solution/3400-3499/3486.Longest%20Special%20Path%20II/README.md)
+[README](/solution/3400-3499/3486.Longest%20Special%20Path%20II/README.md)
 
 ## Description
 

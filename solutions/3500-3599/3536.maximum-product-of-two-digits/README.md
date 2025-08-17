@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3536.Maximum%20Product%20of%20Two%20Digits/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3536. Maximum Product of Two Digits](https://leetcode.com/problems/maximum-product-of-two-digits)
 
-[中文文档](/solution/3500-3599/3536.Maximum%20Product%20of%20Two%20Digits/README.md)
+[README](/solution/3500-3599/3536.Maximum%20Product%20of%20Two%20Digits/README.md)
 
 ## Description
 

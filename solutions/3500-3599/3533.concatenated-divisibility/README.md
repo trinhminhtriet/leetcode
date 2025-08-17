@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3533.Concatenated%20Divisibility/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3533. Concatenated Divisibility](https://leetcode.com/problems/concatenated-divisibility)
 
-[中文文档](/solution/3500-3599/3533.Concatenated%20Divisibility/README.md)
+[README](/solution/3500-3599/3533.Concatenated%20Divisibility/README.md)
 
 ## Description
 
