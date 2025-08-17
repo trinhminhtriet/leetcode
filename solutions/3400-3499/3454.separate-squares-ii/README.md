@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3454.Separate%20Squares%20II/README_EN.md
 tags:
     - Segment Tree
     - Array
@@ -13,7 +12,7 @@ tags:
 
 # [3454. Separate Squares II](https://leetcode.com/problems/separate-squares-ii)
 
-[中文文档](/solution/3400-3499/3454.Separate%20Squares%20II/README.md)
+[README](/solution/3400-3499/3454.Separate%20Squares%20II/README.md)
 
 ## Description
 

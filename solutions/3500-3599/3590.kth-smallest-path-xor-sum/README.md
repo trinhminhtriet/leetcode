@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3590.Kth%20Smallest%20Path%20XOR%20Sum/README_EN.md
 tags:
     - Tree
     - Depth-First Search
@@ -13,7 +12,7 @@ tags:
 
 # [3590. Kth Smallest Path XOR Sum](https://leetcode.com/problems/kth-smallest-path-xor-sum)
 
-[中文文档](/solution/3500-3599/3590.Kth%20Smallest%20Path%20XOR%20Sum/README.md)
+[README](/solution/3500-3599/3590.Kth%20Smallest%20Path%20XOR%20Sum/README.md)
 
 ## Description
 

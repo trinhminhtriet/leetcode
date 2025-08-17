@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3378.Count%20Connected%20Components%20in%20LCM%20Graph/README_EN.md
 rating: 2532
 source: Biweekly Contest 145 Q4
 tags:
@@ -16,7 +15,7 @@ tags:
 
 # [3378. Count Connected Components in LCM Graph](https://leetcode.com/problems/count-connected-components-in-lcm-graph)
 
-[中文文档](/solution/3300-3399/3378.Count%20Connected%20Components%20in%20LCM%20Graph/README.md)
+[README](/solution/3300-3399/3378.Count%20Connected%20Components%20in%20LCM%20Graph/README.md)
 
 ## Description
 

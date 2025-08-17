@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3431.Minimum%20Unlocked%20Indices%20to%20Sort%20Nums/README_EN.md
 tags:
     - Array
     - Hash Table
@@ -11,7 +10,7 @@ tags:
 
 # [3431. Minimum Unlocked Indices to Sort Nums 🔒](https://leetcode.com/problems/minimum-unlocked-indices-to-sort-nums)
 
-[中文文档](/solution/3400-3499/3431.Minimum%20Unlocked%20Indices%20to%20Sort%20Nums/README.md)
+[README](/solution/3400-3499/3431.Minimum%20Unlocked%20Indices%20to%20Sort%20Nums/README.md)
 
 ## Description
 

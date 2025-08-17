@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3531.Count%20Covered%20Buildings/README_EN.md
 tags:
     - Array
     - Hash Table
@@ -12,7 +11,7 @@ tags:
 
 # [3531. Count Covered Buildings](https://leetcode.com/problems/count-covered-buildings)
 
-[中文文档](/solution/3500-3599/3531.Count%20Covered%20Buildings/README.md)
+[README](/solution/3500-3599/3531.Count%20Covered%20Buildings/README.md)
 
 ## Description
 

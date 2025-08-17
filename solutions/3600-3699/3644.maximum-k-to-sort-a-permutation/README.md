@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3644.Maximum%20K%20to%20Sort%20a%20Permutation/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3644. Maximum K to Sort a Permutation](https://leetcode.com/problems/maximum-k-to-sort-a-permutation)
 
-[中文文档](/solution/3600-3699/3644.Maximum%20K%20to%20Sort%20a%20Permutation/README.md)
+[README](/solution/3600-3699/3644.Maximum%20K%20to%20Sort%20a%20Permutation/README.md)
 
 ## Description
 

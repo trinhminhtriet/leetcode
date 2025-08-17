@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3433.Count%20Mentions%20Per%20User/README_EN.md
 tags:
     - Array
     - Math
@@ -13,7 +12,7 @@ tags:
 
 # [3433. Count Mentions Per User](https://leetcode.com/problems/count-mentions-per-user)
 
-[中文文档](/solution/3400-3499/3433.Count%20Mentions%20Per%20User/README.md)
+[README](/solution/3400-3499/3433.Count%20Mentions%20Per%20User/README.md)
 
 ## Description
 

@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3585.Find%20Weighted%20Median%20Node%20in%20Tree/README_EN.md
 tags:
     - Tree
     - Depth-First Search
@@ -14,7 +13,7 @@ tags:
 
 # [3585. Find Weighted Median Node in Tree](https://leetcode.com/problems/find-weighted-median-node-in-tree)
 
-[中文文档](/solution/3500-3599/3585.Find%20Weighted%20Median%20Node%20in%20Tree/README.md)
+[README](/solution/3500-3599/3585.Find%20Weighted%20Median%20Node%20in%20Tree/README.md)
 
 ## Description
 

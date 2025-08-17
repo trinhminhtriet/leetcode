@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3639.Minimum%20Time%20to%20Activate%20String/README_EN.md
 rating: 1853
 source: Weekly Contest 461 Q3
 ---
@@ -10,7 +9,7 @@ source: Weekly Contest 461 Q3
 
 # [3639. Minimum Time to Activate String](https://leetcode.com/problems/minimum-time-to-activate-string)
 
-[中文文档](/solution/3600-3699/3639.Minimum%20Time%20to%20Activate%20String/README.md)
+[README](/solution/3600-3699/3639.Minimum%20Time%20to%20Activate%20String/README.md)
 
 ## Description
 

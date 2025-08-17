@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3513.Number%20of%20Unique%20XOR%20Triplets%20I/README_EN.md
 tags:
     - Bit Manipulation
     - Array
@@ -12,7 +11,7 @@ tags:
 
 # [3513. Number of Unique XOR Triplets I](https://leetcode.com/problems/number-of-unique-xor-triplets-i)
 
-[中文文档](/solution/3500-3599/3513.Number%20of%20Unique%20XOR%20Triplets%20I/README.md)
+[README](/solution/3500-3599/3513.Number%20of%20Unique%20XOR%20Triplets%20I/README.md)
 
 ## Description
 

@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3599.Partition%20Array%20to%20Minimize%20XOR/README_EN.md
 tags:
     - Bit Manipulation
     - Array
@@ -13,7 +12,7 @@ tags:
 
 # [3599. Partition Array to Minimize XOR](https://leetcode.com/problems/partition-array-to-minimize-xor)
 
-[中文文档](/solution/3500-3599/3599.Partition%20Array%20to%20Minimize%20XOR/README.md)
+[README](/solution/3500-3599/3599.Partition%20Array%20to%20Minimize%20XOR/README.md)
 
 ## Description
 

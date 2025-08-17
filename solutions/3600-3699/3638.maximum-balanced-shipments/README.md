@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3638.Maximum%20Balanced%20Shipments/README_EN.md
 rating: 1463
 source: Weekly Contest 461 Q2
 ---
@@ -10,7 +9,7 @@ source: Weekly Contest 461 Q2
 
 # [3638. Maximum Balanced Shipments](https://leetcode.com/problems/maximum-balanced-shipments)
 
-[中文文档](/solution/3600-3699/3638.Maximum%20Balanced%20Shipments/README.md)
+[README](/solution/3600-3699/3638.Maximum%20Balanced%20Shipments/README.md)
 
 ## Description
 

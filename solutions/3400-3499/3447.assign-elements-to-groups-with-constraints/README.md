@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3447.Assign%20Elements%20to%20Groups%20with%20Constraints/README_EN.md
 tags:
     - Array
     - Hash Table
@@ -11,7 +10,7 @@ tags:
 
 # [3447. Assign Elements to Groups with Constraints](https://leetcode.com/problems/assign-elements-to-groups-with-constraints)
 
-[中文文档](/solution/3400-3499/3447.Assign%20Elements%20to%20Groups%20with%20Constraints/README.md)
+[README](/solution/3400-3499/3447.Assign%20Elements%20to%20Groups%20with%20Constraints/README.md)
 
 ## Description
 

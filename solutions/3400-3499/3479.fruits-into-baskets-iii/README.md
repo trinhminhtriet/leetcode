@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3479.Fruits%20Into%20Baskets%20III/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3479. Fruits Into Baskets III](https://leetcode.com/problems/fruits-into-baskets-iii)
 
-[中文文档](/solution/3400-3499/3479.Fruits%20Into%20Baskets%20III/README.md)
+[README](/solution/3400-3499/3479.Fruits%20Into%20Baskets%20III/README.md)
 
 ## Description
 

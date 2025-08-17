@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3421.Find%20Students%20Who%20Improved/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3421. Find Students Who Improved](https://leetcode.com/problems/find-students-who-improved)
 
-[中文文档](/solution/3400-3499/3421.Find%20Students%20Who%20Improved/README.md)
+[README](/solution/3400-3499/3421.Find%20Students%20Who%20Improved/README.md)
 
 ## Description
 

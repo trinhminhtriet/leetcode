@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3467.Transform%20Array%20by%20Parity/README_EN.md
 tags:
     - Array
     - Counting
@@ -12,7 +11,7 @@ tags:
 
 # [3467. Transform Array by Parity](https://leetcode.com/problems/transform-array-by-parity)
 
-[中文文档](/solution/3400-3499/3467.Transform%20Array%20by%20Parity/README.md)
+[README](/solution/3400-3499/3467.Transform%20Array%20by%20Parity/README.md)
 
 ## Description
 

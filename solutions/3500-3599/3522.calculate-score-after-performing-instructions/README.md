@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3522.Calculate%20Score%20After%20Performing%20Instructions/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3522. Calculate Score After Performing Instructions](https://leetcode.com/problems/calculate-score-after-performing-instructions)
 
-[中文文档](/solution/3500-3599/3522.Calculate%20Score%20After%20Performing%20Instructions/README.md)
+[README](/solution/3500-3599/3522.Calculate%20Score%20After%20Performing%20Instructions/README.md)
 
 ## Description
 

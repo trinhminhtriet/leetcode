@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3393.Count%20Paths%20With%20the%20Given%20XOR%20Value/README_EN.md
 rating: 1573
 source: Biweekly Contest 146 Q2
 tags:
@@ -15,7 +14,7 @@ tags:
 
 # [3393. Count Paths With the Given XOR Value](https://leetcode.com/problems/count-paths-with-the-given-xor-value)
 
-[中文文档](/solution/3300-3399/3393.Count%20Paths%20With%20the%20Given%20XOR%20Value/README.md)
+[README](/solution/3300-3399/3393.Count%20Paths%20With%20the%20Given%20XOR%20Value/README.md)
 
 ## Description
 

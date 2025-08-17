@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3390.Longest%20Team%20Pass%20Streak/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3390. Longest Team Pass Streak 🔒](https://leetcode.com/problems/longest-team-pass-streak)
 
-[中文文档](/solution/3300-3399/3390.Longest%20Team%20Pass%20Streak/README.md)
+[README](/solution/3300-3399/3390.Longest%20Team%20Pass%20Streak/README.md)
 
 ## Description
 

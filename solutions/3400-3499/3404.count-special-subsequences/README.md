@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3404.Count%20Special%20Subsequences/README_EN.md
 rating: 2445
 source: Weekly Contest 430 Q3
 tags:
@@ -15,7 +14,7 @@ tags:
 
 # [3404. Count Special Subsequences](https://leetcode.com/problems/count-special-subsequences)
 
-[中文文档](/solution/3400-3499/3404.Count%20Special%20Subsequences/README.md)
+[README](/solution/3400-3499/3404.Count%20Special%20Subsequences/README.md)
 
 ## Description
 

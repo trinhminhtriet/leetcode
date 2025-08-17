@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3434.Maximum%20Frequency%20After%20Subarray%20Operation/README_EN.md
 tags:
     - Greedy
     - Array
@@ -14,7 +13,7 @@ tags:
 
 # [3434. Maximum Frequency After Subarray Operation](https://leetcode.com/problems/maximum-frequency-after-subarray-operation)
 
-[中文文档](/solution/3400-3499/3434.Maximum%20Frequency%20After%20Subarray%20Operation/README.md)
+[README](/solution/3400-3499/3434.Maximum%20Frequency%20After%20Subarray%20Operation/README.md)
 
 ## Description
 

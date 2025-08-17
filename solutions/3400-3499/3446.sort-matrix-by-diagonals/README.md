@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3446.Sort%20Matrix%20by%20Diagonals/README_EN.md
 tags:
     - Array
     - Matrix
@@ -12,7 +11,7 @@ tags:
 
 # [3446. Sort Matrix by Diagonals](https://leetcode.com/problems/sort-matrix-by-diagonals)
 
-[中文文档](/solution/3400-3499/3446.Sort%20Matrix%20by%20Diagonals/README.md)
+[README](/solution/3400-3499/3446.Sort%20Matrix%20by%20Diagonals/README.md)
 
 ## Description
 

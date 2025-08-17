@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3384.Team%20Dominance%20by%20Pass%20Success/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3384. Team Dominance by Pass Success 🔒](https://leetcode.com/problems/team-dominance-by-pass-success)
 
-[中文文档](/solution/3300-3399/3384.Team%20Dominance%20by%20Pass%20Success/README.md)
+[README](/solution/3300-3399/3384.Team%20Dominance%20by%20Pass%20Success/README.md)
 
 ## Description
 

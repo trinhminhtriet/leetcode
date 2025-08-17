@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3552.Grid%20Teleportation%20Traversal/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3552. Grid Teleportation Traversal](https://leetcode.com/problems/grid-teleportation-traversal)
 
-[中文文档](/solution/3500-3599/3552.Grid%20Teleportation%20Traversal/README.md)
+[README](/solution/3500-3599/3552.Grid%20Teleportation%20Traversal/README.md)
 
 ## Description
 

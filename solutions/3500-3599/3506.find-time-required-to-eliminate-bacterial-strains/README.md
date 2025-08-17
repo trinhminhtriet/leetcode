@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3506. Find Time Required to Eliminate Bacterial Strains 🔒](https://leetcode.com/problems/find-time-required-to-eliminate-bacterial-strains)
 
-[中文文档](/solution/3500-3599/3506.Find%20Time%20Required%20to%20Eliminate%20Bacterial%20Strains/README.md)
+[README](/solution/3500-3599/3506.Find%20Time%20Required%20to%20Eliminate%20Bacterial%20Strains/README.md)
 
 ## Description
 

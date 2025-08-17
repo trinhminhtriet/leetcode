@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3401.Find%20Circular%20Gift%20Exchange%20Chains/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3401. Find Circular Gift Exchange Chains 🔒](https://leetcode.com/problems/find-circular-gift-exchange-chains)
 
-[中文文档](/solution/3400-3499/3401.Find%20Circular%20Gift%20Exchange%20Chains/README.md)
+[README](/solution/3400-3499/3401.Find%20Circular%20Gift%20Exchange%20Chains/README.md)
 
 ## Description
 

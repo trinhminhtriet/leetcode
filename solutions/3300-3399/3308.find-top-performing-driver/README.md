@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3308.Find%20Top%20Performing%20Driver/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3308. Find Top Performing Driver 🔒](https://leetcode.com/problems/find-top-performing-driver)
 
-[中文文档](/solution/3300-3399/3308.Find%20Top%20Performing%20Driver/README.md)
+[README](/solution/3300-3399/3308.Find%20Top%20Performing%20Driver/README.md)
 
 ## Description
 

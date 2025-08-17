@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3502. Minimum Cost to Reach Every Position](https://leetcode.com/problems/minimum-cost-to-reach-every-position)
 
-[中文文档](/solution/3500-3599/3502.Minimum%20Cost%20to%20Reach%20Every%20Position/README.md)
+[README](/solution/3500-3599/3502.Minimum%20Cost%20to%20Reach%20Every%20Position/README.md)
 
 ## Description
 

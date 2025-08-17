@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3475.DNA%20Pattern%20Recognition/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3475. DNA Pattern Recognition](https://leetcode.com/problems/dna-pattern-recognition)
 
-[中文文档](/solution/3400-3499/3475.DNA%20Pattern%20Recognition/README.md)
+[README](/solution/3400-3499/3475.DNA%20Pattern%20Recognition/README.md)
 
 ## Description
 

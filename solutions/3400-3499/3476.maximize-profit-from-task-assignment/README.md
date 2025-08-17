@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3476.Maximize%20Profit%20from%20Task%20Assignment/README_EN.md
 tags:
     - Greedy
     - Array
@@ -13,7 +12,7 @@ tags:
 
 # [3476. Maximize Profit from Task Assignment 🔒](https://leetcode.com/problems/maximize-profit-from-task-assignment)
 
-[中文文档](/solution/3400-3499/3476.Maximize%20Profit%20from%20Task%20Assignment/README.md)
+[README](/solution/3400-3499/3476.Maximize%20Profit%20from%20Task%20Assignment/README.md)
 
 ## Description
 

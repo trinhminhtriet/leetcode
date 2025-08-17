@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3449.Maximize%20the%20Minimum%20Game%20Score/README_EN.md
 tags:
     - Greedy
     - Array
@@ -12,7 +11,7 @@ tags:
 
 # [3449. Maximize the Minimum Game Score](https://leetcode.com/problems/maximize-the-minimum-game-score)
 
-[中文文档](/solution/3400-3499/3449.Maximize%20the%20Minimum%20Game%20Score/README.md)
+[README](/solution/3400-3499/3449.Maximize%20the%20Minimum%20Game%20Score/README.md)
 
 ## Description
 

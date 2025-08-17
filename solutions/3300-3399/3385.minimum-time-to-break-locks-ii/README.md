@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3385.Minimum%20Time%20to%20Break%20Locks%20II/README_EN.md
 tags:
     - Depth-First Search
     - Graph
@@ -12,7 +11,7 @@ tags:
 
 # [3385. Minimum Time to Break Locks II 🔒](https://leetcode.com/problems/minimum-time-to-break-locks-ii)
 
-[中文文档](/solution/3300-3399/3385.Minimum%20Time%20to%20Break%20Locks%20II/README.md)
+[README](/solution/3300-3399/3385.Minimum%20Time%20to%20Break%20Locks%20II/README.md)
 
 ## Description
 

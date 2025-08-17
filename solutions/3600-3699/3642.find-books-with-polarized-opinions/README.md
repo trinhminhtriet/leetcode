@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3642.Find%20Books%20with%20Polarized%20Opinions/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3642. Find Books with Polarized Opinions](https://leetcode.com/problems/find-books-with-polarized-opinions)
 
-[中文文档](/solution/3600-3699/3642.Find%20Books%20with%20Polarized%20Opinions/README.md)
+[README](/solution/3600-3699/3642.Find%20Books%20with%20Polarized%20Opinions/README.md)
 
 ## Description
 

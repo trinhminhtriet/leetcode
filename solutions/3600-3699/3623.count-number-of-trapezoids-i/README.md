@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3623.Count%20Number%20of%20Trapezoids%20I/README_EN.md
 tags:
     - Geometry
     - Array
@@ -13,7 +12,7 @@ tags:
 
 # [3623. Count Number of Trapezoids I](https://leetcode.com/problems/count-number-of-trapezoids-i)
 
-[中文文档](/solution/3600-3699/3623.Count%20Number%20of%20Trapezoids%20I/README.md)
+[README](/solution/3600-3699/3623.Count%20Number%20of%20Trapezoids%20I/README.md)
 
 ## Description
 

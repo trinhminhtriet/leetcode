@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3498. Reverse Degree of a String](https://leetcode.com/problems/reverse-degree-of-a-string)
 
-[中文文档](/solution/3400-3499/3498.Reverse%20Degree%20of%20a%20String/README.md)
+[README](/solution/3400-3499/3498.Reverse%20Degree%20of%20a%20String/README.md)
 
 ## Description
 

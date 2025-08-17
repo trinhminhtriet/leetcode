@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3455.Shortest%20Matching%20Substring/README_EN.md
 tags:
     - Two Pointers
     - String
@@ -13,7 +12,7 @@ tags:
 
 # [3455. Shortest Matching Substring](https://leetcode.com/problems/shortest-matching-substring)
 
-[中文文档](/solution/3400-3499/3455.Shortest%20Matching%20Substring/README.md)
+[README](/solution/3400-3499/3455.Shortest%20Matching%20Substring/README.md)
 
 ## Description
 

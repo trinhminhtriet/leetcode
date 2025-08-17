@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3626.Find%20Stores%20with%20Inventory%20Imbalance/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3626. Find Stores with Inventory Imbalance](https://leetcode.com/problems/find-stores-with-inventory-imbalance)
 
-[中文文档](/solution/3600-3699/3626.Find%20Stores%20with%20Inventory%20Imbalance/README.md)
+[README](/solution/3600-3699/3626.Find%20Stores%20with%20Inventory%20Imbalance/README.md)
 
 ## Description
 

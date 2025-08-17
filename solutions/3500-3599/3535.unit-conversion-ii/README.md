@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3535.Unit%20Conversion%20II/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3535. Unit Conversion II 🔒](https://leetcode.com/problems/unit-conversion-ii)
 
-[中文文档](/solution/3500-3599/3535.Unit%20Conversion%20II/README.md)
+[README](/solution/3500-3599/3535.Unit%20Conversion%20II/README.md)
 
 ## Description
 

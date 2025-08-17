@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3570.Find%20Books%20with%20No%20Available%20Copies/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3570. Find Books with No Available Copies](https://leetcode.com/problems/find-books-with-no-available-copies)
 
-[中文文档](/solution/3500-3599/3570.Find%20Books%20with%20No%20Available%20Copies/README.md)
+[README](/solution/3500-3599/3570.Find%20Books%20with%20No%20Available%20Copies/README.md)
 
 ## Description
 

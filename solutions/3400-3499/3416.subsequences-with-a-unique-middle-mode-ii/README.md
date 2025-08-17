@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3416.Subsequences%20with%20a%20Unique%20Middle%20Mode%20II/README_EN.md
 tags:
     - Array
     - Hash Table
@@ -13,7 +12,7 @@ tags:
 
 # [3416. Subsequences with a Unique Middle Mode II 🔒](https://leetcode.com/problems/subsequences-with-a-unique-middle-mode-ii)
 
-[中文文档](/solution/3400-3499/3416.Subsequences%20with%20a%20Unique%20Middle%20Mode%20II/README.md)
+[README](/solution/3400-3499/3416.Subsequences%20with%20a%20Unique%20Middle%20Mode%20II/README.md)
 
 ## Description
 

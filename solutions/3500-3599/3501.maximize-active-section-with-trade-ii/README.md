@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3501. Maximize Active Section with Trade II](https://leetcode.com/problems/maximize-active-section-with-trade-ii)
 
-[中文文档](/solution/3500-3599/3501.Maximize%20Active%20Section%20with%20Trade%20II/README.md)
+[README](/solution/3500-3599/3501.Maximize%20Active%20Section%20with%20Trade%20II/README.md)
 
 ## Description
 

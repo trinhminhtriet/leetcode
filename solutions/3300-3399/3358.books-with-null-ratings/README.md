@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3358.Books%20with%20NULL%20Ratings/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3358. Books with NULL Ratings 🔒](https://leetcode.com/problems/books-with-null-ratings)
 
-[中文文档](/solution/3300-3399/3358.Books%20with%20NULL%20Ratings/README.md)
+[README](/solution/3300-3399/3358.Books%20with%20NULL%20Ratings/README.md)
 
 ## Description
 

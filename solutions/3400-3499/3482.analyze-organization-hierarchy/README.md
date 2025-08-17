@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3482.Analyze%20Organization%20Hierarchy/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3482. Analyze Organization Hierarchy](https://leetcode.com/problems/analyze-organization-hierarchy)
 
-[中文文档](/solution/3400-3499/3482.Analyze%20Organization%20Hierarchy/README.md)
+[README](/solution/3400-3499/3482.Analyze%20Organization%20Hierarchy/README.md)
 
 ## Description
 

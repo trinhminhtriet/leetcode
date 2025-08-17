@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3366.Minimum%20Array%20Sum/README_EN.md
 rating: 2040
 source: Weekly Contest 425 Q3
 tags:
@@ -13,7 +12,7 @@ tags:
 
 # [3366. Minimum Array Sum](https://leetcode.com/problems/minimum-array-sum)
 
-[中文文档](/solution/3300-3399/3366.Minimum%20Array%20Sum/README.md)
+[README](/solution/3300-3399/3366.Minimum%20Array%20Sum/README.md)
 
 ## Description
 

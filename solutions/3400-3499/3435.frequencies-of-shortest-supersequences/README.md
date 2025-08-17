@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3435.Frequencies%20of%20Shortest%20Supersequences/README_EN.md
 tags:
     - Bit Manipulation
     - Graph
@@ -15,7 +14,7 @@ tags:
 
 # [3435. Frequencies of Shortest Supersequences](https://leetcode.com/problems/frequencies-of-shortest-supersequences)
 
-[中文文档](/solution/3400-3499/3435.Frequencies%20of%20Shortest%20Supersequences/README.md)
+[README](/solution/3400-3499/3435.Frequencies%20of%20Shortest%20Supersequences/README.md)
 
 ## Description
 

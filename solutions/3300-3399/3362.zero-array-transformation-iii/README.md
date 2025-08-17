@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3362.Zero%20Array%20Transformation%20III/README_EN.md
 rating: 2423
 source: Biweekly Contest 144 Q3
 tags:
@@ -16,7 +15,7 @@ tags:
 
 # [3362. Zero Array Transformation III](https://leetcode.com/problems/zero-array-transformation-iii)
 
-[中文文档](/solution/3300-3399/3362.Zero%20Array%20Transformation%20III/README.md)
+[README](/solution/3300-3399/3362.Zero%20Array%20Transformation%20III/README.md)
 
 ## Description
 

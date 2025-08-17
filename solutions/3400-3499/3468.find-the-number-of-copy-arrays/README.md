@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3468.Find%20the%20Number%20of%20Copy%20Arrays/README_EN.md
 tags:
     - Array
     - Math
@@ -11,7 +10,7 @@ tags:
 
 # [3468. Find the Number of Copy Arrays](https://leetcode.com/problems/find-the-number-of-copy-arrays)
 
-[中文文档](/solution/3400-3499/3468.Find%20the%20Number%20of%20Copy%20Arrays/README.md)
+[README](/solution/3400-3499/3468.Find%20the%20Number%20of%20Copy%20Arrays/README.md)
 
 ## Description
 

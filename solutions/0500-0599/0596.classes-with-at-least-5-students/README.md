@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0596.Classes%20With%20at%20Least%205%20Students/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [596. Classes With at Least 5 Students](https://leetcode.com/problems/classes-with-at-least-5-students)
 
-[中文文档](/solution/0500-0599/0596.Classes%20With%20at%20Least%205%20Students/README.md)
+[README](/solution/0500-0599/0596.Classes%20With%20at%20Least%205%20Students/README.md)
 
 ## Description
 

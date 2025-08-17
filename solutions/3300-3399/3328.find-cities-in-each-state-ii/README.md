@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3328.Find%20Cities%20in%20Each%20State%20II/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3328. Find Cities in Each State II 🔒](https://leetcode.com/problems/find-cities-in-each-state-ii)
 
-[中文文档](/solution/3300-3399/3328.Find%20Cities%20in%20Each%20State%20II/README.md)
+[README](/solution/3300-3399/3328.Find%20Cities%20in%20Each%20State%20II/README.md)
 
 ## Description
 

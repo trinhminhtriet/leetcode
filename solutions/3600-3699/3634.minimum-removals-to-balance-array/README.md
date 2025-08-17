@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3634.Minimum%20Removals%20to%20Balance%20Array/README_EN.md
 rating: 1453
 source: Biweekly Contest 162 Q2
 ---
@@ -10,7 +9,7 @@ source: Biweekly Contest 162 Q2
 
 # [3634. Minimum Removals to Balance Array](https://leetcode.com/problems/minimum-removals-to-balance-array)
 
-[中文文档](/solution/3600-3699/3634.Minimum%20Removals%20to%20Balance%20Array/README.md)
+[README](/solution/3600-3699/3634.Minimum%20Removals%20to%20Balance%20Array/README.md)
 
 ## Description
 

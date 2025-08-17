@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3344.Maximum%20Sized%20Array/README_EN.md
 tags:
     - Bit Manipulation
     - Binary Search
@@ -11,7 +10,7 @@ tags:
 
 # [3344. Maximum Sized Array 🔒](https://leetcode.com/problems/maximum-sized-array)
 
-[中文文档](/solution/3300-3399/3344.Maximum%20Sized%20Array/README.md)
+[README](/solution/3300-3399/3344.Maximum%20Sized%20Array/README.md)
 
 ## Description
 

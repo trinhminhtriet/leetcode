@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3516.Find%20Closest%20Person/README_EN.md
 tags:
     - Math
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3516. Find Closest Person](https://leetcode.com/problems/find-closest-person)
 
-[中文文档](/solution/3500-3599/3516.Find%20Closest%20Person/README.md)
+[README](/solution/3500-3599/3516.Find%20Closest%20Person/README.md)
 
 ## Description
 

@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3511.Make%20a%20Positive%20Array/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3511. Make a Positive Array 🔒](https://leetcode.com/problems/make-a-positive-array)
 
-[中文文档](/solution/3500-3599/3511.Make%20a%20Positive%20Array/README.md)
+[README](/solution/3500-3599/3511.Make%20a%20Positive%20Array/README.md)
 
 ## Description
 

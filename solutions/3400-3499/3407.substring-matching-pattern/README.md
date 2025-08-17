@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3407.Substring%20Matching%20Pattern/README_EN.md
 rating: 1472
 source: Biweekly Contest 147 Q1
 tags:
@@ -13,7 +12,7 @@ tags:
 
 # [3407. Substring Matching Pattern](https://leetcode.com/problems/substring-matching-pattern)
 
-[中文文档](/solution/3400-3499/3407.Substring%20Matching%20Pattern/README.md)
+[README](/solution/3400-3499/3407.Substring%20Matching%20Pattern/README.md)
 
 ## Description
 

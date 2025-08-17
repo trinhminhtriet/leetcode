@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3517.Smallest%20Palindromic%20Rearrangement%20I/README_EN.md
 tags:
     - String
     - Counting Sort
@@ -12,7 +11,7 @@ tags:
 
 # [3517. Smallest Palindromic Rearrangement I](https://leetcode.com/problems/smallest-palindromic-rearrangement-i)
 
-[中文文档](/solution/3500-3599/3517.Smallest%20Palindromic%20Rearrangement%20I/README.md)
+[README](/solution/3500-3599/3517.Smallest%20Palindromic%20Rearrangement%20I/README.md)
 
 ## Description
 

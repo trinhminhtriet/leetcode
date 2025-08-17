@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3632.Subarrays%20with%20XOR%20at%20Least%20K/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3632. Subarrays with XOR at Least K 🔒](https://leetcode.com/problems/subarrays-with-xor-at-least-k)
 
-[中文文档](/solution/3600-3699/3632.Subarrays%20with%20XOR%20at%20Least%20K/README.md)
+[README](/solution/3600-3699/3632.Subarrays%20with%20XOR%20at%20Least%20K/README.md)
 
 ## Description
 

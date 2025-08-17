@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3641.Longest%20Semi-Repeating%20Subarray/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3641. Longest Semi-Repeating Subarray 🔒](https://leetcode.com/problems/longest-semi-repeating-subarray)
 
-[中文文档](/solution/3600-3699/3641.Longest%20Semi-Repeating%20Subarray/README.md)
+[README](/solution/3600-3699/3641.Longest%20Semi-Repeating%20Subarray/README.md)
 
 ## Description
 

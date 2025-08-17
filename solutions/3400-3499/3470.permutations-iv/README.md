@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3470.Permutations%20IV/README_EN.md
 tags:
     - Array
     - Math
@@ -13,7 +12,7 @@ tags:
 
 # [3470. Permutations IV](https://leetcode.com/problems/permutations-iv)
 
-[中文文档](/solution/3400-3499/3470.Permutations%20IV/README.md)
+[README](/solution/3400-3499/3470.Permutations%20IV/README.md)
 
 ## Description
 

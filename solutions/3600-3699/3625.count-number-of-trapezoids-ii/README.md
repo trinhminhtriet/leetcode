@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3625.Count%20Number%20of%20Trapezoids%20II/README_EN.md
 tags:
     - Geometry
     - Array
@@ -13,7 +12,7 @@ tags:
 
 # [3625. Count Number of Trapezoids II](https://leetcode.com/problems/count-number-of-trapezoids-ii)
 
-[中文文档](/solution/3600-3699/3625.Count%20Number%20of%20Trapezoids%20II/README.md)
+[README](/solution/3600-3699/3625.Count%20Number%20of%20Trapezoids%20II/README.md)
 
 ## Description
 

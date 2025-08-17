@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3561.Resulting%20String%20After%20Adjacent%20Removals/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3561. Resulting String After Adjacent Removals](https://leetcode.com/problems/resulting-string-after-adjacent-removals)
 
-[中文文档](/solution/3500-3599/3561.Resulting%20String%20After%20Adjacent%20Removals/README.md)
+[README](/solution/3500-3599/3561.Resulting%20String%20After%20Adjacent%20Removals/README.md)
 
 ## Description
 

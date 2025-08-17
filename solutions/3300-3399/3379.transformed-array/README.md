@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3379.Transformed%20Array/README_EN.md
 rating: 1256
 source: Weekly Contest 427 Q1
 tags:
@@ -13,7 +12,7 @@ tags:
 
 # [3379. Transformed Array](https://leetcode.com/problems/transformed-array)
 
-[中文文档](/solution/3300-3399/3379.Transformed%20Array/README.md)
+[README](/solution/3300-3399/3379.Transformed%20Array/README.md)
 
 ## Description
 

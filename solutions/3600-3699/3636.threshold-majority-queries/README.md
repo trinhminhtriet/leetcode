@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3600-3699/3636.Threshold%20Majority%20Queries/README_EN.md
 rating: 2451
 source: Biweekly Contest 162 Q4
 ---
@@ -10,7 +9,7 @@ source: Biweekly Contest 162 Q4
 
 # [3636. Threshold Majority Queries](https://leetcode.com/problems/threshold-majority-queries)
 
-[中文文档](/solution/3600-3699/3636.Threshold%20Majority%20Queries/README.md)
+[README](/solution/3600-3699/3636.Threshold%20Majority%20Queries/README.md)
 
 ## Description
 

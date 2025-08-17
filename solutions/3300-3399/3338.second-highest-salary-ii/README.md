@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3338.Second%20Highest%20Salary%20II/README_EN.md
 tags:
     - Database
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3338. Second Highest Salary II 🔒](https://leetcode.com/problems/second-highest-salary-ii)
 
-[中文文档](/solution/3300-3399/3338.Second%20Highest%20Salary%20II/README.md)
+[README](/solution/3300-3399/3338.Second%20Highest%20Salary%20II/README.md)
 
 ## Description
 

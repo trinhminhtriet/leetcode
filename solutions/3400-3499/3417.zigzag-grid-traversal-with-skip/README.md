@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3417.Zigzag%20Grid%20Traversal%20With%20Skip/README_EN.md
 rating: 1290
 source: Weekly Contest 432 Q1
 tags:
@@ -14,7 +13,7 @@ tags:
 
 # [3417. Zigzag Grid Traversal With Skip](https://leetcode.com/problems/zigzag-grid-traversal-with-skip)
 
-[中文文档](/solution/3400-3499/3417.Zigzag%20Grid%20Traversal%20With%20Skip/README.md)
+[README](/solution/3400-3499/3417.Zigzag%20Grid%20Traversal%20With%20Skip/README.md)
 
 ## Description
 

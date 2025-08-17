@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Hard
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3574.Maximize%20Subarray%20GCD%20Score/README_EN.md
 tags:
     - Array
     - Math
@@ -13,7 +12,7 @@ tags:
 
 # [3574. Maximize Subarray GCD Score](https://leetcode.com/problems/maximize-subarray-gcd-score)
 
-[中文文档](/solution/3500-3599/3574.Maximize%20Subarray%20GCD%20Score/README.md)
+[README](/solution/3500-3599/3574.Maximize%20Subarray%20GCD%20Score/README.md)
 
 ## Description
 

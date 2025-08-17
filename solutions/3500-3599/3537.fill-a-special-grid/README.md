@@ -1,14 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3500-3599/3537.Fill%20a%20Special%20Grid/README_EN.md
 ---
 
 <!-- problem:start -->
 
 # [3537. Fill a Special Grid](https://leetcode.com/problems/fill-a-special-grid)
 
-[中文文档](/solution/3500-3599/3537.Fill%20a%20Special%20Grid/README.md)
+[README](/solution/3500-3599/3537.Fill%20a%20Special%20Grid/README.md)
 
 ## Description
 

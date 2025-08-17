@@ -1,7 +1,6 @@
 ---
 comments: true
 difficulty: Easy
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3353.Minimum%20Total%20Operations/README_EN.md
 tags:
     - Array
 ---
@@ -10,7 +9,7 @@ tags:
 
 # [3353. Minimum Total Operations 🔒](https://leetcode.com/problems/minimum-total-operations)
 
-[中文文档](/solution/3300-3399/3353.Minimum%20Total%20Operations/README.md)
+[README](/solution/3300-3399/3353.Minimum%20Total%20Operations/README.md)
 
 ## Description
 
