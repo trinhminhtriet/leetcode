@@ -64,7 +64,7 @@ class ReadMeFileManager:
             cleaned_lines = [
                 line for line in lines if not line.strip().startswith("edit_url:")
             ]
-
+            
             # Only rewrite if content changed
             if len(cleaned_lines) != len(lines):
                 with open(readme_path, "w", encoding="utf-8") as file:
@@ -83,19 +83,16 @@ class ReadMeFileManager:
 
         logging.info(f"Processing directory: {directory}")
 
-        # Process all items in current directory
         for item in directory.iterdir():
             if item.is_file():
                 self.process_file(item, directory)
-                # After processing, clean any existing or newly created README.md
-                if item.name == "README_EN.md" or (
-                    item.name == "README.md" and not item.exists()
-                ):
-                    readme_path = directory / "README.md"
-                    if readme_path.exists():
-                        self.clean_readme(readme_path)
             elif item.is_dir():
-                # Recursively process subdirectories
+                self.process_directory(item)
+                
+        for item in directory.iterdir():
+            if item.is_file():
+                self.clean_readme(item)
+            elif item.is_dir():
                 self.process_directory(item)
 
     def process_all(self) -> Dict[str, List[str]]:
