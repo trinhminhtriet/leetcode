@@ -9,13 +9,14 @@ docker build -t trinhminhtriet/leetcode .
 ## Store questions to database
 
 ```sh
-. ~/venv/bin/activate
+. ~/.venv/bin/activate
 
-python main.py --store --min-id=3641
+python main.py --store --min-id=3647
 ```
 
 ## Solve questions
 
 ```sh
-python main.py --start 3646 --end 3656
+python main.py --question 3648
+python main.py --start 3647 --end 3686
 ```
