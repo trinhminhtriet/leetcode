@@ -71,7 +71,7 @@ class QuestionStore:
         frontend_id = question_data["stat"]["frontend_question_id"]
 
         if frontend_id < min_frontend_id:
-            logging.info(f"Skipping question {frontend_id} (below threshold)")
+            # logging.info(f"Skipping question {frontend_id} (below threshold)")
             return
 
         slug = question_data["stat"]["question__title_slug"]
