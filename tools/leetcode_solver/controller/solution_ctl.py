@@ -49,15 +49,20 @@ class LeetCodeSolutionController:
 
     def solve_daily_question(self):
         svc = DailyQuestionAPIService()
+        
+        logging.info("Before solving daily question:")
+        streak_counter = svc.get_streak_counter()
+        logging.info(f"Streak counter before solving daily question: {streak_counter}")
+        
         frontend_question_id = svc.get_daily_question()
         if frontend_question_id:
             self.solution_solver.solve_by_frontend_question_id(
                 frontend_question_id=frontend_question_id
             )
             self.publish_solution(frontend_question_id=frontend_question_id)
-        streak_counter = svc.get_streak_counter()
-        if streak_counter:
-            logging.info(f"Current streak count: {streak_counter}")
+            
+        streak_counter = svc.get_streak_counter()    
+        logging.info(f"Streak counter after solving daily question: {streak_counter}")
 
     def publish_submmitted_language(
         self, submitted_by: str, lang: str, limit: int = 10
