@@ -55,6 +55,9 @@ class LeetCodeSolutionController:
                 frontend_question_id=frontend_question_id
             )
             self.publish_solution(frontend_question_id=frontend_question_id)
+        streak_counter = svc.get_streak_counter()
+        if streak_counter:
+            logging.info(f"Current streak count: {streak_counter}")
 
     def publish_submmitted_language(
         self, submitted_by: str, lang: str, limit: int = 10

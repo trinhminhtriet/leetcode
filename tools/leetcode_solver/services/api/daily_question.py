@@ -5,8 +5,41 @@ from services.api.base import LeetCodeAPIBaseService
 
 
 class DailyQuestionAPIService(LeetCodeAPIBaseService):
-    """Service to fetch the daily LeetCode question."""
+    def get_streak_counter(self) -> Optional[int]:
+        """Get the current daily challenge streak count."""
+        url = f"{self.config.BASE_URL}/graphql"
+        headers = self.config.DEFAULT_HEADERS.copy()
+        headers["Referer"] = f"{self.config.BASE_URL}/problemset/all/"
+        payload = {
+            "query": """
+                query getStreakCounter {
+                    streakCounter {
+                    streakCount
+                    daysSkipped
+                    currentDayCompleted
+                    }
+                }
+                """,
+            "operationName": "getStreakCounter",
+        }
+        response = self.session.post(url, headers=headers, json=payload)
 
+        if response.status_code != 200:
+            logging.error(
+                f"Failed to fetch streak counter: HTTP {response.status_code}"
+            )
+            return None
+
+        try:
+            data = json.loads(response.text)
+            streak_data = data["data"]["streakCounter"]
+            logging.info(f"Current streak count: {streak_data['streakCount']}")
+            return streak_data["streakCount"]
+        except (json.JSONDecodeError, KeyError) as e:
+            logging.error(f"Error processing streak counter response: {e}")
+            return None
+
+    """Service to fetch the daily LeetCode question."""
     def get_daily_question(self) -> Optional[int]:
         """Fetch the daily coding challenge question's frontend ID."""
         url = f"{self.config.BASE_URL}/graphql"
