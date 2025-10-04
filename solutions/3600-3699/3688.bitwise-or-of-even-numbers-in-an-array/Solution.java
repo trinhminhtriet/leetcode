@@ -1,11 +1,11 @@
 class Solution {
     public int evenNumberBitwiseORs(int[] nums) {
-        int ans = 0;
-        for (int x : nums) {
-            if (x % 2 == 0) {
-                ans |= x;
+        int sum=0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]%2==0){
+                sum=sum|nums[i];
             }
         }
-        return ans;
+        return sum;
     }
 }
