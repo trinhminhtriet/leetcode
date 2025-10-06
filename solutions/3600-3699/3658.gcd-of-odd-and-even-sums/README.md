@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3658. GCD of Odd and Even Sums](https://leetcode.com/problems/gcd-of-odd-and-even-sums)
 
-[中文文档](/solution/3600-3699/3658.GCD%20of%20Odd%20and%20Even%20Sums/README.md)
+[README](/solution/3600-3699/3658.GCD%20of%20Odd%20and%20Even%20Sums/README.md)
 
 ## Description
 

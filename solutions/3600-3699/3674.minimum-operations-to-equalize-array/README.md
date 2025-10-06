@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3674. Minimum Operations to Equalize Array](https://leetcode.com/problems/minimum-operations-to-equalize-array)
 
-[中文文档](/solution/3600-3699/3674.Minimum%20Operations%20to%20Equalize%20Array/README.md)
+[README](/solution/3600-3699/3674.Minimum%20Operations%20to%20Equalize%20Array/README.md)
 
 ## Description
 

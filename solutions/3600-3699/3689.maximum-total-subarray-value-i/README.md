@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3689. Maximum Total Subarray Value I](https://leetcode.com/problems/maximum-total-subarray-value-i)
 
-[中文文档](/solution/3600-3699/3689.Maximum%20Total%20Subarray%20Value%20I/README.md)
+[README](/solution/3600-3699/3689.Maximum%20Total%20Subarray%20Value%20I/README.md)
 
 ## Description
 

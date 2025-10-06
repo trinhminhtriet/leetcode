@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3680. Generate Schedule](https://leetcode.com/problems/generate-schedule)
 
-[中文文档](/solution/3600-3699/3680.Generate%20Schedule/README.md)
+[README](/solution/3600-3699/3680.Generate%20Schedule/README.md)
 
 ## Description
 

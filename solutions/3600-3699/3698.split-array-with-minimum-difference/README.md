@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3698. Split Array With Minimum Difference](https://leetcode.com/problems/split-array-with-minimum-difference)
 
-[中文文档](/solution/3600-3699/3698.Split%20Array%20With%20Minimum%20Difference/README.md)
+[README](/solution/3600-3699/3698.Split%20Array%20With%20Minimum%20Difference/README.md)
 
 ## Description
 

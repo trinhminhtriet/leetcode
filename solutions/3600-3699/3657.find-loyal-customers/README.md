@@ -9,7 +9,7 @@ tags:
 
 # [3657. Find Loyal Customers](https://leetcode.com/problems/find-loyal-customers)
 
-[中文文档](/solution/3600-3699/3657.Find%20Loyal%20Customers/README.md)
+[README](/solution/3600-3699/3657.Find%20Loyal%20Customers/README.md)
 
 ## Description
 

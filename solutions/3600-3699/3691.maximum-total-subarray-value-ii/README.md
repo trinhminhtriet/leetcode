@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3691. Maximum Total Subarray Value II](https://leetcode.com/problems/maximum-total-subarray-value-ii)
 
-[中文文档](/solution/3600-3699/3691.Maximum%20Total%20Subarray%20Value%20II/README.md)
+[README](/solution/3600-3699/3691.Maximum%20Total%20Subarray%20Value%20II/README.md)
 
 ## Description
 

@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3695. Maximize Alternating Sum Using Swaps](https://leetcode.com/problems/maximize-alternating-sum-using-swaps)
 
-[中文文档](/solution/3600-3699/3695.Maximize%20Alternating%20Sum%20Using%20Swaps/README.md)
+[README](/solution/3600-3699/3695.Maximize%20Alternating%20Sum%20Using%20Swaps/README.md)
 
 ## Description
 

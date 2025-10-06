@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3660. Jump Game IX](https://leetcode.com/problems/jump-game-ix)
 
-[中文文档](/solution/3600-3699/3660.Jump%20Game%20IX/README.md)
+[README](/solution/3600-3699/3660.Jump%20Game%20IX/README.md)
 
 ## Description
 

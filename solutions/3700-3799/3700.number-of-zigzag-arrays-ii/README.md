@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3700. Number of ZigZag Arrays II](https://leetcode.com/problems/number-of-zigzag-arrays-ii)
 
-[中文文档](/solution/3700-3799/3700.Number%20of%20ZigZag%20Arrays%20II/README.md)
+[README](/solution/3700-3799/3700.Number%20of%20ZigZag%20Arrays%20II/README.md)
 
 ## Description
 

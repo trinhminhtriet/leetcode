@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3671. Sum of Beautiful Subsequences](https://leetcode.com/problems/sum-of-beautiful-subsequences)
 
-[中文文档](/solution/3600-3699/3671.Sum%20of%20Beautiful%20Subsequences/README.md)
+[README](/solution/3600-3699/3671.Sum%20of%20Beautiful%20Subsequences/README.md)
 
 ## Description
 

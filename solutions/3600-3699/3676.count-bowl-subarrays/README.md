@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3676. Count Bowl Subarrays](https://leetcode.com/problems/count-bowl-subarrays)
 
-[中文文档](/solution/3600-3699/3676.Count%20Bowl%20Subarrays/README.md)
+[README](/solution/3600-3699/3676.Count%20Bowl%20Subarrays/README.md)
 
 ## Description
 

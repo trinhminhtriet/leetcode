@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3693. Climbing Stairs II](https://leetcode.com/problems/climbing-stairs-ii)
 
-[中文文档](/solution/3600-3699/3693.Climbing%20Stairs%20II/README.md)
+[README](/solution/3600-3699/3693.Climbing%20Stairs%20II/README.md)
 
 ## Description
 

@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3683. Earliest Time to Finish One Task](https://leetcode.com/problems/earliest-time-to-finish-one-task)
 
-[中文文档](/solution/3600-3699/3683.Earliest%20Time%20to%20Finish%20One%20Task/README.md)
+[README](/solution/3600-3699/3683.Earliest%20Time%20to%20Finish%20One%20Task/README.md)
 
 ## Description
 

@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3669. Balanced K-Factor Decomposition](https://leetcode.com/problems/balanced-k-factor-decomposition)
 
-[中文文档](/solution/3600-3699/3669.Balanced%20K-Factor%20Decomposition/README.md)
+[README](/solution/3600-3699/3669.Balanced%20K-Factor%20Decomposition/README.md)
 
 ## Description
 
