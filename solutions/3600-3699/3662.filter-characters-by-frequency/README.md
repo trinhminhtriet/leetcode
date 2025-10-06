@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3662. Filter Characters by Frequency 🔒](https://leetcode.com/problems/filter-characters-by-frequency)
 
-[中文文档](/solution/3600-3699/3662.Filter%20Characters%20by%20Frequency/README.md)
+[README](/solution/3600-3699/3662.Filter%20Characters%20by%20Frequency/README.md)
 
 ## Description
 

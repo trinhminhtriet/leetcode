@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3672. Sum of Weighted Modes in Subarrays 🔒](https://leetcode.com/problems/sum-of-weighted-modes-in-subarrays)
 
-[中文文档](/solution/3600-3699/3672.Sum%20of%20Weighted%20Modes%20in%20Subarrays/README.md)
+[README](/solution/3600-3699/3672.Sum%20of%20Weighted%20Modes%20in%20Subarrays/README.md)
 
 ## Description
 

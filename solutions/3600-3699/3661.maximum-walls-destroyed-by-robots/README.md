@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3661. Maximum Walls Destroyed by Robots](https://leetcode.com/problems/maximum-walls-destroyed-by-robots)
 
-[中文文档](/solution/3600-3699/3661.Maximum%20Walls%20Destroyed%20by%20Robots/README.md)
+[README](/solution/3600-3699/3661.Maximum%20Walls%20Destroyed%20by%20Robots/README.md)
 
 ## Description
 

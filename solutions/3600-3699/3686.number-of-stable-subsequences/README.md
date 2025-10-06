@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3686. Number of Stable Subsequences](https://leetcode.com/problems/number-of-stable-subsequences)
 
-[中文文档](/solution/3600-3699/3686.Number%20of%20Stable%20Subsequences/README.md)
+[README](/solution/3600-3699/3686.Number%20of%20Stable%20Subsequences/README.md)
 
 ## Description
 

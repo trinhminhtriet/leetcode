@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3690. Split and Merge Array Transformation](https://leetcode.com/problems/split-and-merge-array-transformation)
 
-[中文文档](/solution/3600-3699/3690.Split%20and%20Merge%20Array%20Transformation/README.md)
+[README](/solution/3600-3699/3690.Split%20and%20Merge%20Array%20Transformation/README.md)
 
 ## Description
 

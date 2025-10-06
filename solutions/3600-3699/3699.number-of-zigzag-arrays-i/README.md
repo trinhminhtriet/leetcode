@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3699. Number of ZigZag Arrays I](https://leetcode.com/problems/number-of-zigzag-arrays-i)
 
-[中文文档](/solution/3600-3699/3699.Number%20of%20ZigZag%20Arrays%20I/README.md)
+[README](/solution/3600-3699/3699.Number%20of%20ZigZag%20Arrays%20I/README.md)
 
 ## Description
 

@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3659. Partition Array Into K-Distinct Groups](https://leetcode.com/problems/partition-array-into-k-distinct-groups)
 
-[中文文档](/solution/3600-3699/3659.Partition%20Array%20Into%20K-Distinct%20Groups/README.md)
+[README](/solution/3600-3699/3659.Partition%20Array%20Into%20K-Distinct%20Groups/README.md)
 
 ## Description
 

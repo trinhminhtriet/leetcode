@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3681. Maximum XOR of Subsequences](https://leetcode.com/problems/maximum-xor-of-subsequences)
 
-[中文文档](/solution/3600-3699/3681.Maximum%20XOR%20of%20Subsequences/README.md)
+[README](/solution/3600-3699/3681.Maximum%20XOR%20of%20Subsequences/README.md)
 
 ## Description
 

@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3697. Compute Decimal Representation](https://leetcode.com/problems/compute-decimal-representation)
 
-[中文文档](/solution/3600-3699/3697.Compute%20Decimal%20Representation/README.md)
+[README](/solution/3600-3699/3697.Compute%20Decimal%20Representation/README.md)
 
 ## Description
 

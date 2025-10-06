@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3667. Sort Array By Absolute Value 🔒](https://leetcode.com/problems/sort-array-by-absolute-value)
 
-[中文文档](/solution/3600-3699/3667.Sort%20Array%20By%20Absolute%20Value/README.md)
+[README](/solution/3600-3699/3667.Sort%20Array%20By%20Absolute%20Value/README.md)
 
 ## Description
 

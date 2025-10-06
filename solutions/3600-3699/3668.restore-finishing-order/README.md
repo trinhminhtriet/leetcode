@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3668. Restore Finishing Order](https://leetcode.com/problems/restore-finishing-order)
 
-[中文文档](/solution/3600-3699/3668.Restore%20Finishing%20Order/README.md)
+[README](/solution/3600-3699/3668.Restore%20Finishing%20Order/README.md)
 
 ## Description
 

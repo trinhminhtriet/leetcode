@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3677. Count Binary Palindromic Numbers](https://leetcode.com/problems/count-binary-palindromic-numbers)
 
-[中文文档](/solution/3600-3699/3677.Count%20Binary%20Palindromic%20Numbers/README.md)
+[README](/solution/3600-3699/3677.Count%20Binary%20Palindromic%20Numbers/README.md)
 
 ## Description
 

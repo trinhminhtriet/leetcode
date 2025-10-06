@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3663. Find The Least Frequent Digit](https://leetcode.com/problems/find-the-least-frequent-digit)
 
-[中文文档](/solution/3600-3699/3663.Find%20The%20Least%20Frequent%20Digit/README.md)
+[README](/solution/3600-3699/3663.Find%20The%20Least%20Frequent%20Digit/README.md)
 
 ## Description
 

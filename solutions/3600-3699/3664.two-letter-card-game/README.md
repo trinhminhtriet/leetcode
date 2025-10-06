@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3664. Two-Letter Card Game](https://leetcode.com/problems/two-letter-card-game)
 
-[中文文档](/solution/3600-3699/3664.Two-Letter%20Card%20Game/README.md)
+[README](/solution/3600-3699/3664.Two-Letter%20Card%20Game/README.md)
 
 ## Description
 

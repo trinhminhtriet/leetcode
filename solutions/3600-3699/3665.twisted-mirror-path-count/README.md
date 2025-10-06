@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3665. Twisted Mirror Path Count](https://leetcode.com/problems/twisted-mirror-path-count)
 
-[中文文档](/solution/3600-3699/3665.Twisted%20Mirror%20Path%20Count/README.md)
+[README](/solution/3600-3699/3665.Twisted%20Mirror%20Path%20Count/README.md)
 
 ## Description
 

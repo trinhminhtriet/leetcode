@@ -9,7 +9,7 @@ tags:
 
 # [3673. Find Zombie Sessions](https://leetcode.com/problems/find-zombie-sessions)
 
-[中文文档](/solution/3600-3699/3673.Find%20Zombie%20Sessions/README.md)
+[README](/solution/3600-3699/3673.Find%20Zombie%20Sessions/README.md)
 
 ## Description
 

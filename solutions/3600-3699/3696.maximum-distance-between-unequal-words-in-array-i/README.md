@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3696. Maximum Distance Between Unequal Words in Array I 🔒](https://leetcode.com/problems/maximum-distance-between-unequal-words-in-array-i)
 
-[中文文档](/solution/3600-3699/3696.Maximum%20Distance%20Between%20Unequal%20Words%20in%20Array%20I/README.md)
+[README](/solution/3600-3699/3696.Maximum%20Distance%20Between%20Unequal%20Words%20in%20Array%20I/README.md)
 
 ## Description
 

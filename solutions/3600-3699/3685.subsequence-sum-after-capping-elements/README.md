@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3685. Subsequence Sum After Capping Elements](https://leetcode.com/problems/subsequence-sum-after-capping-elements)
 
-[中文文档](/solution/3600-3699/3685.Subsequence%20Sum%20After%20Capping%20Elements/README.md)
+[README](/solution/3600-3699/3685.Subsequence%20Sum%20After%20Capping%20Elements/README.md)
 
 ## Description
 

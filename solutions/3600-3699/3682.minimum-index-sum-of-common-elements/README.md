@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3682. Minimum Index Sum of Common Elements 🔒](https://leetcode.com/problems/minimum-index-sum-of-common-elements)
 
-[中文文档](/solution/3600-3699/3682.Minimum%20Index%20Sum%20of%20Common%20Elements/README.md)
+[README](/solution/3600-3699/3682.Minimum%20Index%20Sum%20of%20Common%20Elements/README.md)
 
 ## Description
 

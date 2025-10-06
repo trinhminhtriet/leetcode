@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3675. Minimum Operations to Transform String](https://leetcode.com/problems/minimum-operations-to-transform-string)
 
-[中文文档](/solution/3600-3699/3675.Minimum%20Operations%20to%20Transform%20String/README.md)
+[README](/solution/3600-3699/3675.Minimum%20Operations%20to%20Transform%20String/README.md)
 
 ## Description
 

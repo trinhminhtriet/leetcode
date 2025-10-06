@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3692. Majority Frequency Characters](https://leetcode.com/problems/majority-frequency-characters)
 
-[中文文档](/solution/3600-3699/3692.Majority%20Frequency%20Characters/README.md)
+[README](/solution/3600-3699/3692.Majority%20Frequency%20Characters/README.md)
 
 ## Description
 

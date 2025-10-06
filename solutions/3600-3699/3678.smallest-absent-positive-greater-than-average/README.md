@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3678. Smallest Absent Positive Greater Than Average](https://leetcode.com/problems/smallest-absent-positive-greater-than-average)
 
-[中文文档](/solution/3600-3699/3678.Smallest%20Absent%20Positive%20Greater%20Than%20Average/README.md)
+[README](/solution/3600-3699/3678.Smallest%20Absent%20Positive%20Greater%20Than%20Average/README.md)
 
 ## Description
 

@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3687. Library Late Fee Calculator 🔒](https://leetcode.com/problems/library-late-fee-calculator)
 
-[中文文档](/solution/3600-3699/3687.Library%20Late%20Fee%20Calculator/README.md)
+[README](/solution/3600-3699/3687.Library%20Late%20Fee%20Calculator/README.md)
 
 ## Description
 
