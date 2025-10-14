@@ -49,7 +49,9 @@ class LeetCodeSolutionController:
 
     def solve_daily_question(self):
         svc = DailyQuestionAPIService()
-        
+
+        svc.daily_checkin()
+
         logging.info("Before solving daily question:")
         streak_counter = svc.get_streak_counter()
         logging.info(f"Streak counter before solving daily question: {streak_counter}")
@@ -63,7 +65,7 @@ class LeetCodeSolutionController:
             
         streak_counter = svc.get_streak_counter()    
         logging.info(f"Streak counter after solving daily question: {streak_counter}")
-
+        
     def publish_submmitted_language(
         self, submitted_by: str, lang: str, limit: int = 10
     ):

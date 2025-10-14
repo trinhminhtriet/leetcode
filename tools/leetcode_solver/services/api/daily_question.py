@@ -5,6 +5,36 @@ from services.api.base import LeetCodeAPIBaseService
 
 
 class DailyQuestionAPIService(LeetCodeAPIBaseService):
+    def daily_checkin(self) -> Optional[dict]:
+        url = f"{self.config.BASE_URL}/graphql"
+        headers = self.config.DEFAULT_HEADERS.copy()
+        payload = {
+            "query": """
+            mutation dailyCheckin {
+              checkin {
+                checkedIn
+                ok
+                error
+              }
+            }
+            """,
+            "variables": {},
+            "operationName": "dailyCheckin",
+        }
+        response = self.session.post(url, headers=headers, json=payload)
+        if response.status_code == 200:
+            try:
+                data = json.loads(response.text)
+                checkin = data.get("data", {}).get("checkin", {})
+                logging.info(f"Daily check-in response: {checkin}")
+                return data.get("data", {}).get("checkin")
+            except (json.JSONDecodeError, KeyError) as e:
+                logging.error(f"Error processing daily check-in response: {e}")
+                return None
+        else:
+            logging.error(f"Daily check-in failed: HTTP {response.status_code}")
+            return None
+        
     def get_streak_counter(self) -> Optional[int]:
         """Get the current daily challenge streak count."""
         url = f"{self.config.BASE_URL}/graphql"
