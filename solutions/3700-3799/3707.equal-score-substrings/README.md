@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3707. Equal Score Substrings](https://leetcode.com/problems/equal-score-substrings)
 
-[中文文档](/solution/3700-3799/3707.Equal%20Score%20Substrings/README.md)
+[README](/solution/3700-3799/3707.Equal%20Score%20Substrings/README.md)
 
 ## Description
 
