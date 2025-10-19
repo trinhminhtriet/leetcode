@@ -50,11 +50,11 @@ class LeetCodeSolutionController:
     def solve_daily_question(self):
         svc = DailyQuestionAPIService()
 
-        svc.daily_checkin()
+        # svc.daily_checkin()
 
-        logging.info("Before solving daily question:")
-        streak_counter = svc.get_streak_counter()
-        logging.info(f"Streak counter before solving daily question: {streak_counter}")
+        # logging.info("Before solving daily question:")
+        # streak_counter = svc.get_streak_counter()
+        # logging.info(f"Streak counter before solving daily question: {streak_counter}")
         
         frontend_question_id = svc.get_daily_question()
         if frontend_question_id:
