@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3715. Sum of Perfect Square Ancestors](https://leetcode.com/problems/sum-of-perfect-square-ancestors)
 
-[中文文档](/solution/3700-3799/3715.Sum%20of%20Perfect%20Square%20Ancestors/README.md)
+[README](/solution/3700-3799/3715.Sum%20of%20Perfect%20Square%20Ancestors/README.md)
 
 ## Description
 

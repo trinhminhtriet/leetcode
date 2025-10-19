@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3710. Maximum Partition Factor](https://leetcode.com/problems/maximum-partition-factor)
 
-[中文文档](/solution/3700-3799/3710.Maximum%20Partition%20Factor/README.md)
+[README](/solution/3700-3799/3710.Maximum%20Partition%20Factor/README.md)
 
 ## Description
 

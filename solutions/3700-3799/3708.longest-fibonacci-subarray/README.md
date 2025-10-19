@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3708. Longest Fibonacci Subarray](https://leetcode.com/problems/longest-fibonacci-subarray)
 
-[中文文档](/solution/3700-3799/3708.Longest%20Fibonacci%20Subarray/README.md)
+[README](/solution/3700-3799/3708.Longest%20Fibonacci%20Subarray/README.md)
 
 ## Description
 

@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3709. Design Exam Scores Tracker](https://leetcode.com/problems/design-exam-scores-tracker)
 
-[中文文档](/solution/3700-3799/3709.Design%20Exam%20Scores%20Tracker/README.md)
+[README](/solution/3700-3799/3709.Design%20Exam%20Scores%20Tracker/README.md)
 
 ## Description
 

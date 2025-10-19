@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3714. Longest Balanced Substring II](https://leetcode.com/problems/longest-balanced-substring-ii)
 
-[中文文档](/solution/3700-3799/3714.Longest%20Balanced%20Substring%20II/README.md)
+[README](/solution/3700-3799/3714.Longest%20Balanced%20Substring%20II/README.md)
 
 ## Description
 

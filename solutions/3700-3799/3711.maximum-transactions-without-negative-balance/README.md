@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3711. Maximum Transactions Without Negative Balance 🔒](https://leetcode.com/problems/maximum-transactions-without-negative-balance)
 
-[中文文档](/solution/3700-3799/3711.Maximum%20Transactions%20Without%20Negative%20Balance/README.md)
+[README](/solution/3700-3799/3711.Maximum%20Transactions%20Without%20Negative%20Balance/README.md)
 
 ## Description
 
