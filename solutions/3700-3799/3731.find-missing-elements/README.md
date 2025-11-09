@@ -7,7 +7,7 @@ difficulty: Easy
 
 # [3731. Find Missing Elements](https://leetcode.com/problems/find-missing-elements)
 
-[中文文档](/solution/3700-3799/3731.Find%20Missing%20Elements/README.md)
+[README](/solution/3700-3799/3731.Find%20Missing%20Elements/README.md)
 
 ## Description
 

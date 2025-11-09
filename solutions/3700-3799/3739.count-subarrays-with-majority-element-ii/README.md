@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3739. Count Subarrays With Majority Element II](https://leetcode.com/problems/count-subarrays-with-majority-element-ii)
 
-[中文文档](/solution/3700-3799/3739.Count%20Subarrays%20With%20Majority%20Element%20II/README.md)
+[README](/solution/3700-3799/3739.Count%20Subarrays%20With%20Majority%20Element%20II/README.md)
 
 ## Description
 

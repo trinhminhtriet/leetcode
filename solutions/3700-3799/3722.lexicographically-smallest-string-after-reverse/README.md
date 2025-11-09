@@ -13,7 +13,7 @@ tags:
 
 # [3722. Lexicographically Smallest String After Reverse](https://leetcode.com/problems/lexicographically-smallest-string-after-reverse)
 
-[中文文档](/solution/3700-3799/3722.Lexicographically%20Smallest%20String%20After%20Reverse/README.md)
+[README](/solution/3700-3799/3722.Lexicographically%20Smallest%20String%20After%20Reverse/README.md)
 
 ## Description
 

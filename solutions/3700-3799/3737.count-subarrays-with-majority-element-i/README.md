@@ -7,7 +7,7 @@ difficulty: Medium
 
 # [3737. Count Subarrays With Majority Element I](https://leetcode.com/problems/count-subarrays-with-majority-element-i)
 
-[中文文档](/solution/3700-3799/3737.Count%20Subarrays%20With%20Majority%20Element%20I/README.md)
+[README](/solution/3700-3799/3737.Count%20Subarrays%20With%20Majority%20Element%20I/README.md)
 
 ## Description
 

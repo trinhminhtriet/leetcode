@@ -13,7 +13,7 @@ tags:
 
 # [3727. Maximum Alternating Sum of Squares](https://leetcode.com/problems/maximum-alternating-sum-of-squares)
 
-[中文文档](/solution/3700-3799/3727.Maximum%20Alternating%20Sum%20of%20Squares/README.md)
+[README](/solution/3700-3799/3727.Maximum%20Alternating%20Sum%20of%20Squares/README.md)
 
 ## Description
 

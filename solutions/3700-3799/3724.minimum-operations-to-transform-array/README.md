@@ -12,7 +12,7 @@ tags:
 
 # [3724. Minimum Operations to Transform Array](https://leetcode.com/problems/minimum-operations-to-transform-array)
 
-[中文文档](/solution/3700-3799/3724.Minimum%20Operations%20to%20Transform%20Array/README.md)
+[README](/solution/3700-3799/3724.Minimum%20Operations%20to%20Transform%20Array/README.md)
 
 ## Description
 

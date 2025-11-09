@@ -12,7 +12,7 @@ tags:
 
 # [3730. Maximum Calories Burnt from Jumps 🔒](https://leetcode.com/problems/maximum-calories-burnt-from-jumps)
 
-[中文文档](/solution/3700-3799/3730.Maximum%20Calories%20Burnt%20from%20Jumps/README.md)
+[README](/solution/3700-3799/3730.Maximum%20Calories%20Burnt%20from%20Jumps/README.md)
 
 ## Description
 
