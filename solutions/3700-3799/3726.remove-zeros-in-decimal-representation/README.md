@@ -12,7 +12,7 @@ tags:
 
 # [3726. Remove Zeros in Decimal Representation](https://leetcode.com/problems/remove-zeros-in-decimal-representation)
 
-[中文文档](/solution/3700-3799/3726.Remove%20Zeros%20in%20Decimal%20Representation/README.md)
+[README](/solution/3700-3799/3726.Remove%20Zeros%20in%20Decimal%20Representation/README.md)
 
 ## Description
 

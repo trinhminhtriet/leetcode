@@ -7,7 +7,7 @@ difficulty: Hard
 
 # [3735. Lexicographically Smallest String After Reverse II 🔒](https://leetcode.com/problems/lexicographically-smallest-string-after-reverse-ii)
 
-[中文文档](/solution/3700-3799/3735.Lexicographically%20Smallest%20String%20After%20Reverse%20II/README.md)
+[README](/solution/3700-3799/3735.Lexicographically%20Smallest%20String%20After%20Reverse%20II/README.md)
 
 ## Description
 

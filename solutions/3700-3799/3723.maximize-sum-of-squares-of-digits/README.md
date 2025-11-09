@@ -12,7 +12,7 @@ tags:
 
 # [3723. Maximize Sum of Squares of Digits](https://leetcode.com/problems/maximize-sum-of-squares-of-digits)
 
-[中文文档](/solution/3700-3799/3723.Maximize%20Sum%20of%20Squares%20of%20Digits/README.md)
+[README](/solution/3700-3799/3723.Maximize%20Sum%20of%20Squares%20of%20Digits/README.md)
 
 ## Description
 
